@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r327 - in trunk/develop/src/de/deepamehta/service:	. web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-May/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r327%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C200805280216.m4S2G5Vm026276%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000171.html">
+   <LINK REL="Next"  HREF="000173.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r327 - in trunk/develop/src/de/deepamehta/service:	. web</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r327%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C200805280216.m4S2G5Vm026276%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r327 - in trunk/develop/src/de/deepamehta/service:	. web">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed May 28 04:16:05 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000171.html">[deepamehta-svn] r326 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+        <LI>Next message: <A HREF="000173.html">[deepamehta-svn] r328 - in trunk: . install/config	install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-05-28 04:16:01 +0200 (Wed, 28 May 2008)
+New Revision: 327
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+1) Web List Generator (HTML) extended:
+1a) zebra striping may be enabled
+1b) some layout aspects are adjustable via external CSS stylesheet. 3 selectors are supported: &quot;list-evenrow&quot;, &quot;list-oddrow&quot;, &quot;list-highlight&quot;.
+2) Bug #13899 fixed (Web Form Generator throws NullPointerException)
+
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-05-27 00:31:36 UTC (rev 326)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-05-28 02:16:01 UTC (rev 327)
+@@ -1924,13 +1924,13 @@
+ 
+ 	private PreparedStatement createPreparedStatement(String query, Object[] params) throws SQLException {
+ 		PreparedStatement stmt = createPreparedStatement(query);
+-
++		//
+ 		for (int i = 0; i &lt; params.length; i++) {
+ 			Object param = params[i];
+ 			if (param instanceof String) {
+-				stmt.setString(i+1, (String) param);
++				stmt.setString(i + 1, (String) param);
+ 			} else if (param instanceof Integer) {
+-				stmt.setInt(i+1, ((Integer) param).intValue());
++				stmt.setInt(i + 1, ((Integer) param).intValue());
+ 			} else {
+ 				throw new RuntimeException(&quot;Unknown Object Type &quot; + param.getClass().toString());
+ 			}
+@@ -1938,13 +1938,14 @@
+ 		return stmt;
+ 	}
+ 
++	// ---
+ 	
+ 	private Integer i(int i) {
+ 		return new Integer(i);
+ 	}
+ 
++	// ---
+ 
+-
+ 	/**
+ 	 * The &lt;CODE&gt;resultSet&lt;/CODE&gt; is expected to contain the topic fields aliased as
+ 	 * &lt;CODE&gt;TopicID&lt;/CODE&gt;, &lt;CODE&gt;TopicVersion&lt;/CODE&gt;, &lt;CODE&gt;TopicTypeID&lt;/CODE&gt;,
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-05-27 00:31:36 UTC (rev 326)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-05-28 02:16:01 UTC (rev 327)
+@@ -31,7 +31,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 26.5.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 27.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+@@ -110,7 +110,7 @@
+ 		return message.format(args);
+ 	}
+ 
+-	// --- list (14 forms) ---
++	// --- list (15 forms) ---
+ 
+ 	public String list(Vector topics) {
+ 		return list(topics, null, null, null, null, null, null);
+@@ -138,10 +138,6 @@
+ 		return list(topics, null, propSel, false, null, infoAction, null, null, extraTopics);
+ 	}
+ 
+-	public String list(Vector topics, String[] propSel, boolean hideSel, String infoAction) {
+-		return list(topics, null, propSel, hideSel, null, infoAction, null, null, null);
+-	}
+-
+ 	public String list(Vector topics, String[] propSel, Action[] actions, String infoAction) {
+ 		return list(topics, propSel, actions, infoAction, null);
+ 	}
+@@ -158,23 +154,33 @@
+ 		return list(topics, selectedID, propSel, false, null, infoAction, infoActionParams, null);
+ 	}
+ 
+-	public String list(Vector topics, String selectedID, String[] propSel, Action[] actions,
+-										String infoAction, String infoActionParams, Hashtable colWidths) {
++	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, String infoAction,
++																								boolean doZebraStriping) {
++		return list(topics, selectedID, propSel, hideSel, null, infoAction, null, null, null, doZebraStriping);
++	}
++
++	public String list(Vector topics, String selectedID, String[] propSel, Action[] actions, String infoAction,
++																			String infoActionParams, Hashtable colWidths) {
+ 		return list(topics, selectedID, propSel, false, actions, infoAction, infoActionParams, colWidths);
+ 	}
+ 
+-	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, Action[] actions,
+-									String infoAction, String infoActionParams, Hashtable colWidths) {
++	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, Action[] actions, String infoAction,
++																			String infoActionParams, Hashtable colWidths) {
+ 		return list(topics, selectedID, propSel, hideSel, actions, infoAction, infoActionParams, colWidths, null);
+ 	}
+ 
++	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, Action[] actions, String infoAction,
++									String infoActionParams, Hashtable colWidths, Hashtable extraTopics) {
++		return list(topics, selectedID, propSel, hideSel, actions, infoAction, infoActionParams, colWidths, extraTopics, false);
++	}
++
+ 	/**
+ 	 * Renders a list of topics as a table, one row per topic, one column per property.
+ 	 *
+ 	 * @param	topics	list of topics (BaseTopics) or topic IDs (Strings)
+ 	 */
+-	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, Action[] actions,
+-									String infoAction, String infoActionParams, Hashtable colWidths, Hashtable extraTopics) {
++	public String list(Vector topics, String selectedID, String[] propSel, boolean hideSel, Action[] actions, String infoAction,
++									String infoActionParams, Hashtable colWidths, Hashtable extraTopics, boolean doZebraStriping) {
+ 		if (topics.size() == 0) {
+ 			return &quot;&quot;;
+ 		}
+@@ -195,7 +201,9 @@
+ 		for (int i = 0; i &lt; topics.size(); i++) {
+ 			o = topics.elementAt(i);
+ 			String topicID = o instanceof BaseTopic ? ((BaseTopic) o).getID() : (String) o;
+-   			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&quot; + (topicID.equals(selectedID) ? &quot; bgcolor=\&quot;#F0F0F0\&quot;&quot; : &quot;&quot;) + &quot;&gt;&quot;);
++			String classAttr = topicID.equals(selectedID) ? &quot; class=\&quot;list-highlight\&quot;&quot; : doZebraStriping ?
++				i % 2 == 0 ? &quot; class=\&quot;list-evenrow\&quot;&quot; : &quot; class=\&quot;list-oddrow\&quot;&quot; : &quot;&quot;;
++   			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&quot; + classAttr + &quot;&gt;&quot;);
+ 			if (extraTopics != null) {
+ 				extraTopics((Vector) extraTopics.get(topicID), html);
+ 			}
+@@ -285,7 +293,7 @@
+ 	
+ 	public String info(TopicBean topicBean, int layoutStyle) {
+ 		StringBuffer html = new StringBuffer(&quot;&quot;);
+-		// don&#229;&#171;t want to touch the original info method, resulting in more redundancy
++		// don't want to touch the original info method, resulting in more redundancy
+ 		if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_BOX) {
+ 			// render Modern Box Layout
+ 			html.append(&quot;&lt;div class=\&quot;infoContainer\&quot; id=\&quot;container\&quot;&gt;\r&quot;);
+@@ -1174,9 +1182,13 @@
+ 		}
+ 		//
+ 		Vector topics = as.cm.getTopics(relTopicTypeID);	// ### can be very big
+-		Vector selectedTopics = as.getRelatedTopics(topicID, assocTypeID, relTopicTypeID, 2,
+-			false, true);	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
+-		Vector selectedTopicIDs = DeepaMehtaUtils.topicIDs(selectedTopics);
++		// get current topic selection
++		Vector selectedTopicIDs = null;
++		if (topicID != null) {
++			Vector selectedTopics = as.getRelatedTopics(topicID, assocTypeID, relTopicTypeID, 2,
++				false, true);	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
++			selectedTopicIDs = DeepaMehtaUtils.topicIDs(selectedTopics);
++		}
+ 		//
+ 		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;small&gt;&quot; + fieldLabel + &quot;&lt;/small&gt;&lt;/td&gt;&lt;td&gt;&quot;);
+ 		html.append(&quot;&lt;select name=\&quot;&quot; + prefix + PARAM_RELATION + PARAM_SEPARATOR + rel.id + &quot;\&quot;&quot; +
+@@ -1498,8 +1510,11 @@
+ 		option(option, value, selected, html);
+ 	}
+ 
++	/**
++	 * @param	selectedValues	may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 */
+ 	private void option(String option, String value, Vector selectedValues, StringBuffer html) {
+-		boolean selected = selectedValues.contains(value != null ? value : option);
++		boolean selected = selectedValues != null ? selectedValues.contains(value != null ? value : option) : false;
+ 		option(option, value, selected, html);
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000171.html">[deepamehta-svn] r326 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+	<LI>Next message: <A HREF="000173.html">[deepamehta-svn] r328 - in trunk: . install/config	install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

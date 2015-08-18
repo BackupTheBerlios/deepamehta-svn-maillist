@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r275 - in trunk: . install/db/db-specific
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r275%20-%20in%20trunk%3A%20.%20install/db/db-specific&In-Reply-To=%3C200802261200.m1QC0cXY008661%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000119.html">
+   <LINK REL="Next"  HREF="000121.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r275 - in trunk: . install/db/db-specific</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r275%20-%20in%20trunk%3A%20.%20install/db/db-specific&In-Reply-To=%3C200802261200.m1QC0cXY008661%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r275 - in trunk: . install/db/db-specific">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb 26 13:00:38 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000119.html">[deepamehta-svn] r274 - in trunk/install: db/db-specific	examples/kompetenzstern
+</A></li>
+        <LI>Next message: <A HREF="000121.html">[deepamehta-svn] r276 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#120">[ date ]</a>
+              <a href="thread.html#120">[ thread ]</a>
+              <a href="subject.html#120">[ subject ]</a>
+              <a href="author.html#120">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-02-26 13:00:33 +0100 (Tue, 26 Feb 2008)
+New Revision: 275
+
+Modified:
+   trunk/install/db/db-specific/createdb-ask.xml
+   trunk/setup.xml
+Log:
+Minor changes in Config and Installer texts
+
+
+Modified: trunk/install/db/db-specific/createdb-ask.xml
+===================================================================
+--- trunk/install/db/db-specific/createdb-ask.xml	2008-02-26 10:55:40 UTC (rev 274)
++++ trunk/install/db/db-specific/createdb-ask.xml	2008-02-26 12:00:33 UTC (rev 275)
+@@ -2,9 +2,8 @@
+ 	&lt;target name=&quot;-askcreatedb&quot;&gt;
+ 		&lt;echo&gt;
+ --- DeepaMehta Installation ---
+-You are about to create a database '${db.name}' and an user '${db.user}' (password '${db.password}')
+-with corresponding grants.
+-You will possibly be asked for the database '${db.sysuser}' password.
++You are about to create a database '${db.name}' and a database user '${db.user}' (password '${db.password}').
++Possibly you're asked for the database '${db.sysuser}' password.
+ If you want change these settings, type 'n' and execute 'run config' again.
+ 		&lt;/echo&gt;
+ 		&lt;var name=&quot;input.createdb&quot; unset=&quot;true&quot; /&gt;
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-02-26 10:55:40 UTC (rev 274)
++++ trunk/setup.xml	2008-02-26 12:00:33 UTC (rev 275)
+@@ -31,7 +31,7 @@
+ ${dm.instance.config-property-file}
+ 
+ If you want to change the settings you have made please edit
+-these files or call the config target again.
++these files or execute 'run config' again.
+ 		&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000119.html">[deepamehta-svn] r274 - in trunk/install: db/db-specific	examples/kompetenzstern
+</A></li>
+	<LI>Next message: <A HREF="000121.html">[deepamehta-svn] r276 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#120">[ date ]</a>
+              <a href="thread.html#120">[ thread ]</a>
+              <a href="subject.html#120">[ subject ]</a>
+              <a href="author.html#120">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

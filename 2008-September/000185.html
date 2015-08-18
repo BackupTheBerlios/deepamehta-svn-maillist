@@ -1,0 +1,977 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r341 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/client/icons	install/config install/db install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r341%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/client/icons%0A%09install/config%20install/db%20install/db/patches&In-Reply-To=%3C200809032227.m83MRsKu005533%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000186.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r341 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/client/icons	install/config install/db install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r341%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/client/icons%0A%09install/config%20install/db%20install/db/patches&In-Reply-To=%3C200809032227.m83MRsKu005533%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r341 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/client/icons	install/config install/db install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 00:27:54 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000186.html">[deepamehta-svn] r342 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics/helper libs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-04 00:27:44 +0200 (Thu, 04 Sep 2008)
+New Revision: 341
+
+Added:
+   trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+Modified:
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/Configuration.java
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/DeepaMehtaException.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   trunk/develop/src/de/deepamehta/service/DeepaMehta.java
+   trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+   trunk/install/client/icons/document.gif
+   trunk/install/client/icons/documentcontainer.gif
+   trunk/install/config/dm-mysql5.properties
+   trunk/install/config/dm.properties
+   trunk/install/db/email.sql
+   trunk/install/db/patches/cm-2.18.sql
+Log:
+1) Bug #14443 fixed (Several problems with Tomcat 6)
+2) Feature Request #1627 addressed (Email feature revision), not yet functional
+
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/build.xml	2008-09-03 22:27:44 UTC (rev 341)
+@@ -263,6 +263,7 @@
+ 		&lt;/copy&gt;
+ 		&lt;copy file=&quot;${libpath}/avalon-framework.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/commons-logging.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/spring-core.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+
+Modified: trunk/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/Configuration.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/Configuration.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -6,21 +6,32 @@
+ import java.io.IOException;
+ import java.util.Enumeration;
+ import java.util.Properties;
++import java.util.logging.Level;
++import java.util.logging.Logger;
+ 
+ 
+ 
+ public class Configuration extends Properties {
+ 
+ 	private static final long serialVersionUID = 1L;
+-
+ 	private static Configuration globalInstance;
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
+ 
++	private String configDir;
+ 	private String dbTypePropertyFile;
+ 
++	/**
++	 * @param	configFile	path to &lt;CODE&gt;install/config/dm.properties&lt;/CODE&gt; file,
++	 *						can be absolute or relative to the servlet engines working directory
++	 */
+ 	public Configuration(String configFile) {
+ 		this(null, configFile);
+ 	}
+ 
++	/**
++	 * @param	configFile	path to &lt;CODE&gt;install/config/dm.properties&lt;/CODE&gt; file,
++	 *						can be absolute or relative to the servlet engines working directory
++	 */
+ 	public Configuration(String name, String configFile) {
+ 		super();
+ 		if (globalInstance == null) {
+@@ -28,24 +39,22 @@
+ 		}
+ 		try {
+ 			loadProperties(configFile);
++			configDir = new File(configFile).getAbsoluteFile().getParentFile().getAbsolutePath() + &quot;/&quot;;
+ 			dbTypePropertyFile = getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE);
+-			putAll(System.getProperties());
+-			loadProperties(new File(configFile).getAbsoluteFile().getParentFile().getAbsolutePath() + &quot;/config.properties&quot;);
+-			putAll(System.getProperties());
++			putAll(System.getProperties());		// ### required?
++			loadProperties(configDir + &quot;config.properties&quot;);
++			putAll(System.getProperties());		// ### required?
+ 			if (null != name) {
+ 				setProperty(ConfigurationConstants.Instance.DM_INSTANCE, name);
+ 			} else {
+ 				// loadProperties(getProperty(ConfigurationConstants.Instance.DM_CONFIG_PROPERTY_FILE));
+-				name = getProperty(ConfigurationConstants.Instance.DM_INSTANCE);
++				name = getProperty(ConfigurationConstants.Instance.DM_INSTANCE);		// ### required?
+ 			}
+ 			resolveReferences();
+-			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
+-			// loadProperties(new File(configFile).getAbsoluteFile().getParentFile().getAbsolutePath() + &quot;/config.properties&quot;);
+-			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_CONFIG_PROPERTY_FILE));
+-		} catch (FileNotFoundException e) {
+-			e.printStackTrace();
++			loadProperties(configDir + getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
++			loadProperties(configDir + getProperty(ConfigurationConstants.Instance.DM_INSTANCE_CONFIG_PROPERTY_FILE));
+ 		} catch (IOException e) {
+-			e.printStackTrace();
++			logger.log(Level.SEVERE, &quot;Error loading configuration file&quot;, e);
+ 		}
+ 		resolveReferences();
+ 	}
+@@ -56,11 +65,10 @@
+ 		c.setProperty(ConfigurationConstants.Database.DB_TYPE, dbType);
+ 		c.resolveReferences();
+ 		try {
+-			c.loadProperties(c.getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
++			c.loadProperties(globalInstance.configDir + c.getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
+ 			c.resolveReferences();
+-		} catch (Exception e) {
+-			System.out.println(&quot;&gt;&gt;&gt; Unable to resolve config file for database specific settings.&quot;);
+-			System.out.println(&quot;&gt;&gt;&gt; You may have luck when only accessing global setting...&quot;);
++		} catch (IOException e) {
++			logger.log(Level.SEVERE, &quot;Error loading configuration file&quot;, e);
+ 		}
+ 		return c;
+ 	}
+@@ -70,7 +78,7 @@
+ 	}
+ 
+ 	private void loadProperties(String configFile) throws IOException, FileNotFoundException {
+-		System.out.println(&quot;Loading Configuration properties &quot; + configFile);
++		logger.info(&quot;Loading configuration file \&quot;&quot; + configFile + &quot;\&quot;&quot;);
+ 		Properties p = new Properties();
+ 		p.load(new FileInputStream(configFile));
+ 		putAll(p);
+@@ -92,7 +100,7 @@
+ 						String var = val.substring(from + 2, to);
+ 						String rep = (String) get(var);
+ 						if (null == rep) {
+-							System.out.println(&quot;unable to resolve &quot; + var + &quot;! maybe later...&quot;);
++							logger.info(&quot;unable to resolve &quot; + var + &quot;! maybe later...&quot;);
+ 							break;
+ 						}
+ 						val.replace(from, to + 1, rep);
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 15.8.2008 (2.0b8)&lt;br&gt;
++ * Last change: 2.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -516,6 +516,7 @@
+ 	static final String TOPICTYPE_FAX_NUMBER = &quot;tt-faxnumber&quot;;
+ 	static final String TOPICTYPE_EMAIL_ADDRESS = &quot;tt-emailaddress&quot;;
+ 	static final String TOPICTYPE_EMAIL = &quot;tt-email&quot;;
++	static final String TOPICTYPE_RECIPIENT_LIST = &quot;tt-recipientlist&quot;;
+ 	static final String TOPICTYPE_CALENDAR = &quot;tt-calendar&quot;;
+ 	static final String TOPICTYPE_APPOINTMENT = &quot;tt-event&quot;;	// topic type &quot;Appointment&quot; has ID &quot;tt-event&quot; for historical reasons
+ 	static final String TOPICTYPE_EVENT = &quot;tt-alldayevent&quot;;
+@@ -555,8 +556,10 @@
+ 	static final String ASSOCTYPE_NAVIGATION = &quot;at-navigation&quot;;
+ 	static final String ASSOCTYPE_PREFERENCE = &quot;at-preference&quot;;
+ 	static final String ASSOCTYPE_GOOGLE_RESULT = &quot;at-googleresult&quot;;
++	// email feature
+ 	static final String ASSOCTYPE_RECIPIENT = &quot;at-recipient&quot;;
+ 	static final String ASSOCTYPE_SENDER = &quot;at-sender&quot;;
++	static final String ASSOCTYPE_ATTACHMENT = &quot;at-attachment&quot;;
+ 
+ 
+ 
+@@ -580,9 +583,6 @@
+ 	// direction is from user to MIME Configuration
+ 	static final String SEMANTIC_CONFIGURATION_MAP = ASSOCTYPE_ASSOCIATION;
+ 
+-	// direction is from user to email address
+-	static final String SEMANTIC_EMAIL_ADDRESS = ASSOCTYPE_ASSOCIATION;
+-
+ 	// direction is from user to topic map
+ 	static final String SEMANTIC_VIEW_IN_USE = ASSOCTYPE_VIEW_IN_USE;
+ 
+@@ -679,8 +679,25 @@
+ 	// direction is from appointment to person
+ 	static final String SEMANTIC_APPOINTMENT_ATTENDEE = ASSOCTYPE_ASSOCIATION;
+ 
++	// *** Email ***
+ 
++	// direction is from user to email address
++	static final String SEMANTIC_EMAIL_ADDRESS = ASSOCTYPE_ASSOCIATION;
+ 
++	// direction is from email to recipient list
++	static final String SEMANTIC_RECIPIENT_LIST = ASSOCTYPE_ASSOCIATION;
++
++	// direction is from email to person resp. institution
++	static final String SEMANTIC_EMAIL_RECIPIENT = ASSOCTYPE_RECIPIENT;
++
++	// direction is from email to user
++	static final String SEMANTIC_EMAIL_SENDER = ASSOCTYPE_SENDER;
++
++	// direction is from email to document
++	static final String SEMANTIC_EMAIL_ATTACHMENT = ASSOCTYPE_ATTACHMENT;
++
++
++
+ 	// ----------------
+ 	// --- Requests ---
+ 	// ----------------
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaException.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaException.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaException.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -14,7 +14,7 @@
+ 		super(s);
+     }
+ 
+-	public DeepaMehtaException(String string, Exception e) {
++	public DeepaMehtaException(String string, Throwable e) {
+ 		super(string, e);
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -2625,18 +2625,21 @@
+ 	}
+ 
+ 	/**
+-	 * ### move to PersonTopic?
++	 * Returns the email address of a person or an institution.
+ 	 *
+-	 * @return	the email address of the specified person, or &lt;code&gt;null&lt;/code&gt; if no email address is assigned.
++	 * @param	topicID		the ID of a person topic or an institution topic.
++	 *
++	 * @return	the email address, or &lt;code&gt;null&lt;/code&gt; if no email address is assigned.
+ 	 */
+-	public String getEmailAddress(String personID) {
+-		Vector adrs = cm.getRelatedTopics(personID, SEMANTIC_EMAIL_ADDRESS, TOPICTYPE_EMAIL_ADDRESS, 2);
++	public String getEmailAddress(String topicID) {
++		Vector adrs = cm.getRelatedTopics(topicID, SEMANTIC_EMAIL_ADDRESS, TOPICTYPE_EMAIL_ADDRESS, 2);
+ 		if (adrs.size() == 0) {
+ 			return null;
+ 		}
+ 		String adr = getTopicProperty((BaseTopic) adrs.firstElement(), PROPERTY_EMAIL_ADDRESS);
+ 		if (adrs.size() &gt; 1) {
+-			System.out.println(&quot;*** person \&quot;&quot; + personID + &quot;\&quot; has &quot; + adrs.size() + &quot; email addresses -- only \&quot;&quot; + adr + &quot;\&quot; is respected&quot;);
++			System.out.println(&quot;*** person/institution \&quot;&quot; + topicID + &quot;\&quot; has &quot; + adrs.size() +
++				&quot; email addresses -- only \&quot;&quot; + adr + &quot;\&quot; is respected&quot;);
+ 		}
+ 		return adr;
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -50,14 +50,14 @@
+ 	}
+ 
+ 	/**
+-	 * @param	configFile	path to &lt;CODE&gt;dms.rc&lt;/CODE&gt; file, can be absolute or relative to the servlet engines
+-	 *						working directory
++	 * @param	configFile	path to &lt;CODE&gt;install/config/dm.properties&lt;/CODE&gt; file,
++	 *						can be absolute or relative to the servlet engines working directory
+ 	 */
+ 	private ApplicationServiceInstance(String name, String configFile) throws DeepaMehtaException {
+ 		String port = null;
+ 		try {
+-			conf = new Configuration(name,configFile);
+-
++			conf = new Configuration(name, configFile);
++			//
+ 			this.name = conf.getProperty(ConfigurationConstants.Instance.DM_INSTANCE);
+ 			port = conf.getProperty(ConfigurationConstants.Instance.DM_PORT);
+ 			this.port = Integer.parseInt(port);
+@@ -170,7 +170,7 @@
+ 		} catch (DeepaMehtaException e) {
+ 			throw e;
+ 		} catch (Throwable e) {
+-			throw new DeepaMehtaException(errText + &quot; (&quot; + e + &quot;)&quot;);
++			throw new DeepaMehtaException(errText, e);
+ 		}
+ 		//
+ 		return cm;
+
+Modified: trunk/develop/src/de/deepamehta/service/DeepaMehta.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/DeepaMehta.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/service/DeepaMehta.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -105,7 +105,7 @@
+ 			ps.mainWindow.setVisible(true);
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** &quot; + errText + &quot; (&quot; + e.getMessage() + &quot;)&quot;);
+-			// ### e.printStackTrace();
++			e.printStackTrace();
+ 		} catch (Throwable e) {
+ 			System.out.println(&quot;*** DeepaMehta.initApplication(): &quot; + e);
+ 			e.printStackTrace();
+
+Modified: trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -22,6 +22,7 @@
+ import java.sql.Statement;
+ import java.util.LinkedList;
+ import java.util.Properties;
++import java.util.logging.Logger;
+ 
+ 
+ 
+@@ -38,6 +39,8 @@
+ 
+ 	private static final String DEFAULT_DB_TYPE = &quot;mysql&quot;;
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	private final LinkedList freeCons = new LinkedList();
+ 
+ 	private final LinkedList allCons = new LinkedList();
+@@ -76,16 +79,18 @@
+ 		}
+ 		String libs = c2.getProperty(ConfigurationConstants.Database.DB_LIBS);
+ 		String driverClazz = c2.getProperty(ConfigurationConstants.Database.DB_DRIVER);
+-
+-		System.out.println(&quot;Using Database&quot;);
+-		System.out.println(&quot;  Type : &quot; + dbType);
+-		System.out.println(&quot;  URL : &quot; + jdbcURL);
+-		System.out.println(&quot;  Driver : &quot; + driverClazz);
+-
+-		loadClassFromLibs(libs, driverClazz);
++		//
++		logger.info(&quot;Using Database\n&quot; + 
++			&quot;    Type: &quot; + dbType + &quot;\n&quot; +
++			&quot;    URL: &quot; + jdbcURL + &quot;\n&quot; +
++			&quot;    Driver: &quot; + driverClazz);
++		//
++		// ### loadClassFromLibs(libs, driverClazz);
++		driverClass = Class.forName(driverClazz);		// ###
+ 		driver = (Driver) driverClass.newInstance();
+-		if (!driver.acceptsURL(jdbcURL))
++		if (!driver.acceptsURL(jdbcURL)) {
+ 			throw new DeepaMehtaException(&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
++		}
+ 		String user = conf.getProperty(ConfigurationConstants.Database.DB_USER);
+ 		if ((null != user) || (&quot;&quot;.equals(user))) {
+ 			setConnectionProperty(&quot;user&quot;, user);
+@@ -94,6 +99,7 @@
+ 		}
+ 	}
+ 
++	/* ###
+ 	private void loadClassFromLibs(String libs, String driverClazz) throws ClassNotFoundException {
+ 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+ 		Resource[] resources;
+@@ -103,8 +109,9 @@
+ 			throw new ClassNotFoundException(e.getMessage(), e);
+ 		}
+ 		loadClassFromLibs(resources, driverClazz);
+-	}
++	} */
+ 
++	/* ###
+ 	private void loadClassFromLibs(Resource[] resources, String clazz) throws ClassNotFoundException {
+ 		URL[] urls = new URL[resources.length];
+ 		try {
+@@ -126,16 +133,17 @@
+ 			throw new ClassNotFoundException(e.getMessage(), e);
+ 		}
+ 		loadClassFromLibs(urls, clazz);
+-	}
++	} */
+ 
++	/* ###
+ 	private void loadClassFromLibs(URL[] urls, String clazz) throws ClassNotFoundException {
+-		System.out.println(&quot;Using separate Classloader for:&quot;);
++		logger.info(&quot;Using separate Classloader for:&quot;);
+ 		for (int i = 0; i &lt; urls.length; i++) {
+-			System.out.println(&quot;  &quot; + urls[i].toExternalForm());
++			logger.info(&quot;  &quot; + urls[i].toExternalForm());
+ 		}
+ 		URLClassLoader classLoader = new URLClassLoader(urls);
+ 		driverClass = classLoader.loadClass(clazz);
+-	}
++	} */
+ 
+ 	public synchronized Connection getConnection() throws SQLException {
+ 		if (0 == freeCons.size()) {
+@@ -160,7 +168,7 @@
+ 		Connection con = driver.connect(jdbcURL, conProps);
+ 		con.setAutoCommit(true);
+ 		allCons.add(con);
+-		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot; + freeCons.size());
++		logger.info(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot; + freeCons.size());
+ 		return con;
+ 	}
+ 
+@@ -189,7 +197,7 @@
+ 
+ 	public void release() {
+ 		try {
+-			System.out.println(&quot;all / free connections : &quot; + allCons.size() + &quot; / &quot; + freeCons.size());
++			logger.info(&quot;all / free connections : &quot; + allCons.size() + &quot; / &quot; + freeCons.size());
+ 			closeAllCons();
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+@@ -201,7 +209,7 @@
+ 
+ 	private static PrintStream dblog = null;
+ 	static {
+-		/* DEBUG */
++		/* DEBUG ### */
+ 		if (false) {
+ 			try {
+ 				dblog = new PrintStream(new FileOutputStream(&quot;db.log&quot;));
+@@ -216,5 +224,4 @@
+ 			dblog.println(arg0);
+ 		}
+ 	}
+-
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -35,10 +35,9 @@
+  * An email.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 25.3.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 21.11.2001 (2.0a13-post1)&lt;br&gt;
++ * Last change: 2.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class EmailTopic extends LiveTopic {
+ 
+@@ -50,6 +49,14 @@
+ 	private static final String EMAIL_STATE_SENT = &quot;Sent&quot;;
+ 
+ 	// commands
++	private static final String ITEM_ADD_RECIPIENTS = &quot;Add recipients&quot;;
++	private static final String CMD_ADD_RECIPIENTS = &quot;addRecipients&quot;;
++	private static final String ICON_ADD_RECIPIENTS = &quot;person.gif&quot;;
++
++	private static final String ITEM_ATTACH_DOCUMENT = &quot;Attach a document&quot;;
++	private static final String CMD_ATTACH_DOCUMENT = &quot;attachDocument&quot;;
++	private static final String ICON_ATTACH_DOCUMENT = &quot;document.gif&quot;;
++
+ 	private static final String ITEM_SEND = &quot;Send&quot;;
+ 	private static final String CMD_SEND = &quot;send&quot;;
+ 	private static final String ICON_SEND = &quot;sendEmail.gif&quot;;
+@@ -59,18 +66,9 @@
+ 
+ 	private static final String ITEM_FORWARD = &quot;Forward&quot;;
+ 	private static final String CMD_FORWARD = &quot;forward&quot;;
+-	
+-	// &quot;Email&quot; -&gt; &quot;Recipient&quot; (User)
+-	public static final String ASSOCTYPE_EMAILADDRESSEE = &quot;at-emailaddressee&quot;;	// ###
+-	public static final String ASSOCTYPE_ATTACHEMENT = &quot;at-attachement&quot;;
+ 
+-	public class LocateRcptsResult  {
+-		public ArrayList	aRcpts;
+-		public boolean		bUsedAttached;
+-	}
+ 
+ 
+-
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+@@ -124,6 +122,8 @@
+ 		String s = getProperty(PROPERTY_STATUS);
+ 		commands.addSeparator();
+ 		if (s.equals(EMAIL_STATE_DRAFT)) {
++			commands.addCommand(ITEM_ADD_RECIPIENTS, CMD_ADD_RECIPIENTS, FILESERVER_ICONS_PATH, ICON_ADD_RECIPIENTS);
++			commands.addCommand(ITEM_ATTACH_DOCUMENT, CMD_ATTACH_DOCUMENT, FILESERVER_ICONS_PATH, ICON_ATTACH_DOCUMENT);
+ 			commands.addCommand(ITEM_SEND, CMD_SEND, FILESERVER_IMAGES_PATH, ICON_SEND);
+ 		} else if (s.equals(EMAIL_STATE_RECEIVED)) {
+ 			commands.addCommand(ITEM_REPLY, CMD_REPLY);
+@@ -152,6 +152,10 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		if (command.equals(CMD_SEND)) {
+ 			sendMail(directives);
++		} else if (command.equals(CMD_ADD_RECIPIENTS)) {
++			createChildTopic(TOPICTYPE_RECIPIENT_LIST, SEMANTIC_RECIPIENT_LIST, session, directives);
++		} else if (command.equals(CMD_ATTACH_DOCUMENT)) {
++			createChildTopic(TOPICTYPE_DOCUMENT, SEMANTIC_EMAIL_ATTACHMENT, session, directives);
+ 		} else if (command.equals(CMD_REPLY)) {
+ 			createDraftForReply(session.getUserID(), 1, directives);
+ 		} else if (command.equals(CMD_FORWARD)) {
+@@ -176,23 +180,22 @@
+ 
+ 
+ 
+-	// ***************
+-	// *** Methods ***
+-	// ***************
++	// **********************
++	// *** Custom Methods ***
++	// **********************
+ 
+ 
+ 
+ 	private void sendMail(CorporateDirectives directives) throws DeepaMehtaException {
+-		Hashtable data = getProperties();
+-		if (!data.get(PROPERTY_STATUS).equals(EMAIL_STATE_DRAFT)) {
++		Hashtable props = getProperties();
++		if (!props.get(PROPERTY_STATUS).equals(EMAIL_STATE_DRAFT)) {
+ 			return;
+ 		}
+-		LocateRcptsResult locRes = locateRcpts();
+-		ArrayList aRcpts = locRes.aRcpts;
+-		if (aRcpts.size() == 0) {
++		Vector recipientAddresses = getRecipientAddresses();
++		if (recipientAddresses.size() == 0) {
+ 			return;
+ 		}
+-		String author = (String) data.get(PROPERTY_FROM);
++		String author = (String) props.get(PROPERTY_FROM);
+ 		System.out.println(&quot;&gt;&gt;&gt; EmailTopic.sendMail(): &quot; + this + &quot;, author=\&quot;&quot; + author + &quot;\&quot;&quot;);
+ 		Properties mprops = new Properties();
+ 		mprops.put(&quot;mail.smtp.host&quot;, as.getSMTPServer());	// throws DME
+@@ -201,19 +204,22 @@
+ 		try {
+ 			MimeMessage msg = new MimeMessage(session);
+ 			msg.setFrom(new InternetAddress(author));
+-			InternetAddress[] address = new InternetAddress[aRcpts.size()];
+-			for (int i = 0; i &lt; aRcpts.size(); i++) {
+-				address[i] = new InternetAddress((String)aRcpts.get(i));
++			// set &quot;to&quot;
++			InternetAddress[] address = new InternetAddress[recipientAddresses.size()];
++			for (int i = 0; i &lt; recipientAddresses.size(); i++) {
++				address[i] = new InternetAddress((String) recipientAddresses.elementAt(i));
+ 			}
+ 			msg.setRecipients(Message.RecipientType.TO, address);
+-			String subject = (String) data.get(PROPERTY_SUBJECT);
++			// set &quot;subject&quot;
++			String subject = (String) props.get(PROPERTY_SUBJECT);
+ 			if (subject == null || subject.equals(&quot;&quot;)) {
+ 				subject = TEXT_NO_SUBJECT;
+ 			}
+ 			msg.setSubject(subject);
++			//
+ 			Date d = new Date();
+ 			msg.setSentDate(d);			
+-			String msgText = (String) data.get(PROPERTY_TEXT);
++			String msgText = (String) props.get(PROPERTY_TEXT);
+ 			addAttachs(msgText, msg);
+ 			//
+ 			Transport.send(msg);
+@@ -249,44 +255,27 @@
+ 
+ 	// ---
+ 
+-	public LocateRcptsResult locateRcpts() {
+-		LocateRcptsResult res = new LocateRcptsResult();
+-		ArrayList aOut = new ArrayList();
+-		res.aRcpts = aOut;
+-		res.bUsedAttached = false;
+-		HashSet setCheck = new HashSet();
+-		String sRcpts = getProperty(PROPERTY_TO);
+-		if (sRcpts != null) {
+-			StringTokenizer st = new StringTokenizer(sRcpts, &quot;,;&quot;);
+-			while (st.hasMoreTokens()) {
+-				String val = st.nextToken();
+-				String key = new String(val);
+-				key = key.toLowerCase().trim();
+-				if (!setCheck.contains(key)) {
+-					setCheck.add(key);
+-					aOut.add(val);
+-				}
++	public Vector getRecipients() {
++		return as.getRelatedTopics(getID(), SEMANTIC_EMAIL_RECIPIENT, 2);
++	}
++
++	public Vector getRecipientAddresses() {
++		Vector recipientAddresses = new Vector();
++		//
++		Enumeration e = getRecipients().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic recipient = (BaseTopic) e.nextElement();
++			String emailAddress = as.getEmailAddress(recipient.getID());
++			if (emailAddress != null &amp;&amp; emailAddress.length() &gt; 0) {
++				recipientAddresses.addElement(emailAddress);
+ 			}
+ 		}
+-		Enumeration eRcpts = as.getRelatedTopics(getID(), ASSOCTYPE_EMAILADDRESSEE, 2).elements();
+-		while (eRcpts.hasMoreElements()) {
+-			BaseTopic user = (BaseTopic) eRcpts.nextElement();
+-			String val = as.getEmailAddress(user.getID());
+-			if ((val != null) &amp;&amp; (val.length() &gt; 0)) {
+-				String key = new String(val);
+-				key = key.toLowerCase().trim();
+-				if (!setCheck.contains(key)) {
+-					setCheck.add(key);
+-					aOut.add(val);
+-					res.bUsedAttached = true;
+-				}
+-			}
+-		}
+-		return res;
++		//
++		return recipientAddresses;
+ 	}
+ 	
+ 	public void addAttachs(String msgText, MimeMessage msg) throws MessagingException {
+-		Enumeration docs = as.getRelatedTopics(getID(), ASSOCTYPE_ATTACHEMENT, 1).elements();
++		Enumeration docs = as.getRelatedTopics(getID(), SEMANTIC_EMAIL_ATTACHMENT, 2).elements();
+ 		Multipart mp = null;
+ 		while (docs.hasMoreElements()) {
+ 			BaseTopic doc = (BaseTopic)docs.nextElement();
+@@ -379,14 +368,14 @@
+ 	public Vector copyAttachsAssocs(String topicID) {
+ 		BaseTopic attdoc = null;
+ 		Vector vAssocs = new Vector();
+-		Enumeration attachs = as.getRelatedTopics(getID(), ASSOCTYPE_ATTACHEMENT, 1).elements();
++		Enumeration attachs = as.getRelatedTopics(getID(), SEMANTIC_EMAIL_ATTACHMENT, 2).elements();
+ 		while (attachs.hasMoreElements()) {
+-			attdoc = (BaseTopic)attachs.nextElement();
++			attdoc = (BaseTopic) attachs.nextElement();
+ 			if (attdoc.getType().equals(TOPICTYPE_DOCUMENT)) {
+ 				String assocID = as.cm.getNewAssociationID();
+-				as.cm.createAssociation( assocID, 1, ASSOCTYPE_ATTACHEMENT, 1, attdoc.getID(), 1, topicID, 1);
+-				PresentableAssociation presAssoc = new PresentableAssociation(
+-					assocID, 1, ASSOCTYPE_ATTACHEMENT, 1, &quot;&quot;, attdoc.getID(), 1, topicID, 1);
++				as.cm.createAssociation(assocID, 1, SEMANTIC_EMAIL_ATTACHMENT, 1, topicID, 1, attdoc.getID(), 1);
++				PresentableAssociation presAssoc = new PresentableAssociation(assocID, 1,
++					SEMANTIC_EMAIL_ATTACHMENT, 1, &quot;&quot;, topicID, 1, attdoc.getID(), 1);
+ 				vAssocs.add(presAssoc);
+ 			}
+ 		}
+
+Added: trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-03 22:27:44 UTC (rev 341)
+@@ -0,0 +1,143 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Vector;
++
++
++
++/**
++ * A list of email recipients.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 2.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class RecipientListTopic extends LiveTopic {
++
++
++
++	// *****************
++	// *** Constants ***
++	// *****************
++
++
++
++	// actions
++	private static final String ACTION_SELECT_RECIPIENT = &quot;selectRecipient&quot;;
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	public RecipientListTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++
++
++	// **********************
++	// *** Defining Hooks ***
++	// **********************
++
++
++
++	// ------------------
++	// --- Life Cycle ---
++	// ------------------
++
++
++
++	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
++		// initial rendering
++		updateView(directives);
++		//
++		return directives;
++	}
++
++
++
++	// ---------------------------
++	// --- Handling Properties ---
++	// ---------------------------
++
++
++
++	public Vector disabledProperties(Session session) {
++		Vector props = super.disabledProperties(session);
++		props.addElement(PROPERTY_DESCRIPTION);
++		return props;
++	}
++
++	public static Vector hiddenProperties(TypeTopic type) {
++		Vector props = new Vector();
++		props.addElement(PROPERTY_NAME);
++		props.addElement(PROPERTY_ICON);
++		return props;
++	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	private void updateView(CorporateDirectives directives) {
++		Vector persons = getPersons();
++		Vector institutions = getInstitutions();
++		String html = renderRecipientList(persons, institutions);
++		//
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DESCRIPTION, html);
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	// ---
++
++	private String renderRecipientList(Vector persons, Vector institutions) {
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&quot;);
++		html.append(&quot;&lt;form action=\&quot;controller\&quot;&gt;&quot;);
++		// persons
++		Enumeration e = persons.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic recipient = (BaseTopic) e.nextElement();
++			renderRecipient(recipient, html);
++		}
++		//
++		html.append(&quot;&lt;input type=\&quot;submit\&quot; name=\&quot;action\&quot; value=\&quot;Send\&quot;&gt;&quot;);
++		html.append(&quot;&lt;/form&gt;&quot;);
++		//
++		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
++		return html.toString();
++	}
++
++	private void renderRecipient(BaseTopic recipient, StringBuffer html) {
++		html.append(&quot;&lt;input type=\&quot;checkbox\&quot; name=\&quot;recipient\&quot; value=\&quot;&quot; + recipient.getID() + &quot;\&quot; &quot; +
++			&quot;onclick=\&quot;location.href='controller?action=toggleRecipient=t-189512'\&quot;&gt;&quot;);
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_RECIPIENT + &quot;/&quot; + recipient.getID() + &quot;\&quot;&gt;&quot; +
++			recipient.getName() + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
++	}
++
++	// ---
++
++	private Vector getPersons() {
++		return cm.getTopics(TOPICTYPE_PERSON);
++	}
++
++	private Vector getInstitutions() {
++		return cm.getTopics(TOPICTYPE_INSTITUTION);
++	}
++}
+
+Modified: trunk/install/client/icons/document.gif
+===================================================================
+(Binary files differ)
+
+Modified: trunk/install/client/icons/documentcontainer.gif
+===================================================================
+(Binary files differ)
+
+Modified: trunk/install/config/dm-mysql5.properties
+===================================================================
+--- trunk/install/config/dm-mysql5.properties	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/install/config/dm-mysql5.properties	2008-09-03 22:27:44 UTC (rev 341)
+@@ -10,5 +10,7 @@
+ 
+ db.host				=127.0.0.1
+ 
++# distribution setting
+ db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=utf8
+-# db.url			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=latin1 # jri's default instance
++# jri's personal setting
++# db.url			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=latin1
+
+Modified: trunk/install/config/dm.properties
+===================================================================
+--- trunk/install/config/dm.properties	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/install/config/dm.properties	2008-09-03 22:27:44 UTC (rev 341)
+@@ -1,5 +1,4 @@
+ # DeepaMehta Service
+-#dm.instance			=mysql5
+ dm.instance			=hsqldb-intern
+ dm.host				=localhost
+ dm.port				=7557
+@@ -8,7 +7,7 @@
+ client				=../client
+ libpath				=../../libs
+ 
+-dm.config.property-file	=${config}/config.properties
+-dm.instance.property-file	=${config}/dm-${dm.instance}.properties
++dm.config.property-file			=${config}/config.properties
++dm.instance.property-file		=${config}/dm-${dm.instance}.properties
+ dm.instance.config-property-file=${config}/config-${dm.instance}.properties
+-db.type.property-file		=${config}/db-${db.type}.properties
++db.type.property-file			=${config}/db-${db.type}.properties
+
+Modified: trunk/install/db/email.sql
+===================================================================
+--- trunk/install/db/email.sql	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/install/db/email.sql	2008-09-03 22:27:44 UTC (rev 341)
+@@ -36,18 +36,7 @@
+ INSERT INTO AssociationProp VALUES ('a-179', 1, 'Ordinal Number', '50');
+ 
+ 
+---- &quot;attachement&quot; ---
+-INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-attachement', 'attachement');
+-INSERT INTO TopicProp VALUES ('at-attachement', 1, 'Name', 'attachement');
+-INSERT INTO TopicProp VALUES ('at-attachement', 1, 'Color', '#408000');
+ 
+---- &quot;e-mail addressee&quot; ---
+-INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-emailaddressee', 'e-mail addressee');
+-INSERT INTO TopicProp VALUES ('at-emailaddressee', 1, 'Name', 'e-mail addressee');
+-INSERT INTO TopicProp VALUES ('at-emailaddressee', 1, 'Color', '#FF8000');
+-
+-
+-
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-date', 'Date');
+ INSERT INTO TopicProp VALUES ('pp-date', 1, 'Name', 'Date');
+ INSERT INTO TopicProp VALUES ('pp-date', 1, 'Visualization', 'Date Chooser');
+
+Modified: trunk/install/db/patches/cm-2.18.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.18.sql	2008-08-18 15:54:19 UTC (rev 340)
++++ trunk/install/db/patches/cm-2.18.sql	2008-09-03 22:27:44 UTC (rev 341)
+@@ -10,3 +10,52 @@
+ -- assign to topic type &quot;Search&quot;
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-339', '', 'tt-container', 1, 'pp-result', 1);
+ INSERT INTO AssociationProp VALUES ('a-339', 1, 'Ordinal Number', '200');
++
++
++
++----------------------------
++--- Update Email Feature ---
++----------------------------
++
++
++
++--- create topic type &quot;Recipient List&quot; ---
++
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-recipientlist', 'Recipient List');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Name', 'Recipient List');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Plural Name', 'Recipient Lists');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;A &lt;i&gt;Recipient List&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Description Query', 'What is a &quot;Recipient List&quot;?');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Icon', 'authentificationsource.gif');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Creation Icon', 'createKompetenzstern.gif');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Custom Implementation', 'de.deepamehta.topics.RecipientListTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-340', '', 'tt-generic', 1, 'tt-recipientlist', 1);
++-- search type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-recipientlist-search', 'Recipient List Search');
++INSERT INTO TopicProp VALUES ('tt-recipientlist-search', 1, 'Name', 'Recipient List Search');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist-search', 1, 'Icon', 'event-search.gif');
++-- derive search type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-341', '', 'tt-topiccontainer', 1, 'tt-recipientlist-search', 1);
++-- assign search type to type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-342', '', 'tt-recipientlist-search', 1, 'tt-recipientlist', 1);
++
++-- remove association types &quot;attachement&quot; and &quot;e-mail addressee&quot;
++
++DELETE FROM Topic WHERE ID='at-attachement';
++DELETE FROM TopicProp WHERE TopicID='at-attachement';
++DELETE FROM ViewTopic WHERE TopicID='at-attachement';
++DELETE FROM Association WHERE TypeID='at-attachement';
++
++DELETE FROM Topic WHERE ID='at-emailaddressee';
++DELETE FROM TopicProp WHERE TopicID='at-emailaddressee';
++DELETE FROM ViewTopic WHERE TopicID='at-emailaddressee';
++DELETE FROM Association WHERE TypeID='at-emailaddressee';
++
++--- create association type: &quot;Attachment&quot; ---
++
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-attachment', 'Attachment');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Name', 'Attachment');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Plural Name', 'Attachments');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Color', '#408000');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000186.html">[deepamehta-svn] r342 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics/helper libs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

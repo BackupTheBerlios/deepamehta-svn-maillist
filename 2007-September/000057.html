@@ -1,0 +1,1288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r212%20-%20in%20branches/eschnepel%3A%20.settings%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/topics/personalweb%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200709181859.l8IIxYt4020090%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000056.html">
+   <LINK REL="Next"  HREF="000058.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r212%20-%20in%20branches/eschnepel%3A%20.settings%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/topics/personalweb%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200709181859.l8IIxYt4020090%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 18 20:59:34 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000056.html">[deepamehta-svn] r211 - in branches/eschnepel: . develop	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/client	install/config install/db/db-specific	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+        <LI>Next message: <A HREF="000058.html">[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#57">[ date ]</a>
+              <a href="thread.html#57">[ thread ]</a>
+              <a href="subject.html#57">[ subject ]</a>
+              <a href="author.html#57">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-18 20:59:29 +0200 (Tue, 18 Sep 2007)
+New Revision: 212
+
+Added:
+   branches/eschnepel/.settings/org.eclipse.core.resources.prefs
+Modified:
+   branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+   branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java
+   branches/eschnepel/develop/src/de/deepamehta/TopicInitException.java
+   branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+   branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/SynchronizedQueue.java
+   branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+Log:
+applied code styleguides
+eclipse setting to make the formatter more conform to the styleguide
+unicode character fixes
+
+Added: branches/eschnepel/.settings/org.eclipse.core.resources.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.core.resources.prefs	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/.settings/org.eclipse.core.resources.prefs	2007-09-18 18:59:29 UTC (rev 212)
+@@ -0,0 +1,3 @@
++#Thu Aug 30 08:02:12 CEST 2007
++eclipse.preferences.version=1
++encoding/&lt;project&gt;=UTF-8
+
+Modified: branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-18 18:59:29 UTC (rev 212)
+@@ -1,5 +1,13 @@
+-#Sat Jun 30 11:00:13 CEST 2007
++#Tue Sep 18 20:13:30 CEST 2007
+ eclipse.preferences.version=1
++org.eclipse.jdt.core.codeComplete.argumentPrefixes=
++org.eclipse.jdt.core.codeComplete.argumentSuffixes=
++org.eclipse.jdt.core.codeComplete.fieldPrefixes=
++org.eclipse.jdt.core.codeComplete.fieldSuffixes=
++org.eclipse.jdt.core.codeComplete.localPrefixes=
++org.eclipse.jdt.core.codeComplete.localSuffixes=
++org.eclipse.jdt.core.codeComplete.staticFieldPrefixes=
++org.eclipse.jdt.core.codeComplete.staticFieldSuffixes=
+ org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=disabled
+ org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.2
+ org.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve
+@@ -60,3 +68,252 @@
+ org.eclipse.jdt.core.compiler.problem.unusedPrivateMember=warning
+ org.eclipse.jdt.core.compiler.problem.varargsArgumentNeedCast=warning
+ org.eclipse.jdt.core.compiler.source=1.3
++org.eclipse.jdt.core.compiler.taskCaseSensitive=enabled
++org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL,NORMAL
++org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX,\#\#\#
++org.eclipse.jdt.core.formatter.align_type_members_on_columns=true
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_explicit_constructor_call=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_qualified_allocation_expression=16
++org.eclipse.jdt.core.formatter.alignment_for_assignment=0
++org.eclipse.jdt.core.formatter.alignment_for_binary_expression=16
++org.eclipse.jdt.core.formatter.alignment_for_compact_if=16
++org.eclipse.jdt.core.formatter.alignment_for_conditional_expression=80
++org.eclipse.jdt.core.formatter.alignment_for_enum_constants=0
++org.eclipse.jdt.core.formatter.alignment_for_expressions_in_array_initializer=16
++org.eclipse.jdt.core.formatter.alignment_for_multiple_fields=16
++org.eclipse.jdt.core.formatter.alignment_for_parameters_in_constructor_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation=16
++org.eclipse.jdt.core.formatter.alignment_for_superclass_in_type_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_enum_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_type_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_constructor_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_method_declaration=16
++org.eclipse.jdt.core.formatter.blank_lines_after_imports=3
++org.eclipse.jdt.core.formatter.blank_lines_after_package=1
++org.eclipse.jdt.core.formatter.blank_lines_before_field=0
++org.eclipse.jdt.core.formatter.blank_lines_before_first_class_body_declaration=0
++org.eclipse.jdt.core.formatter.blank_lines_before_imports=1
++org.eclipse.jdt.core.formatter.blank_lines_before_member_type=1
++org.eclipse.jdt.core.formatter.blank_lines_before_method=1
++org.eclipse.jdt.core.formatter.blank_lines_before_new_chunk=1
++org.eclipse.jdt.core.formatter.blank_lines_before_package=0
++org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations=1
++org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_anonymous_type_declaration=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_array_initializer=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_block=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_block_in_case=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_enum_constant=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_method_declaration=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_switch=end_of_line
++org.eclipse.jdt.core.formatter.brace_position_for_type_declaration=end_of_line
++org.eclipse.jdt.core.formatter.comment.clear_blank_lines=false
++org.eclipse.jdt.core.formatter.comment.format_comments=false
++org.eclipse.jdt.core.formatter.comment.format_header=false
++org.eclipse.jdt.core.formatter.comment.format_html=false
++org.eclipse.jdt.core.formatter.comment.format_source_code=true
++org.eclipse.jdt.core.formatter.comment.indent_parameter_description=true
++org.eclipse.jdt.core.formatter.comment.indent_root_tags=true
++org.eclipse.jdt.core.formatter.comment.insert_new_line_before_root_tags=insert
++org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter=insert
++org.eclipse.jdt.core.formatter.comment.line_length=80
++org.eclipse.jdt.core.formatter.compact_else_if=true
++org.eclipse.jdt.core.formatter.continuation_indentation=2
++org.eclipse.jdt.core.formatter.continuation_indentation_for_array_initializer=2
++org.eclipse.jdt.core.formatter.format_guardian_clause_on_one_line=false
++org.eclipse.jdt.core.formatter.indent_body_declarations_compare_to_annotation_declaration_header=true
++org.eclipse.jdt.core.formatter.indent_body_declarations_compare_to_enum_constant_header=true
++org.eclipse.jdt.core.formatter.indent_body_declarations_compare_to_enum_declaration_header=true
++org.eclipse.jdt.core.formatter.indent_body_declarations_compare_to_type_header=true
++org.eclipse.jdt.core.formatter.indent_breaks_compare_to_cases=true
++org.eclipse.jdt.core.formatter.indent_empty_lines=false
++org.eclipse.jdt.core.formatter.indent_statements_compare_to_block=true
++org.eclipse.jdt.core.formatter.indent_statements_compare_to_body=true
++org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_cases=true
++org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch=false
++org.eclipse.jdt.core.formatter.indentation.size=4
++org.eclipse.jdt.core.formatter.insert_new_line_after_annotation=insert
++org.eclipse.jdt.core.formatter.insert_new_line_after_opening_brace_in_array_initializer=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_before_catch_in_try_statement=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_before_closing_brace_in_array_initializer=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_before_else_in_if_statement=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_before_finally_in_try_statement=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_before_while_in_do_statement=do not insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_annotation_declaration=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_anonymous_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_block=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_enum_constant=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_enum_declaration=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_method_body=insert
++org.eclipse.jdt.core.formatter.insert_new_line_in_empty_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_after_and_in_type_parameter=insert
++org.eclipse.jdt.core.formatter.insert_space_after_assignment_operator=insert
++org.eclipse.jdt.core.formatter.insert_space_after_at_in_annotation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_at_in_annotation_type_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_binary_operator=insert
++org.eclipse.jdt.core.formatter.insert_space_after_closing_angle_bracket_in_type_arguments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_closing_angle_bracket_in_type_parameters=insert
++org.eclipse.jdt.core.formatter.insert_space_after_closing_brace_in_block=insert
++org.eclipse.jdt.core.formatter.insert_space_after_closing_paren_in_cast=insert
++org.eclipse.jdt.core.formatter.insert_space_after_colon_in_assert=insert
++org.eclipse.jdt.core.formatter.insert_space_after_colon_in_case=insert
++org.eclipse.jdt.core.formatter.insert_space_after_colon_in_conditional=insert
++org.eclipse.jdt.core.formatter.insert_space_after_colon_in_for=insert
++org.eclipse.jdt.core.formatter.insert_space_after_colon_in_labeled_statement=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_allocation_expression=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_annotation=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_constructor_declaration_parameters=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_constructor_declaration_throws=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_enum_constant_arguments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_enum_declarations=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_explicitconstructorcall_arguments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_for_increments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_for_inits=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_declaration_parameters=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_declaration_throws=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_invocation_arguments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_multiple_field_declarations=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_multiple_local_declarations=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_parameterized_type_reference=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_superinterfaces=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_type_arguments=insert
++org.eclipse.jdt.core.formatter.insert_space_after_comma_in_type_parameters=insert
++org.eclipse.jdt.core.formatter.insert_space_after_ellipsis=insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_parameterized_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_type_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_type_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_brace_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_bracket_in_array_allocation_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_bracket_in_array_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_annotation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_cast=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_catch=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_constructor_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_enum_constant=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_for=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_if=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_method_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_method_invocation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_parenthesized_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_switch=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_synchronized=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_while=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_postfix_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_prefix_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_question_in_conditional=insert
++org.eclipse.jdt.core.formatter.insert_space_after_question_in_wildcard=do not insert
++org.eclipse.jdt.core.formatter.insert_space_after_semicolon_in_for=insert
++org.eclipse.jdt.core.formatter.insert_space_after_unary_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_and_in_type_parameter=insert
++org.eclipse.jdt.core.formatter.insert_space_before_assignment_operator=insert
++org.eclipse.jdt.core.formatter.insert_space_before_at_in_annotation_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_binary_operator=insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_parameterized_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_type_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_type_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_allocation_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_annotation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_cast=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_catch=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_constructor_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_enum_constant=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_for=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_if=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_method_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_method_invocation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_parenthesized_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_switch=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_synchronized=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_while=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_assert=insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_case=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_conditional=insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_default=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_for=insert
++org.eclipse.jdt.core.formatter.insert_space_before_colon_in_labeled_statement=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_allocation_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_annotation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_array_initializer=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_constructor_declaration_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_constructor_declaration_throws=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_enum_constant_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_enum_declarations=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_explicitconstructorcall_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_for_increments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_for_inits=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_method_declaration_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_method_declaration_throws=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_method_invocation_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_multiple_field_declarations=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_multiple_local_declarations=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_parameterized_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_superinterfaces=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_type_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_comma_in_type_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_ellipsis=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_angle_bracket_in_parameterized_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_angle_bracket_in_type_arguments=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_angle_bracket_in_type_parameters=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_annotation_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_anonymous_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_block=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_constructor_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_enum_constant=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_enum_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_method_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_switch=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_type_declaration=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_bracket_in_array_allocation_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_bracket_in_array_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_bracket_in_array_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_annotation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_annotation_type_member_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_catch=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_constructor_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_enum_constant=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_for=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_if=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_method_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_method_invocation=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_parenthesized_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_switch=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_synchronized=insert
++org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_while=insert
++org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_return=insert
++org.eclipse.jdt.core.formatter.insert_space_before_postfix_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_prefix_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_question_in_conditional=insert
++org.eclipse.jdt.core.formatter.insert_space_before_question_in_wildcard=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_semicolon=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_semicolon_in_for=do not insert
++org.eclipse.jdt.core.formatter.insert_space_before_unary_operator=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_brackets_in_array_type_reference=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_braces_in_array_initializer=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_brackets_in_array_allocation_expression=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_annotation_type_member_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_constructor_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_enum_constant=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_declaration=do not insert
++org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_invocation=do not insert
++org.eclipse.jdt.core.formatter.keep_else_statement_on_same_line=false
++org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line=false
++org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false
++org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line=false
++org.eclipse.jdt.core.formatter.lineSplit=80
++org.eclipse.jdt.core.formatter.number_of_blank_lines_at_beginning_of_method_body=0
++org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve=3
++org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
++org.eclipse.jdt.core.formatter.tabulation.char=tab
++org.eclipse.jdt.core.formatter.tabulation.size=4
++org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=true
+
+Modified: branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs	2007-09-18 18:59:29 UTC (rev 212)
+@@ -1,3 +1,15 @@
+-#Sat Jun 30 10:52:28 CEST 2007
++#Tue Sep 18 19:28:51 CEST 2007
+ eclipse.preferences.version=1
++formatter_profile=_DeepaMehta
++formatter_settings_version=10
+ internal.default.compliance=default
++org.eclipse.jdt.ui.exception.name=e
++org.eclipse.jdt.ui.gettersetter.use.is=true
++org.eclipse.jdt.ui.ignorelowercasenames=true
++org.eclipse.jdt.ui.importorder=java;javax;org;com;
++org.eclipse.jdt.ui.javadoc=false
++org.eclipse.jdt.ui.keywordthis=false
++org.eclipse.jdt.ui.ondemandthreshold=99
++org.eclipse.jdt.ui.overrideannotation=true
++org.eclipse.jdt.ui.staticondemandthreshold=99
++org.eclipse.jdt.ui.text.custom_code_templates=&lt;?xml version\=&quot;1.0&quot; encoding\=&quot;UTF-8&quot;?&gt;&lt;templates&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;gettercomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for getter method&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.gettercomment&quot; name\=&quot;gettercomment&quot;&gt;/**\n * @return the ${bare_field_name}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;settercomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for setter method&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.settercomment&quot; name\=&quot;settercomment&quot;&gt;/**\n * @param ${param} the ${bare_field_name} to set\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;constructorcomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for created constructors&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.constructorcomment&quot; name\=&quot;constructorcomment&quot;&gt;/**\n * ${tags}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;filecomment_context&quot; deleted!
+ \=&quot;false&quot; description\=&quot;Comment for created Java files&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.filecomment&quot; name\=&quot;filecomment&quot;&gt;/**\n * \n */&lt;/template&gt;&lt;template autoinsert\=&quot;false&quot; context\=&quot;typecomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for created types&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.typecomment&quot; name\=&quot;typecomment&quot;&gt;/**\n * @author ${user}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;fieldcomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for fields&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.fieldcomment&quot; name\=&quot;fieldcomment&quot;&gt;/**\n * \n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;methodcomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for non-overriding methods&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.methodcomment&quot; name\=&quot;methodcomment&quot;&gt;/**\n * ${tags}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;overridecomment_context&quot; deleted\=&quot;false&quot;!
+  description\=&quot;Comment for overriding methods&quot; enabled\=&quot;true&quot;!
+  id\=&quot;or
+g.eclipse.jdt.ui.text.codetemplates.overridecomment&quot; name\=&quot;overridecomment&quot;&gt;/* (non-Javadoc)\n * ${see_to_overridden}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;delegatecomment_context&quot; deleted\=&quot;false&quot; description\=&quot;Comment for delegate methods&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.delegatecomment&quot; name\=&quot;delegatecomment&quot;&gt;/**\n * ${tags}\n * ${see_to_target}\n */&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;newtype_context&quot; deleted\=&quot;false&quot; description\=&quot;Newly created files&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.newtype&quot; name\=&quot;newtype&quot;&gt;${filecomment}\n${package_declaration}\n\n${typecomment}\n${type_declaration}&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;classbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in new class type bodies&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.classbody&quot; name\=&quot;classbody&quot;&gt;\n&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;interfacebody_context&quot; deleted\=&quot;false!
+ &quot; description\=&quot;Code in new interface type bodies&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.interfacebody&quot; name\=&quot;interfacebody&quot;&gt;\n&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;enumbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in new enum type bodies&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.enumbody&quot; name\=&quot;enumbody&quot;&gt;\n&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;annotationbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in new annotation type bodies&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.annotationbody&quot; name\=&quot;annotationbody&quot;&gt;\n&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;catchblock_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in new catch blocks&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.catchblock&quot; name\=&quot;catchblock&quot;&gt;// ${todo} Auto-generated catch block\n${exception_var}.printStackTrace();&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;methodbody_context&quot; deleted\=&quot;false&quot; des!
+ cription\=&quot;Code in created method stubs&quot; enabled\=&quot;true&quot; id\=&quot;!
+ org.ecli
+pse.jdt.ui.text.codetemplates.methodbody&quot; name\=&quot;methodbody&quot;&gt;// ${todo} Auto-generated method stub\n${body_statement}&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;constructorbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in created constructor stubs&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.constructorbody&quot; name\=&quot;constructorbody&quot;&gt;${body_statement}\n// ${todo} Auto-generated constructor stub&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;getterbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in created getters&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.getterbody&quot; name\=&quot;getterbody&quot;&gt;return ${field};&lt;/template&gt;&lt;template autoinsert\=&quot;true&quot; context\=&quot;setterbody_context&quot; deleted\=&quot;false&quot; description\=&quot;Code in created setters&quot; enabled\=&quot;true&quot; id\=&quot;org.eclipse.jdt.ui.text.codetemplates.setterbody&quot; name\=&quot;setterbody&quot;&gt;${field} \= ${param};&lt;/template&gt;&lt;/templates&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -257,15 +257,15 @@
+ 		{&quot;Create Topic Type ...&quot;, &quot;Topictyp erzeugen ...&quot;},
+ 		{&quot;Create Association Type ...&quot;, &quot;Assoziationstyp erzeugen ...&quot;},
+ 		{&quot;Create \\1&quot;, &quot;\\1 erzeugen&quot;},
+-		{&quot;Delete&quot;, &quot;L&#239;&#191;&#189;schen&quot;},
+-		{&quot;Delete&quot;, &quot;L&#239;&#191;&#189;schen&quot;},
++		{&quot;Delete&quot;, &quot;L&#195;&#182;schen&quot;},
++		{&quot;Delete&quot;, &quot;L&#195;&#182;schen&quot;},
+ 		{&quot;Remove&quot;, &quot;Entfernen&quot;},
+ 		{&quot;Remove&quot;, &quot;Entfernen&quot;},
+ 		{&quot;Hide&quot;, &quot;Ausblenden&quot;},
+ 		{&quot;Hide&quot;, &quot;Ausblenden&quot;},
+ 		{&quot;Hide all&quot;, &quot;Alle ausblenden&quot;},
+-		{&quot;Close&quot;, &quot;Schlie&#239;&#191;&#189;en&quot;},
+-		{&quot;Publish to&quot;, &quot;Freigeben f&#239;&#191;&#189;r&quot;},
++		{&quot;Close&quot;, &quot;Schlie&#195;&#159;en&quot;},
++		{&quot;Publish to&quot;, &quot;Freigeben f&#195;&#188;r&quot;},
+ 		{&quot;Import Topic Map ...&quot;, &quot;Topic Map importieren ...&quot;},
+ 		{&quot;Export&quot;, &quot;Exportieren&quot;},
+ 		{&quot;Export Format&quot;, &quot;Export-Format&quot;},
+@@ -281,7 +281,7 @@
+ 		{&quot;Set \\1&quot;, &quot;\\1 setzen&quot;},
+ 		{&quot;Edit \\1&quot;, &quot;\\1 bearbeiten&quot;},
+ 		{&quot;Show \\1&quot;, &quot;\\1 anzeigen&quot;},
+-		{&quot;Choose \\1&quot;, &quot;\\1 ausw&#239;&#191;&#189;hlen&quot;},
++		{&quot;Choose \\1&quot;, &quot;\\1 ausw&#195;&#164;hlen&quot;},
+ 		{&quot;Assign \\1&quot;, &quot;\\1 zuordnen&quot;},
+ 		{&quot;Create \\1&quot;, &quot;\\1 erzeugen&quot;},
+ 		{&quot;What is a \&quot;\\1\&quot;?&quot;, &quot;Hilfe zu \&quot;\\1\&quot;&quot;},
+@@ -298,7 +298,7 @@
+ 		{&quot;Use&quot;, &quot;Inhalt&quot;},
+ 		{&quot;Build&quot;, &quot;Struktur&quot;},
+ 		{&quot;Messages&quot;, &quot;Mitteilungen&quot;},
+-		{&quot;Choose ...&quot;, &quot;Ausw&#239;&#191;&#189;hlen ...&quot;},
++		{&quot;Choose ...&quot;, &quot;Ausw&#195;&#164;hlen ...&quot;},
+ 		// --- &quot;Workspace&quot; commands ---
+ 		{&quot;Join&quot;, &quot;Beitreten&quot;},
+ 		{&quot;Leave&quot;, &quot;Austreten&quot;},
+@@ -306,7 +306,7 @@
+ 		{&quot;Assign Association Type&quot;, &quot;Assoziationstyp zuordnen&quot;},
+ 		// --- &quot;User&quot; commands ---
+ 		{&quot;Set Standard Workspace&quot;, &quot;Standard Workspace setzen&quot;},
+-		{&quot;Choose ...&quot;, &quot;Ausw&#239;&#191;&#189;hlen ...&quot;},
++		{&quot;Choose ...&quot;, &quot;Ausw&#195;&#164;hlen ...&quot;},
+ 	};
+ 
+ 	static final int ITEM_NEW_TOPIC    = 0;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -15,6 +15,6 @@
+     }
+ 
+ 	public DeepaMehtaException(String string, Exception e) {
+-		super(string,e);
++		super(string, e);
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/TopicInitException.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/TopicInitException.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/TopicInitException.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -13,4 +13,8 @@
+     public TopicInitException(String s) {
+ 		super(s);
+     }
++
++	public TopicInitException(String string, Exception e) {
++	    super(string, e);
++    }
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -3,20 +3,20 @@
+ import javax.swing.*;
+ import java.awt.*;
+ 
++
++
+ class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+ 
+ 	ComboBoxRenderer() {
+-		setOpaque(true); // otherwise the background isn't painted
++		setOpaque(true);	// otherwise the background isn't painted
+ 	}
+ 
+-	public Component getListCellRendererComponent(JList list, Object value,
+-			int index, boolean isSelected, boolean cellHasFocus) {
++	public Component getListCellRendererComponent(JList list, Object value, int index,
++										boolean isSelected, boolean cellHasFocus) {
+ 		ComboBoxItem item = (ComboBoxItem) value;
+-		/*
+-		 * ### System.out.println(&quot;&gt;&gt;&gt; menu item \&quot;&quot; + icon.getDescription() +
+-		 * &quot;\&quot; is &quot; + &quot;rendered, selected: &quot; + isSelected + &quot;, background: &quot; +
+-		 * (isSelected ? list.getSelectionBackground() : list.getBackground()));
+-		 */
++		/* ### System.out.println(&quot;&gt;&gt;&gt; menu item \&quot;&quot; + icon.getDescription() + &quot;\&quot; is &quot; +
++			&quot;rendered, selected: &quot; + isSelected + &quot;, background: &quot; + (isSelected ? list.getSelectionBackground() :
++			list.getBackground())); */
+ 		if (item == null) {
+ 			setText(&quot;null ?!?!&quot;);
+ 			setIcon(null);
+@@ -24,8 +24,7 @@
+ 			setText(item.text);
+ 			setIcon(item.icon);
+ 		}
+-		setBackground(isSelected ? list.getSelectionBackground() : list
+-				.getBackground());
++		setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
+ 		return this;
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -153,22 +153,8 @@
+ 		System.out.println(&quot;&gt;    active installation: \&quot;&quot; + installation.getName() + &quot;\&quot;&quot;);
+ 	}
+ 
+-	private class StatisticsThread extends TimerTask{
+ 	
+-		// ******************************************************
+-		// *** Implementation of interface java.util.TimerTask ***
+-		// ******************************************************
+ 	
+-	
+-		/**
+-		 * The body of the statistics thread.
+-		 */
+-		public void run() {
+-			System.out.println(DeepaMehtaUtils.getDate() + &quot; &quot; + DeepaMehtaUtils.getTime() + &quot; statistics: &quot; +
+-				cm.getTopicCount() + &quot; topics, &quot; + cm.getAssociationCount() + &quot; associations&quot;);
+-		}
+-	}
+-
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+@@ -1907,10 +1893,11 @@
+ 
+ 	// ---
+ 
+-	/**
++	/* ### 
++	/ **
+ 	 * @see		#createTopic
+-	 */
+-	/* ### void tiggerAddedToTopicmap(String topicmapID, BaseTopic topic, CorporateDirectives directives) {
++	 * /
++	void tiggerAddedToTopicmap(String topicmapID, BaseTopic topic, CorporateDirectives directives) {
+ 		try {
+ 			// --- trigger addedToTopicmap() hook ---
+ 			LiveTopic topicmap = getLiveTopic(topicmapID, 1);	// ### version 1
+@@ -3746,6 +3733,8 @@
+ 					// the path have an extension -- it is considered as a directory
+ 					// if the extension is unknown ### list possibly incomplete
+ 					String extension = file.substring(pos2);
++
++					// TODO ### use static hashset for comparism
+ 					if (!extension.equalsIgnoreCase(&quot;.html&quot;) &amp;&amp;
+ 						!extension.equalsIgnoreCase(&quot;.htm&quot;) &amp;&amp;
+ 						!extension.equalsIgnoreCase(&quot;.phtml&quot;) &amp;&amp;
+@@ -4816,10 +4805,11 @@
+ 		}
+ 	}
+ 
+-	/**
++	/* ### 
++	/ **
+ 	 * @see		#personalizeView
+-	 */
+-	/* ### private void personalizeAssociations(String topicmapID, int topicmapVersion, String viewMode, Enumeration assocs,
++	 * /
++	private void personalizeAssociations(String topicmapID, int topicmapVersion, String viewMode, Enumeration assocs,
+ 																					boolean performExistenceCheck) {
+ 		while (assocs.hasMoreElements()) {
+ 			PresentableAssociation assoc = (PresentableAssociation) assocs.nextElement();
+@@ -5225,4 +5215,23 @@
+ 	public String getConfigurationProperty(String property){
+ 		return applicationServiceInstance.getConfigurationProperty(property);
+ 	}
++
++
++
++	// ******************************************************
++	// *** Implementation of interface java.util.TimerTask ***
++	// ******************************************************
++
++
++
++	private class StatisticsThread extends TimerTask{
++
++		/**
++		 * The body of the statistics thread.
++		 */
++		public void run() {
++			System.out.println(DeepaMehtaUtils.getDate() + &quot; &quot; + DeepaMehtaUtils.getTime() + &quot; statistics: &quot; +
++				cm.getTopicCount() + &quot; topics, &quot; + cm.getAssociationCount() + &quot; associations&quot;);
++		}
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -91,7 +91,7 @@
+ 	 */
+ 	public static ApplicationServiceInstance lookup(String[] args) throws DeepaMehtaException {
+ 		if (args.length == 0) {
+-			return lookup((String)null);
++			return lookup((String) null);
+ 		} else if (args.length == 1) {
+ 			return lookup(args[0]);
+ 		} else {
+@@ -162,14 +162,13 @@
+             }
+ 		} catch (SQLException e) {	// ### not tested
+ 			String hint = e.getMessage().indexOf(&quot;Bad Handshake&quot;) != -1 ?
+-				&quot; -- Probably the driver is too old&quot;:&quot;&quot;;
+-			//	(dbDriverClass.equals(&quot;org.gjt.mm.mysql.Driver&quot;) ?
+-				//&quot;.\n*** Get a new driver from www.gjt.org/download/. &quot; +
+-				//&quot;Look for \&quot;MM MySQL - JDBC Compliant Driver For MySQL\&quot;.&quot; : &quot;&quot;) : &quot;&quot;;
+-			throw new DeepaMehtaException(errText + &quot; (&quot; + e + &quot;)&quot; + hint);
++				&quot; -- Probably the driver is too old&quot; : &quot;&quot;;
++			throw new DeepaMehtaException(errText + &quot; (&quot; + e + &quot;)&quot; + hint, e);
+ 		} catch (ClassNotFoundException e) {
+ 			throw new DeepaMehtaException(errText + &quot;: &quot; + &quot;the driver class can't be found (&quot; +
+-                e.getMessage() + &quot;)&quot;);
++                e.getMessage() + &quot;)&quot;, e);
++		} catch (DeepaMehtaException e) {
++			throw e;
+ 		} catch (Throwable e) {
+ 			throw new DeepaMehtaException(errText + &quot; (&quot; + e + &quot;)&quot;);
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -19,7 +19,6 @@
+  */
+ public interface CorporateMemory {
+ 
+-	void release();
+ 
+ 
+ 	// -------------------------
+@@ -292,4 +291,5 @@
+ 
+ 	int getModelVersion();
+ 	int getContentVersion();
++	void release();
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -47,7 +47,7 @@
+ 
+ 
+ 	private PresentationService ps;
+-	//private ApplicationService as;
++	// ### private ApplicationService as;
+ 
+ 	private static final String commInfo = &quot;direct method calls (embedded service)&quot;;
+ 	private static final String errText = &quot;DeepaMehta can't run&quot;;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -79,6 +79,8 @@
+ 		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint.getName() + &quot;\&quot;&quot;);
+ 	}
+ 
++	
++	
+ 	// *************************************************************************
+ 	// *** Implementation of Interface de.deepamehta.service.CorporateMemory ***
+ 	// *************************************************************************
+@@ -272,10 +274,11 @@
+ 		return getRelatedTopics(topicID, assocType, null, null, null, relTopicPos, null, null, null, null, null, false, false);
+ 	}
+ 
+-	/**
++	/* ###
++	/ **
+ 	 * @return	vector of {@link de.deepamehta.BaseTopic}
+-	 */
+-	/* ### public Vector getRelatedTopics(String topicID, String assocType, String relTopicType) {
++	 * /
++	public Vector getRelatedTopics(String topicID, String assocType, String relTopicType) {
+ 		return queryBaseTopics(&quot;SELECT Topic.* FROM Topic, Association WHERE &quot; +
+ 			&quot;(Association.TopicID1='&quot; + topicID + &quot;' AND Association.TopicID2 = Topic.ID OR &quot; +
+ 			&quot;Association.TopicID2='&quot; + topicID + &quot;' AND Association.TopicID1 = Topic.ID) AND &quot; +
+@@ -1369,6 +1372,7 @@
+ 	// --- End of Interface de.deepamehta.service.CorporateMemory ---
+ 	// --------------------------------------------------------------
+ 
++	
+ 
+ 	// -----------------------
+ 	// --- Private Methods ---
+@@ -1431,12 +1435,13 @@
+ 		return result;
+ 	}
+ 
+-	/**
++	/* ###
++	/ **
+ 	 * @see		#createPresentableTopic
+ 	 *
+ 	 * @return	null if geometry not exists
+-	 */
+-	/* ### private Point queryGeometry(String query) {
++	 * /
++	private Point queryGeometry(String query) {
+ 		Point p = null;
+ 		try {
+ 			Statement stmt = createStatement();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -103,7 +103,7 @@
+ 		String service = sc.getInitParameter(&quot;service&quot;);
+ 		// Note: the current working directory is the directory from where tomcat was started
+ 		ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(
+-			service, home != null ? home + &quot;/install/client/dm.properties&quot; : &quot;dm.properties&quot;);
++			service, home != null ? home + &quot;/install/config/dm.properties&quot; : &quot;dm.properties&quot;);
+ 		as = ApplicationService.create(this, instance);		// throws DME ### servlet is not properly inited
+ 		cm = as.cm;
+ 		// --- create external connection ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -190,7 +190,7 @@
+ 			return topicTypes;
+ 		} catch (Exception e) {
+ 			throw new DeepaMehtaException(&quot;*** DataConsumerTopic.revealTopicTypes(): &quot; +
+-				&quot;topic types of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;,e);
++				&quot;topic types of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;, e);
+ 		}
+ 	}
+ 
+@@ -259,7 +259,7 @@
+ 			}
+ 		} catch (Exception e) {
+ 			throw new DeepaMehtaException(&quot;*** DataConsumerTopic.revealRelatedTopics():&quot; +
+-				&quot; related topics of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;,e);
++				&quot; related topics of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;, e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -1,7 +1,6 @@
+ package de.deepamehta.topics;
+ 
+ import de.deepamehta.BaseTopic;
+-import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.service.ApplicationService;
+@@ -16,13 +15,14 @@
+ import java.io.IOException;
+ import java.util.*;
+ 
++
++
+ /**
+- * This kernel topic represents a
+- * {@link de.deepamehta.service.CorporateDatasource}.
++ * This kernel topic represents a {@link de.deepamehta.service.CorporateDatasource}.
+  * &lt;P&gt;
+- * A &lt;CODE&gt;DataSourceTopic&lt;/CODE&gt; is associated to its
+- * {@link DataConsumerTopic}s by means of an association of type &lt;CODE&gt;at-association&lt;/CODE&gt;
+- * (direction is from data consumer to datasource).
++ * A &lt;CODE&gt;DataSourceTopic&lt;/CODE&gt; is associated to its {@link DataConsumerTopic}s by
++ * means of an association of type &lt;CODE&gt;at-association&lt;/CODE&gt; (direction is from
++ * data consumer to datasource).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+  * Last functional change: 8.11.2004 (2.0b3)&lt;BR&gt;
+@@ -32,49 +32,57 @@
+  */
+ public class DataSourceTopic extends LiveTopic implements Runnable {
+ 
++
++
+ 	// **************
+ 	// *** Fields ***
+ 	// **************
+ 
++
++
+ 	// Note: the XML path is relative to servers working directory
+ 
+ 	protected String url;
+-
+ 	protected String dbtype;
+-
+ 	protected String elements;
+-
+ 	protected String idleElement;
+ 
+-	protected CorporateDatasource dataSource;
++	protected CorporateDatasource myDataSource;
+ 
+ 	/**
+ 	 * The idle thread.
+ 	 */
+ 	Thread idleThread;
+ 
++
++
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+ 
++
++
+ 	public DataSourceTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
++
++
+ 	// ******************************************************
+ 	// *** Implementation of Interface java.lang.Runnable ***
+ 	// ******************************************************
+ 
++
++
+ 	/**
+ 	 * The body of the idle thread.
+ 	 */
+ 	public void run() {
+ 		while (true) {
+ 			try {
+-				Thread.sleep(5 * 60 * 1000); // interval is 5 min.
+-				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot;
+-						+ idleElement + &quot;\&quot;): &quot;
+-						+ dataSource.getElementCount(idleElement));
++				Thread.sleep(5 * 60 * 1000);	// interval is 5 min.
++				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot; +
++					idleElement + &quot;\&quot;): &quot; + dataSource.getElementCount(idleElement));
+ 			} catch (InterruptedException e) {
+ 				System.out.println(&quot;*** DataSourceTopic.run(): &quot; + e);
+ 			} catch (Exception e) {
+@@ -83,93 +91,84 @@
+ 		}
+ 	}
+ 
++
++
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+ 
++
++
+ 	/**
+-	 * @see DataConsumerTopic#setDataSource
++	 * @see		DataConsumerTopic#setDataSource
+ 	 */
+ 	public String getURL() {
+ 		return url;
+ 	}
+ 
+ 	/**
+-	 * @see DataConsumerTopic#setDataSource
++	 * @see		DataConsumerTopic#setDataSource
+ 	 */
+ 	public CorporateDatasource getDataSource() {
+-		return dataSource;
++		return myDataSource;
+ 	}
+ 
++
++
+ 	// ----------------------
+ 	// --- Defining Hooks ---
+ 	// ----------------------
+ 
++
++
+ 	/**
+ 	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;
+-	 * &lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;
+-	 * &lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;
+-	 * &lt;/TR&gt;
+-	 * &lt;TR&gt;
+-	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;
+-	 * &lt;TD&gt;1&lt;/TD&gt;
+-	 * &lt;/TR&gt;
+-	 * &lt;TR&gt;
+-	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;
+-	 * &lt;TD&gt;variable&lt;/TD&gt;
+-	 * &lt;/TR&gt;
+-	 * &lt;TR&gt;
+-	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;
+-	 * &lt;TD&gt;3&lt;/TD&gt;
+-	 * &lt;/TR&gt;
++	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;&lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;&lt;/TR&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;&lt;TD&gt;1&lt;/TD&gt;&lt;/TR&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;&lt;TD&gt;variable&lt;/TD&gt;&lt;/TR&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;&lt;TD&gt;3&lt;/TD&gt;&lt;/TR&gt;
+ 	 * &lt;/TABLE&gt;
+ 	 */
+ 	public CorporateDirectives init(int initLevel, Session session)
+-			throws TopicInitException {
++															throws TopicInitException {
+ 		CorporateDirectives directives = super.init(initLevel, session);
+ 		//
+ 		if (initLevel == INITLEVEL_1) {
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.init(&quot; + initLevel
+-						+ &quot;): &quot; + this + &quot; -- open corporate datasource&quot;);
++				System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.init(&quot; + initLevel + &quot;): &quot; +
++					this + &quot; -- open corporate datasource&quot;);
+ 			}
+-			openCorporateDatasource(); // throws TopicInitException
++			openCorporateDatasource();		// throws TopicInitException
+ 		}
+ 		//
+ 		return directives;
+ 	}
+ 
+-	public CorporateDirectives propertiesChanged(Hashtable newData,
+-			Hashtable oldData, String topicmapID, String viewmode,
+-			Session session) throws DeepaMehtaException {
++	public CorporateDirectives propertiesChanged(Hashtable newData, Hashtable oldData,
++				String topicmapID, String viewmode, Session session) throws DeepaMehtaException {
+ 		try {
+-			System.out
+-					.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): connection &quot;
+-							+ &quot;parameters changed from &quot;
+-							+ oldData
+-							+ &quot; to &quot;
+-							+ newData + &quot; -- reopen &quot; + &quot;corporate datasource&quot;);
++			System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): connection &quot; +
++				&quot;parameters changed from &quot; + oldData + &quot; to &quot; + newData + &quot; -- reopen &quot; +
++				&quot;corporate datasource&quot;);
+ 			//
+-			CorporateDirectives directives = super.propertiesChanged(newData,
+-					oldData, topicmapID, viewmode, session);
++			CorporateDirectives directives = super.propertiesChanged(newData, oldData,
++				topicmapID, viewmode, session);
+ 			// --- reopen the corporate datasource ---
+-			openCorporateDatasource(); // throws TopicInitException
++			openCorporateDatasource();		// throws TopicInitException
+ 			// --- inform all associated consumers of this datasource ---
+ 			Vector consumerTypes = as.dataConsumerTypes(getID());
+ 			Enumeration e = consumerTypes.elements();
+ 			BaseTopic consumerType;
+ 			Enumeration consumers;
+-			int topicCount; // reporting only
+-			int initCount; // reporting only
++			int topicCount;	// reporting only
++			int initCount;	// reporting only
+ 			String consumerID;
+ 			LiveTopic consumer;
+ 			// loop through all topic types who consumes from this datasource
+ 			while (e.hasMoreElements()) {
+ 				consumerType = (BaseTopic) e.nextElement();
+ 				// get all instances of that type in the current topicmap
+-				consumers = cm.getTopicIDs(consumerType.getID(), topicmapID)
+-						.elements();
++				consumers = cm.getTopicIDs(consumerType.getID(), topicmapID).elements();
+ 				//
+ 				topicCount = 0;
+ 				initCount = 0;
+@@ -184,10 +183,9 @@
+ 						initCount++;
+ 					}
+ 				}
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot;
+-						+ initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot;
+-						+ consumerType.getName() + &quot;\&quot; topics reinitialized&quot;,
+-						new Integer(NOTIFICATION_DEFAULT));
++				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot; +
++					initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot; + consumerType.getName() +
++					&quot;\&quot; topics reinitialized&quot;, new Integer(NOTIFICATION_DEFAULT));
+ 			}
+ 			return directives;
+ 		} catch (TopicInitException e2) {
+@@ -195,13 +193,17 @@
+ 		}
+ 	}
+ 
++
++
+ 	// **********************
+ 	// *** Private Method ***
+ 	// **********************
+ 
++
++
+ 	/**
+-	 * @see #init
+-	 * @see #propertiesChanged
++	 * @see		#init
++	 * @see		#propertiesChanged
+ 	 */
+ 	private void openCorporateDatasource() throws TopicInitException {
+ 		this.url = getProperty(&quot;URL&quot;);
+@@ -220,64 +222,59 @@
+ 		}
+ 		// ### passing text bad
+ 		if (url.startsWith(&quot;xml:&quot;)) {
+-			this.dataSource = createXMLSource(url, elements, text);
+ 			// throws TopicInitException
++			this.myDataSource = createXMLSource(url, elements, text);
+ 		} else if (url.startsWith(&quot;jdbc:&quot;)) {
+-			this.dataSource = createSQLSource(url, dbtype, text);
+ 			// throws TopicInitException
++			this.myDataSource = createSQLSource(url, dbtype, text);
+ 		} else if (url.startsWith(&quot;ldap:&quot;)) {
+-			this.dataSource = createLDAPSource(url, text); 
+ 			// throws TopicInitException
++			this.myDataSource = createLDAPSource(url, text);
+ 		} else {
+-			throw new TopicInitException(
+-					text
+-							+ &quot;(URL has unexpected protocol: \&quot;&quot;
+-							+ url
+-							+ &quot;\&quot;&quot;
+-							+ &quot; &gt;&gt;&gt; expected protocols are \&quot;jdbc:\&quot;, \&quot;xml:\&quot; and \&quot;ldap:\&quot;)&quot;);
++			throw new TopicInitException(text + &quot;(URL has unexpected protocol: \&quot;&quot; +
++				url + &quot;\&quot;&quot; + &quot; &gt;&gt;&gt; expected protocols are \&quot;jdbc:\&quot;, \&quot;xml:\&quot; and \&quot;ldap:\&quot;)&quot;);
+ 		}
+ 	}
+-
++	
+ 	/** @return a new instance of CorporateXMLSource */
+-	private CorporateDatasource createXMLSource(String url, String elements,
+-			String errmsg) throws TopicInitException {
++	private CorporateDatasource createXMLSource(String url, String elements, String errmsg)
++																	throws TopicInitException {
+ 		// Note: the XML path is relative to servers working directory
+ 		String file = url.substring(4);
+ 		// --- open XML datasource ---
+ 		try {
+ 			return new CorporateXMLSource(file, elements);
+ 		} catch (SAXException e) {
+-			throw new TopicInitException(errmsg + &quot;(Syntax error in \&quot;&quot; + file
+-					+ &quot;\&quot;: &quot; + e
+-					+ &quot; &gt;&gt;&gt; Make sure attribute values are enclosed in \&quot;\&quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(Syntax error in \&quot;&quot; + file +
++				&quot;\&quot;: &quot; + e + &quot; &gt;&gt;&gt; Make sure attribute values are enclosed in \&quot;\&quot;)&quot;, e);
+ 		} catch (IOException e) {
+-			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;, e);
+ 		}
+ 	}
+ 
+ 	/**
+-	 * @return a new instance of CorporateSQLSource
++	 * @return	a new instance of CorporateSQLSource
+ 	 */
+-	private CorporateDatasource createSQLSource(String url, String dbtype,
+-			String errmsg) throws TopicInitException {
+-		// --- open SQL datasource ---
++	private CorporateDatasource createSQLSource(String url, String dbtype, String errmsg)
++														throws TopicInitException {
++		//  --- open SQL datasource ---
+ 		try {
+ 			CorporateDatasource source = new CorporateSQLSource(url, dbtype);
+ 			startIdleThread();
+ 			return source;
+ 		} catch (ClassNotFoundException e) {
+-			throw new TopicInitException(errmsg + &quot;(class not found: &quot;
+-					+ e.getMessage() + &quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(class not found: &quot; +
++				e.getMessage() + &quot;)&quot;, e);
+ 		} catch (Exception e) {
+-			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;, e);
+ 		}
+ 	}
+ 
+ 	/**
+-	 * @return a new instance of CorporateLDAPSource
++	 * @return	a new instance of CorporateLDAPSource
+ 	 */
+ 	private CorporateDatasource createLDAPSource(String url, String errmsg)
+-			throws TopicInitException {
++														throws TopicInitException {
+ 		try {
+ 			return new CorporateLDAPSource(url);
+ 		} catch (Throwable e) {
+@@ -286,62 +283,53 @@
+ 	}
+ 
+ 	/**
+-	 * @see #propertiesChanged
++	 * @see		#propertiesChanged
+ 	 */
+ 	private boolean reinitializeDataconsumer(LiveTopic consumer,
+-			CorporateDirectives directives, Session session) {
++								CorporateDirectives directives, Session session) {
+ 		try {
+-			if (consumer instanceof DataConsumerTopic
+-					|| consumer instanceof ElementContainerTopic) {
++			if (consumer instanceof DataConsumerTopic ||
++				consumer instanceof ElementContainerTopic) {
+ 				// reinitialize DataConsumerTopic
+ 				consumer.init(INITLEVEL_2, session);
+ 				return true;
+ 			} else {
+-				String text = &quot;\&quot;&quot;
+-						+ consumer.getName()
+-						+ &quot;\&quot; is neither a &quot;
+-						+ &quot;DataConsumerTopic nor a ElementContainerTopic, but a &quot;
+-						+ consumer.getClass()
+-						+ &quot; -- datasource not reinitialized&quot;;
+-				System.out
+-						.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
+-								+ text);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, text, new Integer(
+-						NOTIFICATION_WARNING));
++				String text = &quot;\&quot;&quot; + consumer.getName() + &quot;\&quot; is neither a &quot; +
++					&quot;DataConsumerTopic nor a ElementContainerTopic, but a &quot; +
++					consumer.getClass() + &quot; -- datasource not reinitialized&quot;;
++				System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
++					text);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, text,
++					new Integer(NOTIFICATION_WARNING));
+ 			}
+ 		} catch (DeepaMehtaException e) {
+-			System.out
+-					.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
+-							+ e.getMessage()
+-							+ &quot; -- datasource of dataconsumer not &quot;
+-							+ &quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(
+-					NOTIFICATION_ERROR));
++			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
++				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
++				&quot;properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
++				new Integer(NOTIFICATION_ERROR));
+ 		} catch (TopicInitException e) {
+-			System.out
+-					.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
+-							+ e.getMessage()
+-							+ &quot; -- datasource of dataconsumer not &quot;
+-							+ &quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(
+-					NOTIFICATION_ERROR));
++			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
++				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
++				&quot;properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
++				new Integer(NOTIFICATION_ERROR));
+ 		}
+ 		return false;
+ 	}
+ 
+ 	/**
+-	 * @see #openCorporateDatasource
++	 * @see		#openCorporateDatasource
+ 	 */
+ 	private void startIdleThread() {
+ 		// error check
+ 		if (idleElement.equals(&quot;&quot;)) {
+-			System.out
+-					.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource \&quot;&quot;
+-							+ getName() + &quot;\&quot;&quot;);
++			System.out.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource \&quot;&quot; +
++				getName() + &quot;\&quot;&quot;);
+ 		}
+ 		//
+ 		if (idleThread == null) {
+-			// ### System.out.print(&quot;&gt; starting idle thread ... &quot;);
++			// ### System.out.print(&quot;&gt;    starting idle thread ... &quot;);
+ 			//
+ 			idleThread = new Thread(this);
+ 			idleThread.start();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -343,7 +343,7 @@
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 			throw new DeepaMehtaException(&quot;*** ElementContainerTopic.revealTopic(): &quot; +
+-				&quot;topic \&quot;&quot; + id + &quot;\&quot; not revealed (&quot; + e + &quot;)&quot;,e);
++				&quot;topic \&quot;&quot; + id + &quot;\&quot; not revealed (&quot; + e + &quot;)&quot;, e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -392,7 +392,9 @@
+ 				encoded.append(&quot;%20&quot;);
+ 			} else if (ch == '?') {
+ 				encoded.append(&quot;%3F&quot;);
+-			} else if (ch == '&#196;') {
++			} else if (ch == '&#195;&#132;') {
++				// ### why ist there a test for &#195;&#132; but none for &#195;&#150;&#195;&#156;&#195;&#164;&#195;&#182;&#195;&#188;&#195;&#159;
++				// should test for any char &gt; 127 and convert to HEX
+ 				encoded.append(&quot;%C4&quot;);
+ 			} else {
+ 				encoded.append(ch);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/SynchronizedQueue.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/SynchronizedQueue.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/SynchronizedQueue.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -1,5 +1,5 @@
+ // PersonalWeb
+-// by J&#154;rg Richter
++// by J&#195;&#182;rg Richter
+ // <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at prz.tu-berlin.de</A>
+ // 
+ // 1.0b1	7.10.96		First release
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2007-09-18 17:07:44 UTC (rev 211)
++++ branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2007-09-18 18:59:29 UTC (rev 212)
+@@ -480,7 +480,8 @@
+ 
+ 
+ 
+-	/**
++	/* ### 
++	/ **
+ 	 * Adds a &quot;Reihenfolge festlegen&quot;/&quot;Reihenfolge &#195;&#164;ndern&quot; command to the specified
+ 	 * (topic) command set.
+ 	 * &lt;P&gt;
+@@ -488,8 +489,8 @@
+ 	 *
+ 	 * @see		KriteriumTopic#contextCommands
+ 	 * @see		BewertungsebeneTopic#contextCommands
+-	 */
+-	/* ### static void addSetOrderCommand(BaseTopic topic, CorporateCommands commands,
++	 * /
++	static void addSetOrderCommand(BaseTopic topic, CorporateCommands commands,
+ 								CorporateDirectives directives, ApplicationService as) {
+ 		try {
+ 			BaseAssociation assoc = as.getAssociation(topic.getID(),
+@@ -575,10 +576,10 @@
+ 	}
+ 
+ 	// ### see KriteriumTopic
+-	// ### public String getSubkriteriumTypeID() {
+-	// ### return kriteriumTypeID;
+-	// ### return TOPICTYPE_BEWERTUNGS_KRITERIUM;
+-	// ### }
++	// public String getSubkriteriumTypeID() {
++	//     return kriteriumTypeID;
++	//     return TOPICTYPE_BEWERTUNGS_KRITERIUM;
++	// }
+ 
+ 	// ---
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000056.html">[deepamehta-svn] r211 - in branches/eschnepel: . develop	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/client	install/config install/db/db-specific	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+	<LI>Next message: <A HREF="000058.html">[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#57">[ date ]</a>
+              <a href="thread.html#57">[ thread ]</a>
+              <a href="subject.html#57">[ subject ]</a>
+              <a href="author.html#57">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

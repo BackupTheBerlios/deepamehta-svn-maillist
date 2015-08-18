@@ -1,0 +1,1174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r347%20-%20in%20trunk%3A%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200809132124.m8DLOhgv028472%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000190.html">
+   <LINK REL="Next"  HREF="000192.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r347%20-%20in%20trunk%3A%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200809132124.m8DLOhgv028472%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Sat Sep 13 23:24:43 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000190.html">[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000192.html">[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#191">[ date ]</a>
+              <a href="thread.html#191">[ thread ]</a>
+              <a href="subject.html#191">[ subject ]</a>
+              <a href="author.html#191">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-13 23:21:55 +0200 (Sat, 13 Sep 2008)
+New Revision: 347
+
+Added:
+   trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+   trunk/install/db/patches/cm-2.19.sql
+Modified:
+   trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+   trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+Log:
+1) Feature Request #4289 (&quot;Email feature: multiple addressing schemas&quot;), aspect b) partially realized: an email can be addressed to all persons of a person search result. Usage: select &quot;Create Recipient List&quot; from the person search's context menu. A recipient list is created with all persons of the search result selected. Select &quot;Compose Email&quot; from the recipient list's context menu. [Pending for institution searches]
+INSTALLATION: when updating apply the patch cm-2.19.sql
+2) Minor framework changes:
+a) new utility method in ApplicationService: LiveTopic createLiveTopic(BaseTopic topic, Session session, CorporateDirectives directives) without &quot;topicmap&quot; parameter.
+b) change in LiveTopic's createChildTopic() utility methods: the child topic is created immediately and is returned. Thus the caller can operate on it.
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -36,6 +36,7 @@
+ import javax.swing.JRadioButton;
+ import javax.swing.JScrollBar;
+ import javax.swing.JScrollPane;
++import javax.swing.JTextPane;
+ import javax.swing.event.DocumentEvent;
+ import javax.swing.event.DocumentListener;
+ import javax.swing.event.HyperlinkEvent;
+@@ -66,6 +67,10 @@
+ 
+ 
+ 
++	// preferences
++	// private static final String REVEAL_ALL_BUTTON_LABEL = &quot;Reveal all&quot;;		// ### not yet functional
++	// private static final String REVEAL_ALL_BUTTON_COMMAND = &quot;revealAll&quot;;		// ### not yet functional
++
+ 	// Accessed by
+ 	//		- PresentationPropertyDefinition.createTextField()
+ 	static final String CMD_TOPIC_DATA_CHANGED_MENU = &quot;topicDataChangedMenu&quot;;
+@@ -262,6 +267,8 @@
+ 	 * &lt;ul&gt;
+ 	 * &lt;li&gt;The value of a &quot;Options Menu&quot; / &quot;Option Button&quot; / &quot;Switch&quot; property has been changed
+ 	 * &lt;li&gt;Return has been pressed in an (single line) input field of the property panel
++	 * &lt;li&gt;A property bound action button has been pressed
++	 * &lt;li&gt;The &quot;Reveal all&quot; button has been pressed
+ 	 * &lt;/ul&gt;
+ 	 */
+ 	public void actionPerformed(ActionEvent e) {
+@@ -1583,6 +1590,7 @@
+ 			} else if (visualization.equals(VISUAL_TEXT_EDITOR)) {
+ 				TextEditorPanel textEditor = (TextEditorPanel) model;
+ 				textEditor.setText(text, baseURL, documentListener);
++				// addRevealAllButton(actionListener);	// ### doesn't work
+ 				// restore scrollbar value
+ 				restoreScrollbarValue();
+ 			} else if (visualization.equals(VISUAL_CHOICE)) {
+@@ -1714,6 +1722,23 @@
+ 			}
+ 		}
+ 
++		/* ### doesn't work
++		void addRevealAllButton(ActionListener actionListener) {
++			if (getName().equals(PROPERTY_RESULT)) {
++				// create &quot;Reveal all&quot; btton
++				JButton button = new JButton(REVEAL_ALL_BUTTON_LABEL);
++				button.setActionCommand(REVEAL_ALL_BUTTON_COMMAND);
++				button.addActionListener(actionListener);
++				// add to text component
++				JTextPane comp = (JTextPane) getTextComponent();
++				boolean editable = comp.isEditable();
++				// comp.setCaretPosition(0);	// ### required?
++				comp.setEditable(true);			// in order to insert a component, the text must be editable
++				comp.insertComponent(button);	// ### doesn't work
++				comp.setEditable(editable);
++			}
++		} */
++
+ 		boolean isHidden() {
+ 			return propertyDef.getHidden();
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -272,6 +272,8 @@
+ 	// --- setText (2 forms) ---
+ 
+ 	/**
++	 * References checked: 12.9.2008 (2.0b8)
++	 *
+ 	 * @see		PresentationDetail#PresentationDetail
+ 	 */
+ 	void setText(String text) {
+@@ -282,6 +284,8 @@
+ 	 * Note: if called by PropertyPanel the PropertyPanel is the document listener, and if called
+ 	 * by PresentationDetail this TextEditorPanel itself is the document listener.
+ 	 *
++	 * References checked: 12.9.2008 (2.0b8)
++	 *
+ 	 * @param	baseURL				may be &lt;code&gt;null&lt;/code&gt;
+ 	 * @param	documentListener	the document listener notified about text changes.
+ 	 *
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -476,28 +476,31 @@
+ 		return directives;
+ 	}
+ 
+-	// 4 Utility wrappers for createLiveTopic() above
++	// 5 Utility wrappers for createLiveTopic() above
+ 
+ 	public LiveTopic createLiveTopic(String topicID, String typeID, String name, Session session) {
+ 		// ### directives are ignored ### must not null
+-		return createLiveTopic(topicID, typeID, name, null, null, session, new CorporateDirectives());
++		return createLiveTopic(topicID, typeID, name, null, null, session, new CorporateDirectives());	// topicmapID=null, viewmode=null
+ 	}
+ 
++	public LiveTopic createLiveTopic(BaseTopic topic, Session session, CorporateDirectives directives) {
++		return createLiveTopic(topic, null, null, session, directives);		// topicmapID=null, viewmode=null
++	}
++
+ 	/**
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#searchByTopicType
+ 	 */
+ 	public LiveTopic createLiveTopic(BaseTopic topic, String topicmapID, String viewmode,
+-											Session session, CorporateDirectives directives) {
+-		return createLiveTopic(topic.getID(), topic.getType(), topic.getName(),
+-			topicmapID, viewmode, session, directives);
++																			Session session, CorporateDirectives directives) {
++		return createLiveTopic(topic.getID(), topic.getType(), topic.getName(), topicmapID, viewmode, session, directives);
+ 	}
+ 
+ 	/**
+ 	 * @see		#changeTopicType
+ 	 * @see		de.deepamehta.topics.TopicTypeTopic#createContainerType
+ 	 */
+-	public LiveTopic createLiveTopic(String topicID, String typeID, String name, String topicmapID,
+-											String viewmode, Session session, CorporateDirectives directives) {
++	public LiveTopic createLiveTopic(String topicID, String typeID, String name, String topicmapID, String viewmode,
++																			Session session, CorporateDirectives directives) {
+ 		return createLiveTopic(topicID, typeID, name, true, true, topicmapID, viewmode, session, directives);
+ 		// override=true, evoke=true
+ 	}
+@@ -555,10 +558,13 @@
+ 	// ---
+ 
+ 	/**
+-	 * Returns the directives to create and show a new topic.
++	 * Builds the directives to create and show a topic at a given coordinate.
++	 * &lt;p&gt;
++	 * Called to handle the &lt;code&gt;CMD_CREATE_TOPIC&lt;/code&gt; command.&lt;br&gt;
++	 * Can also be called by custom applications.
++	 * &lt;p&gt;
++	 * References checked: 13.9.2008 (2.0b8)
+ 	 *
+-	 * References checked: 23.4.2004 (2.0b3-pre2)
+-	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#createTopic
+ 	 */
+ 	public CorporateDirectives createTopic(String topicID, String typeID, int x, int y, String topicmapID,
+@@ -566,18 +572,18 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		PresentableTopic topic = new PresentableTopic(topicID, 1, typeID, 1, &quot;&quot;, new Point(x, y));	// name=&quot;&quot;
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.TRUE);									// evoke=TRUE
+-		// ### tiggerAddedToTopicmap(topicmapID, topic, directives);	// ### not used
+ 		//
+ 		return directives;
+ 	}
+ 
+ 	/**
+-	 * Handles the command &lt;code&gt;CMD_CREATE_ASSOC&lt;/code&gt;.
++	 * Builds the directives to create and show an association.
+ 	 * &lt;p&gt;
+-	 * Returns the directives to create and show a new association.
++	 * Called to handle the &lt;code&gt;CMD_CREATE_ASSOC&lt;/code&gt; command.&lt;br&gt;
++	 * Can also be called by custom applications.
++	 * &lt;p&gt;
++	 * References checked: 13.9.2008 (2.0b8)
+ 	 *
+-	 * References checked: 28.5.2006 (2.0b6-post3)
+-	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#executeCommand
+ 	 */
+ 	public CorporateDirectives createAssociation(String typeID, String topicID1, String topicID2, Session session) {
+@@ -1033,12 +1039,17 @@
+ 			}
+ 		}
+ 		// result
+-		containerProps.put(PROPERTY_RESULT, buildResultView(topicCount, topics));
++		containerProps.put(PROPERTY_RESULT, renderResultList(topicCount, topics));
+ 		//
+ 		return containerProps;
+ 	}
+ 
+-	private String buildResultView(int topicCount, Vector topics) {
++	/**
++	 * References checked: 12.9.2008 (2.0b8)
++	 *
++	 * @see		#buildContainerProperties
++	 */
++	private String renderResultList(int topicCount, Vector topics) {
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;body&gt;&quot;);
+ 		if (topicCount &lt;= MAX_LISTING) {
+ 			Enumeration e = topics.elements();
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -718,7 +718,7 @@
+ 		}
+ 		//
+ 		as.createLiveTopic(topicID, topic.getType(), topic.getName(), false, evoke,
+-			topicmapID, VIEWMODE_USE, session, this);		// override=false
++			topicmapID, VIEWMODE_USE, session, this);		// override=false	### call only if evoke=true?
+ 		//
+ 		as.initTopicLock(topic);
+ 		// --- set topic appearance ---
+
+Modified: trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -16,80 +16,81 @@
+ import java.util.Hashtable;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
++import java.util.logging.Logger;
+ 
+ 
+ 
+ /**
+- * ### A &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is an active topic that acts as a container for other
++ * ### A &lt;code&gt;ContainerTopic&lt;/code&gt; is an active topic that acts as a container for other
+  * topics. All topics contained in a container have the same topic type. The topics
+  * contained in a container are represented by means of a query that
+- * is associated with that container. The property editor of a &lt;CODE&gt;ContainerTopic&lt;/CODE&gt;
++ * is associated with that container. The property editor of a &lt;code&gt;ContainerTopic&lt;/code&gt;
+  * serves as input form by which the user can filter the topics contained in the
+  * container. The empty query represents the &quot;null&quot; filter and retrieves all contained
+  * topics.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The query associated with a container is immutable, that is, once the
+- * &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is initialized, its associated query will never change.
+- * &lt;P&gt;
++ * &lt;code&gt;ContainerTopic&lt;/code&gt; is initialized, its associated query will never change.
++ * &lt;p&gt;
+  * The user can narrow the query by filling in additional properties. If the resulting
+  * set of topics is still too big to be viualized, the container will create (and
+  * aggregate) another (sub)container.
+  *
+- * &lt;H4&gt;Active behavoir&lt;/H4&gt;
++ * &lt;h4&gt;Active behavoir&lt;/h4&gt;
+  *
+- * The active &lt;I&gt;initialization&lt;/I&gt; behavoir of a &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is
++ * The active &lt;I&gt;initialization&lt;/I&gt; behavoir of a &lt;code&gt;ContainerTopic&lt;/code&gt; is
+  * setting the associated query.
+- * &lt;P&gt;
+- * The active &lt;I&gt;labeling&lt;/I&gt; behavoir of a &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is
++ * &lt;p&gt;
++ * The active &lt;I&gt;labeling&lt;/I&gt; behavoir of a &lt;code&gt;ContainerTopic&lt;/code&gt; is
+  * showing the number of elements contained in the container.
+- * &lt;P&gt;
+- * The active &lt;I&gt;property disabling&lt;/I&gt; behavoir of a &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is
++ * &lt;p&gt;
++ * The active &lt;I&gt;property disabling&lt;/I&gt; behavoir of a &lt;code&gt;ContainerTopic&lt;/code&gt; is
+  * disabling all properties that are involved in the associated query -- this way the
+  * user is prevented to change the associated query, only narrowing is possible.
+  *
+- * &lt;H4&gt;Note to application programmers&lt;/H4&gt;
++ * &lt;h4&gt;Note to application programmers&lt;/h4&gt;
+  *
+- * &lt;CODE&gt;ContainerTopic&lt;/CODE&gt; is an abstract class -- it provides the behavoir described
++ * &lt;code&gt;ContainerTopic&lt;/code&gt; is an abstract class -- it provides the behavoir described
+  * above without &quot;knowing&quot; the origin of the contained topics. Actually there are two
+- * subclasses of &lt;CODE&gt;ContainerTopic&lt;/CODE&gt;:
++ * subclasses of &lt;code&gt;ContainerTopic&lt;/code&gt;:
+  *
+- * &lt;OL&gt;
+- * &lt;LI&gt;&lt;CODE&gt;TopicContainerTopic&lt;/CODE&gt;
+- * &lt;P&gt;
++ * &lt;ol&gt;
++ * &lt;li&gt;&lt;code&gt;TopicContainerTopic&lt;/code&gt;
++ * &lt;p&gt;
+  * A {@link TopicContainerTopic} represents a set of topics of a specific topic type
+  * existing in corporate memory.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * For every topic type the user creates interactively, the corresponding type that
+  * represents the container for the new topic type, is created automatically as a subclass
+- * of &lt;CODE&gt;TopicContainerTopic&lt;/CODE&gt; (this is active behavoir of a
++ * of &lt;code&gt;TopicContainerTopic&lt;/code&gt; (this is active behavoir of a
+  * {@link TopicTypeTopic}).
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * An application programmer usually will not derive an active topic from
+- * &lt;CODE&gt;TopicContainerTopic&lt;/CODE&gt;.
+- * &lt;P&gt;
+- * &lt;LI&gt;&lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt;
+- * &lt;P&gt;
++ * &lt;code&gt;TopicContainerTopic&lt;/code&gt;.
++ * &lt;p&gt;
++ * &lt;li&gt;&lt;code&gt;ElementContainerTopic&lt;/code&gt;
++ * &lt;p&gt;
+  * An {@link ElementContainerTopic} represents a set of elements of a specific type
+  * existing in a {@link de.deepamehta.service.CorporateDatasource}.
+- * An &lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt; provides the behavoir of creating topics in
++ * An &lt;code&gt;ElementContainerTopic&lt;/code&gt; provides the behavoir of creating topics in
+  * corporate memory based upon elements of a corporate datasource. The elements attributes
+  * are replicated in form of topic properties.
+- * &lt;P&gt;
+- * For the time being to use an &lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt; the application
+- * programmer is required to subclass &lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt; in order to
++ * &lt;p&gt;
++ * For the time being to use an &lt;code&gt;ElementContainerTopic&lt;/code&gt; the application
++ * programmer is required to subclass &lt;code&gt;ElementContainerTopic&lt;/code&gt; in order to
+  * specify the element access, topic creation and attribute replication.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * E.g. the {@link de.deepamehta.movies.topics.MovieContainerTopic} specifies the topic types used for created
+  * topics and containers as well as the attribute used for the name of created topics.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * In the future the user resp. administrator will be able to provide these essential
+  * information directly in &quot;Design&quot;-mode without needing deploying an application
+  * programmer.
+- * &lt;/OL&gt;
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last change: 7.8.2008 (2.0b8)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;/ol&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public abstract class ContainerTopic extends LiveTopic {
+@@ -102,33 +103,35 @@
+ 
+ 
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	/**
+ 	 * Part of the query represented by this container: the property filter.
+ 	 * &lt;p&gt;
+ 	 * The containers query is immutable -- once set it will not change over the lifetime
+ 	 * of the container.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The containers query is determined by both, the (visible) containers properties
+ 	 * and the (hidden) &quot;QueryElements&quot; property. The visible properties stores the last
+ 	 * query that was submitted to this container. The hidden &quot;QueryElements&quot; property
+ 	 * containes a space or comma separated list of the property names involved in the
+ 	 * containers query.
+-	 * &lt;P&gt;
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Set once by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #initContainer}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Accessed by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #equalsQuery}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #executeCommand}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link ElementContainerTopic#getContent}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link ElementContainerTopic#autoSearch}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;/TABLE&gt;
++	 * &lt;p&gt;
++	 * &lt;table&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Set once by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #initContainer}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Accessed by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #equalsQuery}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #executeCommand}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link ElementContainerTopic#getContent}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link ElementContainerTopic#autoSearch}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;/table&gt;
+ 	 */
+ 	protected Hashtable containerPropertyFilter = new Hashtable();
+ 
+ 	/**
+ 	 * Part of the query represented by this container: the name filter.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: Remains uninitialized if no name filter is set for this container
+ 	 */
+ 	protected String containerNameFilter;
+@@ -137,8 +140,8 @@
+ 	 * Part of the query represented by this container: the relation filter.
+ 	 * &lt;p&gt;
+ 	 * The topic to which an association must exists to the the topics of this container.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #initContainer}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #initContainer}.&lt;br&gt;
+ 	 * Note: Remains uninitialized if no relation filter is set for this container
+ 	 */
+ 	protected BaseTopic containerRelatedTopic;
+@@ -152,10 +155,10 @@
+ 
+ 	/**
+ 	 * The names of the properties involved in the query represented by this container.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The property names are determined by the value of this containers &quot;QueryElements&quot; property.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #initContainer}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #initContainer}.&lt;br&gt;
+ 	 * Accessed by {@link #disabledProperties}
+ 	 */
+ 	protected Vector disabledProperties;
+@@ -192,33 +195,17 @@
+ 		if (initLevel == INITLEVEL_1) {
+ 			initContainer(session, directives);
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt;&gt;&gt; ContainerTopic.init(&quot; + initLevel + &quot;): &quot; + this +
+-					&quot; -- name filter: \&quot;&quot; + containerNameFilter + &quot;\&quot; property filer: &quot; +
+-					containerPropertyFilter + &quot; disabled properties: &quot; +
+-					disabledProperties + &quot; related topic: &quot; + containerRelatedTopic);
++				logger.info(&quot;init level &quot; + initLevel + &quot;: &quot; + this + &quot; -- name filter: \&quot;&quot; + containerNameFilter +
++					&quot;\&quot; property filer: &quot; + containerPropertyFilter + &quot; disabled properties: &quot; + disabledProperties +
++					&quot; related topic: &quot; + containerRelatedTopic);
+ 			}
+ 		}
+ 		//
+ 		return directives;
+ 	}
+ 
+-	/* ### public CorporateDirectives evoke(Session session, String topicmapID,
+-																String viewmode) {
+-		return super.evoke(session, topicmapID, viewmode);
+-		// ### the plural typename of a topic type is not known in evoke().
+-		// ### the plural typename of a topic type is initialized at level 3 but
+-		// ### only level 1 has been performed _before_ evoke() is called.
+-		//
+-		// ### the version number is set to 1
+-		TopicTypeTopic type = (TopicTypeTopic) as.getLiveTopic(getContentTypeID(), 1);
+-		CorporateDirectives directives = new CorporateDirectives();
+-		directives.add(DIRECTIVE_SET_TOPIC_NAME, getID(), type.getPluralName(),
+-			new Integer(1));
+-		return directives;
+-	} */
+ 
+ 
+-
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+@@ -288,8 +275,7 @@
+ 			String url = st.nextToken();
+ 			String urlPrefix = &quot;<A HREF="http://">http://</A>&quot;;
+ 			if (!url.startsWith(urlPrefix)) {
+-				System.out.println(&quot;*** ContainerTopic.executeCommand(): URL \&quot;&quot; + url + &quot;\&quot; not recognized by &quot; +
+-					&quot;CMD_FOLLOW_HYPERLINK&quot;);
++				logger.warning(&quot;url \&quot;&quot; + url + &quot;\&quot; not recognized by CMD_FOLLOW_HYPERLINK&quot;);
+ 				return directives;
+ 			}
+ 			String action = url.substring(urlPrefix.length());
+@@ -392,7 +378,7 @@
+ 
+ 
+ 	/**
+-	 * Triggers this search.
++	 * Triggers this search and builds the directives to show the result.
+ 	 * &lt;p&gt;
+ 	 * References checked: 6.8.2008 (2.0b8)
+ 	 *
+@@ -404,13 +390,12 @@
+ 	}
+ 
+ 	/**
+-	 * @return	&lt;CODE&gt;true&lt;/CODE&gt; if the specified query is the same as represented by
+-	 *			this container, &lt;CODE&gt;false&lt;/CODE&gt; otherwise.
++	 * @return	&lt;code&gt;true&lt;/code&gt; if the specified query is the same as represented by
++	 *			this container, &lt;code&gt;false&lt;/code&gt; otherwise.
+ 	 *
+ 	 * @see		ApplicationService#createNewContainer
+ 	 */
+-	public boolean equalsQuery(String nameFilter, Hashtable propertyFilter, String relatedTopicID,
+-																			String relTopicSemantic) {
++	public boolean equalsQuery(String nameFilter, Hashtable propertyFilter, String relatedTopicID, String relTopicSemantic) {
+ 		return (nameFilter == null || nameFilter.equals(containerNameFilter)) &amp;&amp;
+ 			(containerRelatedTopic == null || containerRelatedTopic.getID().equals(relatedTopicID)) &amp;&amp;
+ 			(relatedTopicSemantic == null || relatedTopicSemantic.equals(relTopicSemantic)) &amp;&amp;
+@@ -439,11 +424,10 @@
+ 	protected abstract String getContentTypeID();
+ 
+ 	/**
+-	 * Returns a list of all topics contained in this container. ### to be dropped
++	 * Triggers this search and returns the result.
+ 	 * 
+-	 * @return	all topics of this container as vector of 2-element &lt;CODE&gt;String&lt;/CODE&gt;
+-	 *			arrays:&lt;BR&gt;
+-	 *			element 1: ID&lt;BR&gt;
++	 * @return	the result set as vector of 2-element &lt;code&gt;String&lt;/code&gt; arrays:&lt;br&gt;
++	 *			element 1: ID&lt;br&gt;
+ 	 *			element 2: topic name
+ 	 *
+ 	 * @see		#contextCommands
+@@ -493,15 +477,15 @@
+ 
+ 	/**
+ 	 * ### Transforms container properties into a raw query.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### A raw query contains all properties involved in the actual query.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### Active topics have the opportunity to modify the properties before
+ 	 * the topics are retrieved from the source.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### This is done by removing the properties for internal use
+-	 * (&lt;CODE&gt;QueryElements&lt;/CODE&gt;, &lt;CODE&gt;ElementCount&lt;/CODE&gt;,
+-	 * &lt;CODE&gt;RelatedTopicID&lt;/CODE&gt;, &lt;CODE&gt;Topic Name&lt;/CODE&gt;)
++	 * (&lt;code&gt;QueryElements&lt;/code&gt;, &lt;code&gt;ElementCount&lt;/code&gt;,
++	 * &lt;code&gt;RelatedTopicID&lt;/code&gt;, &lt;code&gt;Topic Name&lt;/code&gt;)
+ 	 * as well as empty properties.
+ 	 *
+ 	 * @see		#executeCommand
+@@ -560,7 +544,6 @@
+ 		try {
+ 			String relTopicID = getProperty(PROPERTY_RELATED_TOPIC_ID);
+ 			if (!relTopicID.equals(&quot;&quot;)) {
+-				// ### topic must be loaded
+ 				this.containerRelatedTopic = as.getLiveTopic(relTopicID, 1, session, directives);
+ 				String relTopicSemantic = getProperty(PROPERTY_RELATED_TOPIC_SEMANTIC);
+ 				if (!relTopicSemantic.equals(&quot;&quot;)) {
+@@ -570,8 +553,6 @@
+ 		} catch (DeepaMehtaException e) {
+ 			String msg = &quot;Container &quot; + this + &quot; is obsolete&quot;;
+ 			throw new TopicInitException(msg);
+-			// ### directives.add(DIRECTIVE_SHOW_MESSAGE, msg, new Integer(NOTIFICATION_WARNING));
+-			// ### System.out.println(&quot;*** ContainerTopic.initContainer(): &quot; + msg);
+ 		}
+ 		// --- containerPropertyFilter, containerNameFilter ---
+ 		Enumeration propNames = disabledProperties.elements();
+@@ -587,11 +568,10 @@
+ 				if (propValue != null) {
+ 					this.containerPropertyFilter.put(propName, propValue);
+ 				} else {
+-					System.out.println(&quot;*** ContainerTopic.initContainer(): &quot; + this + &quot;: search property \&quot;&quot; +
+-						propName + &quot;\&quot; has no value -- the property filter will not work properly&quot;);
++					logger.warning(this + &quot;: search property \&quot;&quot; + propName +
++						&quot;\&quot; has no value -- the property filter will not work properly&quot;);
+ 					directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Search property \&quot;&quot; + propName + &quot;\&quot; of &quot; + this +
+-						&quot; has no value -- the property filter will not work properly&quot;,
+-						new Integer(NOTIFICATION_WARNING));
++						&quot; has no value -- the property filter will not work properly&quot;, new Integer(NOTIFICATION_WARNING));
+ 				}
+ 			}
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -50,7 +50,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -1299,19 +1299,20 @@
+ 	/**
+ 	 * Creates a child topic directly in corporate memory ### must create live topic instead (evoke())
+ 	 */
+-	public final void createChildTopic(String typeID, String semantic) {
++	public final String createChildTopic(String typeID, String semantic) {
+ 		String childID = as.getNewTopicID();
+ 		String assocID = as.getNewAssociationID();
+ 		cm.createTopic(childID, 1, typeID, 1, &quot;&quot;);
+ 		cm.createAssociation(assocID, 1, semantic, 1, getID(), 1, childID, 1);
++		return childID;
+ 	}
+ 
+-	public final void createChildTopic(String typeID, String semantic, Session session, CorporateDirectives directives) {
+-		createChildTopic(typeID, semantic, false, session, directives);
++	public final LiveTopic createChildTopic(String typeID, String semantic, Session session, CorporateDirectives directives) {
++		return createChildTopic(typeID, semantic, false, session, directives);
+ 	}
+ 
+ 	/**
+-	 * Extends the specified directives to create a new child topic to this topic. Creating a child
++	 * Builds the directives to create a new child topic to this topic. Creating a child
+ 	 * topic consists of 4 steps:
+ 	 * &lt;ol&gt;
+ 	 * &lt;li&gt;Create a new topic of the specified type and reveal it in the near of this topic
+@@ -1325,7 +1326,7 @@
+ 	 * @see		TypeTopic#executeCommand
+ 	 * @see		PropertyTopic#executeCommand
+ 	 */
+-	public final void createChildTopic(String typeID, String semantic, boolean reverseAssocDir,
++	public final LiveTopic createChildTopic(String typeID, String semantic, boolean reverseAssocDir,
+ 																	Session session, CorporateDirectives directives) {
+ 		String childID = as.getNewTopicID();
+ 		//
+@@ -1340,18 +1341,23 @@
+ 		//
+ 		PresentableTopic child = new PresentableTopic(childID, 1, typeID, 1, &quot;&quot;, getID(), &quot;&quot;);
+ 		PresentableAssociation assoc = as.createPresentableAssociation(semantic, topicID1, getVersion(), topicID2, 1, false);
+-		// Note: the association must be created directly in corporate memory, to let childs evoke() logic rely on the association
++		// Note: the association must be created directly in corporate memory, to let childs evoke() logic operate on it
+ 		cm.createAssociation(assoc.getID(), 1, semantic, 1, topicID1, 1, topicID2, 1);
+ 		cm.setAssociationData(assoc.getID(), 1, PROPERTY_OWNER_ID, session.getUserID());
++		// Note: the child topic must be created now, to let the caller operate on it
++		LiveTopic topic = as.createLiveTopic(child, session, directives);
++		as.setTopicProperty(child, PROPERTY_OWNER_ID, session.getUserID());
+ 		//
+-		directives.add(DIRECTIVE_SHOW_TOPIC, child, Boolean.TRUE);
++		directives.add(DIRECTIVE_SHOW_TOPIC, child       /* ###, Boolean.TRUE */);
+ 		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc /* ###, Boolean.TRUE */);
+ 		directives.add(DIRECTIVE_SELECT_TOPIC, childID);
+ 		//
+ 		rename(childID, typeID, &quot;&quot;, session, directives);	// ### default action is hardcoded
++		//
++		return topic;
+ 	}
+ 
+-	// --- revelTopic (2 forms) ---
++	// --- revealTopic (2 forms) ---
+ 
+ 	/**
+ 	 * Extends the specified directives to perform this task: Create an association to the specified existing
+
+Added: trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -0,0 +1,115 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateCommands;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Vector;
++
++
++
++/**
++ * A person search.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class PersonSearchTopic extends TopicContainerTopic {
++
++
++
++	// *************
++	// *** Field ***
++	// *************
++
++
++
++	// commands
++	private static final String ITEM_CREATE_RECIPIENT_LIST = &quot;Create Recipient List&quot;;
++	private static final String CMD_CREATE_RECIPIENT_LIST = &quot;createRecipientList&quot;;
++	private static final String ICON_CREATE_RECIPIENT_LIST = &quot;authentificationsource.gif&quot;;
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	public PersonSearchTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++
++
++	// **********************
++	// *** Defining Hooks ***
++	// **********************
++
++
++
++	// --------------------------
++	// --- Providing Commands ---
++	// --------------------------
++
++
++
++	public CorporateCommands contextCommands(String topicmapID, String viewmode,
++									Session session, CorporateDirectives directives) {
++		CorporateCommands commands = new CorporateCommands(as);
++		//
++		commands.addCommand(ITEM_CREATE_RECIPIENT_LIST, CMD_CREATE_RECIPIENT_LIST,
++			FILESERVER_ICONS_PATH, ICON_CREATE_RECIPIENT_LIST);
++		commands.addSeparator();
++		commands.add(super.contextCommands(topicmapID, viewmode, session, directives));
++		//
++		return commands;
++	}
++
++
++
++	// --------------------------
++	// --- Executing Commands ---
++	// --------------------------
++
++
++
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = new CorporateDirectives();
++		if (command.equals(CMD_CREATE_RECIPIENT_LIST)) {
++			createRecipientList(session, directives);
++		} else {
++			return super.executeCommand(command, session, topicmapID, viewmode);
++		}
++		return directives;
++	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	private void createRecipientList(Session session, CorporateDirectives directives) {
++		RecipientListTopic recipientList = (RecipientListTopic) createChildTopic(TOPICTYPE_RECIPIENT_LIST,
++			SEMANTIC_CONTAINER_HIERARCHY, session, directives);
++		//
++		Enumeration e = getContent().elements();
++		while (e.hasMoreElements()) {
++			String personID = ((String[]) e.nextElement())[0];
++			recipientList.selectRecipient(personID, directives, false);		// updateView=false
++		}
++		//
++		recipientList.updateView(directives);
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -15,19 +15,25 @@
+ 
+ 
+ /**
+- * Last functional change: 20.4.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;br&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class PersonTopic extends LiveTopic {
+ 
+ 
+ 
+-	private static final String ITEM_SEND_TO_PERSON = &quot;Compose Email&quot;;
+-	private static final String ICON_SEND_TO_PERSON = &quot;composeEmail.gif&quot;;
+-	private static final String CMD_SEND_TO_PERSON = &quot;createNewMail&quot;;
++	// *****************
++	// *** Constants ***
++	// *****************
+ 
++
++
++	// commands ### copy in RecipientListTopic
++	private static final String ITEM_COMPOSE_EMAIL = &quot;Compose Email&quot;;
++	private static final String ICON_COMPOSE_EMAIL = &quot;composeEmail.gif&quot;;
++	private static final String CMD_COMPOSE_EMAIL = &quot;composeEmail&quot;;
++
+ 	private static final String ITEM_MAKE_APPOINTMENT = &quot;Make Appointment&quot;;
+ 	private static final String ICON_MAKE_APPOINTMENT = &quot;make-appointment.gif&quot;;
+ 	private static final String CMD_MAKE_APPOINTMENT = &quot;makeAppointment&quot;;
+@@ -66,7 +72,7 @@
+ 		//
+ 		// custom commands
+ 		commands.addSeparator();
+-		commands.addCommand(ITEM_SEND_TO_PERSON, CMD_SEND_TO_PERSON, FILESERVER_IMAGES_PATH, ICON_SEND_TO_PERSON);
++		commands.addCommand(ITEM_COMPOSE_EMAIL, CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL);
+ 		commands.addCommand(ITEM_MAKE_APPOINTMENT, CMD_MAKE_APPOINTMENT, FILESERVER_IMAGES_PATH, ICON_MAKE_APPOINTMENT);
+ 		//
+ 		// standard commands
+@@ -84,27 +90,16 @@
+ 
+ 
+ 	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+-		if (command.equals(CMD_SEND_TO_PERSON)) {
++		if (command.equals(CMD_COMPOSE_EMAIL)) {
+ 			CorporateDirectives directives = new CorporateDirectives();
+-			//
+-			String emailID = as.getNewTopicID();
+-			String personID = getID();
+-			PresentableTopic email = new PresentableTopic(emailID, 1, TOPICTYPE_EMAIL, 1, &quot;&quot;, personID);
++			LiveTopic email = createChildTopic(TOPICTYPE_EMAIL, SEMANTIC_EMAIL_RECIPIENT, true, session, directives);	// reverseAssocDir=true
+ 			// set recipient address
+-			String emailAdress = as.getEmailAddress(personID);
+-			if (emailAdress != null) {
++			String emailAddress = as.getEmailAddress(getID());
++			if (emailAddress != null) {
+ 				Hashtable props = new Hashtable();
+-				props.put(PROPERTY_TO, emailAdress);
+-				email.setProperties(props);
++				props.put(PROPERTY_TO, emailAddress);
++				directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, email.getID(), props, new Integer(1));
+ 			}
+-			//
+-			String assocID = as.getNewAssociationID();
+-			PresentableAssociation assoc = new PresentableAssociation(assocID, 1, ASSOCTYPE_RECIPIENT, 1, &quot;&quot;,
+-																	  emailID, 1, personID, 1 );
+-			directives.add(DIRECTIVE_SHOW_TOPIC, email, Boolean.TRUE);
+-			directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
+-			directives.add(DIRECTIVE_SELECT_TOPIC, emailID);
+-			//
+ 			return directives;
+ 		} else if (command.equals(CMD_MAKE_APPOINTMENT)) {
+ 			CorporateDirectives directives = new CorporateDirectives();
+
+Modified: trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -2,6 +2,7 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ 
+@@ -17,7 +18,7 @@
+  * A list of email recipients.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 6.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -38,6 +39,11 @@
+ 	private static final String IMAGE_CHECKBOX_SELECTED = &quot;checkbox-selected.png&quot;;
+ 	private static final String IMAGE_CHECKBOX_DISABLED = &quot;checkbox-disabled.png&quot;;
+ 
++	// commands ### copy in PersonTopic
++	private static final String ITEM_COMPOSE_EMAIL = &quot;Compose Email&quot;;
++	private static final String ICON_COMPOSE_EMAIL = &quot;composeEmail.gif&quot;;
++	private static final String CMD_COMPOSE_EMAIL = &quot;composeEmail&quot;;
++
+ 	// actions
+ 	private static final String ACTION_SELECT_RECIPIENT = &quot;selectRecipient&quot;;
+ 
+@@ -78,6 +84,30 @@
+ 
+ 
+ 	// --------------------------
++	// --- Providing Commands ---
++	// --------------------------
++
++
++
++	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session, CorporateDirectives directives) {
++		CorporateCommands commands = new CorporateCommands(as);
++		// navigation commands
++		int editorContext = as.editorContext(topicmapID);
++		commands.addNavigationCommands(this, editorContext, session);
++		//
++		// custom commands
++		commands.addSeparator();
++		commands.addCommand(ITEM_COMPOSE_EMAIL, CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL);
++		//
++		// standard commands
++		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
++		//
++		return commands;
++	}
++
++
++
++	// --------------------------
+ 	// --- Executing Commands ---
+ 	// --------------------------
+ 
+@@ -89,7 +119,9 @@
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+-		if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
++		if (cmd.equals(CMD_COMPOSE_EMAIL)) {
++			createChildTopic(TOPICTYPE_EMAIL, SEMANTIC_EMAIL_RECIPIENT, true, session, directives);	// reverseAssocDir=true
++		} else if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
+ 			String url = st.nextToken();
+ 			String urlPrefix = &quot;<A HREF="http://">http://</A>&quot;;
+ 			if (!url.startsWith(urlPrefix)) {
+@@ -99,7 +131,7 @@
+ 			String action = url.substring(urlPrefix.length());
+ 			if (action.startsWith(ACTION_SELECT_RECIPIENT)) {
+ 				String topicID = action.substring(ACTION_SELECT_RECIPIENT.length() + 1);	// +1 to skip /
+-				selectRecipient(topicID, directives);
++				selectRecipient(topicID, directives, true);		// updateView=true
+ 			} else {
+ 				// delegate to super class to handle ACTION_REVEAL_TOPIC
+ 				return super.executeCommand(command, session, topicmapID, viewmode);
+@@ -127,7 +159,6 @@
+ 
+ 	public static Vector hiddenProperties(TypeTopic type) {
+ 		Vector props = new Vector();
+-		props.addElement(PROPERTY_NAME);
+ 		props.addElement(PROPERTY_ICON);
+ 		return props;
+ 	}
+@@ -146,12 +177,27 @@
+ 
+ 	// ---
+ 
+-	private void selectRecipient(String recipientID, CorporateDirectives directives) {
++	/**
++	 * References checked: 13.9.2008 (2.0b8)
++	 *
++	 * @see		#executeCommand
++	 * @see		PersonSearchTopic#createRecipientList
++	 */
++	void selectRecipient(String recipientID, CorporateDirectives directives, boolean updateView) {
+ 		as.toggleAssociation(getID(), recipientID, SEMANTIC_SELECTED_RECIPIENT);
+-		updateView(directives);
++		if (updateView) {
++			updateView(directives);
++		}
+ 	}
+ 
+-	private void updateView(CorporateDirectives directives) {
++	/**
++	 * References checked: 13.9.2008 (2.0b8)
++	 *
++	 * @see		#evoke
++	 * @see		#selectRecipient
++	 * @see		PersonSearchTopic#createRecipientList
++	 */
++	void updateView(CorporateDirectives directives) {
+ 		String html = renderRecipientList();
+ 		//
+ 		Hashtable props = new Hashtable();
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-13 21:21:55 UTC (rev 347)
+@@ -10,16 +10,17 @@
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+ import java.util.Vector;
++import java.util.logging.Logger;
+ 
+ 
+ 
+ /**
+  * A container representing a set topics existing in
+  * {@link de.deepamehta.service.CorporateMemory corporate memory}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last change: 7.8.2008 (2.0b8)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class TopicContainerTopic extends ContainerTopic {
+@@ -32,9 +33,11 @@
+ 
+ 
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	/**
+ 	 * The type of the contained topics in form of a type topic (type
+-	 * &lt;CODE&gt;tt-topictype&lt;/CODE&gt;).
++	 * &lt;code&gt;tt-topictype&lt;/code&gt;).
+ 	 */
+ 	private BaseTopic contentType;
+ 
+@@ -64,14 +67,12 @@
+ 
+ 
+ 
+-	public CorporateDirectives init(int initLevel, Session session)
+-															throws TopicInitException {
++	public CorporateDirectives init(int initLevel, Session session) throws TopicInitException {
+ 		// Note: the content type is set at level 2 (after evocation) because ###
+ 		if (initLevel == INITLEVEL_2) {
+ 			setContainerType();
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt; TopicContainerTopic.init(&quot; + initLevel + &quot;): &quot; +
+-					this + &quot; -- content type is &quot; + contentType);
++				logger.info(&quot;init level &quot; + initLevel + &quot;: &quot; + this + &quot; -- content type is &quot; + contentType);
+ 			}
+ 		}
+ 		//
+@@ -115,8 +116,8 @@
+ 	/**
+ 	 * Retriggers the search and returns the result topics.
+ 	 * 
+-	 * @return	result topics as vector of 2-element &lt;CODE&gt;String&lt;/CODE&gt; arrays:&lt;BR&gt;
+-	 *			element 1: topic ID&lt;BR&gt;
++	 * @return	result topics as vector of 2-element &lt;code&gt;String&lt;/code&gt; arrays:&lt;br&gt;
++	 *			element 1: topic ID&lt;br&gt;
+ 	 *			element 2: topic name
+ 	 *
+ 	 * @see		ContainerTopic#contextCommands
+@@ -129,7 +130,7 @@
+ 			relatedTopicSemantic);
+ 		int topicCount = topics.size();
+ 		//
+-		System.out.println(&quot;&gt; TopicContainerTopic.getContent(): &quot; + containerPropertyFilter + &quot; -- &quot; + topicCount + &quot; topics found&quot;);
++		logger.info(containerPropertyFilter + &quot; -- &quot; + topicCount + &quot; topics found&quot;);
+ 		//
+ 		// --- build list of topics ---
+ 		Vector topicEntries = new Vector();
+@@ -175,8 +176,7 @@
+ 		Vector topics = cm.getTopics(getContentTypeID(), nameFilter, propertyFilter, relatedTopicID, relatedTopicSemantic);
+ 		int topicCount = topics.size();
+ 		//
+-		System.out.println(&quot;&gt; TopicContainerTopic.performQuery(): \&quot;&quot; + propertyFilter +
+-			&quot;\&quot; -- &quot; + topicCount + &quot; topics found&quot;);
++		logger.info(&quot;\&quot;&quot; + propertyFilter + &quot;\&quot; -- &quot; + topicCount + &quot; topics found&quot;);
+ 		//
+ 		Vector presentableTopics = as.createPresentableTopics(topicmapID, topics, getID());
+ 		directives.add(as.createNewContainer(this, getType(), nameFilter, propertyFilter,
+@@ -185,7 +185,7 @@
+ 	}
+ 
+ 	protected CorporateDirectives autoSearch(String groupingProperty) {
+-		System.out.println(&quot;### TopicContainerTopic.autoSearch(): not yet implemented&quot;);
++		logger.warning(&quot;not yet implemented&quot;);
+ 		return new CorporateDirectives();
+ 	}
+ 
+@@ -217,8 +217,7 @@
+ 		// error check
+ 		if (topics.size() == 0) {
+ 			// ### should throw TopicInitException
+-			System.out.println(&quot;*** TopicContainerTopic.setContainerType(): there is &quot; +
+-				&quot;no SEMANTIC_CONTAINER_TYPE -- &quot; + this + &quot; has no content type&quot;);
++			logger.warning(&quot;there is no SEMANTIC_CONTAINER_TYPE -- &quot; + this + &quot; has no content type&quot;);
+ 			return;
+ 		}
+ 		//
+@@ -226,8 +225,7 @@
+ 		// error check
+ 		if (!topic.getType().equals(TOPICTYPE_TOPICTYPE)) {
+ 			// ### should throw TopicInitException
+-			System.out.println(&quot;*** TopicContainerTopic.setContainerType(): &quot; +
+-				&quot;invalid SEMANTIC_CONTAINER_TYPE: \&quot;&quot; + topic.getType() + &quot;\&quot; &quot; +
++			logger.warning(&quot;invalid SEMANTIC_CONTAINER_TYPE: \&quot;&quot; + topic.getType() + &quot;\&quot; &quot; +
+ 				&quot;(\&quot;tt-topictype\&quot; is expected) -- &quot; + this + &quot; has no content type&quot;);
+ 			return;
+ 		}
+
+Added: trunk/install/db/patches/cm-2.19.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.19.sql	2008-09-10 18:44:48 UTC (rev 346)
++++ trunk/install/db/patches/cm-2.19.sql	2008-09-13 21:21:55 UTC (rev 347)
+@@ -0,0 +1,15 @@
++---
++--- This patch updates CM 2.18 to 2.19
++--- Apply this patch if you want to update DeepaMehta rev346-20080910 to 2.0b8 while keeping your content
++---
++
++
++
++----------------------------
++--- Update Email Feature ---
++----------------------------
++
++
++
++--- set custom implementation for &quot;Person Search&quot; ---
++INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.PersonSearchTopic');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000190.html">[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000192.html">[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#191">[ date ]</a>
+              <a href="thread.html#191">[ thread ]</a>
+              <a href="subject.html#191">[ subject ]</a>
+              <a href="author.html#191">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

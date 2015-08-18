@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r324 - trunk/develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-May/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r324%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200805050854.m458ssvG023166%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000168.html">
+   <LINK REL="Next"  HREF="000170.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r324 - trunk/develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r324%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200805050854.m458ssvG023166%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r324 - trunk/develop/src/de/deepamehta/service/web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Mon May  5 10:54:54 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000168.html">[deepamehta-svn] r323 - tags
+</A></li>
+        <LI>Next message: <A HREF="000170.html">[deepamehta-svn] r325 - in trunk: develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#169">[ date ]</a>
+              <a href="thread.html#169">[ thread ]</a>
+              <a href="subject.html#169">[ subject ]</a>
+              <a href="author.html#169">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2008-05-05 10:54:47 +0200 (Mon, 05 May 2008)
+New Revision: 324
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+updated web-info generator, needed for the upload repository
+* Properties of a TopicBean can now have one (at the moment) Action on their Name
+
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-05-02 14:36:07 UTC (rev 323)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-05-05 08:54:47 UTC (rev 324)
+@@ -31,15 +31,14 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 15.11.2007 (2.0b8)&lt;br&gt;
+- * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
++ * Last sourcecode change: 04.05.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 04.05.2008 (2.0b8-rc3)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public class HTMLGenerator implements DeepaMehtaConstants {
+ 
+ 
+-
+ 	// *************
+ 	// *** Field ***
+ 	// *************
+@@ -269,13 +268,28 @@
+ 		//
+ 		return html.toString();
+ 	}
+-	// ---
++
++	// --- info for TopicBean (3 forms)
+ 	
+ 	public String info(TopicBean topicBean) {
+ 		return info(topicBean, DeepaMehtaConstants.BEAN_LAYOUT_2COLUMN);
+ 	}
+ 	
+ 	public String info(TopicBean topicBean, int layoutStyle) {
++		return info(topicBean, layoutStyle, false, new Action[0]);
++	}
++	
++	/**
++	 * Uses html action on infoBoxField with a given action name and topicBeanID
++	 * At the moment works just with BEAN_LAYOUT_BOX on infoBoxFields
++	 * 	 * 
++	 * @param topicBean object to be rendered
++	 * @param layoutStyle default is: &lt;code&gt;BEAN_LAYOUT_BOX&lt;/code&gt;; others are &lt;code&gt;BEAN_LAYOUT_2COLUMN; BEAN_LAYOUT_FLOW&lt;/code&gt;;
++	 * @param multiLink link/action flag, just works with layoutstyle BEAN_LAYOUT_BOX
++	 * @param actions at the moment actions[0].name and topicBeanID are appended into a topicname link
++	 * @return
++	 */
++	public String info(TopicBean topicBean, int layoutStyle, boolean multiLink, Action[] actions) {
+ 		StringBuffer html = new StringBuffer(&quot;&quot;);
+ 		// don&#180;t want to touch the original info method, resulting in more redundancy
+ 		if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_BOX) {
+@@ -285,7 +299,8 @@
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+ 				// specific field render method
+-				infoBoxField(field, html);
++				// delegate actions
++				infoBoxField(field, html, multiLink, actions);
+ 			}
+ 			html.append(&quot;&lt;/div&gt;&lt;br/&gt; \r&quot;);
+ 			return html.toString();
+@@ -316,9 +331,24 @@
+ 		}
+ 	}
+ 	
+-	private void infoFlowField(TopicBeanField field, StringBuffer html) {
+-		// special field render method for Classic Flow Layout
+-		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;\r&quot;);
++	private void infoBoxField(TopicBeanField field, StringBuffer html) {
++		this.infoBoxField(field, html, false, new Action[0]);
++	}
++	
++	/**
++	 * Renders the specific TopicBeanField with actionLink provided for the topicBeanID 
++	 * This could use the actionsButtons method to inherit more actions right nearby the row of the topic
++	 * 
++	 * @param field
++	 * @param html
++	 * @param multiLink provided link action flag
++	 * @param actions actions[0].name and topicBeanID are used for a href
++	 */
++	private void infoBoxField(TopicBeanField field, StringBuffer html, boolean multiLink, Action[] actions) {
++		// special field render method for Modern Box Layout
++		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
++		String color = &quot;transparent&quot;;
++		String content = &quot;value&quot;;
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+@@ -333,60 +363,65 @@
+ 			break;
+ 		case TopicBeanField.TYPE_MULTI:
+ 			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
++			html.append(&quot;&lt;div class=\&quot;multiBox\&quot; id=\&quot;containerBox\&quot;&gt;&quot;);
+ 			while (e.hasMoreElements()) {
+ 				BaseTopic topic = (BaseTopic) e.nextElement();
++				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
+ 				//parse for links
+ 				String text = topic.getName();
+ 				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);			
+-				html.append(&quot;&quot; + imageTag(topic) + &quot; &quot; + text + &quot;&lt;/br&gt;&quot;);
++				text = DeepaMehtaUtils.weblinksToHtml(text);
++				// link action executed through action name and id appension to the request url 
++				// ### may use this also for the other 2 layout modes
++				if (!multiLink) {
++					html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
++				} else {
++					// take the first action in the actions array and take the name for the link
++					html.append(imageTag(topic)  + &quot; &lt;a href=\&quot;controller?action=&quot; + actions[0].name + &quot;&amp;id=&quot; + topic.getID() + &quot;\&quot;&gt;&quot; + text + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
++				}
++				html.append(&quot;&lt;/span&gt;&quot;);
+ 			}
+-			html.append(&quot;&lt;/span&gt;\r&quot;);
++			html.append(&quot;&lt;/div&gt;&quot;);
+ 			break;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+ 		html.append(&quot;&lt;br/&gt;\r&quot;);
+-	}	
++	}
+ 	
+-	private void infoBoxField(TopicBeanField field, StringBuffer html) {
+-		// special field render method for Modern Box Layout
+-		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
+-		String color = &quot;transparent&quot;;
+-		String content = &quot;value&quot;;
++	private void infoFlowField(TopicBeanField field, StringBuffer html) {
++		// special field render method for Classic Flow Layout
++		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;\r&quot;);
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+-				content = field.value; 
+-				content = DeepaMehtaUtils.emailToHtml(content);
+-				content = DeepaMehtaUtils.weblinksToHtml(content);
+-				content = DeepaMehtaUtils.replaceLF(content);
++				String text = field.value;
++				text = DeepaMehtaUtils.emailToHtml(text);
++				text = DeepaMehtaUtils.weblinksToHtml(text);
++				text = DeepaMehtaUtils.replaceLF(text);
+ 				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;
+-				            	+ content + &quot;&lt;br&gt;&quot; +
+-							&quot;&lt;/span&gt;&quot;);
++		            			+ text + &quot;&lt;br&gt;&quot; +
++							&quot;&lt;/span&gt;\r&quot;);
+ 			}
+ 			break;
+ 		case TopicBeanField.TYPE_MULTI:
+ 			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;div class=\&quot;multiBox\&quot; id=\&quot;containerBox\&quot;&gt;&quot;);
++			html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
+ 			while (e.hasMoreElements()) {
+ 				BaseTopic topic = (BaseTopic) e.nextElement();
+-				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
+ 				//parse for links
+ 				String text = topic.getName();
+ 				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
+-				html.append(&quot;&lt;/span&gt;&quot;);
++				text = DeepaMehtaUtils.weblinksToHtml(text);			
++				html.append(&quot;&quot; + imageTag(topic) + &quot; &quot; + text + &quot;&lt;/br&gt;&quot;);
+ 			}
+-			html.append(&quot;&lt;/div&gt;&quot;);
++			html.append(&quot;&lt;/span&gt;\r&quot;);
+ 			break;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+ 		html.append(&quot;&lt;br/&gt;\r&quot;);
+-	}
++	}	
+ 
+ 	private void info2ColumnField(TopicBeanField field, StringBuffer html) {
+ 		// special field render method for Table 2 Column Layout
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000168.html">[deepamehta-svn] r323 - tags
+</A></li>
+	<LI>Next message: <A HREF="000170.html">[deepamehta-svn] r325 - in trunk: develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#169">[ date ]</a>
+              <a href="thread.html#169">[ thread ]</a>
+              <a href="subject.html#169">[ subject ]</a>
+              <a href="author.html#169">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

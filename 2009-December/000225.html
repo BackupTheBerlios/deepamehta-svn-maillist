@@ -1,0 +1,822 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r381 - in branches/apps/install/apps/dmrpc: .	config pages src/de/rpc/deepamehta src/de/rpc/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r381%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09config%20pages%20src/de/rpc/deepamehta%20src/de/rpc/deepamehta/topics&In-Reply-To=%3C200912022348.nB2NmIq7011609%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000224.html">
+   <LINK REL="Next"  HREF="000226.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r381 - in branches/apps/install/apps/dmrpc: .	config pages src/de/rpc/deepamehta src/de/rpc/deepamehta/topics</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r381%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09config%20pages%20src/de/rpc/deepamehta%20src/de/rpc/deepamehta/topics&In-Reply-To=%3C200912022348.nB2NmIq7011609%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r381 - in branches/apps/install/apps/dmrpc: .	config pages src/de/rpc/deepamehta src/de/rpc/deepamehta/topics">maltito at mail.berlios.de
+       </A><BR>
+    <I>Thu Dec  3 00:48:18 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000224.html">[deepamehta-svn] r380 -	branches/apps/develop/src/de/deepamehta/service/web
+</A></li>
+        <LI>Next message: <A HREF="000226.html">[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#225">[ date ]</a>
+              <a href="thread.html#225">[ thread ]</a>
+              <a href="subject.html#225">[ subject ]</a>
+              <a href="author.html#225">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-12-03 00:48:13 +0100 (Thu, 03 Dec 2009)
+New Revision: 381
+
+Added:
+   branches/apps/install/apps/dmrpc/pages/Service.jsp
+   branches/apps/install/apps/dmrpc/pages/default.css
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/topics/
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/topics/Comment.java
+Modified:
+   branches/apps/install/apps/dmrpc/build.xml
+   branches/apps/install/apps/dmrpc/config/web.xml
+   branches/apps/install/apps/dmrpc/pages/Print.jsp
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+Log:
+DeepaMehta JSON RPC Web Application 0.8b
+
+* minor changes, like DeepaMehta HTML cleanup ;)
+* servlet engine allows to publish html pages
+
+Modified: branches/apps/install/apps/dmrpc/build.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/build.xml	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/build.xml	2009-12-02 23:48:13 UTC (rev 381)
+@@ -28,12 +28,11 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;build&quot; depends=&quot;compile&quot;&gt;
+-   	    &lt;!--
+-		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/rpc/deepamehta/WebService.class&quot; /&gt;
+-			&lt;include name=&quot;de/rpc/deepamehta/webServlet.class&quot; /&gt;
+-		&lt;/jar&gt;
+-		--&gt;
++   	    
++	    &lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
++		&lt;include name=&quot;de/rpc/deepamehta/topics/Comment.class&quot; /&gt;
++ 	    &lt;/jar&gt;
++	
+    	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
+ 		    &lt;classes dir=&quot;${build}&quot;&gt;
+ 				&lt;include name=&quot;de/rpc/deepamehta/*.class&quot; /&gt;
+@@ -41,6 +40,7 @@
+             &lt;lib dir=&quot;${dm.base-dir}/install/server/&quot;&gt;
+                 &lt;include name=&quot;DeepaMehtaService.jar&quot; /&gt;
+                 &lt;include name=&quot;DeepaMehtaTopics.jar&quot; /&gt;
++		&lt;include name=&quot;dmrpc.jar&quot; /&gt;
+             &lt;/lib&gt;
+          	&lt;fileset dir=&quot;.&quot;&gt;
+             	&lt;include name=&quot;images/*&quot;/&gt;
+
+Modified: branches/apps/install/apps/dmrpc/config/web.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/config/web.xml	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/config/web.xml	2009-12-02 23:48:13 UTC (rev 381)
+@@ -14,19 +14,19 @@
+ 		 String constants used within your application, which
+ 		 can be customized by the system administrator who is
+ 		 installing your application.
+-	--&gt;
+ 
++--&gt;
+ 	&lt;context-param&gt;
+ 		&lt;param-name&gt;service&lt;/param-name&gt;
+-		&lt;param-value&gt;mysql-browser&lt;/param-value&gt;
++		&lt;param-value&gt;mysql5&lt;/param-value&gt;
+ 		&lt;description&gt;Selects a DeepaMehta service.
+ 			If this parameter is not set the &quot;default&quot; service will be used.
+ 			To configure DeepaMehta services see the file install/client/dms.rc&lt;/description&gt;
+ 	&lt;/context-param&gt;
+-
+-    &lt;context-param&gt;
++ 
++        &lt;context-param&gt;
+ 		&lt;param-name&gt;home&lt;/param-name&gt;
+-		&lt;param-value&gt;/var/lib/tomcat-6/webapps/ROOT&lt;/param-value&gt;
++		&lt;param-value&gt;/home/monty/source/deepaMehta&lt;/param-value&gt;
+ 		&lt;description&gt;path to your deepamehta installation&lt;/description&gt;
+ 	&lt;/context-param&gt;
+ 
+
+Modified: branches/apps/install/apps/dmrpc/pages/Print.jsp
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/Print.jsp	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/pages/Print.jsp	2009-12-02 23:48:13 UTC (rev 381)
+@@ -1,11 +1,13 @@
+-&lt;%@ include file=&quot;KiezAtlas.jsp&quot; %&gt;
++&lt;%@ include file=&quot;Service.jsp&quot; %&gt;
+ 
+ &lt;%@page contentType=&quot;text/html&quot; pageEncoding=&quot;iso-8859-1&quot;%&gt;
+ &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+    &quot;<A HREF="http://www.w3.org/TR/html4/loose.dtd">http://www.w3.org/TR/html4/loose.dtd</A>&quot;&gt;
+ 
+-&lt;%  String link = (String) session.getAttribute(&quot;formLetter&quot;);
+-    out.println(&quot;&lt;h3&gt;Download der Steuerdatei&lt;/h3&gt;&quot;);
+-    out.println(&quot;&lt;p&gt;Bitte klicken Sie mit der rechten Maustaste auf den untenstehenden Link und w&#228;hlen Sie \&quot;Ziel Speichern unter\&quot;&lt;/p&gt;&quot;);
+-    out.println(&quot;&lt;a href=\&quot;&quot; + link + &quot;\&quot;&gt;Steuerdatei herunterladen&lt;/a&gt;&quot;);
+-%&gt;
++&lt;%
++    String html = (String) session.getAttribute(&quot;html&quot;);
++    String impressumURL = (String) session.getAttribute(&quot;impressumURL&quot;);
++    begin(session, out);
++    out.println(html);
++    footerArea(impressumURL);
++%&gt;
+\ No newline at end of file
+
+Added: branches/apps/install/apps/dmrpc/pages/Service.jsp
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/Service.jsp	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/pages/Service.jsp	2009-12-02 23:48:13 UTC (rev 381)
+@@ -0,0 +1,200 @@
++&lt;%@ page import=&quot;de.deepamehta.DeepaMehtaConstants&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.TopicBean&quot; %&gt;
++
++&lt;%@ page import=&quot;de.deepamehta.BaseTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.TopicBean&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.TopicBeanField&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.BaseAssociation&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.DeepaMehtaException&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.PresentableTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.PropertyDefinition&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.Session&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.topics.TypeTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.web.HTMLGenerator&quot; %&gt;
++
++&lt;%@ page import=&quot;java.io.IOException&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Vector&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Hashtable&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Enumeration&quot; %&gt;
++&lt;%@ page import=&quot;java.awt.Point&quot; %&gt;
++
++&lt;%!
++	// --- header area ---
++
++	// browse
++	void begin(HttpSession session, JspWriter out) throws IOException {
++		String stylesheet = (String) session.getAttribute(&quot;stylesheet&quot;);
++		String siteLogo = (String) session.getAttribute(&quot;siteLogo&quot;);
++		String homepageURL = (String) session.getAttribute(&quot;homepageURL&quot;);
++		String impressumURL = (String) session.getAttribute(&quot;impressumURL&quot;);
++		out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot; \&quot;<A HREF="http://www.w3.org/TR/html4/strict.dtd\">http://www.w3.org/TR/html4/strict.dtd\</A>&quot;&gt;\r&quot; +
++			&quot;&lt;html&gt;&quot; +
++			&quot;\r&lt;head&gt;\n&quot; +
++			&quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=iso-8859-1\&quot;&gt;&quot; +
++			&quot;\r&lt;title&gt;Homepage of a DeepaMehta JSON RPC Service&lt;/title&gt;&quot; +
++			&quot;\r&lt;style type=\&quot;text/css\&quot;&gt;\r&quot; + stylesheet + &quot;\r&lt;/style&gt;\r&quot; +
++			&quot;&lt;/head&gt;\r&quot; +
++			&quot;&lt;body&gt;\r\r&quot;);
++		//
++		out.println(&quot;&lt;div class=\&quot;header-area\&quot;&gt;&quot;);			// --- begin header area
++		out.println(&quot;&lt;table cellpadding=\&quot;0\&quot; width=\&quot;100%\&quot;&gt;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++		out.println(&quot;&lt;td&gt;&quot;);
++		out.println(&quot;&lt;a href=\&quot;&quot; + homepageURL + &quot;\&quot; target=\&quot;_blank\&quot;&gt;&lt;img src=\&quot;&quot; + siteLogo + &quot;\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		out.println(&quot;&lt;/td&gt;&quot;);
++		//
++		out.println(&quot;&lt;/table&gt;&quot;);
++		out.println(&quot;&lt;/div&gt;&quot;);								// --- end header area
++		out.println();
++		out.println(&quot;&lt;div class=\&quot;content-area\&quot;&gt;&quot;);		// --- begin content area
++	}
++
++	// --- footer area ---
++
++	// browse
++	void end(HttpSession session, JspWriter out) throws IOException {
++		String impressumURL = (String) session.getAttribute(&quot;impressumURL&quot;);
++		out.println(footerArea(impressumURL));
++	}
++
++	private String footerArea(String impressumURL) {
++		return &quot;&lt;/div&gt;\r&quot; +									// --- end content area
++			&quot;\r&quot; +
++			&quot;&lt;div class=\&quot;footer-area\&quot;&gt;\r&quot; +				// --- begin footer area
++			&quot;&lt;table width=\&quot;100%\&quot;&gt;&lt;tr&gt;\r&quot; +
++			&quot;&lt;td class=\&quot;secondary-text\&quot;&gt;Powered by&lt;br&gt;&lt;a href=\&quot;<A HREF="http://www.deepamehta.de/\">http://www.deepamehta.de/\</A>&quot; target=\&quot;_blank\&quot;&gt;&lt;b&gt;DeepaMehta&lt;/b&gt;&lt;/a&gt;&lt;/td&gt;\r&quot; +
++			&quot;&lt;td class=\&quot;secondary-text\&quot; align=\&quot;right\&quot;&gt;&lt;a href=\&quot;&quot; + impressumURL + &quot;\&quot; target=\&quot;_blank\&quot;&gt;Impressum +&lt;br&gt;Haftungshinweise&lt;/a&gt;&lt;/td&gt;\r&quot; +
++			&quot;&lt;/tr&gt;&lt;/table&gt;\r&quot; +
++			&quot;&lt;/div&gt;\r\r&quot; +									// --- begin footer area
++			&quot;&lt;/body&gt;\r&lt;/html&gt;\r&quot;;
++	}
++
++	// ---
++
++	void topicImages(Vector cats, HTMLGenerator html, JspWriter out) throws IOException {
++		for (int i = 0; i &lt; cats.size(); i++) {
++			BaseTopic cat = (BaseTopic) cats.elementAt(i);
++			out.println(html.imageTag(cat, true));		// withTooltip=true
++		}
++	}
++
++	void topicList(Vector topics, String action, HTMLGenerator html, JspWriter out) throws IOException {
++		out.println(&quot;&lt;table&gt;&quot;);
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			out.println(&quot;&lt;tr&gt;&lt;td&gt;&quot; + html.imageTag(topic) + &quot;&lt;/td&gt;&lt;td&gt;&lt;a href=\&quot;controller?action=&quot; + action +
++				&quot;&amp;id=&quot; + topic.getID() + &quot;\&quot;&gt;&quot; + topic.getName() + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);
++		}
++		out.println(&quot;&lt;/table&gt;&quot;);
++	}
++
++    // ---
++
++    //void comment(Comment comment, JspWriter out) throws IOException {
++    //    comment(comment, false, out);
++    //}
++
++    //void comment(Comment comment, boolean includeEmailAddress, JspWriter out) throws IOException {
++    //    String email = comment.email;
++      //  out.println(&quot;&lt;br&gt;&quot;);
++        ////
++        //out.println(&quot;&lt;span class=\&quot;small\&quot;&gt;&quot;);
++        //if (isSet(comment.author)) {
++            //out.println(comment.author + commentEmail(includeEmailAddress, email) + &quot; schrieb am &quot;);
++        //} else {
++//            out.println(&quot;Anonymer Kommentar&quot; + commentEmail(includeEmailAddress, email) + &quot; vom &quot;);
++  //      }
++//        out.println(comment.date + &quot;:&lt;/span&gt;&lt;br&gt;&quot;);
++        //
++ //       out.println(comment.text + &quot;&lt;br&gt;&quot;);
++  //  }
++
++	// ---
++
++	private String commentEmail(boolean includeEmailAddress, String email) {
++		if (includeEmailAddress) {
++			return isSet(email) ? &quot; (&lt;a href=\&quot;mailto:&quot; + email + &quot;\&quot;&gt;&quot; + email + &quot;&lt;/a&gt;)&quot; : &quot; (Emailadresse unbekannt)&quot;;
++		} else {
++			return &quot;&quot;;
++		}
++	}
++
++	// ---
++
++	String mapLink(String street, String postalCode, String city) throws IOException {
++		// ### System.out.println(&quot;&gt;&gt;&gt; mapLink(): street=\&quot;&quot; + street + &quot;\&quot; postalCode=\&quot;&quot; + postalCode + &quot;\&quot; city=\&quot;&quot; + city + &quot;\&quot;&quot;);
++		StringBuffer html = new StringBuffer();
++		// render fahr-info link if address is in berlin
++		if (city.startsWith(&quot;Berlin&quot;) &amp;&amp; isSet(street)) {
++			String mapURL = &quot;<A HREF="http://www.fahrinfo-berlin.de/Stadtplan/index?query=">http://www.fahrinfo-berlin.de/Stadtplan/index?query=</A>&quot; + street + &quot;&amp;search=Suchen&amp;formquery=&amp;address=true&quot;;
++			String imageLink = &quot; &lt;a href=\&quot;&quot; + mapURL + &quot;\&quot; target=\&quot;_blank\&quot;&gt;&lt;img src=\&quot;../images/fahrinfo.gif\&quot; border=\&quot;0\&quot; &quot; +
++				&quot;hspace=\&quot;20\&quot;&gt;&lt;/a&gt;&quot;;
++			html.append(street + imageLink + &quot;&lt;br&gt;&quot; + postalCode + &quot; &quot; + city + googleLink(street, postalCode, city));
++			return html.toString();
++		} else {
++			html.append(isSet(street) ? street + &quot;&lt;br&gt;&quot; : &quot;&quot;);
++			html.append(isSet(postalCode) ? postalCode + &quot; &quot; : &quot;&quot;);
++			html.append(isSet(city) ? city + googleLink(street, postalCode, city) : &quot;&quot;);
++			return html.toString();
++		}
++	}
++	
++	String googleLink(String street, String postalCode, String city) throws IOException {
++		// ### System.out.println(&quot;&gt;&gt;&gt; googleLink(): street=\&quot;&quot; + street + &quot;\&quot; postalCode=\&quot;&quot; + postalCode + &quot;\&quot; city=\&quot;&quot; + city + &quot;\&quot;&quot;);
++		StringBuffer html = new StringBuffer();
++		// render googlelink if address is complete
++		if (isSet(city) &amp;&amp; isSet(street) &amp;&amp; isSet(postalCode)) {
++			String mapURL = &quot;<A HREF="http://maps.google.de/maps?q=">http://maps.google.de/maps?q=</A>&quot; + street + &quot;, &quot; + postalCode + &quot; &quot; + city + &quot;&amp;mrt=loc&amp;lci=lmc:panoramio,lmc:wikipedia_en&amp;layer=tc&amp;t=h&quot;;
++			String imageLink = &quot; &lt;a href=\&quot;&quot; + mapURL + &quot;\&quot; target=\&quot;_blank\&quot;&gt;&lt;img src=\&quot;../images/google_logo_small.png\&quot; alt=\&quot;Ansicht in Google \&quot; hspace=\&quot;20\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;;
++			html.append(imageLink);
++			return html.toString();
++		} else {
++		    return &quot;&quot;;
++		}
++	}
++	
++	String mailtoUrl(Vector mailboxes) {
++		Enumeration e = mailboxes.elements();
++		StringBuffer url = new StringBuffer();
++		url.append(&quot;mailto:&quot;);
++		//
++		while(e.hasMoreElements()) {
++			String mail = (String) e.nextElement();
++			if(mail != null &amp;&amp; !mail.equals(&quot;&quot;)) {
++			    url.append(mail);
++			}
++			if (e.hasMoreElements()) {
++			    url.append(&quot;,&quot;);
++			}
++		}
++		//
++		return url.toString();
++	}
++	
++	// --
++	
++	String fieldOptions(TopicBean bean, String[] hiddenProps, String[] hiddenPropsContaining, String checked) {
++		StringBuffer html = new StringBuffer();
++		for (int j = 0; j &lt; hiddenProps.length; j++) {
++		    bean.removeField(hiddenProps[j].toString());
++		}
++		for (int k = 0; k &lt; hiddenPropsContaining.length; k++) {
++		    bean.removeFieldsContaining(hiddenPropsContaining[k].toString());
++		}
++		for (int i = 0; i &lt; bean.fields.size(); i++) {
++		    TopicBeanField field = (TopicBeanField) bean.fields.get(i);
++		    html.append(&quot;&lt;option value=\&quot;&quot;+ field.name +&quot;\&quot;&quot;);
++		    if (field.name.equals(checked)) {
++			html.append(&quot; selected=\&quot;selected\&quot;&quot;);
++		    }
++		    html.append(&quot;&gt;&quot; + field.label + &quot;&lt;/option&gt; \n &quot;);
++		}
++		return html.toString();
++	}
++	
++	// ---
++
++	boolean isSet(String str) {
++		return str != null &amp;&amp; str.length() &gt; 0;
++	}
++%&gt;
+
+Added: branches/apps/install/apps/dmrpc/pages/default.css
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/default.css	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/pages/default.css	2009-12-02 23:48:13 UTC (rev 381)
+@@ -0,0 +1,214 @@
++body, td {
++	font-family: Verdana, Arial;
++	font-size: 11px;
++	line-height: 15px;
++}
++
++a:link		{color: #CC0000}
++a:visited	{color: #880000}
++a:active	{color: #FF0000}
++
++body {
++	background-color: #E8E8D8;
++	margin-top:28px;
++	margin-left:28px;
++	margin-right:28px;
++}
++
++h1 {
++	margin-bottom:2ex;
++}
++
++h2, h3 {
++	margin-top:4ex;
++}
++
++h4 {
++	margin-top:16px;
++}
++
++ul {
++	padding-left:20px;
++}
++
++li {
++	margin-top:1%;
++}
++
++blockquote {
++	background-color: #D8D8C8;
++	padding: 1em;
++}
++
++.logo {
++	position: relative;
++	left: -13px;
++}
++
++.logo-small {
++	position: relative;
++	left: -9px;
++}
++
++.newthinking-logo {
++	position: relative;
++	left: -4px;
++}
++
++.title {
++	font-size: 35px;
++	font-weight: bold;
++	color: #800000;
++}
++
++.subtext {
++	font-size: 14px;
++	color: #333333;
++}
++
++.textbox {
++	background-color: #F8F8E8;
++	margin-top:1em;
++	margin-bottom:1em;
++}
++
++.highlight {
++	background-color: #F8F8E8;
++}
++
++.dark {
++	background-color: #D8D8C8;
++}
++
++.white {
++	background-color: #FFFFFF;
++}
++
++.marker {
++	background-color: #F8F800;
++}
++
++.oldmarker {
++	background-color: #D8D8C8;
++}
++
++.imagetext {
++	font-size: 10px;
++}
++
++.imagepad {
++	padding-right:10px;
++	padding-bottom:10px;
++}
++
++.ipad {
++	padding-right:10px;
++}
++
++.topipad {
++	padding-top:10px;
++}
++
++.leftipad {
++	padding-left:20px;
++}
++
++.tableheader {
++	font-weight: bold;
++	color: #ffffff;
++	background-color: #800000;
++}
++
++.tableheaderbig {
++	font-size: 16px;
++	font-weight: bold;
++	color: #ffffff;
++	background-color: #800000;
++}
++
++.pad {
++	padding-top:20px;
++	padding-left:28px;
++	padding-right:28px;
++}
++
++.fullpad {
++	padding-top:20px;
++	padding-left:28px;
++	padding-right:28px;
++	padding-bottom:40px;
++}
++
++.smallpad {
++	padding:1em;
++}
++
++.toppad {
++	padding-top:20px;
++}
++
++.leftpad {
++	padding-left:28px;
++}
++
++.rightpad {
++	padding-right:28px;
++}
++
++.leftrightpad {
++	padding-left:28px;
++	padding-right:28px;
++}
++
++.topleftpad {
++	padding-top:40px;
++	padding-left:28px;
++}
++
++.toprightpad {
++	padding-top:20px;
++	padding-right:28px;
++}
++
++.bottomleftpad {
++	padding-bottom:40px;
++	padding-left:28px;
++}
++
++.lastcell {
++	padding-top:20px;
++	padding-right:28px;
++	padding-bottom:40px;
++}
++
++.head {
++	padding-top:40px;
++	padding-left:28px;
++	padding-bottom:20px;
++}
++
++.rightcol {
++	font-size: 10px;
++	padding-top:20px;
++	padding-bottom:20px;
++}
++
++.news {
++	background-color: #FFFFFF;
++	font-family: Times New Roman, Times;
++	font-size: 11px;
++	padding-left:12px;
++	padding-right:15px;
++	padding-top:20px;
++	padding-bottom:20px;
++}
++
++.newsheadline {
++	font-size: 14px;
++	font-weight: bold;
++}
++
++.newstext {
++	font-family: Times New Roman, Times;
++	font-size: 11px;
++}
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java	2009-12-02 23:48:13 UTC (rev 381)
+@@ -14,5 +14,19 @@
+  */
+ public interface WebService extends DeepaMehtaConstants {
+ 
++    // pages
++    static final String PAGE_PRINT = &quot;Print&quot;; // session var is &quot;html&quot;
++    // types
++    static final String TOPICTYPE_POST = &quot;tt-post&quot;; // ### depends on patch currentoy t-12312
++    static final String TOPICTYPE_COMMENT = &quot;tt-comment&quot;; // ### depends on patch currentoy t-12312
++    // properties of a message
++    static final String PROPERTY_MESSAGE_NAME = &quot;Name&quot;;
++    static final String PROPERTY_MESSAGE_CONTENT = &quot;Description&quot;;
++    static final String PROPERTY_MESSAGE_TIME = &quot;Time&quot;;
++    static final String PROPERTY_MESSAGE_AUTHOR = &quot;Time&quot;;
++    // properties of a comment
++    static final String PROPERTY_COMMENT_AUTHOR = &quot;Author&quot;; // session var is
++    static final String PROPERTY_COMMENT_DATE = &quot;Date&quot;; // session var is
++    static final String PROPERTY_COMMENT_TIME = &quot;Time&quot;; // session var is
+ 
+ }
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-02 23:48:13 UTC (rev 381)
+@@ -7,12 +7,13 @@
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.service.*;
+ import de.deepamehta.service.web.JSONRPCServlet;
+-import de.deepamehta.topics.EmailTopic; 
+ import de.deepamehta.topics.LiveTopic;
+ import de.deepamehta.topics.TypeTopic;
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+ import java.util.Vector;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
+ 
+ 
+ public class WebServlet extends JSONRPCServlet implements WebService {
+@@ -71,14 +72,89 @@
+         return result;
+     }
+ 
+-    protected String performAction(String topicId, String params, Session session, CorporateDirectives directives)
++    protected String performAction(String method, String topic, Session session, CorporateDirectives directives)
+     {
+-        return topicId;
++        session.setAttribute(&quot;siteLogo&quot;, &quot;../images/dmjfx.png&quot;);
++        session.setAttribute(&quot;stylesheet&quot;, &quot;../pages/default.css&quot;);
++        session.setAttribute(&quot;homepageURL&quot;, &quot;<A HREF="http://www.deepamehta.de/wiki/en/Application:_Web_Service">http://www.deepamehta.de/wiki/en/Application:_Web_Service</A>&quot;);
++        session.setAttribute(&quot;impressumURL&quot;, &quot;<A HREF="http://www.deepamehta.de/wiki/en/User:_Malte">http://www.deepamehta.de/wiki/en/User:_Malte</A>&quot;);
++        // session.setAttribute(&quot;html&quot;,&quot;Hallo Welt ! Hier ist ein DeepaMehta Service&quot;);
++        if (method.equals(&quot;show&quot;) &amp;&amp; (topic.equals(&quot;empty&quot;) || topic.equals(&quot;&quot;))) {
++            System.out.println(&quot;&gt;&gt; Web Servlet is performing Action with &quot; + method + &quot; and &quot; + topic + &quot;, delivering Print.jsp with \&quot;html\&quot; attribute&quot;);
++            StringBuffer html = new StringBuffer();
++            html.append(&quot;&lt;br&gt;&lt;b&gt;Service Interface Implementation, 03.November 2009&lt;/b&gt;&lt;br&gt;&quot;);
++            html.append(&quot;&lt;blockquote&gt;&lt;pre&gt;&quot;);
++            html.append(&quot;&quot;
++                +&quot;  if (remoteMethod.equals(\&quot;getMapTopics\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Loads all the Topics in One Map &lt;br&gt;&quot;
++                    +&quot;      result = getMapTopics(params, session, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getTopicDetails\&quot;)) { &lt;br&gt;&quot;
++                +&quot;      // --- Loads a complete TopicBean By Id &lt;br&gt;&quot;
++                +&quot;      result = getTopicDetails(params); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getTopicmap\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Loads a complete Topicmap By Id &lt;br&gt;&quot;
++                    +&quot;      result = getTopicmapById(params, session, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getViewsInUse\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Loads a list of currently opened Topicmaps per User &lt;br&gt;&quot;
++                    +&quot;      result = getViewsInUse(params, session, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getTopicTypes\&quot;)) { &lt;br&gt;&quot;
++                +&quot;      // --- Loads all TopicTypes By Id &lt;br&gt;&quot;
++                +&quot;      result = getTopicTypes(params); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getRelatedTopics\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Loads What's Related &lt;br&gt;&quot;
++                    +&quot;      result = getRelatedTopics(params); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;searchTopics\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Nice Search &lt;br&gt;&quot;
++                    +&quot;      result = searchTopics(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;getUserWorkspaces\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Loads the available workspaces for a user topicId &lt;br&gt;&quot;
++                    +&quot;      result = getUserWorkspaces(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;doAuthentication\&quot;)) { &lt;br&gt;&quot;
++                    +&quot;      // --- Authentication against a given username and it's word to pass &lt;br&gt;&quot;
++                    +&quot;      result = doAuthentication(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;doRegister\&quot;)) { &lt;br&gt;&quot;
++                    + &quot;     // --- To Test &lt;br&gt;&quot;
++                    + &quot;     result = registerNewUser(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;storeTopicProperty\&quot;)) { &lt;br&gt;&quot;
++                    + &quot;     // --- To Test &lt;br&gt;&quot;
++                    + &quot;     result = storeTopicProperty(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;createAssociation\&quot;)) { &lt;br&gt;&quot;
++                    + &quot;     // --- ToDo &lt;br&gt;&quot;
++                    + &quot;     //result = createAssociation(params, directives); &lt;br&gt;&quot;
++                +&quot;  } else if(remoteMethod.equals(\&quot;createTopic\&quot;)) { &lt;br&gt;&quot;
++                    + &quot;     // --- ToDo &lt;br&gt;&quot;
++                    + &quot;     //result = createTopic(params, directives); &lt;br&gt;&quot;
++                +&quot;  }&quot;);
++            html.append(&quot;&lt;/pre&gt;&lt;/blockquote&gt;&lt;br&gt;&quot;);
++            html.append(&quot;For comments and more please visit the &lt;a href=\&quot;<A HREF="http://www.deepamehta.de/wiki/en/Application:_Web_Service\">http://www.deepamehta.de/wiki/en/Application:_Web_Service\</A>&quot;&gt;&lt;i&gt;Service Application Page&lt;/i&gt;&lt;/a&gt; in the DeepaMehta Wiki.&quot;);
++            session.setAttribute(&quot;html&quot;, html.toString());
++        } else if (method.equals(&quot;show&quot;) &amp;&amp; (!topic.equals(&quot;empty&quot;) &amp;&amp; !topic.equals(&quot;&quot;))) {
++            Hashtable webProps = new Hashtable();
++            webProps.put(PROPERTY_WEB_ALIAS, topic); // is a unique property
++            // webProps.put(TOPICTYPE_MESSAGE, ); // is the current restriction
++            BaseTopic webTopic = as.getTopic(TOPICTYPE_POST, webProps, null, directives);
++            try {
++                LiveTopic loadedTopic = as.getLiveTopic(topic, 1);
++                if (loadedTopic.getType().equals(WebService.TOPICTYPE_POST)) {
++                    session.setAttribute(&quot;html&quot;, &quot;Here we go, showing info about \&quot;&quot; + loadedTopic.getName() + &quot;\&quot;&quot;);
++                } else {
++                    session.setAttribute(&quot;html&quot;, &quot;The service could show topic &quot; + topic + &quot; in your webbrowser &quot; +
++                    &quot;but atm the service is only allowed to render \&quot;Post\&quot; topics and nothing else.&quot;);
++                }
++            } catch (DeepaMehtaException ex) {
++                System.out.println(&quot;&gt;&gt; Topic is missing in corporatememory -- hide this info --&quot;);
++            }
++        } else {
++            session.setAttribute(&quot;html&quot;, &quot;An error has occured&quot;);
++        }
++        return PAGE_PRINT;
+     }
+ 
+     protected void preparePage(String page, String params, Session session, CorporateDirectives directives)
+     {
+-        session.setAttribute(&quot;forumActivition&quot;, &quot;off&quot;);
++        // System.out.println(&quot;&gt;&gt; Web Servlet is performing Action with &quot; + topicId + &quot; and &quot; + params);
++        // session
++        // session.setAttribute(&quot;html&quot;, &quot;&lt;html&gt;&lt;header&gt;&lt;title&gt;DeepaMehta JSON RPC Service - Homepage&lt;/title&gt;&lt;/header&gt;&lt;body&gt;&lt;h3&gt;Hello World ! You requested a service, here you GET it.&lt;/h3&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+     }
+ 
+     // --- Methods Calls which receive their params from a JSON String
+@@ -1132,11 +1208,42 @@
+     private String convertHTMLForJSON(String html)
+     {
+         // System.out.println(&quot;&gt; HTML JSON INFO: Aus &quot; + html.toString() + &quot;mach&quot;);
+-        html = html.replaceAll(&quot;\&quot;&quot;, &quot;\\\\\&quot;&quot;);
+-        html = html.replaceAll(&quot;&lt;&quot;, &quot;\\&lt;&quot;);
+-        html = html.replaceAll(&quot;&gt;&quot;, &quot;\\&gt;&quot;);
+-        // System.out.println(&quot;&gt; mach \n &quot; + html.toString());
++        html = toJSON(html);
+         return html;
+-        
+     }
++
++    private String toJSON(String text) {
++        // strip HTML tags
++        text = text.replaceAll(&quot;&lt;html&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;/html&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;head&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;/head&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;body&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;/body&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;p&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;p style=\&quot;margin-top: 0\&quot;&gt;&quot;, &quot;&quot;);
++        text = text.replaceAll(&quot;&lt;/p&gt;&quot;, &quot;&quot;);
++        // convert HTML entities
++        text = toUnicode(text);
++        //
++        text = text.trim();
++        // JSON conformity
++        text = text.replaceAll(&quot;\r&quot;, &quot;\\\\n&quot;);
++        text = text.replaceAll(&quot;\n&quot;, &quot;\\\\n&quot;);
++        text = text.replaceAll(&quot;\&quot;&quot;, &quot;\\\\\&quot;&quot;);
++        //
++        return text;
++    }
++
++    private String toUnicode(String text) {
++        StringBuffer buffer = new StringBuffer();
++        Pattern p = Pattern.compile(&quot;&amp;#(\\d+);&quot;);
++        Matcher m = p.matcher(text);
++        while (m.find()) {
++            int c = Integer.parseInt(m.group(1));
++            m.appendReplacement(buffer, Character.toString((char) c));
++        }
++        m.appendTail(buffer);
++        return buffer.toString();
++    }
+ }
+
+Added: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/topics/Comment.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/topics/Comment.java	2009-12-02 23:43:47 UTC (rev 380)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/topics/Comment.java	2009-12-02 23:48:13 UTC (rev 381)
+@@ -0,0 +1,35 @@
++package de.rpc.deepamehta.topics;
++
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.util.DeepaMehtaUtils;
++import de.rpc.deepamehta.WebService;
++//
++import java.io.Serializable;
++
++
++
++/**
++ * A bean-like data container for passing data from the front-controller (servlet)
++ * to the presentation layer (JSP engine).
++ * &lt;p&gt;
++ * Kiezatlas 1.4&lt;br&gt;
++ * Requires DeepaMehta 2.0b7-post1
++ * &lt;p&gt;
++ * Last change: 9.10.2007&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class Comment implements WebService, Serializable {
++
++	public String id, text, author, email, date, time;
++
++	public Comment(String commentID, ApplicationService as) {
++		id = commentID;
++		text = as.getTopicProperty(commentID, 1, PROPERTY_TEXT);
++		text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
++        email = as.getTopicProperty(commentID, 1, PROPERTY_EMAIL_ADDRESS);
++        author = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_AUTHOR);
++        date = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_DATE);
++		time = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_TIME);
++	}
++}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000224.html">[deepamehta-svn] r380 -	branches/apps/develop/src/de/deepamehta/service/web
+</A></li>
+	<LI>Next message: <A HREF="000226.html">[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#225">[ date ]</a>
+              <a href="thread.html#225">[ thread ]</a>
+              <a href="subject.html#225">[ subject ]</a>
+              <a href="author.html#225">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

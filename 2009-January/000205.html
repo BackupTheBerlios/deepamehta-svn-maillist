@@ -1,0 +1,934 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r361 - in trunk/develop/src/de/deepamehta: .	client service topics topics/helper
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r361%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09client%20service%20topics%20topics/helper&In-Reply-To=%3C200901260352.n0Q3q5vl019625%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000204.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r361 - in trunk/develop/src/de/deepamehta: .	client service topics topics/helper</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r361%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09client%20service%20topics%20topics/helper&In-Reply-To=%3C200901260352.n0Q3q5vl019625%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r361 - in trunk/develop/src/de/deepamehta: .	client service topics topics/helper">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan 26 04:52:05 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000204.html">[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2009-01-26 04:51:57 +0100 (Mon, 26 Jan 2009)
+New Revision: 361
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/FileServer.java
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/topics/CMImportExportTopic.java
+   trunk/develop/src/de/deepamehta/topics/DocumentTopic.java
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/develop/src/de/deepamehta/topics/helper/ArchiveFileCollector.java
+   trunk/develop/src/de/deepamehta/topics/helper/EmailChecker.java
+   trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+Log:
+Bug #14881 fixed (File upload doesn't work when client runs as applet).
+
+All file operations (upload, download, open with application) work also, if the DeepaMehta client runs as applet. In particular, you can attach documents to emails. IMPORTANT: you must login via the signed applet and acknowledge the certificate.
+
+A folder &quot;deepamehta-files&quot; is created in the home directory of your local machine. This directory acts as intermediate client-side file repository.
+
+Issue 1: for the moment don't use spaces in file names. This is still a bug.
+
+Issue 2: for the moment the file operations doesn't work if you run client and server at the same machine. However, the monolithic application works fine.
+
+Please test the file operations and provide feedback. Functions in question are e.g. using document topics, open documents in local applications, share documents (a document is uploaded once a topic map is published), using custom topic icons, using custom topic map backgrounds, import topic maps, export topic maps. Probably there are still errors on certain platforms.
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 31.10.2008 (2.0b8)&lt;br&gt;
++ * Last change: 25.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -180,13 +180,14 @@
+ 	static final String LEVEL_SEPARATOR = &quot;:&quot;;
+ 	static final String PARAM_RELATION = &quot;Rel&quot;;
+ 
+-	// --- fileserver ---
+-	static final String FILESERVER_DOCUMENTS_PATH = &quot;documents/&quot;;		// ### + File.separator;
+-	static final String FILESERVER_ICONS_PATH = &quot;icons/&quot;;				// ### + File.separator;
+-	static final String FILESERVER_IMAGES_PATH = &quot;images/&quot;;				// ### + File.separator;
+-	static final String FILESERVER_BACKGROUNDS_PATH = &quot;backgrounds/&quot;;	// ### + File.separator;
+-	static final String FILESERVER_SOUNDS_PATH = &quot;sounds/&quot;;				// ### + File.separator;
+-	static final String FILESERVER_WEBPAGES_PATH = &quot;webpages/&quot;;			// ### + File.separator;
++	// --- file service ---
++	static final String FILE_REPOSITORY_PATH = &quot;deepamehta-files/&quot;;
++	static final String FILESERVER_DOCUMENTS_PATH = &quot;documents/&quot;;
++	static final String FILESERVER_ICONS_PATH = &quot;icons/&quot;;
++	static final String FILESERVER_IMAGES_PATH = &quot;images/&quot;;
++	static final String FILESERVER_BACKGROUNDS_PATH = &quot;backgrounds/&quot;;
++	static final String FILESERVER_SOUNDS_PATH = &quot;sounds/&quot;;
++	static final String FILESERVER_WEBPAGES_PATH = &quot;webpages/&quot;;
+ 	//
+ 	static final int FILE_BUFFER_SIZE = 32768;
+ 	// --- webcrawler ---
+
+Modified: trunk/develop/src/de/deepamehta/FileServer.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/FileServer.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/FileServer.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -1,6 +1,5 @@
+ package de.deepamehta;
+ 
+-//
+ import java.io.BufferedInputStream;
+ import java.io.BufferedOutputStream;
+ import java.io.DataInputStream;
+@@ -17,13 +16,14 @@
+ 
+ 
+ /**
+- * Utility class for sending a file through a stream.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 12.3.2003 (2.0a18-pre6)&lt;BR&gt;
+- * Last documentation update: 17.4.2001 (2.0a10-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * Utility class for the DeepaMehta file service. There are methods for reading/writing a file from/to a stream.
++ * &lt;p&gt;
++ * 2 FileServer objects are created: one at client side and one at server side.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 26.1.2009 (2.0ab9)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class FileServer implements DeepaMehtaConstants {
+ 
+@@ -35,7 +35,8 @@
+ 
+ 
+ 
+-	BoundedRangeModel model;
++	private static String baseDir;	// base directory of the DeepaMehta file repository. May be &lt;code&gt;null&lt;/code&gt;.
++	BoundedRangeModel model;		// the progress model that is updated while lengthy file operations
+ 
+ 
+ 
+@@ -46,15 +47,27 @@
+ 
+ 
+ 	/**
++	 * This constructor is used by the DeepaMehta server application.
++	 * &lt;p&gt;
++	 * References checked: 25.1.2009 (2.0b9)
++	 *
+ 	 * @see		de.deepamehta.service.FileserverConnection#FileserverConnection
+ 	 */
+ 	public FileServer() {
+ 	}
+ 
+ 	/**
+-	 * @see		de.deepamehta.client.FileserverConnection#FileserverConnection
++	 * This constructor is used by the DeepaMehta client applet/application and by the monolithic application.
++	 * &lt;p&gt;
++	 * References checked: 25.1.2009 (2.0b9)
++	 *
++	 * @param	baseDir		base directory of the DeepaMehta file repository.
++	 *						If &lt;code&gt;null&lt;/code&gt; the file repository is created relative to the working directory.
++	 *
++	 * @see		de.deepamehta.client.PresentationService#PresentationService
+ 	 */
+-	public FileServer(BoundedRangeModel model) {
++	public FileServer(String baseDir, BoundedRangeModel model) {
++		this.baseDir = baseDir;
+ 		this.model = model;
+ 	}
+ 
+@@ -67,8 +80,14 @@
+ 
+ 
+ 	/**
++	 * Reads bytes from the stream and writes them to the file.
++	 * &lt;p&gt;
++	 * References checked: 25.1.2009 (2.0b9)
++	 *
++	 * @param	dstFile		the path of the file to write
++	 *
+ 	 * @see		de.deepamehta.service.FileserverConnection#performUpload
+-	 * @see		de.deepamehta.client.FileserverConnection#performDownloadRequest
++	 * @see		de.deepamehta.client.FileserverConnection#downloadFile
+ 	 */
+ 	public void readFile(File dstFile, DataInputStream in) throws IOException {
+ 		long size = in.readLong();
+@@ -107,13 +126,16 @@
+ 	}
+ 
+ 	/**
++	 * Reads bytes from the file and writes them to the stream.
++	 * &lt;p&gt;
++	 * References checked: 25.1.2009 (2.0b9)
++	 *
+ 	 * @see		de.deepamehta.service.FileserverConnection#performDownload
+-	 * @see		de.deepamehta.client.FileserverConnection#performUploadRequest
++	 * @see		de.deepamehta.client.FileserverConnection#uploadFile
+ 	 */
+ 	public void writeFile(File file, DataOutputStream out) throws IOException {
+ 		long size = file.length();
+-		System.out.println(&quot;&gt;&gt;&gt; Fileserver.writeFile(): \&quot;&quot; + file + &quot;\&quot; (&quot; + size +
+-			&quot; bytes)&quot;);
++		System.out.println(&quot;&gt;&gt;&gt; Fileserver.writeFile(): \&quot;&quot; + file + &quot;\&quot; (&quot; + size + &quot; bytes)&quot;);
+ 		InputStream fileIn = new BufferedInputStream(new FileInputStream(file),
+ 			FILE_BUFFER_SIZE);
+ 		byte[] buffer = new byte[FILE_BUFFER_SIZE];
+@@ -141,10 +163,11 @@
+ 	}
+ 
+ 	/**
+-	 * Copies the specified file into the clients document repository resp.
+-	 * icon repository.
++	 * Copies the specified file into the client-side file repository.
++	 * &lt;p&gt;
++	 * References checked: 25.1.2009 (2.0b9)
+ 	 *
+-	 * @see		de.deepamehta.client.FileserverConnection#performCopyRequest
++	 * @see		de.deepamehta.client.PresentationService#performCopyRequest
+ 	 */
+ 	public void copyFile(File srcFile, int filetype) throws IOException {
+ 		File dstFile = new File(repositoryPath(filetype) + srcFile.getName());
+@@ -190,22 +213,31 @@
+ 	// ---
+ 
+ 	/**
++	 * References checked: 20.1.2009 (2.0b9)
++	 *
+ 	 * @see		#copyFile
+-	 * @see		de.deepamehta.client.DeepaMehtaClient#uploadFile
+-	 * @see		de.deepamehta.client.FileserverConnection#setLastModifiedLocally
+-	 * @see		de.deepamehta.client.FileserverConnection#performUploadRequest
++	 * @see		de.deepamehta.client.FileserverConnection#downloadFile
++	 * @see		de.deepamehta.client.FileserverConnection#uploadFile
++	 * @see		de.deepamehta.client.PresentationService#setLastModifiedLocally
++	 * @see		de.deepamehta.client.PresentationService#downloadFile
++	 * @see		de.deepamehta.client.PresentationService#performUploadRequest
++	 * @see		de.deepamehta.client.PresentationService#QueuedRequest
+ 	 * @see		de.deepamehta.service.FileserverConnection#performUpload
++	 * @see		de.deepamehta.service.FileserverConnection#performDownload
++	 * @see		de.deepamehta.topics.LiveTopic#upload
+ 	 */
+ 	public static String repositoryPath(int filetype) {
++		String bd = baseDir != null ? baseDir : &quot;&quot;;
++		//
+ 		switch (filetype) {
+ 		case FILE_DOCUMENT:
+-			return FILESERVER_DOCUMENTS_PATH;
++			return bd + FILESERVER_DOCUMENTS_PATH;
+ 		case FILE_ICON:
+-			return FILESERVER_ICONS_PATH;
++			return bd + FILESERVER_ICONS_PATH;
+ 		case FILE_IMAGE:
+-			return FILESERVER_IMAGES_PATH;
++			return bd + FILESERVER_IMAGES_PATH;
+ 		case FILE_BACKGROUND:
+-			return FILESERVER_BACKGROUNDS_PATH;
++			return bd + FILESERVER_BACKGROUNDS_PATH;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected filetype: &quot; + filetype);
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -45,6 +45,7 @@
+ import java.util.Properties;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
++import java.util.logging.Logger;
+ 
+ import javax.swing.BoxLayout;
+ import javax.swing.DefaultBoundedRangeModel;
+@@ -73,13 +74,12 @@
+ 
+ 
+ /**
+- * Main controler of the graphical DeepaMehta client.
++ * Main controller of the graphical DeepaMehta client.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last change: 25.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public final class PresentationService implements DeepaMehtaConstants, GraphPanelControler, PropertyPanelControler,
+ 																							ActionListener, Runnable {
+@@ -92,6 +92,8 @@
+ 
+ 
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	/**
+ 	 * The application service.
+ 	 */
+@@ -116,7 +118,7 @@
+ 	private Vector requestQueue = new Vector();
+ 
+ 	private DefaultBoundedRangeModel progressModel = new DefaultBoundedRangeModel();
+-	private FileServer fileServer = new FileServer(progressModel);
++	private FileServer fileServer;
+ 
+ 	// ---
+ 
+@@ -251,9 +253,18 @@
+ 		try {
+ 			this.hostAddress = InetAddress.getLocalHost().getHostAddress();
+ 		} catch (UnknownHostException e) {
+-			System.out.println(&quot;*** PresentationService(): &quot; + e);
++			logger.warning(&quot;can't get localhost's address (&quot; + e + &quot;)&quot;);
+ 		}
+ 		this.platform = System.getProperty(&quot;os.name&quot;);
++		// --- File Service ---
++		String baseDir = null;
++		try {
++			baseDir = System.getProperty(&quot;user.home&quot;) + &quot;/&quot; + FILE_REPOSITORY_PATH;
++			logger.info(&quot;file repository path: &quot; + baseDir);
++		} catch (Throwable e) {
++			logger.warning(&quot;can't get user's home directory (&quot; + e + &quot;) -- disable client-side file repository&quot;);
++		}
++		fileServer = new FileServer(baseDir, progressModel);
+ 		//
+ 		// create the thread responsible for processing the fileservice request queue
+ 		new Thread(this).start();
+@@ -498,7 +509,7 @@
+ 			filetype);
+ 		//
+ 		File file = new File(FileServer.repositoryPath(filetype) + filename);
+-		file.setLastModified(lastModified);	// Note: this is a JDK 1.2 method
++		file.setLastModified(lastModified);
+ 	}
+ 
+ 
+@@ -535,17 +546,17 @@
+ 	// ---
+ 
+ 	/**
+-	 * Checks if the specified topic type is known in the topicmap this controler
++	 * Checks if the specified topic type is known in the topicmap this controller
+ 	 * controls.
+ 	 * &lt;p&gt;
+ 	 * ### If the topic type is not known it is retrieved from the list of corporate wide
+-	 * topic types and is added to the editor who deploys this controler and the server
++	 * topic types and is added to the editor who deploys this controller and the server
+ 	 * is notified by means of a (&lt;code&gt;addTypeToView&lt;/code&gt;) message.
+ 	 * &lt;p&gt;
+ 	 * References checked: 2.12.2001 (2.0a14-pre1)
+ 	 *
+ 	 * @return	### &lt;code&gt;true&lt;/code&gt; if the specified topic type is known in the topicmap
+-	 *			this controler controls, &lt;code&gt;false&lt;/code&gt; if the type was unknown (and
++	 *			this controller controls, &lt;code&gt;false&lt;/code&gt; if the type was unknown (and
+ 	 *			thus is retrieved now)
+ 	 *
+ 	 * @see		#showTopic
+@@ -566,17 +577,17 @@
+ 	}
+ 
+ 	/**
+-	 * Checks if the specified association type is known in the topicmap this controler
++	 * Checks if the specified association type is known in the topicmap this controller
+ 	 * controls.
+ 	 * &lt;p&gt;
+ 	 * ### If the association type is not known it is retrieved from the list of corporate
+-	 * wide association types and is added to the editor who deploys this controler and
++	 * wide association types and is added to the editor who deploys this controller and
+ 	 * the server is notified by means of a (&lt;code&gt;addTypeToView&lt;/code&gt;) message.
+ 	 * &lt;p&gt;
+ 	 * References checked: 2.12.2001 (2.0a14-pre1)
+ 	 *
+ 	 * @return	### &lt;code&gt;true&lt;/code&gt; if the specified association type is known in the
+-	 *			topicmap this controler controls, &lt;code&gt;false&lt;/code&gt; if the type was
++	 *			topicmap this controller controls, &lt;code&gt;false&lt;/code&gt; if the type was
+ 	 *			unknown (and thus is retrieved now)
+ 	 *
+ 	 * @see		PresentationService#showTopic
+@@ -1549,7 +1560,7 @@
+ 				case DIRECTIVE_OPEN_FILE:
+ 					String command = (String) param1;
+ 					filename = (String) param2;
+-					executeCommand(command, filename);
++					executeSystemCommand(command, filename);
+ 					break;
+ 				case DIRECTIVE_QUEUE_MESSAGE:
+ 					queueMessage((String) param1);
+@@ -1558,7 +1569,7 @@
+ 					queueDirectives((PresentationDirectives) param1);
+ 					break;
+ 				case DIRECTIVE_LAUNCH_APPLICATION:
+-					executeCommand((String) param1);
++					executeSystemCommand((String) param1);
+ 					break;
+ 				case DIRECTIVE_OPEN_URL:
+ 					showWebpage((String) param1);
+@@ -2426,46 +2437,38 @@
+ 		try {
+ 			if (runsAsApplet) {
+ 				URL url = new URL(urlStr);
+-				System.out.println(&quot;&gt; PresentationService.showWebpage(): \&quot;&quot; + url + &quot;\&quot;&quot;);
++				logger.info(&quot;\&quot;&quot; + url + &quot;\&quot;&quot;);
+ 				applet.getAppletContext().showDocument(url, &quot;extern&quot;);	// ###
+ 			} else {
+ 				// ###
+-				showMessage(&quot;Showing webpages not yet supported if running as &quot; +
+-					&quot;application (&quot; + urlStr + &quot; not shown) &gt;&gt;&gt; Use the applet &quot; +
+-					&quot;instead&quot;, NOTIFICATION_WARNING);
+-				System.out.println(&quot;*** PresentationService.showWebpage(): not yet&quot; +
+-					&quot;supported if running as application -- \&quot;&quot; + urlStr + &quot;\&quot; &quot; +
+-					&quot;not shown&quot;);
++				showMessage(&quot;Showing webpages not yet supported if running as application (&quot; + urlStr + &quot; not shown) &quot; +
++					&quot;&gt;&gt;&gt; Use the applet instead&quot;, NOTIFICATION_WARNING);
++				logger.warning(&quot;not yet supported if running as application -- \&quot;&quot; + urlStr + &quot;\&quot; not shown&quot;);
+ 			}
+ 		} catch (Exception e) {
+-			System.out.println(&quot;*** PresentationService.showWebpage(): &quot; + e + &quot; -- &quot; +
+-				&quot;webpage \&quot;&quot; + urlStr + &quot;\&quot; not shown&quot;);
++			logger.warning(&quot;webpage \&quot;&quot; + urlStr + &quot;\&quot; can't be shown (&quot; + e + &quot;)&quot;);
+ 		}
+ 	}
+ 
+-	// --- executeCommand (2 forms) ---
++	// --- executeSystemCommand (2 forms) ---
+ 
+ 	/**
+ 	 * Processes &lt;code&gt;DIRECTIVE_LAUNCH_APPLICATION&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+-	private void executeCommand(String command) {
++	private void executeSystemCommand(String command) {
+ 		String cmdStr = &quot;\&quot;&quot; + command + &quot;\&quot;&quot;;	// just for reporting
+ 		try {
+-			System.out.println(&quot;&gt; execute &quot; + cmdStr);
++			logger.info(&quot;executing &quot; + cmdStr);
+ 			Runtime.getRuntime().exec(command);
+ 		} catch (IOException e) {
+-			showMessage(&quot;Application \&quot;&quot; + command + &quot;\&quot; not launched because it &quot; +
+-				&quot;is not found&quot;, NOTIFICATION_WARNING);
+-			System.out.println(&quot;*** PresentationService.executeCommand(): application \&quot;&quot; +
+-				command + &quot;\&quot; not found -- application not opened&quot;);
++			showMessage(&quot;Application \&quot;&quot; + command + &quot;\&quot; not launched because it is not found&quot;, NOTIFICATION_WARNING);
++			logger.warning(&quot;application \&quot;&quot; + command + &quot;\&quot; not found -- application not opened&quot;);
+ 		} catch (Exception e) {
+-			showMessage(&quot;Application \&quot;&quot; + command + &quot;\&quot; not launched because of &quot; +
+-				&quot;security restrictions &gt;&gt;&gt; Use the signed applet or the application&quot;,
+-				NOTIFICATION_WARNING);
+-			System.out.println(&quot;*** PresentationService.executeCommand(): &quot; + e + &quot; -- &quot; +
+-				cmdStr + &quot; not executed&quot;);
++			showMessage(&quot;Application \&quot;&quot; + command + &quot;\&quot; not launched because of security restrictions &quot; +
++				&quot;&gt;&gt;&gt; Use the signed applet or the application&quot;, NOTIFICATION_WARNING);
++			logger.warning(cmdStr + &quot; can't be executed (&quot; + e + &quot;)&quot;);
+ 		}
+ 	}
+ 
+@@ -2474,29 +2477,26 @@
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+-	private void executeCommand(String command, String param) {
++	private void executeSystemCommand(String command, String param) {
+ 		// ### hack for Mac OS X: the application is ignored, the file is opened with &quot;open&quot; instead.
+ 		// ### I don't know how to start Mac OS X applications with Runtime.exec().
+ 		if (platform.equals(PLATFORM_MACOSX)) {
+ 			command = &quot;open&quot;;
+ 		}
+ 		//
+-		String[] cmd = {command, FILESERVER_DOCUMENTS_PATH + param};
++		String[] cmd = {command, FileServer.repositoryPath(FILE_DOCUMENT) + param};
+ 		String cmdStr = &quot;\&quot;&quot; + cmd[0] + &quot; &quot; + cmd[1] + &quot;\&quot;&quot;;	// just for reporting
+ 		try {
+-			System.out.println(&quot;&gt; execute &quot; + cmdStr);
++			logger.info(&quot;executing &quot; + cmdStr);
+ 			Runtime.getRuntime().exec(cmd);
+ 		} catch (IOException e) {
+ 			showMessage(&quot;File \&quot;&quot; + param + &quot;\&quot; can not be opened because application \&quot;&quot; +
+ 				command + &quot;\&quot; not found&quot;, NOTIFICATION_WARNING);
+-			System.out.println(&quot;*** PresentationService.executeCommand(): application \&quot;&quot; +
+-				command + &quot;\&quot; not found -- \&quot;&quot; + param + &quot;\&quot; not opened&quot;);
++			logger.warning(&quot;application \&quot;&quot; + command + &quot;\&quot; not found -- \&quot;&quot; + param + &quot;\&quot; not opened&quot;);
+ 		} catch (Exception e) {
+-			showMessage(&quot;File \&quot;&quot; + param + &quot;\&quot; not opened because of security &quot; +
+-				&quot;restrictions &gt;&gt;&gt; Use the signed applet or the application&quot;,
+-				NOTIFICATION_WARNING);
+-			System.out.println(&quot;*** PresentationService.executeCommand(): &quot; + e + &quot; -- &quot; +
+-				cmdStr + &quot; not executed&quot;);
++			showMessage(&quot;File \&quot;&quot; + param + &quot;\&quot; not opened because of security restrictions &quot; +
++				&quot;&gt;&gt;&gt; Use the signed applet or the application&quot;, NOTIFICATION_WARNING);
++			logger.warning(cmdStr + &quot; can't be executed (&quot; + e + &quot;)&quot;);
+ 		}
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -7,6 +7,7 @@
+ import de.deepamehta.BaseTopicMap;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.FileServer;
+ import de.deepamehta.OrderedItem;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+@@ -68,7 +69,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.10.2008 (2.0b8)&lt;br&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+@@ -156,7 +157,7 @@
+ 	 * @see		#create
+ 	 */
+ 	private ApplicationService(ApplicationServiceHost host, CorporateMemory cm) {
+-		// &gt;&gt;&gt; compare to PresentationService.initialize()
++		// &gt;&gt;&gt; compare to PresentationService constructor
+ 		try {
+ 			this.hostAddress = InetAddress.getLocalHost().getHostAddress();
+ 		} catch (UnknownHostException e) {
+@@ -3970,11 +3971,9 @@
+ 	/**
+ 	 * ### to be dropped
+ 	 *
+-	 * References checked: 1.9.2002 (2.0a16-pre2)
++	 * References checked: 25.1.2009 (2.0b9)
+ 	 *
+-	 * @see		de.deepamehta.topics.LiveTopic#copyAndUpload
+-	 * @see		de.deepamehta.topics.TopicMapTopic#doImport
+-	 * @see		de.deepamehta.topics.CMImportExportTopic#executeChainedCommand
++	 * @see		de.deepamehta.topics.LiveTopic#upload
+ 	 */
+ 	public boolean runsAtServerHost(Session session) {
+ 		String clientAddress = session.getAddress();
+@@ -4461,7 +4460,7 @@
+ 	 * @see		#processMessage
+ 	 */
+ 	private void importTopicmap(String filename, int x, int y, Session session) throws DeepaMehtaException {
+-		File topicmapFile = new File(FILESERVER_DOCUMENTS_PATH + filename);
++		File topicmapFile = new File(FileServer.repositoryPath(FILE_DOCUMENT) + filename);
+ 		String topicmapID = session.getPersonalWorkspace().getID();
+ 		TopicMapImporter importer = new TopicMapImporter(this);
+ 		CorporateDirectives directives = importer.doImport(topicmapFile, session, x, y);
+@@ -4477,7 +4476,7 @@
+ 	 * @see		#processMessage
+ 	 */
+ 	private void importCM(String filename, Session session) throws DeepaMehtaException {
+-		File cmFile = new File(FILESERVER_DOCUMENTS_PATH + filename);
++		File cmFile = new File(FileServer.repositoryPath(FILE_DOCUMENT) + filename);
+ 		String topicmapID = session.getPersonalWorkspace().getID();
+ 		TopicMapImporter importer = new TopicMapImporter(this);
+ 		CorporateDirectives directives = importer.doImport(cmFile, null, 0, 0);	// may throw DME
+
+Modified: trunk/develop/src/de/deepamehta/topics/CMImportExportTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CMImportExportTopic.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/CMImportExportTopic.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -27,31 +27,30 @@
+ 
+ /**
+  * This active topic class provides Corporate Memory Import/Export functionality. 
+- * &lt;P&gt;
+- * The &lt;I&gt;context-commands&lt;/I&gt; (about to appear in the topic context menu) provided by a
+- * &lt;CODE&gt;CMImportExportTopic&lt;/CODE&gt; are &lt;I&gt;exporting&lt;/I&gt; resp. &lt;I&gt;importing&lt;/I&gt;
++ * &lt;p&gt;
++ * The &lt;i&gt;context-commands&lt;/i&gt; (about to appear in the topic context menu) provided by a
++ * &lt;code&gt;CMImportExportTopic&lt;/code&gt; are &lt;i&gt;exporting&lt;/i&gt; resp. &lt;i&gt;importing&lt;/i&gt;
+  * of whole corporate memory to resp. from an archive file. 
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The exporting of corporate memory on the server side is provided in the method
+  * {@link #executeCommand executeCommand()}. 
+  * The archive file is created in method {@link #exportCM exportCM()} and downloaded 
+  * by the client. After that the user is informed by message.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The importing of corporate memory on the server side is divided into three steps:
+- * &lt;P&gt;&lt;OL&gt;
+- * &lt;LI&gt;sending of directive for choosing archive file name 
+- * ({@link #executeCommand executeCommand()})&lt;/LI&gt;
+- * &lt;LI&gt;sending of directives for copying of archive file to client's document repository 
++ * &lt;p&gt;&lt;ol&gt;
++ * &lt;li&gt;sending of directive for choosing archive file name 
++ * ({@link #executeCommand executeCommand()})&lt;/li&gt;
++ * &lt;li&gt;sending of directives for copying of archive file to client's document repository 
+  *     and upload to the server 
+- * ({@link #executeChainedCommand executeChainedCommand()})&lt;/LI&gt;
+- * &lt;LI&gt;importing from archive file stored in server's document repository 
+- *     ({@link #importFromFile importFromFile()})&lt;/LI&gt;
+- * &lt;/OL&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 13.4.2002 (2.0a14-post1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * ({@link #executeChainedCommand executeChainedCommand()})&lt;/li&gt;
++ * &lt;li&gt;importing from archive file stored in server's document repository 
++ *     ({@link #importFromFile importFromFile()})&lt;/li&gt;
++ * &lt;/ol&gt;
++ * &lt;hr&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class CMImportExportTopic extends LiveTopic {
+ 
+@@ -176,25 +175,25 @@
+ 
+ 	/**
+ 	 * Imports corporate memory from archive file stored in server's document repository.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This method consists of these parts: 
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;declassifying of archive entry&lt;/LI&gt;
+-	 * &lt;LI&gt;parsing XML 
+-	 * &lt;LI&gt;importing of topics&lt;/LI&gt;
+-	 * &lt;LI&gt;importing of associations&lt;/LI&gt;
+-	 * &lt;/UL&gt;&lt;P&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;declassifying of archive entry&lt;/li&gt;
++	 * &lt;li&gt;parsing XML 
++	 * &lt;li&gt;importing of topics&lt;/li&gt;
++	 * &lt;li&gt;importing of associations&lt;/li&gt;
++	 * &lt;/ul&gt;&lt;p&gt;
+ 	 * Importing of single topic is done in following steps:
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;getting topic attributes from XML file&lt;/LI&gt;
+-	 * &lt;LI&gt;founding topic with the same name and type in corporate memory&lt;/LI&gt;
+-	 *   &lt;UL&gt;
+-	 *   &lt;LI&gt;if found, existing topic id is retrieved&lt;/LI&gt;
+-	 *   &lt;LI&gt;if not found, the new topic id is created according to type of the topic&lt;/LI&gt;
+-	 *   &lt;/UL&gt;
+-	 * &lt;LI&gt;Both ids, old stored in archive and existing or new from corporate memory are 
+-	 *     stored in &lt;CODE&gt;topicImportMap&lt;/CODE&gt;&lt;/LI&gt;
+-	 * &lt;/OL&gt;
++	 * &lt;ol&gt;
++	 * &lt;li&gt;getting topic attributes from XML file&lt;/li&gt;
++	 * &lt;li&gt;founding topic with the same name and type in corporate memory&lt;/li&gt;
++	 *   &lt;ul&gt;
++	 *   &lt;li&gt;if found, existing topic id is retrieved&lt;/li&gt;
++	 *   &lt;li&gt;if not found, the new topic id is created according to type of the topic&lt;/li&gt;
++	 *   &lt;/ul&gt;
++	 * &lt;li&gt;Both ids, old stored in archive and existing or new from corporate memory are 
++	 *     stored in &lt;code&gt;topicImportMap&lt;/code&gt;&lt;/li&gt;
++	 * &lt;/ol&gt;
+ 	 *
+ 	 * @param   file  	input archive file
+ 	 * @param   as  	
+@@ -270,8 +269,8 @@
+ 
+ 	/**
+ 	 * Exports corporate memory to a ZIP archive file. The archive file name is  
+-	 * &lt;CODE&gt;corporate-memory.zip&lt;/CODE&gt;.
+-	 * &lt;P&gt; 
++	 * &lt;code&gt;corporate-memory.zip&lt;/code&gt;.
++	 * &lt;p&gt; 
+ 	 * For constructing of XML code for topics and association are used static methods
+ 	 * {@link TopicMapTopic#makeTopicsXML(Enumeration e, StringBuffer out, 
+ 	 * ApplicationService as) TopicMapTopic.makeTopicsXML()}
+@@ -280,7 +279,7 @@
+ 	 * The XML file is written to ZIP stream throw OutputStreamWriter with UTF-8 encoding
+ 	 * for correct saving of regional characters. 
+ 	 *
+-	 * @return  reference to the &lt;CODE&gt;File&lt;/CODE&gt; object stored in the file system 
++	 * @return  reference to the &lt;code&gt;File&lt;/code&gt; object stored in the file system 
+ 	 * 			of the server
+ 	 * @throws  IOException  if the archive file cannot be written
+ 	 *
+@@ -290,7 +289,7 @@
+ 		// ### compare to TopicMapExporter.createTopicmapArchive()
+ 		// create file reference for topicmap archive file
+ 		String filename = &quot;corporate-memory.zip&quot;;	// ###
+-		File archiveFile = new File(FILESERVER_DOCUMENTS_PATH + filename);
++		File archiveFile = new File(FileServer.repositoryPath(FILE_DOCUMENT) + filename);
+ 		// possibly create corporate document repository
+ 		FileServer.createDirectory(archiveFile);
+ 		// create corporate memory archive file
+
+Modified: trunk/develop/src/de/deepamehta/topics/DocumentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/DocumentTopic.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/DocumentTopic.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -2,6 +2,7 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.FileServer;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+@@ -15,7 +16,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -57,7 +58,7 @@
+ 			try {
+ 				String filename = getProperty(PROPERTY_FILE);
+ 				// access file in corporate document repository
+-				File file = new File(FILESERVER_DOCUMENTS_PATH + filename);
++				File file = new File(FileServer.repositoryPath(FILE_DOCUMENT) + filename);
+ 				Long lastModified = new Long(file.lastModified());
+ 				// Note: if the file is missing in corporate document repository lastModified is 0 and the
+ 				// DIRECTIVE_DOWNLOAD_FILE is added anyway, thus the client can detect the file is missing
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -3,6 +3,7 @@
+ import de.deepamehta.BaseAssociation;
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.service.ApplicationService;
+@@ -36,7 +37,7 @@
+  * An email.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -231,7 +232,7 @@
+ 			msg.setSentDate(d);
+ 			// set text and attachments
+ 			String msgText = (String) props.get(PROPERTY_TEXT);
+-			addAttachs(msgText, msg);
++			addAttachments(msgText, msg);
+ 			//
+ 			Transport.send(msg);
+ 			//
+@@ -343,14 +344,14 @@
+ 		}
+ 	}
+ 
+-	public void addAttachs(String msgText, MimeMessage msg) throws MessagingException {
++	private void addAttachments(String msgText, MimeMessage msg) throws MessagingException {
+ 		Enumeration docs = as.getRelatedTopics(getID(), SEMANTIC_EMAIL_ATTACHMENT, 2).elements();
+ 		Multipart mp = null;
+ 		while (docs.hasMoreElements()) {
+ 			BaseTopic doc = (BaseTopic)docs.nextElement();
+ 			if (doc.getType().equals(TOPICTYPE_DOCUMENT)) {
+-				String sFileName = as.getTopicProperty(doc.getID(), doc.getVersion(), &quot;File&quot;);
+-				String sFile = FILESERVER_DOCUMENTS_PATH + sFileName;
++				String sFileName = getProperty(doc, PROPERTY_FILE);
++				String sFile = FileServer.repositoryPath(FILE_DOCUMENT) + sFileName;
+ 				MimeBodyPart mbp = new MimeBodyPart();
+ 				FileDataSource ds = new FileDataSource(sFile);
+ 				DataHandler dh = new DataHandler(ds);
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -1550,7 +1550,7 @@
+ 		// ### for queued upload requests the time stamp might be not correct. it is 0 in the following situation:
+ 		// client and server are running at the same machine, sharing the document repository, the file to import
+ 		// was choosen from outside document repository and no version of the file is in document repository -- thus
+-		// the client will performs the upload request and corrupts the archive file (0 bytes).
++		// the client will perform the upload request and corrupts the archive file (0 bytes).
+ 		//
+ 		// ### compare to PresentationService.uploadFile()
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.BaseTopicMap;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.Detail;
++import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableTopicMap;
+@@ -85,7 +86,7 @@
+  *     ({@link #importFromFile})&lt;/li&gt;
+  * &lt;/ol&gt;
+  * &lt;hr&gt;
+- * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -692,7 +693,7 @@
+ 		paintAssociations(topicmap.getAssociations().elements(), g, topicmap.getTopics());
+ 		paintTopics(topicmap.getTopics().elements(), g, geometryData, bounds);
+ 		// --- save image as PNG file ---
+-		File file = new File(FILESERVER_DOCUMENTS_PATH + &quot;topicmap-&quot; + getID() + &quot;.png&quot;);
++		File file = new File(FileServer.repositoryPath(FILE_DOCUMENT) + &quot;topicmap-&quot; + getID() + &quot;.png&quot;);
+ 		DeepaMehtaServiceUtils.createImageFile(image, file);
+ 		//
+ 		return geometryData;
+
+Modified: trunk/develop/src/de/deepamehta/topics/helper/ArchiveFileCollector.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/helper/ArchiveFileCollector.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/helper/ArchiveFileCollector.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.topics.helper;
+ 
+ import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.FileServer;
+ 
+ import java.io.File;
+ import java.io.FileInputStream;
+@@ -15,7 +16,7 @@
+ 
+ /**
+  * ### to be dropped, functionality will move to TopicMapExporter
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * Helper class for XML export of topicmaps. This class collects all Icons and Documents
+  * which belong to the exported topicmap. During export, one instance of this class
+  * is created and passed to all relevant export routines which call methods
+@@ -87,7 +88,7 @@
+ 	public void putDocument(String docName) {
+ 		if (docName != null &amp;&amp; ! docName.equals(&quot;&quot;)) {
+ 			// ### System.out.println(&quot;&gt;&gt;&gt; ArchiveFileCollector.putDocument(\&quot;&quot; + docName + &quot;\&quot;)&quot;);
+-			documents.put(docName, new File(FILESERVER_DOCUMENTS_PATH + docName));
++			documents.put(docName, new File(FileServer.repositoryPath(FILE_DOCUMENT) + docName));
+ 		}
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/helper/EmailChecker.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/helper/EmailChecker.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/helper/EmailChecker.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -2,6 +2,7 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.FileServer;
+ import de.deepamehta.service.ApplicationService;
+ 
+ import com.sun.mail.pop3.POP3Folder;
+@@ -302,7 +303,7 @@
+ 	}
+ 	
+ 	public boolean addAttach(String mailID, String mimeType, String fileName, Object inData) {
+-		String path = FILESERVER_DOCUMENTS_PATH;
++		String path = FileServer.repositoryPath(FILE_DOCUMENT);
+ 		File dstDir = new File(path);
+ 		// ### create target directory
+ 		if (dstDir.mkdirs()) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2009-01-24 01:12:47 UTC (rev 360)
++++ trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2009-01-26 03:51:57 UTC (rev 361)
+@@ -51,7 +51,7 @@
+  * &lt;li&gt;
+  * &lt;/ul&gt;
+  * &lt;hr&gt;
+- * Last change: 1.5.2004 (2.0b3-pre2)&lt;br&gt;
++ * Last change: 26.1.2009 (2.0b9)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -113,7 +113,7 @@
+ 	 */
+ 	public File createTopicmapArchive(String fileBasename) throws IOException {
+ 		// ### compare to CMImportExportTopic.exportCM()
+-		File archiveFile = new File(FILESERVER_DOCUMENTS_PATH + fileBasename + &quot;.zip&quot;);
++		File archiveFile = new File(FileServer.repositoryPath(FILE_DOCUMENT) + fileBasename + &quot;.zip&quot;);
+ 		// possibly create corporate document repository
+ 		FileServer.createDirectory(archiveFile);
+ 		// create topicmap archive file
+@@ -141,7 +141,7 @@
+ 		// --- trigger getSVGStylesheetName() hook ---
+ 		String stylesheetName = topicmap.getSVGStylesheetName();
+ 		//
+-		File outFile = new File(FILESERVER_DOCUMENTS_PATH + fileBasename + &quot;.svg&quot;);
++		File outFile = new File(FileServer.repositoryPath(FILE_DOCUMENT) + fileBasename + &quot;.svg&quot;);
+ 		FileServer.createDirectory(outFile);
+ 		OutputStream out = new FileOutputStream(outFile);
+ 		transformTopicmap(topicmap, stylesheetName, new StreamResult(out));	// ### outFile
+@@ -166,8 +166,8 @@
+ 		String foStylesheetName = topicmap.getFOStylesheetName();
+ 		String svgStylesheetName = topicmap.getSVGStylesheetName();
+ 		//
+-		File outFile = // ### new File(FILESERVER_DOCUMENTS_PATH + fileBasename + &quot;.fo&quot;);	// ### debugging: write fo file
+-			new File(FILESERVER_DOCUMENTS_PATH + fileBasename + &quot;.pdf&quot;);
++		File outFile = // ### new File(FileServer.repositoryPath(FILE_DOCUMENT) + fileBasename + &quot;.fo&quot;);	// ### debugging: write fo file
++			new File(FileServer.repositoryPath(FILE_DOCUMENT) + fileBasename + &quot;.pdf&quot;);
+ 		FileServer.createDirectory(outFile);
+ 		OutputStream out = new FileOutputStream(outFile);
+ 		// --- SAX transformation ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000204.html">[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

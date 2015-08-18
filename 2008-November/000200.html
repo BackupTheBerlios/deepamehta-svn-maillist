@@ -1,0 +1,720 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r356 - in trunk: . develop/src/de/deepamehta	install/db install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r356%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09install/db%20install/db/patches&In-Reply-To=%3C200811010007.mA107avR006965%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000201.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r356 - in trunk: . develop/src/de/deepamehta	install/db install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r356%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09install/db%20install/db/patches&In-Reply-To=%3C200811010007.mA107avR006965%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r356 - in trunk: . develop/src/de/deepamehta	install/db install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Sat Nov  1 01:07:36 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000201.html">[deepamehta-svn] r357 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#200">[ date ]</a>
+              <a href="thread.html#200">[ thread ]</a>
+              <a href="subject.html#200">[ subject ]</a>
+              <a href="author.html#200">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-11-01 01:07:30 +0100 (Sat, 01 Nov 2008)
+New Revision: 356
+
+Modified:
+   trunk/README-de.txt
+   trunk/README.txt
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/install/db/cm.sql
+   trunk/install/db/patches/cm-2.18.sql
+   trunk/install/db/patches/cm-2.19.sql
+Log:
+1) Bug #14746 fixed (Client freezes for large search results)
+IMPORTANT: the error still occurs for already existing large search results. In order to fix this, start the monolithic application and remove the large search results (more than 300 items) manually. From that moment the client/server application will work.
+2) Prepared for release:
+2a) integrated the patches cm-2.18.sql and cm-2.19.sql to cm.sql
+2b) README files updated
+
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/README-de.txt	2008-11-01 00:07:30 UTC (rev 356)
+@@ -143,7 +143,7 @@
+ 
+ 2) Starten:
+ 
+-	&#195;&#150;ffne den &quot;deepamehta&quot; Ordner und doppelklicke die Datei &quot;run.command&quot;.
++    &#195;&#150;ffne den &quot;deepamehta&quot; Ordner und doppelklicke die Datei &quot;run.command&quot;.
+ 
+     Es wird eine automatische Standardinstallation durchgef&#195;&#188;hrt und DeepaMehta dann gestartet.
+     Sobald der Login-Dialog erscheint, gebe &quot;root&quot; ein und dr&#195;&#188;cke 2x Return.
+@@ -377,8 +377,10 @@
+     2.0b5                 cm-2.15.sql
+     2.0b6                 cm-2.16.sql
+     2.0b7                 cm-2.17.sql
++    2.0b8-rc4             cm-2.18.sql
++    rev346-20080910       cm-2.19.sql
+ 
+-Wenn Du z.B. derzeit DeepaMehta 2.0b7 installiert hast, spiele nur den Patch &quot;cm-2.17.sql&quot; ein. Wenn Du z.B. derzeit DeepaMehta 2.0b5 installiert hast, spiele den 15er, 16er und 17er Patch ein (in dieser Reihenfolge).
++Wenn Du z.B. derzeit DeepaMehta 2.0b7 installiert hast, spiele die Patches 2.17, 2.18 und 2.19 ein (in dieser Reihenfolge).
+ 
+ Zum Einspielen eines einzelnen Patches gebe folgendes Kommando ein (hier wird der Patch &quot;cm-2.17.sql&quot; eingespielt):
+ 
+@@ -625,11 +627,11 @@
+ Wie geht's weiter?
+ ==================
+ 
+-Bedienhinweise f&#195;&#188;r die ersten Schritte stehen im Wiki:
+-<A HREF="https://www.mindworxs.de/zwiki/ErsteSchritte">https://www.mindworxs.de/zwiki/ErsteSchritte</A>
++Bedienhinweise f&#195;&#188;r die ersten Schritte (in Englisch):
++<A HREF="http://www.deepamehta.de/wiki/en/Quickstart">http://www.deepamehta.de/wiki/en/Quickstart</A>
+ 
+-Den Beginn eines Users Guides gibt es hier:
+-<A HREF="http://www.deepamehta.de/docs/usersguide.html">http://www.deepamehta.de/docs/usersguide.html</A>
++DeepaMehta User Guide (in Englisch):
++<A HREF="http://www.deepamehta.de/wiki/en/User_Guide">http://www.deepamehta.de/wiki/en/User_Guide</A>
+ 
+ F&#195;&#188;r Deine Fragen benutze m&#195;&#182;glichst das Forum auf der DeepaMehta Website oder abboniere die deepamehta-users Mailingliste. Im Forum befinden sich bereits wichtige Hinweise zur Bedienung. Forum und Mailinglisten sind auf www.deepamehta.de unter &quot;Community&quot; zu erreichen.
+ 
+@@ -637,4 +639,4 @@
+ 
+ ------------------------------------------------------------------------------------------------------
+ J&#195;&#182;rg Richter                                                                         www.deepamehta.de
+-17.3.2008
++1.11.2008
+
+Modified: trunk/README.txt
+===================================================================
+--- trunk/README.txt	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/README.txt	2008-11-01 00:07:30 UTC (rev 356)
+@@ -46,7 +46,7 @@
+ Software (optional)
+ 
+     If you plan to use the DeepaMehta web frontends,
+-	the following software needs to be installed separatly:
++    the following software needs to be installed separatly:
+ 
+     =&gt; Java Standard Edition, Development Kit (JDK, Version 1.4 oder 5 oder 6)
+        <A HREF="http://java.sun.com/">http://java.sun.com/</A>
+@@ -72,14 +72,9 @@
+ * Linux set up
+ * Mac OS X set up
+ 
+-This brief instruction contains all neccessary information to install DeepaMehta quickly and easily. 
+-After unzipping DeepaMehta can be started instantly by double-clicking.
+-No command line entries are nessessary.
+-At initial startup a minimum standard installation will be executed automatically.  
++This brief instruction contains all neccessary information to install DeepaMehta quickly and easily. After unzipping DeepaMehta can be started instantly by double-clicking. No command line entries are nessessary. At initial startup a minimum standard installation will be executed automatically.
+ 
+-If you want to install any of the examples or web frontends, please configure the installation manually (terminal-based) 
+-as described in the following section &quot;Installation&quot;. 
+-You can as well perform the automatic installation first and supplement it by the example applications and web frontends afterwards.
++If you want to install any of the examples or web frontends, please configure the installation manually (terminal-based) as described in the following section &quot;Installation&quot;. You can as well perform the automatic installation first and supplement it by the example applications and web frontends afterwards.
+ 
+ 
+ Installation on Windows PC
+@@ -97,8 +92,8 @@
+     The &quot;run&quot;-file will possibly be shown as &quot;run.bat&quot;.
+ 
+     Automatically a standard installation will be performed and DeepaMehta will be startet.
+-    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times. No password is required.
+-    The DeepaMehta desktop will appear.
++    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times.
++    No password is required. The DeepaMehta desktop will appear.
+ 
+ 3) Quit: Close the DeepaMehta window.
+ 
+@@ -125,8 +120,8 @@
+     ./run.sh
+ 
+     Automatically a standard installation will be performed and DeepaMehta will be startet.
+-    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times. No password is required.
+-    The DeepaMehta desktop will appear.
++    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times.
++    No password is required. The DeepaMehta desktop will appear.
+ 
+ 3) Quit: Close the DeepaMehta window.
+ 
+@@ -147,7 +142,7 @@
+ 
+ 2) Starting:
+ 
+-	Open the &quot;deepamehta&quot;-directory and double-click the file &quot;run.command&quot;.
++    Open the &quot;deepamehta&quot;-directory and double-click the file &quot;run.command&quot;.
+ 
+     Automatically a standard installation will be performed and DeepaMehta will be startet.
+     As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times.
+@@ -172,19 +167,15 @@
+ * Update an existing installation
+ * Additional installation of the example applications
+ 
+-Most of the processes that are dealt with in this and the following chapters can be executed by entering a &quot;run&quot;-command 
+-in your terminal window.
++Most of the processes that are dealt with in this and the following chapters can be executed by entering a &quot;run&quot;-command in your terminal window.
+ 
+-IMPORTANT: the &quot;run&quot;-command must be executed from within your DeepaMehta-home directory. 
+-The DeepaMehta-home directory is the directory &quot;deepamehta&quot;, which will be created upon unzipping. 
+-Use the &quot;cd&quot;-command to change into the DeepaMehta-home directory.
++IMPORTANT: the &quot;run&quot;-command must be executed from within your DeepaMehta-home directory. The DeepaMehta-home directory is the directory &quot;deepamehta&quot;, which will be created upon unzipping. Use the &quot;cd&quot;-command to change into the DeepaMehta-home directory.
+ 
+ IMPORTANT for Windows-users:
+ 
+ =&gt; whenever you are asked to enter &quot;./run.sh&quot; Windows-users only have to enter &quot;run&quot;.
+ 
+-Hint: To open a command-line window choose &quot;Execute...&quot; from the &quot;Start&quot;-menue, 
+-enter &quot;cmd&quot; and press &quot;OK&quot;.
++Hint: To open a command-line window choose &quot;Execute...&quot; from the &quot;Start&quot;-menue, enter &quot;cmd&quot; and press &quot;OK&quot;.
+ 
+ 
+ Step 1: Unzip
+@@ -213,14 +204,12 @@
+ - Which network port shall be accepted by the DeepaMehta server for client connections?
+ - Which example applications shall be installed?
+ 
+-Therfore a few questions will be asked. The standard answers are provided in squared brackets 
+-and can be chosen by hitting the &quot;Return&quot; key. 
++Therfore a few questions will be asked. The standard answers are provided in squared brackets and can be chosen by hitting the &quot;Return&quot; key.
+ 
+ 
+ =&gt; Web frontends
+ 
+-First of all you will be asked, if you want to use the DeepaMehta web frontends. 
+-If &quot;Yes&quot; is your answer, you must state where your Tomcat home-directory is located at.
++First of all you will be asked, if you want to use the DeepaMehta web frontends. If &quot;Yes&quot; is your answer, you must state where your Tomcat home-directory is located at.
+ 
+     [input] Do you want to install the web frontends (Tomcat must already be installed)? (y, [n])
+ 
+@@ -228,8 +217,7 @@
+ 
+ =&gt; Database
+ 
+-Then you will be asked into which database the DeepaMehta application shall put your data. 
+-If the provided HSQL-database shall be used, simply hit &quot;Return&quot;.
++Then you will be asked into which database the DeepaMehta application shall put your data. If the provided HSQL-database shall be used, simply hit &quot;Return&quot;.
+ 
+     [echo] Please select the DeepaMehta instance to be configured:
+     [echo]
+@@ -239,9 +227,7 @@
+     [echo]
+     [input] Currently set [hsqldb-intern]
+ 
+-IMPORTANT: If the DeepaMehta web frontends and the graphical DeepaMehta user interface shall be used simultaneously on your 
+-computer, MySQL must be used as a database. 
+-MySQL is not provided with DeepaMehta and must be installed separately.
++IMPORTANT: If the DeepaMehta web frontends and the graphical DeepaMehta user interface shall be used simultaneously on your computer, MySQL must be used as a database. MySQL is not provided with DeepaMehta and must be installed separately.
+ 
+ Now you will be asked for the name of the database which is going to be created. Enter your desired name for the database or simply hit &quot;Return&quot;.
+ 
+@@ -249,18 +235,13 @@
+ 
+ =&gt; Network port
+ 
+-Then you will be asked for the network port which shall be used by the DeepaMehta server to accept client connections. 
+-This setting is important for client-server operation (see &quot;Networked&quot; in section &quot;Starting &amp; Quitting&quot;), 
+-especially if several DeepaMehta instances are in use (see &quot;Setting up additional instances&quot; in section &quot;Administration&quot;). At the moment simply hit &quot;Return&quot;.
++Then you will be asked for the network port which shall be used by the DeepaMehta server to accept client connections. This setting is important for client-server operation (see &quot;Networked&quot; in section &quot;Starting &amp; Quitting&quot;), especially if several DeepaMehta instances are in use (see &quot;Setting up additional instances&quot; in section &quot;Administration&quot;). At the moment simply hit &quot;Return&quot;.
+ 
+     [input] Network port for this instance (when served by the DeepaMehta server): [7557]
+ 
+ =&gt; Example applications
+ 
+-Now you will be asked which of the provided example applications you would like to install. 
+-If you do not want to deal with the example applications at the moment, simply hit &quot;Return&quot;. 
+-DeepaMehta is fully functionable without all of the example applications. They can be installed later as described in
+-section &quot;Additional installation of example applications&quot;.
++Now you will be asked which of the provided example applications you would like to install. If you do not want to deal with the example applications at the moment, simply hit &quot;Return&quot;. DeepaMehta is fully functionable without all of the example applications. They can be installed later as described in section &quot;Additional installation of example applications&quot;.
+ 
+     [input] Do you want to install the example application 'kompetenzstern'
+             (Balanced Scorecard editor and report generator)? (y, [n])
+@@ -286,8 +267,7 @@
+ 
+     [input] Please enter the name of your database: [Movies]
+ 
+-If, at the beginning, you decided that you want to use the DeepaMehta web frontends as well (with Tomcat), 
+-you will now be asked, which of the provided web frontends you would like to install:
++If, at the beginning, you decided that you want to use the DeepaMehta web frontends as well (with Tomcat), you will now be asked, which of the provided web frontends you would like to install:
+ 
+     [input] Do you want to install the example application 'dm-browser'
+             (Generic web frontend demo 1)? (y, [n])
+@@ -302,9 +282,7 @@
+ 
+ =&gt; Installation
+ 
+-You will be asked if you wish to start the installation now. During the installation the 
+-DeepaMehta database will be built and the chosen example applications will be stored in it. 
+-To continue with the installation simply hit &quot;Return&quot;.
++You will be asked if you wish to start the installation now. During the installation the DeepaMehta database will be built and the chosen example applications will be stored in it. To continue with the installation simply hit &quot;Return&quot;.
+ 
+     [input] Do you want to initialize now? ([y], n)
+ 
+@@ -315,8 +293,7 @@
+     ...
+     [input] Continue?  ([y], n)
+ 
+-If you have chosen the Movies example application in the configuration process and &quot;hsqldb-intern&quot; as your data source, 
+-the Movies example database will now be created.
++If you have chosen the Movies example application in the configuration process and &quot;hsqldb-intern&quot; as your data source, the Movies example database will now be created.
+ 
+     [echo] --- DeepaMehta Installation ---
+     [echo] You are about to create a database 'Movies' and an
+@@ -330,8 +307,7 @@
+ Step 3: Deployment of the web frontends
+ ---------------------------------------
+ 
+-If you decided to use the DeepaMehta web frontends in the configuration process they will be deployed now under Tomcat. 
+-To start deployment please enter the following command:
++If you decided to use the DeepaMehta web frontends in the configuration process they will be deployed now under Tomcat. To start deployment please enter the following command:
+ 
+     ./run.sh deploy
+ 
+@@ -347,11 +323,9 @@
+ 
+ =&gt; Updating of the files
+ 
+-Unzip &quot;DeepaMehta 2.0b8.zip&quot;, as described above in section &quot;Installation&quot;, &quot;Step 1: Unzip&quot;. 
+-Be carefull not to overwrite your existing DeepaMehta installation!
++Unzip &quot;DeepaMehta 2.0b8.zip&quot;, as described above in section &quot;Installation&quot;, &quot;Step 1: Unzip&quot;. Be carefull not to overwrite your existing DeepaMehta installation!
+ 
+-If you already have custom icons, topicmap background images or documents embedded in DeepaMehta, you need to copy them
+-into the corresponding directories of your new DeepaMehta 2.0b8 installation:
++If you already have custom icons, topicmap background images or documents embedded in DeepaMehta, you need to copy them into the corresponding directories of your new DeepaMehta 2.0b8 installation:
+ 
+     deepamehta/install/client/icons/
+     deepamehta/install/client/backgrounds/
+@@ -363,8 +337,7 @@
+ 
+     ./run.sh config
+ 
+-You will be asked a few questions. The following procedure is about the same as the one described in the above section &quot;Installation&quot; in &quot;Step 2: Install&quot;. 
+-The question about the web frontends can simply be answered by hitting &quot;Return&quot; at this point.
++You will be asked a few questions. The following procedure is about the same as the one described in the above section &quot;Installation&quot; in &quot;Step 2: Install&quot;. The question about the web frontends can simply be answered by hitting &quot;Return&quot; at this point.
+ 
+ When asked for the type of database enter &quot;mysql4&quot; or &quot;mysql5&quot;, depending on the version of your MySQL installation.
+ 
+@@ -376,10 +349,7 @@
+     [echo] 
+     [input] Currently set [hsqldb-intern]
+ 
+-Then you will be asked for the database host, the database root-user password, the database name, 
+-the name of the database user as well as the database user password. 
+-If, at that time, you made a DeepaMehta standard installation and did not assign a root-user password to your 
+-MySQL-Installation simply answer all questions with &quot;Return&quot;.
++Then you will be asked for the database host, the database root-user password, the database name, the name of the database user as well as the database user password. If, at that time, you made a DeepaMehta standard installation and did not assign a root-user password to your MySQL-Installation simply answer all questions with &quot;Return&quot;.
+ 
+     [input] Please enter the host of your database: [127.0.0.1]
+ 
+@@ -397,9 +367,7 @@
+ 
+ =&gt; Update the database
+ 
+-Now patches need to be installed to update your current version of DeepaMehta to DeepaMehta 2.0b8. 
+-The following table shows you which are the appropriate patches to update your version of DeepaMehta. 
+-Apply all patches, beginning with the one for your current DeepaMehta version.
++Now patches need to be installed to update your current version of DeepaMehta to DeepaMehta 2.0b8. The following table shows you which are the appropriate patches to update your version of DeepaMehta. Apply all patches, beginning with the one for your current DeepaMehta version.
+ 
+     Your current          Use these Patches to update to
+     DeepaMehta version    DeepaMehta 2.0b8
+@@ -409,16 +377,16 @@
+     2.0b5                 cm-2.15.sql
+     2.0b6                 cm-2.16.sql
+     2.0b7                 cm-2.17.sql
++    2.0b8-rc4             cm-2.18.sql
++    rev346-20080910       cm-2.19.sql
+ 
+-If your currently installed version is e.g. DeepaMehta 2.0b7, you only have to apply the patch &quot;cm-2.17.sql&quot;. 
+-If your currently installed version is e.g. DeepaMehta 2.0b5, apply the patches 2.15, 2.16 and 2.17 (in the correct order).
++If your currently installed version is e.g. DeepaMehta 2.0b7, you have to apply the patches 2.17, 2.18, and 2.19 (in the correct order).
+ 
+ To input the data of a single patch enter the following command (the patch &quot;cm-2.17.sql&quot; will be used here):
+ 
+     ./run.sh patchdb -Dpatch=install/db/patches/cm-2.17.sql
+ 
+-For security reasons you will be asked if you really want to apply that spezific patch, and the concerned database will be displayed. 
+-To apply the chosen patch enter 'y' and press &quot;Return&quot;.
++For security reasons you will be asked if you really want to apply that spezific patch, and the concerned database will be displayed. To apply the chosen patch enter 'y' and press &quot;Return&quot;.
+ 
+     [echo] You are about to apply the patch install/db/patches/cm-2.17.sql to the database DeepaMehta (user 'dm', password 'dm').
+     ...
+@@ -470,8 +438,7 @@
+ 
+     ./run.sh
+ 
+-The DeepaMehta login dialog will be displayed. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (initially the DeepaMehta root-user does not have a password). 
+-The DeepaMehta desktop will occur.
++The DeepaMehta login dialog will be displayed. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (initially the DeepaMehta root-user does not have a password). The DeepaMehta desktop will occur.
+ 
+ To start a specific DeepaMehta instance set the &quot;dm.instance&quot; property with -D at the command line:
+ 
+@@ -481,8 +448,7 @@
+ 
+ =&gt; To quit DeepaMehta simply close the DeepaMehta window.
+ 
+-Technical security advice: the monolithic DeepaMehta application has the DeepaMehta client and the server integrated into one single application, 
+-where the communication takes place by direct method calls. No network port is needed.
++Technical security advice: the monolithic DeepaMehta application has the DeepaMehta client and the server integrated into one single application, where the communication takes place by direct method calls. No network port is needed.
+ 
+ 
+ Networked
+@@ -504,25 +470,20 @@
+ 
+     ./run.sh dmc
+ 
+-To connect to a specific DeepaMehta server set the &quot;dm.host&quot; and &quot;dm.port&quot; properties at the command line 
+-(If no host is specified &quot;localhost&quot; will be used. If no port is specified the default port (7557) will be used):
++To connect to a specific DeepaMehta server set the &quot;dm.host&quot; and &quot;dm.port&quot; properties at the command line (If no host is specified &quot;localhost&quot; will be used. If no port is specified the default port (7557) will be used):
+ 
+     ./run.sh dmc -Ddm.host=www.site.com -Ddm.port=7558
+ 
+-The DeepaMehta login dialog will appear. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (the DeepaMehta root user does not have a password yet). 
+-The DeepaMehta desktop will appear.
++The DeepaMehta login dialog will appear. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (the DeepaMehta root user does not have a password yet). The DeepaMehta desktop will appear.
+ 
+ =&gt; To start the DeepaMehta client applets resp. the signed client applets open the corresponding website in your web browser:
+ 
+     .../deepamehta/install/client/start.html
+     .../deepamehta/install/client/start-signed.html
+ 
+-The client applet expects the DeepaMehta server to run on the same machine as the one the applet was loaded from. 
+-The port used by the client applet to contact the server can be edited on the HTML-sites by entering its value in the  
+-applet-parameter &quot;PORT&quot;. eingestellt werden. If no &quot;Port&quot;-parameter is available, the default port (7557) will be used.
++The client applet expects the DeepaMehta server to run on the same machine as the one the applet was loaded from. The port used by the client applet to contact the server can be edited on the HTML-sites by entering its value in the applet-parameter &quot;PORT&quot;. eingestellt werden. If no &quot;Port&quot;-parameter is available, the default port (7557) will be used.
+ 
+-Technical security advice: The DeepaMehta clients communicate with the DeepaMehta server via TCP sockets. 
+-The DeepaMehta server opens a dedicated TCP-port (it is port 7557 by default).
++Technical security advice: The DeepaMehta clients communicate with the DeepaMehta server via TCP sockets. The DeepaMehta server opens a dedicated TCP-port (it is port 7557 by default).
+ 
+ 
+ Web frontends
+@@ -537,9 +498,7 @@
+     <A HREF="http://localhost:8080/dm-topicmapviewer/controller">http://localhost:8080/dm-topicmapviewer/controller</A>
+     <A HREF="http://localhost:8080/dm-web/controller">http://localhost:8080/dm-web/controller</A>
+ 
+-The web frontends can only be started if DeepaMehta has been configured correspondingly (see Section &quot;Installation&quot;, &quot;Step 2: Installation&quot;) 
+-and the web frontends have been deployed (see Section &quot;Installation&quot;, &quot;Step 3: Deployment of web frontends&quot;). 
+-Tomcat needs to be started already.
++The web frontends can only be started if DeepaMehta has been configured correspondingly (see Section &quot;Installation&quot;, &quot;Step 2: Installation&quot;) and the web frontends have been deployed (see Section &quot;Installation&quot;, &quot;Step 3: Deployment of web frontends&quot;). Tomcat needs to be started already.
+ 
+ 
+ 
+@@ -564,18 +523,17 @@
+ 4) Click on the user &quot;root&quot;.
+ 5) Enter your desired password on the right side into the &quot;Password&quot; field.
+ 
++
+ Setting up additional instances
+ -------------------------------
+ 
+-For some specific needs independent DeepaMehta instances can be created (e.g. one with &quot;real&quot; content and one for testing during development). 
+-Each DeepaMehta instance has a separate corporate memory (content-memory). For each corporate memory an individual database system (e.g. HSQL or MySQL) can be used.
++For some specific needs independent DeepaMehta instances can be created (e.g. one with &quot;real&quot; content and one for testing during development). Each DeepaMehta instance has a separate corporate memory (content-memory). For each corporate memory an individual database system (e.g. HSQL or MySQL) can be used.
+ 
+ To create a new DeepaMehta instance please enter the following command: 
+ 
+     ./run.sh newinstance
+ 
+-First of all you will be asked to set the configuration for the new instance. If e.g. for the new instance 
+-a HSQL-database shall be used, choose &quot;hsqldb-intern&quot;.
++First of all you will be asked to set the configuration for the new instance. If e.g. for the new instance a HSQL-database shall be used, choose &quot;hsqldb-intern&quot;.
+ 
+     [echo] Please select the instance configuration the new instance is based on:
+     [echo] 
+@@ -589,15 +547,11 @@
+ 
+     [input] Please enter the new instance name: [hsqldb-intern2]
+ 
+-Then the new instance will be configured and installed, like it is explained in the above section &quot;Installation&quot;, &quot;Step 2: Install&quot;. 
+-When you are asked for the name of the database that is going to be created, all existing databases will be listet. 
+-Enter a database name, that is not in the list yet.
++Then the new instance will be configured and installed, like it is explained in the above section &quot;Installation&quot;, &quot;Step 2: Install&quot;. When you are asked for the name of the database that is going to be created, all existing databases will be listet. Enter a database name, that is not in the list yet.
+ 
+     [input] Please enter the name of your database: [DeepaMehta]
+ 
+-Simply answer all other questions (concerning the web frontends and the example applications) with &quot;Return&quot;, 
+-whereby the settings made so far will be transfered to the new instance 
+-(Advice: these settings are not stored per single DeepaMehta instance but are stored globally).
++Simply answer all other questions (concerning the web frontends and the example applications) with &quot;Return&quot;, whereby the settings made so far will be transfered to the new instance (Advice: these settings are not stored per single DeepaMehta instance but are stored globally).
+ 
+ Now you will be asked if the new instance shall be installed now. Answer with yes by hitting &quot;Return&quot;.
+ 
+@@ -615,8 +569,7 @@
+ 
+     ./run.sh switchinstance
+ 
+-The names of all existing instances will be listed and the current standard instance will be displayed. 
+-Enter the name of the future standard instance and hit &quot;Return&quot;.
++The names of all existing instances will be listed and the current standard instance will be displayed. Enter the name of the future standard instance and hit &quot;Return&quot;.
+ 
+     [echo] Please select the DeepaMehta instance to activate:
+     [echo] 
+@@ -649,8 +602,7 @@
+ 
+     ./run.sh tomcat-start
+ 
+-IMPORTANT: Tomcat must be started from the directory deepamehta/install/client/, otherwise the web frontends will not find neccessary files. 
+-Please use the command stated above to start Tomcat, and not the mechanisms of your system environment (e.g. /etc/init.d under Linux).
++IMPORTANT: Tomcat must be started from the directory deepamehta/install/client/, otherwise the web frontends will not find neccessary files. Please use the command stated above to start Tomcat, and not the mechanisms of your system environment (e.g. /etc/init.d under Linux).
+ 
+ =&gt; To stop Tomcat enter the following command:
+ 
+@@ -675,18 +627,16 @@
+ What's next?
+ ============
+ 
+-Hints for your first steps can be found in the Wiki:
+-<A HREF="https://www.mindworxs.de/zwiki/ErsteSchritte">https://www.mindworxs.de/zwiki/ErsteSchritte</A>
++Hints for your first steps:
++<A HREF="http://www.deepamehta.de/wiki/en/Quickstart">http://www.deepamehta.de/wiki/en/Quickstart</A>
+ 
+-A Users Guides can be found here:
+-<A HREF="http://www.deepamehta.de/docs/usersguide.html">http://www.deepamehta.de/docs/usersguide.html</A>
++DeepaMehta User Guide:
++<A HREF="http://www.deepamehta.de/wiki/en/User_Guide">http://www.deepamehta.de/wiki/en/User_Guide</A>
+ 
+-For all of your questions please use the forum on the DeepaMehta website or subscribe to the deepamehta-users mailing list. 
+-In the forum you can find important hints for using DeepaMehta already. Forum and mailing lists can be found at &quot;Community&quot; 
+-on www.deepamehta.de.
++For all of your questions please use the forum on the DeepaMehta website or subscribe to the deepamehta-users mailing list. In the forum you can find important hints for using DeepaMehta already. Forum and mailing lists can be found at &quot;Community&quot; on www.deepamehta.de.
+ 
+ 
+ 
+ ------------------------------------------------------------------------------------------------------
+-J&#154;rg Richter                                                                         www.deepamehta.de
+-17.3.2008
++J&#195;&#182;rg Richter                                                                         www.deepamehta.de
++Nov 1, 2008
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-11-01 00:07:30 UTC (rev 356)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 31.10.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -209,7 +209,7 @@
+ 	static final int INPUT_LINE_WIDTH = 220;
+ 	static final int INPUT_LINE_HEIGHT = 64;
+ 	static final int MAX_REVEALING = 7;	// cognitive limit 1
+-	static final int MAX_LISTING = 500;	// cognitive limit 2 ### was 150
++	static final int MAX_LISTING = 300;	// cognitive limit 2 ### was 150
+ 	static final int NEW_TOPIC_X = 20;	// ### to be dropped
+ 	static final int NEW_TOPIC_Y = 20;	// ### to be dropped
+ 	static final int NEAR_MIN = 40;
+
+Modified: trunk/install/db/cm.sql
+===================================================================
+--- trunk/install/db/cm.sql	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/install/db/cm.sql	2008-11-01 00:07:30 UTC (rev 356)
+@@ -295,6 +295,7 @@
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-personcontainer', 'Person Search');
+ INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Name', 'Person Search');
+ INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Icon', 'personcontainer.gif');
++INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.PersonSearchTopic');
+ -- derive container type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-38', '', 'tt-topiccontainer', 1, 'tt-personcontainer', 1);
+ -- assign type to container type
+@@ -349,12 +350,14 @@
+ INSERT INTO TopicProp VALUES ('tt-institution', 1, 'Plural Name', 'Institutions');
+ INSERT INTO TopicProp VALUES ('tt-institution', 1, 'Icon', 'institution.gif');
+ INSERT INTO TopicProp VALUES ('tt-institution', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-institution', 1, 'Custom Implementation', 'de.deepamehta.topics.InstitutionTopic');
+ -- super type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-316', '', 'tt-generic', 1, 'tt-institution', 1);
+ -- container type
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-institutioncontainer', 'Institution Search');
+ INSERT INTO TopicProp VALUES ('tt-institutioncontainer', 1, 'Name', 'Institution Search');
+ INSERT INTO TopicProp VALUES ('tt-institutioncontainer', 1, 'Icon', 'institution-search.gif');
++INSERT INTO TopicProp VALUES ('tt-institutioncontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.InstitutionSearchTopic');
+ -- derive container type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-317', '', 'tt-topiccontainer', 1, 'tt-institutioncontainer', 1);
+ -- assign topic type to its container type
+@@ -999,8 +1002,38 @@
+ INSERT INTO AssociationProp VALUES ('a-337', 1, 'Web Form', 'Related Topic Selector');
+ INSERT INTO AssociationProp VALUES ('a-337', 1, 'Ordinal Number', '150');
+ 
++--- &quot;Recipient List&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-recipientlist', 'Recipient List');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Name', 'Recipient List');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Plural Name', 'Recipient Lists');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;A &lt;i&gt;Recipient List&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Description Query', 'What is a &quot;Recipient List&quot;?');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Icon', 'authentificationsource.gif');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Creation Icon', 'createKompetenzstern.gif');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-recipientlist', 1, 'Custom Implementation', 'de.deepamehta.topics.RecipientListTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-340', '', 'tt-generic', 1, 'tt-recipientlist', 1);
++-- search type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-recipientlist-search', 'Recipient List Search');
++INSERT INTO TopicProp VALUES ('tt-recipientlist-search', 1, 'Name', 'Recipient List Search');
++-- INSERT INTO TopicProp VALUES ('tt-recipientlist-search', 1, 'Icon', 'event-search.gif');
++-- derive search type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-341', '', 'tt-topiccontainer', 1, 'tt-recipientlist-search', 1);
++-- assign search type to type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-342', '', 'tt-recipientlist-search', 1, 'tt-recipientlist', 1);
+ 
++-- create relation from &quot;Email&quot; to &quot;Recipient List&quot;
+ 
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-343', '', 'tt-email', 1, 'tt-recipientlist', 1);
++INSERT INTO AssociationProp VALUES ('a-343', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-343', 1, 'Association Type ID', 'at-recipient');
++INSERT INTO AssociationProp VALUES ('a-343', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-343', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-343', 1, 'Ordinal Number', '35');
++
++
++
+ -------------------------
+ --- Association Types ---
+ -------------------------
+@@ -1134,17 +1167,21 @@
+ INSERT INTO TopicProp VALUES ('at-recipient', 1, 'Name', 'Recipient');
+ INSERT INTO TopicProp VALUES ('at-recipient', 1, 'Plural Name', 'Recipients');
+ INSERT INTO TopicProp VALUES ('at-recipient', 1, 'Color', '#E14589');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-327', '', 'at-generic', 1, 'at-recipient', 1);
+ 
+ --- &quot;Sender&quot; ---
+ INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-sender', 'Sender');
+ INSERT INTO TopicProp VALUES ('at-sender', 1, 'Name', 'Sender');
+ INSERT INTO TopicProp VALUES ('at-sender', 1, 'Plural Name', 'Senders');
+ INSERT INTO TopicProp VALUES ('at-sender', 1, 'Color', '#4589E1');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-329', '', 'at-generic', 1, 'at-sender', 1);
+ 
++--- &quot;Attachment&quot; ---
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-attachment', 'Attachment');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Name', 'Attachment');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Plural Name', 'Attachments');
++INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Color', '#408000');
+ 
+ 
++
+ ------------------
+ --- Properties ---
+ ------------------
+@@ -1584,6 +1621,15 @@
+ INSERT INTO AssociationProp VALUES ('a-338', 1, 'Web Form', 'Related Topic Selector');
+ INSERT INTO AssociationProp VALUES ('a-338', 1, 'Ordinal Number', '150');
+ 
++--- Search
++-- create property &quot;Result&quot;
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-result', 'Result');
++INSERT INTO TopicProp VALUES ('pp-result', 1, 'Name', 'Result');
++INSERT INTO TopicProp VALUES ('pp-result', 1, 'Visualization', 'Text Editor');
++-- assign to topic type &quot;Search&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-339', '', 'tt-container', 1, 'pp-result', 1);
++INSERT INTO AssociationProp VALUES ('a-339', 1, 'Ordinal Number', '200');
++
+ --- &quot;Web Form&quot; ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-webform', 'Web Form');
+ INSERT INTO TopicProp VALUES ('pp-webform', 1, 'Name', 'Web Form');
+@@ -1604,8 +1650,31 @@
+ INSERT INTO AssociationProp VALUES ('a-412', 1, 'Ordinal Number', '2');
+ INSERT INTO AssociationProp VALUES ('a-415', 1, 'Ordinal Number', '3');
+ 
++--- create property &quot;Recipient Type&quot; ---
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-recipienttype', 'Recipient Type');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Name', 'Recipient Type');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Visualization', 'Options Menu');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Default Value', 'To');
++-- assign property to &quot;Recipient&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-347', '', 'at-recipient', 1, 'pp-recipienttype', 1);
++INSERT INTO AssociationProp VALUES ('a-347', 1, 'Ordinal Number', '50');
++-- create property values &quot;To&quot;, &quot;Cc&quot;, &quot;Bcc&quot;
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-to', 'To');
++INSERT INTO TopicProp VALUES ('t-recipienttype-to', 1, 'Name', 'To');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-cc', 'Cc');
++INSERT INTO TopicProp VALUES ('t-recipienttype-cc', 1, 'Name', 'Cc');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-bcc', 'Bcc');
++INSERT INTO TopicProp VALUES ('t-recipienttype-bcc', 1, 'Name', 'Bcc');
++-- assign property values to &quot;Recipient Type&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-344', '', 'pp-recipienttype', 1, 't-recipienttype-to', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-345', '', 'pp-recipienttype', 1, 't-recipienttype-cc', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-346', '', 'pp-recipienttype', 1, 't-recipienttype-bcc', 1);
++INSERT INTO AssociationProp VALUES ('a-344', 1, 'Ordinal Number', '1');
++INSERT INTO AssociationProp VALUES ('a-345', 1, 'Ordinal Number', '2');
++INSERT INTO AssociationProp VALUES ('a-346', 1, 'Ordinal Number', '3');
+ 
+ 
++
+ -----------------------
+ --- Property Values ---
+ -----------------------
+@@ -2155,4 +2224,4 @@
+ -- Not a Key Generator but the (constant) version of the database model
+ INSERT INTO KeyGenerator VALUES ('DB-Model Version', 2);
+ -- Not a Key Generator but the (constant) version of the database content
+-INSERT INTO KeyGenerator VALUES ('DB-Content Version', 17);
++INSERT INTO KeyGenerator VALUES ('DB-Content Version', 19);
+
+Modified: trunk/install/db/patches/cm-2.18.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.18.sql	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/install/db/patches/cm-2.18.sql	2008-11-01 00:07:30 UTC (rev 356)
+@@ -1,6 +1,6 @@
+ ---
+ --- This patch updates CM 2.17 to 2.18
+---- Apply this patch if you want to update DeepaMehta 2.0b8-rc4 to 2.0b8 while keeping your content
++--- Apply this patch if you want to update DeepaMehta 2.0b8-rc4 to DeepaMehta rev346-20080910 while keeping your content
+ ---
+ 
+ 
+
+Modified: trunk/install/db/patches/cm-2.19.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.19.sql	2008-10-30 15:21:54 UTC (rev 355)
++++ trunk/install/db/patches/cm-2.19.sql	2008-11-01 00:07:30 UTC (rev 356)
+@@ -1,6 +1,6 @@
+ ---
+ --- This patch updates CM 2.18 to 2.19
+---- Apply this patch if you want to update DeepaMehta rev346-20080910 to 2.0b8 while keeping your content
++--- Apply this patch if you want to update DeepaMehta rev346-20080910 to DeepaMehta 2.0b8 while keeping your content
+ ---
+ 
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000201.html">[deepamehta-svn] r357 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#200">[ date ]</a>
+              <a href="thread.html#200">[ thread ]</a>
+              <a href="subject.html#200">[ subject ]</a>
+              <a href="author.html#200">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

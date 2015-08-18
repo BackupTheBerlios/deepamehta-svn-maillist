@@ -1,0 +1,1111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r344 - in trunk/develop/src/de/deepamehta: client	service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r344%20-%20in%20trunk/develop/src/de/deepamehta%3A%20client%0A%09service&In-Reply-To=%3C200809072355.m87NtVXh016242%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000187.html">
+   <LINK REL="Next"  HREF="000189.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r344 - in trunk/develop/src/de/deepamehta: client	service</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r344%20-%20in%20trunk/develop/src/de/deepamehta%3A%20client%0A%09service&In-Reply-To=%3C200809072355.m87NtVXh016242%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r344 - in trunk/develop/src/de/deepamehta: client	service">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep  8 01:55:31 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000187.html">[deepamehta-svn] r343 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000189.html">[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-08 01:55:25 +0200 (Mon, 08 Sep 2008)
+New Revision: 344
+
+Modified:
+   trunk/develop/src/de/deepamehta/client/PresentationAssociation.java
+   trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+   trunk/develop/src/de/deepamehta/client/PresentationTopic.java
+   trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+   trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+   trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+Log:
+Feature Request #4288 (&quot;Preserve scrollbar positions&quot;) realized.
+The main intention is achieved: usability of long result lists and recipient lists (in the property panel) is reasonably improved. However, one bug remains: the scrollbar is always adjusted in the way the caret is inside the viewport. Thus, a scrollbar position which sets the caret out of sight is not accurately restored. Note: also in disabled fields the caret position can be set by clicking.
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationAssociation.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationAssociation.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PresentationAssociation.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -7,16 +7,16 @@
+ 
+ import java.io.DataInputStream;
+ import java.io.IOException;
++import java.util.Hashtable;
+ 
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.11.2002 (2.0a17-pre1)&lt;BR&gt;
+- * Last documentation update: 8.11.2000 (2.0a7-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 7.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class PresentationAssociation extends PresentableAssociation implements GraphEdge, DeepaMehtaConstants {
+ 
+@@ -31,8 +31,15 @@
+ 	private PresentationTopic topic1;
+ 	private PresentationTopic topic2;
+ 
++	/**
++	 * Key: property name (String)&lt;br&gt;
++	 * Value: scrollbar value (Integer)
++	 */
++	private Hashtable scrollbarValues = new Hashtable();
++	private Hashtable caretPositions = new Hashtable();
+ 
+ 
++
+ 	// ********************
+ 	// *** Constructors ***
+ 	// ********************
+@@ -83,8 +90,18 @@
+ 		return topic2;
+ 	}
+ 
++	// ### not part of interface
++	public Hashtable getScrollbarValues() {
++		return scrollbarValues;
++	}
+ 
++	// ### not part of interface
++	public Hashtable getCaretPositions() {
++		return caretPositions;
++	}
+ 
++
++
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+@@ -93,11 +110,11 @@
+ 
+ 	/**
+ 	 * Chaines the related topics with this association.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * On the one hand the {@link #topic1} and {@link #topic2} fields of this association
+ 	 * are initialized by topics lookuped from the specified topicmap. At the other hand
+ 	 * this association is registered at both of the topics.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 1.4.2003 (2.0a18-pre8)
+ 	 *
+ 	 * @see		TopicmapEditorModel#showAssociation
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -74,12 +74,16 @@
+ 	/**
+ 	 * Creates a GUI component for editing a property according to this property definition.
+ 	 * &lt;p&gt;
+-	 * References checked: 10.9.2007 (2.0b8)
++	 * References checked: 6.9.2008 (2.0b8)
+ 	 *
+ 	 * @param	actionListener		may be null
+ 	 *
+-	 * @return	A 1- or 2-element array holding the view and the model (depends on
+-	 *			visualization mode) 
++	 * @return	An 1- or 2- element array holding the view and the model components (depends on
++	 *			visualization mode)&lt;br&gt;
++	 *			Element 0: the view. This GUI component is added to the property panel.
++	 *				See {@link PropertyPanel#buildPropertyPanel}.&lt;br&gt;
++	 *			Element 1: the (quasi) model. This object is used to read and write the property value.
++	 *				See {@link PropertyPanel.PropertyField#getText} and {@link PropertyPanel.PropertyField#setText}.&lt;br&gt;
+ 	 *
+ 	 * @see		PropertyPanel.PropertyField#PropertyPanel.PropertyField
+ 	 */
+@@ -103,7 +107,8 @@
+ 			// ### VISUAL_PASSWORD_FIELD doesn't yet support action buttons
+ 			JComponent field = createPasswordField(actionListener);
+ 			result[0] = field;
+-			result[1] = field;		// ### needed?
++			result[1] = field;		// Note: redundancy is required here, because for all text components the
++									// value is set through the model. See PropertyPanel.PropertyField.setText()
+ 			return result;
+ 		} else if (visualization.equals(VISUAL_AREA)) {
+ 			// ### VISUAL_AREA doesn't yet support action buttons
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -453,7 +453,7 @@
+ 	}
+ 
+ 	/**
+-	 * References checked: 24.3.2004 (2.0b2-pre2)
++	 * References checked: 6.9.2008 (2.0b8)
+ 	 *
+ 	 * @see		#showNodeMenu
+ 	 * @see		#showEdgeMenu
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationTopic.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PresentationTopic.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -1,6 +1,5 @@
+ package de.deepamehta.client;
+ 
+-// import de.deepamehta.BaseTopic;
+ import de.deepamehta.Directives;
+ import de.deepamehta.PresentableTopic;
+ 
+@@ -8,17 +7,17 @@
+ import java.io.DataInputStream;
+ import java.io.IOException;
+ import java.util.Enumeration;
++import java.util.Hashtable;
+ import java.util.Vector;
+ 
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 17.2.2005 (2.0b5)&lt;BR&gt;
+- * Last documentation update: 21.4.2001 (2.0a10-pre6)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 7.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public final class PresentationTopic extends PresentableTopic implements GraphNode {
+ 
+@@ -35,15 +34,22 @@
+ 	/**
+ 	 * If the topic has individual appearance set (appMode == APPEARANCE_CUSTOM_ICON) this
+ 	 * field holds the image to display the topic. If no individual appearance is set
+-	 * (appMode == APPEARANCE_DEFAULT) this field remains &lt;CODE&gt;null&lt;/CODE&gt;.
+-	 * &lt;P&gt;
+-	 * Accessed by {@link #getImage}.&lt;BR&gt;
++	 * (appMode == APPEARANCE_DEFAULT) this field remains &lt;code&gt;null&lt;/code&gt;.
++	 * &lt;p&gt;
++	 * Accessed by {@link #getImage}.&lt;br&gt;
+ 	 * Initialzed by {@link #setImage}.
+ 	 */
+ 	private Image image;
+ 
++	/**
++	 * Key: property name (String)&lt;br&gt;
++	 * Value: scrollbar value (Integer)
++	 */
++	private Hashtable scrollbarValues = new Hashtable();
++	private Hashtable caretPositions = new Hashtable();
+ 
+ 
++
+ 	// ********************
+ 	// *** Constructors ***
+ 	// ********************
+@@ -117,6 +123,16 @@
+ 		return IMAGE_SIZE;
+ 	}
+ 
++	// ### not part of interface
++	public Hashtable getScrollbarValues() {
++		return scrollbarValues;
++	}
++
++	// ### not part of interface
++	public Hashtable getCaretPositions() {
++		return caretPositions;
++	}
++
+ 	public void addEdge(GraphEdge edge) {
+ 		associations.addElement(edge);
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; PresentationTopic.addEdge(): assoc \&quot;&quot; + edge.getID() + &quot;\&quot; is registered at topic &quot; + getID() + &quot; (now &quot; + associations.size() + &quot; assocs registered)&quot;);
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -14,6 +14,7 @@
+ import java.io.DataInputStream;
+ import java.io.IOException;
+ import java.util.Enumeration;
++import java.util.Hashtable;
+ 
+ 
+ 
+@@ -24,10 +25,9 @@
+  * {@link PresentationTopic}'s, {@link PresentationAssociation}'s and {@link PresentationType}'s.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 7.4.2007 (2.0b8)&lt;br&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * Last change: 8.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class PresentationTopicMap extends PresentableTopicMap implements DeepaMehtaConstants {
+ 
+@@ -90,8 +90,15 @@
+ 	private Color bgColor;
+ 	private Point translation;
+ 
++	/**
++	 * Key: property name (String)&lt;br&gt;
++	 * Value: scrollbar value (Integer)
++	 */
++	private Hashtable scrollbarValues = new Hashtable();
++	private Hashtable caretPositions = new Hashtable();
+ 
+ 
++
+ 	// ********************
+ 	// *** Constructors ***
+ 	// ********************
+@@ -149,7 +156,9 @@
+ 
+ 	// --- Overrides BaseTopicMap ---
+ 
+-	// ### Note: addAssociation() is not overridden, the topics are registered in PresentationService.initAssociations()
++	public String toString() {
++		return getEditor().getTopicmap().toString();
++	}
+ 
+ 	/**
+ 	 * @see		TopicmapEditorModel#hideAssociation
+@@ -160,11 +169,11 @@
+ 	public void deleteAssociation(String assocID) throws DeepaMehtaException {
+ 		// Note: getAssociation() throws DeepaMehtaException
+ 		((PresentationAssociation) getAssociation(assocID)).unregisterTopics();
+-		//	System.out.println(&quot;*** BaseTopicMap.deleteAssociation(): \&quot;&quot; + assocID +
+-		//		&quot;\&quot; not found -- association not deleted&quot;);
+ 		super.deleteAssociation(assocID);
+ 	}
+ 
++	// ### Note: addAssociation() is not overridden, the topics are registered in PresentationService.initAssociations()
++
+ 	// ---
+ 
+ 	String getID() {
+@@ -198,6 +207,14 @@
+ 		return translation;
+ 	}
+ 
++	public Hashtable getScrollbarValues() {
++		return scrollbarValues;
++	}
++
++	public Hashtable getCaretPositions() {
++		return caretPositions;
++	}
++
+ 	// ---
+ 
+ 	void setBackgroundImage(Image image) {
+@@ -227,8 +244,6 @@
+ 	 * @see		TopicmapEditorModel#showTopic
+ 	 */
+ 	boolean initGeometry(PresentationTopic topic) {
+-		/* ### System.out.println(&quot;&gt;&gt;&gt; initGeometry(): &quot; + topic + &quot;, already exists: &quot; +
+-		topicExists(topic.getID()) + &quot;, geometry mode: &quot; + topic.getGeometryMode()); */
+ 		// if the topics exists already in this topicmap its geometry is not changed
+ 		if (topicExists(topic.getID())) {
+ 			return false;
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -5,6 +5,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Topic;
+ import de.deepamehta.Type;
+ import de.deepamehta.util.DeepaMehtaUtils;
+@@ -21,6 +22,8 @@
+ import java.util.NoSuchElementException;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
++import java.util.logging.Logger;
++import java.util.logging.Level;
+ 
+ import javax.swing.BoxLayout;
+ import javax.swing.ButtonGroup;
+@@ -31,6 +34,8 @@
+ import javax.swing.JLabel;
+ import javax.swing.JPanel;
+ import javax.swing.JRadioButton;
++import javax.swing.JScrollBar;
++import javax.swing.JScrollPane;
+ import javax.swing.event.DocumentEvent;
+ import javax.swing.event.DocumentListener;
+ import javax.swing.event.HyperlinkEvent;
+@@ -46,10 +51,9 @@
+  * &lt;p&gt;
+  * This is a singleton, there is only one instance created.
+  * &lt;hr&gt;
+- * Last functional change: 13.2.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 13.2.2008 (2.0b8)&lt;br&gt;
++ * Last change: 8.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ class PropertyPanel extends JPanel implements ActionListener, ItemListener, DocumentListener,
+ 											  HyperlinkListener, DeepaMehtaConstants {
+@@ -84,6 +88,8 @@
+ 
+ 	private PropertyPanelControler controler;
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	/**
+ 	 * Key: &lt;topicmap ID&gt;:&lt;viewmode&gt;&lt;br&gt;
+ 	 * Value: {@link PropertyPanel.Selection}
+@@ -195,7 +201,7 @@
+ 
+ 
+ 	/**
+-	 * References checked: 13.2.2008 (2.0b8)
++	 * References checked: 6.9.2008 (2.0b8)
+ 	 *
+ 	 * @see		PresentationService#createMainGUI
+ 	 */
+@@ -239,8 +245,7 @@
+ 			add(activePanel, BorderLayout.NORTH);
+ 			add(dataCardPanel);
+ 		} catch (Exception e) {
+-			System.out.println(&quot;*** PropertyPanel(): &quot; + e);
+-			e.printStackTrace();
++			logger.log(Level.SEVERE, &quot;Error constructing property panel ...&quot;, e);
+ 		}
+ 	}
+ 
+@@ -346,7 +351,6 @@
+ 
+ 
+ 	public void hyperlinkUpdate(HyperlinkEvent e) {
+-		// ### System.out.println(&quot;&gt;&gt;&gt; PropertyPanel.hyperlinkUpdate(): hyperlink event fired: &quot; + e);
+ 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+ 			String command = CMD_FOLLOW_HYPERLINK + COMMAND_SEPARATOR + e.getURL();
+ 			executeCommand(command);
+@@ -390,6 +394,8 @@
+ 	// ---
+ 
+ 	/**
++	 * Called from PresentationService when processing {@link #DIRECTIVE_SELECT_TOPIC}.
++	 *
+ 	 * @see		PresentationService#selectTopic
+ 	 */
+ 	void topicSelected(BaseTopic topic, PresentationTopicMap topicmap, String viewmode,
+@@ -399,6 +405,8 @@
+ 	}
+ 
+ 	/**
++	 * Called from PresentationService when processing {@link #DIRECTIVE_SELECT_ASSOCIATION}.
++	 *
+ 	 * @see		PresentationService#selectAssociation
+ 	 */
+ 	void assocSelected(BaseAssociation assoc, PresentationTopicMap topicmap, String viewmode,
+@@ -408,6 +416,8 @@
+ 	}
+ 
+ 	/**
++	 * Called from PresentationService when processing {@link #DIRECTIVE_SELECT_TOPICMAP}.
++	 *
+ 	 * @see		PresentationService#selectTopicMap
+ 	 */
+ 	void topicmapSelected(PresentationTopicMap topicmap, String viewmode,
+@@ -472,6 +482,23 @@
+ 	// ---
+ 
+ 	/**
++	 * Returns the selected topic / association / topicmap resp. &lt;code&gt;null&lt;/code&gt; if there is no selection.
++	 */
++	private Object getSelectedObject() {
++		if (selected.equals(SELECTED_TOPIC)) {
++			return getTopic();
++		} else if (selected.equals(SELECTED_ASSOCIATION)) {
++			return getAssociation();
++		} else if (selected.equals(SELECTED_TOPICMAP)) {
++			return getTopicmap();
++		} else if (selected.equals(SELECTED_NONE)) {
++			return null;
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected selection mode: \&quot;&quot; + selected + &quot;\&quot;&quot;);
++		}
++	}
++
++	/**
+ 	 * Removes the selection.
+ 	 *
+ 	 * @see		#removeTopicSelection
+@@ -488,6 +515,16 @@
+ 
+ 	// Presumption: there is a selection
+ 
++	// ### should return PresentationTopic
++	BaseTopic getTopic() {
++		return getSelection().topic;
++	}
++
++	// ### should return PresentationAssociation
++	BaseAssociation getAssociation() {
++		return getSelection().assoc;
++	}
++
+ 	PresentationTopicMap getTopicmap() {
+ 		return getSelection().topicmap;
+ 	}
+@@ -508,14 +545,6 @@
+ 		return getSelection().retypeIsAllowed;
+ 	}
+ 
+-	BaseTopic getTopic() {
+-		return getSelection().topic;
+-	}
+-
+-	BaseAssociation getAssociation() {
+-		return getSelection().assoc;
+-	}
+-
+ 	private String getSelected() {
+ 		return getSelection().selected;
+ 	}
+@@ -624,16 +653,14 @@
+ 	void focusProperty(/* ### String prop */) {
+ 		Vector propertyFields = getPropertyFields();
+ 		Enumeration e = propertyFields.elements();
+-		// ### boolean hasProps = false;
+ 		while (e.hasMoreElements()) {
+ 			PropertyField propField = (PropertyField) e.nextElement();
+ 			if (!propField.isHidden()) {
+-				// ### System.out.println(&quot;&gt;&gt;&gt; PropertyPanel.focusProperty(): first property field=\&quot;&quot; + propertyField + &quot;\&quot;&quot;);
+ 				propField.focus();
+ 				return;
+ 			}
+ 		}
+-		System.out.println(&quot;*** PropertyPanel.focusProperty(): there is no property to focus&quot;);
++		logger.warning(&quot;there is no property to focus&quot;);
+ 	}
+ 
+ 	// ---
+@@ -644,6 +671,8 @@
+ 	 * The properties are stored only, if marked dirty (see {@link #propertiesAreDirty}).
+ 	 * After storing the resp. flag is cleared.
+ 	 *
++	 * References checked: 6.9.2008 (2.0b8)
++	 *
+ 	 * @see		#actionPerformed	4x
+ 	 * @see		PresentationService#storeProperties
+ 	 */
+@@ -662,6 +691,8 @@
+ 			setSelectionProperties(props, true);
+ 			propertiesAreDirty = false;
+ 		}
++		//
++		saveScrollbarValues();
+ 	}
+ 
+ 	/**
+@@ -722,8 +753,7 @@
+ 			showProperties(properties, baseURLs, topic.getType(), false);
+ 			setSelectionProperties(properties, false);
+ 		} else {
+-			System.out.println(&quot;&gt;&gt;&gt; topic &quot; + topic + &quot; isn't currently selected -- &quot; +
+-            	&quot;no need to show properties now&quot;);
++			logger.info(&quot;topic &quot; + topic + &quot; isn't currently selected -- no need to show properties now&quot;);
+ 		}
+ 	}
+ 
+@@ -735,8 +765,7 @@
+ 			showProperties(properties, baseURLs, assoc.getType(), false);
+ 			setSelectionProperties(properties, false);
+ 		} else {
+-			System.out.println(&quot;&gt;&gt;&gt; association &quot; + assoc + &quot; isn't currently selected -- &quot; +
+-            	&quot;no need to show properties now&quot;);
++			logger.info(&quot;association &quot; + assoc + &quot; isn't currently selected -- no need to show properties now&quot;);
+ 		}
+ 	}
+ 
+@@ -748,8 +777,8 @@
+ 			showProperties(properties, baseURLs, topicmap.getEditor().getTopicmap().getType(), false);
+ 			setSelectionProperties(properties, false);
+ 		} else {
+-			System.out.println(&quot;&gt;&gt;&gt; topicmap &quot; + topicmap.getEditor().getTopicmap() +
+-				&quot; isn't currently selected -- no need to show properties now&quot;);
++			logger.info(&quot;topicmap &quot; + topicmap.getEditor().getTopicmap() + &quot; isn't currently selected -- no need to show &quot; +
++				&quot;properties now&quot;);
+ 		}
+ 	}
+ 
+@@ -866,16 +895,14 @@
+ 	private void showProperties(Hashtable properties, Hashtable baseURLs, String typeID, boolean all) {
+ 		// error check 1
+ 		if (properties == null) {
+-			System.out.println(&quot;*** PropertyPanel.showProperties(): &quot; + typeID +
+-				&quot; no topic data passed (null) -- properties not shown&quot;);
++			logger.warning(typeID + &quot; no topic data passed (null) -- properties not shown&quot;);
+ 			return;
+ 		}
+ 		// --- get property fields ---
+ 		Vector propertyFields = getPropertyFields(typeID);
+ 		// error check 2 ### can't happen anymore
+ 		if (propertyFields == null) {
+-			System.out.println(&quot;*** PropertyPanel.showProperties(): no property &quot; +
+-				&quot;fields for \&quot;&quot; + typeID + &quot;\&quot; -- properties not shown&quot;);
++			logger.warning(&quot;no property fields for \&quot;&quot; + typeID + &quot;\&quot; -- properties not shown&quot;);
+ 			return;
+ 		}
+ 		// --- set passed property values into property fields ---
+@@ -902,8 +929,7 @@
+ 				String baseURL = (String) baseURLs.get(propName);
+ 				propField.setText(propValue, baseURL, this, this);	// throws DME
+ 			} catch (DeepaMehtaException dme) {
+-				System.out.println(&quot;*** PropertyPanel.showProperties(): \&quot;&quot; + propName + &quot;\&quot; value \&quot;&quot; +
+-					propValue + &quot;\&quot; can't be shown (&quot; + dme.getMessage() + &quot;)&quot;);
++				logger.warning(&quot;\&quot;&quot; + propName + &quot;\&quot; value \&quot;&quot; + propValue + &quot;\&quot; can't be shown (&quot; + dme.getMessage() + &quot;)&quot;);
+ 			}
+ 		}
+ 	}
+@@ -918,8 +944,7 @@
+ 		Vector propertyFields = getPropertyFields();
+ 		// error check
+ 		if (propertyFields == null) {
+-			System.out.println(&quot;*** PropertyPanel.disableProperties(): no property &quot; +
+-				&quot;fields for \&quot;&quot; + getTopic().getType() + &quot;\&quot; -- properties not disbaled&quot;);
++			logger.warning(&quot;no property fields for \&quot;&quot; + getTopic().getType() + &quot;\&quot; -- properties not disbaled&quot;);
+ 			return;
+ 		}
+ 		// ---
+@@ -960,20 +985,8 @@
+ 	 */
+ 	private void setPropertiesDirty(String message) {
+ 		if (!propertiesAreDirty) {
+-			// --- reporting ---
+-			String text = &quot; changed (by &quot; + message + &quot;)&quot;;
+-			if (selected.equals(SELECTED_TOPIC)) {
+-				System.out.println(&quot;&gt;&gt;&gt; properties of topic &quot; + getTopic() + text);
+-			} else if (selected.equals(SELECTED_ASSOCIATION)) {
+-				System.out.println(&quot;&gt;&gt;&gt; properties of association &quot; + getAssociation() + text);
+-			} else if (selected.equals(SELECTED_TOPICMAP)) {
+-				System.out.println(&quot;&gt;&gt;&gt; properties of topicmap &quot; +
+-					getTopicmap().getEditor().getTopicmap() + text);
+-			} else {
+-				throw new DeepaMehtaException(&quot;\&quot;&quot; + selected + &quot;\&quot;&quot;);
+-			}
+-			// --- set properties dirty ---
+ 			propertiesAreDirty = true;
++			logger.info(&quot;properties of &quot; + getSelectedObject() + &quot; changed (by &quot; + message + &quot;)&quot;);
+ 		}
+ 	}
+ 
+@@ -1070,8 +1083,7 @@
+ 	/**
+ 	 * Selects the specified characteristics panel from the card layout.
+ 	 *
+-	 * @param	cardID	{@link #SELECTED_NONE}, {@link #SELECTED_TOPIC} or
+-	 *					{@link #SELECTED_ASSOCIATION}
++	 * @param	cardID	{@link #SELECTED_NONE}, {@link #SELECTED_TOPIC} or {@link #SELECTED_ASSOCIATION}
+ 	 *
+ 	 * @see		#topicSelected
+ 	 * @see		#assocSelected
+@@ -1092,8 +1104,7 @@
+ 	// ---
+ 
+ 	/**
+-	 * Selects the item from the topic type combo box that corresponds to the specified
+-	 * topic type ID.
++	 * Selects the item from the topic type combo box that corresponds to the specified topic type ID.
+ 	 *
+ 	 * @see		#topicTypeChanged
+ 	 * @see		#updateTopic
+@@ -1102,8 +1113,7 @@
+ 		String typeName = topicTypeName(typeID);
+ 		// error check ### ever happens?
+ 		if (typeName == null) {
+-			System.out.println(&quot;*** PropertyPanel.updateTopicTypeChoice(): type \&quot;&quot; +
+-				typeID + &quot;\&quot; is unknown -- topic type choice not updated&quot;);
++			logger.warning(&quot;type \&quot;&quot; + typeID + &quot;\&quot; is unknown -- topic type choice can't be updated&quot;);
+ 			return;
+ 		}
+ 		//
+@@ -1115,15 +1125,16 @@
+ 	}
+ 
+ 	/**
++	 * Selects the item from the association type combo box that corresponds to the specified association type ID.
++	 *
+ 	 * @see		#assocTypeChanged
+ 	 * @see		#updateAssoc
+ 	 */
+-	private void updateAssocTypeChoice(String type, boolean retypeIsAllowed) {
+-		String typeName = assocTypeName(type);
++	private void updateAssocTypeChoice(String typeID, boolean retypeIsAllowed) {
++		String typeName = assocTypeName(typeID);
+ 		// error check ### ever happens?
+ 		if (typeName == null) {
+-			System.out.println(&quot;*** PropertyPanel.updateAssocTypeChoice(): type \&quot;&quot; +
+-				type + &quot;\&quot; is unknown -- association type choice not updated&quot;);
++			logger.warning(&quot;type \&quot;&quot; + typeID + &quot;\&quot; is unknown -- association type choice can't be updated&quot;);
+ 			return;
+ 		}
+ 		//
+@@ -1134,6 +1145,8 @@
+ 		assocTypeChoice.addItemListener(this);
+ 	}
+ 
++	// ---
++
+ 	/**
+ 	 * @param	propName	### used for reporting only
+ 	 *
+@@ -1149,10 +1162,10 @@
+ 			}
+ 		}
+ 		if (text.equals(&quot;&quot;)) {
+-			System.out.println(&quot;*** property \&quot;&quot; + propName + &quot;\&quot; not set -- displayed value is not accurate&quot;);
++			logger.warning(&quot;property \&quot;&quot; + propName + &quot;\&quot; has no value -- displayed value might not be accurate&quot;);
+ 		} else {
+-			System.out.println(&quot;*** property \&quot;&quot; + propName + &quot;\&quot; has unexpected value \&quot;&quot; + text +
+-				&quot;\&quot; -- displayed value is not accurate&quot;);
++			logger.warning(&quot;property \&quot;&quot; + propName + &quot;\&quot; has unexpected value \&quot;&quot; + text +
++				&quot;\&quot; -- displayed value might not be accurate&quot;);
+ 		}
+ 	}
+ 
+@@ -1255,7 +1268,7 @@
+ 	 */
+ 	private void checkPropertyFields(String typeID) {
+ 		if (getPropertyFields(typeID) == null) {
+-			System.out.println(&quot;&gt; build property panel for type \&quot;&quot; + typeID + &quot;\&quot;&quot;);
++			logger.info(&quot;building property panel for type \&quot;&quot; + typeID + &quot;\&quot;&quot;);
+ 			//
+ 			if (selected == SELECTED_TOPIC || selected == SELECTED_TOPICMAP) {
+ 				buildPropertyForm(topicType(typeID));
+@@ -1308,7 +1321,73 @@
+ 
+ 	// ---
+ 
++	private void saveScrollbarValues() {
++		Hashtable scrollbarValues = getScrollbarValues();
++		Hashtable caretPositions = getCaretPositions();
++		if (scrollbarValues != null) {	// Note: is null if there is no selection
++			String logText = null;
++			//
++			Enumeration e = getPropertyFields().elements();
++			while (e.hasMoreElements()) {
++				PropertyField propField = (PropertyField) e.nextElement();
++				JScrollBar scrollBar = propField.getScrollBar();
++				JTextComponent textComponent = propField.getTextComponent();
++				if (scrollBar != null) {
++					String propName = propField.getName();
++					int scrollbarValue = scrollBar.getValue();
++					int caretPosition = textComponent.getCaretPosition();
++					// save scrollbar value
++					scrollbarValues.put(propName, new Integer(scrollbarValue));
++					caretPositions.put(propName, new Integer(caretPosition));
++					// logging
++					if (logText == null) {
++						logText = &quot;saving scrollbar values of &quot; + getSelectedObject();
++					}
++					logText += &quot;\n    \&quot;&quot; + propName + &quot;\&quot;: scrollbarValue=&quot; + scrollbarValue + &quot; caretPosition=&quot; + caretPosition;
++				}
++			}
++			// logging
++			if (logText != null) {
++				logger.info(logText);
++			}
++		}
++	}
++
+ 	/**
++	 * Returns the scrollbar values of the selected topic / association / topicmap resp. &lt;code&gt;null&lt;/code&gt;
++	 * if there is no selection.
++	 */
++	private Hashtable getScrollbarValues() {
++		if (selected == SELECTED_TOPIC) {
++			return ((PresentationTopic) getTopic()).getScrollbarValues();
++		} else if (selected == SELECTED_ASSOCIATION) {
++			return ((PresentationAssociation) getAssociation()).getScrollbarValues();
++		} else if (selected == SELECTED_TOPICMAP) {
++			return ((PresentationTopicMap) getTopicmap()).getScrollbarValues();
++		} else if (selected == SELECTED_NONE) {
++			return null;
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected selection mode: &quot; + selected);
++		}
++	}
++
++	private Hashtable getCaretPositions() {
++		if (selected == SELECTED_TOPIC) {
++			return ((PresentationTopic) getTopic()).getCaretPositions();
++		} else if (selected == SELECTED_ASSOCIATION) {
++			return ((PresentationAssociation) getAssociation()).getCaretPositions();
++		} else if (selected == SELECTED_TOPICMAP) {
++			return ((PresentationTopicMap) getTopicmap()).getCaretPositions();
++		} else if (selected == SELECTED_NONE) {
++			return null;
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected selection mode: &quot; + selected);
++		}
++	}
++
++	// ---
++
++	/**
+ 	 * Returns the topic type name that corresponds to a specified topic type id,
+ 	 * e.g. id &quot;tt-property&quot; -&gt; name &quot;Property&quot;. If no topic type exists with the
+ 	 * specified id, null is returned ### should throw instead.
+@@ -1458,8 +1537,7 @@
+ 				ComboBoxItem item = (ComboBoxItem) ((JComboBox) view).getSelectedItem();
+ 				if (item == null) {
+ 					// ### error check
+-					System.out.println(&quot;*** PropertyPanel.PropertyField.getText(): can't get selected item &quot; +
+-						&quot;(ComboBoxItem) of menu &quot; + propertyDef + &quot; -- empty string returned&quot;);
++					logger.warning(&quot;can't get selected item (ComboBoxItem) of menu &quot; + propertyDef + &quot; -- empty string returned&quot;);
+ 					return &quot;&quot;;
+ 				}
+ 				return item.text;
+@@ -1467,8 +1545,7 @@
+ 				JRadioButton button = getButton();
+ 				// ### error check
+ 				if (button == null) {
+-					System.out.println(&quot;*** PropertyPanel.PropertyField.getText(): can't get selected button of &quot; +
+-						propertyDef + &quot; -- empty string returned&quot;);
++					logger.warning(&quot;can't get selected button of &quot; + propertyDef + &quot; -- empty string returned&quot;);
+ 					return &quot;&quot;;
+ 				}
+ 				//
+@@ -1507,32 +1584,34 @@
+ 		 */
+ 		void setText(String text, String baseURL, ActionListener actionListener, DocumentListener documentListener) throws DeepaMehtaException {
+ 			String visualization = propertyDef.getVisualization();
+-			if (visualization.equals(VISUAL_FIELD) ||
+-				visualization.equals(VISUAL_FILE_CHOOSER) ||
+-				visualization.equals(VISUAL_COLOR_CHOOSER) ||
+-				visualization.equals(VISUAL_PASSWORD_FIELD) ||
+-				visualization.equals(VISUAL_AREA) || visualization.equals(&quot;&quot;)) {
++			if (visualization.equals(VISUAL_FIELD) || visualization.equals(VISUAL_FILE_CHOOSER) ||
++					visualization.equals(VISUAL_COLOR_CHOOSER) || visualization.equals(VISUAL_PASSWORD_FIELD) ||
++					visualization.equals(VISUAL_AREA) || visualization.equals(&quot;&quot;)) {
+ 				JTextComponent comp = (JTextComponent) model;
+ 				comp.getDocument().removeDocumentListener(documentListener);
+ 				comp.setText(text);
+ 				comp.getDocument().addDocumentListener(documentListener);
++				// restore scrollbar value
++				restoreScrollbarValue();
+ 			} else if (visualization.equals(VISUAL_TEXT_EDITOR)) {
+ 				TextEditorPanel textEditor = (TextEditorPanel) model;
+ 				textEditor.setText(text, baseURL, documentListener);
++				// restore scrollbar value
++				restoreScrollbarValue();
+ 			} else if (visualization.equals(VISUAL_CHOICE)) {
+ 				JComboBox cbox = (JComboBox) view;
+-				setSelectedCustomItem(cbox, text, actionListener, propertyDef.getPropertyName());
++				setSelectedCustomItem(cbox, text, actionListener, getName());
+ 			} else if (visualization.equals(VISUAL_RADIOBUTTONS)) {
+ 				// get the radio button corresponding to &quot;text&quot;
+ 				JRadioButton button = getButton(text);
+ 				// error check
+ 				if (button == null) {
+ 					if (text.equals(&quot;&quot;)) {
+-						System.out.println(&quot;*** property \&quot;&quot; + propertyDef.getPropertyName() + &quot;\&quot; not set -- &quot; +
+-							&quot;displayed value is not accurate&quot;);
++						logger.warning(&quot;property \&quot;&quot; + getName() + &quot;\&quot; has no value -- &quot; +
++							&quot;displayed value might not be accurate&quot;);
+ 					} else {
+-						System.out.println(&quot;*** property \&quot;&quot; + propertyDef.getPropertyName() + &quot;\&quot; has unexpected &quot; +
+-							&quot;value \&quot;&quot; + text + &quot;\&quot; -- displayed value is not accurate&quot;);
++						logger.warning(&quot;property \&quot;&quot; + getName() + &quot;\&quot; has unexpected value \&quot;&quot; + text + &quot;\&quot; -- &quot; +
++							&quot;displayed value might not be accurate&quot;);
+ 					}
+ 					removeAllSelections();
+ 					return;
+@@ -1708,6 +1787,58 @@
+ 
+ 		// ---
+ 
++		/**
++		 * Returns the vertical scrollbar of this field, resp. &lt;code&gt;null&lt;/code&gt; if this field has no scrollbar.
++		 */
++		JScrollBar getScrollBar() {
++			String visualization = propertyDef.getVisualization();
++			if (visualization.equals(VISUAL_AREA) || visualization.equals(VISUAL_TEXT_EDITOR)) {
++				JScrollPane scrollPane = visualization.equals(VISUAL_AREA) ? (JScrollPane) view :
++					((TextEditorPanel) model).getScrollPane();
++				if (scrollPane != null) {	// Note: text editors of type EDITOR_TYPE_SINGLE_LINE have no scrollpane
++					return scrollPane.getVerticalScrollBar();
++				}
++			}
++			return null;
++		}
++
++		JTextComponent getTextComponent() {
++			String visualization = propertyDef.getVisualization();
++			if (visualization.equals(VISUAL_AREA) || visualization.equals(VISUAL_TEXT_EDITOR)) {
++				JTextComponent textComponent = visualization.equals(VISUAL_AREA) ? (JTextComponent) model :
++					((TextEditorPanel) model).getTextComponent();
++				return textComponent;
++			}
++			return null;
++		}
++
++		void restoreScrollbarValue() {
++			JScrollBar scrollbar = getScrollBar();
++			if (scrollbar != null) {
++				Hashtable scrollbarValues = getScrollbarValues();
++				Hashtable caretPositions = getCaretPositions();
++				// error check
++				if (scrollbarValues == null) {
++					logger.warning(&quot;no scrollbar values for field \&quot;&quot; + this + &quot;\&quot; available&quot;);
++					return;
++				}
++				//
++				JTextComponent textComponent = getTextComponent();
++				Integer scrollbarValue = (Integer) scrollbarValues.get(getName());
++				Integer caretPosition = (Integer) caretPositions.get(getName());
++				if (scrollbarValue != null) {
++					logger.info(&quot;restoring scrollbar value of &quot; + getSelectedObject() +
++						&quot;\n    \&quot;&quot; + getName() + &quot;\&quot;: scrollbarValue=&quot; + scrollbarValue + &quot; caretPosition=&quot; + caretPosition);
++					scrollbar.setValue(scrollbarValue.intValue());
++					textComponent.setCaretPosition(caretPosition.intValue());
++				} else {
++					textComponent.setCaretPosition(0);
++				}
++			}
++		}
++
++		// ---
++
+ 		// ### doesn't work
+ 		void removeAllSelections() {
+ 			ButtonGroup group = (ButtonGroup) model;
+
+Modified: trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -46,12 +46,11 @@
+  * A view component for displaying and editing text.
+  * There are 3 tyes of text editor panels: EDITOR_TYPE_DEFAULT, EDITOR_TYPE_STYLED and EDITOR_TYPE_SINGLE_LINE.
+  * The content can also set to be view-only.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 13.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 29.9.2001 (2.0a12-pre7)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 7.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ class TextEditorPanel extends JPanel implements ActionListener, DocumentListener, DeepaMehtaConstants {
+ 
+@@ -76,15 +75,16 @@
+ 
+ 	/**
+ 	 * The text editor type, one of this constants
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;{@link #EDITOR_TYPE_DEFAULT}
+-	 * &lt;LI&gt;{@link #EDITOR_TYPE_STYLED}
+-	 * &lt;LI&gt;{@link #EDITOR_TYPE_SINGLE_LINE}
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;{@link #EDITOR_TYPE_DEFAULT}
++	 * &lt;li&gt;{@link #EDITOR_TYPE_STYLED}
++	 * &lt;li&gt;{@link #EDITOR_TYPE_SINGLE_LINE}
++	 * &lt;/ul&gt;
+ 	 */
+ 	private int editorType;
+ 
+-	private JTextComponent textComponent;	// a JTextArea, JTextPane or JTextField respectively
++	private JTextComponent textComponent;	// a JTextArea, JTextPane, or JTextField respectively
++	private JScrollPane scrollPane;			// is null in case of EDITOR_TYPE_SINGLE_LINE
+ 	private PresentationDetail detail;
+ 
+ 	boolean showToolbar;	// indicates weather a toolbar is created
+@@ -117,11 +117,11 @@
+ 	 * References checked: 10.9.2007 (2.0b8)
+ 	 *
+ 	 * @param	editorType	editor type, one of this constants
+-	 *						&lt;UL&gt;
+-	 *						&lt;LI&gt;EDITOR_TYPE_DEFAULT
+-	 *						&lt;LI&gt;EDITOR_TYPE_STYLED
+-	 *						&lt;LI&gt;EDITOR_TYPE_SINGLE_LINE
+-	 *						&lt;/UL&gt;
++	 *						&lt;ul&gt;
++	 *						&lt;li&gt;EDITOR_TYPE_DEFAULT
++	 *						&lt;li&gt;EDITOR_TYPE_STYLED
++	 *						&lt;li&gt;EDITOR_TYPE_SINGLE_LINE
++	 *						&lt;/ul&gt;
+ 	 * @param	controler	for editors of type &lt;code&gt;EDITOR_TYPE_STYLED&lt;/code&gt;: just needed to get the icons for the
+ 	 *						toolbar buttons ### bad approach
+ 	 *
+@@ -137,7 +137,8 @@
+ 		switch (editorType) {
+ 		case EDITOR_TYPE_DEFAULT:
+ 			textComponent = new JTextArea();
+-			add(new JScrollPane(textComponent));
++			scrollPane = new JScrollPane(textComponent);
++			add(scrollPane);
+ 			break;
+ 		case EDITOR_TYPE_STYLED:
+ 			textComponent = new JTextPane();
+@@ -155,7 +156,8 @@
+ 				// ### addButton(toolbar, &quot;H2&quot;, CMD_SET_HEADLINE2);
+ 				add(toolbar, BorderLayout.SOUTH);
+ 			}
+-			add(new JScrollPane(textComponent));
++			scrollPane = new JScrollPane(textComponent);
++			add(scrollPane);
+ 			break;
+ 		case EDITOR_TYPE_SINGLE_LINE:
+ 			textComponent = new JTextField();
+@@ -226,9 +228,17 @@
+ 
+ 
+ 	String getText() {
+-		return textComponent.getText();
++		return getTextComponent().getText();
+ 	}
+ 
++	JTextComponent getTextComponent() {
++		return textComponent;
++	}
++
++	JScrollPane getScrollPane() {
++		return scrollPane;
++	}
++
+ 	/**
+ 	 * @see		PresentationDetail#isDirty
+ 	 */
+@@ -276,7 +286,6 @@
+ 		if (editorType == EDITOR_TYPE_STYLED) {
+ 			//
+ 			// --- set content type ---
+-			// ### System.out.println(&quot;&gt;&gt;&gt; TextEditorPanel.setText(): before setContentType(): &quot; + ((JEditorPane) textComponent).getHyperlinkListeners().length + &quot; hyperlink listeners registered&quot;);
+ 			((JEditorPane) textComponent).setContentType(&quot;text/html&quot;);
+ 			//
+ 			// --- set base URL ---
+@@ -292,21 +301,13 @@
+ 			//
+ 			// --- set text ---
+ 			try {
+-				// ### required for what?
+-				// ### serious oddity: contents of less then 14 characters are not displayed!
+-				/* ### if (text.length() &lt;= 59) {	// ### 59 &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt; + whitespace
+-					text = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
+-				} */
+ 				textComponent.setText(text);
+-				textComponent.setCaretPosition(0);
+ 			} catch (Throwable e) {
+ 				textComponent.setText(&quot;&lt;html&gt;&lt;body&gt;&lt;font color=#FF0000&gt;Page can't be displayed&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 				System.out.println(&quot;*** TextEditorPanel.setText(): error while HTML rendering: &quot; + e);
+ 			}
+-			// ### System.out.println(&quot;&gt;&gt;&gt; TextEditorPanel.setText(): after setContentType():  &quot; + ((JEditorPane) textComponent).getHyperlinkListeners().length + &quot; hyperlink listeners registered&quot;);
+ 		} else {
+ 			textComponent.setText(text);
+-			textComponent.setCaretPosition(0);
+ 		}
+ 		//
+ 		textComponent.getDocument().addDocumentListener(documentListener);
+
+Modified: trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -24,10 +24,9 @@
+  * Editor model for an opened topicmap.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 7.6.2001 (2.0a11-pre4)&lt;br&gt;
++ * Last change: 3.2.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ class TopicmapEditorModel implements DeepaMehtaConstants {
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-06 20:13:01 UTC (rev 343)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-07 23:55:25 UTC (rev 344)
+@@ -708,7 +708,7 @@
+ 		return exists(&quot;SELECT ID FROM Topic WHERE ID='&quot; + topicID + &quot;'&quot;);
+ 	}
+ 
+-	// --- associationExists (3 forms) ---
++	// --- associationExists (2 forms) ---
+ 
+ 	/* ### not yet needed
+ 	public boolean associationExists(String topicID1, String topicID2, String assocTypeID) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000187.html">[deepamehta-svn] r343 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000189.html">[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

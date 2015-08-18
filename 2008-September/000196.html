@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r352%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809220051.m8M0plZf026281%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000195.html">
+   <LINK REL="Next"  HREF="000197.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r352%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809220051.m8M0plZf026281%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 22 02:51:47 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000195.html">[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service
+</A></li>
+        <LI>Next message: <A HREF="000197.html">[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-22 02:51:44 +0200 (Mon, 22 Sep 2008)
+New Revision: 352
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/CorporateMemory.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+Log:
+1) Bug #14516 addressed (Several bugs in feature #4299 (handling of result sets)): Issue a) fixed:
+a) The result list is not always sorted. It should be sorted alphabetically.
+
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateMemory.java	2008-09-21 22:25:42 UTC (rev 351)
++++ trunk/develop/src/de/deepamehta/service/CorporateMemory.java	2008-09-22 00:51:44 UTC (rev 352)
+@@ -14,7 +14,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-cm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 24.5.2006 (2.0b6-post3)&lt;br&gt;
++ * Last change: 22.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -41,6 +41,7 @@
+ 	Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter);
+ 	Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter, String relatedTopicID);
+ 	Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter, String relatedTopicID, String assocTypeID);
++	Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter, String relatedTopicID, String assocTypeID, boolean sortByTopicName);
+ 	Vector getTopics(Vector typeIDs);	// ### not yet used
+ 	Vector getTopics(Vector typeIDs, Hashtable propertyFilter, boolean caseSensitiv);
+ 	//
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-21 22:25:42 UTC (rev 351)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-22 00:51:44 UTC (rev 352)
+@@ -32,7 +32,7 @@
+  * A RDBMS implementation of {@link CorporateMemory}.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 5.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 22.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -132,7 +132,7 @@
+ 		return topic;
+ 	}
+ 
+-	// --- getTopics (11 forms) ---
++	// --- getTopics (13 forms) ---
+ 
+ 	public Vector getTopics() {
+ 		String query = &quot;SELECT * FROM Topic&quot;;
+@@ -155,15 +155,15 @@
+ 	}
+ 
+ 	public Vector getTopics(String typeID, Hashtable propertyFilter, boolean caseSensitiv) {
+-		return getTopics(typeID, null, null, propertyFilter, null, null, null, caseSensitiv);
++		return getTopics(typeID, null, null, propertyFilter, null, null, null, caseSensitiv, false);
+ 	}
+ 
+ 	public Vector getTopics(String typeID, Hashtable propertyFilter, String topicmapID) {
+-		return getTopics(typeID, null, null, propertyFilter, null, null, topicmapID, false);	// caseSensitiv=false
++		return getTopics(typeID, null, null, propertyFilter, null, null, topicmapID, false, false);	// caseSensitiv=false
+ 	}
+ 
+ 	public Vector getTopics(String typeID, Hashtable propertyFilter, String topicmapID, boolean caseSensitiv) {
+-		return getTopics(typeID, null, null, propertyFilter, null, null, topicmapID, caseSensitiv);
++		return getTopics(typeID, null, null, propertyFilter, null, null, topicmapID, caseSensitiv, false);
+ 	}
+ 
+ 	/**
+@@ -179,17 +179,22 @@
+ 	}
+ 
+ 	public Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter,
+-																String relatedTopicID, String assocTypeID) {
+-		return getTopics(typeID, null, nameFilter, propertyFilter, relatedTopicID, assocTypeID, null, false);	// caseSensitiv=false
++															String relatedTopicID, String assocTypeID) {
++		return getTopics(typeID, null, nameFilter, propertyFilter, relatedTopicID, assocTypeID, null, false, false);	// caseSensitiv=false
+ 	}
+ 
++	public Vector getTopics(String typeID, String nameFilter, Hashtable propertyFilter,
++															String relatedTopicID, String assocTypeID, boolean sortByTopicName) {
++		return getTopics(typeID, null, nameFilter, propertyFilter, relatedTopicID, assocTypeID, null, false, sortByTopicName);	// caseSensitiv=false
++	}
++
+ 	public Vector getTopics(Vector typeIDs) {
+ 		String query = &quot;SELECT * FROM Topic WHERE &quot; + topicTypeFilter(typeIDs);
+ 		return queryBaseTopics(query, new Object[0]);
+ 	}
+ 
+ 	public Vector getTopics(Vector typeIDs, Hashtable propertyFilter, boolean caseSensitiv) {
+-		return getTopics(null, typeIDs, null, propertyFilter, null, null, null, caseSensitiv);
++		return getTopics(null, typeIDs, null, propertyFilter, null, null, null, caseSensitiv, false);
+ 	}
+ 
+ 	// ---
+@@ -205,9 +210,9 @@
+ 	 *							&lt;code&gt;typeID&lt;/code&gt; parameter is ignored
+ 	 */
+ 	private Vector getTopics(String typeID, Vector typeIDs, String nameFilter, Hashtable propertyFilter, String relatedTopicID,
+-																	String assocTypeID, String topicmapID, boolean caseSensitiv) {
++											String assocTypeID, String topicmapID, boolean caseSensitiv, boolean sortByTopicName) {
+ 		PreparedStatement query = topicQuery(typeID, typeIDs, nameFilter, propertyFilter, relatedTopicID, assocTypeID,
+-																									topicmapID, caseSensitiv);
++																				topicmapID, caseSensitiv, sortByTopicName);
+ 		if (LOG_CM_QUERIES) {
+ 			System.out.println(&quot;&gt; RelationalCorporateMemory.getTopics(): typeID=\&quot;&quot; + typeID + &quot;\&quot; name filter=\&quot;&quot; +
+ 				nameFilter + &quot;\&quot; property filter=&quot; + propertyFilter + &quot;\n\&quot;&quot; + query + &quot;\&quot;&quot;);
+@@ -836,20 +841,20 @@
+ 	// --- getRelatedViewTopicsByTopictype (2 forms) ---
+ 
+ 	/**
+-	 * References checked: 8.11.2001 (2.0a13-pre5)
++	 * ### Never called.
++	 * &lt;p&gt;
++	 * References checked: 22.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	2-element array:&lt;br&gt;
+ 	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+ 	 *				element 2: vector of {@link de.deepamehta.PresentableAssociation}
+-	 *
+-	 * @see		LiveTopic#navigateByTopictype
+ 	 */
+ 	public Vector[] getRelatedViewTopicsByTopictype(String topicID, String relTopicType) {
+ 		return getRelatedViewTopicsByTopictype(topicID, relTopicType, 0, null);
+ 	}
+ 
+ 	/**
+-	 * References checked: 10.8.2001 (2.0a11)
++	 * References checked: 22.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	2-element array:&lt;br&gt;
+ 	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+@@ -857,8 +862,7 @@
+ 	 *
+ 	 * @see		LiveTopic#navigateByTopictype
+ 	 */
+-	public Vector[] getRelatedViewTopicsByTopictype(String topicID, String relTopicType,
+-													int relTopicPos, String assocType) {
++	public Vector[] getRelatedViewTopicsByTopictype(String topicID, String relTopicType, int relTopicPos, String assocType) {
+ 		// Note: there is no &quot;topicVersion&quot;/&quot;assocTypeVersion&quot; involved here
+ 		String query = &quot;SELECT &quot; +
+ 			&quot;Topic.ID AS TopicID, &quot; +
+@@ -873,7 +877,7 @@
+ 		&quot;Association.TopicID&quot; + (3 - relTopicPos) + &quot;='&quot; + topicID + &quot;' AND &quot; +
+ 		&quot;Association.TopicID&quot; + relTopicPos + &quot;=Topic.ID AND &quot; +
+ 		&quot;Association.TypeID='&quot; + assocType + &quot;' AND &quot;) +
+-		&quot;Topic.TypeID='&quot; + relTopicType + &quot;'&quot;;
++		&quot;Topic.TypeID='&quot; + relTopicType + &quot;' ORDER BY Topic.Name&quot;;
+ 		//
+ 		return queryPresentableTopics(query, topicID);
+ 	}
+@@ -881,7 +885,7 @@
+ 	// ---
+ 
+ 	/**
+-	 * References checked: 10.8.2001 (2.0a11)
++	 * References checked: 22.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	2-element array:&lt;br&gt;
+ 	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+@@ -899,11 +903,10 @@
+ 			&quot;Topic.Name AS TopicName, &quot; +
+ 			&quot;Association.* &quot; +
+ 			&quot;FROM Topic, Association WHERE &quot; +
+-	 &quot;(Association.TopicID1='&quot; + topicID + &quot;' AND Association.TopicID2 = Topic.ID OR &quot; +
+-	  &quot;Association.TopicID2='&quot; + topicID + &quot;' AND Association.TopicID1 = Topic.ID) AND &quot; +
+-	  &quot;Association.TypeID='&quot; + assocType + &quot;'&quot;;
+-		// the view always originates from personal workspace and therefore
+-		// has version number 1 (constant)
++	   &quot;(Association.TopicID1='&quot; + topicID + &quot;' AND Association.TopicID2 = Topic.ID OR &quot; +
++		&quot;Association.TopicID2='&quot; + topicID + &quot;' AND Association.TopicID1 = Topic.ID) AND &quot; +
++		&quot;Association.TypeID='&quot; + assocType + &quot;' ORDER BY Topic.Name&quot;;
++	  	//
+ 		return queryPresentableTopics(query, topicID);
+ 	}
+ 
+@@ -2063,7 +2066,7 @@
+ 	 *					   String relatedTopicID, String assocTypeID, String topicmapID)
+ 	 */
+ 	private PreparedStatement topicQuery(String typeID, Vector typeIDs, String nameFilter, Hashtable propertyFilter,
+-						String relatedTopicID, String assocTypeID, String topicmapID, boolean caseSensitiv) {
++					String relatedTopicID, String assocTypeID, String topicmapID, boolean caseSensitiv, boolean sortByTopicName) {
+         StringBuffer query = new StringBuffer(&quot;SELECT Topic.*&quot;);
+ 		StringBuffer fromClause = new StringBuffer(&quot; FROM Topic&quot;);
+ 		StringBuffer whereClause = new StringBuffer(&quot; WHERE &quot;);
+@@ -2105,6 +2108,10 @@
+ 			whereClause.append(&quot; AND ViewTopic.ViewTopicID = ? AND ViewTopic.TopicID=Topic.ID&quot;);
+ 			whereParams.add(topicmapID);
+ 		}
++		// --- sorting ---
++		if (sortByTopicName) {
++			whereClause.append(&quot; ORDER BY Name&quot;);
++		}
+ 		//
+ 		query.append(fromClause);
+ 		query.append(whereClause);
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-21 22:25:42 UTC (rev 351)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-22 00:51:44 UTC (rev 352)
+@@ -1228,8 +1228,12 @@
+ 	}
+ 
+ 	/**
++	 * Application utility method. Called e.g. by the &quot;Kompetenzstern&quot; application.
++	 *
+ 	 * @param	relTopicPos		association position of the related topic (1 or 2), 0 if the postion doesn't natter
+ 	 * @param	semantic		association type, &lt;code&gt;null&lt;/code&gt; if the association type doesn't natter
++	 *
++	 * @see		#navigateByTopictype(String topicTypeID)
+ 	 */
+ 	public final CorporateDirectives navigateByTopictype(String topicTypeID, int relTopicPos, String semantic) {
+ 		// subclasses have the opportunity to create topics and associations on the fly -- that means
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-21 22:25:42 UTC (rev 351)
++++ trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-22 00:51:44 UTC (rev 352)
+@@ -19,7 +19,7 @@
+  * {@link de.deepamehta.service.CorporateMemory corporate memory}.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 22.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -126,8 +126,9 @@
+ 	protected Vector getContent() {
+ 		String relatedTopicID = containerRelatedTopic != null ? containerRelatedTopic.getID() : null;
+ 		// --- query corporate memory ---
++		// ### there is a logical copy in performQuery()
+ 		Vector topics = cm.getTopics(getContentTypeID(), containerNameFilter, containerPropertyFilter, relatedTopicID,
+-			relatedTopicSemantic);
++			relatedTopicSemantic, true);	// sortByTopicName=true
+ 		int topicCount = topics.size();
+ 		//
+ 		logger.info(containerPropertyFilter + &quot; -- &quot; + topicCount + &quot; topics found&quot;);
+@@ -173,7 +174,8 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		String relatedTopicID = relatedTopic != null ? relatedTopic.getID() : null;
+ 		// --- query corporate memory ---
+-		Vector topics = cm.getTopics(getContentTypeID(), nameFilter, propertyFilter, relatedTopicID, relatedTopicSemantic);
++		// ### there is a logical copy in getContent()
++		Vector topics = cm.getTopics(getContentTypeID(), nameFilter, propertyFilter, relatedTopicID, relatedTopicSemantic, true);
+ 		int topicCount = topics.size();
+ 		//
+ 		logger.info(&quot;\&quot;&quot; + propertyFilter + &quot;\&quot; -- &quot; + topicCount + &quot; topics found&quot;);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000195.html">[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service
+</A></li>
+	<LI>Next message: <A HREF="000197.html">[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

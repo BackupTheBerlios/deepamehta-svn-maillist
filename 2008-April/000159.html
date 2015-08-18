@@ -1,0 +1,395 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r314%20-%20in%20trunk%3A%20.%20.settings%0A%09develop/src/de/deepamehta/service/db&In-Reply-To=%3C200804121015.m3CAFOCo006429%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000158.html">
+   <LINK REL="Next"  HREF="000160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r314%20-%20in%20trunk%3A%20.%20.settings%0A%09develop/src/de/deepamehta/service/db&In-Reply-To=%3C200804121015.m3CAFOCo006429%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sat Apr 12 12:15:24 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000158.html">[deepamehta-svn] r313 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000160.html">[deepamehta-svn] r315 - in trunk/develop/src/de/deepamehta: service	service/web topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-04-12 12:15:24 +0200 (Sat, 12 Apr 2008)
+New Revision: 314
+
+Modified:
+   trunk/.settings/org.eclipse.jdt.core.prefs
+   trunk/.settings/org.eclipse.jdt.ui.prefs
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+Log:
+disabled debugging output for SQL statements
+
+Modified: trunk/.settings/org.eclipse.jdt.core.prefs
+===================================================================
+--- trunk/.settings/org.eclipse.jdt.core.prefs	2008-04-08 12:23:56 UTC (rev 313)
++++ trunk/.settings/org.eclipse.jdt.core.prefs	2008-04-12 10:15:24 UTC (rev 314)
+@@ -1,4 +1,4 @@
+-#Fri Sep 21 15:43:17 CEST 2007
++#Wed Jan 16 22:06:48 GMT+01:00 2008
+ eclipse.preferences.version=1
+ org.eclipse.jdt.core.codeComplete.argumentPrefixes=
+ org.eclipse.jdt.core.codeComplete.argumentSuffixes=
+@@ -101,6 +101,7 @@
+ org.eclipse.jdt.core.formatter.blank_lines_before_method=1
+ org.eclipse.jdt.core.formatter.blank_lines_before_new_chunk=1
+ org.eclipse.jdt.core.formatter.blank_lines_before_package=0
++org.eclipse.jdt.core.formatter.blank_lines_between_import_groups=1
+ org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations=1
+ org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration=end_of_line
+ org.eclipse.jdt.core.formatter.brace_position_for_anonymous_type_declaration=end_of_line
+@@ -114,9 +115,14 @@
+ org.eclipse.jdt.core.formatter.brace_position_for_switch=end_of_line
+ org.eclipse.jdt.core.formatter.brace_position_for_type_declaration=end_of_line
+ org.eclipse.jdt.core.formatter.comment.clear_blank_lines=false
++org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_block_comment=false
++org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_javadoc_comment=false
++org.eclipse.jdt.core.formatter.comment.format_block_comments=false
+ org.eclipse.jdt.core.formatter.comment.format_comments=false
+ org.eclipse.jdt.core.formatter.comment.format_header=false
+ org.eclipse.jdt.core.formatter.comment.format_html=false
++org.eclipse.jdt.core.formatter.comment.format_javadoc_comments=false
++org.eclipse.jdt.core.formatter.comment.format_line_comments=false
+ org.eclipse.jdt.core.formatter.comment.format_source_code=true
+ org.eclipse.jdt.core.formatter.comment.indent_parameter_description=true
+ org.eclipse.jdt.core.formatter.comment.indent_root_tags=true
+@@ -291,6 +297,7 @@
+ org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_synchronized=insert
+ org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_while=insert
+ org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_return=insert
++org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_throw=insert
+ org.eclipse.jdt.core.formatter.insert_space_before_postfix_operator=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_prefix_operator=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_question_in_conditional=insert
+@@ -311,9 +318,12 @@
+ org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false
+ org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line=false
+ org.eclipse.jdt.core.formatter.lineSplit=132
++org.eclipse.jdt.core.formatter.never_indent_block_comments_on_first_column=false
++org.eclipse.jdt.core.formatter.never_indent_line_comments_on_first_column=false
+ org.eclipse.jdt.core.formatter.number_of_blank_lines_at_beginning_of_method_body=0
+ org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve=3
+ org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
+ org.eclipse.jdt.core.formatter.tabulation.char=tab
+ org.eclipse.jdt.core.formatter.tabulation.size=4
+ org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=false
++org.eclipse.jdt.core.formatter.wrap_before_binary_operator=true
+
+Modified: trunk/.settings/org.eclipse.jdt.ui.prefs
+===================================================================
+--- trunk/.settings/org.eclipse.jdt.ui.prefs	2008-04-08 12:23:56 UTC (rev 313)
++++ trunk/.settings/org.eclipse.jdt.ui.prefs	2008-04-12 10:15:24 UTC (rev 314)
+@@ -1,7 +1,7 @@
+ #Fri Sep 21 17:10:53 CEST 2007
+ eclipse.preferences.version=1
+ formatter_profile=_DeepaMehta
+-formatter_settings_version=10
++formatter_settings_version=11
+ internal.default.compliance=default
+ org.eclipse.jdt.ui.exception.name=e
+ org.eclipse.jdt.ui.gettersetter.use.is=true
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-04-08 12:23:56 UTC (rev 313)
++++ trunk/build.xml	2008-04-12 10:15:24 UTC (rev 314)
+@@ -197,6 +197,7 @@
+ 		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
+ 			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to activate:&quot; /&gt;
++			&lt;property name=&quot;installed&quot; value=&quot;true&quot; /&gt;
+ 		&lt;/antcallback&gt;
+ 		&lt;antcall target=&quot;-config-setup-default-instance&quot;&gt;
+ 			&lt;param name=&quot;dont.ask&quot; value=&quot;true&quot; /&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-04-08 12:23:56 UTC (rev 313)
++++ trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-04-12 10:15:24 UTC (rev 314)
+@@ -22,6 +22,8 @@
+ import java.util.LinkedList;
+ import java.util.Properties;
+ 
++
++
+ public class DefaultDatabaseProvider implements DatabaseProvider {
+ 
+ 	public class DefaultDatabaseOptimizer extends DatabaseOptimizer {
+@@ -49,9 +51,8 @@
+ 
+ 	private String dbType;
+ 
+-	public DefaultDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException,
+-			InstantiationException, IllegalAccessException {
++	public DefaultDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException, InstantiationException,
++													IllegalAccessException {
+ 		setupDatabaseProvider(conf);
+ 	}
+ 
+@@ -59,9 +60,8 @@
+ 		return new DefaultDatabaseOptimizer();
+ 	}
+ 
+-	protected void setupDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException,
+-			InstantiationException, IllegalAccessException {
++	protected void setupDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException, InstantiationException,
++			IllegalAccessException {
+ 		jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+ 		dbType = conf.getProperty(ConfigurationConstants.Database.DB_TYPE);
+ 		if (dbType == null) {
+@@ -74,8 +74,7 @@
+ 			c2 = Configuration.getGlobalConfig();
+ 		}
+ 		String libs = c2.getProperty(ConfigurationConstants.Database.DB_LIBS);
+-		String driverClazz = c2
+-				.getProperty(ConfigurationConstants.Database.DB_DRIVER);
++		String driverClazz = c2.getProperty(ConfigurationConstants.Database.DB_DRIVER);
+ 
+ 		System.out.println(&quot;Using Database&quot;);
+ 		System.out.println(&quot;  Type : &quot; + dbType);
+@@ -85,19 +84,16 @@
+ 		loadClassFromLibs(libs, driverClazz);
+ 		driver = (Driver) driverClass.newInstance();
+ 		if (!driver.acceptsURL(jdbcURL))
+-			throw new DeepaMehtaException(
+-					&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
++			throw new DeepaMehtaException(&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
+ 		String user = conf.getProperty(ConfigurationConstants.Database.DB_USER);
+ 		if ((null != user) || (&quot;&quot;.equals(user))) {
+ 			setConnectionProperty(&quot;user&quot;, user);
+-			String password = conf
+-					.getProperty(ConfigurationConstants.Database.DB_PASSWORD);
++			String password = conf.getProperty(ConfigurationConstants.Database.DB_PASSWORD);
+ 			setConnectionProperty(&quot;password&quot;, password);
+ 		}
+ 	}
+ 
+-	private void loadClassFromLibs(String libs, String driverClazz)
+-			throws ClassNotFoundException {
++	private void loadClassFromLibs(String libs, String driverClazz) throws ClassNotFoundException {
+ 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+ 		Resource[] resources;
+ 		try {
+@@ -108,8 +104,7 @@
+ 		loadClassFromLibs(resources, driverClazz);
+ 	}
+ 
+-	private void loadClassFromLibs(Resource[] resources, String clazz)
+-			throws ClassNotFoundException {
++	private void loadClassFromLibs(Resource[] resources, String clazz) throws ClassNotFoundException {
+ 		URL[] urls = new URL[resources.length];
+ 		try {
+ 			for (int i = 0; i &lt; resources.length; i++) {
+@@ -132,8 +127,7 @@
+ 		loadClassFromLibs(urls, clazz);
+ 	}
+ 
+-	private void loadClassFromLibs(URL[] urls, String clazz)
+-			throws ClassNotFoundException {
++	private void loadClassFromLibs(URL[] urls, String clazz) throws ClassNotFoundException {
+ 		System.out.println(&quot;Using separate Classloader for:&quot;);
+ 		for (int i = 0; i &lt; urls.length; i++) {
+ 			System.out.println(&quot;  &quot; + urls[i].toExternalForm());
+@@ -167,8 +161,7 @@
+ 		Connection con = driver.connect(jdbcURL, conProps);
+ 		con.setAutoCommit(true);
+ 		allCons.add(con);
+-		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
+-				+ freeCons.size());
++		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot; + freeCons.size());
+ 		return con;
+ 	}
+ 
+@@ -193,8 +186,7 @@
+ 
+ 	public void release() {
+ 		try {
+-			System.out.println(&quot;all / free connections : &quot; + allCons.size()
+-					+ &quot; / &quot; + freeCons.size());
++			System.out.println(&quot;all / free connections : &quot; + allCons.size() + &quot; / &quot; + freeCons.size());
+ 			closeAllCons();
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+@@ -204,17 +196,22 @@
+ 	public void checkPointNeeded() {
+ 	}
+ 
+-	static PrintStream dblog;
++	private static PrintStream dblog = null;
+ 	static {
+-		try {
+-			dblog = new PrintStream(new FileOutputStream(&quot;db.log&quot;));
+-		} catch (FileNotFoundException e) {
+-			dblog = System.err;
++		/* DEBUG */
++		if (false) {
++			try {
++				dblog = new PrintStream(new FileOutputStream(&quot;db.log&quot;));
++			} catch (FileNotFoundException e) {
++				dblog = System.err;
++			}
+ 		}
+ 	}
+ 
+ 	public void logStatement(String arg0) {
+-		dblog.println(arg0);
++		if (null != dblog) {
++			dblog.println(arg0);
++		}
+ 	}
+ 
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2008-04-08 12:23:56 UTC (rev 313)
++++ trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2008-04-12 10:15:24 UTC (rev 314)
+@@ -9,6 +9,8 @@
+ import java.util.Timer;
+ import java.util.TimerTask;
+ 
++
++
+ public class HsqlDatabaseProvider extends DefaultDatabaseProvider {
+ 
+ 	private class CheckpointThread extends TimerTask {
+@@ -32,13 +34,12 @@
+ 
+ 	private boolean doNextCheckPoint = false;
+ 
+-	public HsqlDatabaseProvider(Properties conf) throws ClassNotFoundException,
+-			SQLException, InstantiationException, IllegalAccessException {
++	public HsqlDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException, InstantiationException,
++												IllegalAccessException {
+ 		super(conf);
+ 		setConnectionProperty(&quot;shutdown&quot;, &quot;true&quot;);
+ 		int rate = 5 * 60 * 1000;
+-		new Timer().scheduleAtFixedRate(new CheckpointThread(), rate,
+-				rate);
++		new Timer().scheduleAtFixedRate(new CheckpointThread(), rate, rate);
+ 	}
+ 
+ 	public DbmsHint getDbmsHint() {
+@@ -74,40 +75,44 @@
+ 
+ 	public void checkPointNeeded() {
+ 		super.checkPointNeeded();
+-		doNextCheckPoint=true;
++		doNextCheckPoint = true;
+ 	}
+ 
+ 	public void logStatement(String stmt) {
+ 		super.logStatement(stmt);
+-		// do not use the AutoFreeConnectionStatement
+-		// as it would result in an endless loop
+-		try {
+-			Connection connection = getConnection();
++		/* DEBUG */
++		if (false) {
++			// do not use the AutoFreeConnectionStatement
++			// as it would result in an endless loop
+ 			try {
+-				Statement statement = connection.createStatement();
+-				ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot;
+-						+ stmt);
+-				ResultSetMetaData md = rs.getMetaData();
+-				int cc = md.getColumnCount();
+-				for (int i = 1; i &lt;= cc; i++) {
+-					dblog.print(md.getColumnName(i) + &quot;;&quot;);
+-				}
+-				dblog.println();
+-				while (rs.next()) {
++				Connection connection = getConnection();
++				try {
++					Statement statement = connection.createStatement();
++					ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot; + stmt);
++					ResultSetMetaData md = rs.getMetaData();
++					int cc = md.getColumnCount();
++					StringBuffer buf = new StringBuffer();
+ 					for (int i = 1; i &lt;= cc; i++) {
+-						dblog.print(rs.getString(i) + &quot;;&quot;);
++						buf.append(md.getColumnName(i) + &quot;;&quot;);
+ 					}
+-					dblog.println();
++					super.logStatement(buf.toString());
++					buf = new StringBuffer();
++					while (rs.next()) {
++						for (int i = 1; i &lt;= cc; i++) {
++							buf.append(rs.getString(i) + &quot;;&quot;);
++						}
++						super.logStatement(buf.toString());
++					}
++					super.logStatement(&quot;&quot;);
++					statement.close();
++				} catch (SQLException e) {
++					e.printStackTrace();
++				} finally {
++					freeConnection(connection);
+ 				}
+-				dblog.println();
+-				statement.close();
+ 			} catch (SQLException e) {
+ 				e.printStackTrace();
+-			} finally {
+-				freeConnection(connection);
+ 			}
+-		} catch (SQLException e) {
+-			e.printStackTrace();
+ 		}
+ 	}
+ }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000158.html">[deepamehta-svn] r313 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000160.html">[deepamehta-svn] r315 - in trunk/develop/src/de/deepamehta: service	service/web topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

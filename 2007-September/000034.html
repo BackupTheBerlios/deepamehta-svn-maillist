@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r189 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/topics	install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r189%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/topics%0A%09install/db/patches&In-Reply-To=%3C200709021028.l82ASKBF026108%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000033.html">
+   <LINK REL="Next"  HREF="000035.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r189 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/topics	install/db/patches</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r189%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/topics%0A%09install/db/patches&In-Reply-To=%3C200709021028.l82ASKBF026108%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r189 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/topics	install/db/patches">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  2 12:28:20 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000033.html">[deepamehta-svn] r188 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/db/db-specific install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+        <LI>Next message: <A HREF="000035.html">[deepamehta-svn] r190 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-02 12:28:19 +0200 (Sun, 02 Sep 2007)
+New Revision: 189
+
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+Log:
+merge 186:HEAD from trunk
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-09-02 10:24:58 UTC (rev 188)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-09-02 10:28:19 UTC (rev 189)
+@@ -9,7 +9,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 29.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -256,13 +256,7 @@
+ 	// ---
+ 
+ 	public static Date parseDate(String date) {
+-		int year = Integer.parseInt(date.substring(0, 4));
+-		int month = Integer.parseInt(date.substring(5, 7));
+-		int day = Integer.parseInt(date.substring(8));
+-		Calendar cal = Calendar.getInstance();
+-		cal.clear();
+-		cal.set(year, month - 1, day);	// Calendar starts month with 0, DeepaMehta with 1
+-		return cal.getTime();
++		return getCalendar(date).getTime();
+ 	}
+ 
+ 	public static Point parsePoint(String point) {
+@@ -613,55 +607,44 @@
+ 		return topicIDs;
+ 	}
+ 
+-	// --- put (2 forms) ---
+ 
+-	/**
+-	 * Puts a key-value pair into the Hashtable. If value is null,
+-	 * the defaultObject will be put instead of value.
+-	 * If key is null, this method does nothing.
+-	 *
+-	 * @see     de.deepamehta.topics.TopicTypeTopic#exportTypeDefinition
+-	 * @see     de.deepamehta.topics.AssociationTypeTopic#exportTypeDefinition
+-	 */
+-	/* ### public static void put(Hashtable hash, String key, Object value, Object defaultObj) {
+-		if (key != null) {
+-			Object toPut = value != null ? value : defaultObj;
+-			if (toPut != null) {
+-				hash.put(key, toPut);
+-			}
+-		}
+-	} */
+ 
+-	/**
+-	 * Puts a key-value pair into the Hashtable. If value or key is null,
+-	 * this method does nothing.
+-	 *
+-	 * @see     de.deepamehta.topics.TopicTypeTopic#exportTypeDefinition
+-	 * @see     de.deepamehta.topics.AssociationTypeTopic#exportTypeDefinition
+-	 */
+-	/* ### public static void put(Hashtable hash, String key, Object value) {
+-		if (key != null &amp;&amp; value != null) {
+-		    hash.put(key, value);
+-		}
+-	} */
+-
+-
+-
+ 	// -------------------
+ 	// --- Date &amp; Time ---
+ 	// -------------------
+ 
+ 
+ 
++	public static Calendar getCalendar(String date) {
++		int year = Integer.parseInt(date.substring(0, 4));
++		int month = Integer.parseInt(date.substring(5, 7));
++		int day = Integer.parseInt(date.substring(8));
++		Calendar cal = Calendar.getInstance();
++		cal.clear();
++		// ### cal.setFirstDayOfWeek(Calendar.MONDAY);	// ### european
++		cal.set(year, month - 1, day);	// Calendar starts month with 0, DeepaMehta with 1
++		return cal;
++	}
++
++	// --- getDate(4 forms) ---
++
+ 	public static String getDate() {
+ 		return getDate(DATE_SEPARATOR);
+ 	}
+ 
++	public static String getDate(Calendar cal) {
++		return getDate(cal, DATE_SEPARATOR);
++	}
++
+ 	/**
+ 	 * @see		de.deepamehta.topics.personalweb.PersonalWeb#createLogfile
+ 	 */
+ 	public static String getDate(String sep) {
+ 		Calendar cal = Calendar.getInstance();
++		return getDate(cal, sep);
++	}
++
++	public static String getDate(Calendar cal, String sep) {
+ 		int y = cal.get(Calendar.YEAR);
+ 		int m = cal.get(Calendar.MONTH) + 1;	// Note: DeepaMehta begins with month=1
+ 		int d = cal.get(Calendar.DAY_OF_MONTH);
+@@ -698,8 +681,19 @@
+ 		return time;
+ 	}
+ 
++	// ---
+ 
++	/**
++	 * @param	time	a time string in DeepaMehta format (hh:mm)
++	 */
++	public static int getMinutes(String time) {
++		int hours = Integer.parseInt(time.substring(0, 2));
++		int minutes = Integer.parseInt(time.substring(3, 5));
++		return 60 * hours + minutes;
++	}
+ 
++
++
+ 	// -----------------
+ 	// --- Reporting ---
+ 	// -----------------
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-02 10:24:58 UTC (rev 188)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-02 10:28:19 UTC (rev 189)
+@@ -2,11 +2,13 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.ApplicationService;
+ //
++import java.text.DateFormat;
+ import java.util.*;
+ 
+ 
+@@ -27,12 +29,24 @@
+ 
+ 
+ 
++	// preferences
++	private static final int CALENDAR_DAY_START_HOUR = 9;
++	private static final int CALENDAR_DAY_END_HOUR = 22;
++	private static final int CALENDAR_HOUR_SEGMENTS = 4;
++	//
++	private static final int CALENDAR_SEGMENT_SIZE = 60 / CALENDAR_HOUR_SEGMENTS;
++	private static final int CALENDAR_DAY_SEGMENTS = CALENDAR_HOUR_SEGMENTS * (CALENDAR_DAY_END_HOUR - CALENDAR_DAY_START_HOUR);
++
++	// commands
+ 	private static final String ITEM_CREATE_EVENT = &quot;Create Event&quot;;
+ 	private static final String  CMD_CREATE_EVENT = &quot;createEvent&quot;;
+ 	private static final String ICON_CREATE_EVENT = &quot;event.png&quot;;
+ 
++	// properties
++	private static final String PROPERTY_DISPLAY_DATE = &quot;Display Date&quot;;
+ 
+ 
++
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+@@ -102,6 +116,21 @@
+ 
+ 
+ 
++	public CorporateDirectives propertiesChanged(Hashtable newProps, Hashtable oldProps,
++											String topicmapID, String viewmode, Session session) {
++		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
++			topicmapID, viewmode, session);
++		// --- &quot;Display Date&quot; ---
++		String prop = (String) newProps.get(PROPERTY_DISPLAY_DATE);
++		if (prop != null) {
++			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_DISPLAY_DATE + &quot;\&quot; property has changed &quot; +
++			&quot;-- render calendar view&quot;);
++			updateView(directives);
++		}
++		//
++		return directives;
++	}
++
+ 	public Vector disabledProperties(Session session) {
+ 		Vector props = super.disabledProperties(session);
+ 		// Note: if this property is already added by the superclass it is added
+@@ -118,10 +147,20 @@
+ 
+ 
+ 
+-	void update() {
++	void updateView(CorporateDirectives directives) {
++		Vector events = getEvents();
++		System.out.println(&quot;&gt;&gt;&gt; Update view of calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + events.size() + &quot; events)&quot;);
++		// ### String html = renderEventsAsList(events);
++		String html = renderWeekView(events);
++		// ### setTopicData(PROPERTY_DESCRIPTION, html);
++		// ### directives.add(as.setTopicProperty(getID(), 1, PROPERTY_DESCRIPTION, html, topicmapID, viewmode, session));
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DESCRIPTION, html);
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	private String renderEventsAsList(Vector events) {
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+-		Vector events = getEvents();
+-		System.out.println(&quot;&gt;&gt;&gt; Calender \&quot;&quot; + getName() + &quot;\&quot; updated (&quot; + events.size() + &quot; events)&quot;);
+ 		Enumeration e = events.elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic event = (BaseTopic) e.nextElement();
+@@ -138,9 +177,115 @@
+ 				&quot; &lt;b&gt;&quot; + name + &quot;&lt;/b&gt;&lt;/p&gt;&quot; + description);
+ 		}
+ 		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+-		setTopicData(PROPERTY_DESCRIPTION, html.toString());
++		return html.toString();
+ 	}
+ 
++	private String renderWeekView(Vector events) {
++		Calendar displayDate = DeepaMehtaUtils.getCalendar(getProperty(PROPERTY_DISPLAY_DATE));
++		// display range: begin date
++		int delta = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;
++		displayDate.add(Calendar.DATE, -delta);
++		// display range: end date
++		Calendar lastDisplayDate = (Calendar) displayDate.clone();
++		lastDisplayDate.add(Calendar.DATE, 6);
++		// --- make model ---
++		GridCell[][] gridModel = makeGridModel(events, displayDate, lastDisplayDate);
++		// --- rendering ---
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;table border=\&quot;1\&quot;&gt;&quot;);
++		// heading
++		DateFormat df = DateFormat.getDateInstance();
++		Calendar cal = (Calendar) displayDate.clone();
++		html.append(&quot;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
++		for (int day = 0; day &lt; 7; day++) {
++			html.append(&quot;&lt;td&gt;&quot; + df.format(cal.getTime()) + &quot;&lt;/td&gt;&quot;);
++			cal.add(Calendar.DATE, 1);
++		}
++		html.append(&quot;&lt;/tr&gt;&quot;);
++		// body
++		for (int seg = 0; seg &lt; CALENDAR_DAY_SEGMENTS; seg++) {
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&quot; + (seg % CALENDAR_HOUR_SEGMENTS == 0 ?
++				CALENDAR_DAY_START_HOUR + seg / CALENDAR_HOUR_SEGMENTS + &quot;:00&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);
++			for (int day = 0; day &lt; 7; day++) {
++				GridCell cell = gridModel[day][seg];
++				if (cell == null) {
++					html.append(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
++				} else if (cell.type == GridCell.BEGIN_OF_EVENT) {
++					html.append(&quot;&lt;td rowspan=\&quot;&quot; + cell.occupiedSegments + &quot;\&quot;&gt;&quot;);
++					html.append(&quot;&lt;b&gt;&quot; + cell.eventBegin + &quot;&lt;/b&gt;&lt;br&gt;&quot; + cell.eventName);
++					html.append(&quot;&lt;/td&gt;&quot;);
++				}
++			}
++			html.append(&quot;&lt;/tr&gt;&quot;);
++		}
++		html.append(&quot;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
++		return html.toString();
++	}
++
++	private GridCell[][] makeGridModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
++		GridCell[][] gridModel = new GridCell[7][CALENDAR_DAY_SEGMENTS];
++		//
++		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
++		String lastDisplayDateString = DeepaMehtaUtils.getDate(lastDisplayDate);
++		//
++		System.out.println(&quot;CalendarTopic.makeGridModel(): displayDate=&quot; + displayDate.getTime() + &quot;(&quot; + displayDateString + &quot;)&quot;);
++		System.out.println(&quot;                           lastDisplayDate=&quot; + lastDisplayDate.getTime() + &quot;(&quot; + lastDisplayDateString + &quot;)&quot;);
++		//
++		int withinDayRange = 0;		// for diagnostics only
++		int eventsDisplayed = 0;	// for diagnostics only
++		//
++		Enumeration e = events.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic event = (BaseTopic) e.nextElement();
++			String beginDate = getProperty(event, PROPERTY_BEGIN_DATE);
++			int c1 = beginDate.compareTo(displayDateString);
++			int c2 = beginDate.compareTo(lastDisplayDateString);
++			// ignore events outside day range
++			if (c1 &lt; 0 || c2 &gt; 0) {
++				continue;
++			}
++			withinDayRange++;
++			String beginTime = getProperty(event, PROPERTY_BEGIN_TIME);
++			String endTime = getProperty(event, PROPERTY_END_TIME);
++			// ignore events with unset time fields
++			if (!isSet(beginTime) || !isSet(endTime)) {
++				continue;
++			}
++			int beginMinuteOfDay = DeepaMehtaUtils.getMinutes(beginTime);
++			int endMinuteOfDay = DeepaMehtaUtils.getMinutes(endTime);
++			int beginSegment = (beginMinuteOfDay - 60 * CALENDAR_DAY_START_HOUR) / CALENDAR_SEGMENT_SIZE;
++			int segmentCount = Math.max((endMinuteOfDay - beginMinuteOfDay) / CALENDAR_SEGMENT_SIZE, 1);
++			int toIndex = beginSegment + segmentCount - 1;
++			// ignore events outside time range
++			if (toIndex &lt; 0 || beginSegment &gt;= CALENDAR_DAY_SEGMENTS) {
++				continue;
++			}
++			eventsDisplayed++;
++			// adjust boundings for events partially outside time range
++			if (beginSegment &lt; 0) {
++				segmentCount += beginSegment;
++				beginSegment = 0;
++			}
++			if (toIndex &gt;= CALENDAR_DAY_SEGMENTS) {
++				segmentCount += CALENDAR_DAY_SEGMENTS - toIndex - 1;
++			}
++			// --- add to model ---
++			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
++			int dayOfWeek = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			// add beginning segment to model
++			gridModel[dayOfWeek][beginSegment] = new GridCell(event.getID(), event.getName(), beginTime, segmentCount);
++			// add ocupied segments to model
++			for (int seg = beginSegment + 1; seg &lt; beginSegment + segmentCount; seg++) {
++				gridModel[dayOfWeek][seg] = new GridCell();
++			}
++		}
++		System.out.println(&quot;events within day range:                  &quot; + withinDayRange);
++		System.out.println(&quot;displayed events (reasonable time range): &quot; + eventsDisplayed);
++		//
++		return gridModel;
++	}
++
++	// ---
++
+ 	private Vector getEvents() {
+ 		String[] sortProps = {PROPERTY_BEGIN_DATE, PROPERTY_BEGIN_TIME};
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
+@@ -175,6 +320,37 @@
+ 	}
+ 
+ 	private boolean isSet(String dateOrTime) {
+-		return !dateOrTime.equals(&quot;-/-/-&quot;) &amp;&amp; !dateOrTime.equals(&quot;-:-&quot;);
++		// ### return !dateOrTime.equals(&quot;-/-/-&quot;) &amp;&amp; !dateOrTime.equals(&quot;-:-&quot;);
++		return dateOrTime.indexOf(VALUE_NOT_SET) == -1;
+ 	}
++
++
++
++	// *********************
++	// *** Inner Classes ***
++	// *********************
++
++
++
++	private class GridCell {
++
++		static final int BEGIN_OF_EVENT = 0;
++		static final int OCCUPIED_BY_EVENT = 1;
++
++		int type;
++		String eventID, eventName, eventBegin;
++		int occupiedSegments;
++
++		GridCell() {
++			type = OCCUPIED_BY_EVENT;
++		}
++
++		GridCell(String eventID, String eventName, String eventBegin, int occupiedSegments) {
++			type = BEGIN_OF_EVENT;
++			this.eventID = eventID;
++			this.eventName = eventName;
++			this.eventBegin = eventBegin;
++			this.occupiedSegments = occupiedSegments;
++		}
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-02 10:24:58 UTC (rev 188)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-02 10:28:19 UTC (rev 189)
+@@ -48,7 +48,7 @@
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+ 			topicmapID, viewmode, session);
+-		getCalendar().update();
++		getCalendar().updateView(directives);
+ 		return directives;
+ 	}
+ 
+
+Modified: branches/eschnepel/install/db/patches/cm-2.17.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-02 10:24:58 UTC (rev 188)
++++ branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-02 10:28:19 UTC (rev 189)
+@@ -46,9 +46,13 @@
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-96', '', 'tt-topiccontainer', 1, 'tt-calendar-search', 1);
+ -- assign search type to type
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-97', '', 'tt-calendar-search', 1, 'tt-calendar', 1);
++-- create properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaydate', 'Display Date');
++INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Name', 'Display Date');
++INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Visualization', 'Date Chooser');
+ -- assign properties
+--- INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ka-73', '', 'tt-calendar', 1, 'pp-color', 1);
+--- INSERT INTO AssociationProp VALUES ('a-ka-73', 1, 'Ordinal Number', '50');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-141', '', 'tt-calendar', 1, 'pp-displaydate', 1);
++INSERT INTO AssociationProp VALUES ('a-141', 1, 'Ordinal Number', '220');
+ 
+ --- create topic type &quot;Event&quot; ---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000033.html">[deepamehta-svn] r188 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/db/db-specific install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+	<LI>Next message: <A HREF="000035.html">[deepamehta-svn] r190 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

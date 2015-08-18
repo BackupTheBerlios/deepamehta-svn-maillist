@@ -1,0 +1,613 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r310 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r310%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200803252140.m2PLeFdQ025885%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000154.html">
+   <LINK REL="Next"  HREF="000156.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r310 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r310%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200803252140.m2PLeFdQ025885%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r310 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar 25 22:40:15 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000154.html">[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+        <LI>Next message: <A HREF="000156.html">[deepamehta-svn] r311 - in trunk/develop/src/de/deepamehta: . client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-25 22:40:03 +0100 (Tue, 25 Mar 2008)
+New Revision: 310
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PropertyTopic.java
+   trunk/develop/src/de/deepamehta/topics/UserTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+   trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java
+Log:
+Feature Request #4073 realized (Self maintained user profiles)
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -67,7 +67,7 @@
+  * &lt;p&gt;
+  * &lt;hr&gt;
+  * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * Last documentation update: 25.3.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+@@ -1204,23 +1204,43 @@
+ 		return hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) || isAdministrator(userID);
+ 	}
+ 
+-	// --- setTopicProperty (2 forms) ---
+ 
+-	// Note: there 2 other methods who are changing the properties NOT &quot;blindly&quot;
++
++	// -----------------------------------------------
++	// --- Set Properties (corporate memory level) ---
++	// -----------------------------------------------
++
++
++
++	// Note: there are 2 other methods who set properties at application service level
+ 	// - setTopicProperty()
+ 	// - setTopicProperties()
+ 
++	// --- setTopicProperty (2 forms) ---
++
+ 	/**
+-	 * Changes a topic property &quot;blindly&quot;.
++	 * Sets a topic property value directly in corporate memory.
++	 * &lt;p&gt;
++	 * Note: the application service is bypassed (no hooks are triggered) and the GUI is not updated (no directives are send).
++	 * Use this method deliberately.
++	 * &lt;p&gt;
++	 * If you want set a property value at application service level use
++	 * {@link #setTopicProperty(String topicID, int version, String propName, String propValue, String topicmapID, String viewmode, Session)}
+ 	 */
+ 	public void setTopicProperty(BaseTopic topic, String propName, String propValue) {
+ 		setTopicProperty(topic.getID(), topic.getVersion(), propName, propValue);
+ 	}
+ 
+ 	/**
+-	 * Changes a topic property &quot;blindly&quot;.
++	 * Sets a topic property value directly in corporate memory.
++	 * &lt;p&gt;
++	 * Note: the application service is bypassed (no hooks are triggered) and the GUI is not updated (no directives are send).
++	 * Use this method deliberately.
++	 * &lt;p&gt;
++	 * If you want set a property value at application service level use
++	 * {@link #setTopicProperty(String topicID, int version, String propName, String propValue, String topicmapID, String viewmode, Session)}
+ 	 *
+-	 * @see		LiveTopic#setTopicData(String propName, String propValue)
++	 * @see		LiveTopic#setProperty(String propName, String propValue)
+ 	 */
+ 	public void setTopicProperty(String topicID, int version, String propName, String propValue) {
+ 		cm.setTopicData(topicID, version, propName, propValue);
+@@ -1229,7 +1249,13 @@
+ 	// ---
+ 
+ 	/**
+-	 * Changes topic properties &quot;blindly&quot;.
++	 * Sets multiple topic property values directly in corporate memory.
++	 * &lt;p&gt;
++	 * Note: the application service is bypassed (no hooks are triggered) and the GUI is not updated (no directives are send).
++	 * Use this method deliberately.
++	 * &lt;p&gt;
++	 * If you want set property values at application service level use
++	 * {@link #setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, boolean triggerPropertiesChangedHook, Session)}
+ 	 *
+ 	 * @see		CorporateDirectives#createLiveTopic
+ 	 */
+@@ -1239,8 +1265,17 @@
+ 
+ 	// ---
+ 
++	// Note: there is another method who set properties at application service level
++	// - setAssocProperties()
++
+ 	/**
+-	 * Changes association properties &quot;blindly&quot;.
++	 * Sets multiple association property values directly in corporate memory.
++	 * &lt;p&gt;
++	 * Note: the application service is bypassed (no hooks are triggered) and the GUI is not updated (no directives are send).
++	 * Use this method deliberately.
++	 * &lt;p&gt;
++	 * If you want set property values at application service level use
++	 * {@link #setAssocProperties(String assocID, int version, Hashtable props, String topicmapID, String viewmode, Session)}
+ 	 *
+ 	 * @see		InteractionConnection#performChangeAssociationData
+ 	 */
+@@ -1248,29 +1283,8 @@
+ 		cm.setAssociationData(assocID, version, props);
+ 	}
+ 
+-	// Note: there is 1 other method who changes the properties NOT &quot;blindly&quot;
+-	// - setAssocProperties()
+ 
+-	// --- getAllTopics (2 forms) ---
+ 
+-	/**
+-	 * @see		InteractionConnection#performHideTopicsByType
+-	 */
+-	/* ### public CorporateDirectives getAllTopics(String typeID, String topicmapID,
+-																	String viewmode) {
+-		// vector of String
+-		Vector topicIDs = cm.getTopicIDs(typeID, topicmapID, viewmode);
+-		System.out.println(&quot;&gt; ApplicationService.getAllTopics(): &quot; + topicIDs.size() +
+-			&quot; topics of type \&quot;&quot; + typeID + &quot;\&quot; found in view \&quot;&quot; + topicmapID + &quot;\&quot;&quot;);
+-		// create directives
+-		CorporateDirectives directives = new CorporateDirectives();
+-		directives.add(DIRECTIVE_HIDE_TOPICS, topicIDs, Boolean.FALSE, topicmapID,
+-			viewmode);
+-		return directives;
+-	} */
+-
+-
+-
+ 	// ------------------------
+ 	// --- Triggering Hooks ---
+ 	// ------------------------
+@@ -1639,13 +1653,21 @@
+ 		return directives;
+ 	}
+ 
+-	// ---
+ 
+-	// Note: there are also 3 methods who are changing the properties &quot;blindly&quot;
++
++	// --------------------------------------------------
++	// --- Set Properties (application service level) ---
++	// --------------------------------------------------
++
++
++
++	// Note: there are 3 other methods who set properties at corporate memory level
+ 	// - setTopicProperty()
+ 	// - setTopicProperty()
+ 	// - setTopicProperties()
+ 
++
++
+ 	/**
+ 	 * Sets a topic property.
+ 	 * &lt;p&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -675,8 +675,8 @@
+ 	 *								is added to this directives set and creation of the
+ 	 *								live topic is continued.
+ 	 *
+-	 * @see		#updateCorporateMemory	package
+-	 * @see		#showTopics		private
++	 * @see		#updateCorporateMemory	public
++	 * @see		#showTopics				private
+ 	 */
+ 	private int showTopic(ApplicationService as, Session session, PresentableTopic topic, boolean evoke,
+ 								String topicmapID, int topicmapVersion) throws TopicInitException {
+
+Modified: trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -13,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -49,7 +49,7 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+ 		// initialize begin date with today
+-		setTopicData(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
++		setProperty(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
+ 		// ###
+ 		// createChildTopic(TOPICTYPE_APPOINTMENT, SEMANTIC_CALENDAR_APPOINTMENT, session, directives);
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 21.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -90,8 +90,8 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+ 		// setup calendar for today
+-		setTopicData(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_WEEK);
+-		setTopicData(PROPERTY_DISPLAY_DATE, DeepaMehtaUtils.getDate());
++		setProperty(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_WEEK);
++		setProperty(PROPERTY_DISPLAY_DATE, DeepaMehtaUtils.getDate());
+ 		// initial rendering
+ 		updateView(directives);
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -33,11 +33,11 @@
+ 
+ /**
+  * An email.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last sourcecode change: 27.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 21.11.2001 (2.0a13-post1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last sourcecode change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 21.11.2001 (2.0a13-post1)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class EmailTopic extends LiveTopic {
+@@ -97,10 +97,10 @@
+ 
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+-		setTopicData(PROPERTY_STATUS, EMAIL_STATE_DRAFT);
++		setProperty(PROPERTY_STATUS, EMAIL_STATE_DRAFT);
+ 		String author = as.getEmailAddress(session.getUserID());	// may return null
+ 		if (author != null) {
+-			setTopicData(PROPERTY_FROM, author);
++			setProperty(PROPERTY_FROM, author);
+ 		}
+ 		as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_SENDER, getID(), session.getUserID(), session, directives);
+ 		return directives;
+@@ -218,8 +218,8 @@
+ 			//
+ 			Transport.send(msg);
+ 			//
+-			setTopicData(PROPERTY_STATUS, EMAIL_STATE_SENT);
+-			setTopicData(PROPERTY_DATE, d.toString());
++			setProperty(PROPERTY_STATUS, EMAIL_STATE_SENT);
++			setProperty(PROPERTY_DATE, d.toString());
+ 		} catch (MessagingException me) {
+ 			throw new DeepaMehtaException(me.toString());
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -13,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 8.1.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 14.12.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -49,7 +49,7 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+ 		// initialize begin date with today
+-		setTopicData(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
++		setProperty(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
+ 		//
+ 		return directives;
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 23.2.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -184,7 +184,7 @@
+ 	 * @see		WorkspaceTopic#evoke
+ 	 */
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+-		// create topic in corporate memory
++		// store in corporate memory
+ 		cm.createTopic(getID(), getVersion(), getType(), getTypeVersion(), getName());
+ 		// set default values
+ 		Enumeration e = as.type(this).getTypeDefinition().elements();
+@@ -1165,18 +1165,20 @@
+ 		return as.getTopicProperty(topicID, version, propName);
+ 	}
+ 
+-	// --- setTopicData (3 forms) ---
++	// ---
+ 
+ 	/**
+-	 * Sets the specified property for this topic.
++	 * Sets a property value for this topic directly in corporate memory.
+ 	 * &lt;p&gt;
+-	 * Note: the property is changed &quot;blind&quot; in corporate memory directly, the client is
+-	 * not notified in any way.
++	 * Note: the application service is bypassed (no hooks are triggered) and the GUI is not updated (no directives are send).
++	 * Use this method deliberately.
+ 	 */
+-	public final void setTopicData(String field, String value) {
+-		as.setTopicProperty(getID(), getVersion(), field, value);
++	public final void setProperty(String propName, String propValue) {
++		as.setTopicProperty(getID(), getVersion(), propName, propValue);
+ 	}
+ 
++	// --- setTopicData (2 forms) ---
++
+ 	/**
+ 	 * Sets the specified properties for this topic and sends a
+ 	 * {@link #DIRECTIVE_SHOW_TOPIC_PROPERTIES} via the specified session.
+
+Modified: trunk/develop/src/de/deepamehta/topics/PropertyTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PropertyTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/PropertyTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -94,7 +94,7 @@
+ 	// since 2.0b3: we use the default-value-facility instead (property &quot;Default Value&quot; of topic type &quot;Property&quot;)
+ 	/* ### public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		// --- set default property ---
+-		setTopicData(PROPERTY_VISUALIZATION, VISUAL_FIELD);
++		setProperty(PROPERTY_VISUALIZATION, VISUAL_FIELD);
+ 		// Note: actually empty directives are returned
+ 		return super.evoke(session, topicmapID, viewmode);
+ 	} */
+
+Modified: trunk/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 24.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -79,6 +79,8 @@
+ 			System.out.println(&quot;&gt;&gt;&gt; transfer &quot; + prefs.size() + &quot; installation preferences of &quot; +
+ 				instID + &quot; to user \&quot;&quot; + getID() + &quot;\&quot;&quot;);
+ 			as.setUserPreferences(getID(), prefs, directives);
++			// set owner
++			setProperty(PROPERTY_OWNER_ID, getID());
+ 		}
+ 		//
+ 		return directives;
+@@ -106,8 +108,12 @@
+ 		return directives;
+ 	}
+ 
++	public boolean retypeAllowed(Session session) {
++		return as.isAdministrator(session.getUserID());
++	}
+ 
+ 
++
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+@@ -192,6 +198,14 @@
+ 		return PROPERTY_USERNAME;
+ 	}
+ 
++	public Vector disabledProperties(Session session) {
++		Vector disabledProps = super.disabledProperties(session);
++		if (!as.isAdministrator(session.getUserID())) {
++			disabledProps.addElement(PROPERTY_USERNAME);
++		}
++		return disabledProps;
++	}
++
+ 	public static void propertyLabel(PropertyDefinition propertyDef, ApplicationService as, Session session) {
+ 		String propName = propertyDef.getPropertyName();
+ 		if (propName.equals(PROPERTY_NAME)) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -102,8 +102,8 @@
+ 		cm.createTopic(boardID, 1, TOPICTYPE_MESSAGE_BOARD, 1, &quot;Forum&quot;);		// ### hardcoded
+ 		cm.createViewTopic(mapID, 1, VIEWMODE_USE, boardID, 1, 100, 50, false);	// ### geometry
+ 		// --- set default properties ---
+-		setTopicData(PROPERTY_PUBLIC, SWITCH_OFF);
+-		setTopicData(PROPERTY_DEFAULT_WORKSPACE, SWITCH_OFF);
++		setProperty(PROPERTY_PUBLIC, SWITCH_OFF);
++		setProperty(PROPERTY_DEFAULT_WORKSPACE, SWITCH_OFF);
+ 		// --- join current user ---
+ 		joinUser(session.getUserID(), REVEAL_MEMBERSHIP_NONE, session, directives);
+ 		//
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -41,14 +41,14 @@
+ 
+ /**
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * ### Note: once a Kompetenzstern is created it should be independant from the
+  * underlying {@link TemplateTopic Template}, but this isn't completely achieved yet.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class KompetenzsternTopic extends TopicMapTopic implements KS {
+@@ -417,7 +417,7 @@
+ 	 *
+ 	 * @param   handler     this object will get the generated SAX events
+ 	 * @param   collector   this object will collect document and icon files.
+-	 *                      This parameter may be &lt;CODE&gt;null&lt;/CODE&gt;, which signalizes
++	 *                      This parameter may be &lt;code&gt;null&lt;/code&gt;, which signalizes
+ 	 *                      that this is an export to SVG or PDF.
+ 	 */
+ 	public void exportTopicmap(ContentHandler handler, ArchiveFileCollector collector) throws SAXException {
+@@ -488,7 +488,7 @@
+ 	/ **
+ 	 * Adds a &quot;Reihenfolge festlegen&quot;/&quot;Reihenfolge &#228;ndern&quot; command to the specified
+ 	 * (topic) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 30.12.2001 (2.0a14-pre5)
+ 	 *
+ 	 * @see		KriteriumTopic#contextCommands
+@@ -602,7 +602,7 @@
+ 	}
+ 
+ 	/**
+-	 * Returns the current &lt;CODE&gt;Kompetenzstern-Template&lt;/CODE&gt; setting of the specified
++	 * Returns the current &lt;code&gt;Kompetenzstern-Template&lt;/code&gt; setting of the specified
+ 	 * user. If the setting is not available (e.g. because the respective template has
+ 	 * been deleted meanwhile) the standard template is returned.
+ 	 *
+@@ -630,11 +630,11 @@
+ 
+ 
+ 	/**
+-	 * Returns the &lt;CODE&gt;Kompetenzstern-Template&lt;/CODE&gt; upon this &lt;CODE&gt;Kompetenzstern&lt;/CODE&gt; is based.
+-	 * &lt;P&gt;
++	 * Returns the &lt;code&gt;Kompetenzstern-Template&lt;/code&gt; upon this &lt;code&gt;Kompetenzstern&lt;/code&gt; is based.
++	 * &lt;p&gt;
+ 	 * ### Note: a created Kompetenzstern is not independant of its template.
+ 	 *
+-	 * @return	the template as &lt;CODE&gt;BaseTopic&lt;/CODE&gt; of type &lt;CODE&gt;tt-kompetenzsterntemplate&lt;/CODE&gt;
++	 * @return	the template as &lt;code&gt;BaseTopic&lt;/code&gt; of type &lt;code&gt;tt-kompetenzsterntemplate&lt;/code&gt;
+ 	 *
+ 	 * @throws	DeepaMehtaException
+ 	 *
+@@ -1015,7 +1015,7 @@
+ 	 *
+ 	 * @param   handler     this object will get the generated SAX events
+ 	 * @param   collector   this object will collect document and icon files.
+-	 *                      This parameter may be &lt;CODE&gt;null&lt;/CODE&gt;, which signalizes
++	 *                      This parameter may be &lt;code&gt;null&lt;/code&gt;, which signalizes
+ 	 *                      that this is an export to SVG or PDF.
+ 	 *
+ 	 * @see		#exportTopicmap
+
+Modified: trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java
+===================================================================
+--- trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java	2008-03-25 00:22:35 UTC (rev 309)
++++ trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java	2008-03-25 21:40:03 UTC (rev 310)
+@@ -16,11 +16,11 @@
+ 
+ /**
+  * A Message on a Message Board.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 25.9.2006 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.9.2002 (2.0a16-pre3)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.9.2002 (2.0a16-pre3)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class MessageTopic extends LiveTopic implements MessageBoard {
+@@ -67,13 +67,13 @@
+ 		// set date
+ 		String date = DeepaMehtaUtils.getDate();
+ 		String time = DeepaMehtaUtils.getTime();
+-		setTopicData(PROPERTY_DATE, date);
+-		setTopicData(PROPERTY_LAST_REPLY_DATE, date);
+-		setTopicData(PROPERTY_LAST_REPLY_TIME, time);
++		setProperty(PROPERTY_DATE, date);
++		setProperty(PROPERTY_LAST_REPLY_DATE, date);
++		setProperty(PROPERTY_LAST_REPLY_TIME, time);
+ 		// set author
+ 		String user = session.getUserName();
+ 		if (user != null) {		// ### Note: user is null when evoked through web interface
+-			setTopicData(PROPERTY_FROM, user);
++			setProperty(PROPERTY_FROM, user);
+ 		}
+ 		//
+ 		return super.evoke(session, topicmapID, viewmode);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000154.html">[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+	<LI>Next message: <A HREF="000156.html">[deepamehta-svn] r311 - in trunk/develop/src/de/deepamehta: . client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

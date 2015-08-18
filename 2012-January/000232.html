@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r387 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service/web install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r387%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/web%20install/db/patches&In-Reply-To=%3C20120104110212.0459448117B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r387 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service/web install/db/patches</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r387%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/web%20install/db/patches&In-Reply-To=%3C20120104110212.0459448117B%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r387 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service/web install/db/patches">maltito at mail.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 12:02:11 CET 2012</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2012-01-04 12:02:11 +0100 (Wed, 04 Jan 2012)
+New Revision: 387
+
+Added:
+   trunk/install/db/patches/cm-2.20.sql
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+Feature:
+The Form-Generator now uses Topic-Descriptions as a hint for label/input field pair if a &quot;Property&quot;-Topic is related to a &quot;Topic&quot; via the new AssociationType &quot;Helptext&quot;.
+
+Identification:
+When &quot;Property&quot;-Topics contain a quotation mark in their name, the property is not saved to database. Now an error warning is logged.
+
+IMPORTANT:
+This commit contains a patch which updates the CM from 2.19 to 2.20.
+Apply this patch if you want to update DeepaMehta from 2.0b8 to DeepaMehta rev387 while keeping your content
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2011-02-09 11:06:37 UTC (rev 386)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2012-01-04 11:02:11 UTC (rev 387)
+@@ -64,7 +64,7 @@
+ 	static final String REQUIRED_SERVER_VERSION = &quot;2.0b8&quot;;
+ 	static final int REQUIRED_STANDARD_TOPICS = 19;
+ 	static final int REQUIRED_DB_MODEL = 2;
+-	static final int REQUIRED_DB_CONTENT = 19;
++	static final int REQUIRED_DB_CONTENT = 20;
+ 	// --- application server ---
+ 	static final int DEFAULT_PORT = 7557;			// used by DeepaMehtaClient
+ 	static final int MAX_CLIENTS = 150;
+@@ -565,6 +565,8 @@
+ 	static final String ASSOCTYPE_RECIPIENT = &quot;at-recipient&quot;;
+ 	static final String ASSOCTYPE_SENDER = &quot;at-sender&quot;;
+ 	static final String ASSOCTYPE_ATTACHMENT = &quot;at-attachment&quot;;
++  	// form-helptext
++	static final String ASSOCTYPE_HELPTEXT = &quot;at-form-helptext&quot;;
+ 
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2011-02-09 11:06:37 UTC (rev 386)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2012-01-04 11:02:11 UTC (rev 387)
+@@ -824,14 +824,18 @@
+ 			} else {
+ 				// value is simple property value
+ 				PropertyDefinition propDef = as.type(typeID, 1).getPropertyDefinition(propName);
+-				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
+-				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
+-					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
+-					if (!propValue.startsWith(&quot;&lt;html&gt;&quot;)) {	// ### must ignore case. &lt;HTML&gt; used in help texts?
+-						propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
+-					}
+-				}
+-				props.put(propName, propValue);
++        			if (propDef == null) { // ### FIXME: can happen if property label contain a &quot;
++		        		System.out.println(&quot;ERROR *** cannot getProperty() by propName=\&quot;&quot; + propName + &quot;\&quot; skipping saving this prop&quot;);
++				} else {
++					// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
++				        if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
++				        	propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
++			        		if (!propValue.startsWith(&quot;&lt;html&gt;&quot;)) {	// ### must ignore case. &lt;HTML&gt; used in help texts?
++							propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
++            					}
++	          			}
++        	  			props.put(propName, propValue);
++        			}
+ 			}
+ 			// remove processed parameter
+ 			if (params.remove(propName) == null) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2011-02-09 11:06:37 UTC (rev 386)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2012-01-04 11:02:11 UTC (rev 387)
+@@ -32,7 +32,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.10.2008 (2.0b8)&lt;br&gt;
++ * Last change: 03.01.2012 (2.0b8e)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+@@ -414,7 +414,7 @@
+ 	 */
+ 	public String form(String typeID, String action, String id, String[] propSel, boolean hideSel, Hashtable hints) {
+ 		StringBuffer html = new StringBuffer();
+-   		TypeTopic type = as.type(typeID, 1);	// throws DME
++		TypeTopic type = as.type(typeID, 1);	// throws DME
+ 		//
+ 		html.append(&quot;&lt;form&gt;\r&quot;);	// ### method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;
+ 		html.append(&quot;&lt;table&gt;\r&quot;);
+@@ -432,6 +432,34 @@
+ 		return html.toString();
+ 	}
+ 
++	/**
++	 * Generates and returns a form for the specified type.
++	 * The type can be a topic type or an association type.
++	 *
++	 * @param	id		may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 */
++	public String extendedForm(String typeID, String action, String[] propSel, boolean hideSel, String ext) {
++		StringBuffer html = new StringBuffer();
++    		TypeTopic type = as.type(typeID, 1);	// throws DME
++		//
++		html.append(&quot;&lt;form&gt;\r&quot;);	// ### method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;
++    		// insert html styled extension into the form...
++    		html.append(ext);
++		html.append(&quot;&lt;table&gt;\r&quot;);
++		//
++		boolean containsFileField = formFields(type, null, true, &quot;&quot;, type, propSel, hideSel, null, html);	// deep=true, prefix=&quot;&quot;
++		// ### System.out.println(&quot;&gt;&gt;&gt; HTMLGenerator.form(): containsFileField=&quot; + containsFileField);
++		if (containsFileField) {
++			html.insert(5, &quot; method=\&quot;post\&quot; enctype=\&quot;multipart/form-data\&quot;&quot;);
++		}
++		submitButton(action, html);
++		//
++		html.append(&quot;&lt;/table&gt;\r&quot;);
++		html.append(&quot;&lt;/form&gt;\r&quot;);
++		//
++		return html.toString();
++	}
++
+ 	// --- tree (5 forms) ---
+ 
+ 	public String tree(TopicTree tree) {
+@@ -837,6 +865,7 @@
+    		}
+ 		// --- trigger hiddenProperties(type, relTopicTypeID) hook ---
+ 		Vector hiddenProps = null;
++    		Hashtable describedPropertyNames = getPropertyDescriptions(formType);
+ 		// Note: only topic types (in contrast to association types) have related types
+ 		if (formType instanceof TopicTypeTopic) {
+ 			hiddenProps = as.triggerHiddenProperties(formType, type.getID());		// may return null
+@@ -848,12 +877,16 @@
+ 			if (item instanceof PropertyDefinition) {
+ 				PropertyDefinition propDef = (PropertyDefinition) item;
+ 				String propName = propDef.getPropertyName();
+-				String propLabel = as.triggerPropertyLabel(propDef, formType, type.getID());
++			        String propDescription = &quot;&quot;;
++			        if (describedPropertyNames.get(propName) != null) {
++			        	propDescription = describedPropertyNames.get(propName).toString();
++			        }
++			        String propLabel = as.triggerPropertyLabel(propDef, formType, type.getID());
+ 				String propValue = (String) props.get(propName);
+ 				// Note: the hook returns _parameter names_ and the page delivers _field labels_
+ 				if ((hiddenProps == null || !hiddenProps.contains(propName)) &amp;&amp; !propIsHidden(propLabel, propSel, hideSel)) {
+ 					String hint = hints != null ? (String) hints.get(propName) : null;
+-					if (formField(propDef, propLabel, propValue, prefix, hint, html)) {
++					if (formField(propDef, propLabel, propValue, prefix, hint, html, propDescription)) {
+ 						containsFileField = true;
+ 					}
+ 				}
+@@ -883,6 +916,27 @@
+ 		//
+ 		return containsFileField;
+ 	}
++
++	/**
++	 * fetches a simple &quot;Topic&quot; instance related to a &quot;Property&quot; TopicType via a new &quot;Helptext&quot;-AssociationType..
++	 **/
++	private Hashtable getPropertyDescriptions(TypeTopic formType) {
++		Hashtable descriptions = new Hashtable();
++		//
++    		Vector relatedProps = as.getRelatedTopics(formType.getID(), ASSOCTYPE_COMPOSITION, TOPICTYPE_PROPERTY, 2);
++		// 
++		Enumeration properties = relatedProps.elements();
++		while (properties.hasMoreElements()) {
++			BaseTopic property = (BaseTopic) properties.nextElement();
++			BaseTopic note = as.getRelatedTopic(property.getID(), ASSOCTYPE_HELPTEXT, TOPICTYPE_TOPIC, 2, true);
++			if (note != null) {
++				String descr = as.getTopicProperty(note, PROPERTY_DESCRIPTION);
++        			descr = descr.substring(descr.indexOf(&quot;&lt;p&gt;&quot;)+3, descr.indexOf(&quot;&lt;/p&gt;&quot;)); // use everything within the first &lt;p&gt;
++				descriptions.put(property.getName(), descr);
++			}
++		}
++		return descriptions;
++	}
+ 	
+ 	// ---
+ 	
+@@ -1081,6 +1135,15 @@
+ 	// ---
+ 
+ 	/**
++	 * A formField backwards compatibility method without for rendering of formFields without a propDescription/help text
++	 */
++	private boolean formField(PropertyDefinition propDef, String propLabel, String propValue, String prefix,
++        	                                String hint, StringBuffer html) {
++		//
++		return formField(propDef, propLabel, propValue, prefix, hint, html, &quot;&quot;);
++	}
++
++	/**
+ 	 * Renders the input field for the specified property.
+ 	 *
+ 	 * @param	propValue	may be &lt;CODE&gt;null&lt;/CODE&gt;
+@@ -1091,7 +1154,7 @@
+ 	 * @see		#formFields
+ 	 */
+ 	private boolean formField(PropertyDefinition propDef, String propLabel, String propValue, String prefix,
+-																					String hint, StringBuffer html) {
++						String hint, StringBuffer html, String propDescription) {
+ 		boolean isFileField = false;		// return variable
+ 		String propName = propDef.getPropertyName();
+ 		String visual = propDef.getVisualization();
+@@ -1114,6 +1177,9 @@
+ 			rows = TEXTAREA_HEIGHT;
+ 		}
+ 		//
++		if (propDescription != &quot;&quot;) {
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td colspan=\&quot;2\&quot; class=\&quot;form-helptext\&quot;&gt;Hinweis: &quot; + propDescription + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);
++		}
+ 		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;small&gt;&quot; + propLabel + &quot;&lt;/small&gt;&lt;/td&gt;&lt;td&gt;&quot;);
+ 		//
+ 		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD) || visual.equals(VISUAL_COLOR_CHOOSER)) {
+
+Added: trunk/install/db/patches/cm-2.20.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.20.sql	                        (rev 0)
++++ trunk/install/db/patches/cm-2.20.sql	2012-01-04 11:02:11 UTC (rev 387)
+@@ -0,0 +1,15 @@
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-form-helptext', 'Helptext');
++
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Name', 'Helptext');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Plural Name', 'Helptexts');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Description', '&lt;html&gt;&lt;body&gt;&lt;p&gt;A &lt;i&gt;Helptext&lt;/i&gt; is used for setting a Note-Topic in relation with a Property-Topic. Once set in relation, the Description-Text of the Note-Topic is rendered as a Hint in the form above the label and the input field of the associated Property.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Description Query', 'What is a Helptext association?');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Color', '#3f4da6');
++
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-form-helptext-use', '', 't-administrationgroup', 1, 'at-form-helptext', 1);
++
++UPDATE KeyGenerator SET NextKey=20 WHERE Relation='DB-Content Version';
++
++
++
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

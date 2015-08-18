@@ -1,0 +1,769 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r248 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db	install/db/patches install/examples/artfacts	install/examples/messageboard/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r248%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/db/patches%20install/examples/artfacts%0A%09install/examples/messageboard/config&In-Reply-To=%3C200712071703.lB7H3HbX007433%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000094.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r248 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db	install/db/patches install/examples/artfacts	install/examples/messageboard/config</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r248%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/db/patches%20install/examples/artfacts%0A%09install/examples/messageboard/config&In-Reply-To=%3C200712071703.lB7H3HbX007433%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r248 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db	install/db/patches install/examples/artfacts	install/examples/messageboard/config">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Dec  7 18:03:17 CET 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000094.html">[deepamehta-svn] r249 - in trunk: develop/src/de/deepamehta/topics	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#93">[ date ]</a>
+              <a href="thread.html#93">[ thread ]</a>
+              <a href="subject.html#93">[ subject ]</a>
+              <a href="author.html#93">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-12-07 18:02:59 +0100 (Fri, 07 Dec 2007)
+New Revision: 248
+
+Modified:
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/topics/DataSourceTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/install/db/cm.sql
+   trunk/install/db/patches/cm-2.17.sql
+   trunk/install/examples/artfacts/build.xml
+   trunk/install/examples/messageboard/config/web.xml
+Log:
+1) Bug #6672 fixed (Datasources can't be created interactively)
+2) Bug #12655 fixed (Datasource statistics broken)
+3) cm-2.17 patch and cm.sql updated to properly (re)define the Datasource type definition
+4) build.xml updated. 2 libraries were missed for web deployment: avalon-framework.jar, spring-core.jar
+5) web.xml of MessageBoard application updated to work properly with new configuration management
+6) Database Sweepwer is temporarily switched off
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/build.xml	2007-12-07 17:02:59 UTC (rev 248)
+@@ -15,6 +15,10 @@
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+ 		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/hilfelotse/HilfelotseTopics.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot; /&gt;
+@@ -83,8 +87,10 @@
+ 				&lt;include name=&quot;${db.libs}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/copy&gt;
++		&lt;copy file=&quot;${libpath}/avalon-framework.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/spring-core.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+-		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+ 		&lt;ant target=&quot;-call-examples-web&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;deploy&quot; /&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-12-07 17:02:59 UTC (rev 248)
+@@ -66,7 +66,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 20.10.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 4.12.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -481,7 +481,7 @@
+ 		// --- store in live corporate memory ---
+ 		addTopic(newTopic);
+ 		// --- trigger init() hook ---
+-		newTopic.init(INITLEVEL_1, session);	// throws TopicInitException
++		directives.add(newTopic.init(INITLEVEL_1, session));	// throws TopicInitException
+ 		//
+ 		return directives;
+ 	}
+@@ -552,8 +552,8 @@
+ 			}
+ 			// --- init(2) and init(3) ---
+ 			newTopic = getLiveTopic(topic);
+-			newTopic.init(INITLEVEL_2, session);	// throws TopicInitException ### adding init directives
+-			newTopic.init(INITLEVEL_3, session);	// throws TopicInitException ### adding init directives
++			directives.add(newTopic.init(INITLEVEL_2, session));	// throws TopicInitException
++			directives.add(newTopic.init(INITLEVEL_3, session));	// throws TopicInitException
+ 		} catch (TopicInitException e) {
+ 			System.out.println(&quot;*** ApplicationService.createLiveTopic(): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+@@ -1290,7 +1290,7 @@
+ 	public void initTopic(String topicID, int version, int initLevel, Session session) throws TopicInitException {
+ 		try {
+ 			// --- trigger init() hook ---
+-			getLiveTopic(topicID, version).init(initLevel, session);	// throws TopicInitException
++			getLiveTopic(topicID, version).init(initLevel, session);	// throws TopicInitException ### directives returned by init() are ignored
+ 		} catch (DeepaMehtaException e) {
+ 			throw new TopicInitException(e.getMessage());
+ 		} catch (AmbiguousSemanticException e) {
+@@ -2296,9 +2296,9 @@
+ 			type = type(typeTopic.getID(), 1);
+ 			// --- trigger init() hook ---
+ 			if (triggerInit) {
+-				type.init(INITLEVEL_1, session); // may throw TopicInitException
+-				type.init(INITLEVEL_2, session); // may throw TopicInitException
+-				type.init(INITLEVEL_3, session); // may throw TopicInitException
++				type.init(INITLEVEL_1, session); // may throw TopicInitException ### directives returned by init() are ignored
++				type.init(INITLEVEL_2, session); // may throw TopicInitException ### directives returned by init() are ignored
++				type.init(INITLEVEL_3, session); // may throw TopicInitException ### directives returned by init() are ignored
+ 			}
+ 			// --- initialize presentable type ---
+ 			typeTopic.setTypeDefinition(type.getTypeDefinition());		// may throw DeepaMehtaException
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-12-07 17:02:59 UTC (rev 248)
+@@ -78,7 +78,7 @@
+ 	 */
+ 	RelationalCorporateMemory(DatabaseProvider dbProvider) throws Exception {
+ 		provider=dbProvider;
+-		new DatabaseSweeper(provider).sweep();
++		// new DatabaseSweeper(provider).sweep();	// ### temporarily switched off
+ 		provider.getDatabaseOptimizer().optimize();
+ 
+ 		this.dbmsHint = dbProvider.getDbmsHint();
+
+Modified: trunk/develop/src/de/deepamehta/topics/DataSourceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-12-07 17:02:59 UTC (rev 248)
+@@ -21,16 +21,16 @@
+ 
+ 
+ /**
+- * This kernel topic represents a {@link de.deepamehta.service.CorporateDatasource}.
+- * &lt;P&gt;
+- * A &lt;CODE&gt;DataSourceTopic&lt;/CODE&gt; is associated to its {@link DataConsumerTopic}s by
+- * means of an association of type &lt;CODE&gt;at-association&lt;/CODE&gt; (direction is from
++ * This core topic type represents a {@link de.deepamehta.service.CorporateDatasource}.
++ * &lt;p&gt;
++ * A &lt;code&gt;DataSourceTopic&lt;/code&gt; is associated to its {@link DataConsumerTopic}s by
++ * means of an association of type &lt;code&gt;at-association&lt;/code&gt; (direction is from
+  * data consumer to datasource).
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 8.11.2004 (2.0b3)&lt;BR&gt;
+- * Last documentation update: 23.2.2001 (2.0a9-post1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 7.12.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 23.2.2001 (2.0a9-post1)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class DataSourceTopic extends LiveTopic implements Runnable {
+@@ -45,8 +45,10 @@
+ 
+ 	// Note: the XML path is relative to servers working directory
+ 
+-	protected String url;
+ 	protected String dbtype;
++	protected String url;
++	private String username;
++	private String password;
+ 	protected String elements;
+ 	protected String idleElement;
+ 
+@@ -56,8 +58,6 @@
+ 	 * The idle thread.
+ 	 */
+ 	Thread idleThread;
+-	private String username;
+-	private String password;
+ 
+ 
+ 
+@@ -86,8 +86,8 @@
+ 		while (true) {
+ 			try {
+ 				Thread.sleep(5 * 60 * 1000);	// interval is 5 min.
+-				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot; +
+-					idleElement + &quot;\&quot;): &quot; + dataSource.getElementCount(idleElement));
++				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot; + idleElement + &quot;\&quot;): &quot; +
++					myDataSource.getElementCount(idleElement));
+ 			} catch (InterruptedException e) {
+ 				System.out.println(&quot;*** DataSourceTopic.run(): &quot; + e);
+ 			} catch (Exception e) {
+@@ -98,44 +98,19 @@
+ 
+ 
+ 
+-	// ***************
+-	// *** Methods ***
+-	// ***************
++	// ************************
++	// *** Overriding Hooks ***
++	// ************************
+ 
+ 
+ 
+-	/**
+-	 * @see		DataConsumerTopic#setDataSource
+-	 */
+-	public String getURL() {
+-		return url;
+-	}
++	// ------------------
++	// --- Life Cycle ---
++	// ------------------
+ 
+-	/**
+-	 * @see		DataConsumerTopic#setDataSource
+-	 */
+-	public CorporateDatasource getDataSource() {
+-		return myDataSource;
+-	}
+ 
+ 
+-
+-	// ----------------------
+-	// --- Defining Hooks ---
+-	// ----------------------
+-
+-
+-
+-	/**
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;&lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;&lt;TD&gt;1&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;&lt;TD&gt;variable&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;&lt;TD&gt;3&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;/TABLE&gt;
+-	 */
+-	public CorporateDirectives init(int initLevel, Session session)
+-															throws TopicInitException {
++	public CorporateDirectives init(int initLevel, Session session) throws TopicInitException {
+ 		CorporateDirectives directives = super.init(initLevel, session);
+ 		//
+ 		if (initLevel == INITLEVEL_1) {
+@@ -143,82 +118,79 @@
+ 				System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.init(&quot; + initLevel + &quot;): &quot; +
+ 					this + &quot; -- open corporate datasource&quot;);
+ 			}
+-			openCorporateDatasource();		// throws TopicInitException
++			try {
++				openCorporateDatasource();		// throws TopicInitException
++			} catch (TopicInitException e) {
++				System.out.println(&quot;*** DataSourceTopic.init(): &quot; + e);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
++			}
+ 		}
+ 		//
+ 		return directives;
+ 	}
+ 
++
++
++	// ---------------------------
++	// --- Handling Properties ---
++	// ---------------------------
++
++
++
+ 	public CorporateDirectives propertiesChanged(Hashtable newData, Hashtable oldData,
+-				String topicmapID, String viewmode, Session session) throws DeepaMehtaException {
++															String topicmapID, String viewmode, Session session) {
++		CorporateDirectives directives = super.propertiesChanged(newData, oldData, topicmapID, viewmode, session);
+ 		try {
+-			System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): connection &quot; +
+-				&quot;parameters changed from &quot; + oldData + &quot; to &quot; + newData + &quot; -- reopen &quot; +
+-				&quot;corporate datasource&quot;);
+-			//
+-			CorporateDirectives directives = super.propertiesChanged(newData, oldData,
+-				topicmapID, viewmode, session);
++			System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): properties changed from &quot; +
++				oldData + &quot; to &quot; + newData + &quot; -- reopen corporate datasource&quot;);
+ 			// --- reopen the corporate datasource ---
+ 			openCorporateDatasource();		// throws TopicInitException
+-			// --- inform all associated consumers of this datasource ---
+-			Vector consumerTypes = as.dataConsumerTypes(getID());
+-			Enumeration e = consumerTypes.elements();
+-			BaseTopic consumerType;
+-			Enumeration consumers;
+-			int topicCount;	// reporting only
+-			int initCount;	// reporting only
+-			String consumerID;
+-			LiveTopic consumer;
+-			// loop through all topic types who consumes from this datasource
+-			while (e.hasMoreElements()) {
+-				consumerType = (BaseTopic) e.nextElement();
+-				// get all instances of that type in the current topicmap
+-				consumers = cm.getTopicIDs(consumerType.getID(), topicmapID).elements();
+-				//
+-				topicCount = 0;
+-				initCount = 0;
+-				// loop through all instances
+-				while (consumers.hasMoreElements()) {
+-					topicCount++;
+-					consumerID = (String) consumers.nextElement();
+-					// ### version is set to 1
+-					// ### may throw DeepaMehtaException
+-					consumer = as.getLiveTopic(consumerID, 1);
+-					if (reinitializeDataconsumer(consumer, directives, session)) {
+-						initCount++;
+-					}
+-				}
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot; +
+-					initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot; + consumerType.getName() +
+-					&quot;\&quot; topics reinitialized&quot;, new Integer(NOTIFICATION_DEFAULT));
+-			}
+-			return directives;
+-		} catch (TopicInitException e2) {
+-			throw new DeepaMehtaException(e2.getMessage());
++			// --- reinitialize all topics who consumes from this datasource ---
++			reinitializeDataconsumers(topicmapID, session, directives);
++		} catch (TopicInitException e) {
++			System.out.println(&quot;*** DataSourceTopic.propertiesChanged(): &quot; + e);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 		}
++		return directives;
+ 	}
+ 
+ 
+ 
+ 	// **********************
+-	// *** Private Method ***
++	// *** Custom Methods ***
+ 	// **********************
+ 
+ 
+ 
+ 	/**
++	 * @see		DataConsumerTopic#setDataSource
++	 */
++	public String getURL() {
++		return url;
++	}
++
++	/**
++	 * @see		DataConsumerTopic#setDataSource
++	 */
++	public CorporateDatasource getDataSource() {
++		return myDataSource;
++	}
++
++	// ---
++
++	/**
+ 	 * @see		#init
+ 	 * @see		#propertiesChanged
+ 	 */
+ 	private void openCorporateDatasource() throws TopicInitException {
+-		this.url = getProperty(&quot;URL&quot;);
+ 		this.dbtype = getProperty(&quot;Database Type&quot;);
+-		this.elements = getProperty(&quot;Entities&quot;);
++		this.url = getProperty(&quot;URL&quot;);
++		this.username = getProperty(&quot;Username&quot;);
++		this.password = getProperty(&quot;Password&quot;);
+ 		this.idleElement = getProperty(&quot;Idle Elementtype&quot;);
+-		this.username=getProperty(&quot;Username&quot;);
+-		this.password=getProperty(&quot;Password&quot;);
++		this.elements = getProperty(&quot;Entities&quot;);
+ 		//
+-		String text = &quot;Datasource \&quot;&quot; + getName() + &quot;\&quot; not available &quot;;
++		String text = &quot;Datasource &quot; + this + &quot; not available &quot;;		// ### can't be static
+ 		// error check 1
+ 		if (url.equals(&quot;&quot;)) {
+ 			throw new TopicInitException(text + &quot;(URL not set)&quot;);
+@@ -227,23 +199,24 @@
+ 		if (dbtype.equals(&quot;&quot;)) {
+ 			throw new TopicInitException(text + &quot;(Database Type not set)&quot;);
+ 		}
+-		// ### passing text bad
++		// ### passing &quot;text&quot; bad
+ 		if (url.startsWith(&quot;xml:&quot;)) {
+-			// throws TopicInitException
+-			this.myDataSource = createXMLSource(url, elements, text);
++			this.myDataSource = createXMLSource(url, elements, text);	// throws TopicInitException
+ 		} else if (url.startsWith(&quot;jdbc:&quot;)) {
+-			// throws TopicInitException
+-			this.myDataSource = createSQLSource(url, dbtype, text);
++			this.myDataSource = createSQLSource(url, dbtype, text);		// throws TopicInitException
+ 		} else if (url.startsWith(&quot;ldap:&quot;)) {
+-			// throws TopicInitException
+-			this.myDataSource = createLDAPSource(url, text);
++			this.myDataSource = createLDAPSource(url, text);			// throws TopicInitException
+ 		} else {
+ 			throw new TopicInitException(text + &quot;(URL has unexpected protocol: \&quot;&quot; +
+ 				url + &quot;\&quot;&quot; + &quot; &gt;&gt;&gt; expected protocols are \&quot;jdbc:\&quot;, \&quot;xml:\&quot; and \&quot;ldap:\&quot;)&quot;);
+ 		}
+ 	}
++
++	// ---
+ 	
+-	/** @return a new instance of CorporateXMLSource */
++	/**
++	 * @return	a new instance of CorporateXMLSource
++	 */
+ 	private CorporateDatasource createXMLSource(String url, String elements, String errmsg)
+ 																	throws TopicInitException {
+ 		// Note: the XML path is relative to servers working directory
+@@ -270,8 +243,7 @@
+ 			startIdleThread();
+ 			return source;
+ 		} catch (ClassNotFoundException e) {
+-			throw new TopicInitException(errmsg + &quot;(class not found: &quot; +
+-				e.getMessage() + &quot;)&quot;, e);
++			throw new TopicInitException(errmsg + &quot;(class not found: &quot; + e.getMessage() + &quot;)&quot;, e);
+ 		} catch (Exception e) {
+ 			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;, e);
+ 		}
+@@ -280,8 +252,7 @@
+ 	/**
+ 	 * @return	a new instance of CorporateLDAPSource
+ 	 */
+-	private CorporateDatasource createLDAPSource(String url, String errmsg)
+-														throws TopicInitException {
++	private CorporateDatasource createLDAPSource(String url, String errmsg) throws TopicInitException {
+ 		try {
+ 			return new CorporateLDAPSource(url);
+ 		} catch (Throwable e) {
+@@ -289,50 +260,73 @@
+ 		}
+ 	}
+ 
++	// ---
++
++	private void reinitializeDataconsumers(String topicmapID, Session session, CorporateDirectives directives) {
++		Vector consumerTypes = as.dataConsumerTypes(getID());
++		Enumeration e = consumerTypes.elements();
++		int topicCount;		// reporting only
++		int initCount;		// reporting only
++		// loop through all topic types who consumes from this datasource
++		while (e.hasMoreElements()) {
++			BaseTopic consumerType = (BaseTopic) e.nextElement();
++			// get all instances of that type in the current topicmap
++			Enumeration consumers = cm.getTopicIDs(consumerType.getID(), topicmapID).elements();
++			//
++			topicCount = 0;
++			initCount = 0;
++			// loop through all instances
++			while (consumers.hasMoreElements()) {
++				topicCount++;
++				String consumerID = (String) consumers.nextElement();
++				// ### version is set to 1
++				// ### may throw DeepaMehtaException
++				LiveTopic consumer = as.getLiveTopic(consumerID, 1);
++				if (reinitializeDataconsumer(consumer, session, directives)) {
++					initCount++;
++				}
++			}
++			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot; + initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot; +
++				consumerType.getName() + &quot;\&quot; topics reinitialized&quot;, new Integer(NOTIFICATION_DEFAULT));
++		}
++	}
++
+ 	/**
+ 	 * @see		#propertiesChanged
+ 	 */
+-	private boolean reinitializeDataconsumer(LiveTopic consumer,
+-								CorporateDirectives directives, Session session) {
++	private boolean reinitializeDataconsumer(LiveTopic consumer, Session session, CorporateDirectives directives) {
+ 		try {
+-			if (consumer instanceof DataConsumerTopic ||
+-				consumer instanceof ElementContainerTopic) {
++			if (consumer instanceof DataConsumerTopic || consumer instanceof ElementContainerTopic) {
+ 				// reinitialize DataConsumerTopic
+ 				consumer.init(INITLEVEL_2, session);
+ 				return true;
+ 			} else {
+-				String text = &quot;\&quot;&quot; + consumer.getName() + &quot;\&quot; is neither a &quot; +
+-					&quot;DataConsumerTopic nor a ElementContainerTopic, but a &quot; +
+-					consumer.getClass() + &quot; -- datasource not reinitialized&quot;;
+-				System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-					text);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, text,
+-					new Integer(NOTIFICATION_WARNING));
++				String text = &quot;\&quot;&quot; + consumer.getName() + &quot;\&quot; is neither a DataConsumerTopic nor a &quot; +
++					&quot;ElementContainerTopic, but a &quot; + consumer.getClass() + &quot; -- datasource not reinitialized&quot;;
++				System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; + text);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, text, new Integer(NOTIFICATION_WARNING));
+ 			}
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
+-				&quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_ERROR));
++				e.getMessage() + &quot; -- datasource of dataconsumer not properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+ 		} catch (TopicInitException e) {
+ 			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
+-				&quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_ERROR));
++				e.getMessage() + &quot; -- datasource of dataconsumer not properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+ 		}
+ 		return false;
+ 	}
+ 
++	// ---
++
+ 	/**
+-	 * @see		#openCorporateDatasource
++	 * @see		#createSQLSource
+ 	 */
+ 	private void startIdleThread() {
+ 		// error check
+ 		if (idleElement.equals(&quot;&quot;)) {
+-			System.out.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource \&quot;&quot; +
+-				getName() + &quot;\&quot;&quot;);
++			System.out.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource &quot; + this);
+ 		}
+ 		//
+ 		if (idleThread == null) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-12-07 17:02:59 UTC (rev 248)
+@@ -143,17 +143,16 @@
+ 
+ 
+ 	/**
+-	 * Subclasses can override this method to perform initialization at different
+-	 * initialization levels.
++	 * Subclasses can override this method to perform initialization at different initialization levels.
+ 	 * &lt;p&gt;
+-	 * ### The default implementation does nothing.&lt;br&gt;
+ 	 * ### Think again about init levels.
+ 	 * &lt;p&gt;
+ 	 * &lt;table&gt;
+-	 * &lt;tr&gt;&lt;td&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;initLevel&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;
+-	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+-	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/td&gt;&lt;td&gt;variable&lt;/td&gt;&lt;/tr&gt;
+-	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Called by&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;initLevel&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic(BaseTopic topic, boolean override, Session session)}&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic(String topicID, String typeID, String name, boolean override, boolean evoke, String topicmapID, String viewmode, Session session, CorporateDirectives directives)}&lt;/td&gt;&lt;td&gt;2, 3&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/td&gt;&lt;td&gt;&lt;i&gt;variable&lt;/i&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/td&gt;&lt;td&gt;1, 2, 3&lt;/td&gt;&lt;/tr&gt;
+ 	 * &lt;/table&gt;
+ 	 */
+ 	public CorporateDirectives init(int initLevel, Session session) throws TopicInitException {
+
+Modified: trunk/install/db/cm.sql
+===================================================================
+--- trunk/install/db/cm.sql	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/install/db/cm.sql	2007-12-07 17:02:59 UTC (rev 248)
+@@ -172,7 +172,9 @@
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-134', '', 'tt-datasource', 1, 'pp-idleelementtype', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-22', '', 'tt-datasource', 1, 'pp-entities', 1);
+ INSERT INTO AssociationProp VALUES ('a-20', 1, 'Ordinal Number', '110');
+-INSERT INTO AssociationProp VALUES ('a-21', 1, 'Ordinal Number', '120');
++INSERT INTO AssociationProp VALUES ('a-21', 1, 'Ordinal Number', '105');
++INSERT INTO AssociationProp VALUES ('a-21a', 1, 'Ordinal Number', '120');
++INSERT INTO AssociationProp VALUES ('a-21b', 1, 'Ordinal Number', '125');
+ INSERT INTO AssociationProp VALUES ('a-134', 1, 'Ordinal Number', '130');
+ INSERT INTO AssociationProp VALUES ('a-22', 1, 'Ordinal Number', '140');
+ -- super type
+@@ -1252,16 +1254,19 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-wit_domains', 'Domains');
+ INSERT INTO TopicProp VALUES ('pp-wit_domains', 1, 'Name', 'Domains');
+ 
+---- &quot;Database Type&quot; ---
++--- &quot;Database Type&quot; (Data Source) ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbtype', 'Database Type');
++INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Name', 'Database Type');
+ INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Visualization', 'Input Field');
+ 
+---- &quot;Database Type&quot; ---
++--- &quot;Username&quot; (Data Source) ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbuser', 'Username');
++INSERT INTO TopicProp VALUES ('pp-dbuser', 1, 'Name', 'Username');
+ INSERT INTO TopicProp VALUES ('pp-dbuser', 1, 'Visualization', 'Input Field');
+ 
+---- &quot;Database Type&quot; ---
++--- &quot;Password&quot; (Data Source) ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbpassword', 'Password');
++INSERT INTO TopicProp VALUES ('pp-dbpassword', 1, 'Name', 'Password');
+ INSERT INTO TopicProp VALUES ('pp-dbpassword', 1, 'Visualization', 'Input Field');
+ 
+ --- &quot;Entities&quot; ---
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/install/db/patches/cm-2.17.sql	2007-12-07 17:02:59 UTC (rev 248)
+@@ -145,6 +145,40 @@
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
+ 
++
++
++-----------------------------------------
++--- Redefine Topic Type &quot;Data Source&quot; ---
++-----------------------------------------
++
++-- create 3 new properties &quot;Database Type&quot;, &quot;Username&quot;, &quot;Password&quot;
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbtype', 'Database Type');
++INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Name', 'Database Type');
++INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Visualization', 'Input Field');
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbuser', 'Username');
++INSERT INTO TopicProp VALUES ('pp-dbuser', 1, 'Name', 'Username');
++INSERT INTO TopicProp VALUES ('pp-dbuser', 1, 'Visualization', 'Input Field');
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbpassword', 'Password');
++INSERT INTO TopicProp VALUES ('pp-dbpassword', 1, 'Name', 'Password');
++INSERT INTO TopicProp VALUES ('pp-dbpassword', 1, 'Visualization', 'Input Field');
++
++-- remove &quot;Driver&quot; property
++DELETE FROM Association WHERE ID='a-21';
++DELETE FROM AssociationProp WHERE AssociationID='a-21';
++DELETE FROM ViewAssociation WHERE AssociationID='a-21';
++
++-- assign 3 new properties
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21', '', 'tt-datasource', 1, 'pp-dbtype', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21a', '', 'tt-datasource', 1, 'pp-dbuser', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21b', '', 'tt-datasource', 1, 'pp-dbpassword', 1);
++INSERT INTO AssociationProp VALUES ('a-21', 1, 'Ordinal Number', '105');
++INSERT INTO AssociationProp VALUES ('a-21a', 1, 'Ordinal Number', '120');
++INSERT INTO AssociationProp VALUES ('a-21b', 1, 'Ordinal Number', '125');
++
++
++
+ ---
+ --- delete &quot;City&quot; and &quot;Country&quot; assignments from workspace &quot;DeepaMehta&quot;
+ ---
+@@ -165,18 +199,6 @@
+ 
+ 
+ 
+---- *** UPDATE DATA DEFINITION *** ---
+-ALTER TABLE             TopicProp
+-     CHANGE             PropName PropName CHAR(255) NOT NULL,
+-     DROP   INDEX       TopicID,
+-     ADD    PRIMARY KEY (TopicID, TopicVersion, PropName)
+-;
+-ALTER TABLE             AssociationProp
+-     CHANGE             PropName PropName CHAR(255) NOT NULL,
+-     DROP   INDEX       AssociationID,
+-     ADD    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
+-;
+-
+ ---
+ --- Update standard installation
+ ---
+@@ -194,7 +216,20 @@
+ 
+ 
+ 
++--- *** UPDATE DATA DEFINITION *** ---
++ALTER TABLE             TopicProp
++     CHANGE             PropName PropName CHAR(255) NOT NULL,
++     DROP   INDEX       TopicID,
++     ADD    PRIMARY KEY (TopicID, TopicVersion, PropName)
++;
++ALTER TABLE             AssociationProp
++     CHANGE             PropName PropName CHAR(255) NOT NULL,
++     DROP   INDEX       AssociationID,
++     ADD    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
++;
+ 
++
++
+ SELECT *
+ FROM TopicProp
+ JOIN (
+@@ -210,5 +245,3 @@
+     FROM AssociationProp GROUP BY AssociationID, AssociationVersion, PropName
+     HAVING COUNT( * ) &gt; 1 ) ap
+ USING ( AssociationID, AssociationVersion, PropName );
+-
+-
+
+Modified: trunk/install/examples/artfacts/build.xml
+===================================================================
+--- trunk/install/examples/artfacts/build.xml	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/install/examples/artfacts/build.xml	2007-12-07 17:02:59 UTC (rev 248)
+@@ -18,8 +18,8 @@
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+
+Modified: trunk/install/examples/messageboard/config/web.xml
+===================================================================
+--- trunk/install/examples/messageboard/config/web.xml	2007-11-21 16:00:41 UTC (rev 247)
++++ trunk/install/examples/messageboard/config/web.xml	2007-12-07 17:02:59 UTC (rev 248)
+@@ -18,6 +18,7 @@
+          installing your application.
+     --&gt;
+ 
++	&lt;!--
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+       &lt;param-value&gt;default&lt;/param-value&gt;
+@@ -27,6 +28,7 @@
+         To configure DeepaMehta services see the file install/client/dms.rc
+       &lt;/description&gt;
+     &lt;/context-param&gt;
++    --&gt;
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;messageboard&lt;/param-name&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000094.html">[deepamehta-svn] r249 - in trunk: develop/src/de/deepamehta/topics	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#93">[ date ]</a>
+              <a href="thread.html#93">[ thread ]</a>
+              <a href="subject.html#93">[ subject ]</a>
+              <a href="author.html#93">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

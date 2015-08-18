@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r157 - in trunk: .	develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r157%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service/web&In-Reply-To=%3C200704051359.l35DxZ2H006435%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r157 - in trunk: .	develop/src/de/deepamehta/service/web</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r157%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service/web&In-Reply-To=%3C200704051359.l35DxZ2H006435%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r157 - in trunk: .	develop/src/de/deepamehta/service/web">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Apr  5 15:59:35 CEST 2007</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-04-05 15:59:17 +0200 (Thu, 05 Apr 2007)
+New Revision: 157
+
+Modified:
+   trunk/config.xml
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+Bug fix in web form processor: internal 'button' variable is processed properly. Bug fix in web info generator: HTML tags are rendered properly.
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2007-03-12 14:48:05 UTC (rev 156)
++++ trunk/config.xml	2007-04-05 13:59:17 UTC (rev 157)
+@@ -55,7 +55,9 @@
+ 	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${examples}/ldqp/LDAPTopics.jar&quot;/&gt;						&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot;/&gt;							&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${appspath}/Stolpersteine/stolpersteine.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-03-12 14:48:05 UTC (rev 156)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-04-05 13:59:17 UTC (rev 157)
+@@ -51,7 +51,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 19.2.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 21.2.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -767,8 +767,9 @@
+ 			// ### as well as properties with empty value
+ 			if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;) ||
+ 				propName.equals(&quot;id&quot;) || propName.equals(&quot;typeID&quot;)) {
+-				// Note: the internally used parameter &quot;action&quot; must be removed here to not confuse getWeakRelationParameters()
+-				if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;)) {
++				// Note: the internally used parameters &quot;action&quot; and &quot;button&quot; must be removed here
++				// to not confuse getWeakRelationParameters()
++				if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;)) {
+ 					params.remove(propName);
+ 				}
+ 				//
+@@ -795,7 +796,9 @@
+ 				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
+ 				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
+ 					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
+-					propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
++					if (!propValue.startsWith(&quot;&lt;html&gt;&quot;)) {	// ### must ignore case. &lt;HTML&gt; used in help texts?
++						propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
++					}
+ 				}
+ 				props.put(propName, propValue);
+ 			}
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-03-12 14:48:05 UTC (rev 156)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-04-05 13:59:17 UTC (rev 157)
+@@ -25,7 +25,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 13.6.2006 (2.0b7)&lt;br&gt;
++ * Last sourcecode change: 4.3.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -436,7 +436,7 @@
+ 
+ 	public String link(String text, String action, String params) {
+ 		StringBuffer html = new StringBuffer();
+-		link(action, params, null, text, true, html);	// topicID=null, bold=true
++		link(action, params, null, text, false, true, html);	// topicID=null, quoteHTML=false, bold=true
+ 		//
+ 		return html.toString();
+ 	}
+@@ -448,7 +448,7 @@
+ 		Enumeration e = topics.elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic topic = (BaseTopic) e.nextElement();
+-			link(action, null, topic.getID(), topic.getName(), true, html);		// params=null, bold=true
++			link(action, null, topic.getID(), topic.getName(), false, true, html);	// params=null, quoteHTML=false, bold=true
+ 			html.append(&quot;&lt;p&gt;&quot;);
+ 		}
+ 		//
+@@ -608,7 +608,7 @@
+ 					&quot;&lt;img src=\&quot;images/arrow_empty.gif\&quot; border=0 hspace=10&gt;&quot;);
+ 			}
+ 			// node name
+-			link(infoAction, topicID, tree.topic.getName(), indent == 1, html);
++			link(infoAction, topicID, tree.topic.getName(), true, indent == 1, html);	// quoteHTML=true
+ 			html.append(&quot;&lt;/td&gt;&quot;);
+ 			// buttons
+ 			actionButtons(topicID, actions, html);
+@@ -866,7 +866,7 @@
+ 		//
+ 		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;small&gt;&quot; + propLabel + &quot;&lt;/small&gt;&lt;/td&gt;&lt;td&gt;&quot;);
+ 		//
+-		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD)) {
++		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD) || visual.equals(VISUAL_COLOR_CHOOSER)) {
+ 			html.append(&quot;&lt;input type=\&quot;text\&quot; name=\&quot;&quot; + prefix + propName + &quot;\&quot; value=\&quot;&quot; +
+ 				(propValue != null ? propValue : &quot;&quot;) + &quot;\&quot; size=&quot; + INPUTFIELD_WIDTH + &quot;&gt;&quot;);
+ 		} else if (visual.equals(VISUAL_AREA) || visual.equals(VISUAL_TEXT_EDITOR)) {
+@@ -936,7 +936,8 @@
+ 		}
+ 		//
+ 		html.append(&quot;&lt;td&gt;&quot;);
+-		infolinkAdded = link(infoAction, infoActionParams, topicID, propValue, html);
++		boolean quoteHTML = !visual.equals(VISUAL_TEXT_EDITOR);
++		infolinkAdded = link(infoAction, infoActionParams, topicID, propValue, quoteHTML, html);
+ 		html.append(&quot;&lt;/td&gt;&quot;);
+ 		//
+ 		if (layout == LAYOUT_COLS) {
+@@ -1067,15 +1068,15 @@
+ 
+ 	// --- link (3 forms) ---
+ 
+-	private boolean link(String action, String topicID, String text, boolean bold, StringBuffer html) {
+-		return link(action, null, topicID, text, bold, html);
++	private boolean link(String action, String topicID, String text, boolean quoteHTML, boolean bold, StringBuffer html) {
++		return link(action, null, topicID, text, quoteHTML, bold, html);
+ 	}
+ 
+-	private boolean link(String action, String params, String topicID, String text, StringBuffer html) {
+-		return link(action, params, topicID, text, false, html);
++	private boolean link(String action, String params, String topicID, String text, boolean quoteHTML, StringBuffer html) {
++		return link(action, params, topicID, text, quoteHTML, false, html);
+ 	}
+ 
+-	private boolean link(String action, String params, String topicID, String text, boolean bold, StringBuffer html) {
++	private boolean link(String action, String params, String topicID, String text, boolean quoteHTML, boolean bold, StringBuffer html) {
+ 		boolean linkAdded = false;
+ 		//
+ 		if (action != null) {
+@@ -1084,9 +1085,10 @@
+ 			linkAdded = true;
+ 		}
+ 		if (text != null) {
+-			text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// needed for &quot;Multiline Input Field&quot;
+-			// text = DeepaMehtaUtils.quoteHTML(text);	// ### must be enabled for &quot;Messageboard&quot; (&quot;&lt;no subject&gt;&quot;)
+-													// ### must be disabled for &quot;Stolpersteine&quot; (Description) ###
++			if (quoteHTML) {
++				text = DeepaMehtaUtils.quoteHTML(text);
++			}
++			text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
+ 			html.append((bold ? &quot;&lt;b&gt;&quot; : &quot;&quot;) + text + (bold ? &quot;&lt;/b&gt;&quot; : &quot;&quot;));
+ 		}
+ 		if (action != null) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,403 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r363 - trunk/develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r363%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200905061753.n46HrZ8t007210%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000208.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r363 - trunk/develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r363%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200905061753.n46HrZ8t007210%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r363 - trunk/develop/src/de/deepamehta/service/web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Wed May  6 19:53:35 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000208.html">[deepamehta-svn] r364 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#207">[ date ]</a>
+              <a href="thread.html#207">[ thread ]</a>
+              <a href="subject.html#207">[ subject ]</a>
+              <a href="author.html#207">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-05-06 19:53:33 +0200 (Wed, 06 May 2009)
+New Revision: 363
+
+Added:
+   trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+Log:
+Introduced JSON-RPC Servlet in web package
+A base class for Servlet Application Developers
+
+Added: trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2009-03-17 14:45:13 UTC (rev 362)
++++ trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2009-05-06 17:53:33 UTC (rev 363)
+@@ -0,0 +1,328 @@
++package de.deepamehta.service.web;
++
++import de.deepamehta.BaseAssociation;
++import de.deepamehta.BaseTopic;
++import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.ApplicationServiceHost;
++import de.deepamehta.service.ApplicationServiceInstance;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.CorporateMemory;
++import de.deepamehta.service.Session;
++
++import java.io.BufferedReader;
++
++import java.io.IOException;
++import java.io.InputStreamReader;
++import java.io.OutputStream;
++import java.io.PrintWriter;
++import java.util.Enumeration;
++import java.util.Locale;
++import java.util.Vector;
++
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpSession;
++import javax.xml.parsers.DocumentBuilder;
++import javax.xml.parsers.DocumentBuilderFactory;
++import javax.xml.parsers.ParserConfigurationException;
++import javax.xml.transform.TransformerFactory;
++
++
++
++/**
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 4.7.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class JSONRPCServlet extends HttpServlet implements ApplicationServiceHost, DeepaMehtaConstants {
++
++	protected ServletContext sc;
++	private String generatorMethod;			// HTML_GENERATOR_JSP or HTML_GENERATOR_XSLT
++	//
++	private DocumentBuilder docBuilder;		// only initialized for HTML_GENERATOR_XSLT
++	private TransformerFactory tFactory;	// only initialized for HTML_GENERATOR_XSLT
++	private String stylesheetName;			// only initialized for HTML_GENERATOR_XSLT
++
++	protected ApplicationService as;
++	protected CorporateMemory cm;
++
++	private final String commInfo = &quot;direct method calls from &quot; + getClass();
++
++
++
++	public void init() {
++		sc = getServletContext();
++		generatorMethod = sc.getInitParameter(&quot;generator&quot;);
++		// set default
++		if (generatorMethod == null) {
++			generatorMethod = HTML_GENERATOR_JSP;
++		}
++		//
++		if (generatorMethod.equals(HTML_GENERATOR_JSP)) {
++			// ignore
++		} else if (generatorMethod.equals(HTML_GENERATOR_XSLT)) {
++			try {
++				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
++				docBuilder = factory.newDocumentBuilder();					// throws PCE
++				tFactory = TransformerFactory.newInstance();
++				stylesheetName = sc.getInitParameter(&quot;stylesheet&quot;);
++				if (stylesheetName == null) {
++					throw new DeepaMehtaException(&quot;parameter \&quot;stylesheet\&quot; is missing in web.xml&quot;);
++				}
++			} catch (ParserConfigurationException e) {
++				System.out.println(&quot;*** JSONRPCServlet.init(): &quot; + e);
++			}
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected HTML generator method: \&quot;&quot; + generatorMethod +
++				&quot;\&quot; -- expected values are \&quot;jsp\&quot; (default) and \&quot;xslt\&quot;&quot;);
++		}
++		// --- create application service ---
++		String home = sc.getInitParameter(&quot;home&quot;);
++		String service = sc.getInitParameter(&quot;service&quot;);
++		// Note: the current working directory is the directory from where tomcat was started
++		ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(
++			service, home != null ? home + &quot;/install/config/dm.properties&quot; : &quot;../config/dm.properties&quot;);
++		as = ApplicationService.create(this, instance);		// throws DME ### servlet is not properly inited
++		cm = as.cm;
++		// --- create external connection ---
++		try {
++			new ExternalConnection(&quot;localhost&quot;, instance.port, as);		// ### host and port should be context parameter
++		} catch (IOException e) {
++			System.out.println(&quot;&gt;&gt;&gt; type synchronization NOT available (&quot; + e + &quot;)&quot;);
++		}
++		//
++		System.out.println(&quot;&gt;&gt;&gt; HTML generator method: \&quot;&quot; + generatorMethod + &quot;\&quot;&quot;);
++	}
++
++	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
++		performRequest(request, response);
++	}
++
++	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
++		performRequest(request, response);	// ###
++	}
++
++	public void destroy() {
++		System.out.println(&quot;--- JSONRPCServlet destroyed (&quot; + getClass() + &quot;) ---&quot;);
++		as.shutdown();
++	}
++
++
++
++	// ********************************************************************************
++	// *** Implementation of interface de.deepamehta.service.ApplicationServiceHost ***
++	// ********************************************************************************
++
++
++
++	public String getCommInfo() {
++		return commInfo;
++	}
++
++	public void sendDirectives(Session session, CorporateDirectives directives,
++									ApplicationService as, String topicmapID, String viewmode) {
++		// ### do nothing
++	}
++
++	public void broadcastChangeNotification(String topicID) {
++		// ### do nothing
++	}
++
++
++
++	// *************
++	// *** Hooks ***
++	// *************
++
++
++
++	protected String performAction(String topicId, String params, Session session, CorporateDirectives directives)
++																										throws ServletException, DeepaMehtaException {
++		 // delegate to implementing subclass ?
++        throw new DeepaMehtaException(&quot; unexpected method requested !&quot;);
++	}
++
++    protected String performPostRequest(String remoteMethod, String params, Session session, CorporateDirectives directives)
++																										throws ServletException, DeepaMehtaException {
++		 // delegate to implementing subclass ?
++        throw new DeepaMehtaException(&quot; unexpected method requested !&quot;);
++	}
++
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives)
++																										throws ServletException {
++	}
++
++	protected void addResources(HTMLGenerator html) {
++		// ### must add main resources
++	}
++
++
++
++	// ***********************
++	// *** Utility Methods ***
++	// ***********************
++
++
++	// ---
++
++	protected final void deleteTopic(String topicID) {
++		CorporateDirectives directives = as.deleteTopic(topicID, 1);	// ### version=1
++		directives.updateCorporateMemory(as, null, null, null);
++	}
++
++	protected final void deleteAssociation(String typeID, String topicID1, String topicID2) {
++		BaseAssociation assoc = cm.getAssociation(typeID, topicID1, topicID2);
++		CorporateDirectives directives = as.deleteAssociation(assoc);		// ### session=null
++		directives.updateCorporateMemory(as, null, null, null);
++	}
++
++	// ---
++
++	protected final void createAssignments(String topicID, String assocTypeID, String[] values) {
++		// ### System.out.println(&quot;  &gt; relation --&gt; \&quot;&quot; + rel.relTopicTypeID + &quot;\&quot; (&quot; + rel.name + &quot;): &quot; + values.length + &quot; values&quot;);
++		for (int i = 0; i &lt; values.length; i++) {
++			String value = values[i];
++			// ### System.out.println(&quot;  &gt; \&quot;&quot; + value + &quot;\&quot;&quot;);
++			if (!value.equals(VALUE_NOT_SET)) {
++				cm.createAssociation(as.getNewAssociationID(), 1, assocTypeID, 1, topicID, 1, value, 1);
++			}
++		}
++	}
++
++	protected final void removeAssignments(String topicID, String relTopicTypeID, String assocTypeID) {
++		Enumeration e = as.getRelatedTopics(topicID, assocTypeID, relTopicTypeID, 2, false,
++			true).elements();	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			BaseAssociation assoc = cm.getAssociation(assocTypeID, topicID, topic.getID());	// ### fixed order
++			as.deleteAssociation(assoc);	// ### session=null
++		}
++	}
++
++
++	/**
++     * If the request is a HTTP POST Request, it is considered as a JSON-RPC-Call
++     * usage is simply a string &quot;method: remoteMethodName, params: one:two:three&quot;
++     * If the request is a HTTP GET Request, it is considered as HTML-Request where
++     * the topicId is appended to the URL e.g. /rpc/t-1234
++     *
++     * Consideration is not to make every RPC Call a POST Request -
++     * This is referred as bad practice
++     *
++	 * @see		#doGet
++	 * @see		#doPost
++	 */
++	private void performRequest(HttpServletRequest request, HttpServletResponse response)
++															throws IOException, ServletException {
++		RequestParameter params = new RequestParameter(request);
++		Session session = getSession(request);
++		CorporateDirectives directives = new CorporateDirectives();
++		String method = request.getMethod();
++        // if GET Print the resource if POST print send content/type
++        System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + (!method.equals(&quot;GET&quot;) ? &quot; (content type=\&quot;&quot; +
++        request.getContentType() + &quot;\&quot;)&quot; : &quot; on resource =\&quot;&quot; + request.getPathInfo() + &quot;\&quot;&quot;));
++		//
++        String remoteMethodCall = &quot;&quot;;
++        String remoteParams = &quot;&quot;;
++        if (method.equals(&quot;POST&quot;)) {
++            // analyze body
++            BufferedReader in = new BufferedReader(
++                                new InputStreamReader(
++                                request.getInputStream()));
++            String requestBody;
++            while ((requestBody = in.readLine()) != null) {
++                String[] body = requestBody.split(&quot;,&quot;);
++                // System.out.println(&quot;params (&quot; + body.length+&quot;)&quot;);
++                remoteMethodCall= body[0].substring(9);
++                remoteParams = body[1].substring(9, body[1].length()-1);
++                System.out.println(&quot;&gt;&gt;&gt; POST BODY: \n&quot; +
++                        &quot;       method: &quot; + remoteMethodCall + &quot;,\n&quot; +
++                        &quot;       params: &quot; + remoteParams);
++            }
++            in.close();
++            // --- trigger performPostrequest() hook
++            String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
++            System.out.println(&quot;&gt;&gt;&gt; POST RESULT: \n&quot;);
++            System.out.println(&quot;    &quot;+result + &quot;\n&quot;);
++            response.setContentType(&quot;applicaton/json&quot;);
++            response.setStatus(response.SC_OK);
++            // write back
++            PrintWriter writer = response.getWriter();
++            writer.print(result);
++            writer.checkError();
++            writer.close();
++            //response.setHeader(&quot;Mime-Type&quot;, &quot;&quot;);
++        } else if (method.equals(&quot;GET&quot;)) {
++            // topicId in der URL ?, trim first backslash
++            String topicPath = request.getPathInfo().substring(1);
++            // --- trigger performAction() hook ---
++            String result = performAction(topicPath, remoteParams, session, directives);
++            // --- trigger preparePage() hook ---
++            preparePage(topicPath, params, session, directives);
++            redirectToPage(result, request, response);
++        }
++		//
++		// process directives
++		directives.updateCorporateMemory(as, session, null, null);
++		// Note: topicmapID=null, viewmode=null ### should be OK because in web interface there is no &quot;default topicmap&quot;
++	}
++
++	private void redirectToPage(String page, HttpServletRequest request, HttpServletResponse response)
++																throws IOException, ServletException {
++		sc.getRequestDispatcher(&quot;/pages/&quot; + page + &quot;.jsp&quot;).forward(request, response);
++		// ### should the extension be part of the &quot;page&quot; parameter? Consider static .html files
++	}
++
++	// ---
++
++	private Session getSession(HttpServletRequest request) {
++		HttpSession session = request.getSession(false);	// create=false;
++		if (session == null) {
++			// --- create HTTP session ---
++			session = request.getSession();
++			System.out.println(&quot;=== JSONRPCServlet: HTTP session created ===&quot;);
++			//
++			session.setAttribute(&quot;session&quot;, new WebSession(session));
++			// --- create HTML generator ---
++			if (generatorMethod.equals(HTML_GENERATOR_JSP)) {
++				String language = sc.getInitParameter(&quot;language&quot;);
++				String country = sc.getInitParameter(&quot;country&quot;);
++				Locale locale = language != null &amp;&amp; country != null ? new Locale(language, country) : null;
++				HTMLGenerator html = new HTMLGenerator(as, locale);
++				// trigger addResources() hook
++				addResources(html);
++				//
++				session.setAttribute(&quot;html&quot;, html);
++			}
++		}
++		return (Session) session.getAttribute(&quot;session&quot;);
++	}
++
++    // ---
++
++	protected final Vector substract(Vector v1, Vector v2) {
++		Enumeration e = v2.elements();
++		while (e.hasMoreElements()) {
++			v1.removeElement((BaseTopic) e.nextElement());
++		}
++		return v1;
++	}
++
++	// ---
++
++	protected final BaseTopic getUser(Session session) {
++		return (BaseTopic) session.getAttribute(&quot;user&quot;);
++	}
++
++	protected final String getUserID(Session session) {
++		return getUser(session).getID();
++	}
++
++}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000208.html">[deepamehta-svn] r364 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#207">[ date ]</a>
+              <a href="thread.html#207">[ thread ]</a>
+              <a href="subject.html#207">[ subject ]</a>
+              <a href="author.html#207">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

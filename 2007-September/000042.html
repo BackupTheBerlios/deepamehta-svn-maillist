@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r197 - branches/ldap/install/examples/ldap
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r197%20-%20branches/ldap/install/examples/ldap&In-Reply-To=%3C200709152134.l8FLYMhe009031%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000041.html">
+   <LINK REL="Next"  HREF="000043.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r197 - branches/ldap/install/examples/ldap</H1>
+    <B>danny at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r197%20-%20branches/ldap/install/examples/ldap&In-Reply-To=%3C200709152134.l8FLYMhe009031%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r197 - branches/ldap/install/examples/ldap">danny at mail.berlios.de
+       </A><BR>
+    <I>Sat Sep 15 23:34:22 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000041.html">[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches
+</A></li>
+        <LI>Next message: <A HREF="000043.html">[deepamehta-svn] r198 - branches/ldap/install/examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: danny
+Date: 2007-09-15 23:34:17 +0200 (Sat, 15 Sep 2007)
+New Revision: 197
+
+Modified:
+   branches/ldap/install/examples/ldap/ldap.sql
+Log:
+properties renamed
+
+Modified: branches/ldap/install/examples/ldap/ldap.sql
+===================================================================
+--- branches/ldap/install/examples/ldap/ldap.sql	2007-09-14 21:39:55 UTC (rev 196)
++++ branches/ldap/install/examples/ldap/ldap.sql	2007-09-15 21:34:17 UTC (rev 197)
+@@ -7,18 +7,18 @@
+ INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Public', 'on');
+ INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Default', 'off');
+ INSERT INTO ViewTopic VALUES ('t-workgroupmap', 1, 't-ldapworkspace', 1, 100, 100);
+-INSERT INTO Association VALUES ('at-membership', 1, 1, 'a-ad-rootuserldapworkspace', '', 't-rootuser', 1, 't-ldapworkspace', 1);
++INSERT INTO Association VALUES ('at-membership', 1, 1, 'a-ldap-rootuserldapworkspace', '', 't-rootuser', 1, 't-ldapworkspace', 1);
+ 
+ -- assign types
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-ldapworkspaceuser', '', 't-ldapworkspace', 1, 'tt-ldapuser', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-ldapworkspacegroup', '', 't-ldapworkspace', 1, 'tt-ldapgroup', 1);
+-INSERT INTO AssociationProp VALUES ('a-ad-ldapworkspaceuser', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-ad-ldapworkspacegroup', 1, 'Access Permission', 'create');
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ldap-ldapworkspaceuser', '', 't-ldapworkspace', 1, 'tt-ldapuser', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ldap-ldapworkspacegroup', '', 't-ldapworkspace', 1, 'tt-ldapgroup', 1);
++INSERT INTO AssociationProp VALUES ('a-ldap-ldapworkspaceuser', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-ldap-ldapworkspacegroup', 1, 'Access Permission', 'create');
+ 
+ -- workspace topicmap
+ INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-ldaptopicmap', 'LDAP');
+ INSERT INTO TopicProp VALUES ('t-ldaptopicmap', 1, 'Name', 'LDAP');
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-1', '', 't-ldapworkspace', 1, 't-ldaptopicmap', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ldap-1', '', 't-ldapworkspace', 1, 't-ldaptopicmap', 1);
+ 
+ -- chat
+ INSERT INTO Topic VALUES ('tt-chatboard', 1, 1, 't-ldapchat', 'LDAP Chats');
+@@ -60,27 +60,27 @@
+ INSERT INTO TopicProp VALUES ('tt-ldapgroupcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.LdapGroupContainerTopic');
+ 
+ -- property associations
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-cngroup', '', 'tt-ldapgroup', 1, 'pp-cn', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptiongroup', '', 'tt-ldapgroup', 1, 'pp-description', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptionuser', '', 'tt-ldapuser', 1, 'pp-description', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-givennameuser', '', 'tt-ldapuser', 1, 'pp-givenname', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-membergroup', '', 'tt-ldapgroup', 1, 'pp-member', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-memberofuser', '', 'tt-ldapuser', 1, 'pp-memberof', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-ougroup', '', 'tt-ldapgroup', 1, 'pp-ou', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-ougroupcontainer', '', 'tt-ldapgroupcontainer', 1, 'pp-ou', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-snuser', '', 'tt-ldapuser', 1, 'pp-sn', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-uiduser', '', 'tt-ldapuser', 1, 'pp-uid', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-uidusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-uid', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-cngroup', '', 'tt-ldapgroup', 1, 'pp-cn', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-descriptiongroup', '', 'tt-ldapgroup', 1, 'pp-description', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-descriptionuser', '', 'tt-ldapuser', 1, 'pp-description', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-givennameuser', '', 'tt-ldapuser', 1, 'pp-givenname', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-membergroup', '', 'tt-ldapgroup', 1, 'pp-member', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-memberofuser', '', 'tt-ldapuser', 1, 'pp-memberof', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-ougroup', '', 'tt-ldapgroup', 1, 'pp-ou', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-ougroupcontainer', '', 'tt-ldapgroupcontainer', 1, 'pp-ou', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-snuser', '', 'tt-ldapuser', 1, 'pp-sn', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-uiduser', '', 'tt-ldapuser', 1, 'pp-uid', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ldap-uidusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-uid', 1);
+ 
+ -- associations between document types and container types
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-user-usercontassoc', '', 'tt-ldapusercontainer', 1, 'tt-ldapuser', 1);
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-group-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 'tt-ldapgroup', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ldap-user-usercontassoc', '', 'tt-ldapusercontainer', 1, 'tt-ldapuser', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ldap-group-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 'tt-ldapgroup', 1);
+ 
+ -- associations to LDAP datasource
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-userassoc', '', 'tt-ldapuser', 1, 't-ldapdatasource', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupassoc', '', 'tt-ldapgroup', 1, 't-ldapdatasource', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-usercontassoc', '', 'tt-ldapusercontainer', 1, 't-ldapdatasource', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ldap-userassoc', '', 'tt-ldapuser', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ldap-groupassoc', '', 'tt-ldapgroup', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ldap-usercontassoc', '', 'tt-ldapusercontainer', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ldap-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 't-ldapdatasource', 1);
+ 
+ -------------------------
+ --- Association Types ---
+@@ -141,7 +141,7 @@
+ INSERT INTO Topic VALUES ('tt-webpage', 1, 1, 't-openldapwebpage', 'OpenLDAP');
+ INSERT INTO TopicProp VALUES ('t-openldapwebpage', 1, 'Name', 'OpenLDAP');
+ INSERT INTO TopicProp VALUES ('t-openldapwebpage', 1, 'URL', '<A HREF="http://www.openldap.org/">http://www.openldap.org/</A>');
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-openldapdatasource', '', 't-openldapwebpage', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ldap-openldapdatasource', '', 't-openldapwebpage', 1, 't-ldapdatasource', 1);
+ 
+ --------------------
+ --- Workpad View ---
+@@ -153,11 +153,11 @@
+ 
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-openldapwebpage', 1, 300, 50);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-ldapdatasource', 1, 300, 100);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-groupassoc', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-groupcontassoc', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-openldapdatasource', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-userassoc', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-usercontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-groupassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-groupcontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-openldapdatasource', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-userassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-usercontassoc', 1);
+ 
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'at-ldapmember', 1, 100, 300);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-ou', 1, 100, 150);
+@@ -165,11 +165,11 @@
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-member', 1, 100, 250);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapgroup', 1, 225, 200);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapgroupcontainer', 1, 225, 150);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-cngroup', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-group-groupcontassoc', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-membergroup', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ougroup', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ougroupcontainer', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-cngroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-group-groupcontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-membergroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-ougroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-ougroupcontainer', 1);
+ 
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'at-ldapmemberof', 1, 500, 350);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-givenname', 1, 500, 200);
+@@ -178,15 +178,15 @@
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-uid', 1, 500, 150);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapuser', 1, 375, 200);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapusercontainer', 1, 375, 150);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-givennameuser', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-memberofuser', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-snuser', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-user-usercontassoc', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-uiduser', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-uidusercontainer', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-givennameuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-memberofuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-snuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-user-usercontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-uiduser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-uidusercontainer', 1);
+ 
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-ldapworkspace', 1, 300, 250);
+ INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-rootuser', 1, 300, 300);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ldapworkspacegroup', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ldapworkspaceuser', 1);
+-INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-rootuserldapworkspace', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-ldapworkspacegroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-ldapworkspaceuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ldap-rootuserldapworkspace', 1);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000041.html">[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches
+</A></li>
+	<LI>Next message: <A HREF="000043.html">[deepamehta-svn] r198 - branches/ldap/install/examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

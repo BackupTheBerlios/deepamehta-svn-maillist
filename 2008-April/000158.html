@@ -1,0 +1,782 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r313 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r313%20-%20trunk&In-Reply-To=%3C200804081223.m38CNxxv031320%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000159.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r313 - trunk</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r313%20-%20trunk&In-Reply-To=%3C200804081223.m38CNxxv031320%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r313 - trunk">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Apr  8 14:23:59 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000159.html">[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-04-08 14:23:56 +0200 (Tue, 08 Apr 2008)
+New Revision: 313
+
+Added:
+   trunk/README.txt
+Modified:
+   trunk/README-de.txt
+Log:
+English README added
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-03-30 13:47:05 UTC (rev 312)
++++ trunk/README-de.txt	2008-04-08 12:23:56 UTC (rev 313)
+@@ -72,7 +72,7 @@
+ * Inbetriebnahme unter Linux
+ * Inbetriebnahme unter Mac OS X
+ 
+-Diese Kurzanleitung enth&#195;&#164;lt alle Informationen, die ben&#195;&#182;tigt werden, um DeepaMehta so schnell und einfach wie m&#195;&#182;glich in Betrieb zu nehmen. Nach dem Auspacken kann DeepaMehta sofort per Doppelklick gestartet werden. Beim ersten Programmstart wird automatisch eine minimale Standardinstallation ausgef&#195;&#188;hrt. Es sind keine Terminal-Eingaben notwendig. 
++Diese Kurzanleitung enth&#195;&#164;lt alle Informationen, die ben&#195;&#182;tigt werden, um DeepaMehta so schnell und einfach wie m&#195;&#182;glich in Betrieb zu nehmen. Nach dem Auspacken kann DeepaMehta sofort per Doppelklick gestartet werden. Beim ersten Programmstart wird automatisch eine minimale Standardinstallation ausgef&#195;&#188;hrt. Es sind keine Terminal-Eingaben notwendig.
+ 
+ Wenn Beispielanwendungen oder Webfrontends installiert werden sollen, f&#195;&#188;hre eine manuelle (Terminal-basierte) Installation durch, die im anschlie&#195;&#159;enden Abschnitt &quot;Installation&quot; beschrieben ist. Es ist auch m&#195;&#182;glich, zun&#195;&#164;chst die automatische Installation durchzuf&#195;&#188;hren, und die Beispielanwendungen und Webfrontends nachtr&#195;&#164;glich zu installieren.
+ 
+
+Added: trunk/README.txt
+===================================================================
+--- trunk/README.txt	2008-03-30 13:47:05 UTC (rev 312)
++++ trunk/README.txt	2008-04-08 12:23:56 UTC (rev 313)
+@@ -0,0 +1,692 @@
++
++DeepaMehta 2.0b8
++================
++
++
++R E A D M E
++
++
++--- CONTENTS ---
++
++Requirements
++Brief instruction
++  - Windows set up
++  - Linux set up
++  - Mac OS X set up
++Installation
++  - Step 1: Unzip
++  - Step 2: Install
++  - Step 3: Deployment of web frontends
++  - Update an existing installation
++  - Additional installation of example applications
++Starting &amp; Quitting
++  - Single-place
++  - Networked
++  - Web frontends
++Administration
++  - Set the root password
++  - Configure additional instances
++  - Determine standard instance
++  - Delete an instance
++  - Control Tomcat
++  - Reset the database
++  - Uninstall
++What's next?
++
++
++
++Requirements
++============
++
++Software (essential)
++
++    =&gt; Java Standard Edition, Runtime Environment (JRE, Version 1.4 or 5 or 6)
++       <A HREF="http://www.java.com/">http://www.java.com/</A>
++
++Software (optional)
++
++    If you plan to use the DeepaMehta web frontends,
++	the following software needs to be installed separatly:
++
++    =&gt; Java Standard Edition, Development Kit (JDK, Version 1.4 oder 5 oder 6)
++       <A HREF="http://java.sun.com/">http://java.sun.com/</A>
++
++    =&gt; MySQL (Version 4 or 5)
++       <A HREF="http://www.mysql.com/">http://www.mysql.com/</A>
++
++    =&gt; Tomcat (Version &gt;=4)
++       <A HREF="http://tomcat.apache.org/">http://tomcat.apache.org/</A>
++
++Hardware (minimum)
++
++    =&gt; CPU: 800 MHz
++    =&gt; Memory: 256 MB
++    =&gt; Disk space: 20 MB free + your data entered via DeepaMehta
++
++
++
++Brief instruction
++=================
++
++* Windows set up
++* Linux set up
++* Mac OS X set up
++
++This brief instruction contains all neccessary information to install DeepaMehta quickly and easily. 
++After unzipping DeepaMehta can be started instantly by double-clicking.
++No command line entries are nessessary.
++At initial startup a minimum standard installation will be executed automatically.  
++
++If you want to install any of the examples or web frontends, please configure the installation manually (terminal-based) 
++as described in the following section &quot;Installation&quot;. 
++You can as well perform the automatic installation first and supplement it by the example applications and web frontends afterwards.
++
++
++Installation on Windows PC
++--------------------------
++
++1) Unzip: &quot;deepamehta-2.0b8.zip&quot;
++
++    Hint: Use an application for unzipping, e.g. WinRAR,
++    choose e.g. C:\Applications\ as destination for the directory &quot;deepamehta&quot; which will be created.
++    
++
++2) Starting: double-click the &quot;run&quot;-file
++
++    Hint: Use your Windows Explorer to view the &quot;deepamehta&quot;-directory.
++    The &quot;run&quot;-file will possibly be shown as &quot;run.bat&quot;.
++
++    Automatically a standard installation will be performed and DeepaMehta will be startet.
++    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times. No password is required.
++    The DeepaMehta desktop will appear.
++
++3) Quit: Close the DeepaMehta window.
++
++    To start Deepemehta again double-click the &quot;run&quot;-file.
++
++4) What's next?
++
++    Sources for documentation or support can be found at the end of this README-file.
++
++
++Installation on Linux PC
++------------------------
++
++1) Unzip:
++
++    unzip &quot;deepamehta-2.0b8.zip&quot;
++
++    You can install DeepaMehta e.g. in your Home-directory.
++    A &quot;deepamehta&quot;-directory will be created during unzipping.
++
++2) Starting:
++
++    cd deepamehta
++    ./run.sh
++
++    Automatically a standard installation will be performed and DeepaMehta will be startet.
++    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times. No password is required.
++    The DeepaMehta desktop will appear.
++
++3) Quit: Close the DeepaMehta window.
++
++    To start DeepaMehta again enter &quot;./run.sh&quot; from within your &quot;deepamehta&quot;-directory.
++
++4) What's next?
++
++    Sources for documentation or support can be found at the end of this README-file.
++
++
++Installation on Mac OS X
++------------------------
++
++1) Unzip:
++
++    Copy the &quot;deepamehta-2.0b8.zip&quot;-file into your Applications-folder and double-click it
++    to unzip it. A &quot;deepamehta&quot;-directory will be created during unzipping.
++
++2) Starting:
++
++	Open the &quot;deepamehta&quot;-directory and double-click the file &quot;run.command&quot;.
++
++    Automatically a standard installation will be performed and DeepaMehta will be startet.
++    As soon as you see the login-dialog, enter &quot;root&quot; and hit &quot;Return&quot; 2 times.
++    The DeepaMehta desktop will occur.
++
++3) Quit: Close the DeepaMehta window.
++
++    To start Deepemehta again double-click the &quot;run.command&quot;-file again.
++
++4) What's next?
++
++    Sources for documentation or support can be found at the end of this README-file.
++
++
++
++Installation
++============
++
++* Step 1: Unzip
++* Step 2: Install
++* Step 3: Deployment of the web frontends
++* Update an existing installation
++* Additional installation of the example applications
++
++Most of the processes that are dealt with in this and the following chapters can be executed by entering a &quot;run&quot;-command 
++in your terminal window.
++
++IMPORTANT: the &quot;run&quot;-command must be executed from within your DeepaMehta-home directory. 
++The DeepaMehta-home directory is the directory &quot;deepamehta&quot;, which will be created upon unzipping. 
++Use the &quot;cd&quot;-command to change into the DeepaMehta-home directory.
++
++IMPORTANT for Windows-users:
++
++=&gt; whenever you are asked to enter &quot;./run.sh&quot; Windows-users only have to enter &quot;run&quot;.
++
++Hint: To open a command-line window choose &quot;Execute...&quot; from the &quot;Start&quot;-menue, 
++enter &quot;cmd&quot; and press &quot;OK&quot;.
++
++
++Step 1: Unzip
++-------------
++
++The DeepaMehta distribution consists of the file &quot;deepamehta-2.0b8.zip&quot;.
++Unzip it into your applications directory, e.g.:
++
++    * Windows:     C:\Applications\
++    * Linux:       /home/you/
++    * Mac OS X:    /Macintosh HD/Applications/
++
++During unzipping the directory &quot;deepamehta&quot; will be created.
++
++
++Step 2: Installation
++--------------------
++
++To start the DeepaMehta installation enter the following command:
++
++    ./run.sh install
++
++First of all the DeepaMehta installation will be set up, in respect of 4 aspects:
++- Will the DeepaMehta web frontends be needed? (Tomcat required)
++- Which database shall be used by DeepaMehta? (the provided HSQL or MySQL)?
++- Which network port shall be accepted by the DeepaMehta server for client connections?
++- Which example applications shall be installed?
++
++Therfore a few questions will be asked. The standard answers are provided in squared brackets 
++and can be chosen by hitting the &quot;Return&quot; key. 
++
++
++=&gt; Web frontends
++
++First of all you will be asked, if you want to use the DeepaMehta web frontends. 
++If &quot;Yes&quot; is your answer, you must state where your Tomcat home-directory is located at.
++
++    [input] Do you want to install the web frontends (Tomcat must already be installed)? (y, [n])
++
++    [input] Please enter the home directory of your Tomcat installation. [/usr/local/tomcat]
++
++=&gt; Database
++
++Then you will be asked into which database the DeepaMehta application shall put your data. 
++If the provided HSQL-database shall be used, simply hit &quot;Return&quot;.
++
++    [echo] Please select the DeepaMehta instance to be configured:
++    [echo]
++    [echo] * hsqldb-intern (Recommended for just using DeepaMehta.)
++    [echo] * mysql4 (Required for use with web frontends. MySQL 4 must already be installed.)
++    [echo] * mysql5 (Required for use with web frontends. MySQL 5 must already be installed.)
++    [echo]
++    [input] Currently set [hsqldb-intern]
++
++IMPORTANT: If the DeepaMehta web frontends and the graphical DeepaMehta user interface shall be used simultaneously on your 
++computer, MySQL must be used as a database. 
++MySQL is not provided with DeepaMehta and must be installed separately.
++
++Now you will be asked for the name of the database which is going to be created. Enter your desired name for the database or simply hit &quot;Return&quot;.
++
++    [input] Please enter the name of the database to be created: [DeepaMehta]
++
++=&gt; Network port
++
++Then you will be asked for the network port which shall be used by the DeepaMehta server to accept client connections. 
++This setting is important for client-server operation (see &quot;Networked&quot; in section &quot;Starting &amp; Quitting&quot;), 
++especially if several DeepaMehta instances are in use (see &quot;Setting up additional instances&quot; in section &quot;Administration&quot;). At the moment simply hit &quot;Return&quot;.
++
++    [input] Network port for this instance (when served by the DeepaMehta server): [7557]
++
++=&gt; Example applications
++
++Now you will be asked which of the provided example applications you would like to install. 
++If you do not want to deal with the example applications at the moment, simply hit &quot;Return&quot;. 
++DeepaMehta is fully functionable without all of the example applications. They can be installed later as described in
++section &quot;Additional installation of example applications&quot;.
++
++    [input] Do you want to install the example application 'kompetenzstern'
++            (Balanced Scorecard editor and report generator)? (y, [n])
++    [input] Do you want to install the example application 'messageboard'
++            (Graphical forum application and web frontend)? (y, [n])
++    [input] Do you want to install the example application 'ldap'
++            (LDAP-Client for browsing users and groups)? (y, [n])
++    [input] Do you want to install the example application 'movies'
++            (Demonstration of accessing external datasources)? (y, [n])
++
++If you are about to install the &quot;movies&quot; example now, you will be asked for the kind of database you want to use for it.
++
++    [echo] Please select the datasource to be used for the 'movies' example:
++    [echo]
++    [echo] * hsqldb-intern
++    [echo] * mysql4
++    [echo] * mysql5
++    [echo] * xml
++    [echo]
++    [input] currently set (default) [hsqldb-intern]
++
++If you selected &quot;hsqldb-intern&quot; you will be asked to enter a name for your movies database now.
++
++    [input] Please enter the name of your database: [Movies]
++
++If, at the beginning, you decided that you want to use the DeepaMehta web frontends as well (with Tomcat), 
++you will now be asked, which of the provided web frontends you would like to install:
++
++    [input] Do you want to install the example application 'dm-browser'
++            (Generic web frontend demo 1)? (y, [n])
++    [input] Do you want to install the example application 'dm-search'
++            (Generic web frontend demo 2)? (y, [n])
++    [input] Do you want to install the example application 'dm-topicmapviewer'
++            (Generic web based topicmap viewer)? (y, [n])
++    [input] Do you want to install the example application 'dm-web'
++            (Generic web frontend demo 3, recommendend)? (y, [n])
++
++At this point the configuration of the DeepaMehta installation is completed.
++
++=&gt; Installation
++
++You will be asked if you wish to start the installation now. During the installation the 
++DeepaMehta database will be built and the chosen example applications will be stored in it. 
++To continue with the installation simply hit &quot;Return&quot;.
++
++    [input] Do you want to initialize now? ([y], n)
++
++Once again your database settings will be shown. As soon as you hit &quot;Return&quot; the DeepaMehta database will be created and the chosen content will be stored in it. 
++
++    [echo] --- DeepaMehta Installation ---
++    [echo] You are about to create a database 'DeepaMehta' and a database user 'sa' (password '').
++    ...
++    [input] Continue?  ([y], n)
++
++If you have chosen the Movies example application in the configuration process and &quot;hsqldb-intern&quot; as your data source, 
++the Movies example database will now be created.
++
++    [echo] --- DeepaMehta Installation ---
++    [echo] You are about to create a database 'Movies' and an
++    [echo] user 'sa' (password '') with corresponding grants.
++    ...
++    [input] Continue?  ([y], n)
++
++If the installation was successful, &quot;BUILD SUCCESSFUL&quot; will be displayed.
++
++
++Step 3: Deployment of the web frontends
++---------------------------------------
++
++If you decided to use the DeepaMehta web frontends in the configuration process they will be deployed now under Tomcat. 
++To start deployment please enter the following command:
++
++    ./run.sh deploy
++
++If the deployment was successful, &quot;BUILD SUCCESSFUL&quot; will be displayed.
++
++IMPORTANT: if Tomcat was already running during the deployment process, Tomcat needs to be restarted now (even if Tomcats hot-deployment function is activated).
++
++
++Update an existing installation
++-------------------------------
++
++To update an existing older version of Deepamehta to version 2.0b8 without loosing any of the already stored data please proceed with the following 3 steps:
++
++=&gt; Updating of the files
++
++Unzip &quot;DeepaMehta 2.0b8.zip&quot;, as described above in section &quot;Installation&quot;, &quot;Step 1: Unzip&quot;. 
++Be carefull not to overwrite your existing DeepaMehta installation!
++
++If you already have custom icons, topicmap background images or documents embedded in DeepaMehta, you need to copy them
++into the corresponding directories of your new DeepaMehta 2.0b8 installation:
++
++    deepamehta/install/client/icons/
++    deepamehta/install/client/backgrounds/
++    deepamehta/install/client/documents/
++
++=&gt; Configuration of the database
++
++Now your old database needs to be introduced to the new DeepaMehta 2.0b8. Therefor enter the following command:
++
++    ./run.sh config
++
++You will be asked a few questions. The following procedure is about the same as the one described in the above section &quot;Installation&quot; in &quot;Step 2: Install&quot;. 
++The question about the web frontends can simply be answered by hitting &quot;Return&quot; at this point.
++
++When asked for the type of database enter &quot;mysql4&quot; or &quot;mysql5&quot;, depending on the version of your MySQL installation.
++
++    [echo] Please select the DeepaMehta instance to be configured:
++    [echo] 
++    [echo] * hsqldb-intern (Recommended for just using DeepaMehta.)
++    [echo] * mysql4 (Required for use with web frontends. MySQL 4 must already be installed.)
++    [echo] * mysql5 (Required for use with web frontends. MySQL 5 must already be installed.)
++    [echo] 
++    [input] Currently set [hsqldb-intern]
++
++Then you will be asked for the database host, the database root-user password, the database name, 
++the name of the database user as well as the database user password. 
++If, at that time, you made a DeepaMehta standard installation and did not assign a root-user password to your 
++MySQL-Installation simply answer all questions with &quot;Return&quot;.
++
++    [input] Please enter the host of your database: [127.0.0.1]
++
++    [extendedinput] Please enter the database root password:
++
++    [input] Please enter the name of the database to be created: [DeepaMehta]
++    
++    [input] Please enter the user to use: [dm]
++
++    [input] Please enter the password to use: [dm]
++
++Now questions about the network port and the example applications will be asked, which again can be answered by hitting &quot;Return&quot; at this point.
++
++As soon as the configuration is finished, &quot;BUILD SUCCESSFUL&quot; will be displayed.
++
++=&gt; Update the database
++
++Now patches need to be installed to update your current version of DeepaMehta to DeepaMehta 2.0b8. 
++The following table shows you which are the appropriate patches to update your version of DeepaMehta. 
++Apply all patches, beginning with the one for your current DeepaMehta version.
++
++    Your current          Use these Patches to update to
++    DeepaMehta version    DeepaMehta 2.0b8
++    ----------------------------------------------------
++    2.0b3                 cm-2.13.sql
++    2.0b4                 cm-2.14.sql
++    2.0b5                 cm-2.15.sql
++    2.0b6                 cm-2.16.sql
++    2.0b7                 cm-2.17.sql
++
++If your currently installed version is e.g. DeepaMehta 2.0b7, you only have to apply the patch &quot;cm-2.17.sql&quot;. 
++If your currently installed version is e.g. DeepaMehta 2.0b5, apply the patches 2.15, 2.16 and 2.17 (in the correct order).
++
++To input the data of a single patch enter the following command (the patch &quot;cm-2.17.sql&quot; will be used here):
++
++    ./run.sh patchdb -Dpatch=install/db/patches/cm-2.17.sql
++
++For security reasons you will be asked if you really want to apply that spezific patch, and the concerned database will be displayed. 
++To apply the chosen patch enter 'y' and press &quot;Return&quot;.
++
++    [echo] You are about to apply the patch install/db/patches/cm-2.17.sql to the database DeepaMehta (user 'dm', password 'dm').
++    ...
++    [input] Continue?  (y, n)
++
++As soon as the patch is applied &quot;BUILD SUCCESSFUL&quot; will be displayed. Repeat the command to apply additional patches.
++
++
++Additional installation of example applications
++-----------------------------------------------
++
++To install additional example applications enter the following command:
++
++    ./run.sh install
++
++You will be asked the questions which are described above in &quot;Step 2: Install&quot;. Choose the example applications you would like to install.
++
++If you are asked &quot;Do you want to initialize now?&quot; answer with 'y' or simply hit &quot;Return&quot;.
++
++    [input] Do you want to initialize now? ([y], n)
++
++When you are asked, if the database shall be created now, answer with 'n' or simply hit &quot;Return&quot;.
++
++    [echo] Initialize the DeepaMehta instance 'hsqldb-intern' now...
++    ...
++    [echo] --- DeepaMehta Installation ---
++    [echo] You are about to create a database 'DeepaMehta' and a database user 'sa' (password '').
++    ...
++    [input] Continue?  (y, [n])
++
++When the example applications have been installed successfully, &quot;BUILD SUCCESSFUL&quot; will be displayed.
++
++
++
++Starting &amp; Quitting
++===================
++
++* Single-place
++* Networked
++* Web frontends
++
++
++Single-place
++------------
++
++The easiest way to start DeepaMehta is as a single-place application. The single-place application is fully sufficient if you do not plan to get connected to other DeepaMehta users. (networked).
++
++=&gt; To start the single-place application enter the following command:
++
++    ./run.sh
++
++The DeepaMehta login dialog will be displayed. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (initially the DeepaMehta root-user does not have a password). 
++The DeepaMehta desktop will occur.
++
++To start a specific DeepaMehta instance set the &quot;dm.instance&quot; property with -D at the command line:
++
++    ./run.sh -Ddm.instance=myinstance
++
++Informations about DeepaMehta instances you will find in section &quot;Administration&quot;, &quot;Configure additional instances&quot; as well as in &quot;Define standard instance&quot;.
++
++=&gt; To quit DeepaMehta simply close the DeepaMehta window.
++
++Technical security advice: the monolithic DeepaMehta application has the DeepaMehta client and the server integrated into one single application, 
++where the communication takes place by direct method calls. No network port is needed.
++
++
++Networked
++---------
++
++The DeepaMehta client/server application enables different users to work together over a network.
++
++=&gt; To start the DeepaMehta server enter the following command:
++
++    ./run.sh dms
++
++To serve a specific DeepaMehta instance set the &quot;dm.instance&quot; properties to the desired instance at he command line:
++
++    ./run.sh dms -Ddm.instance=myinstance
++
++Informations about DeepaMehta instances can be found in section &quot;Administration&quot;, &quot;Configure additional instances&quot; and &quot;Determine standard instance&quot;.
++
++=&gt; To start the DeepaMehta client application and get connected to a local DeepaMehta server enter the following command:
++
++    ./run.sh dmc
++
++To connect to a specific DeepaMehta server set the &quot;dm.host&quot; and &quot;dm.port&quot; properties at the command line 
++(If no host is specified &quot;localhost&quot; will be used. If no port is specified the default port (7557) will be used):
++
++    ./run.sh dmc -Ddm.host=www.site.com -Ddm.port=7558
++
++The DeepaMehta login dialog will appear. Enter &quot;root&quot; and hit &quot;Return&quot; 2 times (the DeepaMehta root user does not have a password yet). 
++The DeepaMehta desktop will appear.
++
++=&gt; To start the DeepaMehta client applets resp. the signed client applets open the corresponding website in your web browser:
++
++    .../deepamehta/install/client/start.html
++    .../deepamehta/install/client/start-signed.html
++
++The client applet expects the DeepaMehta server to run on the same machine as the one the applet was loaded from. 
++The port used by the client applet to contact the server can be edited on the HTML-sites by entering its value in the  
++applet-parameter &quot;PORT&quot;. eingestellt werden. If no &quot;Port&quot;-parameter is available, the default port (7557) will be used.
++
++Technical security advice: The DeepaMehta clients communicate with the DeepaMehta server via TCP sockets. 
++The DeepaMehta server opens a dedicated TCP-port (it is port 7557 by default).
++
++
++Web frontends
++-------------
++
++6 different web frontends are provided with DeepaMehta. To start a web frontend enter the corresponding URL into your web browser:
++
++    <A HREF="http://localhost:8080/kompetenzstern/controller">http://localhost:8080/kompetenzstern/controller</A>
++    <A HREF="http://localhost:8080/messageboard/controller">http://localhost:8080/messageboard/controller</A>
++    <A HREF="http://localhost:8080/dm-browser/controller">http://localhost:8080/dm-browser/controller</A>
++    <A HREF="http://localhost:8080/dm-search/controller">http://localhost:8080/dm-search/controller</A>
++    <A HREF="http://localhost:8080/dm-topicmapviewer/controller">http://localhost:8080/dm-topicmapviewer/controller</A>
++    <A HREF="http://localhost:8080/dm-web/controller">http://localhost:8080/dm-web/controller</A>
++
++The web frontends can only be started if DeepaMehta has been configured correspondingly (see Section &quot;Installation&quot;, &quot;Step 2: Installation&quot;) 
++and the web frontends have been deployed (see Section &quot;Installation&quot;, &quot;Step 3: Deployment of web frontends&quot;). 
++Tomcat needs to be started already.
++
++
++
++Administration
++==============
++
++* Set the root password
++* Configure additional instances
++* Determine standard instance
++* Delete an instance
++* Controll Tomcat
++* Reset the database
++* Uninstall DeepaMehta
++
++
++Set the root password
++---------------------
++
++1) Start DeepaMehta (Single-place or networked) and log in as &quot;root&quot;.
++2) Choose the workspace &quot;Administration&quot; from the pulldown menue.
++3) Open the topicmap &quot;Users and Groups&quot; with a double-click.
++4) Click on the user &quot;root&quot;.
++5) Enter your desired password on the right side into the &quot;Password&quot; field.
++
++Setting up additional instances
++-------------------------------
++
++For some specific needs independent DeepaMehta instances can be created (e.g. one with &quot;real&quot; content and one for testing during development). 
++Each DeepaMehta instance has a separate corporate memory (content-memory). For each corporate memory an individual database system (e.g. HSQL or MySQL) can be used.
++
++To create a new DeepaMehta instance please enter the following command: 
++
++    ./run.sh newinstance
++
++First of all you will be asked to set the configuration for the new instance. If e.g. for the new instance 
++a HSQL-database shall be used, choose &quot;hsqldb-intern&quot;.
++
++    [echo] Please select the instance configuration the new instance is based on:
++    [echo] 
++    [echo] * hsqldb-intern
++    [echo] * mysql4
++    [echo] * mysql5
++    [echo] 
++    [input] Instance name: [hsqldb-intern]
++
++Then you will be asked to name the new instance. A good advice is to choose a name that speaks for itself, e.g. &quot;production&quot; or &quot;test&quot;.
++
++    [input] Please enter the new instance name: [hsqldb-intern2]
++
++Then the new instance will be configured and installed, like it is explained in the above section &quot;Installation&quot;, &quot;Step 2: Install&quot;. 
++When you are asked for the name of the database that is going to be created, all existing databases will be listet. 
++Enter a database name, that is not in the list yet.
++
++    [input] Please enter the name of your database: [DeepaMehta]
++
++Simply answer all other questions (concerning the web frontends and the example applications) with &quot;Return&quot;, 
++whereby the settings made so far will be transfered to the new instance 
++(Advice: these settings are not stored per single DeepaMehta instance but are stored globally).
++
++Now you will be asked if the new instance shall be installed now. Answer with yes by hitting &quot;Return&quot;.
++
++    [input] Do you want to initialize now? ([y], n)
++
++If the instance was set up succesfully &quot;BUILD SUCCESSFUL&quot; will be displayed. Zum Starten einer bestimmten DeepaMehta-Instanz siehe oben den Abschnitt &quot;Starten &amp; Beenden&quot; und den folgenden Punkt &quot;Standard-Instanz festlegen&quot;.
++
++
++Determine a standard instance
++-----------------------------
++
++A specific instance can be defined as standard instance. The standard instance is used if DeepaMehta gets started without stating an instance.
++
++To determine an instance enter the following command:
++
++    ./run.sh switchinstance
++
++The names of all existing instances will be listed and the current standard instance will be displayed. 
++Enter the name of the future standard instance and hit &quot;Return&quot;.
++
++    [echo] Please select the DeepaMehta instance to activate:
++    [echo] 
++    [echo] * hsqldb-intern
++    [echo] * myinstance
++    [echo] 
++    [input] Currently set [hsqldb-intern]
++
++
++Delete an instance
++------------------
++
++To delete an instance enter the following command, by setting the &quot;dm.instance&quot; properties at the command line with -D:
++
++    ./run.sh dropdb -Ddm.instance=myinstance
++
++For security reasons you will be asked if you really want to delete that instance. Enter 'y' and hit &quot;Return&quot; to delete that instance.
++
++    [echo] Uninstalling the DeepaMehta instance 'myinstance' now...
++    ...
++    [echo] You are about to delete the database 'DeepaMehta'.
++    ...
++    [input] Continue?  (y, n)
++
++
++Control Tomcat
++--------------
++
++=&gt; To start Tomcat enter the following command:
++
++    ./run.sh tomcat-start
++
++IMPORTANT: Tomcat must be started from the directory deepamehta/install/client/, otherwise the web frontends will not find neccessary files. 
++Please use the command stated above to start Tomcat, and not the mechanisms of your system environment (e.g. /etc/init.d under Linux).
++
++=&gt; To stop Tomcat enter the following command:
++
++    ./run.sh tomcat-stop
++
++=&gt; To view the Tomcat-diagnostics enter the following command:
++
++    ./run.sh tomcat-log
++
++Hint: the Tomcat-diagnostics can be read best if you enter the command in a separate terminal window, which should remain open during the whole session.
++
++
++Reset the database
++------------------
++
++
++Uninstall DeepaMehta
++--------------------
++
++
++
++What's next?
++============
++
++Hints for your first steps can be found in the Wiki:
++<A HREF="https://www.mindworxs.de/zwiki/ErsteSchritte">https://www.mindworxs.de/zwiki/ErsteSchritte</A>
++
++A Users Guides can be found here:
++<A HREF="http://www.deepamehta.de/docs/usersguide.html">http://www.deepamehta.de/docs/usersguide.html</A>
++
++For all of your questions please use the forum on the DeepaMehta website or subscribe to the deepamehta-users mailing list. 
++In the forum you can find important hints for using DeepaMehta already. Forum and mailing lists can be found at &quot;Community&quot; 
++on www.deepamehta.de.
++
++
++
++------------------------------------------------------------------------------------------------------
++J&#154;rg Richter                                                                         www.deepamehta.de
++17.3.2008
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000159.html">[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

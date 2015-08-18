@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r309%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs&In-Reply-To=%3C200803250022.m2P0MgNt026293%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000153.html">
+   <LINK REL="Next"  HREF="000155.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r309%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs&In-Reply-To=%3C200803250022.m2P0MgNt026293%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar 25 01:22:42 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000153.html">[deepamehta-svn] r308 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000155.html">[deepamehta-svn] r310 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-25 01:22:35 +0100 (Tue, 25 Mar 2008)
+New Revision: 309
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/UserTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java
+Log:
+Bug #13437 fixed (Workspace join/leave oddities)
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-17 14:53:48 UTC (rev 308)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-25 00:22:35 UTC (rev 309)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 11.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -697,18 +697,18 @@
+ 	 * Instantiates a {@link de.deepamehta.assocs.LiveAssociation} based on the specified {@link de.deepamehta.BaseAssociation},
+ 	 * stores it in the live corporate memory, and finally triggers its evoke() hook provided the evoke flag is set.
+ 	 * &lt;p&gt;
+-	 * References checked: 27.9.2007 (2.0b8)
++	 * References checked: 25.3.2008 (2.0b8)
+ 	 *
+ 	 * @param	directives	may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+-	 * @see 	#checkLiveAssociation(BaseAssociation, Session, CorporateDirectives)									false	false
+-	 * @see 	#checkLiveAssociation(String assocID, int version, Session, CorporateDirectives)						false	false
+-	 * @see 	#createLiveAssociations(Enumeration, boolean evoke, Session, CorporateDirectives)						false	variable
+-	 * @see 	#createLiveAssociation(String assocID, String typeID, String name, String topicID1, String topicID2)	false	true
+-	 * @see 	CorporateDirectives#showAssociation																		false	variable
+-	 * @see 	CorporateDirectives#changeAssociationType																true	true
++	 * @see 	#checkLiveAssociation(BaseAssociation, Session, CorporateDirectives)																false	false
++	 * @see 	#checkLiveAssociation(String assocID, int version, Session, CorporateDirectives)													false	false
++	 * @see 	#createLiveAssociations(Enumeration, boolean evoke, Session, CorporateDirectives)													false	variable
++	 * @see 	#createLiveAssociation(String assocID, String typeID, String name, String topicID1, String topicID2, Session, CorporateDirectives)	false	true
++	 * @see 	CorporateDirectives#showAssociation																									false	variable
++	 * @see 	CorporateDirectives#changeAssociationType																							true	true
+ 	 */
+-	public void createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke, Session session,
++	void createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke, Session session,
+ 																								CorporateDirectives directives) {
+ 		// ### compare to createLiveTopic(), topicmapID, viewmode, session, directives parameters?
+ 		if (!override &amp;&amp; liveAssociationExists(assoc.getID(), assoc.getVersion())) {
+@@ -737,9 +737,10 @@
+ 	// 2 utility wrapper for createLiveAssociation() above.
+ 
+ 	/**
+-	 * Utility method for the application developer.
+ 	 * Creates a new association. All hooks are triggered.
+ 	 * &lt;p&gt;
++	 * Utility method for the application developer.
++	 * &lt;p&gt;
+ 	 * References checked: 27.9.2007 (2.0b8)
+ 	 *
+ 	 * @see 	de.deepamehta.topics.EmailTopic#evoke
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-03-17 14:53:48 UTC (rev 308)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-03-25 00:22:35 UTC (rev 309)
+@@ -799,11 +799,13 @@
+ 	 * ### since 2.0b6-post3 also triggered for create operation
+ 	 * &lt;p&gt;
+ 	 * The default implementation does nothing.
++	 * &lt;p&gt;
++	 * References checked: 25.3.2008 (2.0b8)
+ 	 *
+ 	 * @param	assocTypeID		the new association type
+ 	 * @param	relTopicID		the other involved topic
+ 	 *
+-	 * @see		de.deepamehta.service.ApplicationService#changeAssociationType
++	 * @see		de.deepamehta.service.ApplicationService#createLiveAssociation
+ 	 */
+ 	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-03-17 14:53:48 UTC (rev 308)
++++ trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-03-25 00:22:35 UTC (rev 309)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 12.2.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 24.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -69,7 +69,7 @@
+ 			BaseTopic ws = as.getDefaultWorkspace(directives);
+ 			if (ws != null) {
+ 				WorkspaceTopic defaultWorkspace = (WorkspaceTopic) as.getLiveTopic(ws);
+-				defaultWorkspace.joinUser(getID(), REVEAL_MEMBERSHIP_WORKSPACE, true, session, directives);
++				defaultWorkspace.joinUser(getID(), REVEAL_MEMBERSHIP_WORKSPACE, session, directives);
+ 			}
+ 			//
+ 			// transfer installation preferences as defaults for new user
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-03-17 14:53:48 UTC (rev 308)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-03-25 00:22:35 UTC (rev 309)
+@@ -21,16 +21,16 @@
+ 
+ /**
+  * A workspace.
+- * &lt;P&gt;
+- * The custom behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is creating the corresponding
++ * &lt;p&gt;
++ * The custom behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is creating the corresponding
+  * topicmap and default chattopic once a new workspace is created.
+  * Furthermore the corresponding topicmap (and chattopic) is renamed once
+- * this &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is renamed.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * this &lt;code&gt;WorkspaceTopic&lt;/code&gt; is renamed.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class WorkspaceTopic extends LiveTopic {
+@@ -105,7 +105,7 @@
+ 		setTopicData(PROPERTY_PUBLIC, SWITCH_OFF);
+ 		setTopicData(PROPERTY_DEFAULT_WORKSPACE, SWITCH_OFF);
+ 		// --- join current user ---
+-		joinUser(session.getUserID(), REVEAL_MEMBERSHIP_NONE, true, session, directives);
++		joinUser(session.getUserID(), REVEAL_MEMBERSHIP_NONE, session, directives);
+ 		//
+ 		return directives;
+ 	}
+@@ -202,9 +202,9 @@
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_JOIN_WORKSPACE)) {
+-			joinUser(session.getUserID(), REVEAL_MEMBERSHIP_USER, true, session, directives);
++			joinUser(session.getUserID(), REVEAL_MEMBERSHIP_USER, session, directives);
+ 		} else if (cmd.equals(CMD_LEAVE_WORKSPACE)) {
+-			leaveUser(session.getUserID(), topicmapID, viewmode, session, directives);
++			leaveUser(session.getUserID(), topicmapID, session, directives);
+ 		} else if (cmd.equals(CMD_ASSIGN_TOPIC_TYPE)) {
+ 			String typeID = st.nextToken();
+ 			assignType(typeID, directives);
+@@ -282,25 +282,40 @@
+ 	}
+ 
+ 	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+-		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		// ### boolean wasMembership = oldTypeID != null &amp;&amp; as.type(oldTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		if (isMembership /* ### &amp;&amp; !wasMembership */) {
++		if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER) &amp;&amp;
++				as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP)) {
+ 			// join
+-			if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
+-				joinUser(relTopicID, REVEAL_MEMBERSHIP_NONE, false, session, directives);
++			String userID = relTopicID;
++			// --- open workspace ---
++			boolean isCurrentUser = userID.equals(session.getUserID());
++			if (isCurrentUser) {
++				BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
++				if (workspace != null) {
++					CorporateTopicMap topicmap = new CorporateTopicMap(as, workspace.getID(), 1);
++					topicmap.createLiveTopicmap(session, directives);
++					//
++					directives.add(DIRECTIVE_SHOW_WORKSPACE, workspace, topicmap, new Integer(EDITOR_CONTEXT_WORKGROUP));
++				}
+ 			}
++			// --- transfer workspace prefernces to user ---
++			directives.add(transferPreferences(userID));
+ 		}
+ 	}
+ 
+ 	public void associationRemoved(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+-		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		if (!isMembership) {
+-			return;
++		if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER) &amp;&amp;
++				as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP)) {
++			// leave
++			String userID = relTopicID;
++			// --- close workspace ---
++			boolean isCurrentUser = userID.equals(session.getUserID());
++			if (isCurrentUser) {
++				BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
++				if (workspace != null) {
++					directives.add(DIRECTIVE_CLOSE_EDITOR, workspace.getID());
++				}
++			}
+ 		}
+-		// leave
+-		if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
+-			leaveUser(relTopicID, null, null, session, directives);		// topicmapID=null, viewmode=null
+-		}
+ 	}
+ 
+ 
+@@ -313,86 +328,62 @@
+ 
+ 	/**
+ 	 * Joins the specified user to this workspace.
+-	 * &lt;P&gt;
+-	 * ### An association (type &lt;CODE&gt;membership&lt;/CODE&gt;) between user and workspace is
+-	 * created and the specified directives are extended to let the client show the
+-	 * topicmap.
+-	 * &lt;P&gt;
+-	 * References checked: 31.3.2003 (2.0a18-pre8)
++	 * &lt;p&gt;
++	 * An association of type &lt;code&gt;ASSOCTYPE_MEMBERSHIP&lt;/code&gt; (or one of its subtypes) is
++	 * created between the user and this workspace.
++	 * &lt;p&gt;
++	 * References checked: 24.3.2008 (2.0b8)
+ 	 *
+-	 * @param	membershipRevealMode	REVEAL_MEMBERSHIP_NONE&lt;BR&gt;
+-	 *									REVEAL_MEMBERSHIP_USER&lt;BR&gt;
++	 * @param	membershipRevealMode	REVEAL_MEMBERSHIP_NONE&lt;br&gt;
++	 *									REVEAL_MEMBERSHIP_USER&lt;br&gt;
+ 	 *									REVEAL_MEMBERSHIP_WORKSPACE
+ 	 *
+ 	 * @see		#evoke
+-	 * @see		#associated
+ 	 * @see		#executeCommand
+ 	 * @see		UserTopic#evoke
++	 * @see		de.deepamehta.kompetenzstern.assocs.KompetenzsternMembership#propertiesChanged
+ 	 */
+-	public void joinUser(String userID, int membershipRevealMode, boolean createMembership,
+-										Session session, CorporateDirectives directives) {
+-		// --- create membership association ---
++	public void joinUser(String userID, int membershipRevealMode, Session session, CorporateDirectives directives) {
++		// ---  association ---
+ 		String assocType = as.getMembershipType(getID(), directives);
+ 		if (membershipRevealMode == REVEAL_MEMBERSHIP_NONE) {
+-			// manipulate CM directly
+-			if (createMembership) {
+-				cm.createAssociation(as.getNewAssociationID(), 1, assocType, 1, userID, 1, getID(), 1);
+-			}
++			// create membership
++			as.createLiveAssociation(as.getNewAssociationID(), assocType, userID, getID(), session, directives);
+ 		} else {
++			// build directives to create membership
+ 			revealMembership(userID, assocType, membershipRevealMode, directives);
+ 		}
+-		// --- open workspace ---
+-		boolean isCurrentUser = userID.equals(session.getUserID());
+-		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+-			if (workspace != null) {
+-				CorporateTopicMap topicmap = new CorporateTopicMap(as, workspace.getID(), 1);
+-				topicmap.createLiveTopicmap(session, directives);
+-				/* topicmap.createLiveTopics(directives, session);
+-				topicmap.createLiveAssociations(session, directives);
+-				topicmap.initLiveTopics(directives, session); */
+-				//
+-				directives.add(DIRECTIVE_SHOW_WORKSPACE, workspace, topicmap, new Integer(EDITOR_CONTEXT_WORKGROUP));
+-			}
+-		}
+-		// --- transfer workspace prefernces to user ---
+-		directives.add(transferPreferences(userID));
++		// Note: two more actions are performed in the associated() hook (see above), which is triggered
++		// as response to the newly created membership association:
++		// 1) add the workspace to the users GUI (provided the user in question is the current user)
++		// 2) transfer the workspaces preferences to the user
+ 	}
+ 
+ 	/**
+ 	 * Specified user leaves this workspace.
+-	 * &lt;P&gt;
+-	 * ### It deletes membership association between user and workspace and hides the workspace's tab
+-	 * immediately (using &lt;CODE&gt;DIRECTIVE_CLOSE_EDITOR&lt;/CODE&gt; directive).
++	 * &lt;p&gt;
++	 * The membership association between the user and this workspace is deleted.
++	 * &lt;p&gt;
++	 * References checked: 24.3.2008 (2.0b8)
+ 	 * 
+-	 * @param	topicmapID		may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	topicmapID		the topicmap from which the origin command was issued
+ 	 *
+-	 * @see		#associationRemoved
+ 	 * @see		#executeCommand
++	 * @see		de.deepamehta.kompetenzstern.assocs.KompetenzsternMembership#propertiesChanged
+ 	 */
+-	public void leaveUser(String userID, String topicmapID, String viewmode,
+-															Session session, CorporateDirectives directives) {
++	public void leaveUser(String userID, String topicmapID, Session session, CorporateDirectives directives) {
+ 		// Note: also subtypes of association type &quot;at-membership&quot; are respected
+ 		Vector subtypes = as.type(SEMANTIC_MEMBERSHIP, 1).getSubtypeIDs();
+ 		Association assoc = cm.getAssociation(subtypes, userID, getID());
+-		// ### error check
++		// error check ### should not happen anymore
+ 		if (assoc == null) {
+ 			throw new DeepaMehtaException(&quot;user \&quot;&quot; + userID + &quot;\&quot; is not a member of workspace \&quot;&quot; + getName() + &quot;\&quot;&quot;);
+ 		}
+ 		//
+-		if (topicmapID != null) {
+-			directives.add(DIRECTIVE_HIDE_ASSOCIATION, assoc.getID(), Boolean.TRUE, topicmapID);
+-		}
+-		// --- close workspace ---
+-		boolean isCurrentUser = userID.equals(session.getUserID());
+-		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+-			if (workspace != null) {
+-				directives.add(DIRECTIVE_CLOSE_EDITOR, workspace.getID());
+-			}
+-		}
+-		// ### directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;User \&quot;&quot; + session.getUserName() +
+-		// ### 	&quot;\&quot; left the workspace \&quot;&quot; + getName() + &quot;\&quot;&quot;, new Integer(NOTIFICATION_DEFAULT));
++		directives.add(DIRECTIVE_HIDE_ASSOCIATION, assoc.getID(), Boolean.TRUE, topicmapID);	// die=TRUE
++		// Note: one more action is performed in the associationRemoved() hook (see above), which is triggered
++		// as response to the deleted membership association:
++		// 1) remove the workspace from the users GUI (provided the user in question is the current user)
+ 	}
+ 
+ 
+@@ -404,6 +395,11 @@
+ 
+ 
+ 	/**
++	 * Builds the directives to create and reveal a membership association between a user and this workspace.
++	 *
++	 * @param	userID		the ID of the user
++	 * @param	assocType	the ID of the association type. &lt;code&gt;ASSOCTYPE_MEMBERSHIP&lt;/code&gt; or one of its subtypes.
++	 *
+ 	 * @see		#joinUser
+ 	 */
+ 	private void revealMembership(String userID, String assocType, int membershipRevealMode,
+@@ -429,7 +425,7 @@
+ 
+ 	/**
+ 	 * Transfers workspace preferences as defaults for the specified user.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 2.4.2003 (2.0a18-pre8)
+ 	 *
+ 	 * @see		#joinUser
+@@ -439,8 +435,7 @@
+ 		//
+ 		// ### compare to UserTopic.evoke()
+ 		Vector prefs = as.getPreferences(getID());
+-		System.out.println(&quot;&gt;&gt;&gt; transfer &quot; + prefs.size() + &quot; workspace preferences of &quot; +
+-			this + &quot; to user \&quot;&quot; + userID + &quot;\&quot;&quot;);
++		System.out.println(&quot;&gt;&gt;&gt; transfer &quot; + prefs.size() + &quot; workspace preferences of &quot; + this + &quot; to user \&quot;&quot; + userID + &quot;\&quot;&quot;);
+ 		as.setUserPreferences(userID, prefs, directives);
+ 		//
+ 		return directives;
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java	2008-03-17 14:53:48 UTC (rev 308)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java	2008-03-25 00:22:35 UTC (rev 309)
+@@ -15,11 +15,11 @@
+ 
+ /**
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 10.6.2003 (2.0b1)&lt;BR&gt;
+- * Last documentation update: 29.3.2003 (2.0a18-pre8)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 24.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 29.3.2003 (2.0a18-pre8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class KompetenzsternMembership extends LiveAssociation implements KS {
+@@ -63,28 +63,10 @@
+ 			String userID = getTopicID1();
+ 			WorkspaceTopic workspace = (WorkspaceTopic) as.getLiveTopic(WORKSPACE_TEMPLATE_BUILDER, 1);
+ 			if (prop.equals(SWITCH_ON)) {
+-				workspace.joinUser(userID, REVEAL_MEMBERSHIP_NONE, true, session, directives);	// createMembership=true
++				workspace.joinUser(userID, REVEAL_MEMBERSHIP_NONE, session, directives);
+ 			} else {
+-				workspace.leaveUser(userID, topicmapID, viewmode, session, directives);
++				workspace.leaveUser(userID, topicmapID, session, directives);
+ 			}
+-			// ### DOESN'T WORK FOR MORE THAN ONE TEMPLATE BUILDER
+-			/* String memberID = getTopicID1();
+-			String workspaceID = as.getWorkspaceTopicmap(memberID, directives).getID();
+-			System.out.println(&quot;&gt;&gt;&gt; role of user \&quot;&quot; + memberID + &quot;\&quot; changed, personal workspace is \&quot;&quot; + workspaceID + &quot;\&quot;&quot;);
+-			if (memberID.equals(session.getUserID())) {
+-				if (prop.equals(SWITCH_ON)) {
+-					PresentableTopic template = as.createPresentableTopic(TEMPLATE_STANDARD, 1);	// throws DME ### version=1
+-					directives.add(DIRECTIVE_SHOW_TOPIC, template, Boolean.FALSE, workspaceID, VIEWMODE_USE);
+-				} else {
+-					directives.add(DIRECTIVE_HIDE_TOPIC, TEMPLATE_STANDARD, Boolean.FALSE, workspaceID, VIEWMODE_USE);
+-				}
+-			} else {
+-				if (prop.equals(SWITCH_ON)) {
+-					as.createViewTopic(workspaceID, 1, VIEWMODE_USE, TEMPLATE_STANDARD, 1, 100, 80, true);	// ### geometry
+-				} else {
+-					as.deleteViewTopic(workspaceID, VIEWMODE_USE, TEMPLATE_STANDARD);
+-				}
+-			} */
+ 		}
+ 		//
+ 		return directives;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000153.html">[deepamehta-svn] r308 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000155.html">[deepamehta-svn] r310 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

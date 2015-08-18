@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r377%20-%20branches/apps/install/apps/dmrpc/config&In-Reply-To=%3C200909212338.n8LNcaRu014356%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000220.html">
+   <LINK REL="Next"  HREF="000222.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r377%20-%20branches/apps/install/apps/dmrpc/config&In-Reply-To=%3C200909212338.n8LNcaRu014356%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 22 01:38:36 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000220.html">[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta
+</A></li>
+        <LI>Next message: <A HREF="000222.html">[deepamehta-svn] r378 - in branches/apps: .	develop/src/de/deepamehta/client	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/apps	install/apps/dm-twitter install/apps/dmrpc	install/apps/dmrpc/config install/apps/infoTouch	install/apps/latexTopic install/apps/pdfTopic libs libs/endorsed
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#221">[ date ]</a>
+              <a href="thread.html#221">[ thread ]</a>
+              <a href="subject.html#221">[ subject ]</a>
+              <a href="author.html#221">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-09-22 01:38:32 +0200 (Tue, 22 Sep 2009)
+New Revision: 377
+
+Added:
+   branches/apps/install/apps/dmrpc/config/web.xml
+Log:
+committing omitted web.xml file
+
+Added: branches/apps/install/apps/dmrpc/config/web.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/config/web.xml	2009-09-21 23:37:31 UTC (rev 376)
++++ branches/apps/install/apps/dmrpc/config/web.xml	2009-09-21 23:38:32 UTC (rev 377)
+@@ -0,0 +1,100 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++&lt;!DOCTYPE web-app PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot; &quot;<A HREF="http://java.sun.com/dtd/web-app_2_3.dtd">http://java.sun.com/dtd/web-app_2_3.dtd</A>&quot;&gt;
++&lt;web-app&gt;
++
++	&lt;!-- General description of the web application --&gt;
++
++	&lt;display-name&gt;DeepaMehta RPC&lt;/display-name&gt;
++	&lt;description&gt;Nichmal 1.0
++		Written by J&#246;rg Richter (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>)&lt;/description&gt;
++
++	&lt;!-- Context initialization parameters that define shared
++		 String constants used within your application, which
++		 can be customized by the system administrator who is
++		 installing your application.
++	--&gt;
++
++	&lt;context-param&gt;
++		&lt;param-name&gt;service&lt;/param-name&gt;
++		&lt;!-- &lt;param-value&gt;kiezbox&lt;/param-value&gt; --&gt; &lt;!-- mre's local kiezatlas instance --&gt;
++		&lt;!-- &lt;param-value&gt;mysql5&lt;/param-value&gt; --&gt; &lt;!-- jri's default instance --&gt;
++		&lt;param-value&gt;mysql5&lt;/param-value&gt; &lt;!-- www.kiezatlas.de production instance--&gt;
++		&lt;description&gt;Selects a DeepaMehta service.
++			If this parameter is not set the &quot;default&quot; service will be used.
++			To configure DeepaMehta services see the file install/client/dms.rc&lt;/description&gt;
++	&lt;/context-param&gt;
++
++	&lt;context-param&gt;
++		&lt;param-name&gt;generator&lt;/param-name&gt;
++		&lt;param-value&gt;jsp&lt;/param-value&gt;
++		&lt;description&gt;
++			Selects the HTML generator method.
++			Supported values are &quot;jsp&quot; (default) and &quot;xslt&quot; (experimental)
++		&lt;/description&gt;
++	&lt;/context-param&gt;
++
++	&lt;!-- Servlet definitions for the servlets that make up
++		 the web application.
++	--&gt;
++
++
++
++
++
++
++
++	&lt;servlet&gt;
++		&lt;servlet-name&gt;List Servlet&lt;/servlet-name&gt;
++		&lt;description&gt;List Servlet Controller&lt;/description&gt;
++		&lt;servlet-class&gt;de.kiezatlas.deepamehta.ListServlet&lt;/servlet-class&gt;
++	&lt;/servlet&gt;
++
++
++
++
++	&lt;servlet&gt;
++		&lt;servlet-name&gt;MyDeepaMehta RPC Servlet&lt;/servlet-name&gt;
++		&lt;description&gt;For JSON RPC Calls
++&lt;/description&gt;
++		&lt;servlet-class&gt;de.rpc.deepamehta.WebServlet&lt;/servlet-class&gt;
++	&lt;/servlet&gt;
++
++    &lt;!-- Define mappings that are used by the servlet container to
++		 translate a particular request URI (context-relative) to a
++		 particular servlet.
++	--&gt;
++
++
++
++
++
++
++
++
++
++
++
++	&lt;servlet-mapping&gt;
++		&lt;servlet-name&gt;List Servlet&lt;/servlet-name&gt;
++		&lt;url-pattern&gt;/list/*&lt;/url-pattern&gt;
++	&lt;/servlet-mapping&gt;
++
++
++
++
++    &lt;servlet-mapping&gt;
++		&lt;servlet-name&gt;MyDeepaMehta RPC Servlet&lt;/servlet-name&gt;
++		&lt;url-pattern&gt;/rpc/*&lt;/url-pattern&gt;
++	&lt;/servlet-mapping&gt;
++
++	&lt;!-- Define the default session timeout for your application,
++		 in minutes.
++	--&gt;
++
++    
++
++    &lt;session-config&gt;
++		&lt;session-timeout&gt;120&lt;/session-timeout&gt;
++	&lt;/session-config&gt;
++
++&lt;/web-app&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000220.html">[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta
+</A></li>
+	<LI>Next message: <A HREF="000222.html">[deepamehta-svn] r378 - in branches/apps: .	develop/src/de/deepamehta/client	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/apps	install/apps/dm-twitter install/apps/dmrpc	install/apps/dmrpc/config install/apps/infoTouch	install/apps/latexTopic install/apps/pdfTopic libs libs/endorsed
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#221">[ date ]</a>
+              <a href="thread.html#221">[ thread ]</a>
+              <a href="subject.html#221">[ subject ]</a>
+              <a href="author.html#221">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

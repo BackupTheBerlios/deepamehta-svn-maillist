@@ -1,0 +1,650 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r159%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09install/examples/dm-browser/src/de/deepamehta/browser%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend&In-Reply-To=%3C200706071623.l57GNu2N005732%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000003.html">
+   <LINK REL="Next"  HREF="000005.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r159%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09install/examples/dm-browser/src/de/deepamehta/browser%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend&In-Reply-To=%3C200706071623.l57GNu2N005732%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Jun  7 18:23:56 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000003.html">[deepamehta-svn] r158 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+        <LI>Next message: <A HREF="000005.html">[deepamehta-svn] r160 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-06-07 18:23:30 +0200 (Thu, 07 Jun 2007)
+New Revision: 159
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/UserTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java
+   trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+Log:
+Extended access control: 2 new roles: 'Editor' and 'Publisher'
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -130,9 +130,9 @@
+ 	static final String PROPERTY_ORDINAL_NUMBER = &quot;Ordinal Number&quot;;
+ 	static final String PROPERTY_ACCESS_PERMISSION = &quot;Access Permission&quot;;
+ 	static final String PROPERTY_CARDINALITY = &quot;Cardinality&quot;;
+-	static final String PROPERTY_ASSOCIATION_TYPE_ID = &quot;Association Type ID&quot;;	// &quot;relation&quot;
+-	static final String PROPERTY_WEB_INFO = &quot;Web Info&quot;;						// &quot;relation&quot;
+-	static final String PROPERTY_WEB_FORM = &quot;Web Form&quot;;					// &quot;relation&quot;
++	static final String PROPERTY_ASSOCIATION_TYPE_ID = &quot;Association Type ID&quot;;	// &quot;Relation&quot;
++	static final String PROPERTY_WEB_INFO = &quot;Web Info&quot;;							// &quot;Relation&quot;
++	static final String PROPERTY_WEB_FORM = &quot;Web Form&quot;;							// &quot;Relation&quot;
+ 	// ### static final String PROPERTY_STRONG = &quot;Strong&quot;;
+ 	static final String PROPERTY_PUBLIC = &quot;Public&quot;;
+ 	static final String PROPERTY_DEFAULT_WORKSPACE = &quot;Default&quot;;
+@@ -143,6 +143,8 @@
+ 	static final String PROPERTY_SEARCH = &quot;Search&quot;;								// &quot;TopicSearch&quot;
+ 	static final String PROPERTY_RELATED_TOPIC_ID = &quot;RelatedTopicID&quot;;			// &quot;Search&quot;
+ 	static final String PROPERTY_RELATED_TOPIC_SEMANTIC = &quot;AssociationTypeID&quot;;	// &quot;Search&quot;
++	static final String PROPERTY_ROLE_EDITOR = &quot;Editor&quot;;						// &quot;Membership&quot;
++	static final String PROPERTY_ROLE_PUBLISHER = &quot;Publisher&quot;;					// &quot;Membership&quot;
+ 	// property values
+ 	static final String PERMISSION_VIEW = &quot;view&quot;;
+ 	static final String PERMISSION_CREATE = &quot;create&quot;;
+@@ -547,15 +549,15 @@
+ 
+ 
+ 
+-	// direction is from origin view to personal view
++	// direction is from origin topic map to personal topic map
+ 	static final String SEMANTIC_ORIGIN_MAP = ASSOCTYPE_DERIVATION;
+ 
+-	// direction is from personal view to workgroup
++	// direction is from personal topic map to workspace
+ 	static final String SEMANTIC_ORIGIN_WORKSPACE = ASSOCTYPE_PUBLISHING;
+ 
+ 	// *** User --&gt; Workgroup, Workspace, Configuration Map ***
+ 
+-	// direction is from user to workgroup
++	// direction is from user to workspace
+ 	static final String SEMANTIC_MEMBERSHIP = ASSOCTYPE_MEMBERSHIP;
+ 
+ 	// direction is from user to MIME Configuration
+@@ -564,7 +566,7 @@
+ 	// direction is from user to email address
+ 	static final String SEMANTIC_EMAIL_ADDRESS = ASSOCTYPE_ASSOCIATION;
+ 
+-	// direction is from user to view
++	// direction is from user to topic map
+ 	static final String SEMANTIC_VIEW_IN_USE = ASSOCTYPE_VIEW_IN_USE;
+ 
+ 	// direction is from authentification source to login topic
+@@ -580,10 +582,10 @@
+ 
+ 	// *** Workgroup resp. User --&gt; Type ***
+ 
+-	// direction is from user resp. workgroup to topic type
+-	static final String SEMANTIC_WORKGROUP_TYPES = ASSOCTYPE_USES;
++	// direction is from user resp. workspace to topic type
++	static final String SEMANTIC_WORKSPACE_TYPES = ASSOCTYPE_USES;
+ 
+-	// direction is from workgroup to association type
++	// direction is from workspace to association type
+ 	static final String SEMANTIC_MEMBERSHIP_TYPE = ASSOCTYPE_ASSOCIATION;
+ 
+ 	// *** Document Type --&gt; MIME Type --&gt; Application ***
+@@ -631,7 +633,7 @@
+ 
+ 	// *** Preferences ***
+ 
+-	// direction is from user resp. workgroup to somewhat
++	// direction is from user resp. workspace to somewhat
+ 	static final String SEMANTIC_PREFERENCE = ASSOCTYPE_PREFERENCE;
+ 
+ 	// ---
+@@ -670,7 +672,7 @@
+ 	static final int REQUEST_EXEC_ASSOC_COMMAND_CHAINED = 8;
+ 	static final int REQUEST_PROCESS_ASSOC_DETAIL = 9;
+ 	static final int REQUEST_SET_ASSOC_DATA = 10;
+-	// --- view requests ---
++	// --- topic map requests ---
+ 	static final int REQUEST_SET_GEOMETRY = 11;		// ### should be a message
+ 	static final int REQUEST_SET_TRANSLATION = 12;	// ### should be a message
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -50,7 +50,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1128,14 +1128,23 @@
+ 
+ 	// ---
+ 
++	/**
++	 * @see		retypeTopicIsAllowed
++	 * @see		deleteTopicIsAllowed
++	 * @see		de.deepamehta.topics.LiveTopic#disabledProperties
++	 */
+ 	public boolean isTopicOwner(String topicID, Session session) {
+ 		String userID = session.getUserID();
+-		return getTopicProperty(topicID, 1, PROPERTY_OWNER_ID).equals(userID) || isAdministrator(userID);
++		return getTopicProperty(topicID, 1, PROPERTY_OWNER_ID).equals(userID);
+ 	}
+ 
++	/**
++	 * @see		retypeAssociationIsAllowed
++	 * @see		deleteAssociationIsAllowed
++	 */
+ 	public boolean isAssocOwner(String assocID, Session session) {
+ 		String userID = session.getUserID();
+-		return getAssocProperty(assocID, 1, PROPERTY_OWNER_ID).equals(userID) || isAdministrator(userID);
++		return getAssocProperty(assocID, 1, PROPERTY_OWNER_ID).equals(userID);
+ 	}
+ 
+ 	// ---
+@@ -1150,12 +1159,14 @@
+ 		TypeTopic type = type(getLiveTopic(topicID, version));
+ 		boolean isSearch = type.isSearchType();
+ 		boolean isTopicmap = type.hasSupertype(TOPICTYPE_TOPICMAP);
+-		return !isSearch &amp;&amp; !isTopicmap &amp;&amp; isTopicOwner(topicID, session);
++		String userID = session.getUserID();
++		return !isSearch &amp;&amp; !isTopicmap &amp;&amp; (isTopicOwner(topicID, session) || isAdministrator(userID));
+ 	}
+ 
+ 	boolean retypeAssociationIsAllowed(String assocID, int version, Session session) {
+ 		boolean isSearch = type(getLiveAssociation(assocID, version)).isSearchType();
+-		return !isSearch &amp;&amp; isAssocOwner(assocID, session);
++		String userID = session.getUserID();
++		return !isSearch &amp;&amp; (isAssocOwner(assocID, session) || isAdministrator(userID));
+ 	}
+ 
+ 	// ---
+@@ -1164,14 +1175,16 @@
+ 		// --- trigger deleteAllowed() hook ---
+ 		boolean allowed = getLiveTopic(topic).deleteAllowed(session);
+ 		//
+-		return allowed &amp;&amp; isTopicOwner(topic.getID(), session);
++		String userID = session.getUserID();
++		return allowed &amp;&amp; (isTopicOwner(topic.getID(), session) || isAdministrator(userID));
+ 	}
+ 
+ 	boolean deleteAssociationIsAllowed(BaseAssociation assoc, Session session) {
+ 		// ### --- trigger deleteAllowed() hook ---
+ 		// ### boolean allowed = getLiveTopic(topic).deleteAllowed(session);
+ 		//
+-		return isAssocOwner(assoc.getID(), session);
++		String userID = session.getUserID();
++		return isAssocOwner(assoc.getID(), session) || isAdministrator(userID);
+ 	}
+ 
+ 	// --- setTopicProperty (2 forms) ---
+@@ -2370,7 +2383,7 @@
+ 	/**
+ 	 * Returns all workspaces the specified user is a member of.
+ 	 * &lt;P&gt;
+-	 * References checked: 15.2.2005 (2.0b5)
++	 * References checked: 7.6.2007 (2.0b8)
+ 	 *
+ 	 * @return	The workspaces as vector of {@link de.deepamehta.BaseTopic}s
+ 	 *			(type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+@@ -2383,8 +2396,9 @@
+ 	 * @see		de.deepamehta.topics.LiveTopic#handleWorkspaceCommand
+ 	 * @see		de.deepamehta.topics.UserTopic#contextCommands
+ 	 * @see		de.deepamehta.browser.BrowserServlet#preparePage
++	 * @see		de.deepamehta.webfrontend.WebFrontendServlet#preparePage
+ 	 */
+-	public Vector getWorkgroups(String userID) {
++	public Vector getWorkspaces(String userID) {
+ 		// Note: also subtypes of association type &quot;at-membership&quot; are respected
+ 		Vector subtypes = type(SEMANTIC_MEMBERSHIP, 1).getSubtypeIDs();
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; respect &quot; + subtypes.size() + &quot; association subtypes ...&quot;);
+@@ -2435,7 +2449,7 @@
+ 			assocProp = PROPERTY_ACCESS_PERMISSION;
+ 			propValue = permissionMode;
+ 		}
+-		return cm.getRelatedTopics(id, SEMANTIC_WORKGROUP_TYPES, TOPICTYPE_TOPICTYPE, 2, assocProp, propValue, true);
++		return cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_TOPICTYPE, 2, assocProp, propValue, true);
+ 		// sortAssociations=true
+ 	}
+ 
+@@ -2462,7 +2476,7 @@
+ 			assocProp = PROPERTY_ACCESS_PERMISSION;
+ 			propValue = permissionMode;
+ 		}
+-		return cm.getRelatedTopics(id, SEMANTIC_WORKGROUP_TYPES, TOPICTYPE_ASSOCTYPE, 2, assocProp, propValue, true);
++		return cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_ASSOCTYPE, 2, assocProp, propValue, true);
+ 		// sortAssociations=true
+ 	}
+ 
+@@ -2643,6 +2657,18 @@
+ 		return cm.getAssociationData(assoc.getID(), assoc.getVersion(), rolename).equals(SWITCH_ON);
+ 	}
+ 
++	public boolean hasEditorRole(String userID, String typeID) {
++		Vector workspaces = cm.getRelatedTopics(typeID, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_WORKSPACE, 1);
++		Enumeration e = workspaces.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic workspace = (BaseTopic) e.nextElement();
++			if (hasRole(userID, workspace.getID(), PROPERTY_ROLE_EDITOR)) {
++				return true;
++			}
++		}
++		return false;
++	}
++
+ 	public boolean isViewOpen(String viewID, String userID) {
+ 		return associationExists(userID, viewID, SEMANTIC_VIEW_IN_USE);
+ 	}
+@@ -4023,7 +4049,7 @@
+ 	 * @see		#startSession
+ 	 */
+ 	private void addGroupWorkspaces(Session session, CorporateDirectives directives) {
+-		Enumeration e = getWorkgroups(session.getUserID()).elements();
++		Enumeration e = getWorkspaces(session.getUserID()).elements();
+ 		while (e.hasMoreElements()) {
+ 			PresentableTopic groupWorkspace;
+ 			try {
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -24,7 +24,7 @@
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 9.10.2001 (2.0a12)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -126,43 +126,50 @@
+ 	 */
+ 	public void addPublishCommand(String topicmapID, Session session, CorporateDirectives directives) {
+ 		String userID = session.getUserID();
+-		String workgroupID;
++		String workspaceID;
++		int cmdState;
+ 		Commands commandGroup = addCommandGroup(as.string(ITEM_PUBLISH), FILESERVER_IMAGES_PATH, ICON_PUBLISH);
+-		BaseTopic workgroup = as.getOriginWorkspace(topicmapID);
+-		if (workgroup == null) {
++		BaseTopic workspace = as.getOriginWorkspace(topicmapID);
++		if (workspace == null) {
+ 			// this topicmap has been created in the users personal workspace originally -- it was never
+-			// published. Publishing policy is as follows: it can be published to all worspaces the user
+-			// has joined as well as to the default workspace if the user is an administrator
++			// published. Publishing policy is as follows: it can be published to all workspaces the user
++			// is a member of and has the &quot;Publisher&quot; role.
+ 			//
+ 			// enable publishing to users default workspace first
+ 			BaseTopic defaultWorkspace = as.getUsersDefaultWorkspace(userID, directives);
+ 			String defaultWorkspaceID = null;
+ 			if (defaultWorkspace != null) {
+-				workgroupID = defaultWorkspace.getID();
+-				defaultWorkspaceID = workgroupID;
+-				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace));
++				workspaceID = defaultWorkspace.getID();
++				defaultWorkspaceID = workspaceID;
++				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace), cmdState);
+ 				commandGroup.addSeparator();	// ### conditional
+ 			}
+ 			// enable publishing to other workspaces the user is a member of
+-			Vector workgroups = as.getWorkgroups(userID);
+-			Enumeration e = workgroups.elements();
++			Vector workspaces = as.getWorkspaces(userID);
++			Enumeration e = workspaces.elements();
+ 			while (e.hasMoreElements()) {
+-				BaseTopic workgroupTopic = (BaseTopic) e.nextElement();
+-				workgroupID = workgroupTopic.getID();
++				BaseTopic workspaceTopic = (BaseTopic) e.nextElement();
++				workspaceID = workspaceTopic.getID();
+ 				// skip default workspace
+-				if (workgroupID.equals(defaultWorkspaceID)) {
++				if (workspaceID.equals(defaultWorkspaceID)) {
+ 					continue;
+ 				}
+-				commandGroup.addCommand(workgroupTopic.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-					FILESERVER_ICONS_PATH, as.getIconfile(workgroupTopic));
++				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				commandGroup.addCommand(workspaceTopic.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++					FILESERVER_ICONS_PATH, as.getIconfile(workspaceTopic), cmdState);
+ 			}
+ 		} else {
+ 			// this topicmap is a personalized view originating from a shared workspace -- it can be published
+-			// &quot;back&quot; to its original workspace. Note: also the default workspace is a shared workspace.
+-			workgroupID = workgroup.getID();
+-			commandGroup.addCommand(workgroup.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-				FILESERVER_ICONS_PATH, as.getIconfile(workgroup));
++			// &quot;back&quot; to its original workspace.
++			workspaceID = workspace.getID();
++			cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++				COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++			commandGroup.addCommand(workspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++				FILESERVER_ICONS_PATH, as.getIconfile(workspace), cmdState);
+ 		}
+ 	}
+ 
+@@ -616,18 +623,18 @@
+ 			}
+ 			addTopicTypeCommands(commandsGroup, types, command, usePluralName);
+ 		}
+-		// --- add workgroup types ---
+-		Vector workgroups = as.getWorkgroups(userID);
+-		Enumeration e = workgroups.elements();
++		// --- add workspace types ---
++		Vector workspaces = as.getWorkspaces(userID);
++		Enumeration e = workspaces.elements();
+ 		boolean first = true;
+ 		while (e.hasMoreElements()) {
+-			BaseTopic workgroup = (BaseTopic) e.nextElement();
++			BaseTopic workspace = (BaseTopic) e.nextElement();
+ 			// skip default workspace
+-			if (workgroup.getID().equals(defaultWorkspaceID)) {
++			if (workspace.getID().equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+ 			//
+-			types = as.getTopicTypes(workgroup.getID(), permissionMode);
++			types = as.getTopicTypes(workspace.getID(), permissionMode);
+ 			if (!types.isEmpty()) {
+ 				if (first) {
+ 					if (!commandsGroup.isEmpty()) {
+@@ -636,8 +643,8 @@
+ 					first = false;
+ 				}
+ 				// create sub menu
+-				Commands cmdGroup = commandsGroup.addCommandGroup(workgroup.getName(),
+-					FILESERVER_ICONS_PATH, as.getLiveTopic(workgroup).getIconfile());
++				Commands cmdGroup = commandsGroup.addCommandGroup(workspace.getName(),
++					FILESERVER_ICONS_PATH, as.getLiveTopic(workspace).getIconfile());
+ 				addTopicTypeCommands(cmdGroup, types, command, usePluralName);
+ 			}
+ 		}
+@@ -674,17 +681,17 @@
+ 			// add association type commands
+ 			addAssocTypeCommands(commandsGroup, types, command, usePluralName);
+ 		}
+-		// --- add workgroup types ---
+-		Vector workgroups = as.getWorkgroups(userID);
+-		Enumeration e = workgroups.elements();
++		// --- add workspace types ---
++		Vector workspaces = as.getWorkspaces(userID);
++		Enumeration e = workspaces.elements();
+ 		boolean first = true;
+ 		while (e.hasMoreElements()) {
+-			BaseTopic workgroup = (BaseTopic) e.nextElement();
++			BaseTopic workspace = (BaseTopic) e.nextElement();
+ 			// skip default workspace
+-			if (workgroup.getID().equals(defaultWorkspaceID)) {
++			if (workspace.getID().equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+-			types = as.getAssociationTypes(workgroup.getID(), permissionMode);
++			types = as.getAssociationTypes(workspace.getID(), permissionMode);
+ 			if (!types.isEmpty()) {
+ 				if (first) {
+ 					if (!commandsGroup.isEmpty()) {
+@@ -693,8 +700,8 @@
+ 					first = false;
+ 				}
+ 				// create sub menu
+-				Commands cmdGroup = commandsGroup.addCommandGroup(workgroup.getName(),
+-					FILESERVER_ICONS_PATH, as.getLiveTopic(workgroup).getIconfile());
++				Commands cmdGroup = commandsGroup.addCommandGroup(workspace.getName(),
++					FILESERVER_ICONS_PATH, as.getLiveTopic(workspace).getIconfile());
+ 				addAssocTypeCommands(cmdGroup, types, command, usePluralName);
+ 			}
+ 		}
+@@ -720,14 +727,14 @@
+ 			types = as.getTopicTypes(defaultWorkspaceID, PERMISSION_CREATE_IN_WORKSPACE);
+ 			addWorkspaceTopicTypeCommands(types, session, directives);
+ 		}
+-		// --- add workgroup types ---
+-		Enumeration e = as.getWorkgroups(userID).elements();
++		// --- add workspace types ---
++		Enumeration e = as.getWorkspaces(userID).elements();
+ 		while (e.hasMoreElements()) {
+-			String workgroupID = ((BaseTopic) e.nextElement()).getID();
+-			if (workgroupID.equals(defaultWorkspaceID)) {
++			String workspaceID = ((BaseTopic) e.nextElement()).getID();
++			if (workspaceID.equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+-			types = as.getTopicTypes(workgroupID, PERMISSION_CREATE_IN_WORKSPACE);
++			types = as.getTopicTypes(workspaceID, PERMISSION_CREATE_IN_WORKSPACE);
+ 			addWorkspaceTopicTypeCommands(types, session, directives);
+ 		}
+ 		// --- add user types ---
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -349,7 +349,7 @@
+ 	/**
+ 	 * @return	vector of {@link de.deepamehta.BaseTopic}
+ 	 *
+-	 * @see		ApplicationService#getWorkgroups
++	 * @see		ApplicationService#getWorkspaces
+ 	 * @see		ApplicationService#workgroupMembers
+ 	 */
+ 	public Vector getRelatedTopics(String topicID, Vector assocTypes, int relTopicPos) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -41,16 +41,14 @@
+  * to the {@link CorporateMemory}.
+  * &lt;P&gt;
+  * The baseclass of the DeepaMehta Application Framework.
+- * &lt;P&gt;
+  * This class provides the hooks where application programmers &quot;hook in&quot; the application
+  * specific behavoir.
+- * &lt;P&gt;
+- * The active topics making up the application may be build upon DeepaMehta's standard
++ * The custom implementations making up the application may be build upon DeepaMehta's standard
+  * topics as building blocks, thus application programmers directly or indirectly derive
+  * their topics from &lt;CODE&gt;LiveTopic&lt;/CODE&gt;.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 26.5.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last sourcecode change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -692,11 +690,16 @@
+ 
+ 	/**
+ 	 * Applications can use this hook to disable certain properties of this live topics
+-	 * type definition. Disabled properties are visible but not changable by the user.
++	 * type definition. Disabled properties are visible but not editable by the user.
+ 	 * &lt;P&gt;
+-	 * ### The default implementation disables no properties.
++	 * This hook can be utilized to implement an access control mechanism.
++	 * The default implementation realizes the following rule: a topic is only editable
++	 * if the current user
++	 * 1) is the owner of the topic, or&lt;br&gt;
++	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
++	 * 3) has the &quot;Editor&quot; role within a workspace the resp. topic type is assigned to.
+ 	 * &lt;P&gt;
+-	 * This hook is triggered every time this live topic is selected.
++	 * This hook is triggered every time this topic is selected.
+ 	 *
+ 	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
+ 	 *
+@@ -706,7 +709,9 @@
+ 		Vector disabledProps = new Vector();
+ 		//
+ 		TypeTopic type = as.type(this);
+-		if (!type.isSearchType() &amp;&amp; !as.isTopicOwner(getID(), session)) {
++		String userID = session.getUserID();
++		if (!type.isSearchType() &amp;&amp; !as.isTopicOwner(getID(), session) &amp;&amp;
++									!as.isAdministrator(userID) &amp;&amp; !as.hasEditorRole(userID, getType())) {
+ 			// disable all properties
+ 			Enumeration e = type.getTypeDefinition().elements();
+ 			while (e.hasMoreElements()) {
+@@ -1753,7 +1758,7 @@
+ 		Vector types = as.getTopicTypes(corpGroup.getID(), PERMISSION_CREATE_IN_WORKSPACE);
+ 		directives.add(handleWorkspaceCommand(command, types, session, topicmapID, viewmode)); */
+ 		// --- handle workgroup types ---
+-		Enumeration e = as.getWorkgroups(userID).elements();
++		Enumeration e = as.getWorkspaces(userID).elements();
+ 		while (e.hasMoreElements()) {
+ 			String workgroupID = ((BaseTopic) e.nextElement()).getID();
+ 			/* ### if (workgroupID.equals(corpGroup.getID())) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -324,7 +324,7 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		// --- assign type to user ---
+ 		String assocID = as.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKGROUP_TYPES, 1, session.getUserID(), 1, getID(), 1);
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TYPES, 1, session.getUserID(), 1, getID(), 1);
+ 		cm.setAssociationData(assocID, 1, PROPERTY_ACCESS_PERMISSION, PERMISSION_CREATE);
+ 		//
+ 		return super.evoke(session, topicmapID, viewmode);
+
+Modified: trunk/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/UserTopic.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/topics/UserTopic.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -123,7 +123,7 @@
+ 		//
+ 		// --- &quot;Set Standard Workspace&quot; ---
+ 		String userID = getID();
+-		Vector workspaces = as.getWorkgroups(userID);
++		Vector workspaces = as.getWorkspaces(userID);
+ 		// ### compare to as.getUsersDefaultWorkspace()
+ 		BaseTopic standardWorkspace = as.getRelatedTopic(userID, SEMANTIC_PREFERENCE, TOPICTYPE_WORKSPACE, 2, true);	// emptyAllowed=true
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -456,7 +456,7 @@
+ 	private void assignType(String typeID, CorporateDirectives directives) {
+ 		PresentableTopic type = new PresentableTopic(as.getLiveTopic(typeID, 1), getID());
+ 		PresentableAssociation assoc = as.createPresentableAssociation(
+-			SEMANTIC_WORKGROUP_TYPES, getID(), getVersion(), typeID, 1, false);
++			SEMANTIC_WORKSPACE_TYPES, getID(), getVersion(), typeID, 1, false);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, type);
+ 		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
+ 	}
+
+Modified: trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java
+===================================================================
+--- trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -67,7 +67,7 @@
+ 
+ 	protected void preparePage(String page, RequestParameter params, Session session) {
+ 		if (page.equals(PAGE_HOME)) {
+-			session.setAttribute(&quot;workspaces&quot;, as.getWorkgroups(getUserID(session)));
++			session.setAttribute(&quot;workspaces&quot;, as.getWorkspaces(getUserID(session)));
+ 		} else if (page.equals(PAGE_TOPIC_LIST)) {
+ 			String mode = getMode(session);
+ 			if (mode == MODE_BY_NAME) {
+
+Modified: trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+===================================================================
+--- trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2007-06-07 11:13:45 UTC (rev 158)
++++ trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2007-06-07 16:23:30 UTC (rev 159)
+@@ -69,7 +69,7 @@
+ 		if (page.equals(PAGE_HOME)) {
+ 			session.setAttribute(&quot;baseURL&quot;, as.getCorporateWebBaseURL());
+ 			//
+-			Vector workspaces = as.getWorkgroups(getUserID(session));
++			Vector workspaces = as.getWorkspaces(getUserID(session));
+ 			session.setAttribute(&quot;workspaces&quot;, createTopicBeans(workspaces));
+ 		} else if (page.equals(PAGE_TOPIC_LIST)) {
+ 			String mode = getMode(session);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000003.html">[deepamehta-svn] r158 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+	<LI>Next message: <A HREF="000005.html">[deepamehta-svn] r160 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

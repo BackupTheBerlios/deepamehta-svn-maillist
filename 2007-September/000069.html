@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r224 - in trunk/install: config db/db-specific	examples/movies/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r224%20-%20in%20trunk/install%3A%20config%20db/db-specific%0A%09examples/movies/config&In-Reply-To=%3C200709211720.l8LHKoCV014243%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000068.html">
+   <LINK REL="Next"  HREF="000070.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r224 - in trunk/install: config db/db-specific	examples/movies/config</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r224%20-%20in%20trunk/install%3A%20config%20db/db-specific%0A%09examples/movies/config&In-Reply-To=%3C200709211720.l8LHKoCV014243%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r224 - in trunk/install: config db/db-specific	examples/movies/config">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 21 19:20:50 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000068.html">[deepamehta-svn] r223 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config	install/db/db-specific install/examples/movies/config
+</A></li>
+        <LI>Next message: <A HREF="000070.html">[deepamehta-svn] r225 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#69">[ date ]</a>
+              <a href="thread.html#69">[ thread ]</a>
+              <a href="subject.html#69">[ subject ]</a>
+              <a href="author.html#69">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-21 19:20:33 +0200 (Fri, 21 Sep 2007)
+New Revision: 224
+
+Added:
+   trunk/install/config/build-mysql4.properties
+   trunk/install/config/dm-mysql4.properties
+   trunk/install/db/db-specific/db_tables_mysql4.sql
+   trunk/install/examples/movies/config/movies-mysql4.properties
+Log:
+MySQL 4 Compatibility
+
+Added: trunk/install/config/build-mysql4.properties
+===================================================================
+--- trunk/install/config/build-mysql4.properties	2007-09-21 17:16:49 UTC (rev 223)
++++ trunk/install/config/build-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
+@@ -0,0 +1,20 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++
++# Database
++db.create-db		=createdb-sql92.xml
++db.drop-db			=dropdb-sql92.xml
++
++db.tables			=db_tables_mysql4.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=EMPTY.sql
++db.optimize			=OPTIMIZE_mysql.sql
++db.autocommit		=true
++
++db.sysname			=mysql
++db.sysuser			=root
++db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}?useUnicode=true
++
++config.db.user		=true
++config.db.name		=true
++config.db.host		=true
+
+Added: trunk/install/config/dm-mysql4.properties
+===================================================================
+--- trunk/install/config/dm-mysql4.properties	2007-09-21 17:16:49 UTC (rev 223)
++++ trunk/install/config/dm-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
+@@ -0,0 +1,13 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta
++db.user				=dm
++db.password			=dm
++db.type				=mysql
++
++db.host				=127.0.0.1
++
++db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true
+
+Added: trunk/install/db/db-specific/db_tables_mysql4.sql
+===================================================================
+--- trunk/install/db/db-specific/db_tables_mysql4.sql	2007-09-21 17:16:49 UTC (rev 223)
++++ trunk/install/db/db-specific/db_tables_mysql4.sql	2007-09-21 17:20:33 UTC (rev 224)
+@@ -0,0 +1,68 @@
++-- DeepaMehta database model for use with MySQL.
++-- This script just creates the tables.
++
++CREATE TABLE Topic (
++    TypeID CHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID CHAR(40) NOT NULL,
++    Name CHAR(255) NOT NULL,
++	PRIMARY KEY (ID, Version),
++    INDEX (TypeID, TypeVersion, Name)
++);
++
++CREATE TABLE Association (
++    TypeID CHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID CHAR(40) NOT NULL,
++    Name CHAR(255) NOT NULL,
++    TopicID1 CHAR(40) NOT NULL,
++    TopicVersion1 INT NOT NULL,
++    TopicID2 CHAR(40) NOT NULL,
++    TopicVersion2 INT NOT NULL,
++	PRIMARY KEY (ID, Version),
++	INDEX (ID, Version, TypeID, TypeVersion),
++    INDEX (TopicID1, TopicVersion1),
++    INDEX (TopicID2, TopicVersion2)
++);
++
++CREATE TABLE ViewTopic (
++    ViewTopicID CHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    TopicID CHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    x INT NOT NULL,
++    y INT NOT NULL,
++    INDEX (ViewTopicID, ViewTopicVersion),
++	INDEX (TopicID)
++);
++
++CREATE TABLE ViewAssociation (
++    ViewTopicID CHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    AssociationID CHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL,
++    INDEX (ViewTopicID, ViewTopicVersion)
++);
++
++CREATE TABLE TopicProp (
++    TopicID CHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    PropName CHAR(255) NOT NULL,
++    PropValue MEDIUMTEXT,
++    PRIMARY KEY (TopicID, TopicVersion, PropName)
++);
++
++CREATE TABLE AssociationProp (
++    AssociationID CHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL,
++    PropName CHAR(255) NOT NULL,
++    PropValue MEDIUMTEXT,
++    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
++);
++
++CREATE TABLE KeyGenerator (
++    Relation CHAR(24) PRIMARY KEY NOT NULL,
++    NextKey INT NOT NULL
++);
+
+
+Property changes on: trunk/install/db/db-specific/db_tables_mysql4.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: trunk/install/examples/movies/config/movies-mysql4.properties
+===================================================================
+--- trunk/install/examples/movies/config/movies-mysql4.properties	2007-09-21 17:16:49 UTC (rev 223)
++++ trunk/install/examples/movies/config/movies-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
+@@ -0,0 +1,14 @@
++movies.db.name		=Movies
++movies.db.user		=movies
++movies.db.password	=movies
++
++movies.db.host		=127.0.0.1
++movies.db.type		=mysql
++movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
++
++movies.db.sysname	=mysql
++movies.db.sysuser	=root
++movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
++
++movies.db.tables	=db/db_tables_mysql.sql
++movies.db.content	=db/db_inserts.sql
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000068.html">[deepamehta-svn] r223 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config	install/db/db-specific install/examples/movies/config
+</A></li>
+	<LI>Next message: <A HREF="000070.html">[deepamehta-svn] r225 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#69">[ date ]</a>
+              <a href="thread.html#69">[ thread ]</a>
+              <a href="subject.html#69">[ subject ]</a>
+              <a href="author.html#69">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

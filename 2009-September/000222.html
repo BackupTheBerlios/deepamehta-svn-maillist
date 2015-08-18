@@ -1,0 +1,487 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r378 - in branches/apps: .	develop/src/de/deepamehta/client	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/apps	install/apps/dm-twitter install/apps/dmrpc	install/apps/dmrpc/config install/apps/infoTouch	install/apps/latexTopic install/apps/pdfTopic libs libs/endorsed
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r378%20-%20in%20branches/apps%3A%20.%0A%09develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/apps%0A%09install/apps/dm-twitter%20install/apps/dmrpc%0A%09install/apps/dmrpc/config%20install/apps/infoTouch%0A%09install/apps/latexTopic%20install/apps/pdfTopic%20libs%20libs/endorsed&In-Reply-To=%3C200909221818.n8MIIOI6010405%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000221.html">
+   <LINK REL="Next"  HREF="000223.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r378 - in branches/apps: .	develop/src/de/deepamehta/client	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/apps	install/apps/dm-twitter install/apps/dmrpc	install/apps/dmrpc/config install/apps/infoTouch	install/apps/latexTopic install/apps/pdfTopic libs libs/endorsed</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r378%20-%20in%20branches/apps%3A%20.%0A%09develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/apps%0A%09install/apps/dm-twitter%20install/apps/dmrpc%0A%09install/apps/dmrpc/config%20install/apps/infoTouch%0A%09install/apps/latexTopic%20install/apps/pdfTopic%20libs%20libs/endorsed&In-Reply-To=%3C200909221818.n8MIIOI6010405%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r378 - in branches/apps: .	develop/src/de/deepamehta/client	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/apps	install/apps/dm-twitter install/apps/dmrpc	install/apps/dmrpc/config install/apps/infoTouch	install/apps/latexTopic install/apps/pdfTopic libs libs/endorsed">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 22 20:18:24 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000221.html">[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config
+</A></li>
+        <LI>Next message: <A HREF="000223.html">[deepamehta-svn] r379 - in branches/apps: .	develop/src/de/deepamehta/client install/client/icons install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-09-22 20:18:14 +0200 (Tue, 22 Sep 2009)
+New Revision: 378
+
+Added:
+   branches/apps/install/apps/dm-twitter/
+   branches/apps/install/apps/infoTouch/
+   branches/apps/install/apps/latexTopic/
+   branches/apps/install/apps/pdfTopic/
+Removed:
+   branches/apps/libs/endorsed/xalan-2.1.0.jar
+   branches/apps/libs/endorsed/xml-apis.jar
+   branches/apps/libs/googleapi.jar
+   branches/apps/libs/mysql-3.1.7.jar
+Modified:
+   branches/apps/build.properties
+   branches/apps/build.xml
+   branches/apps/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   branches/apps/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+   branches/apps/develop/src/de/deepamehta/topics/WebpageTopic.java
+   branches/apps/install/apps/dmrpc/build.xml
+   branches/apps/install/apps/dmrpc/config/web.xml
+Log:
+DM: updated libs, appspath config, client classpath, JSON RPC: updated deployment (for tomcat6), doc 
+
+Modified: branches/apps/build.properties
+===================================================================
+--- branches/apps/build.properties	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/build.properties	2009-09-22 18:18:14 UTC (rev 378)
+@@ -24,7 +24,7 @@
+ build.name			=deepamehta-2.0b7.zip
+ 
+ # DeepaMehta Applications
+-appspath			=/Users/jri/Projects
++appspath			=${install}/apps
+ 
+ dm.host				=localhost
+ dm.port				=7557
+
+Modified: branches/apps/build.xml
+===================================================================
+--- branches/apps/build.xml	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/build.xml	2009-09-22 18:18:14 UTC (rev 378)
+@@ -13,8 +13,9 @@
+ 	&lt;import file=&quot;setup.xml&quot; /&gt;
+ 
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+-		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;s{examples}/movies/MoviesTopics.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/hilfelotse/HilfelotseTopics.jar&quot; /&gt;
+@@ -28,11 +29,10 @@
+ 		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot; /&gt;
+-		&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot; /&gt;
+-		&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot; /&gt;
+-		&lt;!-- configure this --&gt;
++		&lt;!-- configure this for enabling CSV import --&gt;
++		&lt;pathelement location=&quot;${appspath}/dm-import/dm-importer-basic.jar&quot; /&gt;
++		&lt;!-- configure this for enabling twitter --&gt;
++		&lt;pathelement location=&quot;${appspath}/dm-twitter/dm-twitter-0.1.jar&quot; /&gt;
+ 	&lt;/path&gt;
+ 
+ 	&lt;target name=&quot;-default&quot;&gt;
+@@ -312,6 +312,7 @@
+ 				&lt;include name=&quot;auth.sql&quot; /&gt;
+ 				&lt;include name=&quot;webcrawler.sql&quot; /&gt;
+ 				&lt;include name=&quot;whois.sql&quot; /&gt;
++			&lt;!-- &lt;include name=&quot;patches/cm-2.20.sql&quot; /&gt;  Webpage Topic Patch --&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+@@ -412,6 +413,7 @@
+ 		&lt;java classname=&quot;de.deepamehta.client.DeepaMehtaClient&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${client}/DeepaMehtaClient.jar&quot; /&gt;
++				&lt;path refid=&quot;javalibs&quot; /&gt;
+ 			&lt;/classpath&gt;
+ 			&lt;arg value=&quot;${dm.host}:${dm.port}&quot; /&gt;
+ 		&lt;/java&gt;
+
+Modified: branches/apps/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- branches/apps/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2009-09-22 18:18:14 UTC (rev 378)
+@@ -247,18 +247,19 @@
+             createTextEditor(actionListener, hyperlinkListener, result, controler);
+         } else {
+             try {
+-                PlatformInit.getInstance().initConsole();
++                // PlatformInit.getInstance().initConsole();
+                 PlatformInit.getInstance().initSecurity();
+                 PlatformInit.getInstance().initProtocols();
+                 PlatformInit.getInstance().initExtensions();
+-                // PlatformInit.getInstance().initLogging(true);
++                PlatformInit.getInstance().initOtherProperties();
++                PlatformInit.getInstance().initLogging(false);
+                 // PlatformInit.getInstance().init(false, false);
+             } catch (Exception ex) {
+                 System.out.print(&quot;Error:&quot; + ex.toString());
+             }
+             FramePanel panel = new FramePanel() { //null, false, false, true) {
+                 public Dimension getPreferredSize() {
+-                    return new Dimension(800, 1000);	// ### height 800 pixels
++                    return new Dimension(800, 1000);	// ### height 1000 pixels
+                 }
+             };
+             panel.addNavigationListener(deepaListener);
+
+Modified: branches/apps/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+===================================================================
+--- branches/apps/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2009-09-22 18:18:14 UTC (rev 378)
+@@ -36,8 +36,12 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
++* &lt;hr&gt;
+  * Last change: 17.8.2009 (2.0b8-pre)&lt;br&gt;
+  * Malte Rei&szlig;ig&lt;br&gt;
++ *
++ * With this class i wanted to overuse POST Requests for JSON RPCs.
++ * The Response is either OK or ERROR (200 or 500)
+ 
+  * 
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+@@ -254,6 +258,7 @@
+             response.setStatus(response.SC_OK);
+             response.setContentType(&quot;applicaton/json&quot;);
+             response.setContentLength(result.getBytes().length);
++            // response.
+             // response.setLocale(&quot;en_EN&quot;);
+             System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: &quot;+response.getCharacterEncoding()+&quot; written &quot;+result.length() +&quot; character\n&quot;);
+             // LOG System.out.println(&quot;INFO: &quot;+result + &quot;\n&quot;);
+
+Modified: branches/apps/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- branches/apps/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-09-22 18:18:14 UTC (rev 378)
+@@ -28,8 +28,16 @@
+  * ### The active &lt;i&gt;displaing in browser&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
+  * loading the webpage in the clients browser once the user triggers the default action.
+  * &lt;p&gt;
+- * The active &lt;i&gt;downloading&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
+- * downloading the webpage in the servers file system (### to client in future).
++ * The former &lt;i&gt;downloading&lt;/i&gt; behavoir of a &lt;code&gt;WebpageTopic&lt;/code&gt; was deactivated.
++ * In the state of it'scurrent implementation the &lt;code&gt;WebpageTopic&lt;/code&gt; stores a copy of the
++ * PROPERTY_URL in the PROPERTY_BROWSER field of the &lt;i&gt;TopicType&lt;/i&gt; Webpage.
++ * Copying of the URL is done after two different user inputs, thus trying to serve a simple
++ * browsing experience to the user. So the PROPERTY_URL is copied
++ * &lt;ul&gt;
++ *  &lt;li&gt;when the user changes the URL independent of if the webpage is already known or not&lt;/li&gt;
++ *  &lt;li&gt;when the user clicks on a simple hyperlink (form method actions are not recognized)&lt;/li&gt;
++ * &lt;/ul&gt;
++ * NOTE: A double click on a &lt;code&gt;WebpageTopic&lt;/code&gt; still opens the URL in the parent browser.
+  * &lt;p&gt;
+  * The active &lt;i&gt;notification enabling&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
+  * creating association of type &lt;code&gt;notification&lt;/code&gt; between &lt;code&gt;WorkspaceTopic&lt;/code&gt;
+@@ -64,7 +72,7 @@
+  * changes on webpages).
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 21.04.2009 (2.0b8)&lt;br&gt;
++ * Last change: 21.04.2009 (2.0b8e)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt; / Malte Rei&szlig;ig
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+@@ -192,23 +200,23 @@
+                 props.put(PROPERTY_URL, propValue);	// ### ignore ref -- still an issue?
+                 URL url = new URL(propValue);
+                 Vector webpages = cm.getTopics(TOPICTYPE_WEBPAGE, props);
+-                String title = propValue.substring(7);
+                 int count = webpages.size();
+                 if (count &gt; 0) {
+                     // System.out.println(&quot;    URL Cannot be changed, already known topic shares the URL&quot;);
+                     directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;This URL is already known to DeepaMehta, let's see if it is this ...&quot;, new Integer(NOTIFICATION_WARNING));
+                     directives.add(DIRECTIVE_SHOW_TOPIC, new PresentableTopic((BaseTopic)webpages.get(0)));
+                     directives.add(DIRECTIVE_SELECT_TOPIC, ((BaseTopic)webpages.get(0)).getID());
+-                    // workaround to allow retrigger URL by hitting Enter
+-                    as.setTopicProperty(this, PROPERTY_BROWSER, url.toString()); // reset anyway, to be removed when getText Problem is solved
++                    // topic matched by URL make sure it's copied to the PROPERTY_BROWSER field
++                    as.setTopicProperty(((BaseTopic)webpages.get(0)), PROPERTY_BROWSER, url.toString());
+                     directives.add(DIRECTIVE_FOCUS_PROPERTY);
+-                    // return false;
+-                } else {
+-                    as.setTopicProperty(this, PROPERTY_BROWSER, url.toString());
++                    // return false; // rejecting the change means revealing the already known topic
++                } //} else {
++                    // no webpage is known with this URL so propertyChange is permitted and handled in propertiesChanged hook
++                    // as.setTopicProperty(this, PROPERTY_BROWSER, url.toString());
+                     // props.put(PROPERTY_BROWSER, url.toString());
+-                    directives.add(DIRECTIVE_SHOW_TOPIC, new PresentableTopic((BaseTopic)this));
+-                    directives.add(DIRECTIVE_FOCUS_PROPERTY);
+-                }
++                    // directives.add(DIRECTIVE_SHOW_TOPIC, new PresentableTopic((BaseTopic)this));
++                    // directives.add(DIRECTIVE_FOCUS_PROPERTY);
++                //}
+ 			} catch (MalformedURLException e) {
+ 				String errText = &quot;\&quot;&quot; + propValue + &quot;\&quot; is not a valid URL&quot;;
+ 				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+@@ -229,6 +237,10 @@
+ 		String newUrl = (String) newProps.get(PROPERTY_URL);
+ 		if (newUrl != null) {
+             try {
++                // copies the new URL into the browser window and add the focus directive
++                as.setTopicProperty(this, PROPERTY_BROWSER, newUrl);
++                directives.add(DIRECTIVE_FOCUS_PROPERTY);
++                // manage that remains persistent with the new domain and site topics
+ 				URL url = new URL(newUrl);
+ 				String host = url.getHost();
+ 				// remove old website assignment
+@@ -318,12 +330,12 @@
+ 	}
+ 
+     private BaseTopic getWebpageTopic(String prop, Session session) {
+-        System.out.println(&quot;    getWebpageTopic for:&quot; + prop);
++        // System.out.println(&quot;    getWebpageTopic for:&quot; + prop);
+         BaseTopic webpage;
+         Hashtable props = new Hashtable();
+         props.put(PROPERTY_URL, prop);	// ### ignore ref -- still an issue?
+         Vector webpages = cm.getTopics(TOPICTYPE_WEBPAGE, props);
+-        String title = prop.substring(11); // strips <A HREF="http://www.">http://www.</A> in the normal case
++        String title = prop.substring(7); // strips <A HREF="http://www.">http://www.</A> in the normal case
+         int count = webpages.size();
+         if (count == 0) {
+             // System.out.println(&quot;Properties Changed Hook performs existing check&quot;);
+@@ -331,7 +343,7 @@
+             if (elements.length &gt; 2) {
+                 title = elements[1] + elements[2];
+             }
+-            System.out.println(&quot;    it's a new webpage, let's make it a topic, title: &quot; + title);
++            System.out.println(&quot;    it's a new webpage, let's make it a topic titled: &quot; + title);
+             webpage = as.createLiveTopic(cm.getNewTopicID(), TOPICTYPE_WEBPAGE,
+                     title, session);
+             if (prop != null) {
+@@ -343,9 +355,9 @@
+             //webpage.setProperties(props);
+             //webpage.setEvoke(true);
+         } else {
+-            System.out.println(&quot;    it's known webpage, let's go with the topic to: &quot; + prop);
++            System.out.println(&quot;    it's known webpage, let's reveal the topic and go to: &quot; + prop);
+             webpage = (BaseTopic) webpages.firstElement();
+-            // set Browser Window too
++            // set Browser Window too given URL which should be exact the same as stored URL in ### untested
+             as.setTopicProperty(webpage.getID(), 1, PROPERTY_BROWSER, prop.toString());
+             if (count &gt; 1) {
+                 System.out.println(&quot;*** WebpageTopic.getWebpageTopic(): there're &quot; + count +
+
+
+Property changes on: branches/apps/install/apps/dm-twitter
+___________________________________________________________________
+Name: svn:ignore
+   + src
+
+
+Modified: branches/apps/install/apps/dmrpc/build.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/build.xml	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/install/apps/dmrpc/build.xml	2009-09-22 18:18:14 UTC (rev 378)
+@@ -38,6 +38,10 @@
+ 		    &lt;classes dir=&quot;${build}&quot;&gt;
+ 				&lt;include name=&quot;de/rpc/deepamehta/*.class&quot; /&gt;
+             &lt;/classes&gt;
++            &lt;lib dir=&quot;${dm.base-dir}/install/server/&quot;&gt;
++                &lt;include name=&quot;DeepaMehtaService.jar&quot; /&gt;
++                &lt;include name=&quot;DeepaMehtaTopics.jar&quot; /&gt;
++            &lt;/lib&gt;
+          	&lt;fileset dir=&quot;.&quot;&gt;
+             	&lt;include name=&quot;images/*&quot;/&gt;
+             	&lt;include name=&quot;pages/*&quot;/&gt;
+
+Modified: branches/apps/install/apps/dmrpc/config/web.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/config/web.xml	2009-09-21 23:38:32 UTC (rev 377)
++++ branches/apps/install/apps/dmrpc/config/web.xml	2009-09-22 18:18:14 UTC (rev 378)
+@@ -5,8 +5,10 @@
+ 	&lt;!-- General description of the web application --&gt;
+ 
+ 	&lt;display-name&gt;DeepaMehta RPC&lt;/display-name&gt;
+-	&lt;description&gt;Nichmal 1.0
+-		Written by J&#246;rg Richter (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>)&lt;/description&gt;
++	&lt;description&gt;
++            note quite 1.0 
++            written by Malte Rei&szl;ig (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>)
++    &lt;/description&gt;
+ 
+ 	&lt;!-- Context initialization parameters that define shared
+ 		 String constants used within your application, which
+@@ -16,14 +18,18 @@
+ 
+ 	&lt;context-param&gt;
+ 		&lt;param-name&gt;service&lt;/param-name&gt;
+-		&lt;!-- &lt;param-value&gt;kiezbox&lt;/param-value&gt; --&gt; &lt;!-- mre's local kiezatlas instance --&gt;
+-		&lt;!-- &lt;param-value&gt;mysql5&lt;/param-value&gt; --&gt; &lt;!-- jri's default instance --&gt;
+-		&lt;param-value&gt;mysql5&lt;/param-value&gt; &lt;!-- www.kiezatlas.de production instance--&gt;
++		&lt;param-value&gt;mysql-browser&lt;/param-value&gt;
+ 		&lt;description&gt;Selects a DeepaMehta service.
+ 			If this parameter is not set the &quot;default&quot; service will be used.
+ 			To configure DeepaMehta services see the file install/client/dms.rc&lt;/description&gt;
+ 	&lt;/context-param&gt;
+ 
++    &lt;context-param&gt;
++		&lt;param-name&gt;home&lt;/param-name&gt;
++		&lt;param-value&gt;/var/lib/tomcat-6/webapps/ROOT&lt;/param-value&gt;
++		&lt;description&gt;path to your deepamehta installation&lt;/description&gt;
++	&lt;/context-param&gt;
++
+ 	&lt;context-param&gt;
+ 		&lt;param-name&gt;generator&lt;/param-name&gt;
+ 		&lt;param-value&gt;jsp&lt;/param-value&gt;
+@@ -32,67 +38,22 @@
+ 			Supported values are &quot;jsp&quot; (default) and &quot;xslt&quot; (experimental)
+ 		&lt;/description&gt;
+ 	&lt;/context-param&gt;
+-
+-	&lt;!-- Servlet definitions for the servlets that make up
+-		 the web application.
+-	--&gt;
+-
+-
+-
+-
+-
+-
+-
++    
+ 	&lt;servlet&gt;
+-		&lt;servlet-name&gt;List Servlet&lt;/servlet-name&gt;
+-		&lt;description&gt;List Servlet Controller&lt;/description&gt;
+-		&lt;servlet-class&gt;de.kiezatlas.deepamehta.ListServlet&lt;/servlet-class&gt;
+-	&lt;/servlet&gt;
+-
+-
+-
+-
+-	&lt;servlet&gt;
+ 		&lt;servlet-name&gt;MyDeepaMehta RPC Servlet&lt;/servlet-name&gt;
+-		&lt;description&gt;For JSON RPC Calls
+-&lt;/description&gt;
++		&lt;description&gt;For JSON RPC Calls &lt;/description&gt;
+ 		&lt;servlet-class&gt;de.rpc.deepamehta.WebServlet&lt;/servlet-class&gt;
+ 	&lt;/servlet&gt;
+ 
+-    &lt;!-- Define mappings that are used by the servlet container to
+-		 translate a particular request URI (context-relative) to a
+-		 particular servlet.
+-	--&gt;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-	&lt;servlet-mapping&gt;
+-		&lt;servlet-name&gt;List Servlet&lt;/servlet-name&gt;
+-		&lt;url-pattern&gt;/list/*&lt;/url-pattern&gt;
+-	&lt;/servlet-mapping&gt;
+-
+-
+-
+-
+     &lt;servlet-mapping&gt;
+ 		&lt;servlet-name&gt;MyDeepaMehta RPC Servlet&lt;/servlet-name&gt;
+ 		&lt;url-pattern&gt;/rpc/*&lt;/url-pattern&gt;
+ 	&lt;/servlet-mapping&gt;
+ 
+-	&lt;!-- Define the default session timeout for your application,
+-		 in minutes.
++	&lt;!-- 
++        Define the default session timeout for your application, in minutes.
+ 	--&gt;
+ 
+-    
+-
+     &lt;session-config&gt;
+ 		&lt;session-timeout&gt;120&lt;/session-timeout&gt;
+ 	&lt;/session-config&gt;
+
+
+Property changes on: branches/apps/install/apps/infoTouch
+___________________________________________________________________
+Name: svn:ignore
+   + src
+
+
+
+Property changes on: branches/apps/install/apps/latexTopic
+___________________________________________________________________
+Name: svn:ignore
+   + src
+
+
+
+Property changes on: branches/apps/install/apps/pdfTopic
+___________________________________________________________________
+Name: svn:ignore
+   + src
+
+
+Deleted: branches/apps/libs/endorsed/xalan-2.1.0.jar
+===================================================================
+(Binary files differ)
+
+Deleted: branches/apps/libs/endorsed/xml-apis.jar
+===================================================================
+(Binary files differ)
+
+Deleted: branches/apps/libs/googleapi.jar
+===================================================================
+(Binary files differ)
+
+Deleted: branches/apps/libs/mysql-3.1.7.jar
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000221.html">[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config
+</A></li>
+	<LI>Next message: <A HREF="000223.html">[deepamehta-svn] r379 - in branches/apps: .	develop/src/de/deepamehta/client install/client/icons install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

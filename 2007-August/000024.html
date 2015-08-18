@@ -1,0 +1,758 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r179%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%20install/config%20install/db&In-Reply-To=%3C200708271113.l7RBDCP8009982%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000023.html">
+   <LINK REL="Next"  HREF="000025.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r179%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%20install/config%20install/db&In-Reply-To=%3C200708271113.l7RBDCP8009982%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 27 13:13:12 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000023.html">[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000025.html">[deepamehta-svn] r180 - branches/eschnepel
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-27 13:13:09 +0200 (Mon, 27 Aug 2007)
+New Revision: 179
+
+Added:
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DBFix.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DerbyDatabaseProvider.java
+   branches/eschnepel/install/db/COMMIT.sql
+   branches/eschnepel/install/db/STATISTICS_derby.sql
+Removed:
+   branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/install/config/build-derby-intern.properties
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/config/build-mysql.properties
+   branches/eschnepel/install/config/db-derby-intern.properties
+   branches/eschnepel/install/db/db_tables_derby.sql
+   branches/eschnepel/install/db/db_tables_hsqldb.sql
+Log:
+continued integration for derby, 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -133,7 +133,7 @@
+      *
+ 	 * @see		ApplicationService#create
+ 	 */
+-	CorporateMemory createCorporateMemory() throws DeepaMehtaException {
++	public CorporateMemory createCorporateMemory() throws DeepaMehtaException {
+ 		CorporateMemory cm;		// returned object
+         //
+         String errText = &quot;error while establishing access to corporate memory&quot;;
+
+Deleted: branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -1,64 +0,0 @@
+-package de.deepamehta.service;
+-
+-import de.deepamehta.BaseTopic;
+-import de.deepamehta.DeepaMehtaConstants;
+-import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+-//
+-import java.util.*;
+-import java.io.*;
+-
+-
+-
+-final class DBFix {
+-
+-
+-
+-	// ***************
+-	// *** Methods ***
+-	// ***************
+-
+-
+-
+-	public static void main(String[] args) {
+-		System.out.println(&quot;=== DeepaMehta DB-Fix ===&quot;);
+-		ApplicationServiceInstance instance = null;
+-		int invCount = 0, fixCount = 0;
+-		try {
+-			// --- create application service ---
+-			instance = ApplicationServiceInstance.lookup(args);
+-			CorporateMemory cm = instance.createCorporateMemory();	// throws DME
+-			//
+-			Hashtable topics = cm.getTopicsByProperty(&quot;&lt;html&gt;&quot;);
+-			Enumeration e = topics.keys();
+-			while (e.hasMoreElements()) {
+-				String t = (String) e.nextElement();
+-				int pos = t.indexOf(':');
+-				String propName = t.substring(pos + 1);
+-				BaseTopic topic = (BaseTopic) topics.get(t);
+-				String propValue = cm.getTopicData(topic.getID(), 1, propName);
+-				//
+-				int pos2 = propValue.toLowerCase().indexOf(&quot;&lt;/html&gt;&quot;);
+-				if (pos2 == -1) {
+-					System.out.println(&quot;*** &quot; + topic + &quot;: &lt;/html&gt; not found in \&quot;&quot; + propName + &quot;\&quot;&quot;);
+-					invCount++;
+-				} else if (propValue.length() &gt; pos2 + 7 + 2) {
+-					int n = propValue.length() - pos2 - 7 - 2;
+-					cm.setTopicData(topic.getID(), 1, propName, propValue.substring(0, pos2 + 7));
+-					System.out.println(&quot;&gt;&gt;&gt; &quot; + topic + &quot;: &quot; + n + &quot; crop chars in \&quot;&quot; + propName + &quot;\&quot;&quot;);
+-					fixCount++;
+-				}
+-			}
+-			//
+-			System.out.println(&quot;&gt; &quot; + cm.getTopicCount() + &quot; topics&quot;);
+-			System.out.println(&quot;&gt; &quot; + topics.size() + &quot; HTML properties found&quot;);
+-			System.out.println(&quot;&gt; &quot; + invCount + &quot; invalid&quot;);
+-			System.out.println(&quot;&gt; &quot; + fixCount + &quot; fixed&quot;);
+-			cm.release();
+-		} catch (DeepaMehtaException e) {
+-			System.out.println(&quot;*** &quot; + e);
+-			// ### e.printStackTrace();
+-		}
+-		System.exit(0);
+-	}
+-}
+
+Copied: branches/eschnepel/develop/src/de/deepamehta/service/db/DBFix.java (from rev 178, branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java)
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DBFix.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -0,0 +1,66 @@
++package de.deepamehta.service.db;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.service.ApplicationServiceInstance;
++import de.deepamehta.service.CorporateMemory;
++//
++import java.util.*;
++import java.io.*;
++
++
++
++final class DBFix {
++
++
++
++	// ***************
++	// *** Methods ***
++	// ***************
++
++
++
++	public static void main(String[] args) {
++		System.out.println(&quot;=== DeepaMehta DB-Fix ===&quot;);
++		ApplicationServiceInstance instance = null;
++		int invCount = 0, fixCount = 0;
++		try {
++			// --- create application service ---
++			instance = ApplicationServiceInstance.lookup(args);
++			CorporateMemory cm = instance.createCorporateMemory();	// throws DME
++			//
++			Hashtable topics = cm.getTopicsByProperty(&quot;&lt;html&gt;&quot;);
++			Enumeration e = topics.keys();
++			while (e.hasMoreElements()) {
++				String t = (String) e.nextElement();
++				int pos = t.indexOf(':');
++				String propName = t.substring(pos + 1);
++				BaseTopic topic = (BaseTopic) topics.get(t);
++				String propValue = cm.getTopicData(topic.getID(), 1, propName);
++				//
++				int pos2 = propValue.toLowerCase().indexOf(&quot;&lt;/html&gt;&quot;);
++				if (pos2 == -1) {
++					System.out.println(&quot;*** &quot; + topic + &quot;: &lt;/html&gt; not found in \&quot;&quot; + propName + &quot;\&quot;&quot;);
++					invCount++;
++				} else if (propValue.length() &gt; pos2 + 7 + 2) {
++					int n = propValue.length() - pos2 - 7 - 2;
++					cm.setTopicData(topic.getID(), 1, propName, propValue.substring(0, pos2 + 7));
++					System.out.println(&quot;&gt;&gt;&gt; &quot; + topic + &quot;: &quot; + n + &quot; crop chars in \&quot;&quot; + propName + &quot;\&quot;&quot;);
++					fixCount++;
++				}
++			}
++			//
++			System.out.println(&quot;&gt; &quot; + cm.getTopicCount() + &quot; topics&quot;);
++			System.out.println(&quot;&gt; &quot; + topics.size() + &quot; HTML properties found&quot;);
++			System.out.println(&quot;&gt; &quot; + invCount + &quot; invalid&quot;);
++			System.out.println(&quot;&gt; &quot; + fixCount + &quot; fixed&quot;);
++			cm.release();
++		} catch (DeepaMehtaException e) {
++			System.out.println(&quot;*** &quot; + e);
++			// ### e.printStackTrace();
++		}
++		System.exit(0);
++	}
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -0,0 +1,30 @@
++package de.deepamehta.service.db;
++
++import java.sql.SQLException;
++
++import de.deepamehta.util.Benchmark;
++
++public abstract class DatabaseOptimizer {
++
++	public class Worker implements Runnable {
++		public void run() {
++			try {
++				optimize_internal();
++			} catch (SQLException e) {
++				throw new RuntimeException(e);
++			}
++		}
++	}
++
++	final void optimize() throws SQLException {
++		try {
++			Benchmark.run(&quot;Optimizing Database&quot;, new Worker());
++		} catch (RuntimeException e) {
++			SQLException cause = (SQLException) e.getCause();
++			cause.printStackTrace();
++			throw cause;
++		}
++	}
++
++	abstract void optimize_internal() throws SQLException;
++}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -22,4 +22,6 @@
+ 	Statement getStatement() throws SQLException;
+ 
+ 	void checkPointNeeded();
++
++	DatabaseOptimizer getDatabaseOptimizer();
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -16,6 +16,9 @@
+ 		if (HsqlDatabaseProvider.isResponsibleFor(dbUrl)) {
+ 			return new HsqlDatabaseProvider(conf);
+ 		}
++		if (DerbyDatabaseProvider.isResponsibleFor(dbUrl)) {
++			return new DerbyDatabaseProvider(conf);
++		}
+ 		return new DefaultDatabaseProvider(conf);
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -20,144 +20,157 @@
+ 
+ public class DefaultDatabaseProvider implements DatabaseProvider {
+ 
+-    /** SQL92 DBMS Hint */
+-    public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
++	public class DefaultDatabaseOptimizer extends DatabaseOptimizer {
++		public void optimize_internal() {
++			// do nothing
++		}
++	}
+ 
+-    private final LinkedList freeCons = new LinkedList();
++	/** SQL92 DBMS Hint */
++	public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
+ 
+-    private final LinkedList allCons = new LinkedList();
++	private final LinkedList freeCons = new LinkedList();
+ 
+-    private String jdbcURL;
++	private final LinkedList allCons = new LinkedList();
+ 
+-    private Class driverClass;
++	private String jdbcURL;
+ 
+-    private Properties conProps = new Properties();
++	private Class driverClass;
+ 
+-    private Driver driver;
++	private Properties conProps = new Properties();
+ 
+-    public DefaultDatabaseProvider(Properties conf)
+-            throws ClassNotFoundException, SQLException,
+-            InstantiationException, IllegalAccessException {
+-        setupDatabaseProvider(conf);
+-        new DatabaseSweeper(this).sweep();
+-    }
++	private Driver driver;
+ 
+-    protected void setupDatabaseProvider(Properties conf)
+-            throws ClassNotFoundException, SQLException,
+-            InstantiationException, IllegalAccessException {
+-        this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+-        System.out.println(&quot;Using Database URL &quot; + jdbcURL);
+-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+-        Resource[] resources;
+-        try {
+-            resources = resolver.getResources(&quot;file:&quot;+conf
+-                    .getProperty(ConfigurationConstants.Database.DB_LIBS));
+-        } catch (IOException e) {
+-            throw new ClassNotFoundException(e.getMessage(), e);
+-        }
+-        loadClassFromLibs(resources, conf
+-                .getProperty(ConfigurationConstants.Database.DB_DRIVER));
+-        driver = (Driver) driverClass.newInstance();
+-        if (!driver.acceptsURL(jdbcURL))
+-            throw new DeepaMehtaException(
+-                    &quot;JDBC-Driver and JDBC-Url does not match!&quot;);
+-        String user = conf.getProperty(ConfigurationConstants.Database.DB_USER);
+-        if ((null != user) || (&quot;&quot;.equals(user))) {
+-            setConnectionProperty(&quot;user&quot;, user);
+-            String password = conf
+-                      .getProperty(ConfigurationConstants.Database.DB_PASSWORD);
+-            setConnectionProperty(&quot;password&quot;, password);
+-        }
+-    }
++	public DefaultDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
++		setupDatabaseProvider(conf);
++		new DatabaseSweeper(this).sweep();
++		getDatabaseOptimizer().optimize();
++	}
+ 
+-    private void loadClassFromLibs(Resource[] resources, String clazz)
+-            throws ClassNotFoundException {
+-        URLClassLoader classLoader;
+-        try {
+-            System.out.println(&quot;Using Classloader for Jars:&quot;);
+-            URL[] urls = new URL[resources.length];
+-            for (int i = 0; i &lt; resources.length; i++) {
+-                Resource res = resources[i];
+-                File file = res.getFile();
+-                String path = file.getCanonicalPath();
+-                System.out.println(path);
+-                String urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
+-                urls[i] = new URL(urlString);
+-            }
+-            classLoader = new URLClassLoader(urls);
+-        } catch (MalformedURLException e) {
+-            throw new ClassNotFoundException(e.getMessage(), e);
+-        } catch (IOException e) {
+-            throw new ClassNotFoundException(e.getMessage(), e);
+-        }
+-        driverClass = classLoader.loadClass(clazz);
+-    }
++	public DatabaseOptimizer getDatabaseOptimizer() {
++		return new DefaultDatabaseOptimizer();
++	}
+ 
+-    public synchronized Connection getConnection() throws SQLException {
+-        if (0 == freeCons.size()) {
+-            return newConnection();
+-        }
+-        return (Connection) freeCons.poll();
+-    }
++	protected void setupDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
++		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++		System.out.println(&quot;Using Database URL &quot; + jdbcURL);
++		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
++		Resource[] resources;
++		try {
++			resources = resolver
++					.getResources(&quot;file:&quot;
++							+ conf
++									.getProperty(ConfigurationConstants.Database.DB_LIBS));
++		} catch (IOException e) {
++			throw new ClassNotFoundException(e.getMessage(), e);
++		}
++		loadClassFromLibs(resources, conf
++				.getProperty(ConfigurationConstants.Database.DB_DRIVER));
++		driver = (Driver) driverClass.newInstance();
++		if (!driver.acceptsURL(jdbcURL))
++			throw new DeepaMehtaException(
++					&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
++		String user = conf.getProperty(ConfigurationConstants.Database.DB_USER);
++		if ((null != user) || (&quot;&quot;.equals(user))) {
++			setConnectionProperty(&quot;user&quot;, user);
++			String password = conf
++					.getProperty(ConfigurationConstants.Database.DB_PASSWORD);
++			setConnectionProperty(&quot;password&quot;, password);
++		}
++	}
+ 
+-    public DbmsHint getDbmsHint() {
+-        return DBMS_HINT_SQL92;
+-    }
++	private void loadClassFromLibs(Resource[] resources, String clazz)
++			throws ClassNotFoundException {
++		URLClassLoader classLoader;
++		try {
++			System.out.println(&quot;Using Classloader for Jars:&quot;);
++			URL[] urls = new URL[resources.length];
++			for (int i = 0; i &lt; resources.length; i++) {
++				Resource res = resources[i];
++				File file = res.getFile();
++				String path = file.getCanonicalPath();
++				System.out.println(path);
++				String urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
++				urls[i] = new URL(urlString);
++			}
++			classLoader = new URLClassLoader(urls);
++		} catch (MalformedURLException e) {
++			throw new ClassNotFoundException(e.getMessage(), e);
++		} catch (IOException e) {
++			throw new ClassNotFoundException(e.getMessage(), e);
++		}
++		driverClass = classLoader.loadClass(clazz);
++	}
+ 
+-    public synchronized void freeConnection(Connection con) throws SQLException {
+-        freeCons.addLast(con);
+-        // System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot;
+-        // FREE:&quot;+freeCons.size());
+-    }
++	public synchronized Connection getConnection() throws SQLException {
++		if (0 == freeCons.size()) {
++			return newConnection();
++		}
++		return (Connection) freeCons.poll();
++	}
+ 
+-    protected void setConnectionProperty(String key, String value) {
+-        conProps.setProperty(key, value);
+-    }
++	public DbmsHint getDbmsHint() {
++		return DBMS_HINT_SQL92;
++	}
+ 
+-    protected synchronized Connection newConnection() throws SQLException {
+-        Connection con = driver.connect(jdbcURL, conProps);
+-        con.setAutoCommit(true);
+-        allCons.add(con);
+-        System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
+-                + freeCons.size());
+-        return con;
+-    }
++	public synchronized void freeConnection(Connection con) throws SQLException {
++		freeCons.addLast(con);
++		// System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot;
++		// FREE:&quot;+freeCons.size());
++	}
+ 
+-    protected void finalize() throws Throwable {
+-        closeAllCons();
+-        super.finalize();
+-    }
++	protected void setConnectionProperty(String key, String value) {
++		conProps.setProperty(key, value);
++	}
+ 
+-    protected void closeAllCons() throws SQLException {
+-        Connection con;
+-        while (null != (con = (Connection) allCons.poll())) {
+-            con.close();
+-        }
+-    }
++	protected synchronized Connection newConnection() throws SQLException {
++		Connection con = driver.connect(jdbcURL, conProps);
++		con.setAutoCommit(true);
++		allCons.add(con);
++		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
++				+ freeCons.size());
++		return con;
++	}
+ 
+-    public Statement getStatement() throws SQLException {
+-        Connection con;
+-        // at least 2 free Connections for better
+-        // Performance of parallel accesses
+-        if (freeCons.size() &lt; 2) {
+-            con = newConnection();
+-        } else {
+-            con = getConnection();
+-        }
+-        Statement stmt = new AutoFreeConnectionStatement(this, con);
+-        return stmt;
+-    }
++	protected void finalize() throws Throwable {
++		closeAllCons();
++		super.finalize();
++	}
+ 
+-    public void release() {
+-        try {
+-            System.out.println(&quot;all / free connections : &quot; + allCons.size()
+-                    + &quot; / &quot; + freeCons.size());
+-            closeAllCons();
+-        } catch (SQLException e) {
+-            e.printStackTrace();
+-        }
+-    }
++	protected void closeAllCons() throws SQLException {
++		Connection con;
++		while (null != (con = (Connection) allCons.poll())) {
++			con.close();
++		}
++	}
+ 
+-    public void checkPointNeeded() {
+-    }
++	public Statement getStatement() throws SQLException {
++		Connection con;
++		// at least 2 free Connections for better
++		// Performance of parallel accesses
++		if (freeCons.size() &lt; 2) {
++			con = newConnection();
++		} else {
++			con = getConnection();
++		}
++		Statement stmt = new AutoFreeConnectionStatement(this, con);
++		return stmt;
++	}
++
++	public void release() {
++		try {
++			System.out.println(&quot;all / free connections : &quot; + allCons.size()
++					+ &quot; / &quot; + freeCons.size());
++			closeAllCons();
++		} catch (SQLException e) {
++			e.printStackTrace();
++		}
++	}
++
++	public void checkPointNeeded() {
++	}
+ }
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DerbyDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DerbyDatabaseProvider.java	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DerbyDatabaseProvider.java	2007-08-27 11:13:09 UTC (rev 179)
+@@ -0,0 +1,59 @@
++package de.deepamehta.service.db;
++
++import java.sql.SQLException;
++import java.sql.Statement;
++import java.util.Properties;
++
++import de.deepamehta.ConfigurationConstants;
++
++public class DerbyDatabaseProvider extends DefaultDatabaseProvider {
++
++	public class DerbyDatabaseOptimizer extends DatabaseOptimizer {
++		private Statement statement;
++
++		public void optimize_internal() throws SQLException {
++			statement = getStatement();
++			syscs_compress_table(&quot;Topic&quot;);
++			syscs_compress_table(&quot;Association&quot;);
++			syscs_compress_table(&quot;ViewTopic&quot;);
++			syscs_compress_table(&quot;ViewAssociation&quot;);
++			syscs_compress_table(&quot;TopicProp&quot;);
++			syscs_compress_table(&quot;AssociationProp&quot;);
++			syscs_compress_table(&quot;KeyGenerator&quot;);
++			statement.close();
++		}
++
++		private void syscs_compress_table(String table) throws SQLException {
++			statement.execute(&quot;CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('&quot;
++					+ conf.getProperty(ConfigurationConstants.Database.DB_USER)
++							.toUpperCase() + &quot;', '&quot; + table.toUpperCase()
++					+ &quot;', 1)&quot;);
++		}
++	}
++
++	/** String for detecting Derby in the jdbc-driver-name */
++	private static final String DBMS_HINT_DERBY_STR = &quot;derby&quot;;
++
++	private Properties conf;
++
++	public DerbyDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
++		super(conf);
++	}
++
++	protected void setupDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
++		super.setupDatabaseProvider(conf);
++		this.conf = conf;
++	}
++
++	public static boolean isResponsibleFor(String url) {
++		return url.contains(DBMS_HINT_DERBY_STR);
++	}
++
++	public DatabaseOptimizer getDatabaseOptimizer() {
++		return new DerbyDatabaseOptimizer();
++	}
++}
+
+Modified: branches/eschnepel/install/config/build-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-derby-intern.properties	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/config/build-derby-intern.properties	2007-08-27 11:13:09 UTC (rev 179)
+@@ -7,7 +7,8 @@
+ 
+ db.tables			=db_tables_derby.sql
+ db.drop-tables		=db_drop.sql
+-db.close-session	=EMPTY.sql
++db.close-session	=STATISTICS_derby.sql
++db.autocommit		=true
+ 
+ # db.sysname		=not needed
+ db.sysuser			=${db.user}
+
+Modified: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-27 11:13:09 UTC (rev 179)
+@@ -8,6 +8,7 @@
+ db.tables			=db_tables_hsqldb.sql
+ db.drop-tables		=db_drop.sql
+ db.close-session	=COMMIT_SHUTDOWN.sql
++db.autocommit		=false
+ 
+ # db.sysname		=not needed
+ db.sysuser			=${db.user}
+
+Modified: branches/eschnepel/install/config/build-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/build-mysql.properties	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/config/build-mysql.properties	2007-08-27 11:13:09 UTC (rev 179)
+@@ -8,6 +8,7 @@
+ db.tables			=db_tables_mysql.sql
+ db.drop-tables		=db_drop.sql
+ db.close-session	=EMPTY.sql
++db.autocommit		=true
+ 
+ db.sysname			=mysql
+ db.sysuser			=root
+
+Modified: branches/eschnepel/install/config/db-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-derby-intern.properties	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/config/db-derby-intern.properties	2007-08-27 11:13:09 UTC (rev 179)
+@@ -4,8 +4,8 @@
+ 
+ # Database
+ db.name				=DeepaMehta
+-db.user				=
+-db.password			=
++db.user				=${db.name}
++db.password			=dm
+ db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+ db.libs				=${libpath}/derby/*.jar
+ 
+
+Added: branches/eschnepel/install/db/COMMIT.sql
+===================================================================
+--- branches/eschnepel/install/db/COMMIT.sql	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/db/COMMIT.sql	2007-08-27 11:13:09 UTC (rev 179)
+@@ -0,0 +1 @@
++COMMIT;
+\ No newline at end of file
+
+Added: branches/eschnepel/install/db/STATISTICS_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/STATISTICS_derby.sql	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/db/STATISTICS_derby.sql	2007-08-27 11:13:09 UTC (rev 179)
+@@ -0,0 +1,9 @@
++-- The table and schema names have to be UPPER CASE!
++
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPIC', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATION', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWTOPIC', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWASSOCIATION', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPICPROP', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATIONPROP', 1);
++CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'KEYGENERATOR', 1);
+
+Modified: branches/eschnepel/install/db/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_derby.sql	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/db/db_tables_derby.sql	2007-08-27 11:13:09 UTC (rev 179)
+@@ -1,4 +1,5 @@
+--- DeepaMehta database model for use with MySQL.
++-- DeepaMehta database model for use with DERBY.
++-- DERBY comes with Java 1.6 but is delivered with DM too.
+ -- This script just creates the tables.
+ 
+ CREATE TABLE Topic (
+
+Modified: branches/eschnepel/install/db/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-08-20 15:33:47 UTC (rev 178)
++++ branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-08-27 11:13:09 UTC (rev 179)
+@@ -1,4 +1,4 @@
+--- DeepaMehta database model for use with MySQL.
++-- DeepaMehta database model for use with HSQLDB.
+ -- This script just creates the tables.
+ 
+ CREATE CACHED TABLE Topic (
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000023.html">[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000025.html">[deepamehta-svn] r180 - branches/eschnepel
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r271 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r271%20-%20trunk&In-Reply-To=%3C200802251942.m1PJgjdY028678%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000115.html">
+   <LINK REL="Next"  HREF="000117.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r271 - trunk</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r271%20-%20trunk&In-Reply-To=%3C200802251942.m1PJgjdY028678%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r271 - trunk">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Feb 25 20:42:45 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000115.html">[deepamehta-svn] r270 - in trunk: . install/examples/dm-browser	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+        <LI>Next message: <A HREF="000117.html">[deepamehta-svn] r272 - trunk/install/db/db-specific
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-02-25 20:42:44 +0100 (Mon, 25 Feb 2008)
+New Revision: 271
+
+Modified:
+   trunk/build-development.xml
+Log:
+remove of development related ant libs
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-02-25 19:32:41 UTC (rev 270)
++++ trunk/build-development.xml	2008-02-25 19:42:44 UTC (rev 271)
+@@ -230,6 +230,10 @@
+ 				&lt;delete dir=&quot;develop&quot; /&gt;
+ 				&lt;delete dir=&quot;.&quot; includes=&quot;**/config*.properties&quot; /&gt;
+ 				&lt;delete dir=&quot;${client}/db&quot; /&gt;
++				&lt;delete file=&quot;checkstyle_config.xml&quot; /&gt;
++				&lt;delete file=&quot;checkstyle_errors.xml&quot; /&gt;
++				&lt;delete file=&quot;ant/lib/checkstyle-all-4.3.jar&quot; /&gt;
++				&lt;delete file=&quot;ant/lib/jdepend-2.9.jar&quot; /&gt;
+ 				&lt;!-- self destruction --&gt;
+ 				&lt;delete file=&quot;build-development.xml&quot; /&gt;
+ 				&lt;echo&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000115.html">[deepamehta-svn] r270 - in trunk: . install/examples/dm-browser	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+	<LI>Next message: <A HREF="000117.html">[deepamehta-svn] r272 - trunk/install/db/db-specific
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

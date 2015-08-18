@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r200%20-%20in%20branches/ldap%3A%20.%20install/examples/mailman%0A%09install/examples/mailman/src/de/deepamehta/topics%20libs&In-Reply-To=%3C200709161956.l8GJurcU012581%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000044.html">
+   <LINK REL="Next"  HREF="000046.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs</H1>
+    <B>danny at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r200%20-%20in%20branches/ldap%3A%20.%20install/examples/mailman%0A%09install/examples/mailman/src/de/deepamehta/topics%20libs&In-Reply-To=%3C200709161956.l8GJurcU012581%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs">danny at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 16 21:56:53 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000044.html">[deepamehta-svn] r199 - in branches/ldap: . install/examples	install/examples/mailman install/examples/mailman/src	install/examples/mailman/src/de	install/examples/mailman/src/de/deepamehta	install/examples/mailman/src/de/deepamehta/topics	install/examples/mailman/test install/examples/mailman/test/de	install/examples/mailman/test/de/deepamehta	install/examples/mailman/test/de/deepamehta/test libs
+</A></li>
+        <LI>Next message: <A HREF="000046.html">[deepamehta-svn] r201 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: danny
+Date: 2007-09-16 21:56:33 +0200 (Sun, 16 Sep 2007)
+New Revision: 200
+
+Added:
+   branches/ldap/libs/commons-codec-1.3.jar
+Modified:
+   branches/ldap/config.xml
+   branches/ldap/install/examples/mailman/build.xml
+   branches/ldap/install/examples/mailman/mailman.sql
+   branches/ldap/install/examples/mailman/readme.txt
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+Log:
+message list container, association relation and missed codec lib added
+
+Modified: branches/ldap/config.xml
+===================================================================
+--- branches/ldap/config.xml	2007-09-15 21:39:31 UTC (rev 199)
++++ branches/ldap/config.xml	2007-09-16 19:56:33 UTC (rev 200)
+@@ -36,6 +36,7 @@
+ 	&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/endorsed/xerces_2_3_0.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/commons-logging-1.1.jar&quot;/&gt;
++	&lt;pathelement location=&quot;${libpath}/commons-codec-1.3.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/commons-httpclient-3.0.1.jar&quot;/&gt;
+ &lt;/path&gt;
+ 
+
+Modified: branches/ldap/install/examples/mailman/build.xml
+===================================================================
+--- branches/ldap/install/examples/mailman/build.xml	2007-09-15 21:39:31 UTC (rev 199)
++++ branches/ldap/install/examples/mailman/build.xml	2007-09-16 19:56:33 UTC (rev 200)
+@@ -1,4 +1,4 @@
+-&lt;project name=&quot;LDAP&quot; default=&quot;jar&quot; basedir=&quot;.&quot;&gt;
++&lt;project name=&quot;Mailman List&quot; default=&quot;jar&quot; basedir=&quot;.&quot;&gt;
+ 
+ 	&lt;description&gt;
+ 		mailman archiv import
+@@ -7,8 +7,8 @@
+ 	&lt;property name=&quot;jar&quot; value=&quot;MailmanArchiveTopics.jar&quot; /&gt;
+ 	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
+ 	&lt;property name=&quot;server&quot; location=&quot;../../server&quot; /&gt;
++	&lt;property name=&quot;libpath&quot; location=&quot;../../../libs&quot; /&gt;
+ 
+-
+ 	&lt;import file=&quot;../../../config.xml&quot; /&gt;
+ 
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+@@ -20,9 +20,9 @@
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
+-				&lt;pathelement location=&quot;../../../libs/commons-httpclient-3.0.1.jar&quot; /&gt;
+-				&lt;pathelement location=&quot;../../../libs/commons-logging-1.1.jar&quot; /&gt;
+-				&lt;pathelement location=&quot;../../../libs/commons-httpclient-3.0.1.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${libpath}/commons-logging-1.1.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${libpath}/commons-codec-1.3.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${libpath}/commons-httpclient-3.0.1.jar&quot; /&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+
+Modified: branches/ldap/install/examples/mailman/mailman.sql
+===================================================================
+--- branches/ldap/install/examples/mailman/mailman.sql	2007-09-15 21:39:31 UTC (rev 199)
++++ branches/ldap/install/examples/mailman/mailman.sql	2007-09-16 19:56:33 UTC (rev 200)
+@@ -30,6 +30,9 @@
+ -------------------
+ -- Mailman List Topic
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-mailmanlist', 'Mailman List');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-mailman-mailmanlisttopic', '', 'tt-generic', 1, 'tt-mailmanlist', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-mailman-mailmanlistuses', '', 't-corporategroup', 1, 'tt-mailmanlist', 1);
++INSERT INTO AssociationProp VALUES ('a-mailman-mailmanlistuses', 1, 'Access Permission', 'create');
+ INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Name', 'Mailman List');
+ INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Plural Name', 'Mailman Lists');
+ INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Icon', 'category.gif');
+@@ -37,15 +40,31 @@
+ INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Custom Implementation', 'de.deepamehta.topics.MailmanTopic');
+ -- ListMessage Topic
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-listmessage', 'List Message');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-mailman-listmessagetopic', '', 'tt-generic', 1, 'tt-listmessage', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-mailman-listmessageuses', '', 't-corporategroup', 1, 'tt-listmessage', 1);
++INSERT INTO AssociationProp VALUES ('a-mailman-listmessageuses', 1, 'Access Permission', 'create');
+ INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Name', 'List Message');
+ INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Plural Name', 'List Messages');
+ INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Icon', 'message.gif');
+ INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Unique Topic Names', 'on');
+--- ListMessage Association
+-INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-listmessageassoc', 'inlist');
+-INSERT INTO TopicProp VALUES ('at-listmessageassoc', 1, 'Name', 'In List');
+-INSERT INTO TopicProp VALUES ('at-listmessageassoc', 1, 'Color', '#0000FF');
+ 
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-listmessagecontainer', 'List Message Search');
++INSERT INTO TopicProp VALUES ('tt-listmessagecontainer', 1, 'Name', 'List Message Search');
++INSERT INTO TopicProp VALUES ('tt-listmessagecontainer', 1, 'Icon', 'websearchcontainer.gif');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-mailman-listmessagetopiccontainer', '', 'tt-topiccontainer', 1, 'tt-listmessagecontainer', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-mailman-listmessagecontainer', '', 'tt-listmessagecontainer', 1, 'tt-listmessage', 1);
++
++-- ListMessage Association Topic and Relation Hack
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-listmessageassociation', 'inlist');
++INSERT INTO TopicProp VALUES ('at-listmessageassociation', 1, 'Name', 'In List');
++INSERT INTO TopicProp VALUES ('at-listmessageassociation', 1, 'Color', '#0000FF');
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'at-listmessagerelation', '', 'tt-mailmanlist', 1, 'tt-listmessage', 1);
++INSERT INTO AssociationProp VALUES ('at-listmessagerelation', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('at-listmessagerelation', 1, 'Association Type ID', 'at-listmessageassociation');
++INSERT INTO AssociationProp VALUES ('at-listmessagerelation', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('at-listmessagerelation', 1, 'Web Form', 'Related Form');
++--INSERT INTO AssociationProp VALUES ('at-listmessagerelation', 1, 'Ordinal Number', '150');
++
+ ------------------
+ --- Properties ---
+ ------------------
+@@ -94,7 +113,7 @@
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'tt-mailmanlist', 1, 550, 100);
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanusername', 1, 500, 50);
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlistusername', 1);
+-INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanurl', 1, 550, 50);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanurl', 1, 565, 50);
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlisturl', 1);
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanpassword', 1, 600, 50);
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlistpassword', 1);
+@@ -105,7 +124,12 @@
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-listmessagesubject', 1, 350, 50);
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-listmessagesubject', 1);
+ -- ListMessage Association
+-INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessageassoc', 1, 500, 100);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessageassociation', 1, 500, 125);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'at-listmessagerelation', 1);
++-- Container Associations
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'tt-listmessagecontainer', 1, 400, 150);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-listmessagecontainer', 1);
++
+ -- Example List
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 't-deepamehtadevelopermailmanlist', 1, 100, 100);
+ 
+
+Modified: branches/ldap/install/examples/mailman/readme.txt
+===================================================================
+--- branches/ldap/install/examples/mailman/readme.txt	2007-09-15 21:39:31 UTC (rev 199)
++++ branches/ldap/install/examples/mailman/readme.txt	2007-09-16 19:56:33 UTC (rev 200)
+@@ -8,16 +8,17 @@
+ werden die Daten wie Name, Betreff und Inhalt der Mailman Message gespeichert.
+ 
+ Bugs:
+- * die Assoziationen sind noch ein wenig eigenartig, &quot;What's related?&quot; funktioniert 
+-   leider nicht wirklich
+  * es werden alle importierten Messages direkt angezeigt (leider habe ich keine
+-   Directive bzw. Methode gefunden, die &quot;nur speichert&quot;)
++   Directive bzw. Methode gefunden, die &quot;nur speichert&quot;). Wahrscheinlich muss der 
++   as.cm direkt verwendet werden, siehe entspr. TODOs im Quelltext
+  * der Message Inhalt muss noch in HTML &lt;pre&gt; oder &#228;hnliches
+  * Prozess nicht von GUI entkoppelt (steht w&#228;hrend des Importes)
+ 
+ Features:
+  * die Relation zwischen den Nachrichten &#252;ber die referenceIds fehlt leider noch,
+    f&#252;r die messageId muss ein eigenes Attribut oder eine Hash-Methode genutzt werden
++ * der Container f&#252;r das MailmanList Topic fehlt noch
++ * die Namensattribute m&#252;ssen noch mit der Custom Implementation gemappt werden (z.B. Subject)
+  * die Email-Adressen und Namen verwenden, um Personen und Emails zuzuordnen
+  
+ Anmerkungen bzw. was ist noch zu machen:
+
+Modified: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-15 21:39:31 UTC (rev 199)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-16 19:56:33 UTC (rev 200)
+@@ -57,7 +57,7 @@
+ 
+ 	private static final String PROPERTY_URL = &quot;url&quot;;
+ 
+-	private static final String ASSOCTYPE_INLIST = &quot;at-listmessageassoc&quot;;
++	private static final String ASSOCTYPE_INLIST = &quot;at-listmessageassociation&quot;;
+ 
+ 	/**
+ 	 * count of archives to process in get action
+@@ -170,15 +170,20 @@
+ 		messageId = messageId.substring(0, messageId.indexOf('@'));
+ 
+ 		// create message topic
++		// TODO use as.cm.createTopic(topicID, 1, topictype, 1, topicName);
+ 		PresentableTopic message = new PresentableTopic(messageId, 1,
+ 				TOPICTYPE_LISTMESSAGE, 1, subject);
+ 
++		// TODO user as.cm.setTopicData(topicID, 1, getProperties(topic));
+ 		Hashtable props = new Hashtable();
+ 		props.put(PROPERTY_CONTENT, content);
+ 		props.put(PROPERTY_SUBJECT, subject);
+ 		message.setProperties(props);
+ 
+ 		// create list association
++		// TODO use as.cm.createAssociation(assocID, 1, assoctype, 1, topicID1,
++		// 1, topicID2, 1); and as.cm.setAssociationData(assocID, 1,
++		// getProperties(assoc));
+ 		String assocID = as.getNewAssociationID();
+ 		PresentableAssociation assoc = new PresentableAssociation(assocID, 1,
+ 				ASSOCTYPE_INLIST, 1, &quot;&quot;, messageId, 1, getID(), 1);
+
+Added: branches/ldap/libs/commons-codec-1.3.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/ldap/libs/commons-codec-1.3.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000044.html">[deepamehta-svn] r199 - in branches/ldap: . install/examples	install/examples/mailman install/examples/mailman/src	install/examples/mailman/src/de	install/examples/mailman/src/de/deepamehta	install/examples/mailman/src/de/deepamehta/topics	install/examples/mailman/test install/examples/mailman/test/de	install/examples/mailman/test/de/deepamehta	install/examples/mailman/test/de/deepamehta/test libs
+</A></li>
+	<LI>Next message: <A HREF="000046.html">[deepamehta-svn] r201 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

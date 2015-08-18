@@ -1,0 +1,825 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r251 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r251%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%20install/db%20install/db/patches&In-Reply-To=%3C200712141537.lBEFb73a020965%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000095.html">
+   <LINK REL="Next"  HREF="000097.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r251 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r251%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%20install/db%20install/db/patches&In-Reply-To=%3C200712141537.lBEFb73a020965%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r251 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Dec 14 16:37:07 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000095.html">[deepamehta-svn] r250 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/stylesheets
+</A></li>
+        <LI>Next message: <A HREF="000097.html">[deepamehta-svn] r252 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/icons	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-12-14 16:36:58 +0100 (Fri, 14 Dec 2007)
+New Revision: 251
+
+Added:
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/install/db/cm.sql
+   trunk/install/db/patches/cm-2.17.sql
+Log:
+Calendar application updated:
+- A calendar shows both, &quot;Appointments&quot; and &quot;Events&quot;. An appointment is related to persons (the attendees) and have a begin time and an end time (besides begin date and end date). Events are not related to persons and have a begin date and end date (but no begin time and end time). Events are displayed at the top of the week view.
+
+Current limitations:
+- events are not yet displayed in the month view (week view only)
+- events across week borders are not yet displayed
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-12-14 15:36:58 UTC (rev 251)
+@@ -520,6 +520,7 @@
+ 	static final String TOPICTYPE_EMAIL = &quot;tt-email&quot;;
+ 	static final String TOPICTYPE_CALENDAR = &quot;tt-calendar&quot;;
+ 	static final String TOPICTYPE_APPOINTMENT = &quot;tt-event&quot;;	// topic type &quot;Appointment&quot; has ID &quot;tt-event&quot; for historical reasons
++	static final String TOPICTYPE_EVENT = &quot;tt-alldayevent&quot;;
+ 	static final String TOPICTYPE_DOCUMENT = &quot;tt-document&quot;;
+ 	static final String TOPICTYPE_IMAGE = &quot;tt-image&quot;;
+ 	static final String TOPICTYPE_WEBPAGE = &quot;tt-webpage&quot;;
+@@ -670,7 +671,7 @@
+ 
+ 	// *** Calendar ***
+ 
+-	// direction is from calendar to appointment
++	// direction is from calendar to appointment ### to be dropped
+ 	static final String SEMANTIC_CALENDAR_APPOINTMENT = ASSOCTYPE_ASSOCIATION;
+ 
+ 	// direction is from calendar to person
+
+Modified: trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2007-12-14 15:36:58 UTC (rev 251)
+@@ -110,6 +110,7 @@
+ 
+ 	// ---
+ 
++	// ### copy in EventTopic
+ 	private void updateCalendars(Vector calendars, CorporateDirectives directives) {
+ 		Enumeration e = calendars.elements();
+ 		while (e.hasMoreElements()) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-14 15:36:58 UTC (rev 251)
+@@ -257,7 +257,9 @@
+ 
+ 	void updateView(CorporateDirectives directives) {
+ 		Vector appointments = getAppointments();
+-		System.out.println(&quot;&gt;&gt;&gt; Update view of calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + appointments.size() + &quot; appointments)&quot;);
++		Vector events = getEvents();
++		System.out.println(&quot;&gt;&gt;&gt; Update calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + appointments.size() + &quot; appointments, &quot; +
++			events.size() + &quot; events)&quot;);
+ 		// ### String html = renderListView(appointments);
+ 		// ### setTopicData(PROPERTY_DESCRIPTION, html);
+ 		// ### directives.add(as.setTopicProperty(getID(), 1, PROPERTY_DESCRIPTION, html, topicmapID, viewmode, session));
+@@ -266,7 +268,7 @@
+ 		if (displayMode.equals(DISPLAY_MODE_DAY)) {
+ 			html = renderDayView(appointments);
+ 		} else if (displayMode.equals(DISPLAY_MODE_WEEK)) {
+-			html = renderWeekView(appointments);
++			html = renderWeekView(appointments, events);
+ 		} else if (displayMode.equals(DISPLAY_MODE_MONTH)) {
+ 			html = renderMonthView(appointments);
+ 		} else {
+@@ -289,7 +291,7 @@
+ 		return html.toString();
+ 	}
+ 
+-	private String renderWeekView(Vector appointments) {
++	private String renderWeekView(Vector appointments, Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
+ 		// error check ### to be droppped
+ 		if (!isSet(displayDateString)) {
+@@ -305,7 +307,8 @@
+ 		Calendar lastDisplayDate = (Calendar) displayDate.clone();
+ 		lastDisplayDate.add(Calendar.DATE, 6);
+ 		// --- make model ---
+-		Vector[] weekModel = makeWeekModel(appointments, displayDate, lastDisplayDate);
++		Vector[] weekAppointmentModel = makeWeekAppointmentModel(appointments, displayDate, lastDisplayDate);
++		Vector weekEventModel = makeWeekEventModel(events, displayDate, lastDisplayDate);
+ 		// --- rendering ---
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+ 			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+@@ -315,17 +318,25 @@
+ 		Calendar cal = (Calendar) displayDate.clone();
+ 		html.append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
+ 		for (int day = 0; day &lt; 7; day++) {
+-			int daySlotCount = weekModel[day].size();
++			int daySlotCount = daySlotCount(day, weekAppointmentModel);
+ 			html.append(&quot;&lt;td colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&quot; + df.format(cal.getTime()) + &quot;&lt;/td&gt;&quot;);
+ 			cal.add(Calendar.DATE, 1);
+ 		}
+ 		html.append(&quot;&lt;/tr&gt;&quot;);
+ 		// - body -
++		renderWeekEvents(weekEventModel, weekAppointmentModel, html);
++		renderWeekAppointments(weekAppointmentModel, html);
++		//
++		html.append(&quot;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
++		return html.toString();
++	}
++
++	private void renderWeekAppointments(Vector[] weekAppointmentModel, StringBuffer html) {
+ 		for (int seg = 0; seg &lt; CALENDAR_DAY_SEGMENTS; seg++) {
+ 			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&quot; + (seg % CALENDAR_HOUR_SEGMENTS == 0 ?
+ 				CALENDAR_DAY_START_HOUR + seg / CALENDAR_HOUR_SEGMENTS + &quot;:00&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);
+ 			for (int day = 0; day &lt; 7; day++) {
+-				Vector daySlots = weekModel[day];
++				Vector daySlots = weekAppointmentModel[day];
+ 				for (int slot = 0; slot &lt; daySlots.size(); slot++) {
+ 					WeekAppointmentModel[] daySlot = (WeekAppointmentModel[]) daySlots.elementAt(slot);
+ 					WeekAppointmentModel cell = daySlot[seg];
+@@ -341,10 +352,28 @@
+ 			}
+ 			html.append(&quot;&lt;/tr&gt;&quot;);
+ 		}
+-		html.append(&quot;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+-		return html.toString();
+ 	}
+ 
++	private void renderWeekEvents(Vector weekEventModel, Vector[] weekAppointmentModel, StringBuffer html) {
++		for (int slot = 0; slot &lt; weekEventModel.size(); slot++) {
++			WeekEventModel[] eventSlot = (WeekEventModel[]) weekEventModel.elementAt(slot);
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;/td&gt;&quot;);
++			for (int day = 0; day &lt; 7; day++) {
++				WeekEventModel cell = eventSlot[day];
++				if (cell == null) {
++					int daySlotCount = daySlotCount(day, weekAppointmentModel);
++					html.append(&quot;&lt;td colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&lt;/td&gt;&quot;);
++				} else if (cell.type == WeekEventModel.BEGIN_OF_EVENT) {
++					int daySlotCount = daySlotCount(day, cell.dayCount, weekAppointmentModel);
++					html.append(&quot;&lt;td class=\&quot;appointment\&quot; colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&quot;);
++					html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_APPOINTMENT + &quot;/&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
++					html.append(&quot;&lt;/td&gt;&quot;);
++				}
++			}
++			html.append(&quot;&lt;/tr&gt;&quot;);
++		}
++	}
++
+ 	private String renderMonthView(Vector appointments) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
+ 		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+@@ -434,28 +463,29 @@
+ 
+ 	// ---
+ 
+-	private Vector[] makeWeekModel(Vector appointments, Calendar displayDate, Calendar lastDisplayDate) {
+-		Vector[] weekModel = initWeekModel();
++	private Vector[] makeWeekAppointmentModel(Vector appointments, Calendar displayDate, Calendar lastDisplayDate) {
++		Vector[] weekAppointmentModel = initWeekAppointmentModel();
+ 		//
+ 		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
+ 		String lastDisplayDateString = DeepaMehtaUtils.getDate(lastDisplayDate);
+ 		//
+-		System.out.println(&quot;CalendarTopic.makeWeekModel(): displayDate=&quot; + displayDate.getTime() + &quot;(&quot; + displayDateString + &quot;)&quot;);
+-		System.out.println(&quot;                           lastDisplayDate=&quot; + lastDisplayDate.getTime() + &quot;(&quot; + lastDisplayDateString + &quot;)&quot;);
++		System.out.println(&quot;CalendarTopic.makeWeekAppointmentModel(): displayDate=&quot; + displayDate.getTime() + &quot; (&quot; + displayDateString + &quot;)&quot;);
++		System.out.println(&quot;                                      lastDisplayDate=&quot; + lastDisplayDate.getTime() + &quot; (&quot; + lastDisplayDateString + &quot;)&quot;);
+ 		//
+-		int withinDayRange = 0;		// for diagnostics only
++		int withinDayRange = 0;			// for diagnostics only
+ 		int appointmentsDisplayed = 0;	// for diagnostics only
+ 		//
+ 		Enumeration e = appointments.elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic appointment = (BaseTopic) e.nextElement();
+ 			String beginDate = getProperty(appointment, PROPERTY_BEGIN_DATE);
++			// ignore appointments outside day range
+ 			int c1 = beginDate.compareTo(displayDateString);
+ 			int c2 = beginDate.compareTo(lastDisplayDateString);
+-			// ignore appointments outside day range
+ 			if (c1 &lt; 0 || c2 &gt; 0) {
+ 				continue;
+ 			}
++			//
+ 			withinDayRange++;
+ 			String beginTime = getProperty(appointment, PROPERTY_BEGIN_TIME);
+ 			String endTime = getProperty(appointment, PROPERTY_END_TIME);
+@@ -472,6 +502,7 @@
+ 			if (toIndex &lt; 0 || beginSegment &gt;= CALENDAR_DAY_SEGMENTS) {
+ 				continue;
+ 			}
++			//
+ 			appointmentsDisplayed++;
+ 			// adjust boundings for appointments partially outside time range
+ 			if (beginSegment &lt; 0) {
+@@ -482,15 +513,15 @@
+ 				segmentCount += CALENDAR_DAY_SEGMENTS - toIndex - 1;
+ 			}
+ 			// --- add appointment to model ---
+-			System.out.println(&quot;add appointment to week view: \&quot;&quot; + getProperty(appointment, PROPERTY_NAME) + &quot;\&quot;&quot;);
+ 			Calendar appointmentBegin = DeepaMehtaUtils.getCalendar(beginDate);
+ 			int dayOfWeek = (appointmentBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-			// find free slot for the day
+-			WeekAppointmentModel[] daySlot = findFreeDaySlot(weekModel, dayOfWeek, beginSegment, segmentCount);
++			// find free slot for the day (a column)
++			WeekAppointmentModel[] daySlot = findFreeDaySlot(weekAppointmentModel, dayOfWeek, beginSegment, segmentCount);
+ 			// 1) add beginning segment to model
+ 			String appointmentName = getProperty(appointment, PROPERTY_NAME);
+ 			// Note: appointment.getName() doesn't work here, because the propertiesChanged() hook is triggered after
+ 			// the properties are updated in CM but _before_ the topic name is updated in CM.
++			System.out.println(&quot;add appointment \&quot;&quot; + appointmentName + &quot;\&quot;&quot;);
+ 			daySlot[beginSegment] = new WeekAppointmentModel(appointment.getID(), appointmentName, beginTime, segmentCount);
+ 			// 2) add ocupied segments to model
+ 			for (int seg = beginSegment + 1; seg &lt; beginSegment + segmentCount; seg++) {
+@@ -500,21 +531,74 @@
+ 		System.out.println(&quot;=&gt; appointments within day range:                  &quot; + withinDayRange);
+ 		System.out.println(&quot;=&gt; displayed appointments (reasonable time range): &quot; + appointmentsDisplayed);
+ 		//
+-		return weekModel;
++		return weekAppointmentModel;
+ 	}
+ 
+-	private Vector[] initWeekModel() {
+-		Vector[] weekModel = new Vector[7];
++	/**
++	 * @return	data model for the events of one week, ready for rendering the week view.
++	 */
++	private Vector makeWeekEventModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
++		Vector weekEventModel = new Vector();
++		//
++		String displayDateString     = DeepaMehtaUtils.getDate(displayDate);
++		String lastDisplayDateString = DeepaMehtaUtils.getDate(lastDisplayDate);
++		//
++		int eventsDisplayed = 0;	// for diagnostics only
++		//
++		Enumeration e = events.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic event = (BaseTopic) e.nextElement();
++			String beginDate = getProperty(event, PROPERTY_BEGIN_DATE);
++			String endDate   = getProperty(event, PROPERTY_END_DATE);
++			// ignore events with unset date fields
++			if (!isSet(beginDate) || !isSet(endDate)) {
++				continue;
++			}
++			// ignore events outside display range
++			int c1 = beginDate.compareTo(displayDateString);
++			int c2 = endDate.compareTo(lastDisplayDateString);
++			if (c1 &lt; 0 || c2 &gt; 0) {
++				continue;
++			}
++			// --- add event to model ---
++			eventsDisplayed++;
++			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
++			Calendar eventEnd   = DeepaMehtaUtils.getCalendar(endDate);
++			int beginDay = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			int endDay   = (eventEnd.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			int dayCount = endDay - beginDay + 1;
++			// find free event slot (a row)
++			WeekEventModel[] eventSlot = findFreeEventSlot(weekEventModel, beginDay, endDay);
++			// 1) add beginning day to model
++			String eventName = getProperty(event, PROPERTY_NAME);
++			// Note: event.getName() doesn't work here, because the propertiesChanged() hook is triggered after
++			// the properties are updated in CM but _before_ the topic name is updated in CM.
++			System.out.println(&quot;add event \&quot;&quot; + eventName + &quot;\&quot;&quot;);
++			eventSlot[beginDay] = new WeekEventModel(event.getID(), eventName, dayCount);
++			// 2) add ocupied days to model
++			for (int day = beginDay + 1; day &lt; beginDay + dayCount; day++) {
++				eventSlot[day] = new WeekEventModel();
++			}
++		}
++		System.out.println(&quot;=&gt; displayed events:                               &quot; + eventsDisplayed);
++		//
++		return weekEventModel;
++	}
++
++	private Vector[] initWeekAppointmentModel() {
++		Vector[] weekAppointmentModel = new Vector[7];
+ 		// for every day add one slot
+ 		for (int i = 0; i &lt; 7; i++) {
+-			weekModel[i] = new Vector();
+-			weekModel[i].addElement(new WeekAppointmentModel[CALENDAR_DAY_SEGMENTS]);
++			weekAppointmentModel[i] = new Vector();
++			weekAppointmentModel[i].addElement(new WeekAppointmentModel[CALENDAR_DAY_SEGMENTS]);
+ 		}
+-		return weekModel;
++		return weekAppointmentModel;
+ 	}
+ 
+-	private WeekAppointmentModel[] findFreeDaySlot(Vector[] weekModel, int dayOfWeek, int beginSegment, int segmentCount) {
+-		Vector daySlots = weekModel[dayOfWeek];
++	// ---
++
++	private WeekAppointmentModel[] findFreeDaySlot(Vector[] weekAppointmentModel, int dayOfWeek, int beginSegment, int segmentCount) {
++		Vector daySlots = weekAppointmentModel[dayOfWeek];
+ 		Enumeration e = daySlots.elements();
+ 		while (e.hasMoreElements()) {
+ 			WeekAppointmentModel[] daySlot = (WeekAppointmentModel[]) e.nextElement();
+@@ -529,15 +613,51 @@
+ 				return daySlot;
+ 			}
+ 		}
+-		// no free day slot found -- create and return a new free day slot
++		// no free day slot found -- create new day slot
+ 		WeekAppointmentModel[] daySlot = new WeekAppointmentModel[CALENDAR_DAY_SEGMENTS];
+-		weekModel[dayOfWeek].addElement(daySlot);
+-		System.out.println(&quot;     create a new slot for day &quot; + dayOfWeek + &quot;. Slots now: &quot; + weekModel[dayOfWeek].size());
++		daySlots.addElement(daySlot);
++		System.out.println(&quot;     create a new slot for day &quot; + dayOfWeek + &quot;. Slots now: &quot; + daySlots.size());
+ 		return daySlot;
+ 	}
+ 
++	private WeekEventModel[] findFreeEventSlot(Vector weekEventModel, int beginDay, int endDay) {
++		Enumeration e = weekEventModel.elements();
++		while (e.hasMoreElements()) {
++			WeekEventModel[] eventSlot = (WeekEventModel[]) e.nextElement();
++			boolean isEventSlotFree = true;
++			for (int i = beginDay; i &lt;= endDay; i++) {
++				if (eventSlot[i] != null) {
++					isEventSlotFree = false;
++					break;
++				}
++			}
++			if (isEventSlotFree) {
++				return eventSlot;
++			}
++		}
++		// no free event slot found -- create new event slot
++		WeekEventModel[] eventSlot = new WeekEventModel[7];
++		weekEventModel.addElement(eventSlot);
++		System.out.println(&quot;     create a new event slot. Event slots now: &quot; + weekEventModel.size());
++		return eventSlot;
++	}
++
+ 	// ---
+ 
++	private int daySlotCount(int dayOfWeek, Vector[] weekAppointmentModel) {
++		return weekAppointmentModel[dayOfWeek].size();
++	}
++
++	private int daySlotCount(int beginDay, int dayCount, Vector[] weekAppointmentModel) {
++		int daySlotCount = 0;
++		for (int day = beginDay; day &lt; beginDay + dayCount; day++) {
++			daySlotCount += daySlotCount(day, weekAppointmentModel);
++		}
++		return daySlotCount;
++	}
++
++	// ---
++
+ 	private Vector[] makeMonthModel(Vector appointments, Calendar displayDate) {
+ 		int daysPerMonth = displayDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+ 		Vector[] monthModel = new Vector[daysPerMonth];
+@@ -579,7 +699,7 @@
+ 		// 1) add appointments directly connected to this calendar
+ 		// ### sorting not needed anymore
+ 		String[] sortProps = {PROPERTY_BEGIN_DATE, PROPERTY_BEGIN_TIME};
+-		appointments = cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_APPOINTMENT, TOPICTYPE_APPOINTMENT, 2, sortProps, true);	// descending=true
++		appointments = cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_APPOINTMENT, TOPICTYPE_APPOINTMENT, 2, sortProps, false);	// descending=false
+ 		// 2) add appointments of the persons connected to this calendar
+ 		Enumeration e = getCalendarPersons().elements();
+ 		while (e.hasMoreElements()) {
+@@ -590,6 +710,10 @@
+ 		return appointments;
+ 	}
+ 
++	private Vector getEvents() {
++		return cm.getTopics(TOPICTYPE_EVENT);
++	}
++
+ 	private Vector getCalendarPersons() {
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_PERSON, 2);
+ 	}
+@@ -734,6 +858,30 @@
+ 	}
+ 
+ 	/**
++	 * Data model for rendering one event in the week view.
++	 */
++	private class WeekEventModel {
++
++		static final int BEGIN_OF_EVENT = 0;
++		static final int OCCUPIED_BY_EVENT = 1;
++
++		int type;
++		String eventID, eventName;
++		int dayCount;
++
++		WeekEventModel() {
++			type = OCCUPIED_BY_EVENT;
++		}
++
++		WeekEventModel(String eventID, String eventName, int dayCount) {
++			type = BEGIN_OF_EVENT;
++			this.eventID = eventID;
++			this.eventName = eventName;
++			this.dayCount = dayCount;
++		}
++	}
++
++	/**
+ 	 * Data model for rendering one appointment in the month view.
+ 	 */
+ 	private class MonthAppointmentModel {
+
+Added: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-12-14 15:36:58 UTC (rev 251)
+@@ -0,0 +1,78 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Vector;
++
++
++
++/**
++ * Last functional change: 14.12.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 14.12.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class EventTopic extends LiveTopic {
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	public EventTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++
++
++	// **********************
++	// *** Defining Hooks ***
++	// **********************
++
++
++
++	// ---------------------------
++	// --- Handling Properties ---
++	// ---------------------------
++
++
++
++	public CorporateDirectives propertiesChanged(Hashtable newProps, Hashtable oldProps,
++											String topicmapID, String viewmode, Session session) {
++		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
++			topicmapID, viewmode, session);
++		//
++		updateCalendars(getCalendars(), directives);
++		//
++		return directives;
++	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	private Vector getCalendars() {
++		return cm.getTopics(TOPICTYPE_CALENDAR);
++	}
++
++	// ### copy in AppointmentTopic
++	private void updateCalendars(Vector calendars, CorporateDirectives directives) {
++		Enumeration e = calendars.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic calendar = (BaseTopic) e.nextElement();
++			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++		}
++	}
++}
+
+Modified: trunk/install/db/cm.sql
+===================================================================
+--- trunk/install/db/cm.sql	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/install/db/cm.sql	2007-12-14 15:36:58 UTC (rev 251)
+@@ -901,9 +901,7 @@
+ -- super type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-142', '', 'tt-generic', 1, 'tt-cmimportexport', 1);
+ 
+----
+---- create topic type &quot;Calendar&quot; ---
+----
++--- &quot;Calendar&quot; ---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Name', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Plural Name', 'Calendars');
+@@ -924,30 +922,55 @@
+ -- assign search type to type
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-97', '', 'tt-calendar-search', 1, 'tt-calendar', 1);
+ 
+----
+---- create topic type &quot;Event&quot; ---
+----
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Event');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Events');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;An &lt;i&gt;Event&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description Query', 'What is an &quot;Event&quot;?');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Icon', 'event.png');
++--- &quot;Appointment&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Appointment');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Appointment');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Appointments');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;An &lt;i&gt;Appointment&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description Query', 'What is an &quot;Appointment&quot;?');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Icon', 'appointment.gif');
+ -- INSERT INTO TopicProp VALUES ('tt-event', 1, 'Creation Icon', 'createKompetenzstern.gif');
+ -- INSERT INTO TopicProp VALUES ('tt-event', 1, 'Unique Topic Names', 'on');
+-INSERT INTO TopicProp VALUES ('tt-event', 1, 'Custom Implementation', 'de.deepamehta.topics.EventTopic');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Custom Implementation', 'de.deepamehta.topics.AppointmentTopic');
+ -- super type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-98', '', 'tt-generic', 1, 'tt-event', 1);
+ -- search type
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event-search', 'Event Search');
+-INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Name', 'Event Search');
+-INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'event-search.gif');
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event-search', 'Appointment Search');
++INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Name', 'Appointment Search');
++INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'appointmentcontainer.gif');
+ -- derive search type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-99', '', 'tt-topiccontainer', 1, 'tt-event-search', 1);
+ -- assign search type to type
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-109', '', 'tt-event-search', 1, 'tt-event', 1);
+ 
++--- &quot;Event&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-alldayevent', 'Event');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Name', 'Event');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Plural Name', 'Events');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;An &lt;i&gt;Event&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Description Query', 'What is an &quot;Event&quot;?');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Icon', 'event.png');
++-- INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Creation Icon', 'createKompetenzstern.gif');
++-- INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-alldayevent', 1, 'Custom Implementation', 'de.deepamehta.topics.EventTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-324', '', 'tt-generic', 1, 'tt-alldayevent', 1);
++-- search type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-alldayevent-search', 'Event Search');
++INSERT INTO TopicProp VALUES ('tt-alldayevent-search', 1, 'Name', 'Event Search');
++INSERT INTO TopicProp VALUES ('tt-alldayevent-search', 1, 'Icon', 'event-search.gif');
++-- derive search type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-325', '', 'tt-topiccontainer', 1, 'tt-alldayevent-search', 1);
++-- assign search type to type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-330', '', 'tt-alldayevent-search', 1, 'tt-alldayevent', 1);
++-- assign properties to topic type
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-331', '', 'tt-alldayevent', 1, 'pp-begindate', 1);
++INSERT INTO AssociationProp VALUES ('a-331', 1, 'Ordinal Number', '110');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-332', '', 'tt-alldayevent', 1, 'pp-enddate', 1);
++INSERT INTO AssociationProp VALUES ('a-332', 1, 'Ordinal Number', '130');
+ 
++
++
+ -------------------------
+ --- Association Types ---
+ -------------------------
+@@ -1491,7 +1514,7 @@
+ INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Form', 'Related Topic Selector');
+ INSERT INTO AssociationProp VALUES ('a-190', 1, 'Ordinal Number', '150');
+ 
+---- Event
++--- Appointment
+ -- create properties
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-begindate', 'Begin Date');
+ INSERT INTO TopicProp VALUES ('pp-begindate', 1, 'Name', 'Begin Date');
+@@ -1523,17 +1546,6 @@
+ INSERT INTO AssociationProp VALUES ('a-323', 1, 'Web Form', 'Related Topic Selector');
+ INSERT INTO AssociationProp VALUES ('a-323', 1, 'Ordinal Number', '150');
+ 
+----
+---- assign topic types to workspace &quot;DeepaMehta&quot;
+----
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
+-INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
+-INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
+-
+-
+ --- &quot;Web Form&quot; ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-webform', 'Web Form');
+ INSERT INTO TopicProp VALUES ('pp-webform', 1, 'Name', 'Web Form');
+@@ -1687,60 +1699,81 @@
+ INSERT INTO AssociationProp VALUES ('a-280', 1, 'Ordinal Number', '1');
+ INSERT INTO AssociationProp VALUES ('a-281', 1, 'Ordinal Number', '2');
+ 
+---- assign types to workspaces ---
+ 
+--- &quot;DeepaMehta&quot;
++
++----------------------------------
++--- Assign Types To Workspaces ---
++----------------------------------
++
++
++
++--- &quot;DeepaMehta&quot; ---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-185', '', 't-corporategroup', 1, 'tt-generic', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-246', '', 't-corporategroup', 1, 'tt-topicmap', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-192', '', 't-corporategroup', 1, 'tt-workspace', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-189', '', 't-corporategroup', 1, 'tt-person', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-188', '', 't-corporategroup', 1, 'tt-document', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-186', '', 't-corporategroup', 1, 'tt-appointment', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-181', '', 't-corporategroup', 1, 'tt-email', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-191', '', 't-corporategroup', 1, 'tt-webpage', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-326', '', 't-corporategroup', 1, 'tt-institution', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-333', '', 't-corporategroup', 1, 'tt-alldayevent', 1);
++--
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-193', '', 't-corporategroup', 1, 'at-generic', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-194', '', 't-corporategroup', 1, 'at-association', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-195', '', 't-corporategroup', 1, 'at-aggregation', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-196', '', 't-corporategroup', 1, 'at-composition', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-197', '', 't-corporategroup', 1, 'at-derivation', 1);
++--
+ INSERT INTO AssociationProp VALUES ('a-185', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-246', 1, 'Access Permission', 'create in workspace');
+ INSERT INTO AssociationProp VALUES ('a-192', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-189', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-188', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-186', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-181', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-191', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-326', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-333', 1, 'Access Permission', 'create');
++--
+ INSERT INTO AssociationProp VALUES ('a-193', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-194', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-195', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-196', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-197', 1, 'Access Permission', 'create');
++--
+ INSERT INTO AssociationProp VALUES ('a-185', 1, 'Ordinal Number', '01');
+ INSERT INTO AssociationProp VALUES ('a-246', 1, 'Ordinal Number', '02');
+ INSERT INTO AssociationProp VALUES ('a-192', 1, 'Ordinal Number', '03');
+ INSERT INTO AssociationProp VALUES ('a-189', 1, 'Ordinal Number', '04');
+ INSERT INTO AssociationProp VALUES ('a-188', 1, 'Ordinal Number', '05');
+-INSERT INTO AssociationProp VALUES ('a-186', 1, 'Ordinal Number', '06');
+ INSERT INTO AssociationProp VALUES ('a-181', 1, 'Ordinal Number', '07');
+ INSERT INTO AssociationProp VALUES ('a-191', 1, 'Ordinal Number', '08');
+ INSERT INTO AssociationProp VALUES ('a-326', 1, 'Ordinal Number', '09');
+--- &quot;Type Builder&quot;
++INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
++INSERT INTO AssociationProp VALUES ('a-333', 1, 'Ordinal Number', '60');
++
++--- &quot;Type Builder&quot; ---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-263', '', 't-constructionworkspace', 1, 'tt-topictype', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-264', '', 't-constructionworkspace', 1, 'tt-assoctype', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-265', '', 't-constructionworkspace', 1, 'tt-property', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-266', '', 't-constructionworkspace', 1, 'tt-constant', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-267', '', 't-constructionworkspace', 1, 'tt-datasource', 1);
++--
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-205', '', 't-constructionworkspace', 1, 'at-relation', 1);
++--
+ INSERT INTO AssociationProp VALUES ('a-263', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-264', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-265', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-266', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-267', 1, 'Access Permission', 'create');
++--
+ INSERT INTO AssociationProp VALUES ('a-205', 1, 'Access Permission', 'create');
+--- &quot;Administration&quot;
++
++--- &quot;Administration&quot; ---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-180', '', 't-administrationgroup', 1, 'tt-user', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-230', '', 't-administrationgroup', 1, 'tt-whoistopic', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-282', '', 't-administrationgroup', 1, 'tt-installation', 1);
+@@ -1752,11 +1785,13 @@
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-209', '', 't-administrationgroup', 1, 'tt-messageboard', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-210', '', 't-administrationgroup', 1, 'tt-chat', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-116', '', 't-administrationgroup', 1, 'tt-chatboard', 1);
++--
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-182', '', 't-administrationgroup', 1, 'at-membership', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-183', '', 't-administrationgroup', 1, 'at-groupleader', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-184', '', 't-administrationgroup', 1, 'at-publishpermission', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-207', '', 't-administrationgroup', 1, 'at-uses', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-171', '', 't-administrationgroup', 1, 'at-preference', 1);
++--
+ INSERT INTO AssociationProp VALUES ('a-180', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-230', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-282', 1, 'Access Permission', 'create');
+@@ -1768,6 +1803,7 @@
+ INSERT INTO AssociationProp VALUES ('a-209', 1, 'Access Permission', 'view');
+ INSERT INTO AssociationProp VALUES ('a-210', 1, 'Access Permission', 'view');
+ INSERT INTO AssociationProp VALUES ('a-116', 1, 'Access Permission', 'view');
++--
+ INSERT INTO AssociationProp VALUES ('a-182', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-183', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-184', 1, 'Access Permission', 'create');
+@@ -1984,7 +2020,7 @@
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Client Name', 'DeepaMehta 2.0b8');
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Active', 'on');
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
+--- INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', '');
++-- INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Corporate Icon', '');
+ -- assign preferences to installation (&quot;Export Format&quot;)
+ INSERT INTO Association VALUES ('at-preference', 1, 1, 'a-270', '', 't-deepamehtainstallation', 1, 't-xml', 1);
+ 
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-12-09 16:22:08 UTC (rev 250)
++++ trunk/install/db/patches/cm-2.17.sql	2007-12-14 15:36:58 UTC (rev 251)
+@@ -172,6 +172,9 @@
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-333', '', 't-corporategroup', 1, 'tt-alldayevent', 1);
++INSERT INTO AssociationProp VALUES ('a-333', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-333', 1, 'Ordinal Number', '60');
+ 
+ 
+ 
+@@ -208,7 +211,7 @@
+ 
+ 
+ ---
+---- delete &quot;City&quot; and &quot;Country&quot; assignments from workspace &quot;DeepaMehta&quot;
++--- delete &quot;City&quot;, &quot;Country&quot; and &quot;Appointment&quot; assignments from workspace &quot;DeepaMehta&quot;
+ ---
+ DELETE FROM Association WHERE ID='a-324';
+ DELETE FROM AssociationProp WHERE AssociationID='a-324';
+@@ -216,7 +219,12 @@
+ DELETE FROM Association WHERE ID='a-325';
+ DELETE FROM AssociationProp WHERE AssociationID='a-325';
+ DELETE FROM ViewAssociation WHERE AssociationID='a-325';
++DELETE FROM Association WHERE ID='a-186';
++DELETE FROM AssociationProp WHERE AssociationID='a-186';
++DELETE FROM ViewAssociation WHERE AssociationID='a-186';
+ 
++
++
+ --- fixing some Typos in whois.sql
+ UPDATE Association SET TopicID1='tt-whoistopic' WHERE TopicID1='tt-whoisTopic';
+ delete from TopicProp where topicid='tt-whois6';
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000095.html">[deepamehta-svn] r250 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/stylesheets
+</A></li>
+	<LI>Next message: <A HREF="000097.html">[deepamehta-svn] r252 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/icons	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

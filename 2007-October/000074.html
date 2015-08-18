@@ -1,0 +1,1316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r229 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/stylesheets	install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r229%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install/client/stylesheets%0A%09install/db/patches&In-Reply-To=%3C200710031342.l93Dgadg023543%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000073.html">
+   <LINK REL="Next"  HREF="000075.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r229 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/stylesheets	install/db/patches</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r229%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install/client/stylesheets%0A%09install/db/patches&In-Reply-To=%3C200710031342.l93Dgadg023543%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r229 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/stylesheets	install/db/patches">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Oct  3 15:42:36 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000073.html">[deepamehta-svn] r228 - in branches/eschnepel: . ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-search install/examples/dm-topicmapviewer install/examples/dm-web install/examples/dm-web/build install/examples/kompetenzstern install/examples/ldap install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies in! stall/examples/movies/build install/examples/movies/config install/examples/movies/db
+</A></li>
+        <LI>Next message: <A HREF="000075.html">[deepamehta-svn] r230 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/helper	install/db/db-specific install/examples/artfacts	install/examples/artfacts/src/de/deepamehta/artfacts/topics	install/examples/dm-browser/config install/examples/dm-search	install/examples/dm-search/config install/examples/dm-topicmapviewer	install/examples/dm-topicmapviewer/config	install/examples/dm-web/config install/examples/kompetenzstern	install/examples/kompetenzstern/config	install/examples/kompetenzstern/pages	install/examples/ldap/src/de/deepamehta/topics	install/examples/movies install/examples/movies/bin	install/examples/movies/db	install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#74">[ date ]</a>
+              <a href="thread.html#74">[ thread ]</a>
+              <a href="subject.html#74">[ subject ]</a>
+              <a href="author.html#74">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-10-03 15:42:34 +0200 (Wed, 03 Oct 2007)
+New Revision: 229
+
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/EmailTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+   branches/eschnepel/install/client/stylesheets/calendar.css
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+Log:
+merge from main 225:HEAD
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 25.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -172,6 +172,9 @@
+ 	static final String DATE_SEPARATOR = &quot;/&quot;;
+ 	static final String TIME_SEPARATOR = &quot;:&quot;;
+ 	static final String[] monthNames = {&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;};
++	static final String[] monthNamesLong = {&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
++											&quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;};
++	static final String[] dayNames = {&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;};
+ 	static final int YEAR_MIN = 1850;
+ 	static final int YEAR_MAX = 2010;
+ 	static final String PARAM_SEPARATOR = &quot;_&quot;;		// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -83,6 +83,8 @@
+ 	 * bring into live the very first time.
+ 	 * &lt;P&gt;
+ 	 * The default implementation creates the association in corporate memory.
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#createLiveAssociation
+ 	 */
+@@ -115,6 +117,8 @@
+ 	 * &lt;LI&gt;all views
+ 	 * &lt;/UL&gt;
+ 	 * ... and returns empty directives.
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#deleteAssociation
+ 	 */
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -378,7 +378,7 @@
+ 	 */
+ 	public LiveAssociation checkLiveAssociation(BaseAssociation assoc, Session session, CorporateDirectives directives) {
+ 		if (!liveAssociationExists(assoc)) {
+-			createLiveAssociation(assoc, false, false, directives);
++			createLiveAssociation(assoc, false, false, session, directives);
+ 		}
+ 		return getLiveAssociation(assoc);
+ 	}
+@@ -397,7 +397,7 @@
+ 					version + &quot;\&quot; not in corporate memory&quot;);
+ 			}
+ 			//
+-			createLiveAssociation(assoc, false, false, directives);
++			createLiveAssociation(assoc, false, false, session, directives);
+ 		}
+ 		return getLiveAssociation(assocID, version);
+ 	}
+@@ -426,40 +426,34 @@
+ 	// --- createLiveTopic (5 forms) ---
+ 
+ 	/**
+-	 * Creates a {@link de.deepamehta.topics.LiveTopic} based on the specified
+-	 * {@link de.deepamehta.BaseTopic} and adds it to this live corporate memory.
++	 * Instantiates a {@link de.deepamehta.topics.LiveTopic} based on the specified {@link de.deepamehta.BaseTopic},
++	 * stores it in the live corporate memory, and finally triggers the init() hook at init level 1.
++	 * &lt;p&gt;
++	 * Note: this is a private method. The application developer is supposed to use the other forms of this method, which
++	 * performs full initialization in terms of triggering the evoke() hook and the init() hook at init levels 2 and 3.
+ 	 * &lt;P&gt;
+ 	 * If a topic with same ID and version already exists in live corporate memory and the
+ 	 * &lt;CODE&gt;override&lt;/CODE&gt; parameter is set to &lt;CODE&gt;false&lt;/CODE&gt; nothing is performed.
+ 	 * &lt;P&gt;
+-	 * If the topic has a custom implementation the corresponmding
+-	 * class is instantiated (a direct or indirect subclass of
+-	 * {@link de.deepamehta.topics.LiveTopic}), the actual classname
+-	 * is determined by the &quot;Implementing Class&quot; property of the corresponding type
+-	 * topic. If the &quot;Implementing Class&quot; property is empty, there is no custom
+-	 * implementation and a generic {@link de.deepamehta.topics.LiveTopic} is
+-	 * instantiated.
++	 * If the topic has a custom implementation the corresponmding class is instantiated (a direct or indirect subclass of
++	 * {@link de.deepamehta.topics.LiveTopic}), the actual classname is determined by the &quot;Implementing Class&quot; property of
++	 * the corresponding type topic. If the &quot;Implementing Class&quot; property is empty, there is no custom implementation and
++	 * a generic {@link de.deepamehta.topics.LiveTopic} is instantiated.
+ 	 * &lt;P&gt;
+-	 * After creating an active topic, its life-cycle method &lt;CODE&gt;init()&lt;/CODE&gt;
+-	 * is triggered at INITLEVEL_1.
+-	 * &lt;P&gt;
+ 	 * ### should return a LiveTopic and have &quot;directives&quot; as a parameter&lt;BR&gt;
+-	 * ### should be package private
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
+ 	 *
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;																											&lt;TD&gt;&lt;CODE&gt;override&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #loadDemoTopicmaps()}																								&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #setAuthentificationSourceTopic()}																				&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #createLiveTopics(Enumeration, CorporateDirectives, Session)}												&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;/TABLE&gt;
+-	 *
+ 	 * @param	session		passed to init() hook (init level 1)
+ 	 *
+-	 * @return	If the topic has not been created because it exists already in live
+-	 *			corporate memory &lt;CODE&gt;null&lt;/CODE&gt; is returned. Otherwise possible error
+-	 *			directives resulted from creation of an active topic are returned (may
+-	 *			be emtpy). Note: if a live topic without custom implementation was
+-	 *			created always empty CorporateDirectives are returned.
++	 * @return	If the topic has not been created because it exists already in live corporate memory &lt;CODE&gt;null&lt;/CODE&gt; is
++	 *			returned. Otherwise possible error directives resulted from creation of an active topic are returned (may
++	 *			be emtpy). Note: if a live topic without custom implementation was created always empty CorporateDirectives
++	 *			are returned.
++	 *
++	 * @see		#checkLiveTopic
++	 * @see		#createLiveTopic
++	 * @see		#createLiveTopics
+ 	 */
+ 	private CorporateDirectives createLiveTopic(BaseTopic topic, boolean override, Session session)
+ 																		throws TopicInitException {
+@@ -478,11 +472,11 @@
+ 		}
+ 		//
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		// --- create live topic ---
++		// --- instantiate live topic ---
+ 		String implementingClass = getImplementingClass(topic);
+ 		if (LOG_LCM) {System.out.println(&quot;&gt; (*) &quot; + topic);}
+ 		LiveTopic newTopic = createCustomLiveTopic(topic, implementingClass, directives);
+-		// --- add to live corporate memory ---
++		// --- store in live corporate memory ---
+ 		addTopic(newTopic);
+ 		// --- trigger init() hook ---
+ 		newTopic.init(INITLEVEL_1, session);	// throws TopicInitException
+@@ -597,7 +591,7 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+ 		// check weather retyping is allowed and which type is finally to be used
+-		typeID = associationAllowed(typeID, null, topicID1, topicID2, session, directives);
++		typeID = triggerAssociationAllowed(typeID, topicID1, topicID2, session, directives);
+ 		if (typeID != null) {
+ 			String assocID = getNewAssociationID();
+ 			PresentableAssociation assoc = new PresentableAssociation(assocID, 1, typeID, 1, &quot;&quot;, topicID1, 1, topicID2, 1);
+@@ -691,55 +685,74 @@
+ 	void createLiveAssociations(Enumeration assocs, boolean evoke, Session session, CorporateDirectives directives) {
+ 		while (assocs.hasMoreElements()) {
+ 			BaseAssociation assoc = (BaseAssociation) assocs.nextElement();
+-			createLiveAssociation(assoc, false, evoke, directives);
++			createLiveAssociation(assoc, false, evoke, session, directives);
+ 		}
+ 	}
+ 
+ 	// --- createLiveAssociation (3 forms) ---
+ 
+ 	/**
+-	 * References checked: 30.3.2003 (2.0a18-pre8)
++	 * Instantiates a {@link de.deepamehta.assocs.LiveAssociation} based on the specified {@link de.deepamehta.BaseAssociation},
++	 * stores it in the live corporate memory, and finally triggers its evoke() hook provided the evoke flag is set.
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
+ 	 *
+ 	 * @param	directives	may be &lt;CODE&gt;null&lt;/CODE&gt;
+ 	 *
+-	 * @see 	#checkLiveAssociation(BaseAssociation)														false
+-	 * @see 	#checkLiveAssociation(String assocID, int version)											false
+-	 * @see 	#createLiveAssociations(Enumeration, boolean)												variable
+-	 * @see 	#createLiveAssociation(String assocID, String typeID, String topicID1, String topicID2)		true
+-	 * @see 	CorporateDirectives#showAssociation()														variable
++	 * @see 	#checkLiveAssociation(BaseAssociation, Session, CorporateDirectives)									false	false
++	 * @see 	#checkLiveAssociation(String assocID, int version, Session, CorporateDirectives)						false	false
++	 * @see 	#createLiveAssociations(Enumeration, boolean evoke, Session, CorporateDirectives)						false	variable
++	 * @see 	#createLiveAssociation(String assocID, String typeID, String name, String topicID1, String topicID2)	false	true
++	 * @see 	CorporateDirectives#showAssociation																		false	variable
++	 * @see 	CorporateDirectives#changeAssociationType																true	true
+ 	 */
+-	public void createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke,
+-																				CorporateDirectives directives) {
++	public void createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke, Session session,
++																								CorporateDirectives directives) {
+ 		// ### compare to createLiveTopic(), topicmapID, viewmode, session, directives parameters?
+-		// Note: associationExists() is from BaseTopicMap
+ 		if (!override &amp;&amp; liveAssociationExists(assoc.getID(), assoc.getVersion())) {
+ 			// association exists and is not supposed to be overridden
+ 			if (LOG_LCM) {System.out.println(&quot;&gt; (.) &quot; + assoc);}
+ 			return;
+ 		}
+-		// --- create live association ---
++		// --- instantiate live association ---
+ 		String implementingClass = type(assoc).getImplementingClass();
+ 		LiveAssociation newAssoc = createCustomLiveAssociation(assoc, implementingClass, directives);
+ 		// ### if (LOG_LCM) {System.out.println(&quot;&gt; (*) &quot; + assoc + &quot; (&quot; + newAssoc.getClass()  + &quot;)&quot;);}
+-		// --- add to live corporate memory ---
++		// --- store in live corporate memory ---
+ 		addAssociation(newAssoc);
+-		// --- trigger evoke() hook ---
++		//
+ 		if (evoke) {
++			// --- trigger evoke() hook ---
+ 			newAssoc.evoke();
++			// --- trigger associated() hook ---
++			String topicID1 = assoc.getTopicID1();
++			String topicID2 = assoc.getTopicID2();
++			getLiveTopic(topicID1, 1).associated(assoc.getType(), topicID2, session, directives);
++			getLiveTopic(topicID2, 1).associated(assoc.getType(), topicID1, session, directives);
+ 		}
+ 	}
+ 
+-	// 2 Utility wrapper for createLiveAssociation() above.
++	// 2 utility wrapper for createLiveAssociation() above.
+ 
+-	public LiveAssociation createLiveAssociation(String assocID, String typeID, String topicID1, String topicID2) {
+-		return createLiveAssociation(assocID, typeID, &quot;&quot;, topicID1, topicID2);
++	/**
++	 * Utility method for the application developer.
++	 * Creates a new association. All hooks are triggered.
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
++	 *
++	 * @see 	de.deepamehta.topics.EmailTopic#evoke
++	 * @see 	de.deepamehta.service.web.DeepaMehtaServlet#processForm(String typeID, String assocID, Hashtable params,
++	 *														boolean doCreate, String topicID1, String topicID2, Session session)
++	 */
++	public LiveAssociation createLiveAssociation(String assocID, String typeID, String topicID1, String topicID2,
++																				Session session, CorporateDirectives directives) {
++		return createLiveAssociation(assocID, typeID, &quot;&quot;, topicID1, topicID2, session, directives);
+ 	}
+ 
+-	public LiveAssociation createLiveAssociation(String assocID, String typeID, String name,
+-																			String topicID1, String topicID2) {
+-		// ### compare to createLiveTopic(), topicmapID, viewmode, session, directives parameters?
++	public LiveAssociation createLiveAssociation(String assocID, String typeID, String name, String topicID1, String topicID2,
++																				Session session, CorporateDirectives directives) {
+ 		BaseAssociation assoc = new BaseAssociation(assocID, 1, typeID, 1, name, topicID1, 1, topicID2, 1);
+-		createLiveAssociation(assoc, false, true, null);		// override=false, evoke=true, directives=null
++		createLiveAssociation(assoc, false, true, session, directives);		// override=false, evoke=true
+ 		LiveAssociation newAssoc = getLiveAssociation(assoc);
+ 		return newAssoc;
+ 	}
+@@ -1440,7 +1453,7 @@
+ 	/**
+ 	 * The server side processing of {@link #DIRECTIVE_HIDE_ASSOCIATION} resp. {@link #DIRECTIVE_HIDE_ASSOCIATIONS}.
+ 	 * &lt;p&gt;
+-	 * ### Should not be called directly by the application developer. Should be packacke private.
++	 * ### Should not be called directly by the application developer. Should be package private.
+ 	 * &lt;p&gt;
+ 	 * ### Deletes the specified association and returns the resulting directives.
+ 	 * &lt;p&gt;
+@@ -1457,11 +1470,11 @@
+ 			LiveAssociation assoc = checkLiveAssociation(assocID, version, null, directives);
+ 			LiveTopic topic1 = getLiveTopic(assoc.getTopicID1(), 1);
+ 			LiveTopic topic2 = getLiveTopic(assoc.getTopicID2(), 1);
++			// --- trigger die() hook ---
++			directives.add(assoc.die());
+ 			// --- trigger associationRemoved() hook ---
+ 			topic1.associationRemoved(assoc.getType(), topic2.getID(), session, directives);
+ 			topic2.associationRemoved(assoc.getType(), topic1.getID(), session, directives);
+-			// --- trigger die() hook ---
+-			directives.add(assoc.die());
+ 		} catch (DeepaMehtaException e) {
+ 			// ### add to directives
+ 			System.out.println(&quot;*** ApplicationService.deleteAssociation(): &quot; +
+@@ -1591,16 +1604,8 @@
+ 		String topicID1 = assoc.getTopicID1();
+ 		String topicID2 = assoc.getTopicID2();
+ 		// check weather retyping is allowed and which type is finally to be used
+-		typeID = associationAllowed(typeID, assoc.getType(), topicID1, topicID2, session, directives);
++		typeID = triggerAssociationAllowed(typeID, topicID1, topicID2, session, directives);
+ 		if (typeID != null) {
+-			LiveTopic topic1 = getLiveTopic(topicID1, 1);
+-			LiveTopic topic2 = getLiveTopic(topicID2, 1);
+-			// --- trigger associationRemoved() hook ---
+-			topic1.associationRemoved(assoc.getType(), topicID2, session, directives);
+-			topic2.associationRemoved(assoc.getType(), topicID1, session, directives);
+-			//
+-			// perform the retyping
+-			//
+ 			// --- trigger typeChanged() hook ---
+ 			directives.add(assoc.typeChanged(typeID));		// ### typeVersion not used
+ 		}
+@@ -1852,7 +1857,7 @@
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** ApplicationService.showTopicMenu(): &quot; + e + &quot; -- topic commands not available&quot;);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Menu for &quot; + topic + &quot; not available (&quot; + e.getMessage() + &quot;)&quot;,
+-				new Integer(NOTIFICATION_WARNING));
++							new Integer(NOTIFICATION_WARNING));
+ 		}
+ 		return directives;
+ 	}
+@@ -1868,7 +1873,7 @@
+ 			// --- trigger contextCommands() hook ---
+ 			CorporateCommands commands = assoc.contextCommands(topicmapID, viewmode, session, directives);
+ 			//
+-			// for every topic its type can be explained
++			// help
+ 			commands.addSeparator();
+ 			commands.addHelpCommand(assoc, session);
+ 			//
+@@ -1876,7 +1881,7 @@
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** ApplicationService.showAssociationMenu(): &quot; + e + &quot; -- association commands not available&quot;);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Menu for &quot; + assoc + &quot; not available (&quot; + e.getMessage() + &quot;)&quot;,
+-				new Integer(NOTIFICATION_WARNING));
++							new Integer(NOTIFICATION_WARNING));
+ 		}
+ 		return directives;
+ 	}
+@@ -1884,8 +1889,7 @@
+ 	/**
+ 	 * @see		de.deepamehta.topics.LiveTopic#executeCommand
+ 	 */
+-	public CorporateDirectives showViewMenu(String topicmapID, String viewmode, int x, int y,
+-																						Session session) {
++	public CorporateDirectives showViewMenu(String topicmapID, String viewmode, int x, int y, Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		LiveTopic topicmap = getLiveTopic(topicmapID, 1);
+ 		try {
+@@ -1894,32 +1898,67 @@
+ 			directives.add(DIRECTIVE_SHOW_MENU, MENU_VIEW, commands, new Point(x, y));
+ 			//
+ 		} catch (DeepaMehtaException e) {
+-			System.out.println(&quot;*** ApplicationService.showViewMenu(): &quot; + e +
+-				&quot; -- view commands not available&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Menu  for view \&quot;&quot; +
+-				topicmap.getName() + &quot;\&quot; (&quot; + topicmapID + &quot;) not available (&quot; +
+-				e.getMessage() + &quot;)&quot;, new Integer(NOTIFICATION_WARNING));
++			System.out.println(&quot;*** ApplicationService.showViewMenu(): &quot; + e + &quot; -- view commands not available&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Menu  for view \&quot;&quot; + topicmap.getName() + &quot;\&quot; (&quot; + topicmapID +
++											&quot;) not available (&quot; + e.getMessage() + &quot;)&quot;, new Integer(NOTIFICATION_WARNING));
+ 		}
+ 		return directives;
+ 	}
+ 
+ 	// ---
+ 
+-	/* ### 
+-	/ **
+-	 * @see		#createTopic
+-	 * /
+-	void tiggerAddedToTopicmap(String topicmapID, BaseTopic topic, CorporateDirectives directives) {
+-		try {
+-			// --- trigger addedToTopicmap() hook ---
+-			LiveTopic topicmap = getLiveTopic(topicmapID, 1);	// ### version 1
+-			directives.add(topicmap.addedToTopicmap(topic));
+-		} catch (DeepaMehtaException e) {
+-			System.out.println(&quot;*** ApplicationService.tiggerAddedToTopicmap(): &quot; +
+-				&quot;the target topicmap isn't in LCM (&quot; + e.getMessage() + &quot;) -- &quot; +
+-				&quot;addedToTopicmap() hook not triggered&quot;);
++	/**
++	 * Checks weather a new association is allowed by triggering the associationAllowed() hook of both involved topics.
++	 * Called once an association is about to be created resp. to be retyped.
++	 * Both topics are asked to propose another association type to be used or to prohibit the operation at all.
++	 * &lt;p&gt;
++	 * References checked: 27.9.2007 (2.0b8)
++	 *
++	 * @param	assocTypeID		the association type of the association in question
++	 * @param	topicID1		first involved topic
++	 * @param	topicID2		second involved topic
++	 *
++	 * @return	the association type to be used, or &lt;code&gt;null&lt;/code&gt; to prohibit the operation.
++	 *
++	 * @see		#createAssociation
++	 * @see		#changeAssociationType
++	 */
++	private String triggerAssociationAllowed(String assocTypeID, String topicID1, String topicID2, Session session,
++																						CorporateDirectives directives) {
++		LiveTopic topic1 = getLiveTopic(topicID1, 1);
++		LiveTopic topic2 = getLiveTopic(topicID2, 1);
++		// --- trigger associationAllowed() hook ---
++		String assocType1 = topic1.associationAllowed(assocTypeID, topicID2, directives);
++		String assocType2 = topic2.associationAllowed(assocTypeID, topicID1, directives);
++		//
++		if (assocType1 == null || assocType2 == null) {
++			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Association retyping not possible (prohibited by involved topic)&quot;,
++							new Integer(NOTIFICATION_WARNING));
++			return null;
+ 		}
+-	} */
++		//
++		boolean retype1 = !assocType1.equals(assocTypeID);
++		boolean retype2 = !assocType2.equals(assocTypeID);
++		//
++		if (retype1 &amp;&amp; retype2) {
++			if (assocType1.equals(assocType2)) {
++				System.out.println(&quot;&gt;&gt;&gt; &quot; + topic1 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType1 + &quot;\&quot;)&quot;);
++				assocTypeID = assocType1;
++			} else {
++				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Association retyping not possible (involved topics have contradictive bahavoir)&quot;,
++							new Integer(NOTIFICATION_WARNING));
++				return null;
++			}
++		} else if (retype1) {
++			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic1 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType1 + &quot;\&quot;)&quot;);
++			assocTypeID = assocType1;
++		} else if (retype2) {
++			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic2 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType2 + &quot;\&quot;)&quot;);
++			assocTypeID = assocType2;
++		}
++		//
++		return assocTypeID;
++	}
+ 
+ 	// ---
+ 
+@@ -4945,58 +4984,6 @@
+ 	// ---
+ 
+ 	/**
+-	 * Checks weather an association of a certain type is allowed between certain two topics.
+-	 * Called once an association is about to be created resp. to be retyped.
+-	 * Both topics are asked to propose another association type to be used or to prohibit the operation at all.
+-	 *
+-	 * @param	currentAssocTypeID	the current association type in case of a retype operation.
+-	 *								&lt;code&gt;null&lt;/code&gt; in case of a create operation.
+-	 * @return	the association type to be used, or &lt;code&gt;null&lt;/code&gt; to prohibit the operation.
+-	 *
+-	 * @see		#createAssociation
+-	 * @see		#changeAssociationType
+-	 */
+-	private String associationAllowed(String assocTypeID, String currentAssocTypeID, String topicID1, String topicID2,
+-																	Session session, CorporateDirectives directives) {
+-		LiveTopic topic1 = getLiveTopic(topicID1, 1);
+-		LiveTopic topic2 = getLiveTopic(topicID2, 1);
+-		// --- trigger associationAllowed() hook ---
+-		String assocType1 = topic1.associationAllowed(assocTypeID, topicID2, directives);
+-		String assocType2 = topic2.associationAllowed(assocTypeID, topicID1, directives);
+-		//
+-		if (assocType1 == null || assocType2 == null) {
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Association retyping not possible (prohibited by involved topic)&quot;, new Integer(NOTIFICATION_WARNING));
+-			return null;
+-		}
+-		//
+-		boolean retype1 = !assocType1.equals(assocTypeID);
+-		boolean retype2 = !assocType2.equals(assocTypeID);
+-		//
+-		if (retype1 &amp;&amp; retype2) {
+-			if (assocType1.equals(assocType2)) {
+-				System.out.println(&quot;&gt;&gt;&gt; &quot; + topic1 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType1 + &quot;\&quot;)&quot;);
+-				assocTypeID = assocType1;
+-			} else {
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Association retyping not possible (involved topics have contradictive bahavoir)&quot;, new Integer(NOTIFICATION_WARNING));
+-				return null;
+-			}
+-		} else if (retype1) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic1 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType1 + &quot;\&quot;)&quot;);
+-			assocTypeID = assocType1;
+-		} else if (retype2) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic2 + &quot; modified the assoc retyping (\&quot;&quot; + assocTypeID + &quot;\&quot; -&gt; \&quot;&quot; + assocType2 + &quot;\&quot;)&quot;);
+-			assocTypeID = assocType2;
+-		}
+-		// --- trigger associated() hook ---
+-		topic1.associated(assocTypeID, currentAssocTypeID, topicID2, session, directives);
+-		topic2.associated(assocTypeID, currentAssocTypeID, topicID1, session, directives);
+-		//
+-		return assocTypeID;
+-	}
+-
+-	// ---
+-
+-	/**
+ 	 * @see		#createNewContainer
+ 	 */
+ 	private String containerName(String defaultName, String nameFilter, Hashtable propertyFilter) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -27,7 +27,7 @@
+  * with every constructor call).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -180,7 +180,7 @@
+ 		Enumeration e = directives.elements();
+ 		Directive directive = null;
+ 		int dirType = 0;
+-		Object param1, param2, param3, param4;//, param5;
++		Object param1, param2, param3, param4;
+ 		// directive parameters
+ 		String topicmapID;
+ 		boolean evoke;
+@@ -197,17 +197,15 @@
+ 				param2 = directive.param2;
+ 				param3 = directive.param3;
+ 				param4 = directive.param4;
+-				// param5 is currently not needed
+-				// param5 = directive.param5;
+-				
++				//
+ 				// switch by directive type
+ 				switch (dirType) {
+ 				case DIRECTIVE_SHOW_TOPIC:
+ 					evoke = ((Boolean) param2).booleanValue();
+ 					topicmapID = (String) param3;
+-					// Note: if the server did not set the topicmap ID or viewmode ID, the client uses the
+-					// topicmap resp. viewmode in which editing took place as the default.
+-					// This must regarded also by the server because topicmap ID and viewmode are required here.
++					// Note: if the server did not set the topicmap ID, the client uses the
++					// topicmap in which editing took place as the default.
++					// This must regarded also by the server because topicmap ID is required here.
+ 					//
+ 					// see Directives
+ 					// see PresentationDirectives
+@@ -225,9 +223,9 @@
+ 				case DIRECTIVE_SHOW_ASSOCIATION:
+ 					evoke = ((Boolean) param2).booleanValue();
+ 					topicmapID = (String) param3;
+-					// Note: if the server did not set the topicmap ID or viewmode ID, the client uses the
+-					// topicmap resp. viewmode in which editing took place as the default.
+-					// This must regarded also by the server because topicmap ID and viewmode are required here.
++					// Note: if the server did not set the topicmap ID, the client uses the
++					// topicmap in which editing took place as the default.
++					// This must regarded also by the server because topicmap ID is required here.
+ 					//
+ 					// see Directives
+ 					// see PresentationDirectives
+@@ -330,8 +328,8 @@
+                     // ### which requires. These 2 params could be dropped from DIRECTIVE_SET_TOPIC_ICON definition
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_TYPE:
+-					changeTopicType((String) param1, ((Integer) param3).intValue(), (String) param2, as,
+-						session, topicMapID, viewMode);
++					changeTopicType((String) param1, ((Integer) param3).intValue(), (String) param2, as, session,
++																										topicMapID, viewMode);
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_NAME:
+ 					topicID = (String) param1;
+@@ -351,7 +349,7 @@
+ 					add(as.moveTopic((String) param3, 1, (String) param1, p.x, p.y, false, session));	// triggerMovedHook=false
+ 					break;
+ 				case DIRECTIVE_SET_ASSOC_TYPE:
+-					changeAssociationType((String) param1, ((Integer) param3).intValue(), (String) param2, as);
++					changeAssociationType((String) param1, ((Integer) param3).intValue(), (String) param2, as, session);
+ 					break;
+ 				case DIRECTIVE_SET_ASSOC_NAME:
+ 					changeAssociationName((String) param1, ((Integer) param3).intValue(), (String) param2, as);
+@@ -715,8 +713,8 @@
+ 	/**
+ 	 * Called for {@link #DIRECTIVE_SHOW_ASSOCIATION} and {@link #DIRECTIVE_SHOW_ASSOCIATIONS} (indirectly).
+ 	 *
+-	 * @see		#updateCorporateMemory		package
+-	 * @see		#showAssociations		private
++	 * @see		#updateCorporateMemory
++	 * @see		#showAssociations
+ 	 */
+ 	private void showAssociation(ApplicationService as, Session session, PresentableAssociation assoc,
+ 									boolean evoke, String topicmapID, int topicmapVersion) {
+@@ -734,7 +732,7 @@
+ 			}
+ 		}
+ 		//
+-		as.createLiveAssociation(assoc, false, evoke, this);
++		as.createLiveAssociation(assoc, false, evoke, session, this);
+ 	}
+ 
+ 	// ---
+@@ -797,10 +795,12 @@
+ 	 */
+ 	private void changeTopicType(String topicID, int version, String typeID, ApplicationService as, Session session,
+ 														String topicmapID, String viewmode) throws TopicInitException {
++		// read into memory
+ 		LiveTopic topic = as.getLiveTopic(topicID, version);
+-		// recreate the topic
++		// delete from corporate memmory
++		as.cm.deleteTopic(topicID);
++		// recreate
+ 		topic.setType(typeID);
+-		as.cm.deleteTopic(topicID);
+ 		as.createLiveTopic(topic, topicmapID, viewmode, session, this);		// Note: default is override=true, evoke=true
+ 	}
+ 
+@@ -809,12 +809,21 @@
+ 	 *
+ 	 * @see		#updateCorporateMemory
+ 	 */
+-	private void changeAssociationType(String assocID, int version, String typeID, ApplicationService as) {
++	private void changeAssociationType(String assocID, int version, String typeID, ApplicationService as, Session session) {
++		// read into memory
+ 		LiveAssociation assoc = as.getLiveAssociation(assocID, version);
+-		// recreate the association
++		// delete from corporate memmory
++		as.cm.deleteAssociation(assocID);
++		//
++		// --- trigger associationRemoved() hook ---
++		String topicID1 = assoc.getTopicID1();
++		String topicID2 = assoc.getTopicID2();
++		as.getLiveTopic(topicID1, 1).associationRemoved(assoc.getType(), topicID2, session, this);
++		as.getLiveTopic(topicID2, 1).associationRemoved(assoc.getType(), topicID1, session, this);
++		//
++		// recreate
+ 		assoc.setType(typeID);
+-		as.cm.deleteAssociation(assocID);
+-		as.createLiveAssociation(assoc, true, true, this);			// override=true, evoke=true
++		as.createLiveAssociation(assoc, true, true, session, this);			// override=true, evoke=true
+ 	}
+ 
+ 	// ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -54,7 +54,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 21.2.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -414,10 +414,8 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+ 		if (doCreate) {
+-			as.createLiveAssociation(assocID, typeID, topicID1, topicID2);	// ### no session, no directives here
+-		} /* ### else {
+-			as.checkLiveAssociation(assocID, 1, null, directives);			// ### must be loaded
+-		} */
++			as.createLiveAssociation(assocID, typeID, topicID1, topicID2, session, directives);
++		}
+ 		//
+ 		Hashtable props = getProperties(params, typeID);
+ 		// properties
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 17.9.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 26.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -280,12 +280,12 @@
+ 		Calendar lastDisplayDate = (Calendar) displayDate.clone();
+ 		lastDisplayDate.add(Calendar.DATE, 6);
+ 		// --- make model ---
+-		GridCell[][] gridModel = makeGridModel(events, displayDate, lastDisplayDate);
++		WeekEventModel[][] weekModel = makeWeekModel(events, displayDate, lastDisplayDate);
+ 		// --- rendering ---
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+ 			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+ 		html.append(renderTimeControls());
+-		// heading
++		// - heading -
+ 		DateFormat df = DateFormat.getDateInstance();
+ 		Calendar cal = (Calendar) displayDate.clone();
+ 		html.append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
+@@ -294,15 +294,15 @@
+ 			cal.add(Calendar.DATE, 1);
+ 		}
+ 		html.append(&quot;&lt;/tr&gt;&quot;);
+-		// body
++		// - body -
+ 		for (int seg = 0; seg &lt; CALENDAR_DAY_SEGMENTS; seg++) {
+ 			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&quot; + (seg % CALENDAR_HOUR_SEGMENTS == 0 ?
+ 				CALENDAR_DAY_START_HOUR + seg / CALENDAR_HOUR_SEGMENTS + &quot;:00&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);
+ 			for (int day = 0; day &lt; 7; day++) {
+-				GridCell cell = gridModel[day][seg];
++				WeekEventModel cell = weekModel[day][seg];
+ 				if (cell == null) {
+ 					html.append(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+-				} else if (cell.type == GridCell.BEGIN_OF_EVENT) {
++				} else if (cell.type == WeekEventModel.BEGIN_OF_EVENT) {
+ 					html.append(&quot;&lt;td class=\&quot;event\&quot; rowspan=\&quot;&quot; + cell.occupiedSegments + &quot;\&quot;&gt;&quot;);
+ 					html.append(&quot;&lt;b&gt;&quot; + cell.eventBegin + &quot;&lt;/b&gt;&lt;br&gt;&quot;);
+ 					html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_EVENT + &quot;/&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
+@@ -317,12 +317,54 @@
+ 
+ 	private String renderMonthView(Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
++		// --- make model ---
++		Vector[] monthModel = makeMonthModel(events, displayDate);
++		// --- rendering ---
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+-			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
++											 &quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+ 		html.append(renderTimeControls());
+-		html.append(&quot;&lt;p&gt;The month view is not yet implemented. But you already can scroll the date month-wise.&lt;/p&gt;&quot;);
+-		html.append(&quot;&lt;p&gt;Current date: &quot; + displayDateString + &quot;&lt;/p&gt;&quot;);
+-		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
++		// - heading -
++		int month = DeepaMehtaUtils.getMonth(displayDateString);
++		int year = DeepaMehtaUtils.getYear(displayDateString);
++		html.append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td class=\&quot;year-and-month\&quot; colspan=\&quot;7\&quot;&gt;&quot; + monthNamesLong[month - 1] + &quot; &quot; + year +
++					&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++		for (int day = 0; day &lt; 7; day++) {
++			html.append(&quot;&lt;td class=\&quot;weekday\&quot;&gt;&quot; + dayNames[day] + &quot;&lt;/td&gt;&quot;);
++		}
++		html.append(&quot;&lt;/tr&gt;&quot;);
++		// - body -
++		displayDate.set(Calendar.DAY_OF_MONTH, 1);
++		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++		int weekCount = (monthModel.length + dayOfWeek + 6) / 7;
++		int i = -dayOfWeek;
++		for (int week = 0; week &lt; weekCount; week++) {
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++			for (int day = 0; day &lt; 7; day++) {
++				if (i &lt; 0 || i &gt;= monthModel.length) {
++					html.append(&quot;&lt;td class=\&quot;out-of-range\&quot;&gt;&lt;/td&gt;&quot;);
++					i++;
++					continue;
++				}
++				Vector dayEvents = monthModel[i];
++				html.append(&quot;&lt;td&quot; + (dayEvents != null ? &quot; class=\&quot;event\&quot;&quot; : &quot;&quot;) + &quot;&gt;&quot;);
++				html.append(&quot;&lt;div class=\&quot;day-of-month\&quot;&gt;&quot; + (i + 1) + &quot;&lt;/div&gt;&quot;);
++				if (dayEvents != null) {
++					html.append(&quot;&lt;ul&gt;&quot;);
++					Enumeration e = dayEvents.elements();
++					while (e.hasMoreElements()) {
++						MonthEventModel dayEvent = (MonthEventModel) e.nextElement();
++						html.append(&quot;&lt;li&gt;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_EVENT + &quot;/&quot; + dayEvent.eventID + &quot;\&quot;&gt;&quot; +
++							dayEvent.eventName + &quot;&lt;/a&gt;&lt;/li&gt;&quot;);
++					}
++					html.append(&quot;&lt;/ul&gt;&quot;);
++				}
++				html.append(&quot;&lt;/td&gt;&quot;);
++				i++;
++			}
++			html.append(&quot;&lt;/tr&gt;&quot;);
++		}
++		html.append(&quot;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 		return html.toString();
+ 	}
+ 
+@@ -362,13 +404,13 @@
+ 
+ 	// ---
+ 
+-	private GridCell[][] makeGridModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
+-		GridCell[][] gridModel = new GridCell[7][CALENDAR_DAY_SEGMENTS];
++	private WeekEventModel[][] makeWeekModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
++		WeekEventModel[][] weekModel = new WeekEventModel[7][CALENDAR_DAY_SEGMENTS];
+ 		//
+ 		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
+ 		String lastDisplayDateString = DeepaMehtaUtils.getDate(lastDisplayDate);
+ 		//
+-		System.out.println(&quot;CalendarTopic.makeGridModel(): displayDate=&quot; + displayDate.getTime() + &quot;(&quot; + displayDateString + &quot;)&quot;);
++		System.out.println(&quot;CalendarTopic.makeWeekModel(): displayDate=&quot; + displayDate.getTime() + &quot;(&quot; + displayDateString + &quot;)&quot;);
+ 		System.out.println(&quot;                           lastDisplayDate=&quot; + lastDisplayDate.getTime() + &quot;(&quot; + lastDisplayDateString + &quot;)&quot;);
+ 		//
+ 		int withinDayRange = 0;		// for diagnostics only
+@@ -416,18 +458,52 @@
+ 			String eventName = getProperty(event, PROPERTY_NAME);	// note: event.getName() doesn't work here, because the
+ 			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
+ 			// is updated in CM.
+-			gridModel[dayOfWeek][beginSegment] = new GridCell(event.getID(), eventName, beginTime, segmentCount);
++			weekModel[dayOfWeek][beginSegment] = new WeekEventModel(event.getID(), eventName, beginTime, segmentCount);
+ 			// 2) add ocupied segments to model
+ 			for (int seg = beginSegment + 1; seg &lt; beginSegment + segmentCount; seg++) {
+-				gridModel[dayOfWeek][seg] = new GridCell();
++				weekModel[dayOfWeek][seg] = new WeekEventModel();
+ 			}
+ 		}
+ 		System.out.println(&quot;events within day range:                  &quot; + withinDayRange);
+ 		System.out.println(&quot;displayed events (reasonable time range): &quot; + eventsDisplayed);
+ 		//
+-		return gridModel;
++		return weekModel;
+ 	}
+ 
++	private Vector[] makeMonthModel(Vector events, Calendar displayDate) {
++		int daysPerMonth = displayDate.getActualMaximum(Calendar.DAY_OF_MONTH);
++		Vector[] monthModel = new Vector[daysPerMonth];
++		//
++		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
++		//
++		Enumeration e = events.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic event = (BaseTopic) e.nextElement();
++			String beginDate = getProperty(event, PROPERTY_BEGIN_DATE);
++			// ignore events with unset begin date
++			if (!isSet(beginDate)) {
++				continue;
++			}
++			// ignore events outside current month
++			if (!beginDate.substring(0, 7).equals(displayDateString.substring(0, 7))) {
++				continue;
++			}
++			// --- add to model ---
++			int dayOfMonth = DeepaMehtaUtils.getDay(beginDate);
++			String eventName = getProperty(event, PROPERTY_NAME);	// note: event.getName() doesn't work here, because the
++			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
++			// is updated in CM.
++			Vector dayModel = monthModel[dayOfMonth - 1];
++			if (dayModel == null) {
++				dayModel = new Vector();
++				monthModel[dayOfMonth - 1] = dayModel;
++			}
++			dayModel.addElement(new MonthEventModel(event.getID(), eventName));		// ### could sort events by begin time
++		}
++		//
++		return monthModel;
++	}
++
+ 	// ---
+ 
+ 	private Vector getEvents() {
+@@ -564,7 +640,7 @@
+ 
+ 
+ 
+-	private class GridCell {
++	private class WeekEventModel {
+ 
+ 		static final int BEGIN_OF_EVENT = 0;
+ 		static final int OCCUPIED_BY_EVENT = 1;
+@@ -573,11 +649,11 @@
+ 		String eventID, eventName, eventBegin;
+ 		int occupiedSegments;
+ 
+-		GridCell() {
++		WeekEventModel() {
+ 			type = OCCUPIED_BY_EVENT;
+ 		}
+ 
+-		GridCell(String eventID, String eventName, String eventBegin, int occupiedSegments) {
++		WeekEventModel(String eventID, String eventName, String eventBegin, int occupiedSegments) {
+ 			type = BEGIN_OF_EVENT;
+ 			this.eventID = eventID;
+ 			this.eventName = eventName;
+@@ -585,4 +661,14 @@
+ 			this.occupiedSegments = occupiedSegments;
+ 		}
+ 	}
++
++	private class MonthEventModel {
++
++		String eventID, eventName;
++
++		MonthEventModel(String eventID, String eventName) {
++			this.eventID = eventID;
++			this.eventName = eventName;
++		}
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/EmailTopic.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/EmailTopic.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -35,7 +35,7 @@
+  * An email.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 16.8.2007 (2.0b8)&lt;BR&gt;
++ * Last sourcecode change: 27.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 21.11.2001 (2.0a13-post1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -96,14 +96,14 @@
+ 
+ 
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+-		CorporateDirectives cd = super.evoke(session, topicmapID, viewmode);
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+ 		setTopicData(PROPERTY_STATUS, EMAIL_STATE_DRAFT);
+ 		String author = as.getEmailAddress(session.getUserID());	// may return null
+ 		if (author != null) {
+ 			setTopicData(PROPERTY_FROM, author);
+ 		}
+-		as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_SENDER, getID(), session.getUserID());
+-		return cd;
++		as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_SENDER, getID(), session.getUserID(), session, directives);
++		return directives;
+ 	}
+ 
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -12,7 +12,7 @@
+ 
+ 
+ /**
+- * Last functional change: 17.7.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -61,17 +61,39 @@
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic person = (BaseTopic) e.nextElement();
+ 			Vector calendars = ((PersonTopic) as.getLiveTopic(person)).getCalendars();
+-			Enumeration e2 = calendars.elements();
+-			while (e2.hasMoreElements()) {
+-				calendar = (BaseTopic) e2.nextElement();
+-				((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
+-			}
++			updateCalendars(calendars, directives);
+ 		}
+ 		return directives;
+ 	}
+ 
+ 
+ 
++	// -----------------------------
++	// --- Handling Associations ---
++	// -----------------------------
++
++
++
++	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		LiveTopic topic = as.getLiveTopic(relTopicID, 1);
++		if (assocTypeID.equals(SEMANTIC_EVENT_ATTENDEE) &amp;&amp; topic.getType().equals(TOPICTYPE_PERSON)) {
++			System.out.println(&quot;&gt;&gt;&gt; EventTopic.associated(): &quot; + this + &quot; associated with &quot; + topic + &quot; -- update calendars&quot;);
++			Vector calendars = ((PersonTopic) topic).getCalendars();
++			updateCalendars(calendars, directives);
++		}
++	}
++
++	public void associationRemoved(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		LiveTopic topic = as.getLiveTopic(relTopicID, 1);
++		if (assocTypeID.equals(SEMANTIC_EVENT_ATTENDEE) &amp;&amp; topic.getType().equals(TOPICTYPE_PERSON)) {
++			System.out.println(&quot;&gt;&gt;&gt; EventTopic.associationRemoved(): &quot; + this + &quot; disassociated from &quot; + topic + &quot; -- update calendars&quot;);
++			Vector calendars = ((PersonTopic) topic).getCalendars();
++			updateCalendars(calendars, directives);
++		}
++	}
++
++
++
+ 	// **********************
+ 	// *** Custom Methods ***
+ 	// **********************
+@@ -85,4 +107,14 @@
+ 	public Vector getAttendees() {
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_EVENT_ATTENDEE, TOPICTYPE_PERSON, 2);
+ 	}
++
++	// ---
++
++	private void updateCalendars(Vector calendars, CorporateDirectives directives) {
++		Enumeration e = calendars.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic calendar = (BaseTopic) e.nextElement();
++			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++		}
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;CODE&gt;LiveTopic&lt;/CODE&gt;.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last sourcecode change: 27.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -807,12 +807,11 @@
+ 	 * The default implementation does nothing.
+ 	 *
+ 	 * @param	assocTypeID		the new association type
+-	 * @param	oldTypeID		the type the association before retyping ### &lt;code&gt;null&lt;/code&gt; for create operation
+ 	 * @param	relTopicID		the other involved topic
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#changeAssociationType
+ 	 */
+-	public void associated(String assocTypeID, String oldTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+ 	}
+ 
+ 	/**
+@@ -823,6 +822,7 @@
+ 	 * @param	assocTypeID		the old association type
+ 	 * @param	relTopicID		the other involved topic
+ 	 *
++	 * @see		de.deepamehta.service.ApplicationService#deleteAssociation
+ 	 * @see		de.deepamehta.service.ApplicationService#changeAssociationType
+ 	 */
+ 	public void associationRemoved(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -28,7 +28,7 @@
+  * this &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -142,52 +142,8 @@
+ 		return directives;
+ 	}
+ 
+-	// ---
+ 
+-	/**
+-	 * Workspaces are reacting if a membership association is connected.
+-	 */
+-	public String associationAllowed(String assocTypeID, String relTopicID, CorporateDirectives directives) {
+-		if (!assocTypeID.equals(SEMANTIC_MEMBERSHIP)) {
+-			return super.associationAllowed(assocTypeID, relTopicID, directives);
+-		}
+-		/* ### not an error anymore
+-		if (!as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
+-			System.out.println(&quot;&gt;&gt;&gt; membership association rejected (involved topic is not a user)&quot;);
+-			return null;
+-		} */
+-		//
+-		return as.getMembershipType(getID(), directives);
+-	}
+ 
+-	public void associated(String assocTypeID, String oldTypeID, String relTopicID,
+-												Session session, CorporateDirectives directives) {
+-		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		boolean wasMembership = oldTypeID != null &amp;&amp; as.type(oldTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		if (isMembership &amp;&amp; !wasMembership) {
+-			// join
+-			if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
+-				joinUser(relTopicID, REVEAL_MEMBERSHIP_NONE, false, session, directives);
+-			}
+-			// ### throw new DeepaMehtaException(&quot;invalid membership (involved topic is not a user)&quot;);
+-		}
+-	}
+-
+-	public void associationRemoved(String assocTypeID, String relTopicID,
+-												Session session, CorporateDirectives directives) {
+-		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
+-		if (!isMembership) {
+-			return;
+-		}
+-		// leave
+-		if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
+-			leaveUser(relTopicID, null, null, session, directives);		// topicmapID=null, viewmode=null
+-		}
+-		// ### throw new DeepaMehtaException(&quot;invalid membership (involved topic is not a user)&quot;);
+-	}
+-
+-
+-
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+@@ -308,6 +264,47 @@
+ 
+ 
+ 
++	// -----------------------------
++	// --- Handling Associations ---
++	// -----------------------------
++
++
++
++	/**
++	 * Workspaces are reacting if a membership association is connected.
++	 */
++	public String associationAllowed(String assocTypeID, String relTopicID, CorporateDirectives directives) {
++		if (!assocTypeID.equals(SEMANTIC_MEMBERSHIP)) {
++			return super.associationAllowed(assocTypeID, relTopicID, directives);
++		}
++		//
++		return as.getMembershipType(getID(), directives);
++	}
++
++	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
++		// ### boolean wasMembership = oldTypeID != null &amp;&amp; as.type(oldTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
++		if (isMembership /* ### &amp;&amp; !wasMembership */) {
++			// join
++			if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
++				joinUser(relTopicID, REVEAL_MEMBERSHIP_NONE, false, session, directives);
++			}
++		}
++	}
++
++	public void associationRemoved(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		boolean isMembership = as.type(assocTypeID, 1).hasSupertype(SEMANTIC_MEMBERSHIP);
++		if (!isMembership) {
++			return;
++		}
++		// leave
++		if (as.getLiveTopic(relTopicID, 1).getType().equals(TOPICTYPE_USER)) {
++			leaveUser(relTopicID, null, null, session, directives);		// topicmapID=null, viewmode=null
++		}
++	}
++
++
++
+ 	// *********************
+ 	// *** Public Method ***
+ 	// *********************
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2007-10-03 13:42:34 UTC (rev 229)
+@@ -32,7 +32,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.8.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 25.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -640,9 +640,9 @@
+ 
+ 
+ 	public static Calendar getCalendar(String date) {
+-		int year = Integer.parseInt(date.substring(0, 4));
+-		int month = Integer.parseInt(date.substring(5, 7));
+-		int day = Integer.parseInt(date.substring(8));
++		int year = getYear(date);
++		int month = getMonth(date);
++		int day = getDay(date);
+ 		Calendar cal = Calendar.getInstance();
+ 		cal.clear();
+ 		// ### cal.setFirstDayOfWeek(Calendar.MONDAY);	// ### european
+@@ -716,8 +716,28 @@
+ 		return 60 * hours + minutes;
+ 	}
+ 
++	// ---
+ 
++	/**
++	 * @param	date	a date string in DeepaMehta format (yyyy/mm/dd)
++	 */
++	public static int getDay(String date) {
++		int day = Integer.parseInt(date.substring(8));
++		return day;
++	}
+ 
++	public static int getMonth(String date) {
++		int month = Integer.parseInt(date.substring(5, 7));
++		return month;
++	}
++
++	public static int getYear(String date) {
++		int year = Integer.parseInt(date.substring(0, 4));
++		return year;
++	}
++
++
++
+ 	// -----------------
+ 	// --- Reporting ---
+ 	// -----------------
+
+Modified: branches/eschnepel/install/client/stylesheets/calendar.css
+===================================================================
+--- branches/eschnepel/install/client/stylesheets/calendar.css	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/install/client/stylesheets/calendar.css	2007-10-03 13:42:34 UTC (rev 229)
+@@ -13,3 +13,33 @@
+ .event {
+ 	background: #FFFFFF;
+ }
++
++/* Month View */
++
++ul {
++	margin-top: 0px;
++	margin-left: 12px;
++}
++
++.out-of-range {
++	background: #CCCCCC;
++}
++
++.year-and-month {
++	font-size: 10px;
++	text-align: center;
++	border-width: 0px;
++	padding: 4px;
++}
++
++.weekday {
++	font-size: 10px;
++	text-align: center;
++	border-width: 0px;
++	padding: 4px;
++}
++
++.day-of-month {
++	font-size: 10px;
++	text-align: right;
++}
+
+Modified: branches/eschnepel/install/db/patches/cm-2.17.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/cm-2.17.sql	2007-10-03 11:11:33 UTC (rev 228)
++++ branches/eschnepel/install/db/patches/cm-2.17.sql	2007-10-03 13:42:34 UTC (rev 229)
+@@ -127,13 +127,13 @@
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
+ INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
+ -- create relation to &quot;Person&quot;
+-INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-246', 'Attendee', 'tt-event', 1, 'tt-person', 1);
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Name', 'Attendee');
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Cardinality', 'many');
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Association Type ID', 'at-association');
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Info', 'Related Topic Name');
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Form', 'Related Topic Selector');
+-INSERT INTO AssociationProp VALUES ('a-246', 1, 'Ordinal Number', '150');
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-323', 'Attendee', 'tt-event', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Name', 'Attendee');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Ordinal Number', '150');
+ 
+ ---
+ --- assign topic types to workspace &quot;DeepaMehta&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000073.html">[deepamehta-svn] r228 - in branches/eschnepel: . ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-search install/examples/dm-topicmapviewer install/examples/dm-web install/examples/dm-web/build install/examples/kompetenzstern install/examples/ldap install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies in! stall/examples/movies/build install/examples/movies/config install/examples/movies/db
+</A></li>
+	<LI>Next message: <A HREF="000075.html">[deepamehta-svn] r230 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/helper	install/db/db-specific install/examples/artfacts	install/examples/artfacts/src/de/deepamehta/artfacts/topics	install/examples/dm-browser/config install/examples/dm-search	install/examples/dm-search/config install/examples/dm-topicmapviewer	install/examples/dm-topicmapviewer/config	install/examples/dm-web/config install/examples/kompetenzstern	install/examples/kompetenzstern/config	install/examples/kompetenzstern/pages	install/examples/ldap/src/de/deepamehta/topics	install/examples/movies install/examples/movies/bin	install/examples/movies/db	install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#74">[ date ]</a>
+              <a href="thread.html#74">[ thread ]</a>
+              <a href="subject.html#74">[ subject ]</a>
+              <a href="author.html#74">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

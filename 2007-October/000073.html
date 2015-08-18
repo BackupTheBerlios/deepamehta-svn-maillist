@@ -1,0 +1,4124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r228 - in branches/eschnepel: . ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-search install/examples/dm-topicmapviewer install/examples/dm-web install/examples/dm-web/build install/examples/kompetenzstern install/examples/ldap install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies in! stall/examples/movies/build install/examples/movies/config install/examples/movies/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r228%20-%20in%20branches/eschnepel%3A%20.%20ant/lib%20develop%0A%20develop/build%20develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%20develop/src/de/deepamehta/service%20develop/src/de/deepamehta/service/web%0A%20develop/src/de/deepamehta/topics%20develop/src/de/deepamehta/topics/helper%0A%20develop/src/de/deepamehta/topics/personalweb%20develop/src/de/deepamehta/util%0A%20install/client%20install/client/backgrounds%20install/client/documents%0A%20install/client/icons%20install/client/images%20install/config%20install/db%0A%20install/db/db-specific%0A%20install/examples/artfacts/src/de/deepamehta/artfacts/topics%0A%20install/examples/dm-browser%20install/examples/dm-search%0A%20install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%20install/examples/dm-web/build%20install/examples/kompetenzstern%0A%20install/examples/ldap%20install/examples/messageboard%0A%20install/examples/messageboard/build%0A%20install/examples/messageboard/src/de/deepamehta/messageboard%0A%20install/examples/messageboard/src/de/deepamehta/messageboard/topics%0A%20install/examples/movies%20in%21%20stall/examples/movies/build%0A%20install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200710031111.l93BBngM016063%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000074.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r228 - in branches/eschnepel: . ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-search install/examples/dm-topicmapviewer install/examples/dm-web install/examples/dm-web/build install/examples/kompetenzstern install/examples/ldap install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies in! stall/examples/movies/build install/examples/movies/config install/examples/movies/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r228%20-%20in%20branches/eschnepel%3A%20.%20ant/lib%20develop%0A%20develop/build%20develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%20develop/src/de/deepamehta/service%20develop/src/de/deepamehta/service/web%0A%20develop/src/de/deepamehta/topics%20develop/src/de/deepamehta/topics/helper%0A%20develop/src/de/deepamehta/topics/personalweb%20develop/src/de/deepamehta/util%0A%20install/client%20install/client/backgrounds%20install/client/documents%0A%20install/client/icons%20install/client/images%20install/config%20install/db%0A%20install/db/db-specific%0A%20install/examples/artfacts/src/de/deepamehta/artfacts/topics%0A%20install/examples/dm-browser%20install/examples/dm-search%0A%20install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%20install/examples/dm-web/build%20install/examples/kompetenzstern%0A%20install/examples/ldap%20install/examples/messageboard%0A%20install/examples/messageboard/build%0A%20install/examples/messageboard/src/de/deepamehta/messageboard%0A%20install/examples/messageboard/src/de/deepamehta/messageboard/topics%0A%20install/examples/movies%20in%21%20stall/examples/movies/build%0A%20install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200710031111.l93BBngM016063%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r228 - in branches/eschnepel: . ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-search install/examples/dm-topicmapviewer install/examples/dm-web install/examples/dm-web/build install/examples/kompetenzstern install/examples/ldap install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies in! stall/examples/movies/build install/examples/movies/config install/examples/movies/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Oct  3 13:11:49 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000074.html">[deepamehta-svn] r229 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/stylesheets	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#73">[ date ]</a>
+              <a href="thread.html#73">[ thread ]</a>
+              <a href="subject.html#73">[ subject ]</a>
+              <a href="author.html#73">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-10-03 13:11:33 +0200 (Wed, 03 Oct 2007)
+New Revision: 228
+
+Added:
+   branches/eschnepel/develop/build/
+   branches/eschnepel/develop/src/de/deepamehta/util/CaseInsensitveHashtable.java
+   branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+   branches/eschnepel/install/client/backgrounds/
+   branches/eschnepel/install/client/documents/
+   branches/eschnepel/install/config/build-mysql4.properties
+   branches/eschnepel/install/config/build-mysql5.properties
+   branches/eschnepel/install/config/db-mysql4.properties
+   branches/eschnepel/install/config/db-mysql5.properties
+   branches/eschnepel/install/config/dm-mysql4.properties
+   branches/eschnepel/install/config/dm-mysql5.properties
+   branches/eschnepel/install/db/db-specific/createdb-hsqldb.xml
+   branches/eschnepel/install/db/db-specific/db_tables_mysql4.sql
+   branches/eschnepel/install/db/db-specific/db_tables_mysql5.sql
+   branches/eschnepel/install/db/db-specific/list-db-EMPTY.xml
+   branches/eschnepel/install/db/db-specific/list-db-mysql4.xml
+   branches/eschnepel/install/db/db-specific/list-db-mysql5.xml
+   branches/eschnepel/install/examples/dm-web/build/
+   branches/eschnepel/install/examples/messageboard/build/
+   branches/eschnepel/install/examples/movies/build/
+   branches/eschnepel/install/examples/movies/config/movies-mysql4.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql5.properties
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-sql.xml
+Removed:
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+   branches/eschnepel/install/config/build-mysql.properties
+   branches/eschnepel/install/config/db-mysql.properties
+   branches/eschnepel/install/config/dm-mysql.properties
+   branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+   branches/eschnepel/install/db/db-specific/list-db-mysql.xml
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+Modified:
+   branches/eschnepel/ant/lib/antinput.jar
+   branches/eschnepel/build-development.xml
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/
+   branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/PresentableTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/PropertyDefinition.java
+   branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/InteractionConnection.java
+   branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationType.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDatasource.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateXMLSource.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServer.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServiceUtils.java
+   branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java
+   branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/TypeConnection.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/FetchThread.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/ParseThread.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java
+   branches/eschnepel/install/client/icons/
+   branches/eschnepel/install/client/images/
+   branches/eschnepel/install/config/build-derby-intern.properties
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/db/cm.sql
+   branches/eschnepel/install/db/db-specific/asksyspass.xml
+   branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ArtistTopic.java
+   branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ExhibitionTopic.java
+   branches/eschnepel/install/examples/dm-browser/build.xml
+   branches/eschnepel/install/examples/dm-search/build.xml
+   branches/eschnepel/install/examples/dm-topicmapviewer/build.xml
+   branches/eschnepel/install/examples/dm-web/
+   branches/eschnepel/install/examples/dm-web/build.xml
+   branches/eschnepel/install/examples/kompetenzstern/build.xml
+   branches/eschnepel/install/examples/ldap/build.xml
+   branches/eschnepel/install/examples/messageboard/
+   branches/eschnepel/install/examples/messageboard/build.xml
+   branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java
+   branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java
+   branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java
+   branches/eschnepel/install/examples/movies/
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+   branches/eschnepel/install/examples/movies/db/dmdb-movies.sql
+   branches/eschnepel/setup.xml
+Log:
+introduced a CaseInsensitiveHashtable for storing properties of a Topic/Association resulting in a better hsqldb compatiblity
+mysql4/5 seperation for instance and db configuration files
+moved DeepaMehtaUtils to util package, added a printStackTrace method for real-time debuging purposes (e.g. contextmenu)
+build system improvements
+
+Modified: branches/eschnepel/ant/lib/antinput.jar
+===================================================================
+(Binary files differ)
+
+Modified: branches/eschnepel/build-development.xml
+===================================================================
+--- branches/eschnepel/build-development.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/build-development.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -13,7 +13,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+-		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
++		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;UTF8&quot;&gt;
+ 			&lt;classpath refid=&quot;javalibs&quot; /&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+@@ -196,8 +196,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot; /&gt;
+-		&lt;mkdir dir=&quot;${build}&quot; /&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;cleanup&quot; /&gt;
+ 		&lt;/ant&gt;
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -34,7 +34,7 @@
+ 	&lt;target name=&quot;-default&quot;&gt;
+ 		&lt;for list=&quot;${main-targets}&quot; param=&quot;target&quot; trim=&quot;true&quot;&gt;
+ 			&lt;sequential&gt;
+-				&lt;antcall target=&quot;@{target}&quot;/&gt;
++				&lt;antcall target=&quot;@{target}&quot; /&gt;
+ 			&lt;/sequential&gt;
+ 		&lt;/for&gt;
+ 	&lt;/target&gt;
+@@ -63,14 +63,16 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Web-related tasks --&gt;
+-	&lt;target name=&quot;-installweb-ask&quot; depends=&quot;-config-web-root&quot; unless=&quot;web.deploy.do&quot; /&gt;
++	&lt;target name=&quot;-installweb-ask&quot; unless=&quot;web.deploy.do&quot; /&gt;
+ 	&lt;target name=&quot;-installweb-unless&quot; unless=&quot;do.web.deploy&quot; depends=&quot;-installweb-ask&quot;&gt;
+ 		&lt;echo&gt;
+-=========================
+-Deployment not configured
+-=========================
+-Please run the config target if you want to have
+-your DeepaMehta installed into your tomcat.
++.-----------------------------------.
++| The deployment is not configured! |
++|-----------------------------------|
++| Please run the config target if   |
++| you want to have your DeepaMehta  |
++| installed into your tomcat.       |
++`-----------------------------------&#180;
+ 		&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installweb-if&quot; if=&quot;do.web.deploy&quot; depends=&quot;-installweb-ask&quot;&gt;
+@@ -90,7 +92,7 @@
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installweb&quot; depends=&quot;-installweb-if,-installweb-unless&quot; /&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; depends=&quot;-build-self,-installweb&quot; description=&quot;Does everything to setup your Tomcat.&quot; /&gt;
++	&lt;target name=&quot;deploy&quot; depends=&quot;-installweb&quot; description=&quot;Does everything to setup your Tomcat.&quot; /&gt;
+ 
+ 	&lt;target name=&quot;-deploylibs&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+@@ -244,16 +246,17 @@
+ 	&lt;!-- Herlper Targets --&gt;
+ 
+ 	&lt;target name=&quot;-testsyspass&quot;&gt;
++		&lt;var name=&quot;withsyspass&quot; unset=&quot;true&quot; /&gt;
+ 		&lt;condition property=&quot;withsyspass&quot; value=&quot;true&quot;&gt;
+ 			&lt;isset property=&quot;db.syspass&quot; /&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-call-examples&quot;&gt;
+-		&lt;antcall target=&quot;-call-examples-noweb&quot; /&gt;
+-		&lt;antcall target=&quot;-call-examples-web&quot; /&gt;
+-	&lt;/target&gt;
+-	&lt;target name=&quot;-call-examples-noweb&quot;&gt;
++	&lt;target name=&quot;-call-examples&quot; depends=&quot;-call-examples-noweb,-call-examples-web&quot; /&gt;
++	&lt;target name=&quot;-call-examples-noweb&quot; depends=&quot;-call-examples-both-intern,-call-examples-noweb-intern,-call-external-apps&quot; /&gt;
++	&lt;target name=&quot;-call-examples-web&quot; depends=&quot;-call-examples-both-intern,-call-examples-web-intern  ,-call-external-apps&quot; /&gt;
++
++	&lt;target name=&quot;-call-examples-noweb-intern&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;ldap&quot; /&gt;
+ 		&lt;/ant&gt;
+@@ -261,7 +264,7 @@
+ 			&lt;property name=&quot;example&quot; value=&quot;movies&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-call-examples-web&quot; if=&quot;do.web.deploy&quot;&gt;
++	&lt;target name=&quot;-call-examples-web-intern&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot; /&gt;
+ 		&lt;/ant&gt;
+@@ -278,24 +281,34 @@
+ 			&lt;property name=&quot;example&quot; value=&quot;knoppixforum&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
++			&lt;property name=&quot;example&quot; value=&quot;musicforum&quot; /&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;-call-examples-both-intern&quot;&gt;
++		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;kompetenzstern&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;messageboard&quot; /&gt;
+ 		&lt;/ant&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;musicforum&quot; /&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;-call-external-apps&quot;&gt;
++		&lt;!--
++		&lt;ant target=&quot;-call-external-app&quot;&gt;
++			&lt;property name=&quot;app-dir&quot; value=&quot;../kiezatlas&quot; /&gt;
+ 		&lt;/ant&gt;
++		--&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-call-example&quot; depends=&quot;-config-ask-example&quot; if=&quot;do.example.execute&quot;&gt;
+-		&lt;echo&gt;calling target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
++	&lt;target name=&quot;-call-example&quot; depends=&quot;-config-ask-example,-testsyspass&quot; if=&quot;do.example.execute&quot;&gt;
++		&lt;echo&gt;calling target &quot;${target}&quot; in example &quot;${example}&quot; ...&lt;/echo&gt;
+ 		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+ 			&lt;try&gt;
+ 				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/${example}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
+ 					&lt;property name=&quot;do.dmdb.abort&quot; value=&quot;${do.db.abort}&quot; /&gt;
+-					&lt;property name=&quot;syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
++					&lt;property name=&quot;db.syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
+ 					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
++					&lt;property name=&quot;configuration.isactive&quot; value=&quot;${configuration.isactive}&quot; /&gt;
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
+@@ -305,4 +318,22 @@
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-call-external-app&quot; depends=&quot;-testsyspass&quot;&gt;
++		&lt;echo&gt;calling target &quot;${target}&quot; in extenal application &quot;${app-dir}&quot; ...&lt;/echo&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
++			&lt;try&gt;
++				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${app-dir}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
++					&lt;property name=&quot;do.dmdb.abort&quot; value=&quot;${do.db.abort}&quot; /&gt;
++					&lt;property name=&quot;db.syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
++					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
++					&lt;property name=&quot;configuration.isactive&quot; value=&quot;${configuration.isactive}&quot; /&gt;
++				&lt;/ant&gt;
++			&lt;/try&gt;
++			&lt;catch&gt;
++				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++			&lt;/catch&gt;
++		&lt;/trycatch&gt;
++		&lt;echo&gt;finished target &quot;${target}&quot; in external application &quot;${app-dir}&quot;&lt;/echo&gt;
++	&lt;/target&gt;
++
+ &lt;/project&gt;
+
+
+Property changes on: branches/eschnepel/develop
+___________________________________________________________________
+Name: svn:ignore
+   - build
+
+   + 
+
+
+
+Property changes on: branches/eschnepel/develop/build
+___________________________________________________________________
+Name: svn:ignore
+   + *
+
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,5 +1,7 @@
+ package de.deepamehta;
+ 
++import de.deepamehta.util.DeepaMehtaUtils;
++
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+ import java.io.IOException;
+
+Deleted: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,797 +0,0 @@
+-package de.deepamehta;
+-
+-import java.awt.Color;
+-import java.awt.Graphics;
+-import java.awt.Point;
+-import java.awt.Rectangle;
+-import java.io.DataInputStream;
+-import java.io.DataOutputStream;
+-import java.io.File;
+-import java.io.FileReader;
+-import java.io.IOException;
+-import java.util.Calendar;
+-import java.util.Date;
+-import java.util.Enumeration;
+-import java.util.Hashtable;
+-import java.util.StringTokenizer;
+-import java.util.Vector;
+-
+-
+-
+-/**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 29.8.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+- */
+-public class DeepaMehtaUtils implements DeepaMehtaConstants {
+-
+-
+-
+-	// -----------
+-	// --- I/O ---
+-	// -----------
+-
+-
+-
+-	/**
+-	 * Returns the contents of the specified file as a &lt;CODE&gt;String&lt;/CODE&gt;.
+-	 * &lt;p&gt;
+-	 * References checked: 4.2.2005 (2.0b5)
+-	 *
+-	 * @see		de.deepamehta.topics.personalweb.FetchThread#getContent
+-	 * @see		de.deepamehta.topics.helper.TopicMapExporter#transformTopicmap
+-	 * @see		de.deepamehta.client.TextEditorPanel#importData
+-	 */
+-	public static String readFile(File file) throws IOException {
+-		int len = (int) file.length();
+-		char buffer[] = new char[len];
+-		FileReader in = new FileReader(file);
+-		in.read(buffer);
+-		in.close();
+-		return new String(buffer);
+-	}
+-
+-	/* ### public static void copyFile(File srcFile, File dstFile) throws IOException {
+-		byte buffer[] = new byte[(int) srcFile.length()];
+-		FileInputStream in = new FileInputStream(srcFile);
+-		FileOutputStream out = new FileOutputStream(dstFile);
+-		in.read(buffer);
+-		out.write(buffer);
+-		in.close();
+-		out.close();
+-	} */
+-
+-	// ---
+-
+-	public static Vector readStrings(DataInputStream in) throws IOException {
+-		Vector strings = new Vector();
+-		// read number of strings
+-		int stringCount = in.readInt();
+-		// read strings
+-		for (int i = 0; i &lt; stringCount; i++) {
+-			strings.addElement(in.readUTF());
+-		}
+-		return strings;
+-	}
+-
+-	public static void writeStrings(Vector strings, DataOutputStream out) throws IOException {
+-		// write number of strings
+-		out.writeInt(strings.size());
+-		// write strings
+-		for (int i = 0; i &lt; strings.size(); i++) {
+-			out.writeUTF((String) strings.elementAt(i));
+-		}
+-	}
+-
+-	// ---
+-
+-	public static Hashtable readHashtable(DataInputStream in) throws IOException {
+-		Hashtable topicData = new Hashtable();
+-		String fieldName;
+-		String value;
+-		int fieldCount = in.readInt();
+-		for (int i = 0; i &lt; fieldCount; i++) {
+-			fieldName = in.readUTF();
+-			value = in.readUTF();
+-			topicData.put(fieldName, value);
+-		}
+-		return topicData;
+-	}
+-
+-	/**
+-	 * @see		de.deepamehta.client.InteractionConnection#changeTopicData
+-	 * @see		de.deepamehta.service.CorporateDirectives#write
+-	 */
+-	public static void writeHashtable(Hashtable topicData, DataOutputStream out)
+-																	throws IOException {
+-		out.writeInt(topicData.size());
+-		Enumeration e = topicData.keys();
+-		String fieldName;
+-		String value;
+-		while (e.hasMoreElements()) {
+-			fieldName = (String) e.nextElement();
+-			value = (String) topicData.get(fieldName);
+-			out.writeUTF(fieldName);
+-			out.writeUTF(value);
+-		}
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * @return	Vector of {@link de.deepamehta.PresentableTopic}
+-	 *
+-	 * @see		PresentationPropertyDefinition#PresentationPropertyDefinition
+-	 */
+-	public static Vector readTopics(DataInputStream in) throws IOException {
+-		Vector topics = new Vector();
+-		// read number of topics
+-		int topicCount = in.readInt();
+-		// read topics
+-		for (int i = 0; i &lt; topicCount; i++) {
+-			topics.addElement(new PresentableTopic(in));
+-		}
+-		return topics;
+-	}
+-
+-	/**
+-	 * @return	Vector of {@link de.deepamehta.PresentableTopic}
+-	 *
+-	 * @see		PresentationPropertyDefinition#PresentationPropertyDefinition
+-	 */
+-	public static Vector readAssociations(DataInputStream in) throws IOException {
+-		Vector assocs = new Vector();
+-		// read number of associations
+-		int assocCount = in.readInt();
+-		// read associations
+-		for (int i = 0; i &lt; assocCount; i++) {
+-			assocs.addElement(new PresentableAssociation(in));
+-		}
+-		return assocs;
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * @see		PresentableTopicMap#write	2x
+-	 * @see		de.deepamehta.service.CorporateDirectives#write
+-	 */
+-	public static void writeTopics(Vector topics, DataOutputStream out)
+-																	throws IOException {
+-		// write number of topics
+-		out.writeInt(topics.size());
+-		// write topics
+-		Enumeration e = topics.elements();
+-		while (e.hasMoreElements()) {
+-			((BaseTopic) e.nextElement()).write(out);
+-		}
+-	}
+-
+-	/**
+-	 * @see		BaseTopicMap#write
+-	 */
+-	public static void writeTopics(Hashtable topics, DataOutputStream out)
+-																	throws IOException {
+-		// write number of topics
+-		out.writeInt(topics.size());
+-		// write topics
+-		Enumeration e = topics.elements();
+-		while (e.hasMoreElements()) {
+-			((BaseTopic) e.nextElement()).write(out);
+-		}
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * @see		de.deepamehta.service.CorporateDirectives#write
+-	 */
+-	public static void writeAssociations(Vector associations, DataOutputStream out)
+-																	throws IOException {
+-		// write number of associations
+-		out.writeInt(associations.size());
+-		// write associations
+-		Enumeration e = associations.elements();
+-		while (e.hasMoreElements()) {
+-			((BaseAssociation) e.nextElement()).write(out);
+-		}
+-	}
+-
+-	/**
+-	 * @see		BaseTopicMap#write
+-	 */
+-	public static void writeAssociations(Hashtable associations, DataOutputStream out)
+-																	throws IOException {
+-		// write number of associations
+-		out.writeInt(associations.size());
+-		// write associations
+-		Enumeration e = associations.elements();
+-		while (e.hasMoreElements()) {
+-			((BaseAssociation) e.nextElement()).write(out);
+-		}
+-	}
+-
+-
+-
+-	// --------------------------
+-	// --- Parsing Parameters ---
+-	// --------------------------
+-
+-
+-
+-	// --- parseHexColor (4 forms) ---
+-
+-	public static Color parseHexColor(String color) {
+-		return parseHexColor(color, 255);
+-	}
+-
+-	public static Color parseHexColor(String color, int alpha) {
+-		try {
+-			int r = Integer.parseInt(color.substring(1, 3), 16);
+-			int g = Integer.parseInt(color.substring(3, 5), 16);
+-			int b = Integer.parseInt(color.substring(5, 7), 16);
+-			return new Color(r, g, b, alpha);
+-		} catch (RuntimeException e) {
+-			throw new DeepaMehtaException(&quot;invalid color specification: \&quot;&quot; + color +
+-				&quot;\&quot;, expected format is \&quot;#rrggbb\&quot;&quot;);
+-		}
+-	}
+-
+-	public static Color parseHexColor(String color, String defaultColor) {
+-		return parseHexColor(color, parseHexColor(defaultColor, Color.white));
+-	}
+-
+-	/**
+-	 * @param	color	a string of format #rrggbb, may be &lt;code&gt;null&lt;/code&gt; or empty.
+-	 */
+-	public static Color parseHexColor(String color, Color defaultColor) {
+-		try {
+-			if (color == null || color.length() == 0) {
+-				return defaultColor;
+-			}
+-			//
+-			int r = Integer.parseInt(color.substring(1, 3), 16);
+-			int g = Integer.parseInt(color.substring(3, 5), 16);
+-			int b = Integer.parseInt(color.substring(5, 7), 16);
+-			//
+-			return new Color(r, g, b);
+-		} catch (RuntimeException e) {
+-			System.out.println(&quot;*** DeepaMehtaUtils.parseHexColor(): invalid color specification: \&quot;&quot; + color +
+-				&quot;\&quot; (expected format is #rrggbb) -- default color used&quot;);
+-			return defaultColor;
+-		}
+-	}
+-
+-	// ---
+-
+-	public static Date parseDate(String date) {
+-		return getCalendar(date).getTime();
+-	}
+-
+-	public static Point parsePoint(String point) {
+-		StringTokenizer st = new StringTokenizer(point, &quot;:&quot;);
+-		int x = Integer.parseInt(st.nextToken());
+-		int y = Integer.parseInt(st.nextToken());
+-		return new Point(x, y);
+-	}
+-
+-	// ---
+-
+-	public static boolean isImage(String file) {
+-		return (file.endsWith(&quot;.gif&quot;) || file.endsWith(&quot;.GIF&quot;) ||
+-				file.endsWith(&quot;.jpg&quot;) || file.endsWith(&quot;.JPG&quot;) ||
+-				file.endsWith(&quot;.png&quot;) || file.endsWith(&quot;.PNG&quot;));
+-	}
+-
+-	public static boolean isHTML(String file) {
+-		return (file.endsWith(&quot;.html&quot;) || file.endsWith(&quot;.HTML&quot;) ||
+-				file.endsWith(&quot;.htm&quot;) || file.endsWith(&quot;.HTM&quot;));
+-	}
+-
+-
+-
+-	// ----------------
+-	// --- Graphics ---
+-	// ----------------
+-
+-
+-
+-	// ---
+-
+-	public static Rectangle getBounds(PresentableTopicMap topicmap) {
+-		return initBounds(topicmap, null);
+-	}
+-
+-	public static Rectangle initBounds(PresentableTopicMap topicmap, Rectangle returnObject) {
+-		int xMin = Integer.MAX_VALUE;
+-		int yMin = Integer.MAX_VALUE;
+-		int xMax = Integer.MIN_VALUE;
+-		int yMax = Integer.MIN_VALUE;
+-		//
+-		Enumeration e = topicmap.getTopics().elements();
+-		while (e.hasMoreElements()) {
+-			PresentableTopic topic = (PresentableTopic) e.nextElement();
+-			Point p = topic.getGeometry();
+-			if (p.x &lt; xMin) xMin = p.x;
+-			if (p.x &gt; xMax) xMax = p.x;
+-			if (p.y &lt; yMin) yMin = p.y;
+-			if (p.y &gt; yMax) yMax = p.y;
+-		}
+-		//
+-		if (returnObject == null) {
+-			returnObject = new Rectangle();
+-		}
+-		returnObject.x = xMin;
+-		returnObject.y = yMin;
+-		returnObject.width = xMax - xMin;
+-		returnObject.height = yMax - yMin;
+-		//
+-		return returnObject;
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * References checked: 4.9.2001 (2.0a12-pre1)
+-	 *
+-	 * @see		de.deepamehta.client.GraphPanel#paint	(the edge in progress)
+-	 * @see		de.deepamehta.client.GraphPanel#paintEdge
+-	 */
+-	public static void paintLine(Graphics g, int x1, int y1, int x2, int y2,
+-															   boolean hasDirection) {
+-		if (hasDirection) {
+-			g.drawLine(x1, y1 - 1, x2, y2);
+-			g.drawLine(x1 + 1, y1 - 1, x2, y2);
+-			g.drawLine(x1 + 2, y1, x2, y2);
+-			g.drawLine(x1 + 2, y1 + 1, x2, y2);
+-			g.drawLine(x1 + 1, y1 + 2, x2, y2);
+-			g.drawLine(x1, y1 + 2, x2, y2);
+-			g.drawLine(x1 - 1, y1 + 1, x2, y2);
+-			g.drawLine(x1 - 1, y1, x2, y2);
+-		} else {
+-			g.drawLine(x1, y1, x2, y2);
+-			g.drawLine(x1 + 1, y1, x2 + 1, y2);
+-			g.drawLine(x1, y1 + 1, x2, y2 + 1);
+-			g.drawLine(x1 + 1, y1 + 1, x2 + 1, y2 + 1);
+-		}
+-	}
+-
+-
+-
+-	// ---------------------------
+-	// --- String Manipulation ---
+-	// ---------------------------
+-
+-
+-
+-	/**
+-	 * Useful when PropertyData (particularly HTML data)
+-	 * are written directly to property fields.
+-	 */
+-	/* ### public static String encodeSpecialCharacters(String in) {
+-		int len = in.length();
+-		StringBuffer out = new StringBuffer();
+-		for (int i = 0; i &lt; len; i++) {
+-			char c = in.charAt(i);
+-			if (c == '&lt;') {
+-				out.append(&quot;&lt;&quot;);
+-			} else if (c == '&gt;') {
+-				out.append(&quot;&gt;&quot;);
+-			} else if (c == '&amp;') {
+-				out.append(&quot;&amp;&quot;);
+-			} else if (c == '\&quot;') {
+-				out.append(&quot;&quot;&quot;);
+-			} else {
+-				out.append(c);
+-			}
+-		}
+-		return out.toString();
+-	} */
+-
+-	/**
+-	 * decodes one special character from HTML text
+-	 *
+-	 * @param specChar special character
+-	 *
+-	 * @return decoded character
+-	 *
+-	 * @see		#restoreSpecialCharacters
+-	 */
+-	/* ### public static String decodeSpecialCharacter(String specChar) {
+-		if (specChar.equals(&quot;&gt;&quot;)) {
+-			return &quot;&gt;&quot;;
+-		}
+-		if (specChar.equals(&quot;&lt;&quot;)) {
+-			return &quot;&lt;&quot;;
+-		}
+-		if (specChar.equals(&quot;&quot;&quot;)) {
+-			return &quot;\&quot;&quot;;
+-		}
+-		if (specChar.equals(&quot;&amp;&quot;)) {
+-			return &quot;&amp;&quot;;
+-		}
+-		return specChar;
+-	} */
+-
+-	// ---
+-
+-	/**
+-	 * ### to be dropped, use a StringTokenizer or split() instead
+-	 * &lt;P&gt;
+-	 * Convenience method to split a string that contains a &lt;CODE&gt;:&lt;/CODE&gt; into 2
+-	 * substrings.
+-	 * &lt;P&gt;
+-	 * Used here to split a refresh request into topicmap ID and viewmode.
+-	 */
+-	static public String[] explode(String str) {
+-		String[] result = new String[2];
+-		int pos = str.indexOf(&quot;:&quot;);
+-		if (pos != -1) {
+-			result[0] = str.substring(0, pos);
+-			result[1] = str.substring(pos + 1);
+-		} else {
+-			result[0] = str;
+-			// result[1] = null;
+-		}
+-		return result;
+-	}
+-
+-	static public String replace(String str, char oldChar, String newStr) {
+-		int pos = str.indexOf(oldChar);
+-		if (pos == -1) {
+-			return str;
+-		}
+-		//
+-		StringBuffer result = new StringBuffer();
+-		int pos0 = 0;
+-		while (pos != -1) {
+-			result.append(str.substring(pos0, pos));
+-			result.append(newStr);
+-			pos0 = pos + 1;
+-			pos = str.indexOf(oldChar, pos0);
+-		}
+-		result.append(str.substring(pos0));
+-		return result.toString();
+-	}
+-
+-	static public String replaceLF(String text) {
+-		text = text.replaceAll(&quot;\r\n&quot;, &quot;&lt;br&gt;&quot;);
+-		text = text.replaceAll(&quot;\r&quot;, &quot;&lt;br&gt;&quot;);		// originates from web
+-		text = text.replaceAll(&quot;\n&quot;, &quot;&lt;br&gt;&quot;);		// originates from graphical client
+-		// ### text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// originates from web
+-		// ### text = DeepaMehtaUtils.replace(text, '\n', &quot;&lt;br&gt;&quot;);		// originates from graphical client
+-		return text;
+-	}
+-
+-	// ---
+-
+-	static public String align(String str) {
+-		return (str.length() == 1 ? &quot;0&quot; : &quot;&quot;) + str;
+-	}
+-
+-	static public String unalign(String str) {
+-		return (str.startsWith(&quot;0&quot;) ? str.substring(1) : str);
+-	}
+-
+-	// ---
+-
+-	static public String nTimes(String str, int n) {
+-		StringBuffer result = new StringBuffer();
+-		for (int i = 0; i &lt; n; i++) {
+-			result.append(str);
+-		}
+-		return result.toString();
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * @see		de.deepamehta.service.web.DeepaMehtaServlet#addObject
+-	 */
+-	static public String html2xml(String html) {
+-		// ### too simple
+-		StringBuffer xml = new StringBuffer();
+-		// close image tags
+-		int pos = 0;
+-		int pos1 = html.indexOf(&quot;&lt;img&quot;);
+-		while (pos1 != -1) {
+-			int pos2 = html.indexOf(&quot;&gt;&quot;, pos1);
+-			xml.append(html.substring(pos, pos2 + 1));
+-			xml.append(&quot;&lt;/img&gt;&quot;);
+-			pos = pos2 + 1;
+-			pos1 = html.indexOf(&quot;&lt;img&quot;, pos);
+-		}
+-		xml.append(html.substring(pos));
+-		// close br tags
+-		html = xml.toString();
+-		xml.setLength(0);
+-		//
+-		pos = 0;
+-		pos1 = html.indexOf(&quot;&lt;br&gt;&quot;);
+-		while (pos1 != -1) {
+-			xml.append(html.substring(pos, pos1 + 4));
+-			xml.append(&quot;&lt;/br&gt;&quot;);
+-			pos = pos1 + 4;
+-			pos1 = html.indexOf(&quot;&lt;br&gt;&quot;, pos);
+-		}
+-		xml.append(html.substring(pos));
+-		//
+-		return xml.toString();
+-	}
+-
+-	// --- quoteHTML (2 forms) ---
+-
+-	static public String quoteHTML(String text) {
+-		return quoteHTML(text, false);
+-	}
+-
+-	static public String quoteHTML(String text, boolean allowSomeTags) {
+-		StringBuffer quotedText = new StringBuffer(text);
+-		int i = 0;
+-		while ((i = quotedText.indexOf(&quot;&lt;&quot;, i)) != -1) {
+-			boolean quote;
+-			// check weather to quote
+-			if (allowSomeTags) {
+-				int wordStart = i + 1 &lt; quotedText.length() &amp;&amp; quotedText.charAt(i + 1) == '/' ? i + 2 : i + 1;
+-				String tag = getWord(quotedText, wordStart);
+-				quote = !ALLOWED_TAGS.contains(tag);
+-			} else {
+-				quote = true;
+-			}
+-			// perform quoting
+-			if (quote) {
+-				quotedText.replace(i, i + 1, &quot;&lt;&quot;);
+-			}
+-			//
+-			i ++;
+-		}
+-		return quotedText.toString();
+-	}
+-
+-	// ---
+-
+-	static private String getWord(StringBuffer str, int fromIndex) {
+-		int i = fromIndex;
+-		while (i &lt; str.length() &amp;&amp; Character.isLetter(str.charAt(i))) {
+-			i++;
+-		}
+-		return str.substring(fromIndex, i);
+-	}
+-
+-
+-
+-	// ---
+-	// ---
+-	// ---
+-
+-
+-
+-	/**
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
+-	 *
+-	 * @see		BaseTopicMap#BaseTopicMap(Vector topics, Vector associations)
+-	 * @see		PresentableTopicMap#PresentableTopicMap(DataInputStream)
+-	 * @see		de.deepamehta.client.PresentationTopicMap#init
+-	 */
+-	public static Hashtable fromTopicVector(Vector vector) {
+-		Hashtable topics = new Hashtable();
+-		Enumeration e = vector.elements();
+-		Topic topic;
+-		while (e.hasMoreElements()) {
+-			topic = (Topic) e.nextElement();
+-			topics.put(topic.getID(), topic);
+-		}
+-		return topics;
+-	}
+-
+-	/**
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
+-	 *
+-	 * @see		BaseTopicMap#BaseTopicMap(Vector topics, Vector associations)
+-	 * @see		PresentableTopicMap#PresentableTopicMap(DataInputStream)
+-	 * @see		de.deepamehta.client.PresentationTopicMap#init
+-	 */
+-	public static Hashtable fromAssociationVector(Vector vector) {
+-		Hashtable associations = new Hashtable();
+-		Enumeration e = vector.elements();
+-		Association assoc;
+-		while (e.hasMoreElements()) {
+-			assoc = (Association) e.nextElement();
+-			associations.put(assoc.getID(), assoc);
+-		}
+-		return associations;
+-	}
+-
+-	// ---
+-
+-	public static Vector topicIDs(Vector topics) {
+-		Vector topicIDs = new Vector();
+-		//
+-		Enumeration e = topics.elements();
+-		while (e.hasMoreElements()) {
+-			BaseTopic topic = (BaseTopic) e.nextElement();
+-			topicIDs.addElement(topic.getID());
+-		}
+-		//
+-		return topicIDs;
+-	}
+-
+-
+-
+-	// -------------------
+-	// --- Date &amp; Time ---
+-	// -------------------
+-
+-
+-
+-	public static Calendar getCalendar(String date) {
+-		int year = Integer.parseInt(date.substring(0, 4));
+-		int month = Integer.parseInt(date.substring(5, 7));
+-		int day = Integer.parseInt(date.substring(8));
+-		Calendar cal = Calendar.getInstance();
+-		cal.clear();
+-		// ### cal.setFirstDayOfWeek(Calendar.MONDAY);	// ### european
+-		cal.set(year, month - 1, day);	// Calendar starts month with 0, DeepaMehta with 1
+-		return cal;
+-	}
+-
+-	// --- getDate(4 forms) ---
+-
+-	public static String getDate() {
+-		return getDate(DATE_SEPARATOR);
+-	}
+-
+-	public static String getDate(Calendar cal) {
+-		return getDate(cal, DATE_SEPARATOR);
+-	}
+-
+-	/**
+-	 * @see		de.deepamehta.topics.personalweb.PersonalWeb#createLogfile
+-	 */
+-	public static String getDate(String sep) {
+-		Calendar cal = Calendar.getInstance();
+-		return getDate(cal, sep);
+-	}
+-
+-	public static String getDate(Calendar cal, String sep) {
+-		int y = cal.get(Calendar.YEAR);
+-		int m = cal.get(Calendar.MONTH) + 1;	// Note: DeepaMehta begins with month=1
+-		int d = cal.get(Calendar.DAY_OF_MONTH);
+-		String date = y + sep + (m &lt; 10 ? &quot;0&quot; : &quot;&quot;) + m + sep + (d &lt; 10 ? &quot;0&quot; : &quot;&quot;) + d;	// ### consider align()
+-		return date;
+-	}
+-
+-	// --- getTime (3 forms) ---
+-
+-	public static String getTime() {
+-		return getTime(true);
+-	}
+-
+-	/**
+-	 * @see		de.deepamehta.client.MessagePanel#addMessage
+-	 */
+-	public static String getTime(boolean withSecs) {
+-		return getTime(withSecs, TIME_SEPARATOR);
+-	}
+-
+-	/**
+-	 * @see		de.deepamehta.topics.personalweb.PersonalWeb#createLogfile
+-	 */
+-	public static String getTime(boolean withSecs, String sep) {
+-		Calendar cal = Calendar.getInstance();
+-		int h = cal.get(Calendar.HOUR_OF_DAY);
+-		int m = cal.get(Calendar.MINUTE);
+-		int s = cal.get(Calendar.SECOND);
+-		String time = (h &lt; 10 ? &quot;0&quot; : &quot;&quot;) + h + sep + (m &lt; 10 ? &quot;0&quot; : &quot;&quot;) + m;
+-		if (withSecs) {
+-			time += sep + (s &lt; 10 ? &quot;0&quot; : &quot;&quot;) + s;
+-		}
+-		// ### consider align()
+-		return time;
+-	}
+-
+-	// ---
+-
+-	/**
+-	 * @param	time	a time string in DeepaMehta format (hh:mm)
+-	 */
+-	public static int getMinutes(String time) {
+-		int hours = Integer.parseInt(time.substring(0, 2));
+-		int minutes = Integer.parseInt(time.substring(3, 5));
+-		return 60 * hours + minutes;
+-	}
+-
+-
+-
+-	// -----------------
+-	// --- Reporting ---
+-	// -----------------
+-
+-
+-
+-	/**
+-	 * @see		#initialize
+-	 */
+-	public static void reportVMProperties() {
+-		try {
+-			String prop = System.getProperty(&quot;java.specification.vendor&quot;);
+-			// Note: first get the property to prevent output in case of exception
+-			System.out.println(&quot;&gt; Java Runtime Environment&quot;);
+-			System.out.println(&quot;&gt;    specification: &quot; + prop + &quot;/&quot; +
+-				System.getProperty(&quot;java.specification.name&quot;) + &quot;/&quot; +
+-				System.getProperty(&quot;java.specification.version&quot;));
+-			System.out.println(&quot;&gt;    VM specification: &quot; +
+-				System.getProperty(&quot;java.vm.specification.vendor&quot;) + &quot;/&quot; +
+-				System.getProperty(&quot;java.vm.specification.name&quot;) + &quot;/&quot; +
+-				System.getProperty(&quot;java.vm.specification.version&quot;));
+-			System.out.println(&quot;&gt;    VM implementation: &quot; +
+-				System.getProperty(&quot;java.vm.vendor&quot;) + &quot;/&quot; +
+-				System.getProperty(&quot;java.vm.name&quot;) + &quot;/&quot; +
+-				System.getProperty(&quot;java.vm.version&quot;));
+-			System.out.println(&quot;&gt;    File encoding: &quot; + System.getProperty(&quot;file.encoding&quot;));
+-		} catch (Exception e) {
+-			System.out.println(&quot;*** The VM properties can't be reported because this applet is not signed&quot;);
+-		}
+-	}
+-
+-	public static void memoryStatus() {
+-		long memFree = Runtime.getRuntime().freeMemory();
+-		long memTotal = Runtime.getRuntime().totalMemory();
+-		System.out.println(&quot;&gt; &quot; + mem(memTotal - memFree) + &quot; used (&quot; +
+-			mem(memTotal) + &quot; allocated)&quot;);
+-	}
+-
+-	public static String mem(long bytes) {
+-		if (bytes &lt; 1024) {
+-			return Long.toString(bytes);
+-		}
+-		long kBytes = bytes / 1024;
+-		if (kBytes &lt; 1000) {
+-			return kBytes + &quot;K&quot;;
+-		}
+-		long mBytes = kBytes / 1000;
+-		return mBytes + &quot;M&quot;;
+-	}
+-
+-/*
+-	public static boolean isCompatible(String version, String requiredVersion) {
+-		if (version.equals(requiredVersion)) {
+-			return true;
+-		}
+-		//
+-		String release;
+-		String interim;
+-		String requiredRelease;
+-		String requiredInterim;
+-		//
+-		int pos = version.indexOf(version, '-');
+-		if (pos != -1) {
+-			release = version.substring(0, pos);
+-			interim = version.substring(pos + 1);
+-		} else {
+-			release = version;
+-		}
+-		//
+-		pos = version.indexOf(requiredVersion, '-');
+-		if (pos != -1) {
+-			requiredRelease = requiredVersion.substring(0, pos);
+-			requiredInterim = requiredVersion.substring(pos + 1);
+-		} else {
+-			requiredRelease = requiredVersion;
+-		}
+-		//
+-		if (interim != null) {
+-			if (requiredInterim != null) {
+-			} else {
+-			}
+-		} else {
+-			if (requiredInterim != null) {
+-			} else {
+-			}
+-		}
+-	}
+-*/
+-}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/PresentableTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/PresentableTopicMap.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/PresentableTopicMap.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,5 +1,7 @@
+ package de.deepamehta;
+ 
++import de.deepamehta.util.DeepaMehtaUtils;
++
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+ import java.io.IOException;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/PropertyDefinition.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/PropertyDefinition.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/PropertyDefinition.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,5 +1,7 @@
+ package de.deepamehta;
+ 
++import de.deepamehta.util.DeepaMehtaUtils;
++
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+ import java.io.IOException;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,8 +2,8 @@
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Color;
+ import java.awt.Dimension;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/InteractionConnection.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/InteractionConnection.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/InteractionConnection.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,8 +2,8 @@
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Detail;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Point;
+ import java.io.DataInputStream;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,7 @@
+ package de.deepamehta.client;
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.applet.AudioClip;
+ import java.awt.Color;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,7 +3,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.Commands;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Detail;
+ import de.deepamehta.Directive;
+ import de.deepamehta.Directives;
+@@ -11,6 +10,7 @@
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableType;
+ import de.deepamehta.service.CorporateTopicMap;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Color;
+ import java.awt.Point;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,8 +1,8 @@
+ package de.deepamehta.client;
+ 
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PropertyDefinition;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Dimension;
+ import java.awt.event.ActionListener;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,13 +4,13 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Detail;
+ import de.deepamehta.Directive;
+ import de.deepamehta.Directives;
+ import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.service.DeepaMehta;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.applet.Applet;
+ import java.awt.BorderLayout;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,11 +2,11 @@
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Directives;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableTopicMap;
+ import de.deepamehta.Topic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Color;
+ import java.awt.Image;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationType.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationType.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationType.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,7 @@
+ package de.deepamehta.client;
+ 
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableType;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Color;
+ import java.awt.Image;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -5,9 +5,9 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Topic;
+ import de.deepamehta.Type;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.BorderLayout;
+ import java.awt.CardLayout;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,7 +2,7 @@
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.BorderLayout;
+ import java.awt.datatransfer.DataFlavor;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,7 +3,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Color;
+ import java.awt.Image;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -7,7 +7,6 @@
+ import de.deepamehta.BaseTopicMap;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableTopicMap;
+@@ -16,7 +15,6 @@
+ import de.deepamehta.Topic;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.assocs.LiveAssociation;
+-import de.deepamehta.kompetenzstern.topics.KompetenzsternTopic;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.topics.AssociationTypeTopic;
+ import de.deepamehta.topics.AuthentificationSourceTopic;
+@@ -29,6 +27,8 @@
+ import de.deepamehta.topics.TypeTopic;
+ import de.deepamehta.topics.helper.HTMLParser;
+ import de.deepamehta.topics.helper.TopicMapImporter;
++import de.deepamehta.util.CaseInsensitveHashtable;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import com.google.soap.search.GoogleSearch;
+ import com.google.soap.search.GoogleSearchFault;
+@@ -1620,7 +1620,7 @@
+ 	 * &lt;P&gt;
+ 	 * References checked: 6.9.2002 (2.0a16-pre2)
+ 	 *
+-	 * @see		KompetenzsternTopic#propertiesChanged
++	 * @see		de.deepamehta.kompetenzstern.topics.KompetenzsternTopic#propertiesChanged
+ 	 */
+ 	public CorporateDirectives setTopicProperty(String topicID, int version, String propName, String propValue,
+ 												String topicmapID, String viewmode, Session session) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -5,7 +5,6 @@
+ import de.deepamehta.Commands;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.Relation;
+ import de.deepamehta.assocs.LiveAssociation;
+@@ -13,6 +12,7 @@
+ import de.deepamehta.topics.LiveTopic;
+ import de.deepamehta.topics.TopicTypeTopic;
+ import de.deepamehta.topics.TypeTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDatasource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDatasource.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDatasource.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.service;
+ 
+ import java.util.Hashtable;
++import java.util.Map;
+ import java.util.Vector;
+ 
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,6 @@
+ package de.deepamehta.service;
+ 
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.Detail;
+ import de.deepamehta.Directive;
+ import de.deepamehta.Directives;
+@@ -11,6 +10,7 @@
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.assocs.LiveAssociation;
+ import de.deepamehta.topics.LiveTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Point;
+ import java.io.DataOutputStream;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,6 +3,7 @@
+ import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.service.db.DatabaseProvider;
+ import de.deepamehta.service.db.DatabaseProviderFactory;
++import de.deepamehta.util.CaseInsensitveHashtable;
+ 
+ import java.sql.ResultSet;
+ import java.sql.ResultSetMetaData;
+@@ -52,13 +53,15 @@
+ 	/**
+ 	 * @see		de.deepamehta.topics.DataSourceTopic#openCorporateDatasource
+ 	 */
+-	public CorporateSQLSource(String url, String dbtype) throws Exception {
++	public CorporateSQLSource(String url, String dbtype, String user, String password) throws Exception {
+ 		// create database connection
+ 		System.out.println(&quot;&gt;&gt;&gt; CorporateSQLSource(): connecting to database ... &quot;);
+ 		System.out.println(&quot;&gt;    URL: \&quot;&quot; + url + &quot;\&quot;\n&gt;    dbtype: \&quot;&quot; + dbtype + &quot;\&quot;&quot;);
+ 		Properties conf = new Properties();
+ 		conf.setProperty(ConfigurationConstants.Database.DB_TYPE, dbtype);
+ 		conf.setProperty(ConfigurationConstants.Database.DB_URL, url);
++		conf.setProperty(ConfigurationConstants.Database.DB_USER, user);
++		conf.setProperty(ConfigurationConstants.Database.DB_PASSWORD, password);
+ 		provider = DatabaseProviderFactory.getProvider(conf);
+ 		Statement statement = provider.getStatement();
+ 		statement.close();
+@@ -293,7 +296,7 @@
+ 			int recNr = 0;
+ 			// loop through all the records
+ 			while (result.next()) {
+-				elementData = new Hashtable();
++				elementData = new CaseInsensitveHashtable();
+ 				for (int c = 1; c &lt;= cols; c++) {
+ 					fieldName = meta.getColumnName(c);
+ 					value = result.getString(c);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateXMLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateXMLSource.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateXMLSource.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -13,6 +13,7 @@
+ import java.io.IOException;
+ import java.util.Enumeration;
+ import java.util.Hashtable;
++import java.util.Map;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServer.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServer.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServer.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,7 +2,7 @@
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.HeadlessException;
+ import java.io.BufferedInputStream;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServiceUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServiceUtils.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaServiceUtils.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -39,11 +39,12 @@
+ 	 */
+ 	public static void createImageFile(RenderedImage image, File file) throws DeepaMehtaException {
+ 		try {
++			file.getParentFile().mkdirs();
+ 			String format = file.getPath().substring(file.getPath().lastIndexOf('.') + 1);
+ 			ImageIO.write(image, format, file);
+-		} catch (Throwable e) {
++		} catch (Exception e) {
+ 			System.out.println(&quot;*** DeepaMehtaServiceUtils.createImageFile(): &quot; + e);			
+-			throw new DeepaMehtaException(&quot;error while writing an image file (&quot; + e + &quot;)&quot;);
++			throw new DeepaMehtaException(&quot;error while writing an image file&quot;, e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,7 +3,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,7 +4,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableType;
+@@ -14,6 +13,8 @@
+ import de.deepamehta.service.db.OracleDatabaseProvider;
+ import de.deepamehta.service.db.DatabaseProvider.DbmsHint;
+ import de.deepamehta.topics.LiveTopic;
++import de.deepamehta.util.CaseInsensitveHashtable;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.awt.Point;
+ import java.sql.ResultSet;
+@@ -237,7 +238,7 @@
+ 		String query = &quot;SELECT Topic.*, PropName FROM Topic, TopicProp &quot; +
+ 			&quot;WHERE TopicProp.PropValue LIKE '%&quot; + searchString + &quot;%' AND Topic.ID = TopicProp.TopicID&quot;;
+ 		System.out.println(&quot;&gt;&gt;&gt; getTopicsByProperty(): \&quot;&quot; + query + &quot;\&quot;&quot;);
+-		Hashtable result = new Hashtable();
++		Hashtable result = new CaseInsensitveHashtable();
+ 		try {
+ 			Statement stmt = createStatement();
+ 			ResultSet resultSet = stmt.executeQuery(query);
+@@ -1770,7 +1771,7 @@
+ 	 * @see		#getAssociationData
+ 	 */
+ 	private Hashtable queryTopicData(String query) {
+-		Hashtable topicData = new Hashtable();	// the result
++		Hashtable topicData = new CaseInsensitveHashtable();	// the result
+ 		try {
+ 			Statement stmt = createStatement();
+ 			ResultSet resultSet = stmt.executeQuery(query);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/TypeConnection.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/TypeConnection.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/TypeConnection.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,8 +1,8 @@
+ package de.deepamehta.service;
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableType;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,10 +4,8 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+-import de.deepamehta.messageboard.MessageBoardServlet;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.ApplicationServiceHost;
+ import de.deepamehta.service.ApplicationServiceInstance;
+@@ -15,6 +13,8 @@
+ import de.deepamehta.service.CorporateMemory;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.TypeTopic;
++import de.deepamehta.util.CaseInsensitveHashtable;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import org.w3c.dom.Document;
+ import org.w3c.dom.Element;
+@@ -369,7 +369,7 @@
+ 	 * @see		#createTopic
+ 	 * @see		#updateTopic
+ 	 * @see		#updateStrongRelations
+-	 * @see		MessageBoardServlet#performAction
++	 * @see		de.deepamehta.messageboard.MessageBoardServlet#performAction
+ 	 */
+ 	private void processForm(String typeID, String topicID, Hashtable params, boolean doCreate, Session session) {
+ 		processForm(typeID, topicID, params, doCreate, session, null, null);
+@@ -759,8 +759,8 @@
+ 	 * @see		#processForm
+ 	 */
+ 	private final Hashtable getProperties(Hashtable params, String typeID) {
+-		Hashtable props = new Hashtable();		// return object
+-		Hashtable compProps = new Hashtable();	// intermediate table to compile the single values of composed properties
++		Hashtable props = new CaseInsensitveHashtable();		// return object
++		Hashtable compProps = new CaseInsensitveHashtable();	// intermediate table to compile the single values of composed properties
+ 		//
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,7 +4,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.OrderedItem;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+@@ -12,6 +11,7 @@
+ import de.deepamehta.topics.AssociationTypeTopic;
+ import de.deepamehta.topics.TopicTypeTopic;
+ import de.deepamehta.topics.TypeTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.text.ChoiceFormat;
+ import java.text.Format;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,13 +3,13 @@
+ import de.deepamehta.BaseAssociation;
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.text.DateFormat;
+ import java.util.Calendar;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,11 +2,11 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Hashtable;
+ import java.util.Vector;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -7,7 +7,6 @@
+ import de.deepamehta.Detail;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieContainerTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+@@ -80,7 +79,7 @@
+  * programmer is required to subclass &lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt; in order to
+  * specify the element access, topic creation and attribute replication.
+  * &lt;P&gt;
+- * E.g. the {@link MovieContainerTopic} specifies the topic types used for created
++ * E.g. the {@link de.deepamehta.movies.topics.MovieContainerTopic} specifies the topic types used for created
+  * topics and containers as well as the attribute used for the name of created topics.
+  * &lt;P&gt;
+  * In the future the user resp. administrator will be able to provide these essential
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,7 +3,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+@@ -43,7 +42,7 @@
+  * more relation specifications as theirs &lt;I&gt;initialization&lt;/I&gt; behavoir. Generally there
+  * are 2 types of relations: &lt;I&gt;&quot;to one&quot;&lt;/I&gt; and &lt;I&gt;&quot;to many&quot;&lt;/I&gt;.
+  * &lt;P&gt;
+- * E.g. the {@link MovieTopic} registers a &quot;to many&quot; relation to specify how to retrieve
++ * E.g. the {@link de.deepamehta.movies.topics.MovieTopic} registers a &quot;to many&quot; relation to specify how to retrieve
+  * the related actors for the respective movie.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -56,6 +56,8 @@
+ 	 * The idle thread.
+ 	 */
+ 	Thread idleThread;
++	private String username;
++	private String password;
+ 
+ 
+ 
+@@ -213,6 +215,8 @@
+ 		this.dbtype = getProperty(&quot;Database Type&quot;);
+ 		this.elements = getProperty(&quot;Entities&quot;);
+ 		this.idleElement = getProperty(&quot;Idle Elementtype&quot;);
++		this.username=getProperty(&quot;Username&quot;);
++		this.password=getProperty(&quot;Password&quot;);
+ 		//
+ 		String text = &quot;Datasource \&quot;&quot; + getName() + &quot;\&quot; not available &quot;;
+ 		// error check 1
+@@ -262,7 +266,7 @@
+ 														throws TopicInitException {
+ 		//  --- open SQL datasource ---
+ 		try {
+-			CorporateDatasource source = new CorporateSQLSource(url, dbtype);
++			CorporateDatasource source = new CorporateSQLSource(url, dbtype, username, password);
+ 			startIdleThread();
+ 			return source;
+ 		} catch (ClassNotFoundException e) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -5,7 +5,6 @@
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieContainerTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+@@ -242,7 +241,7 @@
+ 	}
+ 
+ 	/**
+-	 * @see		MovieContainerTopic#executeCommand
++	 * @see		de.deepamehta.movies.topics.MovieContainerTopic#executeCommand
+ 	 */
+ 	protected CorporateDirectives autoSearch(String groupingField) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -3,7 +3,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.BaseTopicMap;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableTopicMap;
+@@ -17,6 +16,7 @@
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.helper.ArchiveFileCollector;
+ import de.deepamehta.topics.helper.TopicMapExporter;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import org.xml.sax.ContentHandler;
+ import org.xml.sax.SAXException;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,7 +4,6 @@
+ import de.deepamehta.BaseAssociation;
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.OrderedItem;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+@@ -17,6 +16,7 @@
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.helper.ArchiveFileCollector;
+ import de.deepamehta.topics.helper.TopicMapExporter;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import org.w3c.dom.Document;
+ import org.w3c.dom.Element;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,12 +4,12 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.Type;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.topics.TopicMapTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import org.apache.avalon.framework.logger.ConsoleLogger;
+ import org.apache.avalon.framework.logger.Logger;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/FetchThread.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/FetchThread.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/FetchThread.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,7 @@
+ package de.deepamehta.topics.personalweb;
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+-import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.io.File;
+ import java.io.IOException;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/ParseThread.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/ParseThread.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/ParseThread.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,8 +1,8 @@
+ package de.deepamehta.topics.personalweb;
+ 
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.topics.helper.HTMLParser;
+ import de.deepamehta.topics.helper.SimpleHTMLParser;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.net.MalformedURLException;
+ import java.net.URL;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/personalweb/PersonalWeb.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -42,13 +42,13 @@
+ package de.deepamehta.topics.personalweb;
+ 
+ import de.deepamehta.DeepaMehtaConstants;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.DeepaMehtaServiceUtils;
+ import de.deepamehta.service.Session;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.io.DataOutputStream;
+ import java.io.File;
+
+Added: branches/eschnepel/develop/src/de/deepamehta/util/CaseInsensitveHashtable.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/util/CaseInsensitveHashtable.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/develop/src/de/deepamehta/util/CaseInsensitveHashtable.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,80 @@
++package de.deepamehta.util;
++
++import java.util.Hashtable;
++import java.util.Iterator;
++import java.util.Map;
++
++
++
++/**
++ * 
++ * @author enrico
++ */
++public class CaseInsensitveHashtable extends Hashtable {
++	Hashtable upperKeysHash = new Hashtable();
++
++	public Object get(Object key) {
++		return upperKeysHash.get(upper(key));
++	}
++
++	public Object put(Object key, Object val) {
++		Object upper = upper(key);
++		if (upperKeysHash.containsKey(upper)) {
++			super.remove(findUpperKey(upper));
++		}
++		super.put(key, val);
++		return upperKeysHash.put(upper, val);
++	}
++
++	public void putAll(Map map) {
++		Iterator i = map.keySet().iterator();
++		while (i.hasNext()) {
++			Object o = i.next();
++			put(o, map.get(o));
++		}
++	}
++
++	public boolean containsKey(Object key) {
++		return upperKeysHash.containsKey(upper(key));
++	}
++
++	public Object remove(Object key) {
++		Object upper = upper(key);
++		super.remove(findUpperKey(upper));
++		return upperKeysHash.remove(upper);
++	}
++
++	private Object findUpperKey(Object upper) {
++		Iterator iterator = this.keySet().iterator();
++		while (iterator.hasNext()) {
++			Object element = iterator.next();
++			if (upper.equals(upper(element))) {
++				return element;
++			}
++		}
++		return null;
++	}
++
++	static private Object upper(Object key) {
++		if (key instanceof String)
++			key = ((String) key).toUpperCase();
++		return key;
++	}
++
++	public synchronized int hashCode() {
++		return upperKeysHash.hashCode();
++	}
++
++	public synchronized boolean equals(Object o) {
++		CaseInsensitveHashtable ciht;
++		if (o instanceof CaseInsensitveHashtable) {
++			ciht = (CaseInsensitveHashtable) o;
++		} else if (o instanceof Map) {
++			ciht = new CaseInsensitveHashtable();
++			ciht.putAll((Map) o);
++		} else {
++			return false;
++		}
++		return ciht.upperKeysHash.equals(upperKeysHash);
++	}
++}
+
+Copied: branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java (from rev 221, branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java)
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-09-21 15:12:10 UTC (rev 221)
++++ branches/eschnepel/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,839 @@
++package de.deepamehta.util;
++
++import de.deepamehta.Association;
++import de.deepamehta.BaseAssociation;
++import de.deepamehta.BaseTopic;
++import de.deepamehta.BaseTopicMap;
++import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.PresentableAssociation;
++import de.deepamehta.PresentableTopic;
++import de.deepamehta.PresentableTopicMap;
++import de.deepamehta.Topic;
++
++import java.awt.Color;
++import java.awt.Graphics;
++import java.awt.Point;
++import java.awt.Rectangle;
++import java.io.DataInputStream;
++import java.io.DataOutputStream;
++import java.io.File;
++import java.io.FileReader;
++import java.io.IOException;
++import java.util.Calendar;
++import java.util.Date;
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.StringTokenizer;
++import java.util.Vector;
++
++
++
++/**
++ * &lt;P&gt;
++ * &lt;HR&gt;
++ * Last functional change: 29.8.2007 (2.0b8)&lt;BR&gt;
++ * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
++ * J&ouml;rg Richter&lt;BR&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class DeepaMehtaUtils implements DeepaMehtaConstants {
++
++
++
++	// -----------
++	// --- I/O ---
++	// -----------
++
++
++
++	/**
++	 * Returns the contents of the specified file as a &lt;CODE&gt;String&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 4.2.2005 (2.0b5)
++	 *
++	 * @see		de.deepamehta.topics.personalweb.FetchThread#getContent
++	 * @see		de.deepamehta.topics.helper.TopicMapExporter#transformTopicmap
++	 * @see		de.deepamehta.client.TextEditorPanel#importData
++	 */
++	public static String readFile(File file) throws IOException {
++		int len = (int) file.length();
++		char buffer[] = new char[len];
++		FileReader in = new FileReader(file);
++		in.read(buffer);
++		in.close();
++		return new String(buffer);
++	}
++
++	/* ### public static void copyFile(File srcFile, File dstFile) throws IOException {
++		byte buffer[] = new byte[(int) srcFile.length()];
++		FileInputStream in = new FileInputStream(srcFile);
++		FileOutputStream out = new FileOutputStream(dstFile);
++		in.read(buffer);
++		out.write(buffer);
++		in.close();
++		out.close();
++	} */
++
++	// ---
++
++	public static Vector readStrings(DataInputStream in) throws IOException {
++		Vector strings = new Vector();
++		// read number of strings
++		int stringCount = in.readInt();
++		// read strings
++		for (int i = 0; i &lt; stringCount; i++) {
++			strings.addElement(in.readUTF());
++		}
++		return strings;
++	}
++
++	public static void writeStrings(Vector strings, DataOutputStream out) throws IOException {
++		// write number of strings
++		out.writeInt(strings.size());
++		// write strings
++		for (int i = 0; i &lt; strings.size(); i++) {
++			out.writeUTF((String) strings.elementAt(i));
++		}
++	}
++
++	// ---
++
++	public static Hashtable readHashtable(DataInputStream in) throws IOException {
++		Hashtable topicData = new Hashtable();
++		String fieldName;
++		String value;
++		int fieldCount = in.readInt();
++		for (int i = 0; i &lt; fieldCount; i++) {
++			fieldName = in.readUTF();
++			value = in.readUTF();
++			topicData.put(fieldName, value);
++		}
++		return topicData;
++	}
++
++	/**
++	 * @see		de.deepamehta.client.InteractionConnection#changeTopicData
++	 * @see		de.deepamehta.service.CorporateDirectives#write
++	 */
++	public static void writeHashtable(Hashtable topicData, DataOutputStream out)
++																	throws IOException {
++		out.writeInt(topicData.size());
++		Enumeration e = topicData.keys();
++		String fieldName;
++		String value;
++		while (e.hasMoreElements()) {
++			fieldName = (String) e.nextElement();
++			value = (String) topicData.get(fieldName);
++			out.writeUTF(fieldName);
++			out.writeUTF(value);
++		}
++	}
++
++	// ---
++
++	/**
++	 * @return	Vector of {@link de.deepamehta.PresentableTopic}
++	 *
++	 * @see		PresentationPropertyDefinition#PresentationPropertyDefinition
++	 */
++	public static Vector readTopics(DataInputStream in) throws IOException {
++		Vector topics = new Vector();
++		// read number of topics
++		int topicCount = in.readInt();
++		// read topics
++		for (int i = 0; i &lt; topicCount; i++) {
++			topics.addElement(new PresentableTopic(in));
++		}
++		return topics;
++	}
++
++	/**
++	 * @return	Vector of {@link de.deepamehta.PresentableTopic}
++	 *
++	 * @see		PresentationPropertyDefinition#PresentationPropertyDefinition
++	 */
++	public static Vector readAssociations(DataInputStream in) throws IOException {
++		Vector assocs = new Vector();
++		// read number of associations
++		int assocCount = in.readInt();
++		// read associations
++		for (int i = 0; i &lt; assocCount; i++) {
++			assocs.addElement(new PresentableAssociation(in));
++		}
++		return assocs;
++	}
++
++	// ---
++
++	/**
++	 * @see		PresentableTopicMap#write	2x
++	 * @see		de.deepamehta.service.CorporateDirectives#write
++	 */
++	public static void writeTopics(Vector topics, DataOutputStream out)
++																	throws IOException {
++		// write number of topics
++		out.writeInt(topics.size());
++		// write topics
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			((BaseTopic) e.nextElement()).write(out);
++		}
++	}
++
++	/**
++	 * @see		BaseTopicMap#write
++	 */
++	public static void writeTopics(Hashtable topics, DataOutputStream out)
++																	throws IOException {
++		// write number of topics
++		out.writeInt(topics.size());
++		// write topics
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			((BaseTopic) e.nextElement()).write(out);
++		}
++	}
++
++	// ---
++
++	/**
++	 * @see		de.deepamehta.service.CorporateDirectives#write
++	 */
++	public static void writeAssociations(Vector associations, DataOutputStream out)
++																	throws IOException {
++		// write number of associations
++		out.writeInt(associations.size());
++		// write associations
++		Enumeration e = associations.elements();
++		while (e.hasMoreElements()) {
++			((BaseAssociation) e.nextElement()).write(out);
++		}
++	}
++
++	/**
++	 * @see		BaseTopicMap#write
++	 */
++	public static void writeAssociations(Hashtable associations, DataOutputStream out)
++																	throws IOException {
++		// write number of associations
++		out.writeInt(associations.size());
++		// write associations
++		Enumeration e = associations.elements();
++		while (e.hasMoreElements()) {
++			((BaseAssociation) e.nextElement()).write(out);
++		}
++	}
++
++
++
++	// --------------------------
++	// --- Parsing Parameters ---
++	// --------------------------
++
++
++
++	// --- parseHexColor (4 forms) ---
++
++	public static Color parseHexColor(String color) {
++		return parseHexColor(color, 255);
++	}
++
++	public static Color parseHexColor(String color, int alpha) {
++		try {
++			int r = Integer.parseInt(color.substring(1, 3), 16);
++			int g = Integer.parseInt(color.substring(3, 5), 16);
++			int b = Integer.parseInt(color.substring(5, 7), 16);
++			return new Color(r, g, b, alpha);
++		} catch (RuntimeException e) {
++			throw new DeepaMehtaException(&quot;invalid color specification: \&quot;&quot; + color +
++				&quot;\&quot;, expected format is \&quot;#rrggbb\&quot;&quot;);
++		}
++	}
++
++	public static Color parseHexColor(String color, String defaultColor) {
++		return parseHexColor(color, parseHexColor(defaultColor, Color.white));
++	}
++
++	/**
++	 * @param	color	a string of format #rrggbb, may be &lt;code&gt;null&lt;/code&gt; or empty.
++	 */
++	public static Color parseHexColor(String color, Color defaultColor) {
++		try {
++			if (color == null || color.length() == 0) {
++				return defaultColor;
++			}
++			//
++			int r = Integer.parseInt(color.substring(1, 3), 16);
++			int g = Integer.parseInt(color.substring(3, 5), 16);
++			int b = Integer.parseInt(color.substring(5, 7), 16);
++			//
++			return new Color(r, g, b);
++		} catch (RuntimeException e) {
++			System.out.println(&quot;*** DeepaMehtaUtils.parseHexColor(): invalid color specification: \&quot;&quot; + color +
++				&quot;\&quot; (expected format is #rrggbb) -- default color used&quot;);
++			return defaultColor;
++		}
++	}
++
++	// ---
++
++	public static Date parseDate(String date) {
++		return getCalendar(date).getTime();
++	}
++
++	public static Point parsePoint(String point) {
++		StringTokenizer st = new StringTokenizer(point, &quot;:&quot;);
++		int x = Integer.parseInt(st.nextToken());
++		int y = Integer.parseInt(st.nextToken());
++		return new Point(x, y);
++	}
++
++	// ---
++
++	public static boolean isImage(String file) {
++		return (file.endsWith(&quot;.gif&quot;) || file.endsWith(&quot;.GIF&quot;) ||
++				file.endsWith(&quot;.jpg&quot;) || file.endsWith(&quot;.JPG&quot;) ||
++				file.endsWith(&quot;.png&quot;) || file.endsWith(&quot;.PNG&quot;));
++	}
++
++	public static boolean isHTML(String file) {
++		return (file.endsWith(&quot;.html&quot;) || file.endsWith(&quot;.HTML&quot;) ||
++				file.endsWith(&quot;.htm&quot;) || file.endsWith(&quot;.HTM&quot;));
++	}
++
++
++
++	// ----------------
++	// --- Graphics ---
++	// ----------------
++
++
++
++	// ---
++
++	public static Rectangle getBounds(PresentableTopicMap topicmap) {
++		return initBounds(topicmap, null);
++	}
++
++	public static Rectangle initBounds(PresentableTopicMap topicmap, Rectangle returnObject) {
++		int xMin = Integer.MAX_VALUE;
++		int yMin = Integer.MAX_VALUE;
++		int xMax = Integer.MIN_VALUE;
++		int yMax = Integer.MIN_VALUE;
++		//
++		Enumeration e = topicmap.getTopics().elements();
++		while (e.hasMoreElements()) {
++			PresentableTopic topic = (PresentableTopic) e.nextElement();
++			Point p = topic.getGeometry();
++			if (p.x &lt; xMin) xMin = p.x;
++			if (p.x &gt; xMax) xMax = p.x;
++			if (p.y &lt; yMin) yMin = p.y;
++			if (p.y &gt; yMax) yMax = p.y;
++		}
++		//
++		if (returnObject == null) {
++			returnObject = new Rectangle();
++		}
++		returnObject.x = xMin;
++		returnObject.y = yMin;
++		returnObject.width = xMax - xMin;
++		returnObject.height = yMax - yMin;
++		//
++		return returnObject;
++	}
++
++	// ---
++
++	/**
++	 * References checked: 4.9.2001 (2.0a12-pre1)
++	 *
++	 * @see		de.deepamehta.client.GraphPanel#paint	(the edge in progress)
++	 * @see		de.deepamehta.client.GraphPanel#paintEdge
++	 */
++	public static void paintLine(Graphics g, int x1, int y1, int x2, int y2,
++															   boolean hasDirection) {
++		if (hasDirection) {
++			g.drawLine(x1, y1 - 1, x2, y2);
++			g.drawLine(x1 + 1, y1 - 1, x2, y2);
++			g.drawLine(x1 + 2, y1, x2, y2);
++			g.drawLine(x1 + 2, y1 + 1, x2, y2);
++			g.drawLine(x1 + 1, y1 + 2, x2, y2);
++			g.drawLine(x1, y1 + 2, x2, y2);
++			g.drawLine(x1 - 1, y1 + 1, x2, y2);
++			g.drawLine(x1 - 1, y1, x2, y2);
++		} else {
++			g.drawLine(x1, y1, x2, y2);
++			g.drawLine(x1 + 1, y1, x2 + 1, y2);
++			g.drawLine(x1, y1 + 1, x2, y2 + 1);
++			g.drawLine(x1 + 1, y1 + 1, x2 + 1, y2 + 1);
++		}
++	}
++
++
++
++	// ---------------------------
++	// --- String Manipulation ---
++	// ---------------------------
++
++
++
++	/**
++	 * Useful when PropertyData (particularly HTML data)
++	 * are written directly to property fields.
++	 */
++	/* ### public static String encodeSpecialCharacters(String in) {
++		int len = in.length();
++		StringBuffer out = new StringBuffer();
++		for (int i = 0; i &lt; len; i++) {
++			char c = in.charAt(i);
++			if (c == '&lt;') {
++				out.append(&quot;&lt;&quot;);
++			} else if (c == '&gt;') {
++				out.append(&quot;&gt;&quot;);
++			} else if (c == '&amp;') {
++				out.append(&quot;&amp;&quot;);
++			} else if (c == '\&quot;') {
++				out.append(&quot;&quot;&quot;);
++			} else {
++				out.append(c);
++			}
++		}
++		return out.toString();
++	} */
++
++	/**
++	 * decodes one special character from HTML text
++	 *
++	 * @param specChar special character
++	 *
++	 * @return decoded character
++	 *
++	 * @see		#restoreSpecialCharacters
++	 */
++	/* ### public static String decodeSpecialCharacter(String specChar) {
++		if (specChar.equals(&quot;&gt;&quot;)) {
++			return &quot;&gt;&quot;;
++		}
++		if (specChar.equals(&quot;&lt;&quot;)) {
++			return &quot;&lt;&quot;;
++		}
++		if (specChar.equals(&quot;&quot;&quot;)) {
++			return &quot;\&quot;&quot;;
++		}
++		if (specChar.equals(&quot;&amp;&quot;)) {
++			return &quot;&amp;&quot;;
++		}
++		return specChar;
++	} */
++
++	// ---
++
++	/**
++	 * ### to be dropped, use a StringTokenizer or split() instead
++	 * &lt;P&gt;
++	 * Convenience method to split a string that contains a &lt;CODE&gt;:&lt;/CODE&gt; into 2
++	 * substrings.
++	 * &lt;P&gt;
++	 * Used here to split a refresh request into topicmap ID and viewmode.
++	 */
++	static public String[] explode(String str) {
++		String[] result = new String[2];
++		int pos = str.indexOf(&quot;:&quot;);
++		if (pos != -1) {
++			result[0] = str.substring(0, pos);
++			result[1] = str.substring(pos + 1);
++		} else {
++			result[0] = str;
++			// result[1] = null;
++		}
++		return result;
++	}
++
++	static public String replace(String str, char oldChar, String newStr) {
++		return str.replaceAll(&quot;&quot;+oldChar, newStr);
++//		int pos = str.indexOf(oldChar);
++//		if (pos == -1) {
++//			return str;
++//		}
++//		//
++//		StringBuffer result = new StringBuffer();
++//		int pos0 = 0;
++//		while (pos != -1) {
++//			result.append(str.substring(pos0, pos));
++//			result.append(newStr);
++//			pos0 = pos + 1;
++//			pos = str.indexOf(oldChar, pos0);
++//		}
++//		result.append(str.substring(pos0));
++//		return result.toString();
++	}
++
++	static public String replaceLF(String text) {
++		text = text.replaceAll(&quot;\r\n&quot;, &quot;&lt;br&gt;&quot;);
++		text = text.replaceAll(&quot;\r&quot;, &quot;&lt;br&gt;&quot;);		// originates from web
++		text = text.replaceAll(&quot;\n&quot;, &quot;&lt;br&gt;&quot;);		// originates from graphical client
++		// ### text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// originates from web
++		// ### text = DeepaMehtaUtils.replace(text, '\n', &quot;&lt;br&gt;&quot;);		// originates from graphical client
++		return text;
++	}
++
++	// ---
++
++	static public String align(String str) {
++		return (str.length() == 1 ? &quot;0&quot; : &quot;&quot;) + str;
++	}
++
++	static public String unalign(String str) {
++		return (str.startsWith(&quot;0&quot;) ? str.substring(1) : str);
++	}
++
++	// ---
++
++	static public String nTimes(String str, int n) {
++		StringBuffer result = new StringBuffer();
++		for (int i = 0; i &lt; n; i++) {
++			result.append(str);
++		}
++		return result.toString();
++	}
++
++	// ---
++
++	/**
++	 * @see		de.deepamehta.service.web.DeepaMehtaServlet#addObject
++	 */
++	static public String html2xml(String html) {
++		// ### too simple
++		StringBuffer xml = new StringBuffer();
++		// close image tags
++		int pos = 0;
++		int pos1 = html.indexOf(&quot;&lt;img&quot;);
++		while (pos1 != -1) {
++			int pos2 = html.indexOf(&quot;&gt;&quot;, pos1);
++			xml.append(html.substring(pos, pos2 + 1));
++			xml.append(&quot;&lt;/img&gt;&quot;);
++			pos = pos2 + 1;
++			pos1 = html.indexOf(&quot;&lt;img&quot;, pos);
++		}
++		xml.append(html.substring(pos));
++		// close br tags
++		html = xml.toString();
++		xml.setLength(0);
++		//
++		pos = 0;
++		pos1 = html.indexOf(&quot;&lt;br&gt;&quot;);
++		while (pos1 != -1) {
++			xml.append(html.substring(pos, pos1 + 4));
++			xml.append(&quot;&lt;/br&gt;&quot;);
++			pos = pos1 + 4;
++			pos1 = html.indexOf(&quot;&lt;br&gt;&quot;, pos);
++		}
++		xml.append(html.substring(pos));
++		//
++		return xml.toString();
++	}
++
++	// --- quoteHTML (2 forms) ---
++
++	static public String quoteHTML(String text) {
++		return quoteHTML(text, false);
++	}
++
++	static public String quoteHTML(String text, boolean allowSomeTags) {
++		StringBuffer quotedText = new StringBuffer(text);
++		int i = 0;
++		while ((i = quotedText.indexOf(&quot;&lt;&quot;, i)) != -1) {
++			boolean quote;
++			// check weather to quote
++			if (allowSomeTags) {
++				int wordStart = i + 1 &lt; quotedText.length() &amp;&amp; quotedText.charAt(i + 1) == '/' ? i + 2 : i + 1;
++				String tag = getWord(quotedText, wordStart);
++				quote = !ALLOWED_TAGS.contains(tag);
++			} else {
++				quote = true;
++			}
++			// perform quoting
++			if (quote) {
++				quotedText.replace(i, i + 1, &quot;&lt;&quot;);
++			}
++			//
++			i ++;
++		}
++		return quotedText.toString();
++	}
++
++	// ---
++
++	static private String getWord(StringBuffer str, int fromIndex) {
++		int i = fromIndex;
++		while (i &lt; str.length() &amp;&amp; Character.isLetter(str.charAt(i))) {
++			i++;
++		}
++		return str.substring(fromIndex, i);
++	}
++
++
++
++	// ---
++	// ---
++	// ---
++
++
++
++	/**
++	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 *
++	 * @see		BaseTopicMap#BaseTopicMap(Vector topics, Vector associations)
++	 * @see		PresentableTopicMap#PresentableTopicMap(DataInputStream)
++	 * @see		de.deepamehta.client.PresentationTopicMap#init
++	 */
++	public static Hashtable fromTopicVector(Vector vector) {
++		Hashtable topics = new Hashtable();
++		Enumeration e = vector.elements();
++		Topic topic;
++		while (e.hasMoreElements()) {
++			topic = (Topic) e.nextElement();
++			topics.put(topic.getID(), topic);
++		}
++		return topics;
++	}
++
++	/**
++	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 *
++	 * @see		BaseTopicMap#BaseTopicMap(Vector topics, Vector associations)
++	 * @see		PresentableTopicMap#PresentableTopicMap(DataInputStream)
++	 * @see		de.deepamehta.client.PresentationTopicMap#init
++	 */
++	public static Hashtable fromAssociationVector(Vector vector) {
++		Hashtable associations = new Hashtable();
++		Enumeration e = vector.elements();
++		Association assoc;
++		while (e.hasMoreElements()) {
++			assoc = (Association) e.nextElement();
++			associations.put(assoc.getID(), assoc);
++		}
++		return associations;
++	}
++
++	// ---
++
++	public static Vector topicIDs(Vector topics) {
++		Vector topicIDs = new Vector();
++		//
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			topicIDs.addElement(topic.getID());
++		}
++		//
++		return topicIDs;
++	}
++
++
++
++	// -------------------
++	// --- Date &amp; Time ---
++	// -------------------
++
++
++
++	public static Calendar getCalendar(String date) {
++		int year = Integer.parseInt(date.substring(0, 4));
++		int month = Integer.parseInt(date.substring(5, 7));
++		int day = Integer.parseInt(date.substring(8));
++		Calendar cal = Calendar.getInstance();
++		cal.clear();
++		// ### cal.setFirstDayOfWeek(Calendar.MONDAY);	// ### european
++		cal.set(year, month - 1, day);	// Calendar starts month with 0, DeepaMehta with 1
++		return cal;
++	}
++
++	// --- getDate(4 forms) ---
++
++	public static String getDate() {
++		return getDate(DATE_SEPARATOR);
++	}
++
++	public static String getDate(Calendar cal) {
++		return getDate(cal, DATE_SEPARATOR);
++	}
++
++	/**
++	 * @see		de.deepamehta.topics.personalweb.PersonalWeb#createLogfile
++	 */
++	public static String getDate(String sep) {
++		Calendar cal = Calendar.getInstance();
++		return getDate(cal, sep);
++	}
++
++	public static String getDate(Calendar cal, String sep) {
++		int y = cal.get(Calendar.YEAR);
++		int m = cal.get(Calendar.MONTH) + 1;	// Note: DeepaMehta begins with month=1
++		int d = cal.get(Calendar.DAY_OF_MONTH);
++		String date = y + sep + (m &lt; 10 ? &quot;0&quot; : &quot;&quot;) + m + sep + (d &lt; 10 ? &quot;0&quot; : &quot;&quot;) + d;	// ### consider align()
++		return date;
++	}
++
++	// --- getTime (3 forms) ---
++
++	public static String getTime() {
++		return getTime(true);
++	}
++
++	/**
++	 * @see		de.deepamehta.client.MessagePanel#addMessage
++	 */
++	public static String getTime(boolean withSecs) {
++		return getTime(withSecs, TIME_SEPARATOR);
++	}
++
++	/**
++	 * @see		de.deepamehta.topics.personalweb.PersonalWeb#createLogfile
++	 */
++	public static String getTime(boolean withSecs, String sep) {
++		Calendar cal = Calendar.getInstance();
++		int h = cal.get(Calendar.HOUR_OF_DAY);
++		int m = cal.get(Calendar.MINUTE);
++		int s = cal.get(Calendar.SECOND);
++		String time = (h &lt; 10 ? &quot;0&quot; : &quot;&quot;) + h + sep + (m &lt; 10 ? &quot;0&quot; : &quot;&quot;) + m;
++		if (withSecs) {
++			time += sep + (s &lt; 10 ? &quot;0&quot; : &quot;&quot;) + s;
++		}
++		// ### consider align()
++		return time;
++	}
++
++	// ---
++
++	/**
++	 * @param	time	a time string in DeepaMehta format (hh:mm)
++	 */
++	public static int getMinutes(String time) {
++		int hours = Integer.parseInt(time.substring(0, 2));
++		int minutes = Integer.parseInt(time.substring(3, 5));
++		return 60 * hours + minutes;
++	}
++
++
++
++	// -----------------
++	// --- Reporting ---
++	// -----------------
++
++
++
++	/**
++	 * @see		#initialize
++	 */
++	public static void reportVMProperties() {
++		try {
++			String prop = System.getProperty(&quot;java.specification.vendor&quot;);
++			// Note: first get the property to prevent output in case of exception
++			System.out.println(&quot;&gt; Java Runtime Environment&quot;);
++			System.out.println(&quot;&gt;    specification: &quot; + prop + &quot;/&quot; +
++				System.getProperty(&quot;java.specification.name&quot;) + &quot;/&quot; +
++				System.getProperty(&quot;java.specification.version&quot;));
++			System.out.println(&quot;&gt;    VM specification: &quot; +
++				System.getProperty(&quot;java.vm.specification.vendor&quot;) + &quot;/&quot; +
++				System.getProperty(&quot;java.vm.specification.name&quot;) + &quot;/&quot; +
++				System.getProperty(&quot;java.vm.specification.version&quot;));
++			System.out.println(&quot;&gt;    VM implementation: &quot; +
++				System.getProperty(&quot;java.vm.vendor&quot;) + &quot;/&quot; +
++				System.getProperty(&quot;java.vm.name&quot;) + &quot;/&quot; +
++				System.getProperty(&quot;java.vm.version&quot;));
++			System.out.println(&quot;&gt;    File encoding: &quot; + System.getProperty(&quot;file.encoding&quot;));
++		} catch (Exception e) {
++			System.out.println(&quot;*** The VM properties can't be reported because this applet is not signed&quot;);
++		}
++	}
++
++	public static void memoryStatus() {
++		long memFree = Runtime.getRuntime().freeMemory();
++		long memTotal = Runtime.getRuntime().totalMemory();
++		System.out.println(&quot;&gt; &quot; + mem(memTotal - memFree) + &quot; used (&quot; +
++			mem(memTotal) + &quot; allocated)&quot;);
++	}
++
++	public static String mem(long bytes) {
++		if (bytes &lt; 1024) {
++			return Long.toString(bytes);
++		}
++		long kBytes = bytes / 1024;
++		if (kBytes &lt; 1000) {
++			return kBytes + &quot;K&quot;;
++		}
++		long mBytes = kBytes / 1000;
++		return mBytes + &quot;M&quot;;
++	}
++
++/*
++	public static boolean isCompatible(String version, String requiredVersion) {
++		if (version.equals(requiredVersion)) {
++			return true;
++		}
++		//
++		String release;
++		String interim;
++		String requiredRelease;
++		String requiredInterim;
++		//
++		int pos = version.indexOf(version, '-');
++		if (pos != -1) {
++			release = version.substring(0, pos);
++			interim = version.substring(pos + 1);
++		} else {
++			release = version;
++		}
++		//
++		pos = version.indexOf(requiredVersion, '-');
++		if (pos != -1) {
++			requiredRelease = requiredVersion.substring(0, pos);
++			requiredInterim = requiredVersion.substring(pos + 1);
++		} else {
++			requiredRelease = requiredVersion;
++		}
++		//
++		if (interim != null) {
++			if (requiredInterim != null) {
++			} else {
++			}
++		} else {
++			if (requiredInterim != null) {
++			} else {
++			}
++		}
++	}
++*/
++
++
++
++	// -----------------
++	// --- Mics      ---
++	// -----------------
++
++
++
++	static public void printStackTrace() {
++		printStackTrace(10,1);
++	}
++
++	static public void printStackTrace(int depth) {
++		printStackTrace(depth,1);
++	}
++
++	static public void printStackTrace(int depth, int skip) {
++		if (false){
++			skip++;
++			System.err.println(&quot;----&quot;);
++			Exception e = new Exception();
++			e.fillInStackTrace();
++			StackTraceElement[] stackTrace = e.getStackTrace();
++			for (int i = skip; i &lt; stackTrace.length &amp;&amp; i &lt; depth + skip; i++) {
++				System.err.println(&quot;    &quot; + stackTrace[i].toString());
++			}
++			System.err.println(&quot;----&quot;);
++		}
++	}
++}
+
+
+Property changes on: branches/eschnepel/install/client/backgrounds
+___________________________________________________________________
+Name: svn:ignore
+   + ks-*.png
+
+
+
+Property changes on: branches/eschnepel/install/client/documents
+___________________________________________________________________
+Name: svn:ignore
+   + report_t-*.zip
+topicmap-t-*.zip
+
+
+
+Property changes on: branches/eschnepel/install/client/icons
+___________________________________________________________________
+Name: svn:ignore
+   + at-??????.png
+tt-??????.png
+moviecontainer.gif
+movie.gif
+actor.gif
+actorcontainer.gif
+BewertungsEbene.gif
+BewertungsEbeneContainer.gif
+BewertungsGegenstand.gif
+BewertungsGegenstandContainer.gif
+BewertungsSkala.gif
+BewertungsSkalaContainer.gif
+Kompetenzstern.gif
+KompetenzsternContainer.gif
+KompetenzsternTemplate.gif
+KompetenzsternTemplateContainer.gif
+Kriterium.gif
+KriteriumContainer.gif
+
+
+
+Property changes on: branches/eschnepel/install/client/images
+___________________________________________________________________
+Name: svn:ignore
+   + arrow_disabled.gif
+arrow_down.gif
+arrow_empty.gif
+arrow_left_disabled.gif
+arrow_left.gif
+arrow.gif
+edit.gif
+
+
+Modified: branches/eschnepel/install/config/build-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-derby-intern.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/build-derby-intern.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,6 +4,7 @@
+ # Database
+ db.create-db		=createdb-CONNECT.xml
+ db.drop-db			=dropdb-derby.xml
++db.list-names		=list-db-EMPTY.xml
+ 
+ db.tables			=db_tables_derby.sql
+ db.drop-tables		=db_drop.sql
+
+Modified: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,8 +2,9 @@
+ # dm.instance		=hsqldb-intern
+ 
+ # Database
+-db.create-db		=createdb-EMPTY.xml
++db.create-db		=createdb-hsqldb.xml
+ db.drop-db			=dropdb-hsqldb.xml
++db.list-names		=list-db-hsqldb.xml
+ 
+ db.tables			=db_tables_hsqldb.sql
+ db.drop-tables		=db_drop.sql
+
+Deleted: branches/eschnepel/install/config/build-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/build-mysql.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/build-mysql.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,20 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=mysql
+-
+-# Database
+-db.create-db		=createdb-sql92.xml
+-db.drop-db			=dropdb-sql92.xml
+-
+-db.tables			=db_tables_mysql.sql
+-db.drop-tables		=db_drop.sql
+-db.close-session	=EMPTY.sql
+-db.optimize			=OPTIMIZE_mysql.sql
+-db.autocommit		=true
+-
+-db.sysname			=mysql
+-db.sysuser			=root
+-db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}?useUnicode=true
+-
+-config.db.user		=true
+-config.db.name		=true
+-config.db.host		=true
+
+Copied: branches/eschnepel/install/config/build-mysql4.properties (from rev 224, trunk/install/config/build-mysql4.properties)
+===================================================================
+--- trunk/install/config/build-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/config/build-mysql4.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,21 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++
++# Database
++db.create-db		=createdb-sql92.xml
++db.drop-db			=dropdb-sql92.xml
++db.list-names		=list-db-mysql4.xml
++
++db.tables			=db_tables_mysql4.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=EMPTY.sql
++db.optimize			=OPTIMIZE_mysql.sql
++db.autocommit		=true
++
++db.sysname			=mysql
++db.sysuser			=root
++db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}?useUnicode=true&amp;characterEncoding=latin1
++
++config.db.user		=true
++config.db.name		=true
++config.db.host		=true
+
+Copied: branches/eschnepel/install/config/build-mysql5.properties (from rev 224, trunk/install/config/build-mysql5.properties)
+===================================================================
+--- trunk/install/config/build-mysql5.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/config/build-mysql5.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,21 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++
++# Database
++db.create-db		=createdb-sql92.xml
++db.drop-db			=dropdb-sql92.xml
++db.list-names		=list-db-mysql5.xml
++
++db.tables			=db_tables_mysql5.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=EMPTY.sql
++db.optimize			=OPTIMIZE_mysql.sql
++db.autocommit		=true
++
++db.sysname			=mysql
++db.sysuser			=root
++db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}?useUnicode=true
++
++config.db.user		=true
++config.db.name		=true
++config.db.host		=true
+
+Deleted: branches/eschnepel/install/config/db-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/db-mysql.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,5 +0,0 @@
+-# DeepaMehta Service
+-# db.type			=mysql
+-
+-db.driver			=org.gjt.mm.mysql.Driver
+-db.libs				=${libpath}/mysql-3.1.7.jar
+
+Added: branches/eschnepel/install/config/db-mysql4.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql4.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/db-mysql4.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,5 @@
++# DeepaMehta Service
++# db.type			=mysql
++
++db.driver			=org.gjt.mm.mysql.Driver
++db.libs				=${libpath}/mysql-3.1.7.jar
+
+Copied: branches/eschnepel/install/config/db-mysql5.properties (from rev 221, branches/eschnepel/install/config/db-mysql.properties)
+
+Deleted: branches/eschnepel/install/config/dm-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/dm-mysql.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/config/dm-mysql.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,13 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=mysql
+-dm.comporate-memory.class=RelationalCorporateMemory
+-
+-# Database
+-db.name				=DeepaMehta
+-db.user				=dm
+-db.password			=dm
+-db.type				=mysql
+-
+-db.host				=127.0.0.1
+-
+-db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true
+
+Copied: branches/eschnepel/install/config/dm-mysql4.properties (from rev 224, trunk/install/config/dm-mysql4.properties)
+===================================================================
+--- trunk/install/config/dm-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/config/dm-mysql4.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,13 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta
++db.user				=dm
++db.password			=dm
++db.type				=mysql4
++
++db.host				=127.0.0.1
++
++db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=latin1
+
+Copied: branches/eschnepel/install/config/dm-mysql5.properties (from rev 224, trunk/install/config/dm-mysql5.properties)
+===================================================================
+--- trunk/install/config/dm-mysql5.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/config/dm-mysql5.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,13 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta
++db.user				=dm
++db.password			=dm
++db.type				=mysql5
++
++db.host				=127.0.0.1
++
++db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true
+
+Modified: branches/eschnepel/install/db/cm.sql
+===================================================================
+--- branches/eschnepel/install/db/cm.sql	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/cm.sql	2007-10-03 11:11:33 UTC (rev 228)
+@@ -167,6 +167,8 @@
+ -- assign properties
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-20', '', 'tt-datasource', 1, 'pp-url', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21', '', 'tt-datasource', 1, 'pp-dbtype', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21a', '', 'tt-datasource', 1, 'pp-dbuser', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21b', '', 'tt-datasource', 1, 'pp-dbpassword', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-134', '', 'tt-datasource', 1, 'pp-idleelementtype', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-22', '', 'tt-datasource', 1, 'pp-entities', 1);
+ INSERT INTO AssociationProp VALUES ('a-20', 1, 'Ordinal Number', '110');
+@@ -1254,6 +1256,14 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbtype', 'Database Type');
+ INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Visualization', 'Input Field');
+ 
++--- &quot;Database Type&quot; ---
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbuser', 'Username');
++INSERT INTO TopicProp VALUES ('pp-dbuser', 1, 'Visualization', 'Input Field');
++
++--- &quot;Database Type&quot; ---
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbpassword', 'Password');
++INSERT INTO TopicProp VALUES ('pp-dbpassword', 1, 'Visualization', 'Input Field');
++
+ --- &quot;Entities&quot; ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-entities', 'Entities');
+ INSERT INTO TopicProp VALUES ('pp-entities', 1, 'Visualization', 'Input Field');
+
+Modified: branches/eschnepel/install/db/db-specific/asksyspass.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,9 +1,13 @@
+ &lt;project name=&quot;DeepaMehta-db-asksyspass&quot;&gt;
+-	&lt;target name=&quot;-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++	&lt;condition property=&quot;ask.abort&quot;&gt;
++		&lt;or&gt;
++			&lt;istrue value=&quot;${withsyspass}&quot; /&gt;
++			&lt;isset property=&quot;do.db.abort&quot; /&gt;
++		&lt;/or&gt;
++	&lt;/condition&gt;
++	&lt;target name=&quot;-asksyspass&quot; unless=&quot;ask.abort&quot;&gt;
+ 		&lt;var name=&quot;return.syspass&quot; unset=&quot;true&quot; /&gt;
+-		&lt;!--		&lt;extendedinput message=&quot;Please enter the database ${db.sysuser} password:&quot;
+-		        addproperty=&quot;return.syspass&quot;
+-		        inputhandler=&quot;org.apache.tools.ant.input.PasswordInputHandler&quot;/&gt;--&gt;
+-		&lt;input message=&quot;Please enter the database ${db.sysuser} password: &quot; addproperty=&quot;return.syspass&quot; /&gt;
++		&lt;extendedinput message=&quot;Please enter the database ${db.sysuser} password:&quot; addproperty=&quot;return.syspass&quot; inputhandler=&quot;org.apache.tools.ant.input.PasswordInputHandler&quot; /&gt;
++		&lt;!--input message=&quot;Please enter the database ${db.sysuser} password: &quot; addproperty=&quot;return.syspass&quot; /--&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Added: branches/eschnepel/install/db/db-specific/createdb-hsqldb.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-hsqldb.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/createdb-hsqldb.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,6 @@
++&lt;project name=&quot;DeepaMehta-db-createdb-MKDIR&quot; &gt;
++	&lt;import file=&quot;createdb-ask.xml&quot;/&gt;
++	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.createdb.abort&quot;&gt;
++		&lt;mkdir dir=&quot;${db.hsqldb.base-path}&quot;/&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,68 +0,0 @@
+--- DeepaMehta database model for use with MySQL.
+--- This script just creates the tables.
+-
+-CREATE TABLE Topic (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-    INDEX (TypeID, TypeVersion, Name)
+-);
+-
+-CREATE TABLE Association (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-    TopicID1 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion1 INT NOT NULL,
+-    TopicID2 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion2 INT NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-	INDEX (ID, Version, TypeID, TypeVersion),
+-    INDEX (TopicID1, TopicVersion1),
+-    INDEX (TopicID2, TopicVersion2)
+-);
+-
+-CREATE TABLE ViewTopic (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    x INT NOT NULL,
+-    y INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion),
+-	INDEX (TopicID)
+-);
+-
+-CREATE TABLE ViewAssociation (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion)
+-);
+-
+-CREATE TABLE TopicProp (
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    PRIMARY KEY (TopicID, TopicVersion, PropName)
+-);
+-
+-CREATE TABLE AssociationProp (
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
+-);
+-
+-CREATE TABLE KeyGenerator (
+-    Relation CHAR(24) CHARACTER SET utf8 COLLATE utf8_bin PRIMARY KEY NOT NULL,
+-    NextKey INT NOT NULL
+-);
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_mysql4.sql (from rev 224, trunk/install/db/db-specific/db_tables_mysql4.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_mysql5.sql (from rev 224, trunk/install/db/db-specific/db_tables_mysql5.sql)
+
+Added: branches/eschnepel/install/db/db-specific/list-db-EMPTY.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-EMPTY.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/list-db-EMPTY.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,3 @@
++&lt;project name=&quot;DeepaMehta-db-listdb-EMPTY&quot;&gt;
++	&lt;target name=&quot;-listdb&quot;/&gt;
++&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/db-specific/list-db-mysql.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-mysql.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/list-db-mysql.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,59 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-listdb-mysql&quot;&gt;
+-	&lt;import file=&quot;asksyspass.xml&quot; /&gt;
+-	&lt;target name=&quot;-listdb&quot; depends=&quot;-asksyspass&quot;&gt;
+-		&lt;path id=&quot;dblibs&quot;&gt;
+-			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+-				&lt;include name=&quot;${db.libs}&quot; /&gt;
+-			&lt;/fileset&gt;
+-		&lt;/path&gt;
+-		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot; /&gt;
+-		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+-			&lt;try&gt;
+-				&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot; print=&quot;true&quot; output=&quot;tmp-databases.txt&quot; showheaders=&quot;false&quot; onerror=&quot;continue&quot;&gt;
+-					SELECT
+-						CONCAT(schema_name, ';')
+-					FROM
+-						information_schema.schemata
+-					WHERE	LOWER(schema_name) != 'mysql'
+-					AND		LOWER(schema_name) != 'information_schema';
+-				&lt;/sql&gt;
+-				&lt;loadfile srcFile=&quot;tmp-databases.txt&quot; property=&quot;list&quot; /&gt;
+-				&lt;var name=&quot;elem&quot; unset=&quot;true&quot; /&gt;
+-				&lt;for param=&quot;listElem&quot; list=&quot;${list}&quot; delimiter=&quot;;&quot; trim=&quot;true&quot;&gt;
+-					&lt;sequential&gt;
+-						&lt;!--
+-							this construct removes the last row which shows
+-							only statistics about the sql statement!
+-						--&gt;
+-						&lt;if&gt;
+-							&lt;isset property=&quot;elem&quot; /&gt;
+-							&lt;then&gt;
+-								&lt;if&gt;
+-									&lt;not&gt;
+-										&lt;isset property=&quot;header-printed&quot; /&gt;
+-									&lt;/not&gt;
+-									&lt;then&gt;
+-										&lt;echo&gt;Existing databases:&lt;/echo&gt;
+-										&lt;echo /&gt;
+-										&lt;property name=&quot;header-printed&quot; value=&quot;true&quot; /&gt;
+-									&lt;/then&gt;
+-								&lt;/if&gt;
+-								&lt;echo&gt;* ${elem}&lt;/echo&gt;
+-							&lt;/then&gt;
+-						&lt;/if&gt;
+-						&lt;var name=&quot;elem&quot; value=&quot;@{listElem}&quot; /&gt;
+-					&lt;/sequential&gt;
+-				&lt;/for&gt;
+-				&lt;if&gt;
+-					&lt;isset property=&quot;header-printed&quot; /&gt;
+-					&lt;then&gt;
+-						&lt;echo /&gt;
+-					&lt;/then&gt;
+-				&lt;/if&gt;
+-			&lt;/try&gt;
+-			&lt;catch&gt;
+-				&lt;echo message=&quot;${exceptionProp}&quot; /&gt;
+-			&lt;/catch&gt;
+-		&lt;/trycatch&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Added: branches/eschnepel/install/db/db-specific/list-db-mysql4.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-mysql4.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/db/db-specific/list-db-mysql4.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,29 @@
++&lt;project name=&quot;DeepaMehta-db-listdb-mysql4&quot;&gt;
++	&lt;import file=&quot;asksyspass.xml&quot; /&gt;
++	&lt;target name=&quot;-listdb&quot; depends=&quot;-asksyspass&quot;&gt;
++		&lt;path id=&quot;dblibs&quot;&gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/path&gt;
++		&lt;if&gt;
++			&lt;isset property=&quot;return.syspass&quot; /&gt;
++			&lt;then&gt;
++				&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot; /&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
++			&lt;try&gt;
++				&lt;echo&gt;Existing databases:&lt;/echo&gt;
++				&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot; print=&quot;true&quot; showheaders=&quot;false&quot; onerror=&quot;continue&quot;&gt;
++					SHOW DATABASES;
++				&lt;/sql&gt;
++			&lt;/try&gt;
++			&lt;catch&gt;
++				&lt;echo message=&quot;${exceptionProp}&quot; /&gt;
++				&lt;var name=&quot;db.syspass&quot; unset=&quot;true&quot; /&gt;
++				&lt;var name=&quot;withsyspass&quot; unset=&quot;true&quot; /&gt;
++			&lt;/catch&gt;
++		&lt;/trycatch&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Copied: branches/eschnepel/install/db/db-specific/list-db-mysql5.xml (from rev 221, branches/eschnepel/install/db/db-specific/list-db-mysql.xml)
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-mysql.xml	2007-09-21 15:12:10 UTC (rev 221)
++++ branches/eschnepel/install/db/db-specific/list-db-mysql5.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,67 @@
++&lt;project name=&quot;DeepaMehta-db-listdb-mysql5&quot;&gt;
++	&lt;import file=&quot;asksyspass.xml&quot; /&gt;
++	&lt;target name=&quot;-listdb&quot; depends=&quot;-asksyspass&quot;&gt;
++		&lt;path id=&quot;dblibs&quot;&gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/path&gt;
++		&lt;if&gt;
++			&lt;isset property=&quot;return.syspass&quot; /&gt;
++			&lt;then&gt;
++				&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot; /&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
++			&lt;try&gt;
++				&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot; print=&quot;true&quot; output=&quot;tmp-databases.txt&quot; showheaders=&quot;false&quot; onerror=&quot;continue&quot;&gt;
++					SELECT
++						CONCAT(schema_name, ';')
++					FROM
++						information_schema.schemata
++					WHERE	LOWER(schema_name) != 'mysql'
++					AND		LOWER(schema_name) != 'information_schema';
++				&lt;/sql&gt;
++				&lt;loadfile srcFile=&quot;tmp-databases.txt&quot; property=&quot;list&quot; /&gt;
++				&lt;delete file=&quot;tmp-databases.txt&quot; /&gt;
++				&lt;var name=&quot;elem&quot; unset=&quot;true&quot; /&gt;
++				&lt;for param=&quot;listElem&quot; list=&quot;${list}&quot; delimiter=&quot;;&quot; trim=&quot;true&quot;&gt;
++					&lt;sequential&gt;
++						&lt;!--
++							this construct removes the last row which shows
++							only statistics about the sql statement!
++						--&gt;
++						&lt;if&gt;
++							&lt;isset property=&quot;elem&quot; /&gt;
++							&lt;then&gt;
++								&lt;if&gt;
++									&lt;not&gt;
++										&lt;isset property=&quot;header-printed&quot; /&gt;
++									&lt;/not&gt;
++									&lt;then&gt;
++										&lt;echo&gt;Existing databases:&lt;/echo&gt;
++										&lt;echo /&gt;
++										&lt;property name=&quot;header-printed&quot; value=&quot;true&quot; /&gt;
++									&lt;/then&gt;
++								&lt;/if&gt;
++								&lt;echo&gt;* ${elem}&lt;/echo&gt;
++							&lt;/then&gt;
++						&lt;/if&gt;
++						&lt;var name=&quot;elem&quot; value=&quot;@{listElem}&quot; /&gt;
++					&lt;/sequential&gt;
++				&lt;/for&gt;
++				&lt;if&gt;
++					&lt;isset property=&quot;header-printed&quot; /&gt;
++					&lt;then&gt;
++						&lt;echo /&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++			&lt;/try&gt;
++			&lt;catch&gt;
++				&lt;echo message=&quot;${exceptionProp}&quot; /&gt;
++				&lt;var name=&quot;db.syspass&quot; unset=&quot;true&quot; /&gt;
++				&lt;var name=&quot;withsyspass&quot; unset=&quot;true&quot; /&gt;
++			&lt;/catch&gt;
++		&lt;/trycatch&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ArtistTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ArtistTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ArtistTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,6 @@
+ package de.deepamehta.artfacts.topics;
+ 
+ import de.deepamehta.BaseTopic;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.artfacts.Artfacts;
+@@ -9,6 +8,7 @@
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.DataConsumerTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Hashtable;
+ 
+
+Modified: branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ExhibitionTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ExhibitionTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/artfacts/src/de/deepamehta/artfacts/topics/ExhibitionTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,6 @@
+ package de.deepamehta.artfacts.topics;
+ 
+ import de.deepamehta.BaseTopic;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.artfacts.Artfacts;
+@@ -9,6 +8,7 @@
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.DataConsumerTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Hashtable;
+ 
+
+Modified: branches/eschnepel/install/examples/dm-browser/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/dm-browser/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/dm-browser/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -45,6 +45,6 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/dm-search/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/dm-search/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/dm-search/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -48,7 +48,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete includes=&quot;${build}/**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/dm-topicmapviewer/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/dm-topicmapviewer/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/dm-topicmapviewer/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -46,7 +46,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete includes=&quot;${build}/**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/dm-web
+___________________________________________________________________
+Name: svn:ignore
+   - build
+dm-web.war
+config.properties
+
+   + dm-web.war
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/dm-web/build
+___________________________________________________________________
+Name: svn:ignore
+   + *
+
+
+Modified: branches/eschnepel/install/examples/dm-web/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/dm-web/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/dm-web/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -45,6 +45,6 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/kompetenzstern/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,63 +4,74 @@
+ 		Kompetenzstern
+ 	&lt;/description&gt;
+ 
+-	&lt;property name=&quot;project.name&quot; value=&quot;kompetenzstern&quot;/&gt;
+-	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot;/&gt;
+-	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot;/&gt;
+-	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++	&lt;property name=&quot;project.name&quot; value=&quot;kompetenzstern&quot; /&gt;
++	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot; /&gt;
++	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot; /&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
+ 
+ 	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot; /&gt;
+ 
+ 	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
+ 
+-	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++	&lt;target name=&quot;-init&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++	&lt;target name=&quot;-compile&quot; depends=&quot;-init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${web.servlet.lib}&quot; /&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
++	&lt;target name=&quot;-jar&quot; depends=&quot;-compile&quot;&gt;
+ 		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/kompetenzstern/KS.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/kompetenzstern/topics/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/kompetenzstern/assocs/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/kompetenzstern/KS.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/kompetenzstern/topics/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/kompetenzstern/assocs/*.class&quot; /&gt;
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;war&quot; depends=&quot;jar&quot;&gt;
+-   	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
+-		    &lt;classes dir=&quot;${build}&quot;&gt;
++	&lt;target name=&quot;-war&quot; depends=&quot;-jar&quot;&gt;
++		&lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
++			&lt;classes dir=&quot;${build}&quot;&gt;
+ 				&lt;include name=&quot;de/deepamehta/kompetenzstern/*.class&quot; /&gt;
+-            &lt;/classes&gt;
+-         	&lt;fileset dir=&quot;.&quot;&gt;
+-            	&lt;include name=&quot;pages/*&quot;/&gt;
+-            	&lt;include name=&quot;images/*&quot;/&gt;
+-         	&lt;/fileset&gt;
++			&lt;/classes&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;pages/*&quot; /&gt;
++				&lt;include name=&quot;images/*&quot; /&gt;
++			&lt;/fileset&gt;
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;war&quot;/&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-war,-copy-images&quot; description=&quot;Builds the whole application and copies images to the standalone dm-install-directory&quot; /&gt;
+ 
++	&lt;target name=&quot;-copy-images&quot;&gt;
++		&lt;copy todir=&quot;${client}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;images/**&quot; /&gt;
++				&lt;include name=&quot;icons/**&quot; /&gt;
++				&lt;include name=&quot;backgrounds/**&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot;&gt;
+-        &lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
+-        &lt;copy file=&quot;vergleich2fo.xsl&quot; todir=&quot;../../client/stylesheets&quot;/&gt;
+-        &lt;copy file=&quot;vergleich2svg.xsl&quot; todir=&quot;../../client/stylesheets&quot;/&gt;
++		&lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot; /&gt;
++		&lt;copy file=&quot;vergleich2fo.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
++		&lt;copy file=&quot;vergleich2svg.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;install&quot; &gt;
++	&lt;target name=&quot;install&quot; description=&quot;initialisation for the dm-db&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot; /&gt;
+
+Modified: branches/eschnepel/install/examples/ldap/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/ldap/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/ldap/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -33,7 +33,7 @@
+ 	&lt;target name=&quot;build&quot; depends=&quot;jar&quot;/&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;install&quot;&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/messageboard
+___________________________________________________________________
+Name: svn:ignore
+   - messageboard.jar
+messageboard.war
+build
+config.properties
+
+   + messageboard.jar
+messageboard.war
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/messageboard/build
+___________________________________________________________________
+Name: svn:ignore
+   + *
+
+
+Modified: branches/eschnepel/install/examples/messageboard/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/messageboard/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -13,11 +13,11 @@
+ 
+ 	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
+ 
+-	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++	&lt;target name=&quot;-init&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++	&lt;target name=&quot;-compile&quot; depends=&quot;-init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
+@@ -28,7 +28,7 @@
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
++	&lt;target name=&quot;-jar&quot; depends=&quot;-compile&quot;&gt;
+ 		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+ 			&lt;include name=&quot;de/deepamehta/messageboard/MessageBoard.class&quot; /&gt;
+ 			&lt;include name=&quot;de/deepamehta/messageboard/topics/*.class&quot; /&gt;
+@@ -36,7 +36,7 @@
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;war&quot; depends=&quot;jar&quot;&gt;
++	&lt;target name=&quot;-war&quot; depends=&quot;-jar&quot;&gt;
+ 		&lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
+ 			&lt;classes dir=&quot;${build}&quot;&gt;
+ 				&lt;include name=&quot;de/deepamehta/messageboard/*.class&quot; /&gt;
+@@ -48,14 +48,24 @@
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;war&quot;/&gt;
++	&lt;target name=&quot;-copy-images&quot;&gt;
++		&lt;copy todir=&quot;${client}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;images/**&quot; /&gt;
++				&lt;include name=&quot;icons/**&quot; /&gt;
++				&lt;include name=&quot;backgrounds/**&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
++	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot;&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-war,-copy-images&quot; description=&quot;builds the application&quot; /&gt;
++
++	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot; description=&quot;deploys the application&quot;&gt;
+ 		&lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot; /&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,7 @@
+ package de.deepamehta.messageboard;
+ 
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.service.ApplicationService;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ 
+ 
+
+Modified: branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -2,13 +2,13 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.messageboard.topics.MessageBoardTopic;
+ import de.deepamehta.messageboard.topics.MessageTopic;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+ import de.deepamehta.service.web.TopicTree;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Vector;
+ 
+
+Modified: branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageTopic.java	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,7 +1,6 @@
+ package de.deepamehta.messageboard.topics;
+ 
+ import de.deepamehta.BaseTopic;
+-import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.messageboard.MessageBoard;
+ import de.deepamehta.service.ApplicationService;
+@@ -9,6 +8,7 @@
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.LiveTopic;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Vector;
+ 
+
+
+Property changes on: branches/eschnepel/install/examples/movies
+___________________________________________________________________
+Name: svn:ignore
+   - MoviesTopics.jar
+build
+config.properties
+
+   + MoviesTopics.jar
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/movies/build
+___________________________________________________________________
+Name: svn:ignore
+   + *
+
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -73,10 +73,20 @@
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;-jar&quot; /&gt;
++	&lt;target name=&quot;-copy-images&quot;&gt;
++		&lt;copy todir=&quot;${client}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;images/**&quot; /&gt;
++				&lt;include name=&quot;icons/**&quot; /&gt;
++				&lt;include name=&quot;backgrounds/**&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
++	&lt;/target&gt;
+ 
++	&lt;target name=&quot;build&quot; depends=&quot;-jar,-copy-images&quot; /&gt;
++
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot; /&gt;
++		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- example database &quot;Movies&quot; --&gt;
+@@ -89,7 +99,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-initdb&quot; unless=&quot;do.dmdb.abort&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;movies.dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;db/dmdb-movies.sql&quot; /&gt;
+ 				&lt;include name=&quot;db/dmdb-movies-${movies.dm.instance}.sql&quot; /&gt;
+@@ -98,6 +108,14 @@
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
++			&lt;try&gt;
++				&lt;ant antfile=&quot;${movies.dmdb.content}&quot; target=&quot;dmdb-movies&quot; /&gt;
++			&lt;/try&gt;
++			&lt;catch&gt;
++				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++			&lt;/catch&gt;
++		&lt;/trycatch&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;import file=&quot;${db-specific}/${movies.db.create-db}&quot; /&gt;
+@@ -172,6 +190,13 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-movies-instance-db.name&quot; if=&quot;do.movies.config.db.name&quot;&gt;
++		&lt;ant antfile=&quot;${db-specific}/${movies.db.list-names}&quot; target=&quot;-listdb&quot;&gt;
++			&lt;property name=&quot;db.libs&quot; value=&quot;${movies.db.libs}&quot; /&gt;
++			&lt;property name=&quot;db.driver&quot; value=&quot;${movies.db.driver}&quot; /&gt;
++			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
++			&lt;property name=&quot;db.sysuser&quot; value=&quot;${movies.db.sysuser}&quot; /&gt;
++			&lt;property name=&quot;db.hsqldb.base-path&quot; value=&quot;${movies.db.hsqldb.base-path}&quot; /&gt;
++		&lt;/ant&gt;
+ 		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.movies.db.name&quot; defaultvalue=&quot;${movies.db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${movies.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;movies.db.name&quot; value=&quot;${new.movies.db.name}&quot; /&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -12,5 +12,5 @@
+ 
+ movies.db.tables			=db/db_tables_hsqldb.sql
+ movies.db.content			=db/db_inserts.sql
++movies.dmdb.content			=db/dmdb-movies-sql.xml
+ 
+-
+
+Deleted: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,14 +0,0 @@
+-movies.db.name		=Movies
+-movies.db.user		=movies
+-movies.db.password	=movies
+-
+-movies.db.host		=127.0.0.1
+-movies.db.type		=mysql
+-movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
+-
+-movies.db.sysname	=mysql
+-movies.db.sysuser	=root
+-movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
+-
+-movies.db.tables	=db/db_tables_mysql.sql
+-movies.db.content	=db/db_inserts.sql
+
+Copied: branches/eschnepel/install/examples/movies/config/movies-mysql4.properties (from rev 224, trunk/install/examples/movies/config/movies-mysql4.properties)
+===================================================================
+--- trunk/install/examples/movies/config/movies-mysql4.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql4.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,14 @@
++movies.db.name		=Movies
++movies.db.user		=movies
++movies.db.password	=movies
++
++movies.db.host		=127.0.0.1
++movies.db.type		=mysql4
++movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
++
++movies.db.sysname	=mysql
++movies.db.sysuser	=root
++movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
++
++movies.db.tables	=db/db_tables_mysql.sql
++movies.db.content	=db/db_inserts.sql
+
+Copied: branches/eschnepel/install/examples/movies/config/movies-mysql5.properties (from rev 224, trunk/install/examples/movies/config/movies-mysql5.properties)
+===================================================================
+--- trunk/install/examples/movies/config/movies-mysql5.properties	2007-09-21 17:20:33 UTC (rev 224)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql5.properties	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,15 @@
++movies.db.name		=Movies
++movies.db.user		=movies
++movies.db.password	=movies
++
++movies.db.host		=127.0.0.1
++movies.db.type		=mysql5
++movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
++
++movies.db.sysname	=mysql
++movies.db.sysuser	=root
++movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
++
++movies.db.tables	=db/db_tables_mysql.sql
++movies.db.content	=db/db_inserts.sql
++movies.dmdb.content	=db/dmdb-movies-sql.xml
+
+Deleted: branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,18 +0,0 @@
+-------------------
+---- Datasource ---
+-------------------
+-
+-
+-
+---- SQL Datasource ---
+--- &quot;Movies&quot; datasource
+-INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:hsqldb:../client/db/hsqldb-intern/Movies;shutdown=true');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'hsqldb');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+--- Associate types with datasource
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
+
+Deleted: branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-10-03 11:11:33 UTC (rev 228)
+@@ -1,18 +0,0 @@
+-------------------
+---- Datasource ---
+-------------------
+-
+-
+-
+---- SQL Datasource ---
+--- &quot;Movies&quot; datasource
+-INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:<A HREF="mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1">mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1</A>');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'mysql');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+--- Associate types with datasource
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
+
+Added: branches/eschnepel/install/examples/movies/db/dmdb-movies-sql.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-sql.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-sql.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -0,0 +1,33 @@
++&lt;project name=&quot;Movies-db-sql&quot;&gt;
++	&lt;target name=&quot;dmdb-movies&quot;&gt;
++		&lt;echo file=&quot;tmp-dmdb.sql&quot;&gt;
++------------------
++--- Datasource ---
++------------------
++
++--- SQL Datasource ---
++-- &quot;Movies&quot; datasource
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (${movies.db.type}-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (${movies.db.type}-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', '${movies.db.url}');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', '${movies.db.type}');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Username', '${movies.db.user}');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Password', '${movies.db.password}');
++-- Associate types with datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
++		&lt;/echo&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;tmp-dmdb.sql&quot; /&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/sql&gt;
++		&lt;delete file=&quot;tmp-dmdb.sql&quot;&gt;&lt;/delete&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/dmdb-movies-sql.xml
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Modified: branches/eschnepel/install/examples/movies/db/dmdb-movies.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies.sql	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies.sql	2007-10-03 11:11:33 UTC (rev 228)
+@@ -102,8 +102,8 @@
+ INSERT INTO TopicProp VALUES ('pp-title', 1, 'Name', 'Title');
+ INSERT INTO TopicProp VALUES ('pp-title', 1, 'Visualization', 'Input Field');
+ 
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-year', 'Year');
+-INSERT INTO TopicProp VALUES ('pp-year', 1, 'Name', 'Year');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-year', 'YearOfProduction');
++INSERT INTO TopicProp VALUES ('pp-year', 1, 'Name', 'YearOfProduction');
+ INSERT INTO TopicProp VALUES ('pp-year', 1, 'Visualization', 'Input Field');
+ 
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-country', 'Country');
+
+Modified: branches/eschnepel/setup.xml
+===================================================================
+--- branches/eschnepel/setup.xml	2007-09-27 19:01:11 UTC (rev 227)
++++ branches/eschnepel/setup.xml	2007-10-03 11:11:33 UTC (rev 228)
+@@ -4,6 +4,7 @@
+ 		DeepaMehta setup build file
+ 	&lt;/description&gt;
+ 
++	&lt;import file=&quot;build.xml&quot; optional=&quot;true&quot;/&gt;
+ 	&lt;condition property=&quot;do.config.db.host&quot; value=&quot;true&quot;&gt;
+ 		&lt;istrue value=&quot;${config.db.host}&quot; /&gt;
+ 	&lt;/condition&gt;
+@@ -53,7 +54,7 @@
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-web-root&quot; if=&quot;new.do.web.deploy&quot; depends=&quot;-config-web&quot;&gt;
++	&lt;target name=&quot;-config-web-root&quot; if=&quot;do.web.deploy&quot; depends=&quot;-config-web&quot;&gt;
+ 		&lt;input message=&quot;Please enter the root directory of your application server.&quot; addproperty=&quot;new.tomcat.root&quot; defaultvalue=&quot;${tomcat.root}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
+ 			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot; /&gt;
+@@ -75,8 +76,8 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-dm-instance&quot; depends=&quot;-config-which-dm-instance&quot;&gt;
+-		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}...&lt;/echo&gt;
+-		&lt;ant target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; /&gt;
++		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}&quot; ...&lt;/echo&gt;
++		&lt;antcallback target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; return=&quot;db.syspass&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-dm-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user&quot;&gt;
+@@ -91,8 +92,8 @@
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot;&gt;
+-		&lt;ant antfile=&quot;${db-specific}/list-db-${db.type}.xml&quot; target=&quot;-listdb&quot; /&gt;
++	&lt;import file=&quot;${db-specific}/${db.list-names}&quot; /&gt;
++	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot; depends=&quot;-listdb&quot;&gt;
+ 		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot; /&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000074.html">[deepamehta-svn] r229 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/stylesheets	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#73">[ date ]</a>
+              <a href="thread.html#73">[ thread ]</a>
+              <a href="subject.html#73">[ subject ]</a>
+              <a href="author.html#73">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

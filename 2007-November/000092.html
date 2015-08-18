@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r247 - in trunk/develop/src/de/deepamehta:	service/web util
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r247%20-%20in%20trunk/develop/src/de/deepamehta%3A%0A%09service/web%20util&In-Reply-To=%3C200711211600.lALG0pK1014356%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000091.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r247 - in trunk/develop/src/de/deepamehta:	service/web util</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r247%20-%20in%20trunk/develop/src/de/deepamehta%3A%0A%09service/web%20util&In-Reply-To=%3C200711211600.lALG0pK1014356%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r247 - in trunk/develop/src/de/deepamehta:	service/web util">maltito at mail.berlios.de
+       </A><BR>
+    <I>Wed Nov 21 17:00:51 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000091.html">[deepamehta-svn] r246 - in trunk/develop/src/de/deepamehta: .	service/web util
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#92">[ date ]</a>
+              <a href="thread.html#92">[ thread ]</a>
+              <a href="subject.html#92">[ subject ]</a>
+              <a href="author.html#92">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2007-11-21 17:00:41 +0100 (Wed, 21 Nov 2007)
+New Revision: 247
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+Log:
+1) Improved HTML Generator Layout Modes
+2) Better Regular Expression for the utilities emailToHtml and webToHtml
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-11-15 17:25:50 UTC (rev 246)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-11-21 16:00:41 UTC (rev 247)
+@@ -268,7 +268,7 @@
+ 		// don&#180;t want to touch the original info method, resulting in more redundancy
+ 		if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_BOX) {
+ 			// render Modern Box Layout
+-			html.append(&quot;&lt;div class=\&quot;wholeInfo\&quot; id=\&quot;container\&quot;&gt;\r&quot;);
++			html.append(&quot;&lt;div class=\&quot;infoContainer\&quot; id=\&quot;container\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+@@ -279,7 +279,7 @@
+ 			return html.toString();
+ 		} else if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_FLOW) {
+ 			// render Classic KiezAtlas Flow Layout
+-			html.append(&quot;&lt;div class=\&quot;wholeInfo\&quot; id=\&quot;container\&quot; align=\&quot;left\&quot;&gt;\r&quot;);
++			html.append(&quot;&lt;div class=\&quot;infoContainer\&quot; id=\&quot;container\&quot; align=\&quot;left\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+@@ -290,7 +290,7 @@
+ 			return html.toString();
+ 		} else if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_2COLUMN){
+ 			// render 2 Column Table Layout
+-			html.append(&quot;&lt;table border=\&quot;0\&quot;&gt;\r&quot;);
++			html.append(&quot;&lt;table border=\&quot;0\&quot; class=\&quot;infoContainer\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+@@ -341,15 +341,17 @@
+ 	private void infoBoxField(TopicBeanField field, StringBuffer html) {
+ 		// special field render method for Modern Box Layout
+ 		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
++		String color = &quot;transparent&quot;;
++		String content = &quot;value&quot;;
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+-				String text = field.value;
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				text = DeepaMehtaUtils.replaceLF(text);
++				content = field.value; 
++				content = DeepaMehtaUtils.emailToHtml(content);
++				content = DeepaMehtaUtils.weblinksToHtml(content);
++				content = DeepaMehtaUtils.replaceLF(content);
+ 				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;
+-				            	+ text + &quot;&lt;br&gt;&quot; +
++				            	+ content + &quot;&lt;br&gt;&quot; +
+ 							&quot;&lt;/span&gt;&quot;);
+ 			}
+ 			break;
+@@ -372,7 +374,7 @@
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+ 		html.append(&quot;&lt;br/&gt;\r&quot;);
+-	}	
++	}
+ 
+ 	private void info2ColumnField(TopicBeanField field, StringBuffer html) {
+ 		// special field render method for Table 2 Column Layout
+@@ -563,7 +565,7 @@
+ 		Enumeration e = topics.elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic topic = (BaseTopic) e.nextElement();	// ### was E0E0D0
+-			html.append(&quot;&lt;tr&quot; + (selectedTopicIDs.contains(topic.getID()) ? &quot; bgcolor=\&quot;#E0D8D0\&quot;&quot; : &quot;&quot;) + &quot;&gt;&lt;td class=\&quot;small\&quot;&gt;&quot; +
++			html.append(&quot;&lt;tr&quot; + (selectedTopicIDs.contains(topic.getID()) ? &quot; bgcolor=\&quot;#E0D8D0\&quot;&quot; : &quot;&quot;) + &quot;&gt;&lt;td&gt;&quot; +
+ 				&quot;&lt;a href=\&quot;controller?action=&quot; + imageAction + &quot;&amp;id=&quot; + topic.getID() + &quot;\&quot;&gt;&quot; +
+ 				imageTag(topic) + &quot;&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&quot; +
+ 				&quot;&lt;a href=\&quot;controller?action=&quot; + action + &quot;&amp;id=&quot; + topic.getID() + &quot;\&quot;&gt;&quot; + topic.getName() +
+
+Modified: trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2007-11-15 17:25:50 UTC (rev 246)
++++ trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2007-11-21 16:00:41 UTC (rev 247)
+@@ -482,10 +482,9 @@
+ 	}
+ 	
+ 	static public String emailToHtml(String text) {
+-		String emailRegEx = &quot;(\\w)*?([-_.])*?(\\w+)@(\\w+)([\\-\\_\\.])*(\\w+)(\\.\\w+)*&quot;;
+ 		// Compile and get a reference to a Pattern object.
+-	    Pattern pattern = Pattern.compile(emailRegEx);
+-	    // Get a matcher object - we cover this next.
++		String emailRegex = &quot;[\\w\\d-_/\\.]*@+[\\w\\d-_/\\.]*&quot;;
++	    Pattern pattern = Pattern.compile(emailRegex);
+ 	    Matcher matcher = pattern.matcher(text);
+ 	    int lastIndex = 0;
+ 	    StringBuffer html = new StringBuffer();
+@@ -506,10 +505,9 @@
+ 	}
+ 	
+ 	static public String weblinksToHtml(String text) {
+-		String regEx = &quot;(<A HREF="http://+">http://+</A>)(\\w+?)([-_]*)(\\w*?)(\\.+)(\\w+)([-_]*)(\\w*)(\\.+)(\\w+)(/*)(\\w*)(\\.*)(\\w*)&quot;;
+-		//String simpleButConvenient = &quot;(<A HREF="http://+">http://+</A>)(\\w*[-_./]*)([\\t\\n\\x0B\\f\\r]+?)&quot;;
+-		//String test = &quot;(<A HREF="http://+">http://+</A>)(\\w*[-_./]*)&quot;;
+-		Pattern pattern = Pattern.compile(regEx);
++		// not conform to rfc uri; regex not for java found under <A HREF="http://www.faqs.org/rfcs/rfc2396.html,">http://www.faqs.org/rfcs/rfc2396.html,</A> sufficient until now
++		String test = &quot;<A HREF="http://[\\w\\d-_/\\.\\?\\%\\@\\$\\;\\&amp;\\=\\\">http://[\\w\\d-_/\\.\\?\\%\\@\\$\\;\\&amp;\\=\\\</A>&quot;\\#]*&quot;;
++		Pattern pattern = Pattern.compile(test);
+ 	    Matcher matcher = pattern.matcher(text);
+ 	    int lastIndex = 0;
+ 	    StringBuffer html = new StringBuffer();
+@@ -520,7 +518,7 @@
+ 	    	if (before &gt;= 0 &amp;&amp; &quot;href=\&quot;&quot;.equals(text.substring(before, matcher.start()))) {
+ 	    		html.append(matcher.group());
+ 	    	} else {
+-	    		html.append(&quot;&lt;a href=\&quot;&quot; + matcher.group() + &quot;\&quot;&gt;&quot; + matcher.group() + &quot;&lt;/a&gt;&quot;);
++	    		html.append(&quot;&lt;a href=\&quot;&quot; + matcher.group() + &quot;\&quot; target=\&quot;blank\&quot;&gt;&quot; + matcher.group() + &quot;&lt;/a&gt;&quot;);
+ 	    	}	    	
+ 	    	lastIndex = matcher.end();
+ 	    }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000091.html">[deepamehta-svn] r246 - in trunk/develop/src/de/deepamehta: .	service/web util
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#92">[ date ]</a>
+              <a href="thread.html#92">[ thread ]</a>
+              <a href="subject.html#92">[ subject ]</a>
+              <a href="author.html#92">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

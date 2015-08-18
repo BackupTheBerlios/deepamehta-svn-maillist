@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r235 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web install/client/images	install/examples/dm-browser/config install/examples/dm-search/config	install/examples/dm-topicmapviewer/config	install/examples/dm-web/config install/examples/dm-web/pages	install/examples/dm-web/src/de/deepamehta/webfrontend
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r235%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%20install/client/images%0A%09install/examples/dm-browser/config%20install/examples/dm-search/config%0A%09install/examples/dm-topicmapviewer/config%0A%09install/examples/dm-web/config%20install/examples/dm-web/pages%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend&In-Reply-To=%3C200710150935.l9F9ZfbY003220%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000079.html">
+   <LINK REL="Next"  HREF="000081.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r235 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web install/client/images	install/examples/dm-browser/config install/examples/dm-search/config	install/examples/dm-topicmapviewer/config	install/examples/dm-web/config install/examples/dm-web/pages	install/examples/dm-web/src/de/deepamehta/webfrontend</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r235%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%20install/client/images%0A%09install/examples/dm-browser/config%20install/examples/dm-search/config%0A%09install/examples/dm-topicmapviewer/config%0A%09install/examples/dm-web/config%20install/examples/dm-web/pages%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend&In-Reply-To=%3C200710150935.l9F9ZfbY003220%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r235 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web install/client/images	install/examples/dm-browser/config install/examples/dm-search/config	install/examples/dm-topicmapviewer/config	install/examples/dm-web/config install/examples/dm-web/pages	install/examples/dm-web/src/de/deepamehta/webfrontend">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Oct 15 11:35:41 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000079.html">[deepamehta-svn] r234 - trunk/develop/src/de/deepamehta/util
+</A></li>
+        <LI>Next message: <A HREF="000081.html">[deepamehta-svn] r236 - in trunk/develop/src/de/deepamehta/service:	. web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-10-15 11:35:21 +0200 (Mon, 15 Oct 2007)
+New Revision: 235
+
+Added:
+   trunk/develop/src/de/deepamehta/service/TopicBean.java
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/install/client/images/trash.gif
+   trunk/install/examples/dm-browser/config/web.xml
+   trunk/install/examples/dm-search/config/web.xml
+   trunk/install/examples/dm-topicmapviewer/config/web.xml
+   trunk/install/examples/dm-web/config/web.xml
+   trunk/install/examples/dm-web/pages/TopicInfo.jsp
+   trunk/install/examples/dm-web/pages/WebFrontend.jsp
+   trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+Log:
+1) HTML engine extended:
+1a) new class in service package: TopicBean, collects topic data from properties and relations
+1b) new render method in HTMLGenerator: info(TopicBean), renders a topic bean
+2) Web application &quot;dm-web&quot; updated to demonstrate new topic bean based render approach
+3) new helper methods in ApplicationService:
+- TopicTypeTopic getTopicType(topicID), returns the type (as LiveTopic) of a topic
+- AssociationTypeTopic getAssocType(assocID), returns the type (as LiveTopic) of an association
+
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-10-15 09:35:21 UTC (rev 235)
+@@ -64,7 +64,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 14.10.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -4708,6 +4708,16 @@
+ 
+ 	// ---
+ 
++	public TopicTypeTopic getTopicType(String topicID, int version) {
++		return (TopicTypeTopic) getLiveTopic(getLiveTopic(topicID, version).getType(), 1);
++	}
++
++	public AssociationTypeTopic getAssocType(String assocID, int version) {
++		return (AssociationTypeTopic) getLiveTopic(getLiveAssociation(assocID, version).getType(), 1);
++	}
++
++	// ---
++
+ 	private String getTopicTypeID(String typeName) {
+ 		BaseTopic type = cm.getTopic(TOPICTYPE_TOPICTYPE, typeName, 1);	// ### version=1
+ 		return type != null ? type.getID() : null;
+
+Added: trunk/develop/src/de/deepamehta/service/TopicBean.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/TopicBean.java	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/develop/src/de/deepamehta/service/TopicBean.java	2007-10-15 09:35:21 UTC (rev 235)
+@@ -0,0 +1,112 @@
++package de.deepamehta.service;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.OrderedItem;
++import de.deepamehta.PropertyDefinition;
++import de.deepamehta.Relation;
++import de.deepamehta.topics.TypeTopic;
++
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Vector;
++
++
++
++/**
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last sourcecode change: 14.10.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 14.10.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class TopicBean implements DeepaMehtaConstants {
++
++	public Vector fields = new Vector();
++	private ApplicationService as;
++
++	public TopicBean(String topicID, ApplicationService as) {
++		this.as = as;
++		addFields(topicID, true);
++	}
++
++	// ---
++
++	private void addFields(String topicID, boolean deep) {
++   		Hashtable props = as.getTopicProperties(topicID, 1);
++		Enumeration items = as.getTopicType(topicID, 1).getDefinition().elements();
++		while (items.hasMoreElements()) {
++			OrderedItem item = (OrderedItem) items.nextElement();
++			if (item instanceof PropertyDefinition) {
++				PropertyDefinition propDef = (PropertyDefinition) item;
++				String propName = propDef.getPropertyName();
++				String propValue = (String) props.get(propName);
++				fields.addElement(new Field(propName, propValue));
++			} else if (item instanceof Relation) {
++				if (deep) {
++					Relation rel = (Relation) item;
++					if (rel.webInfo.equals(WEB_INFO_TOPIC_NAME)) {
++						addRelationField(rel, topicID);
++					} else if (rel.webInfo.equals(WEB_INFO) || rel.webInfo.equals(WEB_INFO_DEEP)) {
++						String relTopicID = null;
++						Vector selectedTopics = as.getRelatedTopics(topicID, rel.assocTypeID, rel.relTopicTypeID, 2,
++							false, true);	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
++						if (selectedTopics.size() &gt; 0) {	// ### only the first related topic is considered
++							relTopicID = ((BaseTopic) selectedTopics.firstElement()).getID();
++						}
++						// recursive call
++						boolean newDeep = rel.webInfo.equals(WEB_INFO_DEEP);
++						addFields(relTopicID, newDeep);
++					} else {
++						throw new DeepaMehtaException(&quot;unexpected web info mode: \&quot;&quot; + rel.webInfo + &quot;\&quot;&quot;);
++					}
++				}
++			} else {
++				throw new DeepaMehtaException(&quot;unexpected object in type definition: &quot; + item);
++			}
++		}
++	}
++
++	private void addRelationField(Relation rel, String topicID) {
++		// ### compare to HTMLGenerator.relationInfoField()
++		String relName = rel.name;
++		String relTopicTypeID = rel.relTopicTypeID;
++		String cardinality = rel.cardinality;
++		String assocTypeID = rel.assocTypeID;
++		//
++		TypeTopic relTopicType = as.type(relTopicTypeID, 1);
++		boolean many = cardinality.equals(CARDINALITY_MANY);
++		String fieldLabel = !relName.equals(&quot;&quot;) ? relName : many ? relTopicType.getPluralNaming() : relTopicType.getName();
++		//
++		Vector selectedTopics = as.getRelatedTopics(topicID, assocTypeID, relTopicTypeID, 2,
++			false, true);	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
++		fields.addElement(new Field(fieldLabel, selectedTopics));
++	}
++
++	// ---
++
++	public class Field {
++
++		public static final int TYPE_SINGLE = 0;
++		public static final int TYPE_MULTI = 1;
++
++		public int type;
++		public String name;
++		public String value;
++		public Vector values;
++
++		Field(String name, String value) {
++			type = TYPE_SINGLE;
++			this.name = name;
++			this.value = value;
++		}
++
++		Field(String name, Vector values) {
++			type = TYPE_MULTI;
++			this.name = name;
++			this.values = values;
++		}
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-10-15 09:35:21 UTC (rev 235)
+@@ -8,6 +8,7 @@
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+ import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.TopicBean;
+ import de.deepamehta.topics.AssociationTypeTopic;
+ import de.deepamehta.topics.TopicTypeTopic;
+ import de.deepamehta.topics.TypeTopic;
+@@ -29,7 +30,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 9.5.2007 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 14.10.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -256,6 +257,39 @@
+ 		return html.toString();
+ 	}
+ 
++	// ---
++
++	public String info(TopicBean topicBean) {
++		StringBuffer html = new StringBuffer();
++		Enumeration e = topicBean.fields.elements();
++		while (e.hasMoreElements()) {
++			TopicBean.Field field = (TopicBean.Field) e.nextElement();
++			html.append(&quot;&lt;table&gt;\r&quot;);
++			infoField(field, html);
++			html.append(&quot;&lt;/table&gt;\r&quot;);
++		}
++		return html.toString();
++	}
++
++	private void infoField(TopicBean.Field field, StringBuffer html) {
++		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td width=150&gt;&lt;small&gt;&quot; + field.name + &quot;&lt;/small&gt;&lt;/td&gt;&lt;td&gt;&quot;);
++		switch (field.type) {
++		case TopicBean.Field.TYPE_SINGLE:
++			html.append(field.value);
++			break;
++		case TopicBean.Field.TYPE_MULTI:
++			Enumeration e = field.values.elements();
++			while (e.hasMoreElements()) {
++				BaseTopic topic = (BaseTopic) e.nextElement();
++				html.append(topic.getName() + &quot;&lt;br&gt;&quot;);
++			}
++			break;
++		default:
++			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
++		}
++		html.append(&quot;&lt;/td&gt;&lt;/tr&gt;&quot;);
++	}
++
+ 	// --- form (8 forms) ---
+ 
+ 	public String form(String typeID, String action) {
+
+Modified: trunk/install/client/images/trash.gif
+===================================================================
+(Binary files differ)
+
+Modified: trunk/install/examples/dm-browser/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-browser/config/web.xml	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-browser/config/web.xml	2007-10-15 09:35:21 UTC (rev 235)
+@@ -20,7 +20,7 @@
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;default&lt;/param-value&gt;
++      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+       &lt;description&gt;
+         Selects a DeepaMehta service.
+         If this parameter is not set the &quot;default&quot; service will be used.
+
+Modified: trunk/install/examples/dm-search/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-search/config/web.xml	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-search/config/web.xml	2007-10-15 09:35:21 UTC (rev 235)
+@@ -20,7 +20,7 @@
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;default&lt;/param-value&gt;
++      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+       &lt;description&gt;
+         Selects a DeepaMehta service.
+         If this parameter is not set the &quot;default&quot; service will be used.
+
+Modified: trunk/install/examples/dm-topicmapviewer/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/config/web.xml	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-topicmapviewer/config/web.xml	2007-10-15 09:35:21 UTC (rev 235)
+@@ -20,7 +20,7 @@
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;default&lt;/param-value&gt;
++      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+       &lt;description&gt;
+         Selects a DeepaMehta service.
+         If this parameter is not set the &quot;default&quot; service will be used.
+
+Modified: trunk/install/examples/dm-web/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-web/config/web.xml	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-web/config/web.xml	2007-10-15 09:35:21 UTC (rev 235)
+@@ -20,7 +20,7 @@
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;default&lt;/param-value&gt;
++      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+       &lt;description&gt;
+         Selects a DeepaMehta service.
+         If this parameter is not set the &quot;default&quot; service will be used.
+
+Modified: trunk/install/examples/dm-web/pages/TopicInfo.jsp
+===================================================================
+--- trunk/install/examples/dm-web/pages/TopicInfo.jsp	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-web/pages/TopicInfo.jsp	2007-10-15 09:35:21 UTC (rev 235)
+@@ -5,12 +5,14 @@
+ 	HTMLGenerator html = (HTMLGenerator) session.getAttribute(&quot;html&quot;);
+ 	String baseURL = (String) session.getAttribute(&quot;baseURL&quot;);
+ 	Topic topic = (Topic) session.getAttribute(&quot;topic&quot;);
++	TopicBean topicBean = (TopicBean) session.getAttribute(&quot;topicBean&quot;);
+ 	Vector relTopics = (Vector) session.getAttribute(&quot;relTopics&quot;);
+ %&gt;
+ &lt;%
+ 	out.println(&quot;&lt;h3&gt;&quot; + topic.name + &quot; &lt;img src=\&quot;&quot; + baseURL + &quot;icons/&quot; + topic.icon + &quot;\&quot;/&gt; &quot; + 
+ 		&quot;(&lt;small&gt;&quot; + topic.typeName + &quot;&lt;/small&gt;)&lt;/h3&gt;&quot;);
+-	out.println(html.info(topic.id));
++	// ### out.println(html.info(topic.id));
++	out.println(html.info(topicBean));
+ %&gt;
+ 	&lt;br&gt;
+ 	&lt;table border=&quot;0&quot;&gt;
+
+Modified: trunk/install/examples/dm-web/pages/WebFrontend.jsp
+===================================================================
+--- trunk/install/examples/dm-web/pages/WebFrontend.jsp	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-web/pages/WebFrontend.jsp	2007-10-15 09:35:21 UTC (rev 235)
+@@ -1,5 +1,6 @@
+ &lt;%@ page import=&quot;de.deepamehta.BaseTopic&quot; %&gt;
+ &lt;%@ page import=&quot;de.deepamehta.PresentableTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.TopicBean&quot; %&gt;
+ &lt;%@ page import=&quot;de.deepamehta.service.web.HTMLGenerator&quot; %&gt;
+ 
+ &lt;%@ page import=&quot;de.deepamehta.webfrontend.WebFrontend&quot; %&gt;
+
+Modified: trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+===================================================================
+--- trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2007-10-10 13:05:42 UTC (rev 234)
++++ trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2007-10-15 09:35:21 UTC (rev 235)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.service.Session;
++import de.deepamehta.service.TopicBean;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+ 
+@@ -39,7 +40,8 @@
+ 		} else if (action.equals(ACTION_SHOW_TOPIC_INFO)) {
+ 			String topicID = params.getValue(&quot;topicID&quot;);
+ 			Vector relatedTopics = cm.getRelatedTopics(topicID);
+-			session.setAttribute(&quot;topic&quot;, new Topic(cm.getTopic(topicID, 1), as));
++			session.setAttribute(&quot;topic&quot;, new Topic(cm.getTopic(topicID, 1), as));	// ### absolete
++			session.setAttribute(&quot;topicBean&quot;, new TopicBean(topicID, as));
+ 			session.setAttribute(&quot;relTopics&quot;, createRelatedTopicBeans(relatedTopics, topicID));
+ 			return PAGE_TOPIC_INFO;
+ 		} else if (action.equals(ACTION_SHOW_TOPICS)) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000079.html">[deepamehta-svn] r234 - trunk/develop/src/de/deepamehta/util
+</A></li>
+	<LI>Next message: <A HREF="000081.html">[deepamehta-svn] r236 - in trunk/develop/src/de/deepamehta/service:	. web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

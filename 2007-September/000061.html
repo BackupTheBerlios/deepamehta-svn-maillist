@@ -1,0 +1,919 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r216 - in branches/eschnepel: .	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r216%20-%20in%20branches/eschnepel%3A%20.%0A%09install/db/db-specific%20install/examples/movies%0A%09install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200709192029.l8JKTpc6015368%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000062.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r216 - in branches/eschnepel: .	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r216%20-%20in%20branches/eschnepel%3A%20.%0A%09install/db/db-specific%20install/examples/movies%0A%09install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200709192029.l8JKTpc6015368%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r216 - in branches/eschnepel: .	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 19 22:29:51 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[deepamehta-svn] r215 - in trunk/install: client client/icons	examples/artfacts examples/artfacts/icons	examples/kompetenzstern examples/kompetenzstern/icons	examples/ldap examples/ldap/icons examples/movies	examples/movies/icons
+</A></li>
+        <LI>Next message: <A HREF="000062.html">[deepamehta-svn] r217 - in branches/eschnepel/install: client	examples/artfacts examples/kompetenzstern examples/ldap	examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-19 22:29:49 +0200 (Wed, 19 Sep 2007)
+New Revision: 216
+
+Added:
+   branches/eschnepel/install/db/db-specific/asksyspass.xml
+Modified:
+   branches/eschnepel/build.xml
+   branches/eschnepel/config.xml
+   branches/eschnepel/install/db/db-specific/createdb-ask.xml
+   branches/eschnepel/install/db/db-specific/createdb-sql92.xml
+   branches/eschnepel/install/db/db-specific/dropdb-ask.xml
+   branches/eschnepel/install/db/db-specific/dropdb-sql92.xml
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql
+   branches/eschnepel/setup.xml
+Log:
+movie example configuration
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/build.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -8,11 +8,10 @@
+ 
+ 	&lt;import file=&quot;${db-specific}/${db.create-db}&quot; /&gt;
+ 	&lt;import file=&quot;${db-specific}/${db.drop-db}&quot; /&gt;
+-	&lt;target name=&quot;dropdb&quot; depends=&quot;-dropdb&quot;/&gt;
+ 
+-	&lt;import file=&quot;build-development.xml&quot; optional=&quot;true&quot;/&gt;
+-	&lt;import file=&quot;setup.xml&quot;/&gt;
+-	
++	&lt;import file=&quot;build-development.xml&quot; optional=&quot;true&quot; /&gt;
++	&lt;import file=&quot;setup.xml&quot; /&gt;
++
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+ 		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+@@ -35,7 +34,7 @@
+ 	&lt;target name=&quot;-default&quot;&gt;
+ 		&lt;for list=&quot;${main-targets}&quot; param=&quot;target&quot; trim=&quot;true&quot;&gt;
+ 			&lt;sequential&gt;
+-				&lt;antcall target=&quot;@{target}&quot;&gt;&lt;/antcall&gt;
++				&lt;antcall target=&quot;@{target}&quot;/&gt;
+ 			&lt;/sequential&gt;
+ 		&lt;/for&gt;
+ 	&lt;/target&gt;
+@@ -43,9 +42,7 @@
+ 	&lt;!-- Install --&gt;
+ 
+ 	&lt;target name=&quot;install&quot; description=&quot;initialises the database&quot;&gt;
+-		&lt;antcall target=&quot;-createdb&quot; /&gt;
+-		&lt;antcall target=&quot;-createtables&quot; /&gt;
+-		&lt;antcall target=&quot;-initdb&quot; /&gt;
++		&lt;antcallback target=&quot;-initdb&quot; return=&quot;do.db.abort&quot; /&gt;
+ 		&lt;!-- example applications --&gt;
+ 		&lt;antcall target=&quot;-installexamples&quot; /&gt;
+ 	&lt;/target&gt;
+@@ -56,17 +53,17 @@
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installexamples&quot; depends=&quot;-testsyspass&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+-			&lt;property name=&quot;target&quot; value=&quot;install&quot;/&gt;
++			&lt;property name=&quot;target&quot; value=&quot;install&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-uninstallexamples&quot; depends=&quot;-testsyspass&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+-			&lt;property name=&quot;target&quot; value=&quot;uninstall&quot;/&gt;
++			&lt;property name=&quot;target&quot; value=&quot;uninstall&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Web-related tasks --&gt;
+-	&lt;target name=&quot;-installweb-ask&quot; depends=&quot;-config-web-root&quot; unless=&quot;web.deploy.do&quot;/&gt;
++	&lt;target name=&quot;-installweb-ask&quot; depends=&quot;-config-web-root&quot; unless=&quot;web.deploy.do&quot; /&gt;
+ 	&lt;target name=&quot;-installweb-unless&quot; unless=&quot;do.web.deploy&quot; depends=&quot;-installweb-ask&quot;&gt;
+ 		&lt;echo&gt;
+ =========================
+@@ -79,7 +76,7 @@
+ 	&lt;target name=&quot;-installweb-if&quot; if=&quot;do.web.deploy&quot; depends=&quot;-installweb-ask&quot;&gt;
+ 		&lt;!-- copy shared libraries --&gt;
+ 		&lt;antcall target=&quot;-deploylibs&quot; /&gt;
+-		&lt;copy todir=&quot;${web.lib.dir}&quot; &gt;
++		&lt;copy todir=&quot;${web.lib.dir}&quot;&gt;
+ 			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 				&lt;include name=&quot;${db.libs}&quot; /&gt;
+ 			&lt;/fileset&gt;
+@@ -88,12 +85,12 @@
+ 		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+ 		&lt;ant target=&quot;-call-examples-web&quot;&gt;
+-			&lt;property name=&quot;target&quot; value=&quot;deploy&quot;/&gt;
++			&lt;property name=&quot;target&quot; value=&quot;deploy&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installweb&quot; depends=&quot;-installweb-if,-installweb-unless&quot; /&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; depends=&quot;-build-self,-installweb&quot; description=&quot;Does everything to setup your Tomcat.&quot;/&gt;
++	&lt;target name=&quot;deploy&quot; depends=&quot;-build-self,-installweb&quot; description=&quot;Does everything to setup your Tomcat.&quot; /&gt;
+ 
+ 	&lt;target name=&quot;-deploylibs&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+@@ -103,7 +100,7 @@
+ 	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.create-db}--&gt;
+ 	&lt;!-- The target dropdb has been &quot;outsourced&quot; to ${db.drop-db}--&gt;
+ 
+-	&lt;target name=&quot;-createtables&quot;&gt;
++	&lt;target name=&quot;-createtables&quot; unless=&quot;do.db.abort&quot; depends=&quot;-createdb&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.tables}&quot; /&gt;
+@@ -126,7 +123,7 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-initdb&quot;&gt;
++	&lt;target name=&quot;-initdb&quot; unless=&quot;do.db.abort&quot; depends=&quot;-createtables&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;cm.sql&quot; /&gt;
+@@ -252,50 +249,51 @@
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ 
+-    &lt;target name=&quot;-call-examples&quot;&gt;
+-    	&lt;antcall target=&quot;-call-examples-noweb&quot;/&gt;
+-    	&lt;antcall target=&quot;-call-examples-web&quot;/&gt;
+-    &lt;/target&gt;
++	&lt;target name=&quot;-call-examples&quot;&gt;
++		&lt;antcall target=&quot;-call-examples-noweb&quot; /&gt;
++		&lt;antcall target=&quot;-call-examples-web&quot; /&gt;
++	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-examples-noweb&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;ldap&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;ldap&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;movies&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;movies&quot; /&gt;
+ 		&lt;/ant&gt;
+-    &lt;/target&gt;
++	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-examples-web&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-search&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;dm-search&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-topicmapviewer&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;dm-topicmapviewer&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-web&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;dm-web&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;knoppixforum&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;knoppixforum&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;kompetenzstern&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;kompetenzstern&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;messageboard&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;messageboard&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;musicforum&quot;/&gt;
++			&lt;property name=&quot;example&quot; value=&quot;musicforum&quot; /&gt;
+ 		&lt;/ant&gt;
+-    &lt;/target&gt;
++	&lt;/target&gt;
+ 
+-    &lt;target name=&quot;-call-example&quot; depends=&quot;-config-ask-example&quot; if=&quot;do.example.execute&quot;&gt;
+-    	&lt;echo&gt;calling target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+-		&lt;trycatch property=&quot;exceptionProp&quot; &gt;
++	&lt;target name=&quot;-call-example&quot; depends=&quot;-config-ask-example&quot; if=&quot;do.example.execute&quot;&gt;
++		&lt;echo&gt;calling target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+ 			&lt;try&gt;
+ 				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/${example}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
++					&lt;property name=&quot;do.dmdb.abort&quot; value=&quot;${do.db.abort}&quot; /&gt;
+ 					&lt;property name=&quot;syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
+ 					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
+ 				&lt;/ant&gt;
+@@ -304,7 +302,7 @@
+ 				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
+ 			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+-    	&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
++		&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/config.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -19,6 +19,11 @@
+ 
+ 	&lt;property name=&quot;main-target&quot; value=&quot;config&quot;/&gt;
+ 
++	&lt;path id=&quot;dblibs&quot;&gt;
++		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++			&lt;include name=&quot;${db.libs}&quot; /&gt;
++		&lt;/fileset&gt;
++	&lt;/path&gt;
+ 	&lt;path id=&quot;javalibs&quot;&gt;
+ 		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 			&lt;include name=&quot;${db.libs}&quot; /&gt;
+
+Added: branches/eschnepel/install/db/db-specific/asksyspass.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -0,0 +1,6 @@
++&lt;project name=&quot;DeepaMehta-db-asksyspass&quot;&gt;
++	&lt;target name=&quot;-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;var name=&quot;return.syspass&quot; unset=&quot;true&quot;/&gt;
++		&lt;input message=&quot;Please enter the database ${db.sysuser} password: &quot; addproperty=&quot;return.syspass&quot; /&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-ask.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-ask.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/db/db-specific/createdb-ask.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -1,4 +1,4 @@
+-&lt;project name=&quot;DeepaMehta-db-createdb-hsqldb&quot;&gt;
++&lt;project name=&quot;DeepaMehta-db-createdb-ask&quot;&gt;
+ 	&lt;target name=&quot;-askcreatedb&quot;&gt;
+ 		&lt;echo&gt;
+ --- DeepaMehta Installation ---
+@@ -14,9 +14,11 @@
+     for the creation process:
+         -Ddb.sysuser=... -Ddb.syspassword=...
+ 		&lt;/echo&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.createdb.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;var name=&quot;input.createdb&quot; unset=&quot;true&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;input.createdb&quot; defaultvalue=&quot;y&quot; /&gt;
++		&lt;var name=&quot;do.db.abort&quot; unset=&quot;true&quot;/&gt;
++		&lt;condition property=&quot;do.db.abort&quot; value=&quot;true&quot;&gt;
++			&lt;equals arg1=&quot;${input.createdb}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-sql92.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/db/db-specific/createdb-sql92.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -1,8 +1,15 @@
+ &lt;project name=&quot;DeepaMehta-db-createdb-sql92&quot; &gt;
+ 	&lt;import file=&quot;createdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.createdb.abort&quot;&gt;
++	&lt;import file=&quot;asksyspass.xml&quot;/&gt;
++	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb,-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;path id=&quot;dblibs&quot;&gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/path&gt;
++		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot;/&gt;
+ 		&lt;echo&gt;Creating Database ${db.name} for user ${db.user} with password ${db.password} ...&lt;/echo&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot;&gt;
+ 			CREATE DATABASE ${db.name};
+ 			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+ 			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+
+Modified: branches/eschnepel/install/db/db-specific/dropdb-ask.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/dropdb-ask.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/db/db-specific/dropdb-ask.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -6,7 +6,8 @@
+ or use command line options -Ddb.name=... -Ddb.userid=...
+ 		&lt;/echo&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
++		&lt;var name=&quot;do.db.abort&quot; unset=&quot;true&quot;/&gt;
++		&lt;condition property=&quot;do.db.abort&quot; value=&quot;true&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/dropdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/dropdb-sql92.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/db/db-specific/dropdb-sql92.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -1,7 +1,14 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-sql92&quot; &gt;
+ 	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;import file=&quot;asksyspass.xml&quot;/&gt;
++	&lt;target name=&quot;-dropdb&quot; depends=&quot;-askdropdb,-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;path id=&quot;dblibs&quot;&gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/path&gt;
++		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot;/&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot;&gt;
+ 			DROP DATABASE ${db.name};
+ 			DELETE FROM user where User='${db.user}';
+ 			DELETE FROM db where Db='${db.name}';
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -4,13 +4,39 @@
+ 		Movies
+ 	&lt;/description&gt;
+ 
++	&lt;if&gt;
++		&lt;not&gt;
++			&lt;istrue value=&quot;${do.dmdb.abort}&quot; /&gt;
++		&lt;/not&gt;
++		&lt;then&gt;
++			&lt;var name=&quot;do.dmdb.abort&quot; unset=&quot;true&quot; /&gt;
++		&lt;/then&gt;
++	&lt;/if&gt;
++
+ 	&lt;property name=&quot;jar&quot; value=&quot;MoviesTopics.jar&quot; /&gt;
+ 	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
+ 	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot; /&gt;
+ 
++	&lt;property file=&quot;config.properties&quot; /&gt;
+ 	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
+-	&lt;property file=&quot;config/movies-${dm.instance}.properties&quot; /&gt;
+ 
++	&lt;condition property=&quot;movies.dm.instance&quot; value=&quot;${dm.instance}&quot;&gt;
++		&lt;not&gt;
++			&lt;isset property=&quot;movies.dm.instance&quot; /&gt;
++		&lt;/not&gt;
++	&lt;/condition&gt;
++	&lt;property file=&quot;config/movies-${movies.dm.instance}.properties&quot; /&gt;
++	&lt;property file=&quot;${config}/build-${movies.dm.instance}.properties&quot; prefix=&quot;movies&quot; /&gt;
++	&lt;property file=&quot;${config}/db-${movies.db.type}.properties&quot; prefix=&quot;movies&quot; /&gt;
++
++	&lt;import file=&quot;${dm.base-dir}/setup.xml&quot; /&gt;
++
++	&lt;path id=&quot;movies.dblibs&quot;&gt;
++		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++			&lt;include name=&quot;${movies.db.libs}&quot; /&gt;
++		&lt;/fileset&gt;
++	&lt;/path&gt;
++
+ 	&lt;condition property=&quot;db.syspass&quot; value=&quot;${syspass}&quot;&gt;
+ 		&lt;istrue value=&quot;${withsyspass}&quot; /&gt;
+ 	&lt;/condition&gt;
+@@ -44,13 +70,16 @@
+ 
+ 	&lt;target name=&quot;uninstall&quot; depends=&quot;-dropmoviesdb&quot; /&gt;
+ 
+-	&lt;target name=&quot;install&quot; depends=&quot;-initmoviesdb,-initdb&quot; /&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;-initdb&quot;&gt;
++		&lt;!-- seperate call! --&gt;
++		&lt;ant target=&quot;-initmoviesdb&quot; /&gt;
++	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-initdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset dir=&quot;${examples}&quot;&gt;
+-				&lt;include name=&quot;movies/db/dmdb-movies.sql&quot; /&gt;
+-				&lt;include name=&quot;movies/db/dmdb-movies-${dm.instance}.sql&quot; /&gt;
++	&lt;target name=&quot;-initdb&quot; unless=&quot;do.dmdb.abort&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;movies.dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;db/dmdb-movies.sql&quot; /&gt;
++				&lt;include name=&quot;db/dmdb-movies-${movies.dm.instance}.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+@@ -58,18 +87,22 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;import file=&quot;${movies.db.create-db}&quot; /&gt;
++	&lt;import file=&quot;${db-specific}/${movies.db.create-db}&quot; /&gt;
+ 
+-	&lt;target name=&quot;-createmoviesdb&quot;&gt;
++	&lt;target name=&quot;-createmoviesdb&quot; depends=&quot;-testmoviessyspass&quot;&gt;
++		&lt;var name=&quot;db.libs&quot; value=&quot;${movies.db.libs}&quot; /&gt;
++		&lt;var name=&quot;db.driver&quot; value=&quot;${movies.db.driver}&quot; /&gt;
+ 		&lt;var name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
++		&lt;var name=&quot;db.sysuser&quot; value=&quot;${movies.db.sysuser}&quot; /&gt;
+ 		&lt;var name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
+ 		&lt;var name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
+ 		&lt;var name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
+-		&lt;antcallback target=&quot;-createdb&quot; inheritrefs=&quot;true&quot; return=&quot;do.createdb.abort&quot; /&gt;
++		&lt;var name=&quot;db.close-session&quot; value=&quot;${movies.db.close-session}&quot; /&gt;
++		&lt;antcallback target=&quot;-createdb&quot; inheritrefs=&quot;true&quot; return=&quot;do.db.abort&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-createmoviestables&quot; depends=&quot;-createmoviesdb&quot; unless=&quot;do.createdb.abort&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;target name=&quot;-createmoviestables&quot; depends=&quot;-createmoviesdb&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;sql driver=&quot;${movies.db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;movies.dblibs&quot; autocommit=&quot;${movies.db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+@@ -79,8 +112,8 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-initmoviesdb&quot; depends=&quot;-createmoviestables&quot; unless=&quot;do.createdb.abort&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;target name=&quot;-initmoviesdb&quot; depends=&quot;-createmoviestables&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;sql driver=&quot;${movies.db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${movies.db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.content}&quot; /&gt;
+ 			&lt;/fileset&gt;
+@@ -90,13 +123,39 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-dropmoviesdb&quot;&gt;
+-		&lt;ant antfile=&quot;${movies.db.drop-db}&quot; target=&quot;-dropdb&quot; inheritrefs=&quot;true&quot;&gt;
++	&lt;target name=&quot;-testmoviessyspass&quot;&gt;
++		&lt;var name=&quot;withsyspass&quot; unset=&quot;true&quot; /&gt;
++		&lt;condition property=&quot;withsyspass&quot; value=&quot;true&quot;&gt;
++			&lt;isset property=&quot;movies.db.syspass&quot; /&gt;
++		&lt;/condition&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;-dropmoviesdb&quot; depends=&quot;-testmoviessyspass&quot;&gt;
++		&lt;ant antfile=&quot;${db-specific}/${movies.db.drop-db}&quot; target=&quot;-dropdb&quot; inheritrefs=&quot;true&quot;&gt;
++			&lt;property name=&quot;db.libs&quot; value=&quot;${movies.db.libs}&quot; /&gt;
++			&lt;property name=&quot;db.driver&quot; value=&quot;${movies.db.driver}&quot; /&gt;
+ 			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
++			&lt;property name=&quot;db.sysuser&quot; value=&quot;${movies.db.sysuser}&quot; /&gt;
+ 			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
+ 			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
+ 			&lt;property name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
++			&lt;property name=&quot;db.close-session&quot; value=&quot;${movies.db.close-session}&quot; /&gt;
++			&lt;property name=&quot;db.hsqldb.base-path&quot; value=&quot;${movies.db.hsqldb.base-path}&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;config&quot; depends=&quot;-config-which-movies-instance&quot;&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;-config-which-movies-instance&quot; depends=&quot;-config-init&quot;&gt;
++		&lt;var name=&quot;path&quot; value=&quot;config&quot; /&gt;
++		&lt;var name=&quot;prefix&quot; value=&quot;movies&quot; /&gt;
++		&lt;var name=&quot;default&quot; value=&quot;${movies.dm.instance}&quot; /&gt;
++		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot; /&gt;
++		&lt;var name=&quot;movies.dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
++		&lt;propertyfile file=&quot;${config}/config-${dm.instance}.properties&quot;&gt;
++			&lt;entry key=&quot;movies.dm.instance&quot; value=&quot;${movies.dm.instance}&quot; /&gt;
++		&lt;/propertyfile&gt;
++	&lt;/target&gt;
++
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-09-19 20:29:49 UTC (rev 216)
+@@ -1,14 +1,16 @@
+-movies.db.name			=Movies
+-movies.db.user			=sa
+-movies.db.password		=
++movies.db.name				=Movies
++movies.db.user				=sa
++movies.db.password			=
+ 
+-movies.db.hsqldb.path	=${db.hsqldb.base-path}/${movies.db.name}
+-movies.db.url			=jdbc:hsqldb:${movies.db.hsqldb.path}
+-movies.db.sysuser		=${movies.db.user}
+-movies.db.syspass		=${movies.db.password}
+-movies.db.sysurl		=${movies.db.url};create=true
++movies.db.type				=hsqldb
++movies.db.hsqldb.base-path	=${client}/db/${movies.dm.instance}
++movies.db.hsqldb.path		=${movies.db.hsqldb.base-path}/${movies.db.name}
++movies.db.url				=jdbc:hsqldb:${movies.db.hsqldb.path}
++movies.db.sysuser			=${movies.db.user}
++movies.db.syspass			=${movies.db.password}
++movies.db.sysurl			=${movies.db.url};create=true
+ 
+-movies.db.tables		=db/db_tables_hsqldb.sql
+-movies.db.content		=db/db_inserts.sql
+-movies.db.create-db		=${db-specific}/createdb-EMPTY.xml
+-movies.db.drop-db		=${db-specific}/dropdb-hsqldb.xml
++movies.db.tables			=db/db_tables_hsqldb.sql
++movies.db.content			=db/db_inserts.sql
++
++
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-09-19 20:29:49 UTC (rev 216)
+@@ -2,12 +2,13 @@
+ movies.db.user		=movies
+ movies.db.password	=movies
+ 
+-movies.db.url		=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
++movies.db.host		=127.0.0.1
++movies.db.type		=mysql
++movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
+ 
+-movies.db.sysuser	=${db.sysuser}
+-movies.db.sysurl	=${db.sysurl}
++movies.db.sysname	=mysql
++movies.db.sysuser	=root
++movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
+ 
+ movies.db.tables	=db/db_tables_mysql.sql
+ movies.db.content	=db/db_inserts.sql
+-movies.db.create-db	=${db-specific}/createdb-sql92.xml
+-movies.db.drop-db	=${db-specific}/dropdb-sql92.xml
+
+Modified: branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-09-19 20:29:49 UTC (rev 216)
+@@ -9,7 +9,7 @@
+ INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:<A HREF="mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1">mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1</A>');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'org.gjt.mm.mysql.Driver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'mysql');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+ -- Associate types with datasource
+ INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+
+Modified: branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql	2007-09-19 20:29:49 UTC (rev 216)
+@@ -9,7 +9,7 @@
+ INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:oracle:thin:dm/<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">dm at localhost</A>:1521:orcl');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'oracle.jdbc.driver.OracleDriver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'oracle');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+ -- Associate types with datasource
+ INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+
+Modified: branches/eschnepel/setup.xml
+===================================================================
+--- branches/eschnepel/setup.xml	2007-09-18 20:22:01 UTC (rev 215)
++++ branches/eschnepel/setup.xml	2007-09-19 20:29:49 UTC (rev 216)
+@@ -6,11 +6,11 @@
+ 
+ 	&lt;!-- Configuration --&gt;
+ 	&lt;target name=&quot;-config-init&quot;&gt;
+-		&lt;property name=&quot;configuration.isactive&quot; value=&quot;true&quot;/&gt;
++		&lt;property name=&quot;configuration.isactive&quot; value=&quot;true&quot; /&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;config&quot; depends=&quot;-config-init,-config-web-root,-config-instance,-config-examples&quot; description=&quot;Configures the application DeepaMehta&quot;&gt;
+-		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+-			&lt;entry key=&quot;main-targets&quot; default=&quot;dm&quot;/&gt;
++	&lt;target name=&quot;config&quot; depends=&quot;-config-init,-config-web-root,-config-dm-instance,-config-examples&quot; description=&quot;Configures the application DeepaMehta&quot;&gt;
++		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
++			&lt;entry key=&quot;main-targets&quot; default=&quot;dm&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 		&lt;echo&gt;
+ Your choices are stored in the &quot;${config.properties}&quot; file.
+@@ -21,189 +21,167 @@
+ 
+ 	&lt;target name=&quot;-config-web&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;n&quot;&gt;
+-			&lt;isfalse value=&quot;${web.deploy.do}&quot;/&gt;
++			&lt;isfalse value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/condition&gt;
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;y&quot;&gt;
+-			&lt;istrue value=&quot;${web.deploy.do}&quot;/&gt;
++			&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;input
+-			message=&quot;Do you want to install web applications?&quot;
+-			validargs=&quot;y,n&quot;
+-			addproperty=&quot;new.do.installweb&quot;
+-			defaultvalue=&quot;${old.do.installweb}&quot;/&gt;
+-		&lt;condition property=&quot;new.web.deploy.do&quot; value=&quot;false&quot;&gt;
+-				&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;condition property=&quot;new.web.deploy.do&quot; value=&quot;true&quot;&gt;
+-			&lt;not&gt;&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;&lt;/not&gt;
+-		&lt;/condition&gt;
+-		&lt;condition property=&quot;new.do.web.deploy&quot;&gt;
+-			&lt;istrue value=&quot;${new.web.deploy.do}&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+-			&lt;entry key=&quot;web.deploy.do&quot; value=&quot;${new.web.deploy.do}&quot;/&gt;
++		&lt;input message=&quot;Do you want to install web applications?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
++		&lt;if&gt;
++			&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
++			&lt;then&gt;
++				&lt;var name=&quot;web.deploy.do&quot; value=&quot;false&quot; /&gt;
++				&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot; /&gt;
++			&lt;/then&gt;
++			&lt;else&gt;
++				&lt;var name=&quot;do.web.deploy&quot; value=&quot;true&quot;/&gt;
++				&lt;var name=&quot;web.deploy.do&quot; value=&quot;true&quot; /&gt;
++			&lt;/else&gt;
++		&lt;/if&gt;
++		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
++			&lt;entry key=&quot;web.deploy.do&quot; value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+-		&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot;/&gt;
+-		&lt;condition property=&quot;do.web.deploy&quot; value=&quot;true&quot;&gt;
+-			&lt;istrue value=&quot;${web.deploy.do}&quot;/&gt;
+-		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-web-root&quot; if=&quot;new.do.web.deploy&quot; depends=&quot;-config-web&quot;&gt;
+-		&lt;input
+-			message=&quot;Please enter the root directory of your application server.&quot;
+-			addproperty=&quot;new.tomcat.root&quot;
+-			defaultvalue=&quot;${tomcat.root}&quot;/&gt;
+-		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+-			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot;/&gt;
++		&lt;input message=&quot;Please enter the root directory of your application server.&quot; addproperty=&quot;new.tomcat.root&quot; defaultvalue=&quot;${tomcat.root}&quot; /&gt;
++		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
++			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-which-instance&quot; depends=&quot;-config-init&quot;&gt;
+-		&lt;echo&gt;Please select one of the following instance configurations:&lt;/echo&gt;
+-		&lt;echo/&gt;
+-		&lt;for param=&quot;list.instance.config.file&quot;&gt;
+-			&lt;path&gt;
+-				&lt;fileset dir=&quot;${config}&quot; includes=&quot;dm-*.properties&quot;/&gt;
+-			&lt;/path&gt;
+-			&lt;sequential&gt;
+-				&lt;var name=&quot;list.instance&quot; unset=&quot;true&quot;/&gt;
+-				&lt;var name=&quot;list.dm-instance&quot; unset=&quot;true&quot;/&gt;
+-				&lt;basename file=&quot;@{list.instance.config.file}&quot; property=&quot;list.dm-instance&quot; suffix=&quot;.properties&quot;/&gt;
+-				&lt;propertyregex property=&quot;list.instance&quot;
+-	              input=&quot;${list.dm-instance}&quot;
+-	              regexp=&quot;dm-(.*)&quot;
+-	              select=&quot;\1&quot;/&gt;
+-				&lt;echo&gt;${list.instance}&lt;/echo&gt;
+-			&lt;/sequential&gt;
+-		&lt;/for&gt;
+-		&lt;echo/&gt;
+-		&lt;input
+-			message=&quot;currently set (default)&quot;
+-			addproperty=&quot;new.dm.instance&quot;
+-			defaultvalue=&quot;${dm.instance}&quot;/&gt;
+-
+-		&lt;fileset dir=&quot;${config}&quot; includes=&quot;dm-${new.dm.instance}.properties&quot; id=&quot;instance.config.fileset&quot;/&gt;
+-		&lt;var name=&quot;correct&quot; unset=&quot;true&quot;/&gt;
+-		&lt;condition property=&quot;correct&quot;&gt;
+-			&lt;resourcecount refid=&quot;instance.config.fileset&quot; when=&quot;equal&quot; count=&quot;1&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;fail
+-			unless=&quot;correct&quot;
+-			message=&quot;${new.dm.instance} does not refer to an instance configuration&quot; /&gt;
+-		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+-			&lt;entry key=&quot;dm.instance&quot; value=&quot;${new.dm.instance}&quot;/&gt;
++	&lt;target name=&quot;-config-which-dm-instance&quot; depends=&quot;-config-init&quot;&gt;
++		&lt;var name=&quot;path&quot; value=&quot;${config}&quot; /&gt;
++		&lt;var name=&quot;prefix&quot; value=&quot;dm&quot; /&gt;
++		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
++		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot; /&gt;
++		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
++		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
++			&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+-		&lt;propertyfile file=&quot;${config}/config.properties&quot; &gt;
+-			&lt;entry key=&quot;dm.instance&quot; value=&quot;${new.dm.instance}&quot;/&gt;
++		&lt;propertyfile file=&quot;${config}/config.properties&quot;&gt;
++			&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-instance&quot; depends=&quot;-config-which-instance&quot;&gt;
++	&lt;target name=&quot;-config-dm-instance&quot; depends=&quot;-config-which-dm-instance&quot;&gt;
+ 		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}...&lt;/echo&gt;
+-		&lt;ant target=&quot;-config-instance2&quot; inheritall=&quot;false&quot;/&gt;
++		&lt;ant target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user&quot;&gt;
++	&lt;target name=&quot;-config-dm-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user&quot;&gt;
+ 		&lt;echo&gt;completed configuring instance &quot;${dm.instance}&quot;&lt;/echo&gt;
+ 		&lt;echo&gt;Instance-related settings are stored in &quot;${dm.instance.config-property-file}.&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-db.host&quot; if=&quot;do.config.db.host&quot;&gt;
+-		&lt;input
+-			message=&quot;Please enter the host of your database:&quot;
+-			addproperty=&quot;new.db.host&quot;
+-			defaultvalue=&quot;${db.host}&quot;/&gt;
+-		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot; &gt;
+-			&lt;entry key=&quot;db.host&quot; value=&quot;${new.db.host}&quot;/&gt;
++		&lt;input message=&quot;Please enter the host of your database:&quot; addproperty=&quot;new.db.host&quot; defaultvalue=&quot;${db.host}&quot; /&gt;
++		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++			&lt;entry key=&quot;db.host&quot; value=&quot;${new.db.host}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot;&gt;
+-		&lt;input
+-			message=&quot;Please enter the name of your database:&quot;
+-			addproperty=&quot;new.db.name&quot;
+-			defaultvalue=&quot;${db.name}&quot;/&gt;
+-		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot; &gt;
+-			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot;/&gt;
++		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
++		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-db.user&quot; if=&quot;do.config.db.user&quot;&gt;
+ 		&lt;echo&gt;It is strongly advised to change the database user and password before creation!&lt;/echo&gt;
+-		&lt;input
+-			message=&quot;Please enter the user to use:&quot;
+-			addproperty=&quot;new.db.user&quot;
+-			defaultvalue=&quot;${db.user}&quot;/&gt;
+-		&lt;input
+-			message=&quot;Please enter the password to use:&quot;
+-			addproperty=&quot;new.db.password&quot;
+-			defaultvalue=&quot;${db.password}&quot;/&gt;
+-		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot; &gt;
+-			&lt;entry key=&quot;db.user&quot; value=&quot;${new.db.user}&quot;/&gt;
+-			&lt;entry key=&quot;db.password&quot; value=&quot;${new.db.password}&quot;/&gt;
++		&lt;input message=&quot;Please enter the user to use:&quot; addproperty=&quot;new.db.user&quot; defaultvalue=&quot;${db.user}&quot; /&gt;
++		&lt;input message=&quot;Please enter the password to use:&quot; addproperty=&quot;new.db.password&quot; defaultvalue=&quot;${db.password}&quot; /&gt;
++		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++			&lt;entry key=&quot;db.user&quot; value=&quot;${new.db.user}&quot; /&gt;
++			&lt;entry key=&quot;db.password&quot; value=&quot;${new.db.password}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-examples&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+-			&lt;property name=&quot;target&quot; value=&quot;config&quot;/&gt;
++			&lt;property name=&quot;target&quot; value=&quot;config&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-ask-example&quot;&gt;
+-		&lt;var name=&quot;example.execute&quot; unset=&quot;true&quot;/&gt;
+-		&lt;property file=&quot;${examples}/${example}/config.properties&quot;/&gt;
++		&lt;var name=&quot;example.execute&quot; unset=&quot;true&quot; /&gt;
++		&lt;property file=&quot;${examples}/${example}/config.properties&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+-				&lt;istrue value=&quot;${configuration.isactive}&quot;/&gt;
+-				&lt;not&gt;&lt;isset property=&quot;example.execute&quot;/&gt;&lt;/not&gt;
++				&lt;istrue value=&quot;${configuration.isactive}&quot; /&gt;
++				&lt;not&gt;
++					&lt;isset property=&quot;example.execute&quot; /&gt;
++				&lt;/not&gt;
+ 			&lt;/or&gt;
+ 			&lt;then&gt;
+ 				&lt;if&gt;
+-					&lt;istrue value=&quot;${example.execute}&quot;/&gt;
++					&lt;istrue value=&quot;${example.execute}&quot; /&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;default&quot; value=&quot;y&quot;/&gt;
++						&lt;var name=&quot;default&quot; value=&quot;y&quot; /&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+-						&lt;var name=&quot;default&quot; value=&quot;n&quot;/&gt;
++						&lt;var name=&quot;default&quot; value=&quot;n&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+-				&lt;var name=&quot;input&quot; unset=&quot;true&quot;/&gt;
+-				&lt;input
+-					message=&quot;Shall the example ${example} be processed?&quot;
+-					validargs=&quot;y,n&quot;
+-					defaultvalue=&quot;${default}&quot;
+-					addproperty=&quot;input&quot;/&gt;
+-				&lt;var name=&quot;default&quot; unset=&quot;true&quot;/&gt;
++				&lt;var name=&quot;input&quot; unset=&quot;true&quot; /&gt;
++				&lt;input message=&quot;Shall the example ${example} be processed?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
++				&lt;var name=&quot;default&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;if&gt;
+-					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot;/&gt;
++					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot; /&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot;/&gt;
++						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot; /&gt;
+ 						&lt;propertyfile file=&quot;${examples}/${example}/config.properties&quot;&gt;
+-							&lt;entry key=&quot;example.execute&quot; value=&quot;true&quot;/&gt;
++							&lt;entry key=&quot;example.execute&quot; value=&quot;true&quot; /&gt;
+ 						&lt;/propertyfile&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+-						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot;/&gt;
++						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot; /&gt;
+ 						&lt;propertyfile file=&quot;${examples}/${example}/config.properties&quot;&gt;
+-							&lt;entry key=&quot;example.execute&quot; value=&quot;false&quot;/&gt;
++							&lt;entry key=&quot;example.execute&quot; value=&quot;false&quot; /&gt;
+ 						&lt;/propertyfile&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
+ 				&lt;if&gt;
+-					&lt;istrue value=&quot;${example.execute}&quot;/&gt;
++					&lt;istrue value=&quot;${example.execute}&quot; /&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot;/&gt;
++						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot; /&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+-						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot;/&gt;
++						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+ 			&lt;/else&gt;
+ 		&lt;/if&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-config-which-generic-instance&quot;&gt;
++		&lt;echo&gt;Please select one of the following instance configurations:&lt;/echo&gt;
++		&lt;echo /&gt;
++		&lt;for param=&quot;list.instance.config.file&quot;&gt;
++			&lt;path&gt;
++				&lt;fileset dir=&quot;${path}&quot; includes=&quot;${prefix}-*.properties&quot; /&gt;
++			&lt;/path&gt;
++			&lt;sequential&gt;
++				&lt;var name=&quot;list.instance&quot; unset=&quot;true&quot; /&gt;
++				&lt;var name=&quot;list.dm-instance&quot; unset=&quot;true&quot; /&gt;
++				&lt;basename file=&quot;@{list.instance.config.file}&quot; property=&quot;list.dm-instance&quot; suffix=&quot;.properties&quot; /&gt;
++				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;${list.dm-instance}&quot; regexp=&quot;${prefix}-(.*)&quot; select=&quot;\1&quot; /&gt;
++				&lt;echo&gt;${list.instance}&lt;/echo&gt;
++			&lt;/sequential&gt;
++		&lt;/for&gt;
++		&lt;echo /&gt;
++		&lt;var name=&quot;return.instance&quot; unset=&quot;true&quot; /&gt;
++		&lt;input message=&quot;currently set (default)&quot; addproperty=&quot;return.instance&quot; defaultvalue=&quot;${default}&quot; /&gt;
++
++		&lt;fileset dir=&quot;${path}&quot; includes=&quot;${prefix}-${return.instance}.properties&quot; id=&quot;instance.config.fileset&quot; /&gt;
++		&lt;var name=&quot;correct&quot; unset=&quot;true&quot; /&gt;
++		&lt;condition property=&quot;correct&quot;&gt;
++			&lt;resourcecount refid=&quot;instance.config.fileset&quot; when=&quot;equal&quot; count=&quot;1&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;fail unless=&quot;correct&quot; message=&quot;${return.instance} does not refer to an instance configuration&quot; /&gt;
++	&lt;/target&gt;
++
+ &lt;/project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[deepamehta-svn] r215 - in trunk/install: client client/icons	examples/artfacts examples/artfacts/icons	examples/kompetenzstern examples/kompetenzstern/icons	examples/ldap examples/ldap/icons examples/movies	examples/movies/icons
+</A></li>
+	<LI>Next message: <A HREF="000062.html">[deepamehta-svn] r217 - in branches/eschnepel/install: client	examples/artfacts examples/kompetenzstern examples/ldap	examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

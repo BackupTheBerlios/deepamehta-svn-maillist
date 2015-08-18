@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r376%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09build%20build/de%20build/de/rpc%20libs%20pages%20src/de/rpc/deepamehta&In-Reply-To=%3C200909212337.n8LNbdjg012720%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000219.html">
+   <LINK REL="Next"  HREF="000221.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r376%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09build%20build/de%20build/de/rpc%20libs%20pages%20src/de/rpc/deepamehta&In-Reply-To=%3C200909212337.n8LNbdjg012720%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 22 01:37:39 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000219.html">[deepamehta-svn] r375 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+        <LI>Next message: <A HREF="000221.html">[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-09-22 01:37:31 +0200 (Tue, 22 Sep 2009)
+New Revision: 376
+
+Added:
+   branches/apps/install/apps/dmrpc/README.txt
+   branches/apps/install/apps/dmrpc/build.xml
+   branches/apps/install/apps/dmrpc/build/
+   branches/apps/install/apps/dmrpc/build/de/
+   branches/apps/install/apps/dmrpc/build/de/rpc/
+   branches/apps/install/apps/dmrpc/config/
+   branches/apps/install/apps/dmrpc/libs/
+   branches/apps/install/apps/dmrpc/libs/servlet.jar
+   branches/apps/install/apps/dmrpc/pages/
+   branches/apps/install/apps/dmrpc/pages/Print.jsp
+   branches/apps/install/apps/dmrpc/pages/blank.html
+   branches/apps/install/apps/dmrpc/pages/error.jsp
+   branches/apps/install/apps/dmrpc/pages/pngfix.js
+   branches/apps/install/apps/dmrpc/pages/util.js
+Modified:
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+Log:
+completed JSON RPC commit + minor changes in registrationOfNewUser
+
+Added: branches/apps/install/apps/dmrpc/README.txt
+===================================================================
+--- branches/apps/install/apps/dmrpc/README.txt	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/README.txt	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,25 @@
++==========================
++DeepaMehta JSON RPC Webapp 
++==========================
++
++by Malte Rei&#195;&#159;ig (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>)
++
++11.09.2009
++
++Prerequesites are an installed servlet container like tomcat on your webserver
++
++
++Change your current working directory to DeepaMehta HOME where to you'll find the &quot;run&quot; script
++
++1) ./run.sh config // and enter e.g. tomcat locationpath into the configuration wizard
++
++2) ./run.sh build -f install/apps/dmrpc/build.xml
++
++3) ./run.sh deploy -f install/apps/dmrpc/build.xml
++
++If you configured the right location of your tomcat installation, it'll now contain the desired JSON RPC webapp.. 
++
++NOTE: To make sure that the JSON RPC webapp serves the correct deepamehta server instance you possibly need to configure the desired service-instance name in the dmrpc/config/default/web.xml file at the pointed out location. This configuration error is recognized if a ServletInitException is thrown.
++
++NOTE2: Since Tomcat 6 the webapps must have their libraries self-contained (in their WEB-INF DIR)
++
+
+
+Property changes on: branches/apps/install/apps/dmrpc/build/de/rpc
+___________________________________________________________________
+Name: svn:ignore
+   + deepamehta
+
+
+Added: branches/apps/install/apps/dmrpc/build.xml
+===================================================================
+--- branches/apps/install/apps/dmrpc/build.xml	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/build.xml	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,56 @@
++&lt;project name=&quot;dmrpc&quot; default=&quot;build&quot; basedir=&quot;.&quot;&gt;
++
++	&lt;description&gt;
++		JSON RPC Web Application
++	&lt;/description&gt;
++
++	&lt;property name=&quot;project.name&quot; value=&quot;dmrpc&quot;/&gt;
++	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot;/&gt;
++	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot;/&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++
++	&lt;property name=&quot;dm.base-dir&quot; location=&quot;/home/monty/source/java/appdm/apps&quot;/&gt; &lt;!-- for my branch co --&gt;
++
++	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
++
++	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;UTF8&quot; source=&quot;1.4&quot; target=&quot;1.4&quot;&gt;
++			&lt;classpath&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;libs/servlet.jar&quot;/&gt;
++			&lt;/classpath&gt;
++		&lt;/javac&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;build&quot; depends=&quot;compile&quot;&gt;
++   	    &lt;!--
++		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/rpc/deepamehta/WebService.class&quot; /&gt;
++			&lt;include name=&quot;de/rpc/deepamehta/webServlet.class&quot; /&gt;
++		&lt;/jar&gt;
++		--&gt;
++   	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
++		    &lt;classes dir=&quot;${build}&quot;&gt;
++				&lt;include name=&quot;de/rpc/deepamehta/*.class&quot; /&gt;
++            &lt;/classes&gt;
++         	&lt;fileset dir=&quot;.&quot;&gt;
++            	&lt;include name=&quot;images/*&quot;/&gt;
++            	&lt;include name=&quot;pages/*&quot;/&gt;
++         	&lt;/fileset&gt;
++		&lt;/war&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
++        &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
++		&lt;delete dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++&lt;/project&gt;
+
+Added: branches/apps/install/apps/dmrpc/libs/servlet.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/apps/install/apps/dmrpc/libs/servlet.jar
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/apps/install/apps/dmrpc/pages/Print.jsp
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/Print.jsp	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/pages/Print.jsp	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,11 @@
++&lt;%@ include file=&quot;KiezAtlas.jsp&quot; %&gt;
++
++&lt;%@page contentType=&quot;text/html&quot; pageEncoding=&quot;iso-8859-1&quot;%&gt;
++&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
++   &quot;<A HREF="http://www.w3.org/TR/html4/loose.dtd">http://www.w3.org/TR/html4/loose.dtd</A>&quot;&gt;
++
++&lt;%  String link = (String) session.getAttribute(&quot;formLetter&quot;);
++    out.println(&quot;&lt;h3&gt;Download der Steuerdatei&lt;/h3&gt;&quot;);
++    out.println(&quot;&lt;p&gt;Bitte klicken Sie mit der rechten Maustaste auf den untenstehenden Link und w&#228;hlen Sie \&quot;Ziel Speichern unter\&quot;&lt;/p&gt;&quot;);
++    out.println(&quot;&lt;a href=\&quot;&quot; + link + &quot;\&quot;&gt;Steuerdatei herunterladen&lt;/a&gt;&quot;);
++%&gt;
+
+Added: branches/apps/install/apps/dmrpc/pages/blank.html
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/blank.html	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/pages/blank.html	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,2 @@
++&lt;html&gt;
++&lt;/html&gt;
+
+Added: branches/apps/install/apps/dmrpc/pages/error.jsp
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/error.jsp	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/pages/error.jsp	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,16 @@
++&lt;html&gt;
++&lt;head&gt;
++	&lt;title&gt;Kiezatlas&lt;/title&gt;
++	&lt;link href=&quot;../pages/kiezatlas.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
++&lt;/head&gt;
++&lt;body&gt;
++
++&lt;br&gt;&lt;br&gt;&lt;br&gt;
++&lt;font color=&quot;red&quot;&gt;&lt;i&gt;&lt;%= session.getAttribute(&quot;error&quot;) %&gt;&lt;/i&gt;&lt;/font&gt;
++&lt;p&gt;
++&lt;a href=&quot;<A HREF="http://www.kiezatlas.de:8080/browse/schoeneberg-nord">http://www.kiezatlas.de:8080/browse/schoeneberg-nord</A>&quot; target=&quot;_top&quot;&gt;
++	&lt;img src=&quot;../images/kiezatlas-logo.png&quot; border=&quot;0&quot;&gt;
++&lt;/a&gt;
++
++&lt;/body&gt;
++&lt;/html&gt;
+\ No newline at end of file
+
+Added: branches/apps/install/apps/dmrpc/pages/pngfix.js
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/pngfix.js	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/pages/pngfix.js	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,40 @@
++/*
++ 
++Correctly handle PNG transparency in Win IE 5.5 &amp; 6.
++<A HREF="http://homepage.ntlworld.com/bobosola.">http://homepage.ntlworld.com/bobosola.</A> Updated 18-Jan-2006.
++
++Use in &lt;HEAD&gt; with DEFER keyword wrapped in conditional comments:
++&lt;!--[if lt IE 7]&gt;
++&lt;script defer type=&quot;text/javascript&quot; src=&quot;pngfix.js&quot;&gt;&lt;/script&gt;
++&lt;![endif]--&gt;
++
++Slightly modified for Kiezatlas by J&#195;&#182;rg Richter, 16.9.2006
++*/
++
++var arVersion = navigator.appVersion.split(&quot;MSIE&quot;)
++var version = parseFloat(arVersion[1])
++
++if ((version &gt;= 5.5) &amp;&amp; (document.body.filters)) 
++{
++   for(var i=0; i&lt;document.images.length; i++)
++   {
++      var img = document.images[i]
++      var imgName = img.src.toUpperCase()
++      if ((imgName.substring(imgName.length-3, imgName.length) == &quot;PNG&quot;) &amp;&amp; (img.className == &quot;fixpng&quot;))
++      {
++         var imgID = (img.id) ? &quot;id='&quot; + img.id + &quot;' &quot; : &quot;&quot;
++         var imgClass = (img.className) ? &quot;class='&quot; + img.className + &quot;' &quot; : &quot;&quot;
++         var imgTitle = (img.title) ? &quot;title='&quot; + img.title + &quot;' &quot; : &quot;title='&quot; + img.alt + &quot;' &quot;
++         var imgStyle = &quot;display:inline-block;&quot; + img.style.cssText 
++         if (img.align == &quot;left&quot;) imgStyle = &quot;float:left;&quot; + imgStyle
++         if (img.align == &quot;right&quot;) imgStyle = &quot;float:right;&quot; + imgStyle
++         if (img.parentElement.href) imgStyle = &quot;cursor:hand;&quot; + imgStyle
++         var strNewHTML = &quot;&lt;span &quot; + imgID + imgClass + imgTitle
++         + &quot; style=\&quot;&quot; + &quot;width:&quot; + img.width + &quot;px; height:&quot; + img.height + &quot;px;&quot; + imgStyle + &quot;;&quot;
++         + &quot;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader&quot;
++         + &quot;(src=\'&quot; + img.src + &quot;\', sizingMethod='scale');\&quot;&gt;&lt;/span&gt;&quot; 
++         img.outerHTML = strNewHTML
++         i = i-1
++      }
++   }
++}
+
+Added: branches/apps/install/apps/dmrpc/pages/util.js
+===================================================================
+--- branches/apps/install/apps/dmrpc/pages/util.js	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/pages/util.js	2009-09-21 23:37:31 UTC (rev 376)
+@@ -0,0 +1,14 @@
++/* 
++ * Malte Rei&szlig;ig, 15.January 2009 (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>)
++ * This is a small little helper for the List Page
++ * It checks wether the delete action should be forwarded to the server or 
++ * the request should is cancelled by the user
++ */
++
++function confirmDelete () {
++  if (confirm('Wollen Sie den Eintrag wirklich ganz entfernen ?')) {
++    return true;
++  } else  {
++    return false;
++  }
++}
+\ No newline at end of file
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-09-21 10:36:29 UTC (rev 375)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-09-21 23:37:31 UTC (rev 376)
+@@ -5,9 +5,9 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.PresentableTopic;
+-import de.deepamehta.PresentableType;
+ import de.deepamehta.service.*;
+ import de.deepamehta.service.web.JSONRPCServlet;
++import de.deepamehta.topics.EmailTopic; 
+ import de.deepamehta.topics.LiveTopic;
+ import de.deepamehta.topics.TypeTopic;
+ import java.util.Enumeration;
+@@ -312,36 +312,76 @@
+     }
+ 
+     /**
+-     * yet untested
++     * tested except with sendmail
+      *
+      * @param params username, password, emailAddress, notifications
++     * additional but not mandatory should be supported to insert the users
++     * First Name, Last Name, Website and a short personal description
+      * @param directives
+      * @return as a JSON FXUserTopic
+      */
+     private String registerNewUser(String params, CorporateDirectives directives) {
+         String parameters[] = params.split(&quot;,&quot;);
+         String userName = parameters[0].substring(2, parameters[0].length()-1);
++        userName = userName.replaceAll(&quot;\\t&quot;, &quot;&quot;); // rips off the tabs in username if present
+         String password = parameters[1].substring(2, parameters[1].length()-2);
+         String emailAddress = parameters[2].substring(2, parameters[2].length()-2);
+         String notifications = parameters[3].substring(2, parameters[3].length()-2);
+-        System.out.println(&quot;&gt;&gt;&gt;&gt; registerNewUser(&quot; + userName + &quot;, &quot;+ password +&quot;)&quot;);
++        String firstName = parameters[4].substring(2, parameters[4].length()-1);
++        String lastName = parameters[5].substring(2, parameters[5].length()-1);
++        String website = parameters[6].substring(2, parameters[6].length()-1);
++        String description = parameters[7].substring(2, parameters[7].length()-1);
++        System.out.println(&quot;&gt;&gt;&gt;&gt; registerNewUser(&quot; + userName + &quot;, &quot;+ password +&quot;, &quot;+emailAddress+&quot;, &quot;+notifications+&quot;)&quot;);
+         // String mapId = params;
+         StringBuffer messages = new StringBuffer(&quot;\&quot;\&quot;&quot;);
+         StringBuffer result = new StringBuffer(&quot;{\&quot;method\&quot;: \&quot;doRegister\&quot;, &quot;);
+         result.append(&quot;\&quot;result\&quot;: &quot;);
+-        if (cm.getTopic(TOPICTYPE_USER, userName, 1) != null) {
++        Hashtable filter = new Hashtable();
++        filter.put(PROPERTY_USERNAME, userName);
++        Vector existing = cm.getTopics(TOPICTYPE_USER, filter);
++        if (existing.size() == 0) {
++            System.out.println(&quot;&gt;&gt; OK to create a new user with name: &quot; + userName);
+             BaseTopic user = as.createLiveTopic(as.getNewTopicID(), TOPICTYPE_USER, userName, null);
+-            if (notifications.equals(&quot;on&quot;)) {
++            as.setTopicProperty(user, PROPERTY_USERNAME, userName);
++            as.setTopicProperty(user, PROPERTY_PASSWORD, password);
++            as.setTopicProperty(user, &quot;Website&quot;, website);
++            as.setTopicProperty(user, &quot;First Name&quot;, firstName);
++            as.setTopicProperty(user, &quot;Last Name&quot;, lastName);
++             as.setTopicProperty(user, &quot;Description&quot;, description);
++            if (notifications.equals(&quot;true&quot;)) {
+                 as.setTopicProperty(user, PROPERTY_EMAIL_ADDRESS, emailAddress);
+             } else {
+                 BaseTopic emailTopic = as.createLiveTopic(as.getNewTopicID(), TOPICTYPE_EMAIL_ADDRESS, emailAddress, null);
++                as.setTopicProperty(emailTopic, PROPERTY_EMAIL_ADDRESS, emailAddress);
+                 BaseAssociation userToEmail = as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_ASSOCIATION, user.getID(), emailTopic.getID(), null, directives);
+             }
++            // create default demo memberships
++            BaseTopic typeBuilderWorkspace = cm.getTopic(TOPICTYPE_WORKSPACE, &quot;t-constructionworkspace&quot;, 1);
++            BaseTopic dmWorkspace = cm.getTopic(TOPICTYPE_WORKSPACE, &quot;t-corporategroup&quot;, 1);
++            BaseAssociation userToDeepaMehta = as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_MEMBERSHIP, user.getID(), typeBuilderWorkspace.getID(), null, directives);
++            as.setAssocProperty(userToDeepaMehta, PROPERTY_ROLE_PUBLISHER, &quot;on&quot;);
++            BaseAssociation userToTypeBuild = as.createLiveAssociation(as.getNewAssociationID(), ASSOCTYPE_MEMBERSHIP, user.getID(), dmWorkspace.getID(), null, directives);
++            // as.setAssocProperty(userToTypeBuild, PROPERTY_ACCESS_PERMISSION, &quot;create&quot;);
++            // build resulting FXUserTopic
+             result.append(&quot;{ \&quot;id\&quot;: \&quot;&quot;+user.getID()+&quot;\&quot;, \&quot;name\&quot;: \&quot;&quot;+user.getName()+&quot;\&quot;, \&quot;typeId\&quot;: \&quot;&quot;+user.getType()+&quot;\&quot;, &quot; +
+-                    &quot;\&quot;email\&quot;: \&quot;&quot;+as.getTopicProperty(user, PROPERTY_EMAIL_ADDRESS)+&quot;\&quot;, &quot; +
++                    &quot;\&quot;email\&quot;: \&quot;&quot;+emailAddress+&quot;\&quot;, &quot; +
+                     &quot;\&quot;website\&quot;: \&quot;&quot;+as.getTopicProperty(user, &quot;Website&quot;)+&quot;\&quot;}&quot;);
+             messages = new StringBuffer(&quot;\&quot;Your user registration was successfull.\&quot;&quot;);
++            // as.getM
++            String body = &quot;Hi Admins, &lt;br&gt; we got no problem here :) but a new user ! &lt;br&gt; The user has choosen the alias &quot;+userName+&quot; and names him/herself &quot;+firstName+&quot; &quot;+lastName+&quot;&quot; +
++                    &quot;He or She is saying in a few self describing words that the purpose of use is something like: &lt;p&gt;&quot; +description + &quot;&lt;/p&gt;&quot; +
++                    &quot;and he/she provided us a emailAddress : &quot; + emailAddress + &quot; but switched notifications to &quot; + notifications +
++                    &quot;but thinks we should see his or her website at: &quot; + website +
++                    &quot;&lt;p&gt;That's all, have a nice day !&lt;br&gt;&quot; +
++                    &quot;Always at your serve,&lt;br&gt;&quot; +
++                    &quot;your program&lt;/p&gt;&quot;;
++            String smtpServer = as.getSMTPServer();
++            if (!smtpServer.equals(&quot;&quot;)) {
++                System.out.println(&quot;&gt;&gt;&gt; Web Service is sending an email to account administrators to notify them that &quot;+userName+&quot; is in the team now.&quot;);
++                // EmailTopic.sendMail(smtpServer, &quot;<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">dm at deepamehta.de</A>&quot;, &quot;<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">accounts at deepamehta.de</A>&quot;, userName+&quot; is new on DeepaMehta&quot;, body);
++            }
+         } else {
++            System.out.println(&quot;&gt;&gt; NOT OK to create a new user with name: &quot; + userName);
+             result.append(&quot;null&quot;);
+             messages = new StringBuffer(&quot;\&quot;Sorry, that username is already taken.\&quot;&quot;);
+             result.append(&quot;, \&quot;error\&quot;: &quot; + messages + &quot;}&quot;);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000219.html">[deepamehta-svn] r375 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+	<LI>Next message: <A HREF="000221.html">[deepamehta-svn] r377 - branches/apps/install/apps/dmrpc/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

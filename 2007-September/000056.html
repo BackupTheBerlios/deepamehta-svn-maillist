@@ -1,0 +1,887 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r211 - in branches/eschnepel: . develop	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/client	install/config install/db/db-specific	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r211%20-%20in%20branches/eschnepel%3A%20.%20develop%0A%09develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/db%20install/client%0A%09install/config%20install/db/db-specific%0A%09install/examples/dm-browser%20install/examples/dm-search%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/knoppixforum%20install/examples/kompetenzstern%0A%09install/examples/ldap%20install/examples/messageboard%0A%09install/examples/movies%20install/examples/musicforum&In-Reply-To=%3C200709181707.l8IH7pbE014028%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000055.html">
+   <LINK REL="Next"  HREF="000057.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r211 - in branches/eschnepel: . develop	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/client	install/config install/db/db-specific	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r211%20-%20in%20branches/eschnepel%3A%20.%20develop%0A%09develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/db%20install/client%0A%09install/config%20install/db/db-specific%0A%09install/examples/dm-browser%20install/examples/dm-search%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/knoppixforum%20install/examples/kompetenzstern%0A%09install/examples/ldap%20install/examples/messageboard%0A%09install/examples/movies%20install/examples/musicforum&In-Reply-To=%3C200709181707.l8IH7pbE014028%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r211 - in branches/eschnepel: . develop	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/client	install/config install/db/db-specific	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 18 19:07:51 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000055.html">[deepamehta-svn] r210 - in branches/eschnepel:	develop/src/de/deepamehta/service/db install/db
+</A></li>
+        <LI>Next message: <A HREF="000057.html">[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-18 19:07:44 +0200 (Tue, 18 Sep 2007)
+New Revision: 211
+
+Modified:
+   branches/eschnepel/build-development.xml
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/
+   branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+   branches/eschnepel/install/client/
+   branches/eschnepel/install/config/
+   branches/eschnepel/install/config/dm.properties
+   branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml
+   branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml
+   branches/eschnepel/install/db/db-specific/createdb-ask.xml
+   branches/eschnepel/install/db/db-specific/createdb-sql92.xml
+   branches/eschnepel/install/examples/dm-browser/
+   branches/eschnepel/install/examples/dm-search/
+   branches/eschnepel/install/examples/dm-search/build.xml
+   branches/eschnepel/install/examples/dm-topicmapviewer/
+   branches/eschnepel/install/examples/dm-web/
+   branches/eschnepel/install/examples/knoppixforum/
+   branches/eschnepel/install/examples/knoppixforum/build.xml
+   branches/eschnepel/install/examples/kompetenzstern/
+   branches/eschnepel/install/examples/ldap/
+   branches/eschnepel/install/examples/messageboard/
+   branches/eschnepel/install/examples/movies/
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/musicforum/
+   branches/eschnepel/install/examples/musicforum/build.xml
+   branches/eschnepel/setup.xml
+Log:
+logStatement is now DatabaseProvider-Implementation specific
+fixed the movies installation
+fixed the loading of config.properties files from the application
+the configure process asks the user which examples should be installed
+
+Modified: branches/eschnepel/build-development.xml
+===================================================================
+--- branches/eschnepel/build-development.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/build-development.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -170,6 +170,10 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; /&gt;
++		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++		&lt;ant target=&quot;-call-examples&quot;&gt;
++			&lt;property name=&quot;target&quot; value=&quot;cleanup&quot;/&gt;
++		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/build.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -33,7 +33,11 @@
+ 	&lt;/path&gt;
+ 
+ 	&lt;target name=&quot;-default&quot;&gt;
+-		&lt;antcall target=&quot;${main-target}&quot;&gt;&lt;/antcall&gt;
++		&lt;for list=&quot;${main-targets}&quot; param=&quot;target&quot; trim=&quot;true&quot;&gt;
++			&lt;sequential&gt;
++				&lt;antcall target=&quot;@{target}&quot;&gt;&lt;/antcall&gt;
++			&lt;/sequential&gt;
++		&lt;/for&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Install --&gt;
+@@ -45,19 +49,21 @@
+ 		&lt;!-- example applications --&gt;
+ 		&lt;antcall target=&quot;-installexamples&quot; /&gt;
+ 	&lt;/target&gt;
+-
+-	&lt;!-- Movies --&gt;
+-	&lt;target name=&quot;dropmovies&quot; depends=&quot;-testsyspass&quot;&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;movies&quot;/&gt;
+-			&lt;property name=&quot;target&quot; value=&quot;dropmoviesdb&quot;/&gt;
+-		&lt;/ant&gt;
++	&lt;target name=&quot;uninstall&quot; description=&quot;drops all databases&quot;&gt;
++		&lt;antcall target=&quot;-dropdb&quot; /&gt;
++		&lt;!-- example applications --&gt;
++		&lt;antcall target=&quot;-uninstallexamples&quot; /&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installexamples&quot; depends=&quot;-testsyspass&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;install&quot;/&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
++	&lt;target name=&quot;-uninstallexamples&quot; depends=&quot;-testsyspass&quot;&gt;
++		&lt;ant target=&quot;-call-examples&quot;&gt;
++			&lt;property name=&quot;target&quot; value=&quot;uninstall&quot;/&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
+ 
+ 	&lt;!-- Web-related tasks --&gt;
+ 	&lt;target name=&quot;-installweb-ask&quot; depends=&quot;-config-web-root&quot; unless=&quot;web.deploy.do&quot;/&gt;
+@@ -258,7 +264,7 @@
+ 			&lt;property name=&quot;example&quot; value=&quot;movies&quot;/&gt;
+ 		&lt;/ant&gt;
+     &lt;/target&gt;
+-	&lt;target name=&quot;-call-examples-web&quot;&gt;
++	&lt;target name=&quot;-call-examples-web&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot;/&gt;
+ 		&lt;/ant&gt;
+@@ -284,16 +290,19 @@
+ 			&lt;property name=&quot;example&quot; value=&quot;musicforum&quot;/&gt;
+ 		&lt;/ant&gt;
+     &lt;/target&gt;
+-    &lt;target name=&quot;-call-example&quot;&gt;
++
++    &lt;target name=&quot;-call-example&quot; depends=&quot;-config-ask-example&quot; if=&quot;do.example.execute&quot;&gt;
+     	&lt;echo&gt;calling target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+-		&lt;trycatch&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot; &gt;
+ 			&lt;try&gt;
+ 				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/${example}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
+ 					&lt;property name=&quot;syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
+ 					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+-			&lt;catch/&gt;
++			&lt;catch&gt;
++				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+     	&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+ 	&lt;/target&gt;
+
+
+Property changes on: branches/eschnepel/develop
+___________________________________________________________________
+Name: svn:ignore
+   + build
+
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-09-18 17:07:44 UTC (rev 211)
+@@ -30,10 +30,12 @@
+ 			if (null != name) {
+ 				setProperty(ConfigurationConstants.Instance.DM_INSTANCE, name);
+ 			} else {
++				loadProperties(getProperty(ConfigurationConstants.Instance.DM_CONFIG_PROPERTY_FILE));
+ 				name = getProperty(ConfigurationConstants.Instance.DM_INSTANCE);
+ 			}
+ 			resolveReferences();
+ 			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
++			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_CONFIG_PROPERTY_FILE));
+ 			resolveReferences();
+ 		} catch (FileNotFoundException e) {
+ 			e.printStackTrace();
+@@ -50,11 +52,11 @@
+ 		c.resolveReferences();
+ 		try {
+ 			c.loadProperties(c.getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
++			c.resolveReferences();
+ 		} catch (Exception e) {
+ 			System.out.println(&quot;&gt;&gt;&gt; Unable to resolve config file for database specific settings.&quot;);
+ 			System.out.println(&quot;&gt;&gt;&gt; You may have luck when only accessing global setting...&quot;);
+ 		}
+-		c.resolveReferences();
+ 		return c;
+ 	}
+ 
+@@ -64,6 +66,7 @@
+ 
+ 	private void loadProperties(String configFile) throws IOException,
+ 			FileNotFoundException {
++		System.out.println(&quot;Loading Configuration properties &quot;+configFile);
+ 		Properties p = new Properties();
+ 		p.load(new FileInputStream(configFile));
+ 		putAll(p);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-09-18 17:07:44 UTC (rev 211)
+@@ -6,11 +6,15 @@
+ 
+ 		public final static String DM_INSTANCE_PROPERTY_FILE = &quot;dm.instance.property-file&quot;;
+ 
++		public final static String DM_INSTANCE_CONFIG_PROPERTY_FILE = &quot;dm.instance.config-property-file&quot;;
++
+ 		public final static String DM_HOST = &quot;dm.host&quot;;
+ 
+ 		public final static String DM_PORT = &quot;dm.port&quot;;
+ 
+ 		public final static String DM_COPRORATE_MEMORY_CLASS = &quot;dm.comporate-memory.class&quot;;
++
++		public static final String DM_CONFIG_PROPERTY_FILE = &quot;dm.config.property-file&quot;;
+ 	}
+ 
+ 	public final class Database {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-18 17:07:44 UTC (rev 211)
+@@ -216,37 +216,7 @@
+ 	}
+ 
+ 	public void logStatement(String arg0) {
+-		return;
+-		/* ### dblog.println(arg0);
+-		// do not use the AutoFreeConnectionStatement
+-		try {
+-			Connection connection = getConnection();
+-			try {
+-				Statement statement = connection.createStatement();
+-				ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot;
+-						+ arg0);
+-				ResultSetMetaData md = rs.getMetaData();
+-				int cc = md.getColumnCount();
+-				for (int i = 1; i &lt;= cc; i++) {
+-					dblog.print(md.getColumnName(i) + &quot;;&quot;);
+-				}
+-				dblog.println();
+-				while (rs.next()) {
+-					for (int i = 1; i &lt;= cc; i++) {
+-						dblog.print(rs.getString(i) + &quot;;&quot;);
+-					}
+-					dblog.println();
+-				}
+-				dblog.println();
+-				statement.close();
+-			} catch (SQLException e) {
+-				e.printStackTrace();
+-			} finally {
+-				freeConnection(connection);
+-			}
+-		} catch (SQLException e) {
+-			e.printStackTrace();
+-		} */
++		dblog.println(arg0);
+ 	}
+ 
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-09-18 17:07:44 UTC (rev 211)
+@@ -1,6 +1,8 @@
+ package de.deepamehta.service.db;
+ 
+ import java.sql.Connection;
++import java.sql.ResultSet;
++import java.sql.ResultSetMetaData;
+ import java.sql.SQLException;
+ import java.sql.Statement;
+ import java.util.Properties;
+@@ -74,4 +76,38 @@
+ 		super.checkPointNeeded();
+ 		doNextCheckPoint=true;
+ 	}
++
++	public void logStatement(String stmt) {
++		super.logStatement(stmt);
++		// do not use the AutoFreeConnectionStatement
++		// as it would result in an endless loop
++		try {
++			Connection connection = getConnection();
++			try {
++				Statement statement = connection.createStatement();
++				ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot;
++						+ stmt);
++				ResultSetMetaData md = rs.getMetaData();
++				int cc = md.getColumnCount();
++				for (int i = 1; i &lt;= cc; i++) {
++					dblog.print(md.getColumnName(i) + &quot;;&quot;);
++				}
++				dblog.println();
++				while (rs.next()) {
++					for (int i = 1; i &lt;= cc; i++) {
++						dblog.print(rs.getString(i) + &quot;;&quot;);
++					}
++					dblog.println();
++				}
++				dblog.println();
++				statement.close();
++			} catch (SQLException e) {
++				e.printStackTrace();
++			} finally {
++				freeConnection(connection);
++			}
++		} catch (SQLException e) {
++			e.printStackTrace();
++		}
++	}
+ }
+
+
+Property changes on: branches/eschnepel/install/client
+___________________________________________________________________
+Name: svn:ignore
+   + db
+DeepaMehta.jar
+DeepaMehtaClient.jar
+
+
+
+Property changes on: branches/eschnepel/install/config
+___________________________________________________________________
+Name: svn:ignore
+   - config-*.properties
+
+   + config-*.properties
+config.properties
+
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/config/dm.properties	2007-09-18 17:07:44 UTC (rev 211)
+@@ -9,5 +9,7 @@
+ client				=../client
+ libpath				=../../libs
+ 
++dm.config.property-file	=${config}/config.properties
+ dm.instance.property-file	=${config}/dm-${dm.instance}.properties
++dm.instance.config-property-file=${config}/config-${dm.instance}.properties
+ db.type.property-file		=${config}/db-${db.type}.properties
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -1,6 +1,6 @@
+ &lt;project name=&quot;DeepaMehta-db-createdb-CONNECT&quot; &gt;
+ 	&lt;import file=&quot;createdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.createdb.abort&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;EMPTY.sql&quot;/&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -1,6 +1,6 @@
+ &lt;project name=&quot;DeepaMehta-db-createdb-EMPTY&quot; &gt;
+ 	&lt;import file=&quot;createdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.createdb.abort&quot;&gt;
+ 		&lt;echo message=&quot;There is nothing to do to create a db for this type database&quot;/&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-ask.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-ask.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/db/db-specific/createdb-ask.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -15,7 +15,7 @@
+         -Ddb.sysuser=... -Ddb.syspassword=...
+ 		&lt;/echo&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
++		&lt;condition property=&quot;do.createdb.abort&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/createdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/createdb-sql92.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/db/db-specific/createdb-sql92.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -1,6 +1,6 @@
+ &lt;project name=&quot;DeepaMehta-db-createdb-sql92&quot; &gt;
+ 	&lt;import file=&quot;createdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;target name=&quot;-createdb&quot; depends=&quot;-askcreatedb&quot; unless=&quot;do.createdb.abort&quot;&gt;
+ 		&lt;echo&gt;Creating Database ${db.name} for user ${db.user} with password ${db.password} ...&lt;/echo&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			CREATE DATABASE ${db.name};
+
+
+Property changes on: branches/eschnepel/install/examples/dm-browser
+___________________________________________________________________
+Name: svn:ignore
+   - build
+dm-browser.war
+
+   + build
+dm-browser.war
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/dm-search
+___________________________________________________________________
+Name: svn:ignore
+   - build
+dm-search.war
+
+   + build
+dm-search.war
+config.properties
+
+
+Modified: branches/eschnepel/install/examples/dm-search/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/dm-search/build.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/examples/dm-search/build.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -51,5 +51,4 @@
+ 		&lt;delete dir=&quot;${build}&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;install&quot;/&gt;
+ &lt;/project&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/dm-topicmapviewer
+___________________________________________________________________
+Name: svn:ignore
+   - build
+dm-topicmapviewer.war
+
+   + build
+dm-topicmapviewer.war
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/dm-web
+___________________________________________________________________
+Name: svn:ignore
+   - build
+dm-web.war
+
+   + build
+dm-web.war
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/knoppixforum
+___________________________________________________________________
+Name: svn:ignore
+   - knoppixforum.war
+
+   + knoppixforum.war
+config.properties
+
+
+Modified: branches/eschnepel/install/examples/knoppixforum/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/knoppixforum/build.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/examples/knoppixforum/build.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -28,4 +28,8 @@
+ 	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot;&gt;
+         &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
+ 	&lt;/target&gt;
++	
++	&lt;target name=&quot;cleanup&quot;&gt;
++		&lt;delete file=&quot;${war}&quot;/&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/kompetenzstern
+___________________________________________________________________
+Name: svn:ignore
+   - kompetenzstern.jar
+kompetenzstern.war
+build
+
+   + kompetenzstern.jar
+kompetenzstern.war
+build
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/ldap
+___________________________________________________________________
+Name: svn:ignore
+   - build
+LDAPTopics.jar
+
+   + build
+LDAPTopics.jar
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/messageboard
+___________________________________________________________________
+Name: svn:ignore
+   - messageboard.jar
+messageboard.war
+build
+
+   + messageboard.jar
+messageboard.war
+build
+config.properties
+
+
+
+Property changes on: branches/eschnepel/install/examples/movies
+___________________________________________________________________
+Name: svn:ignore
+   - MoviesTopics.jar
+build
+
+   + MoviesTopics.jar
+build
+config.properties
+
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -1,4 +1,4 @@
+-&lt;project name=&quot;Movies&quot; default=&quot;jar&quot; basedir=&quot;.&quot;&gt;
++&lt;project name=&quot;Movies&quot; default=&quot;build&quot; basedir=&quot;.&quot;&gt;
+ 
+ 	&lt;description&gt;
+ 		Movies
+@@ -15,11 +15,11 @@
+ 		&lt;istrue value=&quot;${withsyspass}&quot; /&gt;
+ 	&lt;/condition&gt;
+ 
+-	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++	&lt;target name=&quot;-init&quot; description=&quot;create build directory&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++	&lt;target name=&quot;-compile&quot; depends=&quot;-init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
+@@ -28,21 +28,25 @@
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
++	&lt;target name=&quot;-jar&quot; depends=&quot;-compile&quot;&gt;
+ 		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+ 			&lt;include name=&quot;de/deepamehta/movies/topics/*.class&quot; /&gt;
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;jar&quot;/&gt;
+-	
++	&lt;target name=&quot;build&quot; depends=&quot;-jar&quot; /&gt;
++
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- example database &quot;Movies&quot; --&gt;
+ 
+-	&lt;target name=&quot;install&quot; depends=&quot;initdb&quot; &gt;
++	&lt;target name=&quot;uninstall&quot; depends=&quot;-dropmoviesdb&quot; /&gt;
++
++	&lt;target name=&quot;install&quot; depends=&quot;-initmoviesdb,-initdb&quot; /&gt;
++
++	&lt;target name=&quot;-initdb&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;movies/db/dmdb-movies.sql&quot; /&gt;
+@@ -54,16 +58,17 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createmoviesdb&quot;&gt;
+-		&lt;ant antfile=&quot;${movies.db.create-db}&quot; target=&quot;createdb&quot; inheritrefs=&quot;true&quot;&gt;
+-			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
+-			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
+-			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
+-			&lt;property name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
+-		&lt;/ant&gt;
++	&lt;import file=&quot;${movies.db.create-db}&quot; /&gt;
++
++	&lt;target name=&quot;-createmoviesdb&quot;&gt;
++		&lt;var name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
++		&lt;var name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
++		&lt;var name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
++		&lt;var name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
++		&lt;antcallback target=&quot;-createdb&quot; inheritrefs=&quot;true&quot; return=&quot;do.createdb.abort&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createtables&quot; depends=&quot;createmoviesdb&quot;&gt;
++	&lt;target name=&quot;-createmoviestables&quot; depends=&quot;-createmoviesdb&quot; unless=&quot;do.createdb.abort&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.tables}&quot; /&gt;
+@@ -74,7 +79,7 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;initdb&quot; depends=&quot;createtables&quot;&gt;
++	&lt;target name=&quot;-initmoviesdb&quot; depends=&quot;-createmoviestables&quot; unless=&quot;do.createdb.abort&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.content}&quot; /&gt;
+@@ -85,8 +90,8 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;dropmoviesdb&quot; &gt;
+-		&lt;ant antfile=&quot;${movies.db.drop-db}&quot; target=&quot;dropdb&quot; inheritrefs=&quot;true&quot;&gt;
++	&lt;target name=&quot;-dropmoviesdb&quot;&gt;
++		&lt;ant antfile=&quot;${movies.db.drop-db}&quot; target=&quot;-dropdb&quot; inheritrefs=&quot;true&quot;&gt;
+ 			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
+ 			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
+ 			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/musicforum
+___________________________________________________________________
+Name: svn:ignore
+   - musicforum.war
+
+   + musicforum.war
+config.properties
+
+
+Modified: branches/eschnepel/install/examples/musicforum/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/musicforum/build.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/install/examples/musicforum/build.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -11,7 +11,7 @@
+ 
+ 	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
+ 
+-	&lt;target name=&quot;war&quot;&gt;
++	&lt;target name=&quot;-war&quot;&gt;
+    	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
+ 		    &lt;classes dir=&quot;../messageboard/build&quot;&gt;
+ 				&lt;include name=&quot;de/deepamehta/messageboard/*.class&quot; /&gt;
+@@ -26,13 +26,15 @@
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;war&quot;/&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-war&quot;/&gt;
+ 
+ 	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot;&gt;
+         &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;install&quot;&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;-initdb&quot;/&gt;
++
++	&lt;target name=&quot;-initdb&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot; /&gt;
+@@ -42,4 +44,8 @@
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot;&gt;
++		&lt;delete file=&quot;${war}&quot;/&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/setup.xml
+===================================================================
+--- branches/eschnepel/setup.xml	2007-09-17 23:00:17 UTC (rev 210)
++++ branches/eschnepel/setup.xml	2007-09-18 17:07:44 UTC (rev 211)
+@@ -5,10 +5,12 @@
+ 	&lt;/description&gt;
+ 
+ 	&lt;!-- Configuration --&gt;
+-
+-	&lt;target name=&quot;config&quot; depends=&quot;-config-web-root,-config-instance,-config-examples&quot; description=&quot;Configures the application DeepaMehta&quot;&gt;
++	&lt;target name=&quot;-config-init&quot;&gt;
++		&lt;property name=&quot;configuration.isactive&quot; value=&quot;true&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;config&quot; depends=&quot;-config-init,-config-web-root,-config-instance,-config-examples&quot; description=&quot;Configures the application DeepaMehta&quot;&gt;
+ 		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+-			&lt;entry key=&quot;main-target&quot; default=&quot;dm&quot;/&gt;
++			&lt;entry key=&quot;main-targets&quot; default=&quot;dm&quot;/&gt;
+ 		&lt;/propertyfile&gt;
+ 		&lt;echo&gt;
+ Your choices are stored in the &quot;${config.properties}&quot; file.
+@@ -16,7 +18,8 @@
+ this file or call the config target again.
+ 		&lt;/echo&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-config-web&quot;&gt;
++
++	&lt;target name=&quot;-config-web&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;n&quot;&gt;
+ 			&lt;isfalse value=&quot;${web.deploy.do}&quot;/&gt;
+ 		&lt;/condition&gt;
+@@ -45,6 +48,7 @@
+ 			&lt;istrue value=&quot;${web.deploy.do}&quot;/&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-web-root&quot; if=&quot;new.do.web.deploy&quot; depends=&quot;-config-web&quot;&gt;
+ 		&lt;input
+ 			message=&quot;Please enter the root directory of your application server.&quot;
+@@ -54,7 +58,8 @@
+ 			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot;/&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-config-which-instance&quot;&gt;
++
++	&lt;target name=&quot;-config-which-instance&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;echo&gt;Please select one of the following instance configurations:&lt;/echo&gt;
+ 		&lt;echo/&gt;
+ 		&lt;for param=&quot;list.instance.config.file&quot;&gt;
+@@ -89,15 +94,21 @@
+ 		&lt;propertyfile file=&quot;${config.properties}&quot; &gt;
+ 			&lt;entry key=&quot;dm.instance&quot; value=&quot;${new.dm.instance}&quot;/&gt;
+ 		&lt;/propertyfile&gt;
++		&lt;propertyfile file=&quot;${config}/config.properties&quot; &gt;
++			&lt;entry key=&quot;dm.instance&quot; value=&quot;${new.dm.instance}&quot;/&gt;
++		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-instance&quot; depends=&quot;-config-which-instance&quot;&gt;
+ 		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}...&lt;/echo&gt;
+ 		&lt;ant target=&quot;-config-instance2&quot; inheritall=&quot;false&quot;/&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user&quot;&gt;
+ 		&lt;echo&gt;completed configuring instance &quot;${dm.instance}&quot;&lt;/echo&gt;
+ 		&lt;echo&gt;Instance-related settings are stored in &quot;${dm.instance.config-property-file}.&lt;/echo&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-instance-db.host&quot; if=&quot;do.config.db.host&quot;&gt;
+ 		&lt;input
+ 			message=&quot;Please enter the host of your database:&quot;
+@@ -107,6 +118,7 @@
+ 			&lt;entry key=&quot;db.host&quot; value=&quot;${new.db.host}&quot;/&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot;&gt;
+ 		&lt;input
+ 			message=&quot;Please enter the name of your database:&quot;
+@@ -116,6 +128,7 @@
+ 			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot;/&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-instance-db.user&quot; if=&quot;do.config.db.user&quot;&gt;
+ 		&lt;echo&gt;It is strongly advised to change the database user and password before creation!&lt;/echo&gt;
+ 		&lt;input
+@@ -131,10 +144,66 @@
+ 			&lt;entry key=&quot;db.password&quot; value=&quot;${new.db.password}&quot;/&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-config-examples&quot;&gt;
++
++	&lt;target name=&quot;-config-examples&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;config&quot;/&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-config-ask-example&quot;&gt;
++		&lt;var name=&quot;example.execute&quot; unset=&quot;true&quot;/&gt;
++		&lt;property file=&quot;${examples}/${example}/config.properties&quot;/&gt;
++		&lt;if&gt;
++			&lt;or&gt;
++				&lt;istrue value=&quot;${configuration.isactive}&quot;/&gt;
++				&lt;not&gt;&lt;isset property=&quot;example.execute&quot;/&gt;&lt;/not&gt;
++			&lt;/or&gt;
++			&lt;then&gt;
++				&lt;if&gt;
++					&lt;istrue value=&quot;${example.execute}&quot;/&gt;
++					&lt;then&gt;
++						&lt;var name=&quot;default&quot; value=&quot;y&quot;/&gt;
++					&lt;/then&gt;
++					&lt;else&gt;
++						&lt;var name=&quot;default&quot; value=&quot;n&quot;/&gt;
++					&lt;/else&gt;
++				&lt;/if&gt;
++				&lt;var name=&quot;input&quot; unset=&quot;true&quot;/&gt;
++				&lt;input
++					message=&quot;Shall the example ${example} be processed?&quot;
++					validargs=&quot;y,n&quot;
++					defaultvalue=&quot;${default}&quot;
++					addproperty=&quot;input&quot;/&gt;
++				&lt;var name=&quot;default&quot; unset=&quot;true&quot;/&gt;
++				&lt;if&gt;
++					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot;/&gt;
++					&lt;then&gt;
++						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot;/&gt;
++						&lt;propertyfile file=&quot;${examples}/${example}/config.properties&quot;&gt;
++							&lt;entry key=&quot;example.execute&quot; value=&quot;true&quot;/&gt;
++						&lt;/propertyfile&gt;
++					&lt;/then&gt;
++					&lt;else&gt;
++						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot;/&gt;
++						&lt;propertyfile file=&quot;${examples}/${example}/config.properties&quot;&gt;
++							&lt;entry key=&quot;example.execute&quot; value=&quot;false&quot;/&gt;
++						&lt;/propertyfile&gt;
++					&lt;/else&gt;
++				&lt;/if&gt;
++			&lt;/then&gt;
++			&lt;else&gt;
++				&lt;if&gt;
++					&lt;istrue value=&quot;${example.execute}&quot;/&gt;
++					&lt;then&gt;
++						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot;/&gt;
++					&lt;/then&gt;
++					&lt;else&gt;
++						&lt;var name=&quot;do.example.execute&quot; unset=&quot;true&quot;/&gt;
++					&lt;/else&gt;
++				&lt;/if&gt;
++			&lt;/else&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
++
+ &lt;/project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000055.html">[deepamehta-svn] r210 - in branches/eschnepel:	develop/src/de/deepamehta/service/db install/db
+</A></li>
+	<LI>Next message: <A HREF="000057.html">[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

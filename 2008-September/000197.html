@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r353%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809230105.m8N15eDF026467%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000196.html">
+   <LINK REL="Next"  HREF="000198.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r353%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809230105.m8N15eDF026467%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 23 03:05:40 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000196.html">[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+        <LI>Next message: <A HREF="000198.html">[deepamehta-svn] r354 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-23 03:05:36 +0200 (Tue, 23 Sep 2008)
+New Revision: 353
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+Log:
+1) Bug #14516 addressed (Several bugs in feature #4299 (handling of result sets)): Issue d) fixed:
+d) The rendering of the result list is not always up-to-date. E.g. when double-clicking the ton (which triggers the search again) the result list is only up-to-date when the user selects the ton again (including deselecting it before).
+
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-22 00:51:44 UTC (rev 352)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-23 01:05:36 UTC (rev 353)
+@@ -57,6 +57,8 @@
+ import java.util.Timer;
+ import java.util.TimerTask;
+ import java.util.Vector;
++import java.util.logging.Logger;
++import java.util.logging.Level;
+ 
+ 
+ 
+@@ -66,7 +68,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 21.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 23.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -80,6 +82,8 @@
+ 
+ 
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	private ApplicationServiceHost host;
+ 
+ 	/**
+@@ -156,7 +160,7 @@
+ 		try {
+ 			this.hostAddress = InetAddress.getLocalHost().getHostAddress();
+ 		} catch (UnknownHostException e) {
+-			System.out.println(&quot;*** ApplicationService(): &quot; + e);
++			logger.log(Level.SEVERE, &quot;Error creating application service ...&quot;, e);
+ 		}
+ 		//
+ 		this.host = host;
+@@ -165,7 +169,7 @@
+ 		this.installationProps = getTopicProperties(installation);
+ 		installationProps.put(PROPERTY_CW_BASE_URL, getCorporateWebBaseURL());	// ### not really an installation property
+ 		//
+-		System.out.println(&quot;&gt;    active installation: \&quot;&quot; + installation.getName() + &quot;\&quot;&quot;);
++		logger.info(&quot;active installation: \&quot;&quot; + installation.getName() + &quot;\&quot;&quot;);
+ 	}
+ 
+ 	
+@@ -191,13 +195,13 @@
+ 		ApplicationService.applicationServiceInstance = instance;
+ 		// ### compare to client.DeepaMehta.createApplicationService()
+ 		// ### compare to service.DeepaMehtaServer.main()
+-		System.out.println(&quot;&gt; DeepaMehta Application Service&quot;);
+-		System.out.println(&quot;&gt;    version: &quot; + SERVER_VERSION);
+-		System.out.println(&quot;&gt;    standard topics version: &quot; + LiveTopic.kernelTopicsVersion);
+-		System.out.println(&quot;&gt;    communication: &quot; + host.getCommInfo());
+-		System.out.println(&quot;&gt;    selected instance: \&quot;&quot; + instance.name + &quot;\&quot;&quot;);
+-		System.out.println(&quot;&gt; Corporate Memory&quot;);
+-		System.out.println(&quot;&gt;    implementation: \&quot;&quot; + instance.cmClass + &quot;\&quot;&quot;);
++		logger.info(&quot;DeepaMehta Application Service\n&quot; +
++			&quot;    version: &quot; + SERVER_VERSION + &quot;\n&quot; +
++			&quot;    standard topics version: &quot; + LiveTopic.kernelTopicsVersion + &quot;\n&quot; +
++			&quot;    communication: &quot; + host.getCommInfo() + &quot;\n&quot; +
++			&quot;    selected instance: \&quot;&quot; + instance.name + &quot;\&quot;\n&quot; +
++			&quot;Corporate Memory\n&quot; +
++			&quot;    implementation: \&quot;&quot; + instance.cmClass + &quot;\&quot;&quot;);
+ 		// establish access to corporate memory
+ 		CorporateMemory cm = instance.createCorporateMemory();	// throws DME
+ 		// create application service
+@@ -218,10 +222,8 @@
+ 	 * @see		DeepaMehta#createApplicationService
+ 	 */
+ 	public void setAuthentificationSourceTopic() throws TopicInitException {
+-		System.out.print(&quot;&gt; Set authentification source ... &quot;);
++		logger.info(&quot;setting authentification source ... &quot;);
+ 		BaseTopic auth = cm.getTopic(&quot;t-useraccounts&quot;, 1);	// ### hardcoded
+-		// ### createLiveTopic(auth, false, null);	// ### consider checkLiveTopic() ### throws TopicInitException
+-		// ### process returned directives
+ 		this.authSourceTopic = (AuthentificationSourceTopic) getLiveTopic(auth);
+ 		// Note: just called to report the current authentification method
+ 		// ### do non-CM authentification methods proper reporting?
+@@ -345,12 +347,7 @@
+ 				initTopic(topic, INITLEVEL_2, session);
+ 				initTopic(topic, INITLEVEL_3, session);
+ 			} catch (TopicInitException e) {
+-				System.out.println(&quot;*** ApplicationService.checkLiveTopic(): &quot; + e.getMessage());
+-				e.printStackTrace();
+-				/* ### if (directives != null) {
+-					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-						new Integer(NOTIFICATION_WARNING));
+-				} */
++				logger.log(Level.SEVERE, &quot;Error loading topic ...&quot;, e);
+ 			}
+ 		}
+ 		//
+@@ -459,14 +456,12 @@
+ 		// --- check weather live topic already exists ---
+ 		if (!override &amp;&amp; liveTopicExists(topicID, version)) {
+ 			// topic exists and is not supposed to be overridden
+-			if (LOG_LCM) {System.out.println(&quot;&gt; (.) &quot; + topic);}
+ 			return null;
+ 		}
+ 		//
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		// --- instantiate live topic ---
+ 		String implementingClass = getImplementingClass(topic);
+-		if (LOG_LCM) {System.out.println(&quot;&gt; (*) &quot; + topic);}
+ 		LiveTopic newTopic = createCustomLiveTopic(topic, implementingClass, directives);
+ 		// --- store in live corporate memory ---
+ 		addTopic(newTopic);
+@@ -538,10 +533,10 @@
+ 				try {
+ 					directives.add(newTopic.evoke(session, topicmapID, viewmode));	// DME, ASE
+ 				} catch (DeepaMehtaException e) {
+-					System.out.println(&quot;*** ApplicationService.createLiveTopic(): &quot; + e);
++					logger.log(Level.SEVERE, &quot;Error evoking topic ...&quot;, e);
+ 					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+ 				} catch (AmbiguousSemanticException e) {
+-					System.out.println(&quot;*** ApplicationService.createLiveTopic(): &quot; + e);
++					logger.log(Level.SEVERE, &quot;Error evoking topic ...&quot;, e);
+ 					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+ 				}
+ 			}
+@@ -723,13 +718,11 @@
+ 		// ### compare to createLiveTopic(), topicmapID, viewmode, session, directives parameters?
+ 		if (!override &amp;&amp; liveAssociationExists(assoc.getID(), assoc.getVersion())) {
+ 			// association exists and is not supposed to be overridden
+-			if (LOG_LCM) {System.out.println(&quot;&gt; (.) &quot; + assoc);}
+ 			return;
+ 		}
+ 		// --- instantiate live association ---
+ 		String implementingClass = type(assoc).getImplementingClass();
+ 		LiveAssociation newAssoc = createCustomLiveAssociation(assoc, implementingClass, directives);
+-		// ### if (LOG_LCM) {System.out.println(&quot;&gt; (*) &quot; + assoc + &quot; (&quot; + newAssoc.getClass()  + &quot;)&quot;);}
+ 		// --- store in live corporate memory ---
+ 		addAssociation(newAssoc);
+ 		//
+@@ -989,11 +982,13 @@
+ 		if (relatedTopic instanceof ContainerTopic &amp;&amp;
+ 				((ContainerTopic) relatedTopic).equalsQuery(nameFilter, propertyFilter, relatedTopicID, relatedTopicSemantic)) {
+ 			// nothing added to the query -- don't create new container
+-			System.out.println(&quot;&gt; ContainerTopic.createNewContainer(): query not narrowed -- don't create new container&quot;);
++			logger.info(&quot;re-triggering query -- don't create new container&quot;);
+ 			containerID = relatedTopic.getID();
++			// Note: both directives stores the properties. The properties are stored twice, but is not a problem.
++			directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, containerID, containerProps, new Integer(1));			// ### version=1
+ 			directives.add(DIRECTIVE_SET_TOPIC_LABEL, containerID, containerLabel, new Integer(1), containerProps);	// ### version=1
+ 		} else {
+-			System.out.println(&quot;&gt; ContainerTopic.createNewContainer(): query narrowed (now &quot; + propertyFilter +
++			logger.info(&quot;refining query (name filter=\&quot;&quot; + nameFilter + &quot;\&quot; property filter=&quot; + propertyFilter +
+ 				&quot;) -- create new container&quot;);
+ 			// --- create new container ---
+ 			containerID = cm.getNewTopicID();
+@@ -1018,7 +1013,15 @@
+ 	}
+ 
+ 	/**
+-	 * References checked: 15.9.2008 (2.0b8)
++	 * Builds the (mostly hidden) properties to represent a container's query and the result rendering. These comprise of:
++	 * PROPERTY_SEARCH (&quot;Search&quot;)&lt;br&gt;
++	 * PROPERTY_QUERY_ELEMENTS (&quot;QueryElements&quot;), hidden&lt;br&gt;
++	 * PROPERTY_ELEMENT_COUNT (&quot;ElementCount&quot;), hidden&lt;br&gt;
++	 * PROPERTY_RELATED_TOPIC_ID (&quot;RelatedTopicID&quot;), hidden&lt;br&gt;
++	 * PROPERTY_RELATED_TOPIC_SEMANTIC (&quot;AssociationTypeID&quot;), hidden&lt;br&gt;
++	 * PROPERTY_RESULT (&quot;Result&quot;)&lt;br&gt;
++	 * &lt;p&gt;
++	 * References checked: 23.9.2008 (2.0b8)
+ 	 *
+ 	 * @see		#createNewContainer
+ 	 */
+@@ -1060,11 +1063,6 @@
+ 			Enumeration e = topics.elements();
+ 			while (e.hasMoreElements()) {
+ 				PresentableTopic topic = (PresentableTopic) e.nextElement();
+-				/* ### int appMode = topic.getAppearanceMode();
+-				if (appMode != APPEARANCE_CUSTOM_ICON) {
+-					System.out.println(&quot;*** appMode=&quot; + appMode + &quot; -- &quot; + topic);
+-				}
+-				String iconfile = topic.getAppearanceParam(); */
+ 				String iconfile = getIconfile(topic);
+ 				String id = topic.fromDatasource() ? topic.getOriginalID() : topic.getID();
+ 				String link = &quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + id + &quot;\&quot;&gt;&quot;;
+@@ -1749,7 +1747,8 @@
+ 	 * @see		de.deepamehta.topics.ChatTopic#evoke
+ 	 * @see		de.deepamehta.service.web.DeepaMehtaServlet#processForm
+ 	 */
+-	public CorporateDirectives setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, Session session) {
++	public CorporateDirectives setTopicProperties(String topicID, int version, Hashtable props, String topicmapID,
++																									Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+ 		try {
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-22 00:51:44 UTC (rev 352)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-23 01:05:36 UTC (rev 353)
+@@ -317,7 +317,8 @@
+ 					break;
+ 				case DIRECTIVE_SHOW_ASSOC_PROPERTIES:
+ 					assocID = (String) param1;
+-					setAssociationProperties(assocID, ((Integer) param3).intValue(), (Hashtable) param2, as, session, topicMapID, viewMode);
++					setAssociationProperties(assocID, ((Integer) param3).intValue(), (Hashtable) param2, as, session, topicMapID,
++																														viewMode);
+ 					// Note: param4 is set programatically
+ 					directive.param4 = as.getAssocPropertyBaseURLs(assocID, 1);
+                     // ### was null, null but &quot;topicMapID&quot;, &quot;viewMode&quot; is required
+@@ -325,8 +326,8 @@
+                     // ### which requires. These 2 params could be dropped from DIRECTIVE_SET_TOPIC_ICON definition
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_TYPE:
+-					changeTopicType((String) param1, ((Integer) param3).intValue(), (String) param2, as, session,
+-																										topicMapID, viewMode);
++					changeTopicType((String) param1, ((Integer) param3).intValue(), (String) param2, as, session, topicMapID,
++																														viewMode);
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_NAME:
+ 					topicID = (String) param1;
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-22 00:51:44 UTC (rev 352)
++++ trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-23 01:05:36 UTC (rev 353)
+@@ -131,7 +131,8 @@
+ 			relatedTopicSemantic, true);	// sortByTopicName=true
+ 		int topicCount = topics.size();
+ 		//
+-		logger.info(containerPropertyFilter + &quot; -- &quot; + topicCount + &quot; topics found&quot;);
++		logger.info(&quot;name filter=\&quot;&quot; + containerNameFilter + &quot;\&quot; property filter=&quot; + containerPropertyFilter +
++			&quot; -- &quot; + topicCount + &quot; topics found&quot;);
+ 		//
+ 		// --- build list of topics ---
+ 		Vector topicEntries = new Vector();
+@@ -178,7 +179,7 @@
+ 		Vector topics = cm.getTopics(getContentTypeID(), nameFilter, propertyFilter, relatedTopicID, relatedTopicSemantic, true);
+ 		int topicCount = topics.size();
+ 		//
+-		logger.info(&quot;\&quot;&quot; + propertyFilter + &quot;\&quot; -- &quot; + topicCount + &quot; topics found&quot;);
++		logger.info(&quot;name filter=\&quot;&quot; + nameFilter + &quot;\&quot; property filter=&quot; + propertyFilter + &quot; -- &quot; + topicCount + &quot; topics found&quot;);
+ 		//
+ 		Vector presentableTopics = as.createPresentableTopics(topicmapID, topics, getID());
+ 		directives.add(as.createNewContainer(this, getType(), nameFilter, propertyFilter,
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000196.html">[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+	<LI>Next message: <A HREF="000198.html">[deepamehta-svn] r354 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r171 - branches/eschnepel/install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r171%20-%20branches/eschnepel/install/db&In-Reply-To=%3C200708070831.l778VYjZ024076%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000015.html">
+   <LINK REL="Next"  HREF="000017.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r171 - branches/eschnepel/install/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r171%20-%20branches/eschnepel/install/db&In-Reply-To=%3C200708070831.l778VYjZ024076%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r171 - branches/eschnepel/install/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug  7 10:31:34 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000015.html">[deepamehta-svn] r170 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/util install/config install/db
+</A></li>
+        <LI>Next message: <A HREF="000017.html">[deepamehta-svn] r172 - branches/eschnepel/install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#16">[ date ]</a>
+              <a href="thread.html#16">[ thread ]</a>
+              <a href="subject.html#16">[ subject ]</a>
+              <a href="author.html#16">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-07 10:31:33 +0200 (Tue, 07 Aug 2007)
+New Revision: 171
+
+Modified:
+   branches/eschnepel/install/db/db_tables_mysql.sql
+Log:
+joinable collumns should be case-sensitive while descriptive collumns (like property values) are (the default) case-in-sensitive, everything changed to utf8
+
+Modified: branches/eschnepel/install/db/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_mysql.sql	2007-08-07 07:47:20 UTC (rev 170)
++++ branches/eschnepel/install/db/db_tables_mysql.sql	2007-08-07 08:31:33 UTC (rev 171)
+@@ -2,24 +2,24 @@
+ -- This script just creates the tables.
+ 
+ CREATE TABLE Topic (
+-    TypeID CHAR(40) NOT NULL,
++    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TypeVersion INT NOT NULL,
+     Version INT NOT NULL,
+-    ID CHAR(40) NOT NULL,
+-    Name CHAR(255) NOT NULL,
++    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+ 	PRIMARY KEY (ID, Version),
+     INDEX (TypeID, TypeVersion, Name)
+ );
+ 
+ CREATE TABLE Association (
+-    TypeID CHAR(40) NOT NULL,
++    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TypeVersion INT NOT NULL,
+     Version INT NOT NULL,
+-    ID CHAR(40) NOT NULL,
+-    Name CHAR(255) NOT NULL,
+-    TopicID1 CHAR(40) NOT NULL,
++    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
++    TopicID1 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TopicVersion1 INT NOT NULL,
+-    TopicID2 CHAR(40) NOT NULL,
++    TopicID2 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TopicVersion2 INT NOT NULL,
+ 	PRIMARY KEY (ID, Version),
+ 	INDEX (ID, Version, TypeID, TypeVersion),
+@@ -28,9 +28,9 @@
+ );
+ 
+ CREATE TABLE ViewTopic (
+-    ViewTopicID CHAR(40) NOT NULL,
++    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+ 	ViewTopicVersion INT NOT NULL,
+-    TopicID CHAR(40) NOT NULL,
++    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TopicVersion INT NOT NULL,
+     x INT NOT NULL,
+     y INT NOT NULL,
+@@ -39,30 +39,30 @@
+ );
+ 
+ CREATE TABLE ViewAssociation (
+-    ViewTopicID CHAR(40) NOT NULL,
++    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+ 	ViewTopicVersion INT NOT NULL,
+-    AssociationID CHAR(40) NOT NULL,
++    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     AssociationVersion INT NOT NULL,
+     INDEX (ViewTopicID, ViewTopicVersion)
+ );
+ 
+ CREATE TABLE TopicProp (
+-    TopicID CHAR(40) NOT NULL,
++    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TopicVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
+-    PropValue MEDIUMTEXT,
++    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+     INDEX (TopicID, TopicVersion, PropName)
+ );
+ 
+ CREATE TABLE AssociationProp (
+-    AssociationID CHAR(40) NOT NULL,
++    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     AssociationVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
+-    PropValue MEDIUMTEXT,
++    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+     INDEX (AssociationID, AssociationVersion, PropName)
+ );
+ 
+ CREATE TABLE KeyGenerator (
+-    Relation CHAR(24) PRIMARY KEY NOT NULL,
++    Relation CHAR(24) CHARACTER SET utf8 COLLATE utf8_bin PRIMARY KEY NOT NULL,
+     NextKey INT NOT NULL
+ );
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000015.html">[deepamehta-svn] r170 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/util install/config install/db
+</A></li>
+	<LI>Next message: <A HREF="000017.html">[deepamehta-svn] r172 - branches/eschnepel/install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#16">[ date ]</a>
+              <a href="thread.html#16">[ thread ]</a>
+              <a href="subject.html#16">[ subject ]</a>
+              <a href="author.html#16">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

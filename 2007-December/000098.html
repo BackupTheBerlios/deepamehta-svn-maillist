@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r253 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r253%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200712170111.lBH1BdPs002871%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000097.html">
+   <LINK REL="Next"  HREF="000099.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r253 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r253%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200712170111.lBH1BdPs002871%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r253 - trunk/develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Dec 17 02:11:39 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000097.html">[deepamehta-svn] r252 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/icons	install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000099.html">[deepamehta-svn] r254 - in trunk/develop/src/de/deepamehta: . topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#98">[ date ]</a>
+              <a href="thread.html#98">[ thread ]</a>
+              <a href="subject.html#98">[ subject ]</a>
+              <a href="author.html#98">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-12-17 02:11:35 +0100 (Mon, 17 Dec 2007)
+New Revision: 253
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+Log:
+Calendar application updated: (multi-day-)events are displayed in month view also (formerly week view only).
+
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-16 14:51:23 UTC (rev 252)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-17 01:11:35 UTC (rev 253)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 15.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 16.12.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -261,8 +261,6 @@
+ 		System.out.println(&quot;&gt;&gt;&gt; Update calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + appointments.size() + &quot; appointments, &quot; +
+ 			events.size() + &quot; events)&quot;);
+ 		// ### String html = renderListView(appointments);
+-		// ### setTopicData(PROPERTY_DESCRIPTION, html);
+-		// ### directives.add(as.setTopicProperty(getID(), 1, PROPERTY_DESCRIPTION, html, topicmapID, viewmode, session));
+ 		String html;
+ 		String displayMode = getProperty(PROPERTY_DISPLAY_MODE);
+ 		if (displayMode.equals(DISPLAY_MODE_DAY)) {
+@@ -270,7 +268,7 @@
+ 		} else if (displayMode.equals(DISPLAY_MODE_WEEK)) {
+ 			html = renderWeekView(appointments, events);
+ 		} else if (displayMode.equals(DISPLAY_MODE_MONTH)) {
+-			html = renderMonthView(appointments);
++			html = renderMonthView(appointments, events);
+ 		} else {
+ 			throw new DeepaMehtaException(&quot;unexpected calendar display mode: \&quot;&quot; + displayMode + &quot;\&quot;&quot;);
+ 		}
+@@ -282,11 +280,13 @@
+ 
+ 	private String renderDayView(Vector appointments) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+ 			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+ 		html.append(renderTimeControls());
+ 		html.append(&quot;&lt;p&gt;The day view is not yet implemented. But you already can scroll the date day-wise.&lt;/p&gt;&quot;);
+ 		html.append(&quot;&lt;p&gt;Current date: &quot; + displayDateString + &quot;&lt;/p&gt;&quot;);
++		html.append(&quot;&lt;p&gt;Week of Month: &quot; + displayDate.get(Calendar.WEEK_OF_MONTH) + &quot;&lt;/p&gt;&quot;);
+ 		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 		return html.toString();
+ 	}
+@@ -316,7 +316,7 @@
+ 		// - heading -
+ 		DateFormat df = DateFormat.getDateInstance();
+ 		Calendar cal = (Calendar) displayDate.clone();
+-		html.append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
++		html.append(&quot;&lt;table&gt;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
+ 		for (int day = 0; day &lt; 7; day++) {
+ 			int daySlotCount = daySlotCount(day, weekAppointmentModel);
+ 			html.append(&quot;&lt;td colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&quot; + df.format(cal.getTime()) + &quot;&lt;/td&gt;&quot;);
+@@ -380,14 +380,14 @@
+ 
+ 	private void renderWeekEvents(Vector weekEventModel, Vector[] weekAppointmentModel, StringBuffer html) {
+ 		for (int slot = 0; slot &lt; weekEventModel.size(); slot++) {
+-			WeekEventModel[] eventSlot = (WeekEventModel[]) weekEventModel.elementAt(slot);
++			EventModel[] eventSlot = (EventModel[]) weekEventModel.elementAt(slot);
+ 			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;/td&gt;&quot;);
+ 			for (int day = 0; day &lt; 7; day++) {
+-				WeekEventModel cell = eventSlot[day];
++				EventModel cell = eventSlot[day];
+ 				if (cell == null) {
+ 					int daySlotCount = daySlotCount(day, weekAppointmentModel);
+ 					html.append(&quot;&lt;td colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&lt;/td&gt;&quot;);
+-				} else if (cell.type == WeekEventModel.BEGIN_OF_EVENT) {
++				} else if (cell.type == EventModel.BEGIN_OF_EVENT) {
+ 					int daySlotCount = daySlotCount(day, cell.dayCount, weekAppointmentModel);
+ 					html.append(&quot;&lt;td class=\&quot;appointment\&quot; colspan=\&quot;&quot; + daySlotCount + &quot;\&quot;&gt;&quot;);
+ 					html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
+@@ -398,11 +398,35 @@
+ 		}
+ 	}
+ 
+-	private String renderMonthView(Vector appointments) {
++	private void renderMonthEvents(Vector monthEventModel, StringBuffer html) {
++		for (int slot = 0; slot &lt; monthEventModel.size(); slot++) {
++			EventModel[] eventSlot = (EventModel[]) monthEventModel.elementAt(slot);
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++			for (int day = 0; day &lt; 7; day++) {
++				EventModel cell = eventSlot[day];
++				if (cell == null) {
++					html.append(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
++				} else if (cell.type == EventModel.BEGIN_OF_EVENT) {
++					html.append(&quot;&lt;td class=\&quot;appointment\&quot; colspan=\&quot;&quot; + cell.dayCount + &quot;\&quot;&gt;&quot;);
++					html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
++					html.append(&quot;&lt;/td&gt;&quot;);
++				}
++			}
++			html.append(&quot;&lt;/tr&gt;&quot;);
++		}
++	}
++
++	private String renderMonthView(Vector appointments, Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
+ 		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+ 		// --- make model ---
+-		Vector[] monthModel = makeMonthModel(appointments, displayDate);
++		Vector[] monthAppointmentModel = makeMonthAppointmentModel(appointments, displayDate);
++		//
++		displayDate.set(Calendar.DAY_OF_MONTH, 1);
++		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++		int weekCount = (monthAppointmentModel.length + dayOfWeek + 6) / 7;	// number of weeks to render
++		//
++		Vector[] monthEventModel = makeMonthEventModel(events, displayDate, dayOfWeek, weekCount);
+ 		// --- rendering ---
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+ 											 &quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+@@ -417,21 +441,35 @@
+ 		}
+ 		html.append(&quot;&lt;/tr&gt;&quot;);
+ 		// - body -
+-		displayDate.set(Calendar.DAY_OF_MONTH, 1);
+-		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-		int weekCount = (monthModel.length + dayOfWeek + 6) / 7;
+ 		int i = -dayOfWeek;
+ 		for (int week = 0; week &lt; weekCount; week++) {
+ 			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
+ 			for (int day = 0; day &lt; 7; day++) {
+-				if (i &lt; 0 || i &gt;= monthModel.length) {
++				if (i &lt; 0 || i &gt;= monthAppointmentModel.length) {
+ 					html.append(&quot;&lt;td class=\&quot;out-of-range\&quot;&gt;&lt;/td&gt;&quot;);
+ 					i++;
+ 					continue;
+ 				}
+-				Vector dayAppointments = monthModel[i];
++				Vector dayAppointments = monthAppointmentModel[i];
+ 				html.append(&quot;&lt;td&quot; + (dayAppointments != null ? &quot; class=\&quot;appointment\&quot;&quot; : &quot;&quot;) + &quot;&gt;&quot;);
+ 				html.append(&quot;&lt;div class=\&quot;day-of-month\&quot;&gt;&quot; + (i + 1) + &quot;&lt;/div&gt;&quot;);
++				html.append(&quot;&lt;/td&gt;&quot;);
++				i++;
++			}
++			html.append(&quot;&lt;/tr&gt;&quot;);
++			i -= 7;
++			//
++			renderMonthEvents(monthEventModel[week], html);
++			//
++			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++			for (int day = 0; day &lt; 7; day++) {
++				if (i &lt; 0 || i &gt;= monthAppointmentModel.length) {
++					html.append(&quot;&lt;td class=\&quot;out-of-range\&quot;&gt;&lt;/td&gt;&quot;);
++					i++;
++					continue;
++				}
++				Vector dayAppointments = monthAppointmentModel[i];
++				html.append(&quot;&lt;td&quot; + (dayAppointments != null ? &quot; class=\&quot;appointment\&quot;&quot; : &quot;&quot;) + &quot;&gt;&quot;);
+ 				if (dayAppointments != null) {
+ 					html.append(&quot;&lt;ul&gt;&quot;);
+ 					Enumeration e = dayAppointments.elements();
+@@ -451,6 +489,8 @@
+ 		return html.toString();
+ 	}
+ 
++	// ---
++
+ 	private String renderListView(Vector appointments) {
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;body&gt;&quot;);
+ 		Enumeration e = appointments.elements();
+@@ -593,20 +633,8 @@
+ 			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
+ 			Calendar eventEnd   = DeepaMehtaUtils.getCalendar(endDate);
+ 			int beginDay = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-			int endDay   = (eventEnd.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-			int dayCount = endDay - beginDay + 1;
+-			// find free event slot (a row)
+-			WeekEventModel[] eventSlot = findFreeEventSlot(weekEventModel, beginDay, endDay);
+-			// 1) add beginning day to model
+-			String eventName = getProperty(event, PROPERTY_NAME);
+-			// Note: event.getName() doesn't work here, because the propertiesChanged() hook is triggered after
+-			// the properties are updated in CM but _before_ the topic name is updated in CM.
+-			System.out.println(&quot;add event \&quot;&quot; + eventName + &quot;\&quot;&quot;);
+-			eventSlot[beginDay] = new WeekEventModel(event.getID(), eventName, dayCount);
+-			// 2) add ocupied days to model
+-			for (int day = beginDay + 1; day &lt; beginDay + dayCount; day++) {
+-				eventSlot[day] = new WeekEventModel();
+-			}
++			int endDay   =   (eventEnd.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			addEventToModel(event, beginDay, endDay, weekEventModel);
+ 		}
+ 		System.out.println(&quot;=&gt; displayed events:                               &quot; + eventsDisplayed);
+ 		//
+@@ -623,6 +651,15 @@
+ 		return weekAppointmentModel;
+ 	}
+ 
++	private Vector[] initMonthEventModel(int weekCount) {
++		Vector[] monthEventModel = new Vector[weekCount];
++		// for every day add one slot
++		for (int i = 0; i &lt; weekCount; i++) {
++			monthEventModel[i] = new Vector();
++		}
++		return monthEventModel;
++	}
++
+ 	// ---
+ 
+ 	private WeekAppointmentModel[] findFreeDaySlot(Vector[] weekAppointmentModel, int dayOfWeek, int beginSegment, int segmentCount) {
+@@ -648,10 +685,10 @@
+ 		return daySlot;
+ 	}
+ 
+-	private WeekEventModel[] findFreeEventSlot(Vector weekEventModel, int beginDay, int endDay) {
++	private EventModel[] findFreeEventSlot(Vector weekEventModel, int beginDay, int endDay) {
+ 		Enumeration e = weekEventModel.elements();
+ 		while (e.hasMoreElements()) {
+-			WeekEventModel[] eventSlot = (WeekEventModel[]) e.nextElement();
++			EventModel[] eventSlot = (EventModel[]) e.nextElement();
+ 			boolean isEventSlotFree = true;
+ 			for (int i = beginDay; i &lt;= endDay; i++) {
+ 				if (eventSlot[i] != null) {
+@@ -664,7 +701,7 @@
+ 			}
+ 		}
+ 		// no free event slot found -- create new event slot
+-		WeekEventModel[] eventSlot = new WeekEventModel[7];
++		EventModel[] eventSlot = new EventModel[7];
+ 		weekEventModel.addElement(eventSlot);
+ 		System.out.println(&quot;     create a new event slot. Event slots now: &quot; + weekEventModel.size());
+ 		return eventSlot;
+@@ -686,9 +723,9 @@
+ 
+ 	// ---
+ 
+-	private Vector[] makeMonthModel(Vector appointments, Calendar displayDate) {
++	private Vector[] makeMonthAppointmentModel(Vector appointments, Calendar displayDate) {
+ 		int daysPerMonth = displayDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+-		Vector[] monthModel = new Vector[daysPerMonth];
++		Vector[] monthAppointmentModel = new Vector[daysPerMonth];
+ 		//
+ 		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
+ 		//
+@@ -709,19 +746,83 @@
+ 			String appointmentName = getProperty(appointment, PROPERTY_NAME);	// note: appointment.getName() doesn't work here, because the
+ 			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
+ 			// is updated in CM.
+-			Vector dayModel = monthModel[dayOfMonth - 1];
++			Vector dayModel = monthAppointmentModel[dayOfMonth - 1];
+ 			if (dayModel == null) {
+ 				dayModel = new Vector();
+-				monthModel[dayOfMonth - 1] = dayModel;
++				monthAppointmentModel[dayOfMonth - 1] = dayModel;
+ 			}
+ 			dayModel.addElement(new MonthAppointmentModel(appointment.getID(), appointmentName));		// ### could sort appointments by begin time
+ 		}
+ 		//
+-		return monthModel;
++		return monthAppointmentModel;
+ 	}
+ 
++	/**
++	 * @param	displayDate	the date to display. Only year and month are relevant.
++	 * @param	dayOfWeek	weekday of the 1st day of display month, Mon=0 ... Sun=6
++	 */
++	private Vector[] makeMonthEventModel(Vector events, Calendar displayDate, int dayOfWeek, int weekCount) {
++		Vector[] monthEventModel = initMonthEventModel(weekCount);
++		//
++		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
++		//
++		int eventsDisplayed = 0;	// for diagnostics only
++		//
++		Enumeration e = events.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic event = (BaseTopic) e.nextElement();
++			String beginDate = getProperty(event, PROPERTY_BEGIN_DATE);
++			String endDate   = getProperty(event, PROPERTY_END_DATE);
++			// ignore events with unset date fields
++			if (!isSet(beginDate) || !isSet(endDate)) {
++				continue;
++			}
++			// ignore events outside current month
++			if (!beginDate.substring(0, 7).equals(displayDateString.substring(0, 7)) ||
++				  !endDate.substring(0, 7).equals(displayDateString.substring(0, 7))) {
++				continue;
++			}
++			// --- add event to model ---
++			eventsDisplayed++;
++			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
++			Calendar eventEnd   = DeepaMehtaUtils.getCalendar(endDate);
++			int beginDay = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			int endDay   =   (eventEnd.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			int beginWeek = (DeepaMehtaUtils.getDay(beginDate) + dayOfWeek - 1) / 7;
++			int endWeek   =   (DeepaMehtaUtils.getDay(endDate) + dayOfWeek - 1) / 7;
++			System.out.println(&quot;following event spans &quot; + (endWeek - beginWeek + 1) + &quot; weeks:&quot;);
++			for (int week = beginWeek; week &lt;= endWeek; week++) {
++				int weekBeginDay = week == beginWeek ? beginDay : 0;
++				int weekEndDay   =   week == endWeek ? endDay : 6;
++				// find free event slot (a row)
++				addEventToModel(event, weekBeginDay, weekEndDay, monthEventModel[week]);
++			}
++		}
++		System.out.println(&quot;=&gt; displayed events:                               &quot; + eventsDisplayed);
++		//
++		return monthEventModel;
++	}
++
+ 	// ---
+ 
++	private void addEventToModel(BaseTopic event, int beginDay, int endDay, Vector eventModel) {
++		// find free event slot (a row)
++		EventModel[] eventSlot = findFreeEventSlot(eventModel, beginDay, endDay);
++		// 1) add beginning day to model
++		String eventName = getProperty(event, PROPERTY_NAME);
++		int dayCount = endDay - beginDay + 1;
++		// Note: event.getName() doesn't work here, because the propertiesChanged() hook is triggered after
++		// the properties are updated in CM but _before_ the topic name is updated in CM.
++		System.out.println(&quot;add event \&quot;&quot; + eventName + &quot;\&quot;&quot;);
++		eventSlot[beginDay] = new EventModel(event.getID(), eventName, dayCount);
++		// 2) add ocupied days to model
++		for (int day = beginDay + 1; day &lt; beginDay + dayCount; day++) {
++			eventSlot[day] = new EventModel();
++		}
++	}
++
++	// ---
++
+ 	private Vector getAppointments() {
+ 		Vector appointments;
+ 		// 1) add appointments directly connected to this calendar
+@@ -895,7 +996,7 @@
+ 	/**
+ 	 * Data model for rendering one event in the week view.
+ 	 */
+-	private class WeekEventModel {
++	private class EventModel {
+ 
+ 		static final int BEGIN_OF_EVENT = 0;
+ 		static final int OCCUPIED_BY_EVENT = 1;
+@@ -904,11 +1005,11 @@
+ 		String eventID, eventName;
+ 		int dayCount;
+ 
+-		WeekEventModel() {
++		EventModel() {
+ 			type = OCCUPIED_BY_EVENT;
+ 		}
+ 
+-		WeekEventModel(String eventID, String eventName, int dayCount) {
++		EventModel(String eventID, String eventName, int dayCount) {
+ 			type = BEGIN_OF_EVENT;
+ 			this.eventID = eventID;
+ 			this.eventName = eventName;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000097.html">[deepamehta-svn] r252 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/client/icons	install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000099.html">[deepamehta-svn] r254 - in trunk/develop/src/de/deepamehta: . topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#98">[ date ]</a>
+              <a href="thread.html#98">[ thread ]</a>
+              <a href="subject.html#98">[ subject ]</a>
+              <a href="author.html#98">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

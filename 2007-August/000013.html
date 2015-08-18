@@ -1,0 +1,485 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r168 -	branches/eschnepel/develop/src/de/deepamehta/service/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r168%20-%0A%09branches/eschnepel/develop/src/de/deepamehta/service/db&In-Reply-To=%3C200708051851.l75IpNLc022801%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r168 -	branches/eschnepel/develop/src/de/deepamehta/service/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r168%20-%0A%09branches/eschnepel/develop/src/de/deepamehta/service/db&In-Reply-To=%3C200708051851.l75IpNLc022801%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r168 -	branches/eschnepel/develop/src/de/deepamehta/service/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sun Aug  5 20:51:23 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000014.html">[deepamehta-svn] r169 - branches/eschnepel/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-05 20:51:16 +0200 (Sun, 05 Aug 2007)
+New Revision: 168
+
+Added:
+   branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+Log:
+this is will do a better connection pooling
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -0,0 +1,195 @@
++package de.deepamehta.service.db;
++
++import java.sql.Connection;
++import java.sql.ResultSet;
++import java.sql.SQLException;
++import java.sql.SQLWarning;
++import java.sql.Statement;
++
++public final class AutoFreeConnectionStatement implements Statement {
++
++	private final Statement statement;
++
++	private final DatabaseProvider provider;
++
++	private final Connection con;
++
++	private boolean finalClose = true;
++
++	public AutoFreeConnectionStatement(DatabaseProvider provider, Connection con)
++			throws SQLException {
++		this.provider = provider;
++		this.con = con;
++		this.statement = con.createStatement();
++	}
++
++	protected void finalize() throws Throwable {
++		if (finalClose) {
++			System.out.println(&quot;*** Closing statement while finalizing.&quot;
++					+ &quot;Someone forgot to close it.&quot;);
++			close();
++		}
++		super.finalize();
++	}
++
++	final public void addBatch(String arg0) throws SQLException {
++		statement.addBatch(arg0);
++	}
++
++	final public void cancel() throws SQLException {
++		statement.cancel();
++	}
++
++	final public void clearBatch() throws SQLException {
++		statement.clearBatch();
++	}
++
++	final public void clearWarnings() throws SQLException {
++		statement.clearWarnings();
++	}
++
++	final public void close() throws SQLException {
++		statement.close();
++		provider.freeConnection(con);
++		finalClose = false;
++	}
++
++	final public boolean execute(String arg0, int arg1) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, int[] arg1) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, String[] arg1)
++			throws SQLException {
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.execute(arg0);
++	}
++
++	final public int[] executeBatch() throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeBatch();
++	}
++
++	final public ResultSet executeQuery(String arg0) throws SQLException {
++		return statement.executeQuery(arg0);
++	}
++
++	final public int executeUpdate(String arg0, int arg1) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, int[] arg1) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, String[] arg1)
++			throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0) throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0);
++	}
++
++	final public Connection getConnection() throws SQLException {
++		return con;
++	}
++
++	final public int getFetchDirection() throws SQLException {
++		return statement.getFetchDirection();
++	}
++
++	final public int getFetchSize() throws SQLException {
++		return statement.getFetchSize();
++	}
++
++	final public ResultSet getGeneratedKeys() throws SQLException {
++		return statement.getGeneratedKeys();
++	}
++
++	final public int getMaxFieldSize() throws SQLException {
++		return statement.getMaxFieldSize();
++	}
++
++	final public int getMaxRows() throws SQLException {
++		return statement.getMaxRows();
++	}
++
++	final public boolean getMoreResults() throws SQLException {
++		return statement.getMoreResults();
++	}
++
++	final public boolean getMoreResults(int arg0) throws SQLException {
++		return statement.getMoreResults(arg0);
++	}
++
++	final public int getQueryTimeout() throws SQLException {
++		return statement.getQueryTimeout();
++	}
++
++	final public ResultSet getResultSet() throws SQLException {
++		return statement.getResultSet();
++	}
++
++	final public int getResultSetConcurrency() throws SQLException {
++		return statement.getResultSetConcurrency();
++	}
++
++	final public int getResultSetHoldability() throws SQLException {
++		return statement.getResultSetHoldability();
++	}
++
++	final public int getResultSetType() throws SQLException {
++		return statement.getResultSetType();
++	}
++
++	final public int getUpdateCount() throws SQLException {
++		return statement.getUpdateCount();
++	}
++
++	final public SQLWarning getWarnings() throws SQLException {
++		return statement.getWarnings();
++	}
++
++	final public void setCursorName(String arg0) throws SQLException {
++		statement.setCursorName(arg0);
++	}
++
++	final public void setEscapeProcessing(boolean arg0) throws SQLException {
++		statement.setEscapeProcessing(arg0);
++	}
++
++	final public void setFetchDirection(int arg0) throws SQLException {
++		statement.setFetchDirection(arg0);
++	}
++
++	final public void setFetchSize(int arg0) throws SQLException {
++		statement.setFetchSize(arg0);
++	}
++
++	final public void setMaxFieldSize(int arg0) throws SQLException {
++		statement.setMaxFieldSize(arg0);
++	}
++
++	final public void setMaxRows(int arg0) throws SQLException {
++		statement.setMaxRows(arg0);
++	}
++
++	final public void setQueryTimeout(int arg0) throws SQLException {
++		statement.setQueryTimeout(arg0);
++	}
++}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -20,4 +20,6 @@
+ 	void freeConnection(Connection con) throws SQLException;
+ 
+ 	Statement getStatement() throws SQLException;
++
++	void checkPointNeeded();
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -8,7 +8,7 @@
+ public abstract class DatabaseProviderFactory {
+ 
+ 	public static DatabaseProvider getProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException {
++			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+ 		String dbUrl = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+ 		if (OracleDatabaseProvider.isResponsibleFor(dbUrl)) {
+ 			return new OracleDatabaseProvider(conf);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -26,15 +26,17 @@
+ 
+ 	private Class driverClass;
+ 
+-	private Properties conProps = new Properties();;
++	private Properties conProps = new Properties();
+ 
++	private Driver driver;
++
+ 	public DefaultDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException {
++			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+ 		setupDatabaseProvider(conf);
+ 	}
+ 
+ 	protected void setupDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException {
++			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+ 		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+ 		File libFile = new File(conf
+ 				.getProperty(ConfigurationConstants.Database.DB_LIB));
+@@ -45,12 +47,13 @@
+ 					urlString) });
+ 			driverClass = classLoader.loadClass(conf
+ 					.getProperty(ConfigurationConstants.Database.DB_DRIVER));
++			driver = (Driver) driverClass.newInstance();
+ 		} catch (MalformedURLException e) {
+ 			throw new ClassNotFoundException(e.getMessage());
+ 		}
+ 	}
+ 
+-	public Connection getConnection() throws SQLException {
++	public synchronized Connection getConnection() throws SQLException {
+ 		if (0 == freeCons.size()) {
+ 			return newConnection();
+ 		}
+@@ -61,29 +64,26 @@
+ 		return DBMS_HINT_SQL92;
+ 	}
+ 
+-	public void freeConnection(Connection con) throws SQLException {
++	public synchronized void freeConnection(Connection con) throws SQLException {
+ 		freeCons.addLast(con);
+-//		System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot; FREE:&quot;+freeCons.size());
++		// System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot;
++		// FREE:&quot;+freeCons.size());
+ 	}
+ 
+-	protected void setConnectionProperties(String key, String value) {
++	protected void setConnectionProperty(String key, String value) {
+ 		conProps.setProperty(key, value);
+ 	}
+ 
+-	protected Connection newConnection() throws SQLException {
+-		try {
+-			Driver driver = (Driver) driverClass.newInstance();
+-			Connection con = driver.connect(jdbcURL, conProps);
+-			con.setAutoCommit(true);
+-			if (allCons.size() == 0) {
+-				new DatabaseSweeper(con).sweep();
+-			}
+-			allCons.add(con);
+-			System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot; FREE:&quot;+freeCons.size());
+-			return con;
+-		} catch (Exception e) {
+-			throw new RuntimeException(e);
++	protected synchronized Connection newConnection() throws SQLException {
++		Connection con = driver.connect(jdbcURL, conProps);
++		con.setAutoCommit(true);
++		if (allCons.size() == 0) {
++			new DatabaseSweeper(con).sweep();
+ 		}
++		allCons.add(con);
++		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
++				+ freeCons.size());
++		return con;
+ 	}
+ 
+ 	protected void finalize() throws Throwable {
+@@ -100,38 +100,27 @@
+ 
+ 	public Statement getStatement() throws SQLException {
+ 		Connection con;
+-		// at least 5 free Connections for better
++		// at least 2 free Connections for better
+ 		// Performance of parallel accesses
+-		if (freeCons.size() &lt; 1) {
++		if (freeCons.size() &lt; 2) {
+ 			con = newConnection();
+ 		} else {
+ 			con = getConnection();
+ 		}
+-		Statement stmt = con.createStatement();
+-		freeConnection(con);
+-		/*
+-		try {
+-			throw new Exception();
+-		} catch (Exception e) {
+-			StackTraceElement[] stes = e.getStackTrace();
+-			int pos = 1;
+-			StackTraceElement lste;
+-			for (int i=0;i&lt;3;i++){
+-				lste=stes[pos];
+-				while (pos&lt;stes.length &amp;&amp; lste.getClassName().equals(stes[pos].getClassName())){
+-					pos++;
+-				}
+-				System.out.println(stes[pos-1].toString());
+-			}
+-		}*/
++		Statement stmt = new AutoFreeConnectionStatement(this, con);
+ 		return stmt;
+ 	}
+ 
+ 	public void release() {
+ 		try {
++			System.out.println(&quot;all / free connections : &quot; + allCons.size()
++					+ &quot; / &quot; + freeCons.size());
+ 			closeAllCons();
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+ 	}
++
++	public void checkPointNeeded() {
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -12,7 +12,8 @@
+ 	private class CheckpointThread extends TimerTask {
+ 		public void run() {
+ 			try {
+-				checkpoint();
++				if (doNextCheckPoint)
++					checkpoint();
+ 			} catch (SQLException e) {
+ 				e.printStackTrace();
+ 			}
+@@ -27,10 +28,12 @@
+ 
+ 	private static final String DEFAULT_DRIVER_CLASS = &quot;org.hsqldb.jdbcDriver&quot;;
+ 
++	private boolean doNextCheckPoint = false;
++
+ 	public HsqlDatabaseProvider(Properties conf) throws ClassNotFoundException,
+-			SQLException {
++			SQLException, InstantiationException, IllegalAccessException {
+ 		super(conf);
+-		setConnectionProperties(&quot;shutdown&quot;, &quot;true&quot;);
++		setConnectionProperty(&quot;shutdown&quot;, &quot;true&quot;);
+ 		int rate = 5 * 60 * 1000;
+ 		new Timer().scheduleAtFixedRate(new CheckpointThread(), rate,
+ 				rate);
+@@ -67,4 +70,8 @@
+ 		return url.contains(DBMS_HINT_HSQLDB_STR);
+ 	}
+ 
++	public void checkPointNeeded() {
++		super.checkPointNeeded();
++		doNextCheckPoint=true;
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2007-07-26 13:25:07 UTC (rev 167)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2007-08-05 18:51:16 UTC (rev 168)
+@@ -11,7 +11,7 @@
+ 	/** String for detecting Oracle in the jdbc-driver-name */
+ 	private static final String DBMS_HINT_ORACLE_STR = &quot;oracle&quot;;
+ 
+-	public OracleDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException {
++	public OracleDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+ 		super(conf);
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000014.html">[deepamehta-svn] r169 - branches/eschnepel/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

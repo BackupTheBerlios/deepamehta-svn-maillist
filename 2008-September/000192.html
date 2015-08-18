@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r348%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200809151601.m8FG1mHV011144%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000191.html">
+   <LINK REL="Next"  HREF="000193.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r348%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200809151601.m8FG1mHV011144%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 15 18:01:48 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000191.html">[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000193.html">[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#192">[ date ]</a>
+              <a href="thread.html#192">[ thread ]</a>
+              <a href="subject.html#192">[ subject ]</a>
+              <a href="author.html#192">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-15 18:01:43 +0200 (Mon, 15 Sep 2008)
+New Revision: 348
+
+Modified:
+   trunk/develop/src/de/deepamehta/Configuration.java
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/db/patches/cm-2.19.sql
+Log:
+1) Worked on feature request #4289 (&quot;Email feature: multiple addressing schemas&quot;):
+1a) Aspect c) realized: Recipients can be added to an email by creating an association _from_ the email _to_ a person, an institution, or a recipient list. The association is automatically typed to &quot;Recipient&quot;.
+1b) Support for CC and BCC: the recipient type can be set individually for every &quot;Recipient&quot; association (there is a new &quot;Recipient Type&quot; property).
+2) Framework change: application hook associationAllowed() is informed about association direction: there is a new &quot;relTopicPos&quot; parameter: associationAllowed(String assocTypeID, String relTopicID, int relTopicPos, CorporateDirectives directives)
+IMPORTANT: if your application makes use of this hook, it must be adapted
+
+
+Modified: trunk/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/Configuration.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/Configuration.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -78,7 +78,7 @@
+ 	}
+ 
+ 	private void loadProperties(String configFile) throws IOException, FileNotFoundException {
+-		logger.info(&quot;Loading configuration file \&quot;&quot; + configFile + &quot;\&quot;&quot;);
++		logger.info(&quot;loading configuration file \&quot;&quot; + configFile + &quot;\&quot;&quot;);
+ 		Properties p = new Properties();
+ 		p.load(new FileInputStream(configFile));
+ 		putAll(p);
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 5.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 15.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -71,7 +71,8 @@
+ 	static final String ACTIVE_TOPIC_PACKAGE = &quot;de.deepamehta.topics&quot;;
+ 	static final String ACTIVE_ASSOC_PACKAGE = &quot;de.deepamehta.assocs&quot;;
+ 	static final String CONTAINER_SUFFIX_NAME = &quot;Search&quot;;
+-	// properties
++
++	// --- properties ---
+ 	static final String PROPERTY_LANGUAGE = &quot;Language&quot;;
+ 	static final String PROPERTY_SERVER_NAME = &quot;Server Name&quot;;
+ 	static final String PROPERTY_CLIENT_NAME = &quot;Client Name&quot;;
+@@ -92,6 +93,7 @@
+ 	static final String PROPERTY_FROM = &quot;From&quot;;
+ 	static final String PROPERTY_TO = &quot;To&quot;;
+ 	static final String PROPERTY_STATUS = &quot;Status&quot;;
++	static final String PROPERTY_RECIPIENT_TYPE = &quot;Recipient Type&quot;;
+ 	static final String PROPERTY_DATE = &quot;Date&quot;;
+ 	static final String PROPERTY_BEGIN_DATE = &quot;Begin Date&quot;;
+ 	static final String PROPERTY_BEGIN_TIME = &quot;Begin Time&quot;;
+@@ -113,14 +115,10 @@
+ 	static final String PROPERTY_URL = &quot;URL&quot;;
+ 	static final String PROPERTY_PLURAL_NAME = &quot;Plural Name&quot;;
+ 	static final String PROPERTY_FIRST_NAME = &quot;First Name&quot;;
+-	// ### static final String PROPERTY_SURNAME = &quot;Surname&quot;;
+ 	static final String PROPERTY_GENDER = &quot;Gender&quot;;
+ 	static final String PROPERTY_BIRTHDAY = &quot;Birthday&quot;;
+ 	static final String PROPERTY_STREET = &quot;Street&quot;;
+ 	static final String PROPERTY_POSTAL_CODE = &quot;Postal Code&quot;;
+-	// ### static final String PROPERTY_PHONE_NUMBER = &quot;Phone Number&quot;;
+-	// ### static final String PROPERTY_FAX_NUMBER = &quot;Fax Number&quot;;
+-	// ### static final String PROPERTY_MOBILE_NUMBER = &quot;Mobile Number&quot;;
+ 	static final String PROPERTY_IMPLEMENTATION = &quot;Custom Implementation&quot;;
+ 	static final String PROPERTY_DISABLED = &quot;Disabled&quot;;
+ 	static final String PROPERTY_HIDDEN_TOPIC_NAMES = &quot;Hidden Topic Names&quot;;
+@@ -136,10 +134,8 @@
+ 	static final String PROPERTY_ASSOCIATION_TYPE_ID = &quot;Association Type ID&quot;;	// &quot;Relation&quot;
+ 	static final String PROPERTY_WEB_INFO = &quot;Web Info&quot;;							// &quot;Relation&quot;
+ 	static final String PROPERTY_WEB_FORM = &quot;Web Form&quot;;							// &quot;Relation&quot;
+-	// ### static final String PROPERTY_STRONG = &quot;Strong&quot;;
+ 	static final String PROPERTY_PUBLIC = &quot;Public&quot;;
+ 	static final String PROPERTY_DEFAULT_WORKSPACE = &quot;Default&quot;;
+-	// ### static final String PROPERTY_CW_ROOT_DIR = &quot;Root Directory&quot;;			// &quot;CorporateWeb Settings&quot;
+ 	static final String PROPERTY_CW_BASE_URL = &quot;Base URL&quot;;						// &quot;CorporateWeb Settings&quot;
+ 	static final String PROPERTY_SMTP_SERVER = &quot;SMTP Server&quot;;					// &quot;CorporateWeb Settings&quot;
+ 	static final String PROPERTY_GOOGLE_KEY = &quot;Google Key&quot;;						// &quot;CorporateWeb Settings&quot;
+@@ -151,7 +147,8 @@
+ 	static final String PROPERTY_RESULT = &quot;Result&quot;;								// &quot;Search&quot;
+ 	static final String PROPERTY_ROLE_EDITOR = &quot;Editor&quot;;						// &quot;Membership&quot;
+ 	static final String PROPERTY_ROLE_PUBLISHER = &quot;Publisher&quot;;					// &quot;Membership&quot;
+-	// property values
++
++	// --- property values ---
+ 	static final String PERMISSION_VIEW = &quot;view&quot;;
+ 	static final String PERMISSION_CREATE = &quot;create&quot;;
+ 	static final String PERMISSION_CREATE_IN_WORKSPACE = &quot;create in workspace&quot;;
+@@ -165,11 +162,11 @@
+ 	static final String WEB_FORM_DEEP = &quot;Deeply Related Form&quot;;
+ 	static final String GENDER_MALE = &quot;Male&quot;;
+ 	static final String GENDER_FEMALE = &quot;Female&quot;;
+-	// ### static final String WEB_FORM_EDIT_TOPIC = &quot;Edit Topic Name&quot;;
+-	// ### static final String PROPERTY_LAYOUT_SUPER_FIRST = &quot;Supertypes first&quot;;
+-	// ### static final String PROPERTY_LAYOUT_SUB_FIRST = &quot;Subtypes first&quot;;
++	static final String RECIPIENT_TYPE_TO = &quot;To&quot;;
++	static final String RECIPIENT_TYPE_CC = &quot;Cc&quot;;
++	static final String RECIPIENT_TYPE_BCC = &quot;Bcc&quot;;
+ 	//
+-	static final String COMMAND_SEPARATOR = &quot;|&quot;;	// ### was &quot;:&quot;, but appears in URLs and Windows-Paths
++	static final String COMMAND_SEPARATOR = &quot;|&quot;;	// Note: was &quot;:&quot;, but appears in URLs and Windows-Paths
+ 	static final String VALUE_NOT_SET = &quot;-&quot;;
+ 	static final String DATE_SEPARATOR = &quot;/&quot;;
+ 	static final String TIME_SEPARATOR = &quot;:&quot;;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -2056,8 +2056,8 @@
+ 		LiveTopic topic1 = getLiveTopic(topicID1, 1);
+ 		LiveTopic topic2 = getLiveTopic(topicID2, 1);
+ 		// --- trigger associationAllowed() hook ---
+-		String assocType1 = topic1.associationAllowed(assocTypeID, topicID2, directives);
+-		String assocType2 = topic2.associationAllowed(assocTypeID, topicID1, directives);
++		String assocType1 = topic1.associationAllowed(assocTypeID, topicID2, 2, directives);
++		String assocType2 = topic2.associationAllowed(assocTypeID, topicID1, 1, directives);
+ 		//
+ 		if (assocType1 == null || assocType2 == null) {
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Association retyping not possible (prohibited by involved topic)&quot;,
+
+Modified: trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -78,7 +78,7 @@
+ 		String libs = c2.getProperty(ConfigurationConstants.Database.DB_LIBS);
+ 		String driverClazz = c2.getProperty(ConfigurationConstants.Database.DB_DRIVER);
+ 		//
+-		logger.info(&quot;Using Database\n&quot; + 
++		logger.info(&quot;using Database\n&quot; + 
+ 			&quot;    Type: &quot; + dbType + &quot;\n&quot; +
+ 			&quot;    URL: &quot; + jdbcURL + &quot;\n&quot; +
+ 			&quot;    Driver: &quot; + driverClazz);
+@@ -119,7 +119,7 @@
+ 		Connection con = driver.connect(jdbcURL, conProps);
+ 		con.setAutoCommit(true);
+ 		allCons.add(con);
+-		logger.info(&quot;Number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
++		logger.info(&quot;number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
+ 		return con;
+ 	}
+ 
+@@ -148,7 +148,7 @@
+ 
+ 	public void release() {
+ 		try {
+-			logger.info(&quot;Number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
++			logger.info(&quot;number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
+ 			closeAllCons();
+ 		} catch (SQLException e) {
+ 			logger.log(Level.SEVERE, &quot;Error releasing database provider ...&quot;, e);
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -1,5 +1,6 @@
+ package de.deepamehta.topics;
+ 
++import de.deepamehta.BaseAssociation;
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.PresentableAssociation;
+@@ -9,17 +10,17 @@
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ 
+-import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.Enumeration;
+-import java.util.HashSet;
+ import java.util.Hashtable;
+ import java.util.Properties;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
++import java.util.logging.Logger;
+ 
+ import javax.activation.DataHandler;
+ import javax.activation.FileDataSource;
++
+ import javax.mail.Message;
+ import javax.mail.MessagingException;
+ import javax.mail.Multipart;
+@@ -35,12 +36,14 @@
+  * An email.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 6.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 15.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class EmailTopic extends LiveTopic {
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	private static final String TEXT_NO_SUBJECT = &quot;&lt;No Subject&gt;&quot;;
+ 
+ 	// email states
+@@ -172,6 +175,23 @@
+ 
+ 
+ 
++	// -----------------------------
++	// --- Handling Associations ---
++	// -----------------------------
++
++
++
++	public String associationAllowed(String assocTypeID, String relTopicID, int relTopicPos, CorporateDirectives directives) {
++		String relTypeID = as.getLiveTopic(relTopicID, 1).getType();
++		if ((relTypeID.equals(TOPICTYPE_PERSON) || relTypeID.equals(TOPICTYPE_INSTITUTION) ||
++												   relTypeID.equals(TOPICTYPE_RECIPIENT_LIST)) &amp;&amp; relTopicPos == 2) {
++			return SEMANTIC_EMAIL_RECIPIENT;
++		}
++		return super.associationAllowed(assocTypeID, relTopicID, relTopicPos, directives);
++	}
++
++
++
+ 	// **********************
+ 	// *** Custom Methods ***
+ 	// **********************
+@@ -179,38 +199,35 @@
+ 
+ 
+ 	private void sendMail(CorporateDirectives directives) throws DeepaMehtaException {
+-		Hashtable props = getProperties();
+-		if (!props.get(PROPERTY_STATUS).equals(EMAIL_STATE_DRAFT)) {
+-			return;
+-		}
+-		Vector recipientAddresses = collectRecipientAddresses();
+-		if (recipientAddresses.size() == 0) {
+-			return;
+-		}
+-		String author = (String) props.get(PROPERTY_FROM);
+-		System.out.println(&quot;&gt;&gt;&gt; EmailTopic.sendMail(): &quot; + this + &quot;, author=\&quot;&quot; + author + &quot;\&quot;&quot;);
+-		Properties mprops = new Properties();
+-		mprops.put(&quot;mail.smtp.host&quot;, as.getSMTPServer());	// throws DME
+-		javax.mail.Session session = javax.mail.Session.getDefaultInstance(mprops, null);
+-		session.setDebug(true);
+ 		try {
+-			MimeMessage msg = new MimeMessage(session);
++			Hashtable props = getProperties();
++			if (!props.get(PROPERTY_STATUS).equals(EMAIL_STATE_DRAFT)) {
++				return;
++			}
++			// error check
++			Vector recipients = collectRecipients();
++			if (recipients.size() == 0) {
++				// ### TODO: error notification (or disable &quot;Send&quot; command in advance?)
++				return;
++			}
++			// create message
++			MimeMessage msg = new MimeMessage(getMailSession(as.getSMTPServer()));
++			// set sender
++			String author = (String) props.get(PROPERTY_FROM);
++			logger.info(this + &quot;, author=\&quot;&quot; + author + &quot;\&quot;&quot;);
+ 			msg.setFrom(new InternetAddress(author));
+-			// set &quot;to&quot;
+-			InternetAddress[] address = new InternetAddress[recipientAddresses.size()];
+-			for (int i = 0; i &lt; recipientAddresses.size(); i++) {
+-				address[i] = new InternetAddress((String) recipientAddresses.elementAt(i));
+-			}
+-			msg.setRecipients(Message.RecipientType.TO, address);
+-			// set &quot;subject&quot;
++			// set recipients
++			setRecipients(msg, recipients);
++			// set subject
+ 			String subject = (String) props.get(PROPERTY_SUBJECT);
+ 			if (subject == null || subject.equals(&quot;&quot;)) {
+ 				subject = TEXT_NO_SUBJECT;
+ 			}
+ 			msg.setSubject(subject);
+-			//
++			// set date
+ 			Date d = new Date();
+-			msg.setSentDate(d);			
++			msg.setSentDate(d);
++			// set text and attachments
+ 			String msgText = (String) props.get(PROPERTY_TEXT);
+ 			addAttachs(msgText, msg);
+ 			//
+@@ -218,18 +235,14 @@
+ 			//
+ 			setProperty(PROPERTY_STATUS, EMAIL_STATE_SENT);
+ 			setProperty(PROPERTY_DATE, d.toString());
+-		} catch (MessagingException me) {
+-			throw new DeepaMehtaException(me.toString());
++		} catch (Throwable e) {
++			throw new DeepaMehtaException(e.toString(), e);
+ 		}
+ 	}
+ 
+ 	public static void sendMail(String smtpServer, String from, String to, String subject, String body) {
+-		Properties props = new Properties();
+-		props.put(&quot;mail.smtp.host&quot;, smtpServer);
+-		javax.mail.Session session = javax.mail.Session.getDefaultInstance(props);	// ### authenticator=null
+-		session.setDebug(true);	// ###
+ 		try {
+-			MimeMessage msg = new MimeMessage(session);
++			MimeMessage msg = new MimeMessage(getMailSession(smtpServer));
+ 			msg.setFrom(new InternetAddress(from));
+ 			msg.setRecipients(Message.RecipientType.TO, to);
+ 			if (subject == null || subject.equals(&quot;&quot;)) {
+@@ -240,48 +253,94 @@
+ 			msg.setSentDate(new Date());
+ 			//
+ 			Transport.send(msg);
+-		} catch (MessagingException me) {
+-			throw new DeepaMehtaException(me.toString());
++		} catch (Throwable e) {
++			throw new DeepaMehtaException(e.toString(), e);
+ 		}
+ 	}
+ 
+ 	// ---
+ 
+-	public Vector getRecipients() {
++	private static javax.mail.Session getMailSession(String smtpServer) {
++		Properties props = new Properties();
++		props.put(&quot;mail.smtp.host&quot;, smtpServer);
++		javax.mail.Session session = javax.mail.Session.getDefaultInstance(props);	// ### authenticator=null
++		session.setDebug(true);		// ###
++		return session;
++	}
++
++	// ---
++
++	/**
++	 * Returns the email addresses of all recipients.
++	 *
++	 * @return	the email addresses as vector of {@link Recipient}s.
++	 */
++	public Vector collectRecipients() {
++		Vector recipients = new Vector();
++		//
++		Enumeration e = getRecipientTopics().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic recipientTopic = (BaseTopic) e.nextElement();
++			String recipientType = getRecipientType(recipientTopic.getID());
++			if (recipientTopic.getType().equals(TOPICTYPE_RECIPIENT_LIST)) {
++				RecipientListTopic recipientList = (RecipientListTopic) as.getLiveTopic(recipientTopic);
++				Vector recipientTopics = recipientList.getSelectedRecipients();
++				//
++				addRecipientsToVector(recipientTopics, recipientType, recipients);
++			} else {
++				addRecipientToVector(recipientTopic, recipientType, recipients);
++			}
++		}
++		//
++		return recipients;
++	}
++
++	/**
++	 * Returns the recipient topics related to this email.
++	 * Recipient topics are &quot;Person&quot;, &quot;Institution&quot;, or &quot;Recipient List&quot; topics.
++	 *
++	 * @return	the recipient topics as vector of {@link de.deepamehta.BaseTopic}s.
++	 */
++	public Vector getRecipientTopics() {
+ 		return as.getRelatedTopics(getID(), SEMANTIC_EMAIL_RECIPIENT, 2);
+ 	}
+ 
+-	public Vector getRecipientLists() {
+-		return as.getRelatedTopics(getID(), SEMANTIC_EMAIL_RECIPIENT, TOPICTYPE_RECIPIENT_LIST, 2);
++	private String getRecipientType(String recipientID) {
++		BaseAssociation assoc = cm.getAssociation(SEMANTIC_EMAIL_RECIPIENT, getID(), recipientID);
++		return cm.getAssociationData(assoc.getID(), 1, PROPERTY_RECIPIENT_TYPE);
+ 	}
+ 
+-	public Vector collectRecipientAddresses() {
+-		Vector recipientAddresses = new Vector();
+-		// persons and institutions
+-		addRecipientAddresses(getRecipients(), recipientAddresses);
+-		// recipient lists
+-		Enumeration e = getRecipientLists().elements();
++	private void addRecipientsToVector(Vector recipientTopics, String recipientType, Vector recipients) {
++		Enumeration e = recipientTopics.elements();
+ 		while (e.hasMoreElements()) {
+-			RecipientListTopic recipientList = (RecipientListTopic) as.getLiveTopic((BaseTopic) e.nextElement());
+-			addRecipientAddresses(recipientList.getSelectedRecipients(), recipientAddresses);
++			BaseTopic recipientTopic = (BaseTopic) e.nextElement();
++			addRecipientToVector(recipientTopic, recipientType, recipients);
+ 		}
+-		//
+-		return recipientAddresses;
+ 	}
+ 
+-	private void addRecipientAddresses(Vector recipients, Vector recipientAddresses) {
+-		Enumeration e = recipients.elements();
+-		while (e.hasMoreElements()) {
+-			BaseTopic recipient = (BaseTopic) e.nextElement();
+-			String emailAddress = as.getEmailAddress(recipient.getID());
+-			if (emailAddress != null &amp;&amp; emailAddress.length() &gt; 0 &amp;&amp; !recipientAddresses.contains(emailAddress)) {
+-				recipientAddresses.addElement(emailAddress);
++	private void addRecipientToVector(BaseTopic recipientTopic, String recipientType, Vector recipients) {
++		String emailAddress = as.getEmailAddress(recipientTopic.getID());
++		if (emailAddress != null &amp;&amp; emailAddress.length() &gt; 0) { 
++			Recipient recipient = new Recipient(recipientType, emailAddress);
++			if (!recipients.contains(recipient)) {
++				recipients.addElement(recipient);
+ 			}
+ 		}
+ 	}
+ 
+ 	// ---
+ 
++	/**
++	 * @param	recipients	vector of {@link Recipient}s.
++	 */
++	private void setRecipients(MimeMessage msg, Vector recipients) throws MessagingException {
++		Enumeration e = recipients.elements();
++		while (e.hasMoreElements()) {
++			Recipient recipient = (Recipient) e.nextElement();
++			msg.addRecipient(recipient.type, new InternetAddress(recipient.emailAddress));
++		}
++	}
++
+ 	public void addAttachs(String msgText, MimeMessage msg) throws MessagingException {
+ 		Enumeration docs = as.getRelatedTopics(getID(), SEMANTIC_EMAIL_ATTACHMENT, 2).elements();
+ 		Multipart mp = null;
+@@ -309,6 +368,7 @@
+ 				mp.addBodyPart(mbp);
+ 			}
+ 		}
++		// multi part or not
+ 		if (mp != null) {
+ 			msg.setContent(mp);
+ 		} else {
+@@ -434,4 +494,37 @@
+ 		}
+ 		return sTextOut;
+ 	}
++
++
++
++	// *********************
++	// *** Inner Classes ***
++	// *********************
++
++
++
++	private class Recipient {
++
++		Message.RecipientType type;
++		String emailAddress;
++
++		Recipient(String recipientType, String emailAddress) {
++			if (recipientType.equals(RECIPIENT_TYPE_TO) || recipientType.equals(&quot;&quot;)) {
++				this.type = Message.RecipientType.TO;
++			} else if (recipientType.equals(RECIPIENT_TYPE_CC)) {
++				this.type = Message.RecipientType.CC;
++			} else if (recipientType.equals(RECIPIENT_TYPE_BCC)) {
++				this.type = Message.RecipientType.BCC;
++			} else {
++				throw new DeepaMehtaException(&quot;unexpected recipient type: \&quot;&quot; + recipientType + &quot;\&quot;&quot;);
++			}
++			//
++			this.emailAddress = emailAddress;
++		}
++
++		public boolean equals(Object o) {
++			Recipient r = (Recipient) o;
++			return r.type == type &amp;&amp; r.emailAddress.equals(emailAddress);
++		}
++	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -791,21 +791,22 @@
+ 
+ 
+ 	/**
+-	 * Before an association is retyped, the associationAllowed() is triggered for both involved topics.
+-	 * By returning &lt;code&gt;null&lt;/code&gt; a topic can prohibit the retyping.
+-	 * Additionally any involved topic is able to change the proposed association type.
+-	 * ### since 2.0b6-post3 also triggered for create operation
++	 * Before an association is created or retyped, the associationAllowed() hook is triggered for both involved topics.
++	 * By returning &lt;code&gt;null&lt;/code&gt; a topic can prohibit the creation resp. retyping.
++	 * Additionally, any involved topic is able to change the proposed association type.
+ 	 * &lt;p&gt;
+ 	 * The default implementation returns the proposed association type directly.
++	 * &lt;p&gt;
++	 * References checked: 13.9.2008 (2.0b8)
+ 	 *
+ 	 * @param	assocTypeID		the proposed association type
+ 	 * @param	relTopicID		the other involved topic
+ 	 *
+ 	 * @return	ID of the association type, actually used for retyping, resp. &lt;code&gt;null&lt;/code&gt; if retyping is prohibited.
+ 	 *
+-	 * @see		de.deepamehta.service.ApplicationService#changeAssociationType
++	 * @see		de.deepamehta.service.ApplicationService#triggerAssociationAllowed
+ 	 */
+-	public String associationAllowed(String assocTypeID, String relTopicID, CorporateDirectives directives) {
++	public String associationAllowed(String assocTypeID, String relTopicID, int relTopicPos, CorporateDirectives directives) {
+ 		return assocTypeID;
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-09-15 16:01:43 UTC (rev 348)
+@@ -28,10 +28,9 @@
+  * this &lt;code&gt;WorkspaceTopic&lt;/code&gt; is renamed.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;br&gt;
++ * Last change: 14.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class WorkspaceTopic extends LiveTopic {
+ 
+@@ -273,12 +272,11 @@
+ 	/**
+ 	 * Workspaces are reacting if a membership association is connected.
+ 	 */
+-	public String associationAllowed(String assocTypeID, String relTopicID, CorporateDirectives directives) {
+-		if (!assocTypeID.equals(SEMANTIC_MEMBERSHIP)) {
+-			return super.associationAllowed(assocTypeID, relTopicID, directives);
++	public String associationAllowed(String assocTypeID, String relTopicID, int relTopicPos, CorporateDirectives directives) {
++		if (assocTypeID.equals(SEMANTIC_MEMBERSHIP)) {
++			return as.getMembershipType(getID(), directives);
+ 		}
+-		//
+-		return as.getMembershipType(getID(), directives);
++		return super.associationAllowed(assocTypeID, relTopicID, relTopicPos, directives);
+ 	}
+ 
+ 	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
+
+Modified: trunk/install/db/patches/cm-2.19.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.19.sql	2008-09-13 21:21:55 UTC (rev 347)
++++ trunk/install/db/patches/cm-2.19.sql	2008-09-15 16:01:43 UTC (rev 348)
+@@ -11,5 +11,37 @@
+ 
+ 
+ 
++--- remove supertype of &quot;Recipient&quot; and &quot;Sender&quot; ---
++DELETE FROM Association WHERE ID='a-327';
++DELETE FROM AssociationProp WHERE AssociationID='a-327';
++DELETE FROM ViewAssociation WHERE AssociationID='a-327';
++DELETE FROM Association WHERE ID='a-329';
++DELETE FROM AssociationProp WHERE AssociationID='a-329';
++DELETE FROM ViewAssociation WHERE AssociationID='a-329';
++
++
++--- create property &quot;Recipient Type&quot; ---
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-recipienttype', 'Recipient Type');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Name', 'Recipient Type');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Visualization', 'Options Menu');
++INSERT INTO TopicProp VALUES ('pp-recipienttype', 1, 'Default Value', 'To');
++-- assign property to &quot;Recipient&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-347', '', 'at-recipient', 1, 'pp-recipienttype', 1);
++INSERT INTO AssociationProp VALUES ('a-347', 1, 'Ordinal Number', '50');
++-- create property values &quot;To&quot;, &quot;Cc&quot;, &quot;Bcc&quot;
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-to', 'To');
++INSERT INTO TopicProp VALUES ('t-recipienttype-to', 1, 'Name', 'To');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-cc', 'Cc');
++INSERT INTO TopicProp VALUES ('t-recipienttype-cc', 1, 'Name', 'Cc');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-recipienttype-bcc', 'Bcc');
++INSERT INTO TopicProp VALUES ('t-recipienttype-bcc', 1, 'Name', 'Bcc');
++-- assign property values to &quot;Recipient Type&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-344', '', 'pp-recipienttype', 1, 't-recipienttype-to', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-345', '', 'pp-recipienttype', 1, 't-recipienttype-cc', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-346', '', 'pp-recipienttype', 1, 't-recipienttype-bcc', 1);
++INSERT INTO AssociationProp VALUES ('a-344', 1, 'Ordinal Number', '1');
++INSERT INTO AssociationProp VALUES ('a-345', 1, 'Ordinal Number', '2');
++INSERT INTO AssociationProp VALUES ('a-346', 1, 'Ordinal Number', '3');
++
+ --- set custom implementation for &quot;Person Search&quot; ---
+ INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.PersonSearchTopic');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000191.html">[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000193.html">[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#192">[ date ]</a>
+              <a href="thread.html#192">[ thread ]</a>
+              <a href="subject.html#192">[ subject ]</a>
+              <a href="author.html#192">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

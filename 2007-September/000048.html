@@ -1,0 +1,1046 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r203 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install install/db	install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r203%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/topics%20install%20install/db%0A%09install/db/patches&In-Reply-To=%3C200709171926.l8HJQokA030776%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000047.html">
+   <LINK REL="Next"  HREF="000049.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r203 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install install/db	install/db/patches</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r203%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/topics%20install%20install/db%0A%09install/db/patches&In-Reply-To=%3C200709171926.l8HJQokA030776%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r203 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install install/db	install/db/patches">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 17 21:26:50 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000047.html">[deepamehta-svn] r202 - in branches/eschnepel: . ant ant/bin	ant/etc ant/etc/checkstyle ant/lib	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web install/config	install/db/db-specific install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+        <LI>Next message: <A HREF="000049.html">[deepamehta-svn] r204 - branches/eschnepel
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-17 21:26:47 +0200 (Mon, 17 Sep 2007)
+New Revision: 203
+
+Added:
+   branches/eschnepel/install/client/
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+   branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/PersonTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   branches/eschnepel/install/db/cm.sql
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+Log:
+merge 193:HEAD from trunk
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -664,8 +664,14 @@
+ 	// direction is from calendar to event
+ 	static final String SEMANTIC_CALENDAR_EVENT = ASSOCTYPE_ASSOCIATION;
+ 
++	// direction is from calendar to person
++	static final String SEMANTIC_CALENDAR_PERSON = ASSOCTYPE_ASSOCIATION;
+ 
++	// direction is from event to person
++	static final String SEMANTIC_EVENT_ATTENDEE = ASSOCTYPE_ASSOCIATION;
+ 
++
++
+ 	// ----------------
+ 	// --- Requests ---
+ 	// ----------------
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -388,6 +388,7 @@
+ 	 */
+ 	void setModel(PresentationTopicMap topicmap, Selection selection, Rectangle bounds, Hashtable details,
+ 											boolean creatingEdgesEnabled, Font font) {
++		System.out.println(&quot;&gt;&gt;&gt; GraphPanel.setModel(): font=&quot; + font);
+ 		removeDetailWindows();
+ 		//
+ 		this.topicmap = topicmap;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -192,7 +192,7 @@
+ 		TextEditorPanel textEditor = new TextEditorPanel(EDITOR_TYPE_STYLED, hyperlinkListener,
+ 																	(GraphPanelControler) controler, true) {
+ 			public Dimension getPreferredSize() {
+-				return new Dimension(0, 640);	// ### height 640 pixels
++				return new Dimension(0, 800);	// ### height 800 pixels
+ 			}
+ 		};
+ 		// --- add action button ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -35,7 +35,7 @@
+  * Main controler of the graphical DeepaMehta frontend.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 12.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -242,6 +242,13 @@
+ 		}
+ 		// --- set GUI defaults ---
+ 		UIDefaults defaults = UIManager.getDefaults();
++		// reporting
++		/* ### System.out.println(&quot;&gt; User Interface Defaults:&quot;);
++		Enumeration e = defaults.keys();
++		while (e.hasMoreElements()) {
++			Object key = e.nextElement();
++			System.out.println(&quot;&gt;    \&quot;&quot; + key + &quot;\&quot; (&quot; + key.getClass() + &quot;)&quot;);
++		} */
+ 		// fonts
+ 		String fontname = ((Font) defaults.get(&quot;Label.font&quot;)).getName();
+ 		for (int i = 0; i &lt; FONT_COUNT; i++) {
+@@ -290,12 +297,16 @@
+ 		defaults.put(&quot;TextArea.background&quot;, new ColorUIResource(COLOR_VIEW_BGCOLOR));
+ 		defaults.put(&quot;TextArea.selectionBackground&quot;, new ColorUIResource(COLOR_SELECTION));
+ 		defaults.put(&quot;TextArea.inactiveForeground&quot;, new ColorUIResource(COLOR_DARK_SHADOW));
++		defaults.put(&quot;TextPane.font&quot;, new FontUIResource(font[textsize + 1][Font.PLAIN]));		// ### no effect!
++		defaults.put(&quot;TextPane.background&quot;, new ColorUIResource(COLOR_VIEW_BGCOLOR));
++		defaults.put(&quot;TextPane.selectionBackground&quot;, new ColorUIResource(COLOR_SELECTION));
++		defaults.put(&quot;TextPane.inactiveForeground&quot;, new ColorUIResource(COLOR_DARK_SHADOW));	// ### any effect?
+ 		defaults.put(&quot;PasswordField.font&quot;, new FontUIResource(font[textsize + 1][Font.PLAIN]));
+ 		defaults.put(&quot;PasswordField.background&quot;, new ColorUIResource(COLOR_VIEW_BGCOLOR));
+ 		defaults.put(&quot;PasswordField.selectionBackground&quot;, new ColorUIResource(COLOR_SELECTION));
+ 		defaults.put(&quot;Separator.foreground&quot;, new ColorUIResource(COLOR_DARK_SHADOW));
+-		defaults.put(&quot;TitledBorder.font&quot;, new FontUIResource(font[textsize][Font.PLAIN]));	// ###
+-		defaults.put(&quot;TitledBorder.titleColor&quot;, new ColorUIResource(COLOR_DARK_SHADOW));	// ###
++		defaults.put(&quot;TitledBorder.font&quot;, new FontUIResource(font[textsize][Font.PLAIN]));		// ### still in use?
++		defaults.put(&quot;TitledBorder.titleColor&quot;, new ColorUIResource(COLOR_DARK_SHADOW));		// ### still in use?
+ 		// --- create login GUI components ---
+ 		usernameField = new JTextField(12);
+ 		usernameField.addActionListener(this);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -33,7 +33,7 @@
+  * The content can also set to be view-only.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 13.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.9.2001 (2.0a12-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -69,13 +69,12 @@
+ 	 */
+ 	private int editorType;
+ 
+-	// ### private GraphPanelControler controler;
+-	private PresentationDetail detail;
+ 	private JTextComponent textComponent;	// a JTextArea, JTextPane or JTextField respectively
+-	private JButton[] toolbarButtons;
+-	boolean showToolbar;
+-	private int buttonIndex;
++	private PresentationDetail detail;
+ 
++	boolean showToolbar;	// indicates weather a toolbar is created
++	JPanel toolbar;
++
+ 	/**
+ 	 * Indicates weather this text editor is dirty (means: contains unsaved changes).
+ 	 */
+@@ -113,9 +112,9 @@
+ 	 *
+ 	 * @see		PresentationDetail#PresentationDetail
+ 	 */
+-	TextEditorPanel(int editorType, HyperlinkListener listener, GraphPanelControler controler, boolean showToolbar, PresentationDetail detail) {
++	TextEditorPanel(int editorType, HyperlinkListener listener, GraphPanelControler controler, boolean showToolbar,
++																							PresentationDetail detail) {
+ 		this.editorType = editorType;
+-		// ### this.controler = controler;
+ 		this.showToolbar = showToolbar;
+ 		this.detail = detail;
+ 		setLayout(new BorderLayout());
+@@ -131,16 +130,15 @@
+ 			((JEditorPane) textComponent).addHyperlinkListener(listener);
+ 			// --- add toolbar ---
+ 			if (showToolbar) {
+-				JPanel bar = new JPanel();
++				toolbar = new JPanel();
+ 				Hashtable actions = DeepaMehtaClientUtils.createActionTable(textComponent);
+-				bar.setBackground(COLOR_PROPERTY_PANEL);
+-				toolbarButtons = new JButton[3];
+-				addButton(bar, new StyledEditorKit.BoldAction(), actions, controler.boldIcon());
+-				addButton(bar, new StyledEditorKit.ItalicAction(), actions, controler.italicIcon());
+-				addButton(bar, new StyledEditorKit.UnderlineAction(), actions, controler.underlineIcon());
+-				// ### addButton(bar, &quot;H1&quot;, CMD_SET_HEADLINE1);
+-				// ### addButton(bar, &quot;H2&quot;, CMD_SET_HEADLINE2);
+-				add(bar, BorderLayout.SOUTH);
++				toolbar.setBackground(COLOR_PROPERTY_PANEL);
++				addButton(toolbar, new StyledEditorKit.BoldAction(), actions, controler.boldIcon());
++				addButton(toolbar, new StyledEditorKit.ItalicAction(), actions, controler.italicIcon());
++				addButton(toolbar, new StyledEditorKit.UnderlineAction(), actions, controler.underlineIcon());
++				// ### addButton(toolbar, &quot;H1&quot;, CMD_SET_HEADLINE1);
++				// ### addButton(toolbar, &quot;H2&quot;, CMD_SET_HEADLINE2);
++				add(toolbar, BorderLayout.SOUTH);
+ 			}
+ 			add(new JScrollPane(textComponent));
+ 			break;
+@@ -231,12 +229,10 @@
+ 	 */
+ 	public void setEnabled(boolean enabled) {
+ 		textComponent.setEnabled(enabled);
+-		textComponent.setEditable(enabled);		// ###
++		textComponent.setEditable(enabled);		// ### required for hyperlinks to work
+ 		//
+ 		if (showToolbar) {
+-			for (int i = 0; i &lt; toolbarButtons.length; i++) {
+-				toolbarButtons[i].setEnabled(enabled);
+-			}
++			toolbar.setVisible(enabled);
+ 		}
+ 	}
+ 
+@@ -281,9 +277,11 @@
+ 			//
+ 			// --- set text ---
+ 			try {
+-				if (text.length() &lt;= 59) {	// ### 59 &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt; + whitespace
++				// ### required for what?
++				// ### serious oddity: contents of less then 14 characters are not displayed!
++				/* ### if (text.length() &lt;= 59) {	// ### 59 &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt; + whitespace
+ 					text = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
+-				}
++				} */
+ 				textComponent.setText(text);
+ 				textComponent.setCaretPosition(0);
+ 			} catch (Throwable e) {
+@@ -316,16 +314,8 @@
+ 		button.setActionCommand(actionCommand);
+ 		button.addActionListener(DeepaMehtaClientUtils.getActionByName(actionName, actions));
+ 		container.add(button);
+-		toolbarButtons[buttonIndex++] = button;
+ 	}
+ 
+-	/* ### private void addButton(JPanel container, String label, String actionCommand) {
+-		JButton button = new JButton(label);
+-		button.setActionCommand(actionCommand);
+-		button.addActionListener(this);
+-		container.add(button);
+-	} */
+-
+ 	// ---
+ 
+ 	/**
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -17,7 +17,7 @@
+ 
+ 
+ /**
+- * Last functional change: 11.9.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -45,11 +45,25 @@
+ 	private static final String  CMD_CREATE_EVENT = &quot;createEvent&quot;;
+ 	private static final String ICON_CREATE_EVENT = &quot;event.png&quot;;
+ 
++	// actions
++	private static final String ACTION_REVEAL_EVENT = &quot;revealEvent&quot;;
++	private static final String ACTION_SELECT_DAY_MODE = &quot;selectDayMode&quot;;
++	private static final String ACTION_SELECT_WEEK_MODE = &quot;selectWeekMode&quot;;
++	private static final String ACTION_SELECT_MONTH_MODE = &quot;selectMonthMode&quot;;
++	private static final String ACTION_GO_BACK = &quot;goBack&quot;;
++	private static final String ACTION_GO_FORWARD = &quot;goForward&quot;;
++
+ 	// properties
++	private static final String PROPERTY_DISPLAY_MODE = &quot;Display Mode&quot;;
+ 	private static final String PROPERTY_DISPLAY_DATE = &quot;Display Date&quot;;
+ 
++	// property values
++	private static final String DISPLAY_MODE_DAY = &quot;Day&quot;;
++	private static final String DISPLAY_MODE_WEEK = &quot;Week&quot;;
++	private static final String DISPLAY_MODE_MONTH = &quot;Month&quot;;
+ 
+ 
++
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+@@ -68,6 +82,25 @@
+ 
+ 
+ 
++	// ------------------
++	// --- Life Cycle ---
++	// ------------------
++
++
++
++	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
++		// setup calendar for today
++		setTopicData(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_WEEK);
++		setTopicData(PROPERTY_DISPLAY_DATE, DeepaMehtaUtils.getDate());
++		// initial rendering
++		updateView(directives);
++		//
++		return directives;
++	}
++
++
++
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+@@ -110,10 +143,26 @@
+ 			return directives;
+ 		} else if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
+ 			String url = st.nextToken();
+-			String urlPrefix = &quot;<A HREF="http://revealEvent/">http://revealEvent/</A>&quot;;
+-			if (url.startsWith(urlPrefix)) {
+-				String eventID = url.substring(urlPrefix.length());
++			String urlPrefix = &quot;<A HREF="http://">http://</A>&quot;;
++			if (!url.startsWith(urlPrefix)) {
++				System.out.println(&quot;*** CalendarTopic.executeCommand(): URL \&quot;&quot; + url + &quot;\&quot; not recognized by &quot; +
++					&quot;CMD_FOLLOW_HYPERLINK&quot;);
++				return directives;
++			}
++			String action = url.substring(urlPrefix.length());
++			if (action.startsWith(ACTION_REVEAL_EVENT)) {
++				String eventID = action.substring(ACTION_REVEAL_EVENT.length() + 1);	// +1 to skip /
+ 				revealEvent(eventID, directives);
++			} else if (action.equals(ACTION_SELECT_DAY_MODE)) {
++				selectDayMode(directives);
++			} else if (action.equals(ACTION_SELECT_WEEK_MODE)) {
++				selectWeekMode(directives);
++			} else if (action.equals(ACTION_SELECT_MONTH_MODE)) {
++				selectMonthMode(directives);
++			} else if (action.equals(ACTION_GO_BACK)) {
++				navigate(-1, directives);
++			} else if (action.equals(ACTION_GO_FORWARD)) {
++				navigate(1, directives);
+ 			} else {
+ 				System.out.println(&quot;*** CalendarTopic.executeCommand(): URL \&quot;&quot; + url + &quot;\&quot; not recognized by &quot; +
+ 					&quot;CMD_FOLLOW_HYPERLINK&quot;);
+@@ -132,6 +181,7 @@
+ 
+ 
+ 
++	// ### to be dropped
+ 	public CorporateDirectives propertiesChanged(Hashtable newProps, Hashtable oldProps,
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+@@ -139,10 +189,15 @@
+ 		// --- &quot;Display Date&quot; ---
+ 		String prop = (String) newProps.get(PROPERTY_DISPLAY_DATE);
+ 		if (prop != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_DISPLAY_DATE + &quot;\&quot; property has changed &quot; +
+-			&quot;-- render calendar view&quot;);
++			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_DISPLAY_DATE + &quot;\&quot; property has changed -- update calendar view&quot;);
+ 			updateView(directives);
+ 		}
++		// --- &quot;Display Mode&quot; ---
++		prop = (String) newProps.get(PROPERTY_DISPLAY_MODE);
++		if (prop != null) {
++			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_DISPLAY_MODE + &quot;\&quot; property has changed -- update calendar view&quot;);
++			updateView(directives);
++		}
+ 		//
+ 		return directives;
+ 	}
+@@ -155,53 +210,64 @@
+ 		return props;
+ 	}
+ 
++	public static Vector hiddenProperties(TypeTopic type) {
++		Vector props = new Vector();
++		props.addElement(PROPERTY_DISPLAY_MODE);
++		props.addElement(PROPERTY_DISPLAY_DATE);
++		props.addElement(PROPERTY_ICON);
++		return props;
++	}
+ 
+ 
+-	// *****************
+-	// *** Utilities ***
+-	// *****************
+ 
++	// **********************
++	// *** Custom Methods ***
++	// **********************
+ 
+ 
++
+ 	void updateView(CorporateDirectives directives) {
+ 		Vector events = getEvents();
+ 		System.out.println(&quot;&gt;&gt;&gt; Update view of calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + events.size() + &quot; events)&quot;);
+-		// ### String html = renderEventsAsList(events);
+-		String html = renderWeekView(events);
++		// ### String html = renderListView(events);
+ 		// ### setTopicData(PROPERTY_DESCRIPTION, html);
+ 		// ### directives.add(as.setTopicProperty(getID(), 1, PROPERTY_DESCRIPTION, html, topicmapID, viewmode, session));
++		String html;
++		String displayMode = getProperty(PROPERTY_DISPLAY_MODE);
++		if (displayMode.equals(DISPLAY_MODE_DAY)) {
++			html = renderDayView(events);
++		} else if (displayMode.equals(DISPLAY_MODE_WEEK)) {
++			html = renderWeekView(events);
++		} else if (displayMode.equals(DISPLAY_MODE_MONTH)) {
++			html = renderMonthView(events);
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected calendar display mode: \&quot;&quot; + displayMode + &quot;\&quot;&quot;);
++		}
++		//
+ 		Hashtable props = new Hashtable();
+ 		props.put(PROPERTY_DESCRIPTION, html);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
+ 	}
+ 
+-	private String renderEventsAsList(Vector events) {
+-		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+-		Enumeration e = events.elements();
+-		while (e.hasMoreElements()) {
+-			BaseTopic event = (BaseTopic) e.nextElement();
+-			Hashtable props = as.getTopicProperties(event);
+-			String name = (String) props.get(PROPERTY_NAME);	// note: event.getName() doesn't work here, because the
+-			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
+-			// is updated in CM.
+-			String description = getHTMLBodyContent((String) props.get(PROPERTY_DESCRIPTION));
+-			String beginDate = (String) props.get(PROPERTY_BEGIN_DATE);
+-			String beginTime = (String) props.get(PROPERTY_BEGIN_TIME);
+-			String endDate = (String) props.get(PROPERTY_END_DATE);
+-			String endTime = (String) props.get(PROPERTY_END_TIME);
+-			html.append(&quot;&lt;p&gt;&quot; + timeRange(beginDate, beginTime, endDate, endTime) +
+-				&quot; &lt;b&gt;&quot; + name + &quot;&lt;/b&gt;&lt;/p&gt;&quot; + description);
+-		}
++	private String renderDayView(Vector events) {
++		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
++			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
++		html.append(renderTimeControls());
++		html.append(&quot;&lt;p&gt;The day view is not yet implemented. But you already can scroll the date day-wise.&lt;/p&gt;&quot;);
++		html.append(&quot;&lt;p&gt;Current date: &quot; + displayDateString + &quot;&lt;/p&gt;&quot;);
+ 		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 		return html.toString();
+ 	}
+ 
+ 	private String renderWeekView(Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		// error check ### to be droppped
+ 		if (!isSet(displayDateString)) {
+-			System.out.println(&quot;  &gt; \&quot;Display Date\&quot; not set completely -- calendar view is not rendered&quot;);
+-			return &quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
++			System.out.println(&quot;  &gt; \&quot;Display Date\&quot; not set completely -- rendering not yet possible&quot;);
++			return &quot;&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
+ 		}
++		//
+ 		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+ 		// display range: begin date
+ 		int delta = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+@@ -212,11 +278,13 @@
+ 		// --- make model ---
+ 		GridCell[][] gridModel = makeGridModel(events, displayDate, lastDisplayDate);
+ 		// --- rendering ---
+-		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;table border=\&quot;1\&quot;&gt;&quot;);
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
++			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
++		html.append(renderTimeControls());
+ 		// heading
+ 		DateFormat df = DateFormat.getDateInstance();
+ 		Calendar cal = (Calendar) displayDate.clone();
+-		html.append(&quot;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
++		html.append(&quot;&lt;table&gt;&lt;tr&gt;&lt;td&gt;Mon-Sun&lt;/td&gt;&quot;);
+ 		for (int day = 0; day &lt; 7; day++) {
+ 			html.append(&quot;&lt;td&gt;&quot; + df.format(cal.getTime()) + &quot;&lt;/td&gt;&quot;);
+ 			cal.add(Calendar.DATE, 1);
+@@ -231,9 +299,9 @@
+ 				if (cell == null) {
+ 					html.append(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+ 				} else if (cell.type == GridCell.BEGIN_OF_EVENT) {
+-					html.append(&quot;&lt;td rowspan=\&quot;&quot; + cell.occupiedSegments + &quot;\&quot;&gt;&quot;);
++					html.append(&quot;&lt;td class=\&quot;event\&quot; rowspan=\&quot;&quot; + cell.occupiedSegments + &quot;\&quot;&gt;&quot;);
+ 					html.append(&quot;&lt;b&gt;&quot; + cell.eventBegin + &quot;&lt;/b&gt;&lt;br&gt;&quot;);
+-					html.append(&quot;&lt;a href=\&quot;<A HREF="http://revealEvent/">http://revealEvent/</A>&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
++					html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_EVENT + &quot;/&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
+ 					html.append(&quot;&lt;/td&gt;&quot;);
+ 				}
+ 			}
+@@ -243,6 +311,53 @@
+ 		return html.toString();
+ 	}
+ 
++	private String renderMonthView(Vector events) {
++		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
++			&quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
++		html.append(renderTimeControls());
++		html.append(&quot;&lt;p&gt;The month view is not yet implemented. But you already can scroll the date month-wise.&lt;/p&gt;&quot;);
++		html.append(&quot;&lt;p&gt;Current date: &quot; + displayDateString + &quot;&lt;/p&gt;&quot;);
++		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
++		return html.toString();
++	}
++
++	private String renderListView(Vector events) {
++		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;body&gt;&quot;);
++		Enumeration e = events.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic event = (BaseTopic) e.nextElement();
++			Hashtable props = as.getTopicProperties(event);
++			String name = (String) props.get(PROPERTY_NAME);	// note: event.getName() doesn't work here, because the
++			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
++			// is updated in CM.
++			String description = getHTMLBodyContent((String) props.get(PROPERTY_DESCRIPTION));
++			String beginDate = (String) props.get(PROPERTY_BEGIN_DATE);
++			String beginTime = (String) props.get(PROPERTY_BEGIN_TIME);
++			String endDate = (String) props.get(PROPERTY_END_DATE);
++			String endTime = (String) props.get(PROPERTY_END_TIME);
++			html.append(&quot;&lt;p&gt;&quot; + timeRange(beginDate, beginTime, endDate, endTime) +
++				&quot; &lt;b&gt;&quot; + name + &quot;&lt;/b&gt;&lt;/p&gt;&quot; + description);
++		}
++		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
++		return html.toString();
++	}
++
++	// ---
++
++	private String renderTimeControls() {
++		String displayMode = getProperty(PROPERTY_DISPLAY_MODE);
++		StringBuffer html = new StringBuffer();
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_GO_BACK + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-arrow-left.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_DAY_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-day&quot; + (displayMode.equals(DISPLAY_MODE_DAY) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_WEEK_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-week&quot; + (displayMode.equals(DISPLAY_MODE_WEEK) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_MONTH_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-month&quot; + (displayMode.equals(DISPLAY_MODE_MONTH) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_GO_FORWARD + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-arrow-right.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		return html.toString();
++	}
++
++	// ---
++
+ 	private GridCell[][] makeGridModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
+ 		GridCell[][] gridModel = new GridCell[7][CALENDAR_DAY_SEGMENTS];
+ 		//
+@@ -312,21 +427,100 @@
+ 	// ---
+ 
+ 	private Vector getEvents() {
++		Vector events;
++		// 1) add events directly connected to this calendar
++		// ### sorting not needed anymore
+ 		String[] sortProps = {PROPERTY_BEGIN_DATE, PROPERTY_BEGIN_TIME};
+-		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
++		events = cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
++		// 2) add events of the persons connected to this calendar
++		Enumeration e = getCalendarPersons().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic person = (BaseTopic) e.nextElement();
++			Vector personEvents = ((PersonTopic) as.getLiveTopic(person)).getCalendarEvents();
++			events.addAll(personEvents);
++		}
++		return events;
+ 	}
+ 
++	private Vector getCalendarPersons() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_PERSON, 2);
++	}
++
++	// ---
++
+ 	private void revealEvent(String eventID, CorporateDirectives directives) {
+ 		PresentableTopic event = new PresentableTopic(as.getLiveTopic(eventID, 1), getID());
+-		BaseAssociation a = cm.getAssociation(ASSOCTYPE_ASSOCIATION, getID(), eventID);
++		BaseAssociation a = cm.getAssociation(SEMANTIC_CALENDAR_EVENT, getID(), eventID);
++		Boolean evoke = Boolean.FALSE;
++		if (a == null) {
++			// create a &quot;virtual&quot; association of type &quot;Search Result&quot; if not yet exist
++			a = cm.getAssociation(SEMANTIC_CONTAINER_HIERARCHY, getID(), eventID);
++			if (a == null) {
++				String assocID = as.getNewAssociationID();
++				a = new BaseAssociation(assocID, 1, SEMANTIC_CONTAINER_HIERARCHY, 1, &quot;&quot;, getID(), 1, eventID, 1);
++				evoke = Boolean.TRUE;
++			}
++		}
++		//
+ 		PresentableAssociation assoc = new PresentableAssociation(a);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, event);
+-		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc);
++		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, evoke);
+ 		directives.add(DIRECTIVE_SELECT_TOPIC, eventID);
+ 	}
+ 
+ 	// ---
+ 
++	private void selectDayMode(CorporateDirectives directives) {
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_DAY);
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	private void selectWeekMode(CorporateDirectives directives) {
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_WEEK);
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	private void selectMonthMode(CorporateDirectives directives) {
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DISPLAY_MODE, DISPLAY_MODE_MONTH);
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	// ---
++
++	private void navigate(int amount, CorporateDirectives directives) {
++		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		// error check ### to be droppped
++		if (!isSet(displayDateString)) {
++			System.out.println(&quot;  &gt; \&quot;Display Date\&quot; not set completely -- navigation not yet possible&quot;);
++			return;
++		}
++		//
++		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
++		//
++		String displayMode = getProperty(PROPERTY_DISPLAY_MODE);
++		int field;
++		if (displayMode.equals(DISPLAY_MODE_DAY)) {
++			field = Calendar.DATE;
++		} else if (displayMode.equals(DISPLAY_MODE_WEEK)) {
++			field = Calendar.WEEK_OF_YEAR;
++		} else if (displayMode.equals(DISPLAY_MODE_MONTH)) {
++			field = Calendar.MONTH;
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected calendar display mode: \&quot;&quot; + displayMode + &quot;\&quot;&quot;);
++		}
++		//
++		displayDate.add(field, amount);
++		//
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_DISPLAY_DATE, DeepaMehtaUtils.getDate(displayDate));
++		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++	}
++
++	// ---
++
+ 	private String timeRange(String beginDate, String beginTime, String endDate, String endTime) {
+ 		StringBuffer range = new StringBuffer(beginDate);
+ 		if (isSet(beginTime)) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -11,7 +11,7 @@
+ 
+ 
+ /**
+- * Last functional change: 6.7.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 17.7.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -48,20 +48,40 @@
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+ 			topicmapID, viewmode, session);
+-		getCalendar().updateView(directives);
++		// 1) update the calendar directly connected to this event
++		BaseTopic calendar = getCalendar();
++		if (calendar != null) {
++			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++		}
++		// 2) update the calendars of the attendees of this event
++		// ### Note: this way most calendars are updated more than once. Possible optimization: collect the
++		// calendars first, remove the doublettes, and update only the remaining calendars
++		Enumeration e = getAttendees().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic person = (BaseTopic) e.nextElement();
++			Vector calendars = ((PersonTopic) as.getLiveTopic(person)).getCalendars();
++			Enumeration e2 = calendars.elements();
++			while (e2.hasMoreElements()) {
++				calendar = (BaseTopic) e2.nextElement();
++				((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++			}
++		}
+ 		return directives;
+ 	}
+ 
+ 
+ 
+-	// *****************
+-	// *** Utilities ***
+-	// *****************
++	// **********************
++	// *** Custom Methods ***
++	// **********************
+ 
+ 
+ 
+-	private CalendarTopic getCalendar() {
+-		BaseTopic calendar = as.getRelatedTopic(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_CALENDAR, 1, false);	// emptyAllowed=false
+-		return (CalendarTopic) as.getLiveTopic(calendar);
++	private BaseTopic getCalendar() {
++		return as.getRelatedTopic(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_CALENDAR, 1, true);	// emptyAllowed=true
+ 	}
++
++	public Vector getAttendees() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_EVENT_ATTENDEE, TOPICTYPE_PERSON, 2);
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/PersonTopic.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/PersonTopic.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -14,7 +14,7 @@
+ 
+ 
+ /**
+- * Last functional change: 25.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -149,4 +149,20 @@
+ 			propertyDef.setPropertyLabel(&quot;Last Name&quot;);
+ 		}
+ 	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	public Vector getCalendars() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_CALENDAR, 1);
++	}
++
++	public Vector getCalendarEvents() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_EVENT_ATTENDEE, TOPICTYPE_EVENT, 1);
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-09-17 19:26:47 UTC (rev 203)
+@@ -85,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 13.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1205,10 +1205,12 @@
+ 
+ 
+ 	private void processString(String command, CorporateDirectives directives) {
+-		String str = command.substring(command.indexOf(':') + 1);
++		String str = command.substring(command.indexOf(COMMAND_SEPARATOR) + 1);
+ 		String topicID = as.getNewTopicID();
+ 		PresentableTopic topic = new PresentableTopic(topicID, 1, TOPICTYPE_TOPIC, 1, &quot;&quot;);
+ 		Hashtable props = new Hashtable();
++		// ### Should possibly create more than one paragraph.
++		// ### A double line break could be interpreted as paragraph separation.
+ 		props.put(PROPERTY_DESCRIPTION, &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + str + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 		topic.setProperties(props);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.TRUE, getID());
+
+Copied: branches/eschnepel/install/client (from rev 202, trunk/install/client)
+
+Modified: branches/eschnepel/install/db/cm.sql
+===================================================================
+--- branches/eschnepel/install/db/cm.sql	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/install/db/cm.sql	2007-09-17 19:26:47 UTC (rev 203)
+@@ -897,7 +897,9 @@
+ -- super type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-142', '', 'tt-generic', 1, 'tt-cmimportexport', 1);
+ 
++---
+ --- create topic type &quot;Calendar&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Name', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Plural Name', 'Calendars');
+@@ -918,7 +920,9 @@
+ -- assign search type to type
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-97', '', 'tt-calendar-search', 1, 'tt-calendar', 1);
+ 
++---
+ --- create topic type &quot;Event&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Events');
+@@ -1442,9 +1446,35 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaydate', 'Display Date');
+ INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Name', 'Display Date');
+ INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Visualization', 'Date Chooser');
+--- assign properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaymode', 'Display Mode');
++INSERT INTO TopicProp VALUES ('pp-displaymode', 1, 'Name', 'Display Mode');
++INSERT INTO TopicProp VALUES ('pp-displaymode', 1, 'Visualization', 'Options Menu');
++-- create property values
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-day', 'Day');
++INSERT INTO TopicProp VALUES ('t-day', 1, 'Name', 'Day');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-week', 'Week');
++INSERT INTO TopicProp VALUES ('t-week', 1, 'Name', 'Week');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-month', 'Month');
++INSERT INTO TopicProp VALUES ('t-month', 1, 'Name', 'Month');
++-- assign property values to property
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-157', '', 'pp-displaymode', 1, 't-day', 1);
++INSERT INTO AssociationProp VALUES ('a-157', 1, 'Ordinal Number', '1');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-162', '', 'pp-displaymode', 1, 't-week', 1);
++INSERT INTO AssociationProp VALUES ('a-162', 1, 'Ordinal Number', '2');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-187', '', 'pp-displaymode', 1, 't-month', 1);
++INSERT INTO AssociationProp VALUES ('a-187', 1, 'Ordinal Number', '3');
++-- assign properties to topic type
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-141', '', 'tt-calendar', 1, 'pp-displaydate', 1);
+ INSERT INTO AssociationProp VALUES ('a-141', 1, 'Ordinal Number', '220');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-148', '', 'tt-calendar', 1, 'pp-displaymode', 1);
++INSERT INTO AssociationProp VALUES ('a-148', 1, 'Ordinal Number', '210');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-190', '', 'tt-calendar', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Ordinal Number', '150');
+ 
+ --- Event
+ -- create properties
+@@ -1460,7 +1490,7 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-endtime', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Name', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Visualization', 'Time Chooser');
+--- assign properties
++-- assign properties to topic type
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-110', '', 'tt-event', 1, 'pp-begindate', 1);
+ INSERT INTO AssociationProp VALUES ('a-110', 1, 'Ordinal Number', '110');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-111', '', 'tt-event', 1, 'pp-begintime', 1);
+@@ -1469,13 +1499,23 @@
+ INSERT INTO AssociationProp VALUES ('a-112', 1, 'Ordinal Number', '130');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
+ INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-246', 'Attendee', 'tt-event', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Name', 'Attendee');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Ordinal Number', '150');
+ 
++---
+ --- assign topic types to workspace &quot;DeepaMehta&quot;
++---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
+-INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'view');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
+ 
+ 
+@@ -1925,10 +1965,10 @@
+ ---
+ INSERT INTO Topic VALUES ('tt-installation', 1, 1, 't-deepamehtainstallation', 'DeepaMehta');
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Name', 'DeepaMehta');
+-INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Server Name', 'DeepaMehtaServer 2.0b7');
+-INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Client Name', 'DeepaMehta 2.0b7');
++INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Server Name', 'DeepaMehtaServer 2.0b8');
++INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Client Name', 'DeepaMehta 2.0b8');
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Active', 'on');
+-INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Corporate Icon', 'logo.png');
++INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
+ -- INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', '');
+ -- assign preferences to installation (&quot;Export Format&quot;)
+ INSERT INTO Association VALUES ('at-preference', 1, 1, 'a-270', '', 't-deepamehtainstallation', 1, 't-xml', 1);
+
+Modified: branches/eschnepel/install/db/patches/cm-2.17.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-17 18:46:21 UTC (rev 202)
++++ branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-17 19:26:47 UTC (rev 203)
+@@ -26,7 +26,9 @@
+ --- New Feature: Calendar ---
+ -----------------------------
+ 
++---
+ --- create topic type &quot;Calendar&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Name', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Plural Name', 'Calendars');
+@@ -50,11 +52,39 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaydate', 'Display Date');
+ INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Name', 'Display Date');
+ INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Visualization', 'Date Chooser');
+--- assign properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaymode', 'Display Mode');
++INSERT INTO TopicProp VALUES ('pp-displaymode', 1, 'Name', 'Display Mode');
++INSERT INTO TopicProp VALUES ('pp-displaymode', 1, 'Visualization', 'Options Menu');
++-- create property values
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-day', 'Day');
++INSERT INTO TopicProp VALUES ('t-day', 1, 'Name', 'Day');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-week', 'Week');
++INSERT INTO TopicProp VALUES ('t-week', 1, 'Name', 'Week');
++INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-month', 'Month');
++INSERT INTO TopicProp VALUES ('t-month', 1, 'Name', 'Month');
++-- assign property values to property
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-157', '', 'pp-displaymode', 1, 't-day', 1);
++INSERT INTO AssociationProp VALUES ('a-157', 1, 'Ordinal Number', '1');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-162', '', 'pp-displaymode', 1, 't-week', 1);
++INSERT INTO AssociationProp VALUES ('a-162', 1, 'Ordinal Number', '2');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-187', '', 'pp-displaymode', 1, 't-month', 1);
++INSERT INTO AssociationProp VALUES ('a-187', 1, 'Ordinal Number', '3');
++-- assign properties to topic type
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-141', '', 'tt-calendar', 1, 'pp-displaydate', 1);
+ INSERT INTO AssociationProp VALUES ('a-141', 1, 'Ordinal Number', '220');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-148', '', 'tt-calendar', 1, 'pp-displaymode', 1);
++INSERT INTO AssociationProp VALUES ('a-148', 1, 'Ordinal Number', '210');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-190', '', 'tt-calendar', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Ordinal Number', '150');
+ 
++---
+ --- create topic type &quot;Event&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Events');
+@@ -87,7 +117,7 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-endtime', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Name', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Visualization', 'Time Chooser');
+--- assign properties
++-- assign properties to topic type
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-110', '', 'tt-event', 1, 'pp-begindate', 1);
+ INSERT INTO AssociationProp VALUES ('a-110', 1, 'Ordinal Number', '110');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-111', '', 'tt-event', 1, 'pp-begintime', 1);
+@@ -96,16 +126,28 @@
+ INSERT INTO AssociationProp VALUES ('a-112', 1, 'Ordinal Number', '130');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
+ INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-246', 'Attendee', 'tt-event', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Name', 'Attendee');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Ordinal Number', '150');
+ 
++---
+ --- assign topic types to workspace &quot;DeepaMehta&quot;
++---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
+-INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'view');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
+ 
++---
+ --- delete &quot;City&quot; and &quot;Country&quot; assignments from workspace &quot;DeepaMehta&quot;
++---
+ DELETE FROM Association WHERE ID='a-324';
+ DELETE FROM AssociationProp WHERE AssociationID='a-324';
+ DELETE FROM ViewAssociation WHERE AssociationID='a-324';
+@@ -117,6 +159,16 @@
+ UPDATE Association SET TopicID1='tt-whoistopic' WHERE TopicID1='tt-whoisTopic';
+ 
+ 
++---
++--- Update standard installation
++---
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
++DELETE FROM TopicProp                                     WHERE TopicID='t-deepamehtainstallation' AND PropName='Corporate Icon';
++INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
++
++
++
+ --- *** UPDATE DATA DEFINITION *** ---
+ ALTER TABLE       TopicProp CHANGE PropName PropName CHAR(255) NOT NULL;
+ ALTER TABLE AssociationProp CHANGE PropName PropName CHAR(255) NOT NULL;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000047.html">[deepamehta-svn] r202 - in branches/eschnepel: . ant ant/bin	ant/etc ant/etc/checkstyle ant/lib	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web install/config	install/db/db-specific install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+	<LI>Next message: <A HREF="000049.html">[deepamehta-svn] r204 - branches/eschnepel
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

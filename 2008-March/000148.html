@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r303 - in trunk: .	develop/src/de/deepamehta/service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r303%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service&In-Reply-To=%3C200803102358.m2ANwpD2020206%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000147.html">
+   <LINK REL="Next"  HREF="000149.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r303 - in trunk: .	develop/src/de/deepamehta/service</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r303%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service&In-Reply-To=%3C200803102358.m2ANwpD2020206%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r303 - in trunk: .	develop/src/de/deepamehta/service">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar 11 00:58:51 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000147.html">[deepamehta-svn] r302 - in trunk: . install/db/db-specific
+</A></li>
+        <LI>Next message: <A HREF="000149.html">[deepamehta-svn] r304 - in trunk: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#148">[ date ]</a>
+              <a href="thread.html#148">[ thread ]</a>
+              <a href="subject.html#148">[ subject ]</a>
+              <a href="author.html#148">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-11 00:58:44 +0100 (Tue, 11 Mar 2008)
+New Revision: 303
+
+Modified:
+   trunk/README-de.txt
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+Log:
+README extended
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-03-10 17:07:34 UTC (rev 302)
++++ trunk/README-de.txt	2008-03-10 23:58:44 UTC (rev 303)
+@@ -21,6 +21,8 @@
+ Administration
+   - Setzen des root Passworts
+   - Weitere Instanzen einrichten
++  - Standard-Instanz festlegen
++  - Instanz l&#246;schen
+   - Kontrollieren von Tomcat
+   - Die Datenbank zur&#252;cksetzen
+   - Vorhandene Installation updaten
+@@ -124,7 +126,7 @@
+ 	[echo]
+ 	[input] Currently set [hsqldb-intern]
+ 
+-ACHTUNG: Wenn DeepaMehta-Webfrontends und die grafische DeepaMehta-Oberfl&#228;che gleichzeitig auf einer Maschine benutzt werden sollen, mu&#223; als Datenbank MySQL benutzt werden. MySQL wird nicht mit DeepaMehta mitgeliefert und mu&#223; separat installiert werden.
++WICHTIG: Wenn DeepaMehta-Webfrontends und die grafische DeepaMehta-Oberfl&#228;che gleichzeitig auf einer Maschine benutzt werden sollen, mu&#223; als Datenbank MySQL benutzt werden. MySQL wird nicht mit DeepaMehta mitgeliefert und mu&#223; separat installiert werden.
+ 
+ Dann wirst Du nach dem Namen der anzulegenden Datenbank gefragt. Gebe den Namen der anzulegenden Datenbank ein, oder dr&#252;cke einfach Return.
+ 
+@@ -220,9 +222,9 @@
+ Einzelplatz-Anwendung
+ ---------------------
+ 
+-Die DeepaMehta-Einzelplatz-Anwendung ist die einfachste Art DeepaMehta zu starten, und ist ausreichend, wenn nicht &#252;ber das Netzwerk mit anderen Nutzern gemeinsam gearbeitet werden soll.
++Die einfachste Art DeepaMehta zu starten ist die Einzelplatz-Anwendung. Diese ist ausreichend, wenn nicht mit anderen Nutzern gemeinsam gearbeitet werden soll (&#252;ber das Netzwerk).
+ 
+-=&gt; Zum Starten der DeepaMehta-Einzelplatz-Anwendung gebe folgendes Kommando ein:
++=&gt; Zum Starten der Einzelplatz-Anwendung gebe folgendes Kommando ein:
+ 
+ 	./run.sh
+ 
+@@ -232,17 +234,17 @@
+ 
+ 	./run.sh -Ddm.instance=myinstance
+ 
+-Um eine bestimmte Instanz als Standard-Instanz zu benutzen, &#246;ffne mit einem Texteditor die Datei deepamehta/install/config/config.properties und setze die &quot;dm.instance&quot; Einstellung dort. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird. Informationen &#252;ber DeepaMehta-Instanzen findest Du unten unter &quot;Weitere Instanzen einrichten&quot; (Abschnitt &quot;Administration&quot;).
++Informationen &#252;ber DeepaMehta-Instanzen findest Du unten im Abschnitt &quot;Administration&quot; unter &quot;Weitere Instanzen einrichten&quot; und &quot;Standard-Instanz festlegen&quot;.
+ 
+ =&gt; Zum Beenden der DeepaMehta-Sitzung schlie&#223;e das DeepaMehta-Fenster.
+ 
+-Technischer Sicherheitshinweis: die monolithische DeepaMehta-Anwendung integriert den DeepaMehta-Client und -Server in eine einzige Anwendung, wobei &#252;ber direkte Methoden kommuniziert wird. Es wird kein Netzwerkport ge&#246;ffnet.
++Technischer Sicherheitshinweis: die monolithische DeepaMehta-Anwendung integriert den DeepaMehta-Client und -Server in eine einzige Anwendung, wobei &#252;ber direkte Methodenaufrufe kommuniziert wird. Es wird kein Netzwerkport ge&#246;ffnet.
+ 
+ 
+ Client/Server-Anwendung
+ -----------------------
+ 
+-Die DeepaMehta-Client/Server-Anwendung erm&#246;glicht Nutzern &#252;ber das Netzwerk gemeinsam an Inhalten zu arbeiten.
++Die DeepaMehta-Client/Server-Anwendung erm&#246;glicht Nutzern &#252;ber das Netzwerk gemeinsam zu arbeiten.
+ 
+ =&gt; Zum Starten des DeepaMehta-Servers gebe folgendes Kommando ein:
+ 
+@@ -252,20 +254,24 @@
+ 
+ 	./run.sh dms -Ddm.instance=myinstance
+ 
+-Um eine bestimmte Instanz als Standard-Instanz zu benutzen, &#246;ffne mit einem Texteditor die Datei deepamehta/install/config/config.properties und setze die &quot;dm.instance&quot; Einstellung dort. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird. Informationen &#252;ber DeepaMehta-Instanzen findest Du unten unter &quot;Weitere Instanzen einrichten&quot; (Abschnitt &quot;Administration&quot;).
++Informationen &#252;ber DeepaMehta-Instanzen findest Du unten im Abschnitt &quot;Administration&quot; unter &quot;Weitere Instanzen einrichten&quot; und &quot;Standard-Instanz festlegen&quot;.
+ 
+-=&gt; Zum Starten der DeepaMehta-Client-Anwendung gebe folgendes Kommando ein:
++=&gt; Zum Starten der DeepaMehta-Client-Anwendung und Verbinden mit einem lokalen DeepaMehta-Server gebe folgendes Kommando ein:
+ 
+ 	./run.sh dmc
+ 
+-Es erscheint der DeepaMehta-Login-Dialog. Gebe &quot;root&quot; ein und dr&#252;cke 2x Return (initial hat der DeepaMehta-root-User kein Passwort). Der DeepaMehta Desktop erscheint.
++Zum Verbinden mit einem entfernten DeepaMehta-Server setze auf der Kommandozeile mittels -D die &quot;dm.host&quot; und &quot;dm.port&quot; Einstellungen (wenn kein Servername angegeben wird, wird &quot;localhost&quot; benutzt und wenn kein Port angegeben wird, wird der Standard-Port 7557 benutzt):
+ 
++	./run.sh dmc -Ddm.host=www.site.com -Ddm.port=7558
++
++In beiden F&#228;llen erscheint der DeepaMehta-Login-Dialog. Gebe &quot;root&quot; ein und dr&#252;cke 2x Return (initial hat der DeepaMehta-root-User kein Passwort). Der DeepaMehta Desktop erscheint.
++
+ =&gt; Zum Starten des DeepaMehta-Client-Applets resp. des signierten Client-Applets &#246;ffne die entsprechende Webseite in Deinem Webbrowser:
+ 
+ 	.../deepamehta/install/client/start.html
+ 	.../deepamehta/install/client/start-signed.html
+ 
+-Das Client-Applet erwartet, da&#223; der DeepaMehta-Server auf der gleichen Maschine l&#228;uft, von der das Applet geladen wurde. Der Port, auf dem das Client-Applet versucht, den Server zu kontaktieren, can in den HTML-Seiten durch Angabe des Applet-Parameters &quot;PORT&quot; eingestellt werden. Wenn kein &quot;Port&quot;-Parameter vorhanden ist, wird der Standard-Port (7557) benutzt.
++Das Client-Applet erwartet, da&#223; der DeepaMehta-Server auf der gleichen Maschine l&#228;uft, von der das Applet geladen wurde. Der Port, auf dem das Client-Applet versucht, den Server zu kontaktieren, kann in den HTML-Seiten durch Angabe des Applet-Parameters &quot;PORT&quot; eingestellt werden. Wenn kein &quot;Port&quot;-Parameter vorhanden ist, wird der Standard-Port (7557) benutzt.
+ 
+ Technischer Sicherheitshinweis: Die DeepaMehta-Clients kommunizieren mit dem DeepaMehta-Server &#252;ber TCP Sockets. Der DeepaMehta-Server &#246;ffnet einen dedizierten TCP-Port (standardm&#228;&#223;ig ist das Port 7557).
+ 
+@@ -293,6 +299,8 @@
+ 
+ * Setzen des root Passworts
+ * Weitere Instanzen einrichten
++* Standard-Instanz festlegen
++* Instanz l&#246;schen
+ * Kontrollieren von Tomcat
+ * Die Datenbank zur&#252;cksetzen
+ * Vorhandene Installation updaten
+@@ -312,51 +320,94 @@
+ Weitere Instanzen einrichten
+ ----------------------------
+ 
+-F&#252;r unterschiedliche Zwecke k&#246;nnen jeweils eigene DeepaMehta-Instanzen angelegt werden (z.B. eine mit &quot;echten&quot; Inhalten und eine mit Testinhalten w&#228;hrend der Entwicklung). Jede DeepaMehta-Instanz ist mit einem individuellen Corporate Memory (Inhalte-Speicher) assoziiert. F&#252;r jedes Corporate Memory kann ein individuelles Datenbanksystems (z.B. HSQL oder MySQL) verwendet werden.
++F&#252;r unterschiedliche Anwendungszwecke k&#246;nnen unabh&#228;ngige DeepaMehta-Instanzen angelegt werden (z.B. eine mit &quot;echten&quot; Inhalten und eine mit Testinhalten w&#228;hrend der Entwicklung). Jede DeepaMehta-Instanz hat ein separates Corporate Memory (Inhalte-Speicher). F&#252;r jedes Corporate Memory kann ein individuelles Datenbanksystems (z.B. HSQL oder MySQL) verwendet werden.
+ 
+-Um eine neue DeepaMehta-Instanz einzurichten f&#252;hre die 3 folgenden Schritte aus: 
++Um eine neue DeepaMehta-Instanz einzurichten gebe folgendes Kommando ein: 
+ 
+-1) Kopiere aus .../deepamehta/install/config/ die build- und die dm- Dateien f&#252;r das gew&#252;nschte Datenbanksystem und ersetze im Dateinamen den Datenbanktyp (&quot;hsqldb-intern&quot;, &quot;mysql4&quot;, &quot;mysql5&quot;) durch den Namen der neuen DeepaMehta-Instanz. Um z.B. eine neue DeepaMehta-Instanz &quot;myinstance&quot;, die in einer HSQL-Datenbank abgelegt wird, einzurichten, f&#252;hre folgende Kopiervorg&#228;nge durch:
++	./run.sh newinstance
+ 
+-	build-hsqldb-intern.properties	=&gt; build-myinstance.properties
+-	dm-hsqldb-intern.properties		=&gt; dm-myinstance.properties
++Ales erstes wirst Du gefragt, auf welchen Einstellungen die neue Instanz basieren soll. Wenn z.B. f&#252;r die neue Instanz die HSQL-Datenbank benutzt werden soll, w&#228;hle &quot;hsqldb-intern&quot; aus.
+ 
+-2) Jetzt mu&#223; die neue Instanz konfiguriert werden, im Prinzip wie oben in &quot;Schritt 2: Konfigurieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
+-
+-	./run.sh config
+-
+-In der Liste der vorhandenen DeepaMehta-Instanzen wird nun die neue Instanz (z.B. &quot;myinstance&quot;) aufgelistet. Gebe hier den Namen der neuen Instanz ein und dr&#252;cke Return.
+-
+-	[echo] Please select one of the following instance configurations:
++	[echo] Please select the instance configuration the new instance is based on:
+ 	[echo] 
+ 	[echo] * hsqldb-intern
+-	[echo] * myinstance
+ 	[echo] * mysql4
+ 	[echo] * mysql5
+ 	[echo] 
+-	[input] currently set (default) [hsqldb-intern]
++	[input] Instance name: [hsqldb-intern]
+ 
+-Jetzt wirst Du gefragt, ob die neue Instanz die Standard-Instanz sein soll. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird. Zum Starten einer bestimmten DeepaMehta-Instanz siehe oben &quot;Einzelplatz-Anwendung&quot; oder &quot;Client/Server-Anwendung&quot; (Abschnitt &quot;Starten &amp; Beenden&quot;).
++Dann wirst Du nach einem Namen f&#252;r die neue Instanz gefragt. Die Empfehlung ist, einen Namen zu verwenden, der den Zweck der Instanz bezeichnet, z.B. &quot;production&quot; oder &quot;test&quot;.
+ 
+-	[input] Setup myinstance as default instance? ([y], n)
++	[input] Please enter the new instance name: [hsqldb-intern2]
+ 
+-Dann wirst Du wieder nach dem Namen der anzulegenden Datenbank gefragt, wobei alle bereits vorhandenen Datenbanken zuvor aufgelistet werden. Gebe einen Datenbanknamen ein, der nicht in der Liste vorhanden ist, und dr&#252;cke Return.
++Dann wird die neue Instanz konfiguriert und installiert, im Prinzip wie oben im Abschnitt &quot;Installation&quot; unter &quot;Schritt 2: Installieren&quot; erkl&#228;rt ist. Wenn Du nach dem Namen der anzulegenden Datenbank gefragt wirst, werden alle bereits vorhandenen Datenbanken aufgelistet. Gebe einen Datenbanknamen ein, der nicht in der Liste vorhanden ist.
+ 
+ 	[input] Please enter the name of your database: [DeepaMehta]
+ 
+-Die anderen Fragen, die das Config-Skript stellt (bezgl. den Webanwendungen und den Beispiel-Anwendungen) beantworte einfach mit Return, wodurch die bisherigen Einstellungen beibehalten werden (Hinweis: diese Einstellungen werden tats&#228;chlich nicht pro DeepaMehta-Instanz gespeichert, sondern sind global).
++Die anderen Fragen (bezgl. den Webanwendungen und den Beispiel-Anwendungen) beantworte einfach mit Return, wodurch die bisherigen Einstellungen f&#252;r die neue Instanz &#252;bernommen werden (Hinweis: diese Einstellungen werden tats&#228;chlich nicht pro DeepaMehta-Instanz gespeichert, sondern sind global).
+ 
+-3) Nun wird die neue Instanz installiert, im Prinzip wie oben in &quot;Schritt 3: Installieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
++Dann wirst Du gefragt, ob die neue Instanz jetzt installiert werden soll. Beantworte die Fragen durch Dr&#252;cken von Return.
+ 
+-	./run.sh install
++	[input] Do you want to initialize now? ([y], n)
+ 
+-Die neue DeepaMehta-Instanz ist jetzt eingerichtet. Zum Starten einer bestimmten DeepaMehta-Instanz siehe oben &quot;Einzelplatz-Anwendung&quot; oder &quot;Client/Server-Anwendung&quot; (Abschnitt &quot;Starten &amp; Beenden&quot;).
++Wenn die Instanz erfolgreich angelegt wurde, wird &quot;BUILD SUCCESSFUL&quot; angezeigt. Zum Starten einer bestimmten DeepaMehta-Instanz siehe oben den Abschnitt &quot;Starten &amp; Beenden&quot; und den folgenden Punkt &quot;Standard-Instanz festlegen&quot;.
+ 
+ 
++Standard-Instanz festlegen
++--------------------------
++
++Eine bestimmte DeepaMehta-Instanz kann als Standard-Instanz festgelegt werden. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird.
++
++Zum Festlegen der Standard-Instanz gebe folgendes Kommando ein:
++
++	./run.sh switchinstance
++
++Es werden die Namen aller bisher eingerichteten Instanzen aufgelistet und angezeigt, welche aktuell die Standard-Instanz ist. Gebe den Namen der Instanz, die als Standard-Instanz festgelegt werden soll, ein und dr&#252;cke Return.
++
++	[echo] Please select the DeepaMehta instance to activate:
++	[echo] 
++	[echo] * hsqldb-intern
++	[echo] * myinstance
++	[echo] 
++    [input] Currently set [hsqldb-intern]
++
++
++Instanz l&#246;schen
++---------------
++
++Zum L&#246;schen einer Instanz gebe folgendes Kommando ein, wobei mittels -D die &quot;dm.instance&quot; Einstellung auf die zu l&#246;schenden Instanz zu setzen ist:
++
++	./run.sh dropdb -Ddm.instance=myinstance
++
++Zur Sicherheit wird nachgefragt, ob die Instanz tats&#228;chlich gel&#246;scht werden soll. Um die Instanz zu l&#246;schen gebe 'y' ein und dr&#252;cke Return.
++
++	[echo] Uninstalling the DeepaMehta instance 'myinstance' now...
++	...
++	[echo] You are about to delete the database 'DeepaMehta'.
++	...
++    [input] Continue?  (y, n)
++
++
+ Kontrollieren von Tomcat
+ ------------------------
+ 
++=&gt; Zum Starten von Tomcat gebe folgendes Kommando ein:
+ 
++	./run.sh tomcat-start
++
++WICHTIG: Tomcat mu&#223; aus dem Verzeichnis deepamehta/install/client/ heraus gestartet werden, sonst k&#246;nnen die Webanwendungen notwendige Dateien nicht finden. Benutze zum Starten von Tomcat das hier angegebene Kommando, und nicht die Mechanismen Deiner Systemumgebung (z.B. /etc/init.d bei Linux).
++
++=&gt; Zum Stoppen von Tomcat gebe folgendes Kommando ein:
++
++	./run.sh tomcat-stop
++
++=&gt; Zum Anzeigen der Tomcat-Diagnosemeldungen gebe folgendes Kommando ein:
++
++	./run.sh tomcat-log
++
++Tipp: die Tomcat-Diagnosemeldungen k&#246;nnen am besten mitgelesen werden, wenn das Kommando in einem separaten Konsolen-Fenster eingegeben wird, und dieses w&#228;hrend der ganzen Sitzung offengelassen wird.
++
++
+ Die Datenbank zur&#252;cksetzen
+ --------------------------
+ 
+@@ -385,4 +436,4 @@
+ 
+ ------------------------------------------------------------------------------------------------------
+ J&#246;rg Richter                                                                         www.deepamehta.de
+-7.3.2008
++11.3.2008
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-10 17:07:34 UTC (rev 302)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-03-10 23:58:44 UTC (rev 303)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 12.2.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 11.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -196,7 +196,7 @@
+ 		System.out.println(&quot;&gt;    version: &quot; + SERVER_VERSION);
+ 		System.out.println(&quot;&gt;    standard topics version: &quot; + LiveTopic.kernelTopicsVersion);
+ 		System.out.println(&quot;&gt;    communication: &quot; + host.getCommInfo());
+-		System.out.println(&quot;&gt;    service name: \&quot;&quot; + instance.name + &quot;\&quot;&quot;);
++		System.out.println(&quot;&gt;    selected instance: \&quot;&quot; + instance.name + &quot;\&quot;&quot;);
+ 		System.out.println(&quot;&gt; Corporate Memory&quot;);
+ 		System.out.println(&quot;&gt;    implementation: \&quot;&quot; + instance.cmClass + &quot;\&quot;&quot;);
+ 		// establish access to corporate memory
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000147.html">[deepamehta-svn] r302 - in trunk: . install/db/db-specific
+</A></li>
+	<LI>Next message: <A HREF="000149.html">[deepamehta-svn] r304 - in trunk: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#148">[ date ]</a>
+              <a href="thread.html#148">[ thread ]</a>
+              <a href="subject.html#148">[ subject ]</a>
+              <a href="author.html#148">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

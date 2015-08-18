@@ -1,0 +1,1990 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r193 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r193%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200709120515.l8C5FC5T011226%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000037.html">
+   <LINK REL="Next"  HREF="000039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r193 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r193%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200709120515.l8C5FC5T011226%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r193 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 12 07:15:12 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000037.html">[deepamehta-svn] r192 - in branches/eschnepel: .	develop/src/de/deepamehta/service/db install/db	install/db/db-specific install/db/patches	install/examples/movies/db libs
+</A></li>
+        <LI>Next message: <A HREF="000039.html">[deepamehta-svn] r194 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-12 07:15:08 +0200 (Wed, 12 Sep 2007)
+New Revision: 193
+
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationDetail.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDetail.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ApplicationTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CMImportExportTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ChatBoardTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DocumentTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/FileTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ImageTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/InstallationTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java
+   branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+   branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+   branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/TemplateTopic.java
+   branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java
+Log:
+merge 189:HEAD from trunk
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 6.7.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -167,13 +167,14 @@
+ 	// ### static final String PROPERTY_LAYOUT_SUPER_FIRST = &quot;Supertypes first&quot;;
+ 	// ### static final String PROPERTY_LAYOUT_SUB_FIRST = &quot;Subtypes first&quot;;
+ 	//
++	static final String COMMAND_SEPARATOR = &quot;|&quot;;	// ### was &quot;:&quot;, but appears in URLs and Windows-Paths
+ 	static final String VALUE_NOT_SET = &quot;-&quot;;
+ 	static final String DATE_SEPARATOR = &quot;/&quot;;
+ 	static final String TIME_SEPARATOR = &quot;:&quot;;
+ 	static final String[] monthNames = {&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;};
+ 	static final int YEAR_MIN = 1850;
+ 	static final int YEAR_MAX = 2010;
+-	static final String PARAM_SEPARATOR = &quot;_&quot;;	// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
++	static final String PARAM_SEPARATOR = &quot;_&quot;;		// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
+ 	static final String LEVEL_SEPARATOR = &quot;:&quot;;
+ 	static final String PARAM_RELATION = &quot;Rel&quot;;
+ 
+@@ -437,6 +438,7 @@
+ 	static final String CMD_PROCESS_FILELIST = &quot;processDroppedFiles&quot;;
+ 	static final String CMD_PROCESS_STRING = &quot;processDroppedString&quot;;
+ 	static final String CMD_CHOOSE_COLOR = &quot;chooseColor&quot;;
++	static final String CMD_FOLLOW_HYPERLINK = &quot;followHyperlink&quot;;
+ 	// ### static final String CMD_CHOOSE_BACKGROUND_COLOR = &quot;chooseBackgroundColor&quot;;
+ 	// ### static final String CMD_SET_WORKSPACE = &quot;setWorkspace&quot;;
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -25,7 +25,7 @@
+  * to the {@link CorporateMemory}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 17.2.2005 (2.0b5)&lt;BR&gt;
++ * Last sourcecode change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2000 (2.0a8-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -215,7 +215,7 @@
+ 													String topicmapID, String viewmode) {
+ 		// &gt;&gt;&gt; compare to LiveTopic.executeCommand()
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_DEFAULT)) {
+ 			// --- trigger getDetail() hook ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -23,7 +23,7 @@
+  * An edge class must implement the {@link GraphEdge} interface.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 23.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 25.6.2001 (2.0a11-pre6)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -322,7 +322,7 @@
+ 		} else if (menuID.equals(MENU_VIEW)) {
+ 			// Note: the parameters of view commands are extended by the
+ 			// click coordinates
+-			controler.processGraphCommand(topicmap, command + &quot;:&quot; + (mX - translation.x) + &quot;:&quot; + (mY - translation.y));
++			controler.processGraphCommand(topicmap, command + COMMAND_SEPARATOR + (mX - translation.x) + COMMAND_SEPARATOR + (mY - translation.y));
+ 		} else {
+ 			throw new DeepaMehtaException(&quot;unexpected popup menu: &quot; + menu + &quot; (menuID: \&quot;&quot; + menuID +
+ 				&quot;\&quot;) -- command \&quot;&quot; + command + &quot;\&quot; not processed&quot;);
+@@ -704,8 +704,8 @@
+ 			dragInProgress = false;
+ 			//
+ 			if (targetNode != null &amp;&amp; targetNode != selection.topic) {
+-				controler.processGraphCommand(topicmap, CMD_CREATE_ASSOC + &quot;:&quot; +
+-					selection.topic.getID() + &quot;:&quot; + targetNode.getID());
++				controler.processGraphCommand(topicmap, CMD_CREATE_ASSOC + COMMAND_SEPARATOR +
++					selection.topic.getID() + COMMAND_SEPARATOR + targetNode.getID());
+ 			} else {
+ 				repaint();
+ 			}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationDetail.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationDetail.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationDetail.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -16,7 +16,7 @@
+  * with the origin topic.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 12.10.2003 (2.0b2)&lt;BR&gt;
++ * Last functional change: 10.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 12.10.2001 (2.0a13-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -98,7 +98,7 @@
+ 			String text = (String) param1;
+ 			boolean multiline = ((Boolean) param2).booleanValue();
+ 			int editorType = multiline ? EDITOR_TYPE_DEFAULT : EDITOR_TYPE_SINGLE_LINE;
+-			TextEditorPanel textEditor = new TextEditorPanel(editorType, controler, false, multiline ? null : this);
++			TextEditorPanel textEditor = new TextEditorPanel(editorType, null, controler, false, multiline ? null : this);	// ### hyperlinkListener=null
+ 			textEditor.setText(text);
+ 			// show detail window
+ 			int width = multiline ? TEXT_EDITOR_WIDTH : INPUT_LINE_WIDTH;
+@@ -110,7 +110,7 @@
+ 			// create text editor component (styled)
+ 			String html = (String) param1;
+ 			boolean editable = ((Boolean) param2).booleanValue();
+-			textEditor = new TextEditorPanel(EDITOR_TYPE_STYLED, controler, editable);
++			textEditor = new TextEditorPanel(EDITOR_TYPE_STYLED, null, controler, editable);	// ### hyperlinkListener=null
+ 			textEditor.setText(html);
+ 			textEditor.setEnabled(editable);
+ 			// show detail window
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -9,6 +9,7 @@
+ import java.awt.Dimension;
+ import java.awt.event.ActionListener;
+ import javax.swing.*;
++import javax.swing.event.HyperlinkListener;
+ import javax.swing.text.*;
+ import java.io.*;
+ import java.util.*;
+@@ -23,7 +24,7 @@
+  * {@link PresentationType}. 
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 12.10.2003 (2.0b2)&lt;BR&gt;
++ * Last functional change: 10.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.11.2000 (2.0a7-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -60,8 +61,9 @@
+ 
+ 
+ 	/**
+-	 * Creates a GUI component for editing a property according to this property
+-	 * definition.
++	 * Creates a GUI component for editing a property according to this property definition.
++	 * &lt;p&gt;
++	 * References checked: 10.9.2007 (2.0b8)
+ 	 *
+ 	 * @param	actionListener		may be null
+ 	 *
+@@ -70,7 +72,8 @@
+ 	 *
+ 	 * @see		PropertyPanel.PropertyField#PropertyPanel.PropertyField
+ 	 */
+-	Object[] createGUIComponent(ActionListener actionListener, PropertyPanelControler controler) {
++	Object[] createGUIComponent(ActionListener actionListener, HyperlinkListener hyperlinkListener,
++																	PropertyPanelControler controler) {
+ 		Object result[] = new Object[2];
+ 		if (visualization.equals(VISUAL_FIELD) ||
+ 			visualization.equals(VISUAL_FILE_CHOOSER) ||
+@@ -98,7 +101,7 @@
+ 			result[1] = area;
+ 			return result;
+ 		} else if (visualization.equals(VISUAL_TEXT_EDITOR)) {
+-			createTextEditor(actionListener, result, controler);
++			createTextEditor(actionListener, hyperlinkListener, result, controler);
+ 			return result;
+ 		} else if (visualization.equals(VISUAL_CHOICE)) {
+ 			result[0] = createOptionMenu(actionListener, controler);
+@@ -137,6 +140,9 @@
+ 
+ 
+ 
++	/**
++	 * Called for &lt;code&gt;VISUAL_FIELD&lt;/code&gt;, &lt;code&gt;VISUAL_FILE_CHOOSER&lt;/code&gt;, and &lt;code&gt;VISUAL_COLOR_CHOOSER&lt;/code&gt;.
++	 */
+ 	private JComponent createTextField(ActionListener actionListener) {
+ 		JTextField field = new JTextField() /* ### no effect {
+ 			public Dimension getPreferredSize() {
+@@ -151,6 +157,9 @@
+ 		return field;
+ 	}
+ 
++	/**
++	 * Called for &lt;code&gt;VISUAL_PASSWORD_FIELD&lt;/code&gt;.
++	 */
+ 	private JComponent createPasswordField(ActionListener actionListener) {
+ 		JPasswordField field = new JPasswordField() /* ### no effect {
+ 			public Dimension getPreferredSize() {
+@@ -165,6 +174,9 @@
+ 		return field;
+ 	}
+ 
++	/**
++	 * Called for &lt;code&gt;VISUAL_AREA&lt;/code&gt;.
++	 */
+ 	private JComponent createTextArea() {
+ 		JTextArea area = new JTextArea(50, 0);	// ### 50 rows
+ 		area.setLineWrap(true);
+@@ -172,8 +184,13 @@
+ 		return area;
+ 	}
+ 
+-	private void createTextEditor(ActionListener actionListener, Object[] result, PropertyPanelControler controler) {
+-		TextEditorPanel textEditor = new TextEditorPanel(EDITOR_TYPE_STYLED, (GraphPanelControler) controler, true) {
++	/**
++	 * Called for &lt;code&gt;VISUAL_TEXT_EDITOR&lt;/code&gt;.
++	 */
++	private void createTextEditor(ActionListener actionListener, HyperlinkListener hyperlinkListener,
++																	Object[] result, PropertyPanelControler controler) {
++		TextEditorPanel textEditor = new TextEditorPanel(EDITOR_TYPE_STYLED, hyperlinkListener,
++																	(GraphPanelControler) controler, true) {
+ 			public Dimension getPreferredSize() {
+ 				return new Dimension(0, 640);	// ### height 640 pixels
+ 			}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -35,7 +35,7 @@
+  * Main controler of the graphical DeepaMehta frontend.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -681,7 +681,7 @@
+ 	public void showNodeMenu(PresentationTopicMap topicmap, GraphNode node, int x, int y) {
+ 		storeProperties();
+ 		BaseTopic topic = (BaseTopic) node;
+-		String command = CMD_GET_TOPIC_COMMANDS + &quot;:&quot; + topic.getID() + &quot;:&quot; + topic.getVersion() + &quot;:&quot; + x + &quot;:&quot; + y;
++		String command = CMD_GET_TOPIC_COMMANDS + COMMAND_SEPARATOR + topic.getID() + COMMAND_SEPARATOR + topic.getVersion() + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
+ 		processTopicCommand(topic.getID(), topic.getVersion(), command, topicmap.getID());
+ 	}
+ 
+@@ -691,7 +691,7 @@
+ 	public void showEdgeMenu(PresentationTopicMap topicmap, GraphEdge edge, int x, int y) {
+ 		storeProperties();
+ 		BaseAssociation assoc = (BaseAssociation) edge;
+-		String command = CMD_GET_ASSOC_COMMANDS + &quot;:&quot; + assoc.getID() + &quot;:&quot; + assoc.getVersion() + &quot;:&quot; + x + &quot;:&quot; + y;
++		String command = CMD_GET_ASSOC_COMMANDS + COMMAND_SEPARATOR + assoc.getID() + COMMAND_SEPARATOR + assoc.getVersion() + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
+ 		processAssociationCommand(assoc.getID(), assoc.getVersion(), command, topicmap.getID());
+ 	}
+ 
+@@ -700,7 +700,7 @@
+ 	 */
+ 	public void showGraphMenu(PresentationTopicMap topicmap, int x, int y) {
+ 		storeProperties();
+-		processTopicCommand(topicmap.getID(), 1, CMD_GET_VIEW_COMMANDS + &quot;:&quot; + x + &quot;:&quot; + y, topicmap.getID());
++		processTopicCommand(topicmap.getID(), 1, CMD_GET_VIEW_COMMANDS + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y, topicmap.getID());
+ 	}
+ 
+ 	// ---
+@@ -3448,7 +3448,7 @@
+ 				if (hasStringFlavor) {
+ 	                String str = (String) t.getTransferData(DataFlavor.stringFlavor);
+ 					System.out.println(&quot;    string=\&quot;&quot; + str + &quot;\&quot;&quot;);
+-					processGraphCommand(getTopicmap(), CMD_PROCESS_STRING + &quot;:&quot; + str);
++					processGraphCommand(getTopicmap(), CMD_PROCESS_STRING + COMMAND_SEPARATOR + str);
+ 				} else if (hasFilelistFlavor) {
+ 	                java.util.List files = (java.util.List) t.getTransferData(DataFlavor.javaFileListFlavor);
+ 					System.out.println(&quot;    &quot; + files.size() + &quot; files:&quot;);
+@@ -3456,7 +3456,7 @@
+ 	                for (int i = 0; i &lt; files.size(); i++) {
+ 						File file = (File) files.get(i);
+ 						System.out.println(&quot;    &quot; + file);
+-						cmdBuf.append(&quot;:&quot;);
++						cmdBuf.append(COMMAND_SEPARATOR);
+ 						cmdBuf.append(file);
+ 					}
+ 					processGraphCommand(getTopicmap(), cmdBuf.toString());
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -12,6 +12,8 @@
+ import javax.swing.*;
+ import javax.swing.event.DocumentEvent;
+ import javax.swing.event.DocumentListener;
++import javax.swing.event.HyperlinkEvent;
++import javax.swing.event.HyperlinkListener;
+ import javax.swing.text.Document;
+ import javax.swing.text.JTextComponent;
+ import java.awt.*;
+@@ -32,13 +34,13 @@
+  * &lt;P&gt;
+  * There is one instance created (singleton).
+  * &lt;HR&gt;
+- * Last functional change: 8.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 10.6.2001 (2.0a11-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ class PropertyPanel extends JPanel implements ActionListener, ItemListener, DocumentListener,
+-																			DeepaMehtaConstants {
++											  HyperlinkListener, DeepaMehtaConstants {
+ 
+ 
+ 
+@@ -239,15 +241,13 @@
+ 	/**
+ 	 * Called when one of this events occurred:
+ 	 * &lt;UL&gt;
+-	 * &lt;LI&gt;Return has been pressed in the topic name field
+-	 * &lt;LI&gt;Return has been pressed in an (slingle line) input field of the property panel
+ 	 * &lt;LI&gt;The value of a &quot;Options Menu&quot; / &quot;Option Button&quot; / &quot;Switch&quot; property has been changed
+-	 * &lt;LI&gt;### ...
++	 * &lt;LI&gt;Return has been pressed in an (single line) input field of the property panel
+ 	 * &lt;/UL&gt;
+ 	 */
+ 	public void actionPerformed(ActionEvent e) {
+ 		String command = e.getActionCommand();
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_TOPIC_DATA_CHANGED_MENU)) {
+@@ -261,15 +261,7 @@
+ 			storeProperties();
+ 		} else {
+ 			storeProperties();
+-			if (selected == SELECTED_TOPIC) {
+-				controler.executeTopicCommand(getTopicmap(), getTopic(), command);
+-			} else if (selected == SELECTED_ASSOCIATION) {
+-				controler.executeAssocCommand(getTopicmap(), getAssociation(), command);
+-			} else if (selected == SELECTED_TOPICMAP) {
+-				controler.executeTopicCommand(getTopicmap(), getTopicmap().getEditor().getTopicmap(), command);
+-			} else {
+-				throw new DeepaMehtaException(&quot;unexpected selection mode: \&quot;&quot; + selected + &quot;\&quot;&quot;);
+-			}
++			executeCommand(command);
+ 		}
+ 	}
+ 
+@@ -293,7 +285,7 @@
+ 			if (state) {
+ 				controler.beginLongTask();
+ 				String typename = (String) topicTypeChoice.getSelectedItem();
+-				String command = CMD_CHANGE_TOPIC_TYPE_BY_NAME + &quot;:&quot; + typename;
++				String command = CMD_CHANGE_TOPIC_TYPE_BY_NAME + COMMAND_SEPARATOR + typename;
+ 				controler.executeTopicCommand(topicmap, getTopic(), command);
+ 				controler.endTask();
+ 			}
+@@ -302,7 +294,7 @@
+ 			if (state) {
+ 				controler.beginLongTask();
+ 				String typename = (String) assocTypeChoice.getSelectedItem();
+-				String command = CMD_CHANGE_ASSOC_TYPE_BY_NAME + &quot;:&quot; + typename;
++				String command = CMD_CHANGE_ASSOC_TYPE_BY_NAME + COMMAND_SEPARATOR + typename;
+ 				controler.executeAssocCommand(topicmap, getAssociation(), command);
+ 				controler.endTask();
+ 			}
+@@ -333,6 +325,22 @@
+ 
+ 
+ 
++	// ***********************************************************************
++	// *** Implementation of interface javax.swing.event.HyperlinkListener ***
++	// ***********************************************************************
++
++
++
++	public void hyperlinkUpdate(HyperlinkEvent e) {
++		// ### System.out.println(&quot;&gt;&gt;&gt; PropertyPanel.hyperlinkUpdate(): hyperlink event fired: &quot; + e);
++		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
++			String command = CMD_FOLLOW_HYPERLINK + COMMAND_SEPARATOR + e.getURL();
++			executeCommand(command);
++		}
++	}
++
++
++
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+@@ -617,9 +625,9 @@
+ 	// ---
+ 
+ 	/**
+-	 * Stores changed properties/topic name (actually the {@link #controler} is informed).
++	 * Stores changed properties (actually the {@link #controler} is informed).
+ 	 * &lt;P&gt;
+-	 * The properties/topic name are stored only, if marked dirty (see {@link #propertiesAreDirty}).
++	 * The properties are stored only, if marked dirty (see {@link #propertiesAreDirty}).
+ 	 * After storing the resp. flag is cleared.
+ 	 *
+ 	 * @see		#actionPerformed	4x
+@@ -642,6 +650,22 @@
+ 		}
+ 	}
+ 
++	/**
++	 * @see		#actionPerformed
++	 * @see		#hyperlinkUpdate
++	 */
++	private void executeCommand(String command) {
++		if (selected == SELECTED_TOPIC) {
++			controler.executeTopicCommand(getTopicmap(), getTopic(), command);
++		} else if (selected == SELECTED_ASSOCIATION) {
++			controler.executeAssocCommand(getTopicmap(), getAssociation(), command);
++		} else if (selected == SELECTED_TOPICMAP) {
++			controler.executeTopicCommand(getTopicmap(), getTopicmap().getEditor().getTopicmap(), command);
++		} else {
++			throw new DeepaMehtaException(&quot;unexpected selection mode: \&quot;&quot; + selected + &quot;\&quot;&quot;);
++		}
++	}
++
+ 	// ---
+ 
+ 	/**
+@@ -949,12 +973,11 @@
+ 	 */
+ 	private void buildPropertyFields(Type type) {
+ 		Vector propertyFields = new Vector();
+-		ActionListener actionListener = this;
+ 		// get all property definitions of the topic type
+ 		Enumeration e = type.getTypeDefinition().elements();
+ 		while (e.hasMoreElements()) {
+ 			PresentationPropertyDefinition propertyDef = (PresentationPropertyDefinition) e.nextElement();
+-			PropertyField propField = new PropertyField(propertyDef, actionListener /* ###, controler */);
++			PropertyField propField = new PropertyField(propertyDef, this, this);
+ 			propertyFields.addElement(propField);
+ 		}
+ 		//
+@@ -1372,19 +1395,22 @@
+ 
+ 		/**
+ 		 * Standard constructor.
+-		 * &lt;P&gt;
++		 * &lt;p&gt;
+ 		 * Creates the GUI component for this &lt;CODE&gt;PropertyField&lt;/CODE&gt; and stores
+ 		 * it in the {@link #view} and {@link #model} fields.
++		 * &lt;p&gt;
++		 * References checked: 10.9.2007 (2.0b8)
+ 		 *
+-		 * @see		PropertyPanel#createPropertyFields
++		 * @see		PropertyPanel#buildPropertyFields
+ 		 */
+-		PropertyField(PresentationPropertyDefinition propertyDef,
+-					ActionListener listener /* ###, PropertyPanelControler controler */) {
++		PropertyField(PresentationPropertyDefinition propertyDef, ActionListener actionListener,
++																  HyperlinkListener hyperlinkListener) {
+ 			this.propertyDef = propertyDef;
+ 			if (isHidden()) {
+-				listener = null;
++				actionListener = null;		// ### required?
++				hyperlinkListener = null;	// ### required?
+ 			}
+-			Object[] component = propertyDef.createGUIComponent(listener, controler);
++			Object[] component = propertyDef.createGUIComponent(actionListener, hyperlinkListener, controler);
+ 			this.view = (JComponent) component[0];
+ 			this.model = component[1];
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/client/TextEditorPanel.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -14,6 +14,7 @@
+ import javax.swing.*;
+ import javax.swing.event.DocumentListener;
+ import javax.swing.event.DocumentEvent;
++import javax.swing.event.HyperlinkListener;
+ import javax.swing.text.*;
+ import javax.swing.text.html.HTML;
+ import javax.swing.text.html.HTMLDocument;
+@@ -32,7 +33,7 @@
+  * The content can also set to be view-only.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 20.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.9.2001 (2.0a12-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -68,7 +69,7 @@
+ 	 */
+ 	private int editorType;
+ 
+-	private GraphPanelControler controler;
++	// ### private GraphPanelControler controler;
+ 	private PresentationDetail detail;
+ 	private JTextComponent textComponent;	// a JTextArea, JTextPane or JTextField respectively
+ 	private JButton[] toolbarButtons;
+@@ -89,17 +90,17 @@
+ 
+ 
+ 	/**
+-	 * References checked: 8.10.2003 (2.0b2)
++	 * References checked: 10.9.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDetail#PresentationDetail
+ 	 * @see		PresentationPropertyDefinition#createTextEditor
+ 	 */
+-	TextEditorPanel(int editorType, GraphPanelControler controler, boolean showToolbar) {
+-		this(editorType, controler, showToolbar, null);
++	TextEditorPanel(int editorType, HyperlinkListener listener, GraphPanelControler controler, boolean showToolbar) {
++		this(editorType, listener, controler, showToolbar, null);
+ 	}
+ 
+ 	/**
+-	 * References checked: 8.10.2003 (2.0b2)
++	 * References checked: 10.9.2007 (2.0b8)
+ 	 *
+ 	 * @param	editorType	editor type, one of this constants
+ 	 *						&lt;UL&gt;
+@@ -107,14 +108,14 @@
+ 	 *						&lt;LI&gt;EDITOR_TYPE_STYLED
+ 	 *						&lt;LI&gt;EDITOR_TYPE_SINGLE_LINE
+ 	 *						&lt;/UL&gt;
+-	 * @param	controler	if not &lt;code&gt;null&lt;/code&gt; for &lt;code&gt;EDITOR_TYPE_STYLED&lt;/code&gt;
+-	 *						editors a toolbar is created
++	 * @param	controler	for editors of type &lt;code&gt;EDITOR_TYPE_STYLED&lt;/code&gt;: just needed to get the icons for the
++	 *						toolbar buttons ### bad approach
+ 	 *
+ 	 * @see		PresentationDetail#PresentationDetail
+ 	 */
+-	TextEditorPanel(int editorType, GraphPanelControler controler, boolean showToolbar, PresentationDetail detail) {
++	TextEditorPanel(int editorType, HyperlinkListener listener, GraphPanelControler controler, boolean showToolbar, PresentationDetail detail) {
+ 		this.editorType = editorType;
+-		this.controler = controler;
++		// ### this.controler = controler;
+ 		this.showToolbar = showToolbar;
+ 		this.detail = detail;
+ 		setLayout(new BorderLayout());
+@@ -127,6 +128,7 @@
+ 		case EDITOR_TYPE_STYLED:
+ 			textComponent = new JTextPane();
+ 			textComponent.setTransferHandler(new TextTransferHandler());	// ### requires Java 1.4
++			((JEditorPane) textComponent).addHyperlinkListener(listener);
+ 			// --- add toolbar ---
+ 			if (showToolbar) {
+ 				JPanel bar = new JPanel();
+@@ -223,8 +225,13 @@
+ 
+ 	// --- overrides Component ---
+ 
++	/**
++	 * @see		PropertyPanel.PropertyField#setEnabled
++	 * @see		PresentationDetail#PresentationDetail
++	 */
+ 	public void setEnabled(boolean enabled) {
+ 		textComponent.setEnabled(enabled);
++		textComponent.setEditable(enabled);		// ###
+ 		//
+ 		if (showToolbar) {
+ 			for (int i = 0; i &lt; toolbarButtons.length; i++) {
+@@ -258,6 +265,7 @@
+ 		if (editorType == EDITOR_TYPE_STYLED) {
+ 			//
+ 			// --- set content type ---
++			// ### System.out.println(&quot;&gt;&gt;&gt; TextEditorPanel.setText(): before setContentType(): &quot; + ((JEditorPane) textComponent).getHyperlinkListeners().length + &quot; hyperlink listeners registered&quot;);
+ 			((JEditorPane) textComponent).setContentType(&quot;text/html&quot;);
+ 			//
+ 			// --- set base URL ---
+@@ -282,6 +290,7 @@
+ 				textComponent.setText(&quot;&lt;html&gt;&lt;body&gt;&lt;font color=#FF0000&gt;Page can't be displayed&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 				System.out.println(&quot;*** TextEditorPanel.setText(): error while HTML rendering: &quot; + e);
+ 			}
++			// ### System.out.println(&quot;&gt;&gt;&gt; TextEditorPanel.setText(): after setContentType():  &quot; + ((JEditorPane) textComponent).getHyperlinkListeners().length + &quot; hyperlink listeners registered&quot;);
+ 		} else {
+ 			textComponent.setText(text);
+ 			textComponent.setCaretPosition(0);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -1004,42 +1004,6 @@
+ 		return directives;
+ 	}
+ 
+-	// --- createPresentableAssociation (2 forms) ---
+-
+-	public PresentableAssociation createPresentableAssociation(String assocTypeID, String topicID1, int topicVersion1,
+-													String topicID2, int topicVersion2, boolean performExistenceCheck) {
+-		return createPresentableAssociation(assocTypeID, &quot;&quot;,
+-			topicID1, topicVersion1, topicID2, topicVersion2, performExistenceCheck);
+-	}
+-
+-	/**
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;TD&gt;&lt;CODE&gt;performExistenceCheck&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #createNewContainer}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #createPresentableAssociations}&lt;TD&gt;&lt;CODE&gt;true&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.topics.ElementContainerTopic#autoSearch}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.topics.ElementContainerTopic#revealTopic}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
+-	 * &lt;/TABLE&gt;
+-	 */
+-	public PresentableAssociation createPresentableAssociation(String assocTypeID, String assocName,
+-									String topicID1, int topicVersion1,
+-									String topicID2, int topicVersion2,
+-									boolean performExistenceCheck) {
+-		String assocID;
+-		if (!performExistenceCheck || !cm.associationExists(topicID1, topicID2, false)) {
+-			assocID = cm.getNewAssociationID();
+-		} else {
+-			Association assoc = cm.getAssociation(assocTypeID, topicID1, topicID2);
+-			if (assoc == null) {
+-				assocID = cm.getNewAssociationID();
+-			} else {
+-				assocID = assoc.getID();
+-			}
+-		}
+-		return new PresentableAssociation(assocID, 1, assocTypeID, 1, assocName,
+-			topicID1, topicVersion1, topicID2, topicVersion2);
+-	}
+-
+ 	// --- getTopicProperty (2 forms) ---
+ 
+ 	// ### should be named &quot;getProperty&quot;
+@@ -4287,7 +4251,6 @@
+ 
+ 	public PresentableTopic createPresentableTopic(String topicID, int version) throws DeepaMehtaException {
+ 		PresentableTopic topic = createPresentableTopic(cm.getTopic(topicID, version));
+-		// ### topic.setFreeGeometry();
+ 		return topic;
+ 	}
+ 
+@@ -4350,6 +4313,10 @@
+ 	}
+ 
+ 	/**
++	 * Creates a PresentableTopic for the specified topic that is about to appear in the near of another topic.
++	 * This is done by triggering the &lt;code&gt;getPresentableTopic()&lt;/code&gt; hook of the specified topic map.
++	 * This way a custom topic map is able to adjust e.g. the geometry of the appearing topic.
++	 *
+ 	 * @see		#createPresentableTopics
+ 	 * @see		de.deepamehta.topics.LiveTopic#revealTopic
+ 	 */
+@@ -4358,6 +4325,42 @@
+ 		return getLiveTopic(topicmapID, 1).getPresentableTopic(topic, nearTopicID);
+ 	}
+ 
++	// --- createPresentableAssociation (2 forms) ---
++
++	public PresentableAssociation createPresentableAssociation(String assocTypeID, String topicID1, int topicVersion1,
++													String topicID2, int topicVersion2, boolean performExistenceCheck) {
++		return createPresentableAssociation(assocTypeID, &quot;&quot;,
++			topicID1, topicVersion1, topicID2, topicVersion2, performExistenceCheck);
++	}
++
++	/**
++	 * &lt;TABLE&gt;
++	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;TD&gt;&lt;CODE&gt;performExistenceCheck&lt;/CODE&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link #createNewContainer}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link #createPresentableAssociations}&lt;TD&gt;&lt;CODE&gt;true&lt;/CODE&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.topics.ElementContainerTopic#autoSearch}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
++	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.topics.ElementContainerTopic#revealTopic}&lt;TD&gt;&lt;CODE&gt;false&lt;/CODE&gt;
++	 * &lt;/TABLE&gt;
++	 */
++	public PresentableAssociation createPresentableAssociation(String assocTypeID, String assocName,
++									String topicID1, int topicVersion1,
++									String topicID2, int topicVersion2,
++									boolean performExistenceCheck) {
++		String assocID;
++		if (!performExistenceCheck || !cm.associationExists(topicID1, topicID2, false)) {
++			assocID = cm.getNewAssociationID();
++		} else {
++			Association assoc = cm.getAssociation(assocTypeID, topicID1, topicID2);
++			if (assoc == null) {
++				assocID = cm.getNewAssociationID();
++			} else {
++				assocID = assoc.getID();
++			}
++		}
++		return new PresentableAssociation(assocID, 1, assocTypeID, 1, assocName,
++			topicID1, topicVersion1, topicID2, topicVersion2);
++	}
++
+ 	// --- createWebpageTopic (2 forms) ---
+ 
+ 	// ###
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -24,7 +24,7 @@
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 9.10.2001 (2.0a12)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -143,7 +143,7 @@
+ 				defaultWorkspaceID = workspaceID;
+ 				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+ 					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+-				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace), cmdState);
+ 				commandGroup.addSeparator();	// ### conditional
+ 			}
+@@ -159,7 +159,7 @@
+ 				}
+ 				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+ 					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+-				commandGroup.addCommand(workspaceTopic.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++				commandGroup.addCommand(workspaceTopic.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 					FILESERVER_ICONS_PATH, as.getIconfile(workspaceTopic), cmdState);
+ 			}
+ 		} else {
+@@ -168,7 +168,7 @@
+ 			workspaceID = workspace.getID();
+ 			cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+ 				COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+-			commandGroup.addCommand(workspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++			commandGroup.addCommand(workspace.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 				FILESERVER_ICONS_PATH, as.getIconfile(workspace), cmdState);
+ 		}
+ 	}
+@@ -431,7 +431,7 @@
+ 					false, true);	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
+ 				Vector selectedTopicIDs = DeepaMehtaUtils.topicIDs(selectedTopics);
+ 				//
+-				String cmd = CMD_ASSIGN_TOPIC + &quot;:&quot; + assocTypeID + &quot;:&quot; + cardinality;
++				String cmd = CMD_ASSIGN_TOPIC + COMMAND_SEPARATOR + assocTypeID + COMMAND_SEPARATOR + cardinality;
+ 				addTopicCommands(topicGroup, topics, cmd, state, selectedTopicIDs, null, session, directives);
+ 				if (topics.size() &gt; 0) {
+ 					topicGroup.addSeparator();
+@@ -439,7 +439,7 @@
+ 			}
+ 			// add additional &quot;Create ...&quot; command
+ 			String item = as.string(ITEM_ASSIGN_NEW_TOPIC, relTopicType.getName());
+-			String cmd = CMD_ASSIGN_NEW_TOPIC + &quot;:&quot; + relTopicTypeID + &quot;:&quot; + assocTypeID + &quot;:&quot; + cardinality;
++			String cmd = CMD_ASSIGN_NEW_TOPIC + COMMAND_SEPARATOR + relTopicTypeID + COMMAND_SEPARATOR + assocTypeID + COMMAND_SEPARATOR + cardinality;
+ 			topicGroup.addCommand(item, cmd, FILESERVER_IMAGES_PATH, ICON_NEW_TOPIC);
+ 		}
+ 	}
+@@ -456,7 +456,7 @@
+ 		if (query.equals(&quot;&quot;)) {
+ 			query = as.string(ITEM_SHOW_HELP, typeName);
+ 		}
+-		addCommand(query, CMD_SHOW_HELP + &quot;:&quot; + type.getID(), FILESERVER_IMAGES_PATH, ICON_SHOW_HELP);	// ### encapsulate title
++		addCommand(query, CMD_SHOW_HELP + COMMAND_SEPARATOR + type.getID(), FILESERVER_IMAGES_PATH, ICON_SHOW_HELP);	// ### encapsulate title
+ 	}
+ 
+ 	public void addHelpCommand(LiveAssociation assoc, Session session) {
+@@ -469,7 +469,7 @@
+ 		if (query.equals(&quot;&quot;)) {
+ 			query = as.string(ITEM_SHOW_HELP, typeName);
+ 		}
+-		addCommand(query, CMD_SHOW_HELP + &quot;:&quot; + type.getID(), FILESERVER_IMAGES_PATH, ICON_SHOW_HELP);	// ### encapsulate title
++		addCommand(query, CMD_SHOW_HELP + COMMAND_SEPARATOR + type.getID(), FILESERVER_IMAGES_PATH, ICON_SHOW_HELP);	// ### encapsulate title
+ 	}
+ 
+ 	// ---
+@@ -492,7 +492,7 @@
+ 			option = (PresentableTopic) e.nextElement();
+ 			value = option.getName();
+ 			optionIconfile = option.getAppearanceParam();
+-			cmd = CMD_SET_PROPERTY + &quot;:&quot; + propName + &quot;:&quot; + value;
++			cmd = CMD_SET_PROPERTY + COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + value;
+ 			cmdState = COMMAND_STATE_RADIOBUTTON + (propValue.equals(value) ?
+ 				COMMAND_STATE_SELECTED : COMMAND_STATE_DEFAULT);
+ 			cmdGroup.addCommand(value, cmd, FILESERVER_ICONS_PATH, optionIconfile,
+@@ -508,12 +508,12 @@
+ 		String cmd;
+ 		int cmdState;
+ 		// on
+-		cmd = CMD_SET_PROPERTY + &quot;:&quot; + propName + &quot;:&quot; + SWITCH_ON;
++		cmd = CMD_SET_PROPERTY + COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + SWITCH_ON;
+ 		cmdState = COMMAND_STATE_RADIOBUTTON + (propValue.equals(SWITCH_ON) ?
+ 				COMMAND_STATE_SELECTED : COMMAND_STATE_DEFAULT);
+ 		cmdGroup.addCommand(SWITCH_ON, cmd, &quot;&quot;, &quot;&quot;, cmdState);
+ 		// off
+-		cmd = CMD_SET_PROPERTY + &quot;:&quot; + propName + &quot;:&quot; + SWITCH_OFF;
++		cmd = CMD_SET_PROPERTY + COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + SWITCH_OFF;
+ 		cmdState = COMMAND_STATE_RADIOBUTTON + (propValue.equals(SWITCH_OFF) ?
+ 				COMMAND_STATE_SELECTED : COMMAND_STATE_DEFAULT);
+ 		cmdGroup.addCommand(SWITCH_OFF, cmd, &quot;&quot;, &quot;&quot;, cmdState);
+@@ -584,7 +584,7 @@
+ 			int cmdState = commandState + (isSelected ? COMMAND_STATE_SELECTED : 0)
+ 										+ (isDisabled ? COMMAND_STATE_DISABLED : 0);
+ 			// add command
+-			cmdGroup.addCommand(topicName, command + &quot;:&quot; + topicID, FILESERVER_ICONS_PATH, topic.getIconfile(), cmdState);
++			cmdGroup.addCommand(topicName, command + COMMAND_SEPARATOR + topicID, FILESERVER_ICONS_PATH, topic.getIconfile(), cmdState);
+ 		}
+ 	}
+ 
+@@ -775,7 +775,7 @@
+ 					}
+ 					String count = (String) types.get(typeID);
+ 					cmdGroup.addCommand(type.getPluralNaming() + &quot; (&quot; + count + &quot;)&quot;,
+-						command + &quot;:&quot; + typeID, FILESERVER_ICONS_PATH, type.getIconfile());
++						command + COMMAND_SEPARATOR + typeID, FILESERVER_ICONS_PATH, type.getIconfile());
+ 				}
+ 			} catch (DeepaMehtaException ex) {
+ 				System.out.println(&quot;*** CorporateCommands.addTypeCommands(): command \&quot;&quot; + command + &quot;\&quot; cant be added for type \&quot;&quot; + typeID + &quot;\&quot;: &quot; + ex);
+@@ -859,7 +859,7 @@
+ 									boolean editable, boolean styled, boolean multiline, Session session) {
+ 		int item = editable ? ITEM_EDIT_PROPERTY : ITEM_VIEW_PROPERTY;
+ 		String cmd = editable ? CMD_EDIT_TOPIC_PROPERTY : CMD_VIEW_TOPIC_PROPERTY;
+-		String param = &quot;:&quot; + propName + &quot;:&quot; + propLabel + &quot;:&quot; + styled + &quot;:&quot; + multiline;
++		String param = COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + propLabel + COMMAND_SEPARATOR + styled + COMMAND_SEPARATOR + multiline;
+ 		addCommand(as.string(item, propLabel), cmd + param, FILESERVER_IMAGES_PATH, iconfile);
+ 	} */
+ 
+@@ -872,7 +872,7 @@
+ 									boolean editable, boolean styled, boolean multiline, Session session) {
+ 		int item = editable ? ITEM_EDIT_PROPERTY : ITEM_VIEW_PROPERTY;
+ 		String cmd = editable ? CMD_EDIT_ASSOC_PROPERTY : CMD_VIEW_ASSOC_PROPERTY;
+-		String param = &quot;:&quot; + propName + &quot;:&quot; + styled + &quot;:&quot; + multiline;
++		String param = COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + styled + COMMAND_SEPARATOR + multiline;
+ 		addCommand(as.string(item, propName), cmd + param, FILESERVER_IMAGES_PATH, iconfile);
+ 	}
+ 
+@@ -971,7 +971,7 @@
+ 	private void addTypeCommand(Commands cmdGroup, String typeID, String command,
+ 															boolean usePluralName) {
+ 		TypeTopic type = as.type(typeID, 1);
+-		String cmd = command + &quot;:&quot; + type.getID();
++		String cmd = command + COMMAND_SEPARATOR + type.getID();
+ 		cmdGroup.addCommand(usePluralName ? type.getPluralNaming() : type.getName(), cmd,
+ 			FILESERVER_ICONS_PATH, type.getIconfile());
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDetail.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDetail.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDetail.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -14,7 +14,7 @@
+  * Server side extension of topic/association {@link de.deepamehta.Detail}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 12.4.2003 (2.0a18-pre9)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 14.10.2001 (2.0a13-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -80,7 +80,7 @@
+ 													String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		/* ### if (cmd.equals(CMD_CHANGE_TOPIC_NAME)) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ApplicationTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ApplicationTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ApplicationTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -17,7 +17,7 @@
+  * The default behavoir of an &lt;CODE&gt;ApplicationTopic&lt;/CODE&gt; causes the client to launch it.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 12.4.2003 (2.0a18-pre9)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.11.2000 (2.0a7-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -82,7 +82,7 @@
+ 		// ### compare to DocumentTopic
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {
+ 			// the chained directive is only performed if the filechoosing has
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CMImportExportTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CMImportExportTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CMImportExportTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -49,7 +49,7 @@
+  *     ({@link #importFromFile importFromFile()})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 18.7.2003 (2.0b2)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 13.4.2002 (2.0a14-post1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -156,7 +156,7 @@
+ 	 */
+ 	public CorporateDirectives executeChainedCommand(String command, String result, String topicmapID,
+ 																	String viewmode, Session session) {
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);		// ###
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);		// ###
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_IMPORT_CM)) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -1,8 +1,11 @@
+ package de.deepamehta.topics;
+ 
+ import de.deepamehta.BaseTopic;
++import de.deepamehta.BaseAssociation;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.DeepaMehtaUtils;
++import de.deepamehta.PresentableTopic;
++import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+@@ -14,7 +17,7 @@
+ 
+ 
+ /**
+- * Last functional change: 6.7.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -96,15 +99,28 @@
+ 
+ 
+ 
+-	public CorporateDirectives executeCommand(String actionCommand, Session session,
+-													String topicmapID, String viewmode) {
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		if (actionCommand.equals(CMD_CREATE_EVENT)) {
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
++		String cmd = st.nextToken();
++		//
++		if (cmd.equals(CMD_CREATE_EVENT)) {
+ 			createChildTopic(TOPICTYPE_EVENT, SEMANTIC_CALENDAR_EVENT, session, directives);
+ 			return directives;
++		} else if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
++			String url = st.nextToken();
++			String urlPrefix = &quot;<A HREF="http://revealEvent/">http://revealEvent/</A>&quot;;
++			if (url.startsWith(urlPrefix)) {
++				String eventID = url.substring(urlPrefix.length());
++				revealEvent(eventID, directives);
++			} else {
++				System.out.println(&quot;*** CalendarTopic.executeCommand(): URL \&quot;&quot; + url + &quot;\&quot; not recognized by &quot; +
++					&quot;CMD_FOLLOW_HYPERLINK&quot;);
++			}
++			return directives;
+ 		} else {
+-			return super.executeCommand(actionCommand, session, topicmapID, viewmode);
++			return super.executeCommand(command, session, topicmapID, viewmode);
+ 		}
+ 	}
+ 
+@@ -181,7 +197,12 @@
+ 	}
+ 
+ 	private String renderWeekView(Vector events) {
+-		Calendar displayDate = DeepaMehtaUtils.getCalendar(getProperty(PROPERTY_DISPLAY_DATE));
++		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
++		if (!isSet(displayDateString)) {
++			System.out.println(&quot;  &gt; \&quot;Display Date\&quot; not set completely -- calendar view is not rendered&quot;);
++			return &quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
++		}
++		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+ 		// display range: begin date
+ 		int delta = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+ 		displayDate.add(Calendar.DATE, -delta);
+@@ -211,7 +232,8 @@
+ 					html.append(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+ 				} else if (cell.type == GridCell.BEGIN_OF_EVENT) {
+ 					html.append(&quot;&lt;td rowspan=\&quot;&quot; + cell.occupiedSegments + &quot;\&quot;&gt;&quot;);
+-					html.append(&quot;&lt;b&gt;&quot; + cell.eventBegin + &quot;&lt;/b&gt;&lt;br&gt;&quot; + cell.eventName);
++					html.append(&quot;&lt;b&gt;&quot; + cell.eventBegin + &quot;&lt;/b&gt;&lt;br&gt;&quot;);
++					html.append(&quot;&lt;a href=\&quot;<A HREF="http://revealEvent/">http://revealEvent/</A>&quot; + cell.eventID + &quot;\&quot;&gt;&quot; + cell.eventName + &quot;&lt;/a&gt;&quot;);
+ 					html.append(&quot;&lt;/td&gt;&quot;);
+ 				}
+ 			}
+@@ -271,9 +293,12 @@
+ 			// --- add to model ---
+ 			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
+ 			int dayOfWeek = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-			// add beginning segment to model
+-			gridModel[dayOfWeek][beginSegment] = new GridCell(event.getID(), event.getName(), beginTime, segmentCount);
+-			// add ocupied segments to model
++			// 1) add beginning segment to model
++			String eventName = getProperty(event, PROPERTY_NAME);	// note: event.getName() doesn't work here, because the
++			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
++			// is updated in CM.
++			gridModel[dayOfWeek][beginSegment] = new GridCell(event.getID(), eventName, beginTime, segmentCount);
++			// 2) add ocupied segments to model
+ 			for (int seg = beginSegment + 1; seg &lt; beginSegment + segmentCount; seg++) {
+ 				gridModel[dayOfWeek][seg] = new GridCell();
+ 			}
+@@ -291,6 +316,15 @@
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
+ 	}
+ 
++	private void revealEvent(String eventID, CorporateDirectives directives) {
++		PresentableTopic event = new PresentableTopic(as.getLiveTopic(eventID, 1), getID());
++		BaseAssociation a = cm.getAssociation(ASSOCTYPE_ASSOCIATION, getID(), eventID);
++		PresentableAssociation assoc = new PresentableAssociation(a);
++		directives.add(DIRECTIVE_SHOW_TOPIC, event);
++		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc);
++		directives.add(DIRECTIVE_SELECT_TOPIC, eventID);
++	}
++
+ 	// ---
+ 
+ 	private String timeRange(String beginDate, String beginTime, String endDate, String endTime) {
+@@ -321,7 +355,7 @@
+ 
+ 	private boolean isSet(String dateOrTime) {
+ 		// ### return !dateOrTime.equals(&quot;-/-/-&quot;) &amp;&amp; !dateOrTime.equals(&quot;-:-&quot;);
+-		return dateOrTime.indexOf(VALUE_NOT_SET) == -1;
++		return dateOrTime.length() &gt; 0 &amp;&amp; dateOrTime.indexOf(VALUE_NOT_SET) == -1;
+ 	}
+ 
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ChatBoardTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ChatBoardTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ChatBoardTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -15,7 +15,7 @@
+  * A chat board is a topic map that holds chats.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.10.2004 (2.0b3)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.4.2003 (2.0a18-pre9)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -83,7 +83,7 @@
+ 						String topicmapID, String viewmode) throws DeepaMehtaException {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_SHOW_CHATS)) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -88,7 +88,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 23.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 13.3.2001 (2.0a10-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -233,7 +233,7 @@
+ 			Enumeration e = getContent().elements();
+ 			while (e.hasMoreElements()) {
+ 				String[] topic = (String[]) e.nextElement();
+-				cmdGroup.addCommand(topic[1], CMD_SHOW_CONTENT + &quot;:&quot; + topic[0],
++				cmdGroup.addCommand(topic[1], CMD_SHOW_CONTENT + COMMAND_SEPARATOR + topic[0],
+ 					FILESERVER_ICONS_PATH, getAppearance(topic[0], topic[1], session, directives));
+ 			}
+ 		}
+@@ -242,7 +242,7 @@
+ 		if (groupingProps != null) {
+ 			cmdGroup = commands.addCommandGroup(as.string(ITEM_GROUP_BY), FILESERVER_IMAGES_PATH, ICON_GROUP_BY);
+ 			for (int i = 0; i &lt; groupingProps.length; i++) {
+-				cmdGroup.addCommand(groupingProps[i], CMD_GROUP_BY + &quot;:&quot; + groupingProps[i]);
++				cmdGroup.addCommand(groupingProps[i], CMD_GROUP_BY + COMMAND_SEPARATOR + groupingProps[i]);
+ 			}
+ 		}
+ 		// &quot;Remove&quot;
+@@ -265,22 +265,25 @@
+ 	 */
+ 	public CorporateDirectives executeCommand(String command, Session session,
+ 											String topicmapID, String viewmode) throws DeepaMehtaException {
+-		String[] cmd = DeepaMehtaUtils.explode(command);	// ### use a tokenizer instead
+-		if (cmd[0].equals(CMD_DEFAULT)) {
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
++		String cmd = st.nextToken();
++		//
++		if (cmd.equals(CMD_DEFAULT)) {
+ 			// reveal content
+ 			CorporateDirectives directives = triggerQuery(topicmapID);
+ 			// ### let the superclass show the topic detail
+ 			// directives.add(super.executeCommand(command, session));
+ 			return directives;
+-		} else if (cmd[0].equals(CMD_SUBMIT_FORM)) {
++		} else if (cmd.equals(CMD_SUBMIT_FORM)) {
+ 			// filtering
+ 			Hashtable containerProps = getProperties();
+ 			String nameFilter = (String) containerProps.get(PROPERTY_SEARCH);
+ 			return processQuery(nameFilter, queryProperties(containerProps), null, null, topicmapID);
+-		} else if (cmd[0].equals(CMD_SHOW_CONTENT)) {
++		} else if (cmd.equals(CMD_SHOW_CONTENT)) {
+ 			// reveal one topic
+ 			CorporateDirectives directives = new CorporateDirectives();
+-			String topicID = revealTopic(cmd[1], topicmapID, directives);
++			String id = st.nextToken();
++			String topicID = revealTopic(id, topicmapID, directives);
+ 			// reveal association(s) if relation filter is set
+ 			if (containerRelatedTopic != null) {
+ 				Vector assocs = cm.getAssociations(topicID, containerRelatedTopic.getID(), true);	// ignoreDirection=true
+@@ -291,9 +294,10 @@
+ 				}
+ 			}
+ 			return directives;
+-		} else if (cmd[0].equals(CMD_GROUP_BY)) {
++		} else if (cmd.equals(CMD_GROUP_BY)) {
+ 			// grouping
+-			return autoSearch(cmd[1]);
++			String groupingProp = st.nextToken();
++			return autoSearch(groupingProp);
+ 		} else {
+ 			return super.executeCommand(command, session, topicmapID, viewmode);
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DocumentTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DocumentTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DocumentTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -14,7 +14,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.3.2004 (2.0b3-pre1)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.11.2000 (2.0a7-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -88,7 +88,7 @@
+ 		// ### compare to ApplicationTopic
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {	// ### to be dropped
+ 			// the chained action is only performed if the filechoosing has performed at
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/FileTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/FileTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/FileTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -22,7 +22,7 @@
+  * what to to with the selected file.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 26.9.2002 (2.0a16-pre4)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 24.4.2001 (2.0a7-pre6)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -79,7 +79,7 @@
+ 													String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {
+ 			directives.add(DIRECTIVE_CHOOSE_FILE);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ImageTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ImageTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ImageTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -17,7 +17,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.3.2004 (2.0b3-pre1)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 18.7.2003 (2.0b2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -53,7 +53,7 @@
+ 	public CorporateDirectives executeChainedCommand(String command, String result,
+ 								String topicmapID, String viewmode, Session session)
+ 								throws DeepaMehtaException {
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/InstallationTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/InstallationTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/InstallationTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -1 +1 @@
+-package de.deepamehta.topics;
+
+import de.deepamehta.BaseTopic;
+import de.deepamehta.PropertyDefinition;
+import de.deepamehta.service.ApplicationService;
+import de.deepamehta.service.CorporateDirectives;
+import de.deepamehta.service.Session;
+//
+import java.util.*;
+
+
+
+/**
+ * &lt;P&gt;
+ * &lt;HR&gt;
+ * Last functional change: 18.7.2003 (2.0b2)&lt;BR&gt;
+ * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+ * J&ouml;rg Richter&lt;BR&gt;
+ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+ */
+public class InstallationTopic extends LiveTopic {
+
+
+
+	static final String  CMD_ASSIGN_CORPORATE_ICON = &quot;assignCorporateIcon&quot;;
+	static final String  CMD_ASSIGN_CUSTOMER_ICON = &quot;assignCustomerIcon&quot;;
+
+
+
+	// *******************
+	// *** Constructor ***
+	// *******************
+
+
+
+	/**
+	 * @see		de.deepamehta.service.ApplicationService#createLiveTopic
+	 */
+	public InstallationTopic(BaseTopic topic, ApplicationService as) {
+		super(topic, as);
+	}
+
+
+
+	// --------------------------
+	// --- Providing Commands ---
+	// --------------------------
+
+
+
+	/**
+	!
+  * @see		TypeTopic#makeTypeDefinition
+	 */
+	public static void buttonCommand(PropertyDefinition propDef, ApplicationService as, Session session) {
+		String propName = propDef.getPropertyName();
+		if (propName.equals(PROPERTY_CORPORATE_ICON)) {
+			propDef.setActionButton(as.string(BUTTON_ASSIGN_FILE), CMD_ASSIGN_CORPORATE_ICON);
+		} else if (propName.equals(PROPERTY_CUSTOMER_ICON)) {
+			propDef.setActionButton(as.string(BUTTON_ASSIGN_FILE), CMD_ASSIGN_CUSTOMER_ICON);
+		}
+	}
+
+
+
+	// --------------------------
+	// --- Executing Commands ---
+	// --------------------------
+
+
+
+	public CorporateDirectives executeCommand(String command, Session session,
+													String topicmapID, String viewmode) {
+		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
+		String cmd = st.nextToken();
+		//
+		if (cmd.equals(CMD_ASSIGN_CORPORATE_ICON) || cmd.equals(CMD_ASSIGN_CUSTOMER_ICON)) {
+			CorporateDirectives directives = new CorporateDirectives();
+			directives.add(DIRECTIVE_CHOOSE_FILE)!
+ ;
+			return directives;
+		} else {
+			return super.executeComm!
+ and(comm
+and, session, topicmapID, viewmode);
+		}
+	}
+
+	public CorporateDirectives executeChainedCommand(String command, String result,
+											String topicmapID, String viewmode, Session session) {
+		// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute
+		// path of the (client side) selected icon file
+		CorporateDirectives directives = new CorporateDirectives();
+		//
+		if (command.equals(CMD_ASSIGN_CORPORATE_ICON)) {
+			copyAndUpload(result, FILE_IMAGE, PROPERTY_CORPORATE_ICON, session, directives);
+			return directives;
+		} else if (command.equals(CMD_ASSIGN_CUSTOMER_ICON)) {
+			copyAndUpload(result, FILE_IMAGE, PROPERTY_CUSTOMER_ICON, session, directives);
+			return directives;
+		} else {
+			return super.executeChainedCommand(command, result, topicmapID, viewmode, session);
+		}
+	}
+
+
+
+	// ---------------------------
+	// --- Handling Properties ---
+	// ---------------------------
+
+
+
+	public CorporateDirectives propertiesChanged(Hashtable newData, Hashtable oldData,!
+ 
+											String topicmapID, String viewmode, Session session) {
+		CorporateDirectives directives = super.propertiesChanged(newData, oldData,
+			topicmapID, viewmode, session);
+		String value;
+		// --- &quot;Language&quot; ---
+		value = (String) newData.get(PROPERTY_LANGUAGE);
+		if (value != null) {
+			addHint(PROPERTY_LANGUAGE, value, directives);
+		}
+		// --- &quot;Corporate Icon&quot; ---
+		value = (String) newData.get(PROPERTY_CORPORATE_ICON);
+		if (value != null) {
+			addHint(PROPERTY_CORPORATE_ICON, value, directives);
+		}
+		// --- &quot;Customer Icon&quot; ---
+		value = (String) newData.get(PROPERTY_CUSTOMER_ICON);
+		if (value != null) {
+			addHint(PROPERTY_CUSTOMER_ICON, value, directives);
+		}
+		//
+		return directives;
+	}
+
+	/**
+	 * @see		de.deepamehta.topics.TypeTopic#makeTypeDefinition
+	 */
+	public static void propertyLabel(PropertyDefinition propDef, ApplicationService as, Session session) {
+		if (as.getLanguage() == LANGUAGE_GERMAN) {
+			String propName = propDef.getPropertyName();
+			if (!
+ propName.equals(PROPERTY_LANGUAGE)) {
+				propDef.setPropertyL!
+ abel(&quot;Sp
+rache&quot;);
+			} else if (propName.equals(PROPERTY_CORPORATE_ICON)) {
+				propDef.setPropertyLabel(&quot;Firmen-Icon&quot;);
+			} else if (propName.equals(PROPERTY_CUSTOMER_ICON)) {
+				propDef.setPropertyLabel(&quot;Kunden-Icon&quot;);
+			}
+		}
+	}
+
+
+
+	// ***********************
+	// *** Private Methods ***
+	// ***********************
+
+
+
+	// ### copy in UserPreferencesTopic
+	private void addHint(String propName, String value, CorporateDirectives directives) {
+		directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;\&quot;&quot; + propName + &quot;\&quot; will be &quot; +
+			&quot;\&quot;&quot; + value + &quot;\&quot; in next session&quot;, new Integer(NOTIFICATION_DEFAULT));
+	}
+}
+\ No newline at end of file
++package de.deepamehta.topics;
+
+import de.deepamehta.BaseTopic;
+import de.deepamehta.PropertyDefinition;
+import de.deepamehta.service.ApplicationService;
+import de.deepamehta.service.CorporateDirectives;
+import de.deepamehta.service.Session;
+//
+import java.util.*;
+
+
+
+/**
+ * &lt;P&gt;
+ * &lt;HR&gt;
+ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+ * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+ * J&ouml;rg Richter&lt;BR&gt;
+ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+ */
+public class InstallationTopic extends LiveTopic {
+
+
+
+	static final String  CMD_ASSIGN_CORPORATE_ICON = &quot;assignCorporateIcon&quot;;
+	static final String  CMD_ASSIGN_CUSTOMER_ICON = &quot;assignCustomerIcon&quot;;
+
+
+
+	// *******************
+	// *** Constructor ***
+	// *******************
+
+
+
+	/**
+	 * @see		de.deepamehta.service.ApplicationService#createLiveTopic
+	 */
+	public InstallationTopic(BaseTopic topic, ApplicationService as) {
+		super(topic, as);
+	}
+
+
+
+	// --------------------------
+	// --- Providing Commands ---
+	// --------------------------
+
+
+
+	/**
+	!
+  * @see		TypeTopic#makeTypeDefinition
+	 */
+	public static void buttonCommand(PropertyDefinition propDef, ApplicationService as, Session session) {
+		String propName = propDef.getPropertyName();
+		if (propName.equals(PROPERTY_CORPORATE_ICON)) {
+			propDef.setActionButton(as.string(BUTTON_ASSIGN_FILE), CMD_ASSIGN_CORPORATE_ICON);
+		} else if (propName.equals(PROPERTY_CUSTOMER_ICON)) {
+			propDef.setActionButton(as.string(BUTTON_ASSIGN_FILE), CMD_ASSIGN_CUSTOMER_ICON);
+		}
+	}
+
+
+
+	// --------------------------
+	// --- Executing Commands ---
+	// --------------------------
+
+
+
+	public CorporateDirectives executeCommand(String command, Session session,
+													String topicmapID, String viewmode) {
+		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+		String cmd = st.nextToken();
+		//
+		if (cmd.equals(CMD_ASSIGN_CORPORATE_ICON) || cmd.equals(CMD_ASSIGN_CUSTOMER_ICON)) {
+			CorporateDirectives directives = new CorporateDirectives();
+			directives.add(DIRECTIV!
+ E_CHOOSE_FILE);
+			return directives;
+		} else {
+			return sup!
+ er.execu
+teCommand(command, session, topicmapID, viewmode);
+		}
+	}
+
+	public CorporateDirectives executeChainedCommand(String command, String result,
+											String topicmapID, String viewmode, Session session) {
+		// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute
+		// path of the (client side) selected icon file
+		CorporateDirectives directives = new CorporateDirectives();
+		//
+		if (command.equals(CMD_ASSIGN_CORPORATE_ICON)) {
+			copyAndUpload(result, FILE_IMAGE, PROPERTY_CORPORATE_ICON, session, directives);
+			return directives;
+		} else if (command.equals(CMD_ASSIGN_CUSTOMER_ICON)) {
+			copyAndUpload(result, FILE_IMAGE, PROPERTY_CUSTOMER_ICON, session, directives);
+			return directives;
+		} else {
+			return super.executeChainedCommand(command, result, topicmapID, viewmode, session);
+		}
+	}
+
+
+
+	// ---------------------------
+	// --- Handling Properties ---
+	// ---------------------------
+
+
+
+	public CorporateDirectives propertiesChanged(Hashtable newData, Hash!
+ table oldData,
+											String topicmapID, String viewmode, Session session) {
+		CorporateDirectives directives = super.propertiesChanged(newData, oldData,
+			topicmapID, viewmode, session);
+		String value;
+		// --- &quot;Language&quot; ---
+		value = (String) newData.get(PROPERTY_LANGUAGE);
+		if (value != null) {
+			addHint(PROPERTY_LANGUAGE, value, directives);
+		}
+		// --- &quot;Corporate Icon&quot; ---
+		value = (String) newData.get(PROPERTY_CORPORATE_ICON);
+		if (value != null) {
+			addHint(PROPERTY_CORPORATE_ICON, value, directives);
+		}
+		// --- &quot;Customer Icon&quot; ---
+		value = (String) newData.get(PROPERTY_CUSTOMER_ICON);
+		if (value != null) {
+			addHint(PROPERTY_CUSTOMER_ICON, value, directives);
+		}
+		//
+		return directives;
+	}
+
+	/**
+	 * @see		de.deepamehta.topics.TypeTopic#makeTypeDefinition
+	 */
+	public static void propertyLabel(PropertyDefinition propDef, ApplicationService as, Session session) {
+		if (as.getLanguage() == LANGUAGE_GERMAN) {
+			String propName = propDef.getPropertyN!
+ ame();
+			if (propName.equals(PROPERTY_LANGUAGE)) {
+				propDe!
+ f.setPro
+pertyLabel(&quot;Sprache&quot;);
+			} else if (propName.equals(PROPERTY_CORPORATE_ICON)) {
+				propDef.setPropertyLabel(&quot;Firmen-Icon&quot;);
+			} else if (propName.equals(PROPERTY_CUSTOMER_ICON)) {
+				propDef.setPropertyLabel(&quot;Kunden-Icon&quot;);
+			}
+		}
+	}
+
+
+
+	// ***********************
+	// *** Private Methods ***
+	// ***********************
+
+
+
+	// ### copy in UserPreferencesTopic
+	private void addHint(String propName, String value, CorporateDirectives directives) {
+		directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;\&quot;&quot; + propName + &quot;\&quot; will be &quot; +
+			&quot;\&quot;&quot; + value + &quot;\&quot; in next session&quot;, new Integer(NOTIFICATION_DEFAULT));
+	}
+}
+\ No newline at end of file
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -48,7 +48,7 @@
+  * their topics from &lt;CODE&gt;LiveTopic&lt;/CODE&gt;.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last sourcecode change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -416,7 +416,7 @@
+ 											Session session, CorporateDirectives directives) {
+ 		CorporateCommands commands = new CorporateCommands(as);
+ 		commands.addCommand(as.string(ITEM_CREATE_IN_WORKSPACE, type.getName()),
+-			CMD_CREATE_TOPIC + &quot;:&quot; + type.getID(), type.getCreationIconPath(), type.getCreationIconfile());
++			CMD_CREATE_TOPIC + COMMAND_SEPARATOR + type.getID(), type.getCreationIconPath(), type.getCreationIconfile());
+ 		return commands;
+ 	}
+ 
+@@ -448,7 +448,7 @@
+ 		if (propName.equals(PROPERTY_ICON)) {
+ 			propDef.setActionButton(as.string(BUTTON_ASSIGN_FILE), CMD_ASSIGN_ICON);
+ 		} else if (propDef.getVisualization().equals(VISUAL_COLOR_CHOOSER)) {
+-			propDef.setActionButton(as.string(BUTTON_CHOOSE_COLOR), CMD_CHOOSE_COLOR + &quot;:&quot; + propName);
++			propDef.setActionButton(as.string(BUTTON_CHOOSE_COLOR), CMD_CHOOSE_COLOR + COMMAND_SEPARATOR + propName);
+ 		}
+ 	}
+ 
+@@ -472,7 +472,7 @@
+ 		// &gt;&gt;&gt; compare to LiveAssociation.executeCommand()
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_DEFAULT)) {
+ 			// --- trigger getDetail() hook ---
+@@ -544,7 +544,10 @@
+ 			as.performGoogleSearch(getName(), getID(), topicmapID, viewmode, session, directives);
+ 		} else if (cmd.equals(CMD_SUBMIT_FORM)) {
+ 			// Note: there is no standard behavoir for &quot;submitForm&quot; command -- do nothing
+-			// just avoid &quot;no command handler implemented&quot; exception ### props could be saved
++			// just avoid &quot;command not implemented&quot; exception
++		} else if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
++			// Note: there is no standard behavoir for &quot;followHyperlink&quot; command -- do nothing
++			// just avoid &quot;command not implemented&quot; exception
+ 		} else {
+ 			if (as.editorContext(topicmapID) == EDITOR_CONTEXT_PERSONAL) {
+ 				handleWorkspaceCommand(command, topicmapID, viewmode, session, directives);
+@@ -568,7 +571,7 @@
+ 												String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_ASSIGN_ICON)) {
+@@ -1348,7 +1351,7 @@
+ 
+ 	/**
+ 	 * Extends the specified directives to perform this task: Create an association to the specified existing
+-	 * topic and reveal that association. ### If the &lt;CODE&gt;select&lt;/CODE&gt; flag is set, the topic is selected.
++	 * topic and reveal that association.
+ 	 * &lt;p&gt;
+ 	 * References checked: 14.11.2004 (2.0b4)
+ 	 *
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -85,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 20.8.2008 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -348,7 +348,7 @@
+ 		// ### compare to GraphPanel.actionPerformed()
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		// --- default command (opening) ---
+ 		if (cmd.equals(CMD_DEFAULT)) {
+@@ -424,7 +424,7 @@
+ 	public CorporateDirectives executeChainedCommand(String command, String result,
+ 								String topicmapID, String viewmode, Session session)
+ 								throws DeepaMehtaException {
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_IMPORT_TOPICMAP)) {
+@@ -1217,7 +1217,7 @@
+ 	// ---
+ 
+ 	private void processFilelist(String command, Session session, CorporateDirectives directives) {
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();	// ### skip command
+ 		//
+ 		Vector filenames = new Vector();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -131,7 +131,7 @@
+ 		Commands workspacesGroup = commands.addCommandGroup(as.string(ITEM_SET_WORKSPACE),
+ 			FILESERVER_ICONS_PATH, &quot;workgroup.gif&quot;);
+ 		// CMD_ASSIGN_TOPIC is handled by LiveTopic, 3 parameters are required, the 3rd is added by addTopicCommands()
+-		String command = CMD_ASSIGN_TOPIC + &quot;:&quot; + SEMANTIC_PREFERENCE + &quot;:&quot; + CARDINALITY_ONE;
++		String command = CMD_ASSIGN_TOPIC + COMMAND_SEPARATOR + SEMANTIC_PREFERENCE + COMMAND_SEPARATOR + CARDINALITY_ONE;
+ 		commands.addTopicCommands(workspacesGroup, workspaces, command, COMMAND_STATE_RADIOBUTTON,
+ 			standardWorkspace, null, session, directives);	// title=null
+ 		//
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -27,7 +27,7 @@
+  * this &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -242,7 +242,7 @@
+ 	public CorporateDirectives executeCommand(String command, Session session,
+ 													String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_JOIN_WORKSPACE)) {
+ 			joinUser(session.getUserID(), REVEAL_MEMBERSHIP_USER, true, session, directives);
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -20,7 +20,7 @@
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 10.6.2003 (2.0b1)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 15.10.2001 (2.0a13-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -102,15 +102,15 @@
+ 		// ### compare to KriteriumTopic
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+         String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_DEFAULT)) {
+ 			boolean insideTemplate = as.getLiveTopic(topicmapID, 1).getType().equals(
+ 			TOPICTYPE_KOMPETENZSTERN_TEMPLATE);
+ 			String prop = insideTemplate ? PROPERTY_HELP : PROPERTY_DESCRIPTION;
+ 			String propLabel = insideTemplate ? PROPERTY_HELP : PROPERTY_BESCHREIBUNG;
+-			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + &quot;:&quot; + prop + &quot;:&quot; +
+-				propLabel + &quot;:true:true&quot;, session, topicmapID, viewmode);
++			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + COMMAND_SEPARATOR + prop + COMMAND_SEPARATOR +
++				propLabel + COMMAND_SEPARATOR + &quot;true&quot; + COMMAND_SEPARATOR + &quot;true&quot;, session, topicmapID, viewmode);
+ 		} else if (KompetenzsternTopic.executeOrderCommand(this, command, directives,
+         	as)) {		// do nothing
+ 		} else if (KompetenzsternTopic.executeDocumentCommand(this, command, session, directives)) {
+@@ -160,7 +160,7 @@
+ 	public CorporateDirectives processDetailHook(CorporateDetail detail,
+ 							Session session, String topicmapID, String viewmode) {
+ 		String command = detail.getCommand();
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_SET_ORDER)) {
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -42,7 +42,7 @@
+  * underlying {@link TemplateTopic Template}, but this isn't completely achieved yet.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -293,7 +293,7 @@
+ 
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_SHOW_COMPETENCE_STAR)) {
+ 			String topicID = st.nextToken();
+@@ -318,7 +318,7 @@
+ 		//
+ 		System.out.println(&quot;&gt;&gt;&gt; KompetenzsternTopic.executeWorkspaceCommand(): \&quot;&quot; + command + &quot;\&quot;&quot;);
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_SET_TEMPLATE)) {
+ 			String templateID = st.nextToken();
+@@ -498,7 +498,7 @@
+ 			String order = as.getAssociationData(assoc, PROPERTY_ORDINAL_NUMBER);
+ 			String item = order.equals(&quot;&quot;) ? ITEM_SET_ORDER : ITEM_CHANGE_ORDER;
+ 			//
+-			commands.addCommand(item, CMD_SET_ORDER + &quot;:&quot; + assoc.getID(), FILESERVER_IMAGES_PATH, ICON_SET_ORDER);
++			commands.addCommand(item, CMD_SET_ORDER + COMMAND_SEPARATOR + assoc.getID(), FILESERVER_IMAGES_PATH, ICON_SET_ORDER);
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** KompetenzsternTopic.addSetOrderCommand(): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Das Kommando \&quot;&quot; + ITEM_SET_ORDER + &quot;\&quot; steht nicht zur &quot; +
+@@ -525,7 +525,7 @@
+ 	 */
+ 	static boolean executeOrderCommand(LiveTopic topic, String command,
+ 							CorporateDirectives directives, ApplicationService as) {
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_SET_ORDER)) {
+ 			String assocID = st.nextToken();
+@@ -990,7 +990,7 @@
+ 			BaseTopic topic = (BaseTopic) e.nextElement();
+ 			String topicID = topic.getID();
+ 			if (!getID().equals(topicID)) {
+-				cmdGroup.addCommand(topic.getName(), CMD_SHOW_COMPETENCE_STAR + &quot;:&quot; + topicID,
++				cmdGroup.addCommand(topic.getName(), CMD_SHOW_COMPETENCE_STAR + COMMAND_SEPARATOR + topicID,
+ 					FILESERVER_ICONS_PATH, ICON_SHOW_COMPETENCE_STAR);
+ 			}
+ 		}
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -25,7 +25,7 @@
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.3.2004 (2.0b3-pre1)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 25.8.2001 (2.0a12-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -169,14 +169,14 @@
+ 		// ### compare to BewertungsebeneTopic
+ 		CorporateDirectives directives = new CorporateDirectives();
+         //
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+         String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_DEFAULT)) {
+ 			boolean insideTemplate = as.getLiveTopic(topicmapID, 1).getType().equals(TOPICTYPE_KOMPETENZSTERN_TEMPLATE);
+ 			String prop = insideTemplate ? PROPERTY_HELP : PROPERTY_DESCRIPTION;
+ 			String propLabel = insideTemplate ? PROPERTY_HELP : PROPERTY_BESCHREIBUNG;
+-			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + &quot;:&quot; + prop + &quot;:&quot; +
+-				propLabel + &quot;:true:true&quot;, session, topicmapID, viewmode);
++			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + COMMAND_SEPARATOR + prop + COMMAND_SEPARATOR +
++				propLabel + COMMAND_SEPARATOR + &quot;true&quot; + COMMAND_SEPARATOR + &quot;true&quot;, session, topicmapID, viewmode);
+ 		} else if (cmd.equals(CMD_NAVIGATE_BY_CRITERION)) {
+ 			return navigateByTopictype(getSubkriteriumTypeID(), 2, SEMANTIC_STERN_COMPOSITION);
+ 		} else if (cmd.equals(CMD_ASSIGN_NEW_CRITERION)) {
+@@ -267,7 +267,7 @@
+ 	public CorporateDirectives processDetailHook(CorporateDetail detail,
+ 							Session session, String topicmapID, String viewmode) {
+ 		String command = detail.getCommand();
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_SET_ORDER)) {
+
+Modified: branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/TemplateTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/TemplateTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/TemplateTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -27,7 +27,7 @@
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 9.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.11.2001 (2.0a13-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -186,7 +186,7 @@
+ 	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+         String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_ASSIGN_NEW_CRITERION)) {
+ 			createChildTopic(TOPICTYPE_BEWERTUNGS_KRITERIUM, SEMANTIC_STERN_COMPOSITION, session, directives);
+
+Modified: branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java	2007-09-12 05:08:02 UTC (rev 192)
++++ branches/eschnepel/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java	2007-09-12 05:15:08 UTC (rev 193)
+@@ -17,7 +17,7 @@
+  * A Message Board.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.10.2004 (2.0b3)&lt;BR&gt;
++ * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.9.2002 (2.0a16-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -99,7 +99,7 @@
+ 						String topicmapID, String viewmode) throws DeepaMehtaException {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+-		StringTokenizer st = new StringTokenizer(command, &quot;:&quot;);
++		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_SHOW_MESSAGES)) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000037.html">[deepamehta-svn] r192 - in branches/eschnepel: .	develop/src/de/deepamehta/service/db install/db	install/db/db-specific install/db/patches	install/examples/movies/db libs
+</A></li>
+	<LI>Next message: <A HREF="000039.html">[deepamehta-svn] r194 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

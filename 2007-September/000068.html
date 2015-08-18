@@ -1,0 +1,356 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r223 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config	install/db/db-specific install/examples/movies/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r223%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/config%0A%09install/db/db-specific%20install/examples/movies/config&In-Reply-To=%3C200709211717.l8LHHo87014106%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000067.html">
+   <LINK REL="Next"  HREF="000069.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r223 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config	install/db/db-specific install/examples/movies/config</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r223%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/config%0A%09install/db/db-specific%20install/examples/movies/config&In-Reply-To=%3C200709211717.l8LHHo87014106%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r223 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config	install/db/db-specific install/examples/movies/config">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 21 19:17:50 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000067.html">[deepamehta-svn] r222 - in trunk: .settings develop/src/de/deepamehta develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/db develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser/src/de/deepamehta/browser install/examples/dm-search/src/de/deepamehta/webfront install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer install/examples/dm-web/src/de/deepamehta/webfrontend install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics install/examples/ldap/src/de/deepamehta/topics install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboa! rd/src/de/deepamehta/messageboard/topics install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+        <LI>Next message: <A HREF="000069.html">[deepamehta-svn] r224 - in trunk/install: config db/db-specific	examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-21 19:16:49 +0200 (Fri, 21 Sep 2007)
+New Revision: 223
+
+Added:
+   trunk/install/config/build-mysql5.properties
+   trunk/install/config/dm-mysql5.properties
+   trunk/install/db/db-specific/db_tables_mysql5.sql
+   trunk/install/examples/movies/config/movies-mysql5.properties
+Removed:
+   trunk/install/config/build-mysql.properties
+   trunk/install/config/dm-mysql.properties
+   trunk/install/db/db-specific/db_tables_mysql.sql
+   trunk/install/examples/movies/config/movies-mysql.properties
+Modified:
+   trunk/build-development.xml
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+   trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+Log:
+MySQL 4 Compatibility
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/build-development.xml	2007-09-21 17:16:49 UTC (rev 223)
+@@ -13,7 +13,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+-		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
++		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;UTF8&quot;&gt;
+ 			&lt;classpath refid=&quot;javalibs&quot; /&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-21 17:16:49 UTC (rev 223)
+@@ -16,7 +16,6 @@
+ import de.deepamehta.Topic;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.assocs.LiveAssociation;
+-import de.deepamehta.kompetenzstern.topics.KompetenzsternTopic;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.topics.AssociationTypeTopic;
+ import de.deepamehta.topics.AuthentificationSourceTopic;
+@@ -1620,7 +1619,7 @@
+ 	 * &lt;P&gt;
+ 	 * References checked: 6.9.2002 (2.0a16-pre2)
+ 	 *
+-	 * @see		KompetenzsternTopic#propertiesChanged
++	 * @see		de.deepamehta.kompetenzstern.topics.KompetenzsternTopic#propertiesChanged
+ 	 */
+ 	public CorporateDirectives setTopicProperty(String topicID, int version, String propName, String propValue,
+ 												String topicmapID, String viewmode, Session session) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-09-21 17:16:49 UTC (rev 223)
+@@ -7,7 +7,6 @@
+ import de.deepamehta.DeepaMehtaUtils;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+-import de.deepamehta.messageboard.MessageBoardServlet;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.ApplicationServiceHost;
+ import de.deepamehta.service.ApplicationServiceInstance;
+@@ -369,7 +368,7 @@
+ 	 * @see		#createTopic
+ 	 * @see		#updateTopic
+ 	 * @see		#updateStrongRelations
+-	 * @see		MessageBoardServlet#performAction
++	 * @see		de.deepamehta.messageboard.MessageBoardServlet#performAction
+ 	 */
+ 	private void processForm(String typeID, String topicID, Hashtable params, boolean doCreate, Session session) {
+ 		processForm(typeID, topicID, params, doCreate, session, null, null);
+
+Modified: trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2007-09-21 17:16:49 UTC (rev 223)
+@@ -7,7 +7,6 @@
+ import de.deepamehta.Detail;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieContainerTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+@@ -80,7 +79,7 @@
+  * programmer is required to subclass &lt;CODE&gt;ElementContainerTopic&lt;/CODE&gt; in order to
+  * specify the element access, topic creation and attribute replication.
+  * &lt;P&gt;
+- * E.g. the {@link MovieContainerTopic} specifies the topic types used for created
++ * E.g. the {@link de.deepamehta.movies.topics.MovieContainerTopic} specifies the topic types used for created
+  * topics and containers as well as the attribute used for the name of created topics.
+  * &lt;P&gt;
+  * In the future the user resp. administrator will be able to provide these essential
+
+Modified: trunk/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-09-21 17:16:49 UTC (rev 223)
+@@ -3,7 +3,6 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+@@ -43,7 +42,7 @@
+  * more relation specifications as theirs &lt;I&gt;initialization&lt;/I&gt; behavoir. Generally there
+  * are 2 types of relations: &lt;I&gt;&quot;to one&quot;&lt;/I&gt; and &lt;I&gt;&quot;to many&quot;&lt;/I&gt;.
+  * &lt;P&gt;
+- * E.g. the {@link MovieTopic} registers a &quot;to many&quot; relation to specify how to retrieve
++ * E.g. the {@link de.deepamehta.movies.topics.MovieTopic} registers a &quot;to many&quot; relation to specify how to retrieve
+  * the related actors for the respective movie.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+
+Modified: trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-09-21 17:16:49 UTC (rev 223)
+@@ -5,7 +5,6 @@
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.movies.topics.MovieContainerTopic;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+@@ -242,7 +241,7 @@
+ 	}
+ 
+ 	/**
+-	 * @see		MovieContainerTopic#executeCommand
++	 * @see		de.deepamehta.movies.topics.MovieContainerTopic#executeCommand
+ 	 */
+ 	protected CorporateDirectives autoSearch(String groupingField) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+
+Deleted: trunk/install/config/build-mysql.properties
+===================================================================
+--- trunk/install/config/build-mysql.properties	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/install/config/build-mysql.properties	2007-09-21 17:16:49 UTC (rev 223)
+@@ -1,20 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=mysql
+-
+-# Database
+-db.create-db		=createdb-sql92.xml
+-db.drop-db			=dropdb-sql92.xml
+-
+-db.tables			=db_tables_mysql.sql
+-db.drop-tables		=db_drop.sql
+-db.close-session	=EMPTY.sql
+-db.optimize			=OPTIMIZE_mysql.sql
+-db.autocommit		=true
+-
+-db.sysname			=mysql
+-db.sysuser			=root
+-db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}?useUnicode=true
+-
+-config.db.user		=true
+-config.db.name		=true
+-config.db.host		=true
+
+Copied: trunk/install/config/build-mysql5.properties (from rev 221, trunk/install/config/build-mysql.properties)
+
+Deleted: trunk/install/config/dm-mysql.properties
+===================================================================
+--- trunk/install/config/dm-mysql.properties	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/install/config/dm-mysql.properties	2007-09-21 17:16:49 UTC (rev 223)
+@@ -1,13 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=mysql
+-dm.comporate-memory.class=RelationalCorporateMemory
+-
+-# Database
+-db.name				=DeepaMehta
+-db.user				=dm
+-db.password			=dm
+-db.type				=mysql
+-
+-db.host				=127.0.0.1
+-
+-db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true
+
+Copied: trunk/install/config/dm-mysql5.properties (from rev 221, trunk/install/config/dm-mysql.properties)
+
+Deleted: trunk/install/db/db-specific/db_tables_mysql.sql
+===================================================================
+--- trunk/install/db/db-specific/db_tables_mysql.sql	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/install/db/db-specific/db_tables_mysql.sql	2007-09-21 17:16:49 UTC (rev 223)
+@@ -1,68 +0,0 @@
+--- DeepaMehta database model for use with MySQL.
+--- This script just creates the tables.
+-
+-CREATE TABLE Topic (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-    INDEX (TypeID, TypeVersion, Name)
+-);
+-
+-CREATE TABLE Association (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-    TopicID1 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion1 INT NOT NULL,
+-    TopicID2 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion2 INT NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-	INDEX (ID, Version, TypeID, TypeVersion),
+-    INDEX (TopicID1, TopicVersion1),
+-    INDEX (TopicID2, TopicVersion2)
+-);
+-
+-CREATE TABLE ViewTopic (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    x INT NOT NULL,
+-    y INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion),
+-	INDEX (TopicID)
+-);
+-
+-CREATE TABLE ViewAssociation (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion)
+-);
+-
+-CREATE TABLE TopicProp (
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    PRIMARY KEY (TopicID, TopicVersion, PropName)
+-);
+-
+-CREATE TABLE AssociationProp (
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
+-);
+-
+-CREATE TABLE KeyGenerator (
+-    Relation CHAR(24) CHARACTER SET utf8 COLLATE utf8_bin PRIMARY KEY NOT NULL,
+-    NextKey INT NOT NULL
+-);
+
+Copied: trunk/install/db/db-specific/db_tables_mysql5.sql (from rev 221, trunk/install/db/db-specific/db_tables_mysql.sql)
+
+Deleted: trunk/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- trunk/install/examples/movies/config/movies-mysql.properties	2007-09-21 15:26:12 UTC (rev 222)
++++ trunk/install/examples/movies/config/movies-mysql.properties	2007-09-21 17:16:49 UTC (rev 223)
+@@ -1,14 +0,0 @@
+-movies.db.name		=Movies
+-movies.db.user		=movies
+-movies.db.password	=movies
+-
+-movies.db.host		=127.0.0.1
+-movies.db.type		=mysql
+-movies.db.url		=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.name}?useUnicode=true
+-
+-movies.db.sysname	=mysql
+-movies.db.sysuser	=root
+-movies.db.sysurl	=jdbc:<A HREF="mysql://${movies.db.host">mysql://${movies.db.host</A>}/${movies.db.sysname}?useUnicode=true
+-
+-movies.db.tables	=db/db_tables_mysql.sql
+-movies.db.content	=db/db_inserts.sql
+
+Copied: trunk/install/examples/movies/config/movies-mysql5.properties (from rev 221, trunk/install/examples/movies/config/movies-mysql.properties)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000067.html">[deepamehta-svn] r222 - in trunk: .settings develop/src/de/deepamehta develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/db develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser/src/de/deepamehta/browser install/examples/dm-search/src/de/deepamehta/webfront install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer install/examples/dm-web/src/de/deepamehta/webfrontend install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics install/examples/ldap/src/de/deepamehta/topics install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboa! rd/src/de/deepamehta/messageboard/topics install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+	<LI>Next message: <A HREF="000069.html">[deepamehta-svn] r224 - in trunk/install: config db/db-specific	examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

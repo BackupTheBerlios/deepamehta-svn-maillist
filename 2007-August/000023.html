@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r178%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708201533.l7KFXt5u025552%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000022.html">
+   <LINK REL="Next"  HREF="000024.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r178%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708201533.l7KFXt5u025552%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 20 17:33:55 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000022.html">[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000024.html">[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#23">[ date ]</a>
+              <a href="thread.html#23">[ thread ]</a>
+              <a href="subject.html#23">[ subject ]</a>
+              <a href="author.html#23">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-08-20 17:33:47 +0200 (Mon, 20 Aug 2007)
+New Revision: 178
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+Log:
+Bug #9492 fixed: Topic map name change is lost while publishing.
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-08-16 21:09:05 UTC (rev 177)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-08-20 15:33:47 UTC (rev 178)
+@@ -1114,6 +1114,8 @@
+ 	 * &lt;P&gt;
+ 	 * ### Hypothesis: topicmapID and viewmode are only needed when called by client,
+ 	 * ### when called by servlet they can be set to null
++	 * &lt;P&gt;
++	 * References checked: 20.8.2007 (2.0b8)
+ 	 *
+ 	 * @see		#executeCommand
+ 	 * @see		de.deepamehta.service.ApplicationService#deleteTopic
+@@ -1130,10 +1132,13 @@
+ 	 * &lt;P&gt;
+ 	 * ### Hypothesis: topicmapID and viewmode are only needed when called by client,
+ 	 * ### when called by servlet they can be set to null
++	 * &lt;P&gt;
++	 * References checked: 20.8.2007 (2.0b8)
+ 	 *
+-	 * @see		de.deepamehta.topics.TopicMapTopic#hideAll
+ 	 * @see		#executeCommand
+ 	 * @see		#delete
++	 * @see		de.deepamehta.topics.TopicMapTopic#hideAll
++	 * @see		de.deepamehta.kompetenzstern.topics.KriteriumTopic#hideRecursively
+ 	 */
+ 	public void hide(String topicmapID, String viewmode, boolean delete, CorporateDirectives directives) {
+ 		Boolean doDelete = new Boolean(delete);
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-08-16 21:09:05 UTC (rev 177)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-08-20 15:33:47 UTC (rev 178)
+@@ -85,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 9.7.2008 (2.0b8)&lt;BR&gt;
++ * Last functional change: 20.8.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1000,8 +1000,10 @@
+ 		sendNotificationEmails(users, workspaceName, subject, notifyText);
+ 		// --- remove topicmap from personal workspace ---
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		directives.add(DIRECTIVE_HIDE_TOPIC, getID(), Boolean.FALSE, /* ### die=false */
+-			session.getPersonalWorkspace().getID());
++		directives.add(DIRECTIVE_HIDE_TOPIC, getID(), Boolean.FALSE, session.getPersonalWorkspace().getID());
++		// ### Note: the personal topicmap remains in the corporate memory as ballast as well as the associations.
++		// The die-flag should set to TRUE. But the associations are not removed this way.
++		// Think again about the die() hook.
+ 		// --- upload documents ---
+ 		addPublishDirectives(directives);
+ 		// --- publish this map ---
+@@ -1042,8 +1044,15 @@
+ 			// --- override origin topicmap with this topicmap ---
+ 			as.updateView(getID(), getVersion(), originTopicmapID, originTopicmapVersion);
+ 			// transfer topicmap properties
+-			Hashtable props = cm.getTopicData(getID(), 1);
+-			cm.setTopicData(originTopicmapID, 1, props);
++			Hashtable props = getProperties();
++			// ### cm.setTopicData(originTopicmapID, 1, props);
++			// transfer topicmap name
++			// ### directives.add(DIRECTIVE_SET_TOPIC_NAME, originTopicmapID, getName(), new Integer(1));
++			// Note: the topicmap name must not be transfered explicitly because the property change will trigger
++			// the name change
++			// ### One problem: the properties of the original topicmap in the shared workspace are not updated
++			// immedeatly if the original topicmap is still selected in the publishers view. No clue why!
++			directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, originTopicmapID, props, new Integer(1));
+ 		}
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000022.html">[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000024.html">[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#23">[ date ]</a>
+              <a href="thread.html#23">[ thread ]</a>
+              <a href="subject.html#23">[ subject ]</a>
+              <a href="author.html#23">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

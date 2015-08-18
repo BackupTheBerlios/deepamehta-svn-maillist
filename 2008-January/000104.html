@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r259 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/icons	install/client/images
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r259%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/icons%0A%09install/client/images&In-Reply-To=%3C200801221647.m0MGlgO7019299%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000103.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r259 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/icons	install/client/images</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r259%20-%20in%20trunk%3A%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/icons%0A%09install/client/images&In-Reply-To=%3C200801221647.m0MGlgO7019299%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r259 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/icons	install/client/images">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Jan 22 17:47:42 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000103.html">[deepamehta-svn] r258 - trunk/develop/src/de/deepamehta/util
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#104">[ date ]</a>
+              <a href="thread.html#104">[ thread ]</a>
+              <a href="subject.html#104">[ subject ]</a>
+              <a href="author.html#104">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-01-22 17:47:33 +0100 (Tue, 22 Jan 2008)
+New Revision: 259
+
+Added:
+   trunk/install/client/images/createAppointment.gif
+   trunk/install/client/images/make-event.gif
+Removed:
+   trunk/install/client/images/makeAppointment.gif
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+   trunk/install/client/icons/address.gif
+   trunk/install/client/icons/category-search.gif
+   trunk/install/client/icons/category.gif
+Log:
+1) Buf #12900 fixed (Retyping of TopicType produce Server Error)
+2) Framework extended: there is a new topic hook: retypeAllowed()
+3) Some new icons (thanks to Harald Mueller)
+
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -1144,18 +1144,30 @@
+ 
+ 	/**
+ 	 * Consulted while server side processing of &lt;CODE&gt;DIRECTIVE_SELECT_TOPIC&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 22.1.2008 (2.0b8)
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+ 	 * @see		CorporateCommands#addRetypeTopicCommand
+ 	 */
+ 	boolean retypeTopicIsAllowed(String topicID, int version, Session session) {
+-		TypeTopic type = type(getLiveTopic(topicID, version));
+-		boolean isSearch = type.isSearchType();
+-		boolean isTopicmap = type.hasSupertype(TOPICTYPE_TOPICMAP);
++		// --- trigger retypeAllowed() hook ---
++		LiveTopic topic = getLiveTopic(topicID, version);
++		boolean allowed = topic.retypeAllowed(session);
++		//
++		boolean isSearch = type(topic).isSearchType();
+ 		String userID = session.getUserID();
+-		return !isSearch &amp;&amp; !isTopicmap &amp;&amp; (isTopicOwner(topicID, session) || isAdministrator(userID));
++		return allowed &amp;&amp; !isSearch &amp;&amp; (isTopicOwner(topicID, session) || isAdministrator(userID));
+ 	}
+ 
++	/**
++	 * Consulted while server side processing of &lt;CODE&gt;DIRECTIVE_SELECT_ASSOCIATION&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 22.1.2008 (2.0b8)
++	 *
++	 * @see		CorporateDirectives#updateCorporateMemory
++	 * @see		CorporateCommands#addRetypeAssociationCommand
++	 */
+ 	boolean retypeAssociationIsAllowed(String assocID, int version, Session session) {
+ 		boolean isSearch = type(getLiveAssociation(assocID, version)).isSearchType();
+ 		String userID = session.getUserID();
+@@ -1164,6 +1176,11 @@
+ 
+ 	// ---
+ 
++	/**
++	 * References checked: 22.1.2008 (2.0b8)
++	 *
++	 * @see		CorporateCommands#addDeleteTopicCommand
++	 */
+ 	boolean deleteTopicIsAllowed(BaseTopic topic, Session session) {
+ 		// --- trigger deleteAllowed() hook ---
+ 		boolean allowed = getLiveTopic(topic).deleteAllowed(session);
+
+Modified: trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -116,9 +116,8 @@
+ 		int editorContext = as.editorContext(topicmapID);
+ 		//
+ 		// --- &quot;Update&quot; command ---
+-		// ### int cmdState = viewmode.equals(VIEWMODE_BUILD) &amp;&amp; !session.isDemo() ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+ 		commands.addSeparator();
+-		commands.addCommand(ITEM_UPDATE_TYPEDEF, CMD_UPDATE_TYPEDEF, FILESERVER_ICONS_PATH, ICON_UPDATE_TYPEDEF /* ###, cmdState */);
++		commands.addCommand(ITEM_UPDATE_TYPEDEF, CMD_UPDATE_TYPEDEF, FILESERVER_ICONS_PATH, ICON_UPDATE_TYPEDEF);
+ 		//
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 8.1.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 22.1.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -301,8 +301,12 @@
+ 		return true;
+ 	}
+ 
++	public boolean retypeAllowed(Session session) {
++		return true;
++	}
+ 
+ 
++
+ 	// -----------------------------------
+ 	// --- Revealing topics on-the-fly ---
+ 	// -----------------------------------
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -15,7 +15,7 @@
+ 
+ 
+ /**
+- * Last functional change: 9.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 22.1.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -29,7 +29,7 @@
+ 	private static final String CMD_SEND_TO_PERSON = &quot;createNewMail&quot;;
+ 
+ 	private static final String ITEM_MAKE_APPOINTMENT = &quot;Make Appointment&quot;;
+-	private static final String ICON_MAKE_APPOINTMENT = &quot;appointment.gif&quot;;
++	private static final String ICON_MAKE_APPOINTMENT = &quot;createAppointment.gif&quot;;
+ 	private static final String CMD_MAKE_APPOINTMENT = &quot;makeAppointment&quot;;
+ 
+ 	
+@@ -67,7 +67,7 @@
+ 		// custom commands
+ 		commands.addSeparator();
+ 		commands.addCommand(ITEM_SEND_TO_PERSON, CMD_SEND_TO_PERSON, FILESERVER_IMAGES_PATH, ICON_SEND_TO_PERSON);
+-		commands.addCommand(ITEM_MAKE_APPOINTMENT, CMD_MAKE_APPOINTMENT, FILESERVER_ICONS_PATH, ICON_MAKE_APPOINTMENT);
++		commands.addCommand(ITEM_MAKE_APPOINTMENT, CMD_MAKE_APPOINTMENT, FILESERVER_IMAGES_PATH, ICON_MAKE_APPOINTMENT);
+ 		//
+ 		// standard commands
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -84,7 +84,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 15.1.2008 (2.0b8)&lt;BR&gt;
++ * Last functional change: 22.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -248,8 +248,12 @@
+ 		return directives;
+ 	}
+ 
++	public boolean retypeAllowed(Session session) {
++		return false;
++	}
+ 
+ 
++
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -188,9 +188,8 @@
+ 		int editorContext = as.editorContext(topicmapID);
+ 		//
+ 		// --- &quot;Update&quot; command ---
+-		// ### int cmdState = viewmode.equals(VIEWMODE_BUILD) &amp;&amp; !session.isDemo() ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+ 		commands.addSeparator();
+-		commands.addCommand(ITEM_UPDATE_TYPEDEF, CMD_UPDATE_TYPEDEF, FILESERVER_ICONS_PATH, ICON_UPDATE_TYPEDEF /* ###, cmdState */);
++		commands.addCommand(ITEM_UPDATE_TYPEDEF, CMD_UPDATE_TYPEDEF, FILESERVER_ICONS_PATH, ICON_UPDATE_TYPEDEF);
+ 		//
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2008-01-19 13:03:59 UTC (rev 258)
++++ trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2008-01-22 16:47:33 UTC (rev 259)
+@@ -48,7 +48,7 @@
+  * {@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;br&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 28.10.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 22.1.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -343,6 +343,18 @@
+ 
+ 
+ 
++	// ------------------------------------------
++	// --- Reacting upon dedicated situations ---
++	// ------------------------------------------
++
++
++
++	public boolean retypeAllowed(Session session) {
++		return false;
++	}
++
++
++
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+
+Modified: trunk/install/client/icons/address.gif
+===================================================================
+(Binary files differ)
+
+Modified: trunk/install/client/icons/category-search.gif
+===================================================================
+(Binary files differ)
+
+Modified: trunk/install/client/icons/category.gif
+===================================================================
+(Binary files differ)
+
+Added: trunk/install/client/images/createAppointment.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createAppointment.gif
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Copied: trunk/install/client/images/make-event.gif (from rev 257, trunk/install/client/images/makeAppointment.gif)
+
+Deleted: trunk/install/client/images/makeAppointment.gif
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000103.html">[deepamehta-svn] r258 - trunk/develop/src/de/deepamehta/util
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#104">[ date ]</a>
+              <a href="thread.html#104">[ thread ]</a>
+              <a href="subject.html#104">[ subject ]</a>
+              <a href="author.html#104">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

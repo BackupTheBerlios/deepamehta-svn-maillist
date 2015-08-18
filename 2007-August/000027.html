@@ -1,0 +1,952 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r182%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/examples/movies%20install/examples/movies/config&In-Reply-To=%3C200708280940.l7S9ecZm002741%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000026.html">
+   <LINK REL="Next"  HREF="000028.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r182%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/examples/movies%20install/examples/movies/config&In-Reply-To=%3C200708280940.l7S9ecZm002741%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug 28 11:40:38 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000026.html">[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config
+</A></li>
+        <LI>Next message: <A HREF="000028.html">[deepamehta-svn] r183 - in branches/eschnepel: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-28 11:40:36 +0200 (Tue, 28 Aug 2007)
+New Revision: 182
+
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+   branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+   branches/eschnepel/install/db/createdb-sql92.xml
+   branches/eschnepel/install/examples/movies/
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+Log:
+The movies example does now work as expected, CorporateSQLDataSource uses the DatabaseProvider for the DB-Connection, it is now possible to get configuration properties out of ApplicationService (which wraps ...Instance here)
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -121,8 +121,10 @@
+ 
+ 	private TimerTask statisticsThread;
+ 
++	private static ApplicationServiceInstance applicationServiceInstance;
+ 
+ 
++
+ 	// *****************************
+ 	// *** Constructor (private) ***
+ 	// *****************************
+@@ -185,6 +187,7 @@
+ 	 */
+ 	public static ApplicationService create(ApplicationServiceHost host, ApplicationServiceInstance instance)
+ 																			throws DeepaMehtaException {
++		ApplicationService.applicationServiceInstance = instance;
+ 		// ### compare to client.DeepaMehta.createApplicationService()
+ 		// ### compare to service.DeepaMehtaServer.main()
+ 		System.out.println(&quot;&gt; DeepaMehta Application Service&quot;);
+@@ -5215,4 +5218,7 @@
+ 		directives.add(getLiveTopic(topic).published());
+ 	}
+ 
++	public String getConfigurationProperty(String property){
++		return applicationServiceInstance.getConfigurationProperty(property);
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -176,4 +176,8 @@
+ 		//
+ 		return cm;
+ 	}
++
++	public String getConfigurationProperty(String property) {
++		return conf.getProperty(property);
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -3,8 +3,13 @@
+ import java.sql.*;
+ import java.util.*;
+ 
++import de.deepamehta.ConfigurationConstants;
++import de.deepamehta.DeepaMehtaConstants;
++import de.deepamehta.service.db.DatabaseProvider;
++import de.deepamehta.service.db.DatabaseProviderFactory;
+ 
+ 
++
+ /**
+  * A {@link CorporateDatasource} implementation for SQL databases.
+  * &lt;P&gt;
+@@ -29,7 +34,7 @@
+ 	/**
+ 	 * The connection to the database.
+ 	 */
+-	private Connection con;
++	private DatabaseProvider provider;
+ 
+ 
+ 
+@@ -40,14 +45,20 @@
+ 
+ 
+ 	/**
++	 * @param libs 
+ 	 * @see		de.deepamehta.topics.DataSourceTopic#openCorporateDatasource
+ 	 */
+-	public CorporateSQLSource(String url, String driver) throws Exception {
++	public CorporateSQLSource(String url, String driver, String libs) throws Exception {
+ 		// create database connection
+ 		System.out.println(&quot;&gt;&gt;&gt; CorporateSQLSource(): connecting to database ... &quot;);
+ 		System.out.println(&quot;&gt;    URL: \&quot;&quot; + url + &quot;\&quot;\n&gt;    driver: \&quot;&quot; + driver + &quot;\&quot;&quot;);
+-		Class.forName(driver);
+-		con = DriverManager.getConnection(url);
++		Properties conf = new Properties();
++		conf.setProperty(ConfigurationConstants.Database.DB_LIBS, libs);
++		conf.setProperty(ConfigurationConstants.Database.DB_DRIVER, driver);
++		conf.setProperty(ConfigurationConstants.Database.DB_URL, url);
++		provider = DatabaseProviderFactory.getProvider(conf);
++		Statement statement = provider.getStatement();
++		statement.close();
+ 		System.out.println(&quot;&gt;&gt;&gt; connected.&quot;);
+ 	}
+ 
+@@ -65,7 +76,7 @@
+ 		String queryStr = buildQuery(elementName, conditions, caseSensitiv, &quot;*&quot;);
+ 		//
+ 		System.out.println(&quot;&gt; CorporateSQLSource.queryElements(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		Vector elements = queryResult(result);
+ 		stmt.close();
+@@ -83,7 +94,7 @@
+ 		}
+ 		//
+ 		System.out.println(&quot;&gt; CorporateSQLSource.queryElements(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		Vector elements = queryResult(result);
+ 		stmt.close();
+@@ -96,7 +107,7 @@
+ 		String queryStr = buildQuery(elementType, id, relatedElementType, helperElementType);
+ 		//
+ 		System.out.println(&quot;&gt; CorporateSQLSource.queryElements(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		Vector elements = queryResult(result);
+ 		stmt.close();
+@@ -116,7 +127,7 @@
+ 			return new Hashtable();
+ 		}
+ 		System.out.println(&quot;&gt; CorporateSQLSource.queryElement(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		Vector queryResult = queryResult(result);
+ 		stmt.close();
+@@ -138,7 +149,7 @@
+ 		String queryStr = buildQuery(elementName, conditions, false,
+ 			groupingField + &quot;, COUNT(*)&quot;) + &quot; GROUP BY &quot; + groupingField;
+ 		System.out.println(&quot;&gt; CorporateSQLSource.queryGroups(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		Vector groups = queryGroups(result);
+ 		stmt.close();
+@@ -151,7 +162,7 @@
+ 		String query = &quot;SELECT COUNT(*) AS Count FROM &quot; + type;
+ 		//
+ 		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + query + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(query);
+ 		int count = queryCount(result);
+ 		stmt.close();
+@@ -163,7 +174,7 @@
+ 		String queryStr = buildQuery(elementType, attributes, caseSensitiv, &quot;*&quot;, true);		// ### onlyCount=true
+ 		//
+ 		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+ 		stmt.close();
+@@ -175,7 +186,7 @@
+ 		String queryStr = buildQuery(elementType, id, relatedElementType, helperElementType, true);		// ### onlyCount=true
+ 		//
+ 		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+-		Statement stmt = con.createStatement();
++		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+ 		stmt.close();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -11,6 +11,7 @@
+ import de.deepamehta.PresentableType;
+ import de.deepamehta.Topic;
+ import de.deepamehta.service.db.DatabaseProvider;
++import de.deepamehta.service.db.DatabaseSweeper;
+ import de.deepamehta.service.db.OracleDatabaseProvider;
+ import de.deepamehta.service.db.DatabaseProvider.DbmsHint;
+ //
+@@ -71,6 +72,9 @@
+ 	 */
+ 	RelationalCorporateMemory(DatabaseProvider dbProvider) throws Exception {
+ 		provider=dbProvider;
++		new DatabaseSweeper(provider).sweep();
++		provider.getDatabaseOptimizer().optimize();
++
+ 		this.dbmsHint = dbProvider.getDbmsHint();
+ 		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint.getName() + &quot;\&quot;&quot;);
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseOptimizer.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -5,8 +5,7 @@
+ import de.deepamehta.util.Benchmark;
+ 
+ public abstract class DatabaseOptimizer {
+-
+-	public class Worker implements Runnable {
++	private class Worker implements Runnable {
+ 		public void run() {
+ 			try {
+ 				optimize_internal();
+@@ -16,7 +15,7 @@
+ 		}
+ 	}
+ 
+-	final void optimize() throws SQLException {
++	public final void optimize() throws SQLException {
+ 		try {
+ 			Benchmark.run(&quot;Optimizing Database&quot;, new Worker());
+ 		} catch (RuntimeException e) {
+@@ -26,5 +25,5 @@
+ 		}
+ 	}
+ 
+-	abstract void optimize_internal() throws SQLException;
++	protected abstract void optimize_internal() throws SQLException;
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -9,8 +9,9 @@
+ import de.deepamehta.util.Benchmark;
+ 
+ /**
+- * This class implements some database related cleanup routines. If there is an
+- * error (maybe due to autocommit) and the db is not in an consistent state,
++ * This class implements some database related cleanup routines.
++ * If there is an error and the db is not in an consistent state
++ * (maybe due to autocommit and not using transactions),
+  * this helps to return to the consistent state.
+  * 
+  * @author enrico
+@@ -25,11 +26,11 @@
+ 					sweep(
+ 							statement,
+ 							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID1 = Topic.ID)&quot;,
+-							&quot;Accosiations with stale target Topic&quot;);
++							&quot;Associations with stale target Topic&quot;);
+ 					sweep(
+ 							statement,
+ 							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID2 = Topic.ID)&quot;,
+-							&quot;Accosiations with stale source Topic&quot;);
++							&quot;Associations with stale source Topic&quot;);
+ 					if (!con.getAutoCommit())
+ 						con.commit();
+ 				} catch (SQLException e) {
+@@ -70,7 +71,7 @@
+ 
+ 	private final DatabaseProvider provider;
+ 
+-	public DatabaseSweeper(DefaultDatabaseProvider provider)
++	public DatabaseSweeper(DatabaseProvider provider)
+ 			throws SQLException {
+ 		this.provider = provider;
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -45,8 +45,6 @@
+ 			throws ClassNotFoundException, SQLException,
+ 			InstantiationException, IllegalAccessException {
+ 		setupDatabaseProvider(conf);
+-		new DatabaseSweeper(this).sweep();
+-		getDatabaseOptimizer().optimize();
+ 	}
+ 
+ 	public DatabaseOptimizer getDatabaseOptimizer() {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-08-28 09:40:36 UTC (rev 182)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.topics;
+ 
+ import de.deepamehta.BaseTopic;
++import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.service.ApplicationService;
+@@ -15,14 +16,13 @@
+ import java.io.IOException;
+ import java.util.*;
+ 
+-
+-
+ /**
+- * This kernel topic represents a {@link de.deepamehta.service.CorporateDatasource}.
++ * This kernel topic represents a
++ * {@link de.deepamehta.service.CorporateDatasource}.
+  * &lt;P&gt;
+- * A &lt;CODE&gt;DataSourceTopic&lt;/CODE&gt; is associated to its {@link DataConsumerTopic}s by
+- * means of an association of type &lt;CODE&gt;at-association&lt;/CODE&gt; (direction is from
+- * data consumer to datasource).
++ * A &lt;CODE&gt;DataSourceTopic&lt;/CODE&gt; is associated to its
++ * {@link DataConsumerTopic}s by means of an association of type &lt;CODE&gt;at-association&lt;/CODE&gt;
++ * (direction is from data consumer to datasource).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+  * Last functional change: 8.11.2004 (2.0b3)&lt;BR&gt;
+@@ -32,19 +32,18 @@
+  */
+ public class DataSourceTopic extends LiveTopic implements Runnable {
+ 
+-
+-
+ 	// **************
+ 	// *** Fields ***
+ 	// **************
+ 
+-
+-
+ 	// Note: the XML path is relative to servers working directory
+ 
+ 	protected String url;
++
+ 	protected String driver;
++
+ 	protected String elements;
++
+ 	protected String idleElement;
+ 
+ 	protected CorporateDatasource dataSource;
+@@ -54,35 +53,28 @@
+ 	 */
+ 	Thread idleThread;
+ 
+-
+-
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+ 
+-
+-
+ 	public DataSourceTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
+-
+-
+ 	// ******************************************************
+ 	// *** Implementation of Interface java.lang.Runnable ***
+ 	// ******************************************************
+ 
+-
+-
+ 	/**
+ 	 * The body of the idle thread.
+ 	 */
+ 	public void run() {
+ 		while (true) {
+ 			try {
+-				Thread.sleep(5 * 60 * 1000);	// interval is 5 min.
+-				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot; +
+-					idleElement + &quot;\&quot;): &quot; + dataSource.getElementCount(idleElement));
++				Thread.sleep(5 * 60 * 1000); // interval is 5 min.
++				System.out.println(&quot;&gt; \&quot;&quot; + getName() + &quot;\&quot; statistics (\&quot;&quot;
++						+ idleElement + &quot;\&quot;): &quot;
++						+ dataSource.getElementCount(idleElement));
+ 			} catch (InterruptedException e) {
+ 				System.out.println(&quot;*** DataSourceTopic.run(): &quot; + e);
+ 			} catch (Exception e) {
+@@ -91,84 +83,93 @@
+ 		}
+ 	}
+ 
+-
+-
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+ 
+-
+-
+ 	/**
+-	 * @see		DataConsumerTopic#setDataSource
++	 * @see DataConsumerTopic#setDataSource
+ 	 */
+ 	public String getURL() {
+ 		return url;
+ 	}
+ 
+ 	/**
+-	 * @see		DataConsumerTopic#setDataSource
++	 * @see DataConsumerTopic#setDataSource
+ 	 */
+ 	public CorporateDatasource getDataSource() {
+ 		return dataSource;
+ 	}
+ 
+-
+-
+ 	// ----------------------
+ 	// --- Defining Hooks ---
+ 	// ----------------------
+ 
+-
+-
+ 	/**
+ 	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;&lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;&lt;TD&gt;1&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;&lt;TD&gt;variable&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;&lt;TD&gt;3&lt;/TD&gt;&lt;/TR&gt;
++	 * &lt;TR&gt;
++	 * &lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;
++	 * &lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;
++	 * &lt;/TR&gt;
++	 * &lt;TR&gt;
++	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;
++	 * &lt;TD&gt;1&lt;/TD&gt;
++	 * &lt;/TR&gt;
++	 * &lt;TR&gt;
++	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;
++	 * &lt;TD&gt;variable&lt;/TD&gt;
++	 * &lt;/TR&gt;
++	 * &lt;TR&gt;
++	 * &lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;
++	 * &lt;TD&gt;3&lt;/TD&gt;
++	 * &lt;/TR&gt;
+ 	 * &lt;/TABLE&gt;
+ 	 */
+ 	public CorporateDirectives init(int initLevel, Session session)
+-															throws TopicInitException {
++			throws TopicInitException {
+ 		CorporateDirectives directives = super.init(initLevel, session);
+ 		//
+ 		if (initLevel == INITLEVEL_1) {
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.init(&quot; + initLevel + &quot;): &quot; +
+-					this + &quot; -- open corporate datasource&quot;);
++				System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.init(&quot; + initLevel
++						+ &quot;): &quot; + this + &quot; -- open corporate datasource&quot;);
+ 			}
+-			openCorporateDatasource();		// throws TopicInitException
++			openCorporateDatasource(); // throws TopicInitException
+ 		}
+ 		//
+ 		return directives;
+ 	}
+ 
+-	public CorporateDirectives propertiesChanged(Hashtable newData, Hashtable oldData,
+-				String topicmapID, String viewmode, Session session) throws DeepaMehtaException {
++	public CorporateDirectives propertiesChanged(Hashtable newData,
++			Hashtable oldData, String topicmapID, String viewmode,
++			Session session) throws DeepaMehtaException {
+ 		try {
+-			System.out.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): connection &quot; +
+-				&quot;parameters changed from &quot; + oldData + &quot; to &quot; + newData + &quot; -- reopen &quot; +
+-				&quot;corporate datasource&quot;);
++			System.out
++					.println(&quot;&gt;&gt;&gt; DataSourceTopic.propertiesChanged(): connection &quot;
++							+ &quot;parameters changed from &quot;
++							+ oldData
++							+ &quot; to &quot;
++							+ newData + &quot; -- reopen &quot; + &quot;corporate datasource&quot;);
+ 			//
+-			CorporateDirectives directives = super.propertiesChanged(newData, oldData,
+-				topicmapID, viewmode, session);
++			CorporateDirectives directives = super.propertiesChanged(newData,
++					oldData, topicmapID, viewmode, session);
+ 			// --- reopen the corporate datasource ---
+-			openCorporateDatasource();		// throws TopicInitException
++			openCorporateDatasource(); // throws TopicInitException
+ 			// --- inform all associated consumers of this datasource ---
+ 			Vector consumerTypes = as.dataConsumerTypes(getID());
+ 			Enumeration e = consumerTypes.elements();
+ 			BaseTopic consumerType;
+ 			Enumeration consumers;
+-			int topicCount;	// reporting only
+-			int initCount;	// reporting only
++			int topicCount; // reporting only
++			int initCount; // reporting only
+ 			String consumerID;
+ 			LiveTopic consumer;
+ 			// loop through all topic types who consumes from this datasource
+ 			while (e.hasMoreElements()) {
+ 				consumerType = (BaseTopic) e.nextElement();
+ 				// get all instances of that type in the current topicmap
+-				consumers = cm.getTopicIDs(consumerType.getID(), topicmapID).elements();
++				consumers = cm.getTopicIDs(consumerType.getID(), topicmapID)
++						.elements();
+ 				//
+ 				topicCount = 0;
+ 				initCount = 0;
+@@ -183,9 +184,10 @@
+ 						initCount++;
+ 					}
+ 				}
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot; +
+-					initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot; + consumerType.getName() +
+-					&quot;\&quot; topics reinitialized&quot;, new Integer(NOTIFICATION_DEFAULT));
++				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Datasource of &quot;
++						+ initCount + &quot;/&quot; + topicCount + &quot; \&quot;&quot;
++						+ consumerType.getName() + &quot;\&quot; topics reinitialized&quot;,
++						new Integer(NOTIFICATION_DEFAULT));
+ 			}
+ 			return directives;
+ 		} catch (TopicInitException e2) {
+@@ -193,17 +195,13 @@
+ 		}
+ 	}
+ 
+-
+-
+ 	// **********************
+ 	// *** Private Method ***
+ 	// **********************
+ 
+-
+-
+ 	/**
+-	 * @see		#init
+-	 * @see		#propertiesChanged
++	 * @see #init
++	 * @see #propertiesChanged
+ 	 */
+ 	private void openCorporateDatasource() throws TopicInitException {
+ 		this.url = getProperty(&quot;URL&quot;);
+@@ -222,111 +220,132 @@
+ 		}
+ 		// ### passing text bad
+ 		if (url.startsWith(&quot;xml:&quot;)) {
+-			this.dataSource = createXMLSource(url, elements, text);		// throws TopicInitException
++			this.dataSource = createXMLSource(url, elements, text); // throws
++																	// TopicInitException
+ 		} else if (url.startsWith(&quot;jdbc:&quot;)) {
+-			this.dataSource = createSQLSource(url, driver, text);		// throws TopicInitException
++			this.dataSource = createSQLSource(url, driver, text); // throws
++																	// TopicInitException
+ 		} else if (url.startsWith(&quot;ldap:&quot;)) {
+-			this.dataSource = createLDAPSource(url, text);				// throws TopicInitException
++			this.dataSource = createLDAPSource(url, text); // throws
++															// TopicInitException
+ 		} else {
+-			throw new TopicInitException(text + &quot;(URL has unexpected protocol: \&quot;&quot; +
+-				url + &quot;\&quot;&quot; + &quot; &gt;&gt;&gt; expected protocols are \&quot;jdbc:\&quot;, \&quot;xml:\&quot; and \&quot;ldap:\&quot;)&quot;);
++			throw new TopicInitException(
++					text
++							+ &quot;(URL has unexpected protocol: \&quot;&quot;
++							+ url
++							+ &quot;\&quot;&quot;
++							+ &quot; &gt;&gt;&gt; expected protocols are \&quot;jdbc:\&quot;, \&quot;xml:\&quot; and \&quot;ldap:\&quot;)&quot;);
+ 		}
+ 	}
+-	
++
+ 	/** @return a new instance of CorporateXMLSource */
+-	private CorporateDatasource createXMLSource(String url, String elements, String errmsg)
+-																	throws TopicInitException {
++	private CorporateDatasource createXMLSource(String url, String elements,
++			String errmsg) throws TopicInitException {
+ 		// Note: the XML path is relative to servers working directory
+ 		String file = url.substring(4);
+ 		// --- open XML datasource ---
+ 		try {
+ 			return new CorporateXMLSource(file, elements);
+ 		} catch (SAXException e) {
+-			throw new TopicInitException(errmsg + &quot;(Syntax error in \&quot;&quot; + file +
+-				&quot;\&quot;: &quot; + e + &quot; &gt;&gt;&gt; Make sure attribute values are enclosed in \&quot;\&quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(Syntax error in \&quot;&quot; + file
++					+ &quot;\&quot;: &quot; + e
++					+ &quot; &gt;&gt;&gt; Make sure attribute values are enclosed in \&quot;\&quot;)&quot;);
+ 		} catch (IOException e) {
+ 			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;);
+ 		}
+ 	}
+ 
+ 	/**
+-	 * @return	a new instance of CorporateSQLSource
++	 * @return a new instance of CorporateSQLSource
+ 	 */
+-	private CorporateDatasource createSQLSource(String url, String driver, String errmsg)
+-														throws TopicInitException {
+-		//  --- open SQL datasource ---
++	private CorporateDatasource createSQLSource(String url, String driver,
++			String errmsg) throws TopicInitException {
++		// --- open SQL datasource ---
+ 		try {
+-			CorporateDatasource source = new CorporateSQLSource(url, driver);
++			CorporateDatasource source = new CorporateSQLSource(
++					url,
++					driver,
++					as
++							.getConfigurationProperty(ConfigurationConstants.Database.DB_LIBS));
+ 			startIdleThread();
+ 			return source;
+ 		} catch (ClassNotFoundException e) {
+-			throw new TopicInitException(errmsg + &quot;(class not found: &quot; +
+-				e.getMessage() + &quot;)&quot;);
++			throw new TopicInitException(errmsg + &quot;(class not found: &quot;
++					+ e.getMessage() + &quot;)&quot;);
+ 		} catch (Exception e) {
+ 			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;);
+ 		}
+ 	}
+ 
+ 	/**
+-	 * @return	a new instance of CorporateLDAPSource
++	 * @return a new instance of CorporateLDAPSource
+ 	 */
+ 	private CorporateDatasource createLDAPSource(String url, String errmsg)
+-														throws TopicInitException {
++			throws TopicInitException {
+ 		try {
+ 			return new CorporateLDAPSource(url);
+ 		} catch (Throwable e) {
+ 			throw new TopicInitException(errmsg + &quot;(&quot; + e + &quot;)&quot;);
+-		}		
++		}
+ 	}
+ 
+ 	/**
+-	 * @see		#propertiesChanged
++	 * @see #propertiesChanged
+ 	 */
+ 	private boolean reinitializeDataconsumer(LiveTopic consumer,
+-								CorporateDirectives directives, Session session) {
++			CorporateDirectives directives, Session session) {
+ 		try {
+-			if (consumer instanceof DataConsumerTopic ||
+-				consumer instanceof ElementContainerTopic) {
++			if (consumer instanceof DataConsumerTopic
++					|| consumer instanceof ElementContainerTopic) {
+ 				// reinitialize DataConsumerTopic
+ 				consumer.init(INITLEVEL_2, session);
+ 				return true;
+ 			} else {
+-				String text = &quot;\&quot;&quot; + consumer.getName() + &quot;\&quot; is neither a &quot; +
+-					&quot;DataConsumerTopic nor a ElementContainerTopic, but a &quot; +
+-					consumer.getClass() + &quot; -- datasource not reinitialized&quot;;
+-				System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-					text);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, text,
+-					new Integer(NOTIFICATION_WARNING));
++				String text = &quot;\&quot;&quot;
++						+ consumer.getName()
++						+ &quot;\&quot; is neither a &quot;
++						+ &quot;DataConsumerTopic nor a ElementContainerTopic, but a &quot;
++						+ consumer.getClass()
++						+ &quot; -- datasource not reinitialized&quot;;
++				System.out
++						.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
++								+ text);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, text, new Integer(
++						NOTIFICATION_WARNING));
+ 			}
+ 		} catch (DeepaMehtaException e) {
+-			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
+-				&quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_ERROR));
++			System.out
++					.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
++							+ e.getMessage()
++							+ &quot; -- datasource of dataconsumer not &quot;
++							+ &quot;properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(
++					NOTIFICATION_ERROR));
+ 		} catch (TopicInitException e) {
+-			System.out.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot; +
+-				e.getMessage() + &quot; -- datasource of dataconsumer not &quot; +
+-				&quot;properly reinitialized&quot;);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_ERROR));
++			System.out
++					.println(&quot;*** DataSourceTopic.reinitializeDataconsumer(): &quot;
++							+ e.getMessage()
++							+ &quot; -- datasource of dataconsumer not &quot;
++							+ &quot;properly reinitialized&quot;);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(
++					NOTIFICATION_ERROR));
+ 		}
+ 		return false;
+ 	}
+ 
+ 	/**
+-	 * @see		#openCorporateDatasource
++	 * @see #openCorporateDatasource
+ 	 */
+ 	private void startIdleThread() {
+ 		// error check
+ 		if (idleElement.equals(&quot;&quot;)) {
+-			System.out.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource \&quot;&quot; +
+-				getName() + &quot;\&quot;&quot;);
++			System.out
++					.println(&quot;*** \&quot;Idle Elementtype\&quot; not set for datasource \&quot;&quot;
++							+ getName() + &quot;\&quot;&quot;);
+ 		}
+ 		//
+ 		if (idleThread == null) {
+-			// ### System.out.print(&quot;&gt;    starting idle thread ... &quot;);
++			// ### System.out.print(&quot;&gt; starting idle thread ... &quot;);
+ 			//
+ 			idleThread = new Thread(this);
+ 			idleThread.start();
+
+Modified: branches/eschnepel/install/db/createdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-sql92.xml	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/install/db/createdb-sql92.xml	2007-08-28 09:40:36 UTC (rev 182)
+@@ -5,6 +5,7 @@
+ 		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
++		&lt;echo&gt;Creating Database ${db.name} for user ${db.user} with password ${db.password} ...&lt;/echo&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			CREATE DATABASE ${db.name};
+ 			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+
+
+Property changes on: branches/eschnepel/install/examples/movies
+___________________________________________________________________
+Name: svn:ignore
+   + MoviesTopics.jar
+build
+
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-08-28 09:40:36 UTC (rev 182)
+@@ -4,79 +4,72 @@
+ 		Movies
+ 	&lt;/description&gt;
+ 
+-	&lt;property name=&quot;jar&quot; value=&quot;MoviesTopics.jar&quot;/&gt;
+-	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
+-	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot;/&gt;
++	&lt;property name=&quot;jar&quot; value=&quot;MoviesTopics.jar&quot; /&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
++	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot; /&gt;
+ 
+-	&lt;import file=&quot;${dm.base-dir}/config.xml&quot;/&gt;
+-	&lt;property file=&quot;config/movies-${dm.instance}.properties&quot;/&gt;
++	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
++	&lt;property file=&quot;config/movies-${dm.instance}.properties&quot; /&gt;
+ 
+ 	&lt;condition property=&quot;db.syspass&quot; value=&quot;${syspass}&quot;&gt;
+ 		&lt;istrue value=&quot;${withsyspass}&quot; /&gt;
+ 	&lt;/condition&gt;
+ 
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
+-   	    &lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
++		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+ 			&lt;include name=&quot;de/deepamehta/movies/topics/*.class&quot; /&gt;
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- example database &quot;Movies&quot; --&gt;
+ 
+-	&lt;target name=&quot;install&quot; depends=&quot;initdb&quot;/&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;initdb&quot; /&gt;
+ 
+-	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+-	&lt;/target&gt;
++	&lt;import file=&quot;${db}/${db.create-db}&quot; /&gt;
+ 
+-	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			&lt;transaction&gt;
+-				CREATE DATABASE ${movies.db.name};
+-				GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@localhost IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
+-				GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@&quot;%&quot;       IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
+-			&lt;/transaction&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
+-			&lt;/fileset&gt;
+-		&lt;/sql&gt;
++	&lt;target name=&quot;createmoviesdb&quot;&gt;
++		&lt;ant antfile=&quot;${db}/${db.create-db}&quot; target=&quot;createdb&quot; inheritrefs=&quot;true&quot;&gt;
++			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
++			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
++			&lt;property name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
++		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createtables&quot; depends=&quot;createdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;target name=&quot;createtables&quot; depends=&quot;createmoviesdb&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+-			    &lt;include name=&quot;${movies.db.tables}&quot;/&gt;
++				&lt;include name=&quot;${movies.db.tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;initdb&quot; depends=&quot;createtables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.user}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+-			    &lt;include name=&quot;${movies.db.content}&quot;/&gt;
++				&lt;include name=&quot;${movies.db.content}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 09:40:36 UTC (rev 182)
+@@ -1,5 +1,5 @@
+ movies.db.name		=Movies
+-movies.db.userid	=movies
++movies.db.user		=movies
+ movies.db.password	=movies
+ movies.db.tables	=db/db_tables_mysql.sql
+ movies.db.content	=db/db_inserts.sql
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 08:09:18 UTC (rev 181)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 09:40:36 UTC (rev 182)
+@@ -1,6 +1,6 @@
+-movies.db.name=Movies
+-movies.db.userid=movies
+-movies.db.password=movies
+-movies.db.tables=db/db_tables_mysql.sql
+-movies.db.content=db/db_inserts.sql
+-movies.db.url=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
++movies.db.name		=Movies
++movies.db.user		=movies
++movies.db.password	=movies
++movies.db.tables	=db/db_tables_mysql.sql
++movies.db.content	=db/db_inserts.sql
++movies.db.url		=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000026.html">[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config
+</A></li>
+	<LI>Next message: <A HREF="000028.html">[deepamehta-svn] r183 - in branches/eschnepel: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#27">[ date ]</a>
+              <a href="thread.html#27">[ thread ]</a>
+              <a href="subject.html#27">[ subject ]</a>
+              <a href="author.html#27">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r318 - trunk/develop/src/de/deepamehta/service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r318%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200804211617.m3LGHWqo026625%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000162.html">
+   <LINK REL="Next"  HREF="000164.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r318 - trunk/develop/src/de/deepamehta/service</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r318%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200804211617.m3LGHWqo026625%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r318 - trunk/develop/src/de/deepamehta/service">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Apr 21 18:17:32 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000162.html">[deepamehta-svn] r317 - trunk/develop/src/de/deepamehta/service/db
+</A></li>
+        <LI>Next message: <A HREF="000164.html">[deepamehta-svn] r319 - trunk/develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-04-21 18:17:30 +0200 (Mon, 21 Apr 2008)
+New Revision: 318
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+Log:
+Prepared Statements Part 2
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-04-21 15:20:34 UTC (rev 317)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-04-21 16:17:30 UTC (rev 318)
+@@ -9,7 +9,6 @@
+ import de.deepamehta.PresentableType;
+ import de.deepamehta.assocs.LiveAssociation;
+ import de.deepamehta.service.db.DatabaseProvider;
+-import de.deepamehta.service.db.DatabaseSweeper;
+ import de.deepamehta.service.db.OracleDatabaseProvider;
+ import de.deepamehta.service.db.DatabaseProvider.DbmsHint;
+ import de.deepamehta.topics.LiveTopic;
+@@ -661,9 +660,9 @@
+ 			System.out.println(&quot;&gt; (#) &quot; + typeID + &quot;:&quot; + typeVersion + &quot; \&quot;&quot; +
+ 				name + &quot;\&quot; (&quot; + id + &quot;:&quot; + version + &quot;)&quot;);
+ 		}
+-		update(&quot;INSERT INTO Topic (ID, Version, TypeID, TypeVersion, Name) VALUES &quot; +
+-			&quot;('&quot; + id + &quot;', &quot; + version + &quot;, '&quot; + typeID + &quot;', &quot; + typeVersion +
+-			&quot;, '&quot; + quote(name) + &quot;')&quot;);
++		update(&quot;INSERT INTO Topic (ID, Version, TypeID, TypeVersion, Name) &quot; +
++				&quot;VALUES (?, ?, ?, ?, ?)&quot;,
++		       new Object[]{id, i(version), typeID, i(typeVersion), name});
+ 	}
+ 
+ 	/**
+@@ -679,12 +678,9 @@
+ 				topicID1 + &quot;:&quot; + topicVersion1 + &quot;, &quot; +
+ 				topicID2 + &quot;:&quot; + topicVersion2+ &quot;)&quot;);
+ 		}
+-		update(&quot;INSERT INTO Association (&quot; +
+-			&quot;ID, Version, TypeID, TypeVersion, &quot; +
+-			&quot;TopicID1, TopicVersion1, &quot; +
+-			&quot;TopicID2, TopicVersion2, Name) VALUES ('&quot; +
+-			id + &quot;', &quot; + version + &quot;, '&quot; + typeID + &quot;', &quot; + typeVersion + &quot;, '&quot; +
+-			topicID1 + &quot;', &quot; + topicVersion1 + &quot;, '&quot; + topicID2 + &quot;', &quot; + topicVersion2 + &quot;,'')&quot;);
++		update(&quot;INSERT INTO Association (ID, Version, TypeID, TypeVersion, TopicID1, TopicVersion1, TopicID2, TopicVersion2, Name)&quot; +
++				&quot;VALUES (?, ?, ?, ?, ?, ?, ?, ?)&quot;,
++				new Object[]{id, i(version), typeID, i(typeVersion), topicID1, i(topicVersion1), topicID2, i(topicVersion2)});
+ 	}
+ 
+ 	// ---
+@@ -693,16 +689,16 @@
+ 	 * @see		ApplicationService#changeTopicName
+ 	 */
+ 	public void changeTopicName(String topicID, int version, String name) {
+-		update(&quot;UPDATE Topic SET Name='&quot; + quote(name) + &quot;' WHERE ID='&quot; + topicID + &quot;' &quot; +
+-			&quot;AND Version=&quot; + version);
++		update(&quot;UPDATE Topic SET Name = ? WHERE ID = ? AND Version = ?&quot;,
++		       new Object[]{name, topicID, i(version)});
+ 	}
+ 
+ 	/**
+ 	 * @see		ApplicationService#changeTopicType
+ 	 */
+ 	public void changeTopicType(String topicID, int version, String typeID, int typeVersion) {
+-		update(&quot;UPDATE Topic SET TypeID='&quot; + typeID + &quot;', TypeVersion=&quot; + typeVersion +
+-			&quot; WHERE ID='&quot; + topicID + &quot;' AND Version=&quot; + version);
++		update(&quot;UPDATE Topic SET TypeID = ?, TypeVersion = ? WHERE ID = ? AND Version = ?&quot;,
++	       new Object[]{typeID, i(typeVersion), topicID, i(version)});
+ 	}
+ 
+ 	// ---
+@@ -711,16 +707,16 @@
+ 	 * @see		ApplicationService#changeTopicName
+ 	 */
+ 	public void changeAssociationName(String assocID, int version, String name) {
+-		update(&quot;UPDATE Association SET Name='&quot; + quote(name) + &quot;' WHERE ID='&quot; + assocID + &quot;' &quot; +
+-			&quot;AND Version=&quot; + version);
++		update(&quot;UPDATE Association SET Name = ? WHERE ID = ? AND Version = ?&quot;,
++	       new Object[]{name, assocID, i(version)});
+ 	}
+ 
+ 	/**
+ 	 * @see		ApplicationService#changeAssociationType
+ 	 */
+ 	public void changeAssociationType(String assocID, int version, String typeID, int typeVersion) {
+-		update(&quot;UPDATE Association SET TypeID='&quot; + typeID + &quot;', TypeVersion=&quot; +
+-			typeVersion + &quot; WHERE ID='&quot; + assocID + &quot;' AND Version=&quot; + version);
++		update(&quot;UPDATE Association SET TypeID = ?, TypeVersion = ? WHERE ID = ? AND Version = ?&quot;,
++	       new Object[]{typeID, i(typeVersion), assocID, i(version)});
+ 	}
+ 
+ 	// --- deleting ---
+@@ -1001,8 +997,7 @@
+ 				System.out.println(&quot;&gt; (#) &quot; + topicmapID + &quot;:&quot; + topicmapVersion + &quot; &quot; + topicID + &quot;:&quot; + topicVersion +
+ 					&quot; (&quot; + x + &quot;, &quot; + y + &quot;)&quot;);
+ 			}
+-			update(&quot;INSERT INTO ViewTopic VALUES ('&quot; + topicmapID + &quot;', &quot; + topicmapVersion + &quot;, '&quot; + topicID +
+-				&quot;', &quot; + topicVersion + &quot;, &quot; + x + &quot;, &quot; + y + &quot;)&quot;);
++			update(&quot;INSERT INTO ViewTopic VALUES (?, ?, ?, ?, ?, ?)&quot;, new Object[]{topicmapID, i(topicmapVersion), topicID, i(topicVersion), i(x), i(y)});
+ 		}
+ 	}
+ 
+@@ -1016,8 +1011,7 @@
+ 			if (LOG_CM) {
+ 				System.out.println(&quot;&gt; (#) &quot; + topicmapID + &quot;:&quot; + topicmapVersion + &quot; &quot; + assocID + &quot;:&quot; + assocVersion);
+ 			}
+-			update(&quot;INSERT INTO ViewAssociation VALUES ('&quot; + topicmapID + &quot;', &quot; + topicmapVersion + &quot;, '&quot; + assocID +
+-				&quot;', &quot; + assocVersion + &quot;)&quot;);
++			update(&quot;INSERT INTO ViewAssociation VALUES (?, ?, ?, ?)&quot;, new Object[]{topicmapID, i(topicmapVersion), assocID, i(assocVersion)});
+ 		} else {
+ 			// ### System.out.println(&quot;&gt; RelationalCorporateMemory.createViewAssociation(): \&quot;&quot; +
+ 			//	assocID + &quot;\&quot; already in view \&quot;&quot; + topicmapID + &quot;\&quot;&quot;);
+@@ -1111,10 +1105,10 @@
+ 	 * @see		ApplicationService#updateView
+ 	 */
+ 	public void updateView(String srcTopicmapID, int srcTopicmapVersion, String destTopicmapID, int destTopicmapVersion) {
+-		String setClause = &quot; SET ViewTopicID='&quot; + destTopicmapID + &quot;', ViewTopicVersion=&quot; + destTopicmapVersion +
+-			&quot; WHERE ViewTopicID='&quot; + srcTopicmapID + &quot;' AND ViewTopicVersion=&quot; + srcTopicmapVersion;
+-		int c1 = update(&quot;UPDATE ViewTopic&quot; + setClause, IMPLIED_N);
+-		int c2 = update(&quot;UPDATE ViewAssociation&quot; + setClause, IMPLIED_N);
++		String setClause = &quot; SET ViewTopicID = ?, ViewTopicVersion = ? WHERE ViewTopicID = ? AND ViewTopicVersion = ?&quot;;
++		Object[] setParams = new Object[]{destTopicmapID, i(destTopicmapVersion), srcTopicmapID, i(srcTopicmapVersion)};
++		int c1 = update(&quot;UPDATE ViewTopic&quot; + setClause, setParams, IMPLIED_N);
++		int c2 = update(&quot;UPDATE ViewAssociation&quot; + setClause, setParams, IMPLIED_N);
+ 		if (LOG_CM) {
+ 			System.out.println(&quot;&gt; (&gt;) \&quot;&quot; + srcTopicmapID + &quot;\&quot;,&quot; + srcTopicmapVersion + &quot; --&gt; \&quot;&quot; + destTopicmapID +
+ 				&quot;\&quot;,&quot; + destTopicmapVersion + &quot;: &quot; + c1 + &quot; view topics, &quot; + c2 + &quot; view associations&quot;);
+@@ -1125,9 +1119,9 @@
+ 	 * @see		ApplicationService#moveTopic
+ 	 */
+ 	public void updateViewTopic(String topicmapID, int topicmapVersion, String topicID, int x, int y) {
+-		update(&quot;UPDATE ViewTopic SET x=&quot; + x + &quot;, y=&quot; + y + &quot; WHERE ViewTopicID='&quot; + topicmapID + &quot;' AND &quot; +
+-			&quot;ViewTopicVersion=&quot; + topicmapVersion + &quot; AND TopicID='&quot; + topicID +
+-			&quot;'&quot;, IMPLIED_NO);	// ### implied ? -- probably IMPLIED_1 ### topic version?
++		update(&quot;UPDATE ViewTopic SET x = ?, y = ? WHERE ViewTopicID = ? AND ViewTopicVersion = ? AND TopicID = ?&quot;,
++		       new Object[]{i(x), i(y), topicmapID, i(topicmapVersion), topicID}, IMPLIED_NO);
++		// ### implied ? -- probably IMPLIED_1 ### topic version?
+ 	}
+ 
+ 	// ---
+@@ -1244,15 +1238,16 @@
+ 			System.out.println(&quot;&gt; (&gt;) &quot; + topicID + &quot;:&quot; + version + &quot; (update \&quot;&quot; + field + &quot;\&quot; to \&quot;&quot; + value + &quot;\&quot;)&quot;);
+ 		}
+ 		//
+-		int rowCount = update(&quot;UPDATE TopicProp SET PropValue='&quot; + quote(value) + &quot;' WHERE TopicID='&quot; + topicID +
+-			&quot;' AND TopicVersion=&quot; + version + &quot; AND PropName='&quot; + quote(field) + &quot;'&quot;, IMPLIED_NO);
++		int rowCount = update(&quot;UPDATE TopicProp SET PropValue = ? WHERE TopicID = ?&quot; +
++			&quot; AND TopicVersion = ? AND PropName = ?&quot;,
++			new Object[]{value, topicID, i(version), field}, IMPLIED_NO);
+ 		if (rowCount == 0) {
+ 			// the topic has no topic data yet -- insert
+ 			if (LOG_CM) {
+ 				System.out.println(&quot;&gt; (#) &quot; + topicID + &quot;:&quot; + version + &quot; (insert \&quot;&quot; + field + &quot;\&quot; to \&quot;&quot; + value + &quot;\&quot;)&quot;);
+ 			}
+-			update(&quot;INSERT INTO TopicProp (TopicID, TopicVersion, PropName, PropValue) VALUES &quot; +
+-				&quot;('&quot; + topicID + &quot;', &quot; + version + &quot;, '&quot; + quote(field) + &quot;', '&quot; + quote(value) + &quot;')&quot;);
++			update(&quot;INSERT INTO TopicProp (TopicID, TopicVersion, PropName, PropValue) VALUES (?, ?, ?, ?)&quot;,
++			       new Object[]{topicID, i(version), field, value});
+ 		} else if (rowCount &gt; 1) {
+ 			System.out.println(&quot;*** RelationalCorporateMemory.setTopicData(): &quot; +
+ 				rowCount + &quot; rows updated, \&quot;&quot; + topicID + &quot;\&quot;, &quot; + version + &quot;, \&quot;&quot; + field + &quot;\&quot;&quot;);
+@@ -1313,9 +1308,8 @@
+ 				field + &quot;\&quot; to \&quot;&quot; + value + &quot;\&quot;)&quot;);
+ 		}
+ 		//
+-		int rowCount = update(&quot;UPDATE AssociationProp SET PropValue='&quot; + quote(value) +
+-			&quot;' WHERE AssociationID='&quot; + assocID + &quot;' AND AssociationVersion=&quot; +
+-			version + &quot; AND PropName='&quot; + quote(field) + &quot;'&quot;, IMPLIED_NO);
++		int rowCount = update(&quot;UPDATE AssociationProp SET PropValue = ? WHERE AssociationID = ? AND AssociationVersion = ? AND PropName = ?&quot;
++		                      , new Object[]{value, assocID, i(version), field}, IMPLIED_NO);
+ 		if (rowCount == 0) {
+ 			// the association has no association data yet -- insert
+ 			if (LOG_CM) {
+@@ -1324,8 +1318,7 @@
+ 			}
+ 			update(&quot;INSERT INTO AssociationProp &quot; +
+ 				&quot;(AssociationID, AssociationVersion, PropName, PropValue) VALUES &quot; +
+-				&quot;('&quot; + assocID + &quot;', &quot; + version + &quot;, '&quot; + quote(field) + &quot;', '&quot; +
+-				quote(value) + &quot;')&quot;);
++				&quot;(?, ?, ?, ?)&quot;, new Object[]{assocID, i(version), field, value});
+ 		} else if (rowCount &gt; 1) {
+ 			System.out.println(&quot;*** RelationalCorporateMemory.setAssociationData():&quot; +
+ 				&quot; &quot; + rowCount + &quot; rows updated, \&quot;&quot; + assocID + &quot;\&quot;, &quot; + version +
+@@ -1352,22 +1345,18 @@
+ 
+ 	// --- ID generator ---
+ 
++	//TODO common procedure with transaction
+ 	public synchronized String getNewTopicID() {
+-		String query = &quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Topic'&quot;;
+-		int newID = queryNewID(query);	// throws DME
+-		query = &quot;UPDATE KeyGenerator SET NextKey=&quot; + (newID + 1) + &quot; WHERE &quot; +
+-			&quot;Relation = 'Topic'&quot;;
+-		update(query);
++		int newID = queryNewID(&quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Topic'&quot;);	// throws DME
++		update(&quot;UPDATE KeyGenerator SET NextKey = ? WHERE Relation = 'Topic'&quot;, new Object[]{i(newID + 1)});
+         //
+ 		return &quot;t-&quot; + newID;
+ 	}
+ 
++	//TODO common procedure with transaction
+ 	public synchronized String getNewAssociationID() {
+-		String query = &quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Association'&quot;;
+-		int newID = queryNewID(query);	// throws DME
+-		query = &quot;UPDATE KeyGenerator SET NextKey=&quot; + (newID + 1) + &quot; WHERE &quot; +
+-			&quot;Relation = 'Association'&quot;;
+-		update(query);
++		int newID = queryNewID(&quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Association'&quot;);	// throws DME
++		update(&quot;UPDATE KeyGenerator SET NextKey = ? WHERE Relation = 'Association'&quot;, new Object[]{i(newID + 1)});
+         //
+ 		return &quot;a-&quot; + newID;
+ 	}
+@@ -1556,11 +1545,6 @@
+ 		return queryBaseTopics(query, params, false);
+ 	}
+ 
+-// TODO Kommentar wieder raus
+-//	private Vector queryBaseTopics(String query) {
+-//		return queryBaseTopics(query, new Object[0], false);
+-//	}
+-
+ 	private Vector queryBaseTopics(PreparedStatement stmt) {
+ 		return queryBaseTopics(stmt, false);
+ 	}
+@@ -1871,30 +1855,57 @@
+ 	/**
+ 	 * Executes an INSERT, UPDATE or DELETE statement.
+ 	 */
+-	private int update(String query) {
+-		return update(query, IMPLIED_1);
++//	private int update(String query) {
++//		return update(query, IMPLIED_1);
++//	}
++	/**
++	 * Executes an INSERT, UPDATE or DELETE statement.
++	 */
++	private int update(String query, Object[] params) {
++		return update(query, params, IMPLIED_1);
+ 	}
+ 
+ 	/**
+ 	 * Executes an INSERT, UPDATE or DELETE statement.
+ 	 */
+-	private int update(String query, int implied) {
++//	private int update(String query, int implied) {
++//		return update(query,new Object[0],implied);
++//	}
++	/**
++	 * Executes an INSERT, UPDATE or DELETE statement.
++	 */
++	private int update(String query, Object[] params, int implied) {
+ 		try {
+-			Statement stmt = createStatement();
+-			int rowCount = stmt.executeUpdate(query);
++			return update(createPreparedStatement(query, params), implied);
++		} catch (SQLException e) {
++			e.printStackTrace();
++		}
++		return 0;
++	}
++
++	/**
++	 * Executes an INSERT, UPDATE or DELETE statement.
++	 */
++	private int update(PreparedStatement stmt, int implied) {
++		try {
++			int rowCount = stmt.executeUpdate();
+ 			if (implied == IMPLIED_1 &amp;&amp; rowCount != 1) {
+ 				System.out.println(&quot;*** RelationalCorporateMemory.update(): &quot; +
+-					rowCount + &quot; rows updated:\n\&quot;&quot; + query + &quot;\&quot;&quot;);
++					rowCount + &quot; rows updated:\n\&quot;&quot; + stmt + &quot;\&quot;&quot;);
+ 			}
+-			stmt.close();
+ 			return rowCount;
+ 		} catch (SQLException e) {
+ 			if (implied != IMPLIED_NO) {
+ 				System.out.println(&quot;*** RelationalCorporateMemory.update(): &quot; + e +
+ 					&quot; -- INSERT, UPDATE or DELETE statement failed&quot;);
+-				System.out.println(query);
++				System.out.println(stmt);
+ 			}
+ 			return 0;
++		}finally{
++			try {
++				stmt.close();
++			} catch (SQLException e) {
++			}
+ 		}
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000162.html">[deepamehta-svn] r317 - trunk/develop/src/de/deepamehta/service/db
+</A></li>
+	<LI>Next message: <A HREF="000164.html">[deepamehta-svn] r319 - trunk/develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

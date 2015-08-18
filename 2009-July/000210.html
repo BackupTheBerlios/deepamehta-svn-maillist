@@ -1,0 +1,820 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r366 - in trunk: . develop develop/src-java-1.5	develop/src-java-1.5/de develop/src-java-1.5/de/deepamehta	develop/src-java-1.5/de/deepamehta/service	develop/src-java-1.6 develop/src-java-1.6/de	develop/src-java-1.6/de/deepamehta	develop/src-java-1.6/de/deepamehta/service	develop/src-java-1.6/de/deepamehta/service/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r366%20-%20in%20trunk%3A%20.%20develop%20develop/src-java-1.5%0A%09develop/src-java-1.5/de%20develop/src-java-1.5/de/deepamehta%0A%09develop/src-java-1.5/de/deepamehta/service%0A%09develop/src-java-1.6%20develop/src-java-1.6/de%0A%09develop/src-java-1.6/de/deepamehta%0A%09develop/src-java-1.6/de/deepamehta/service%0A%09develop/src-java-1.6/de/deepamehta/service/db&In-Reply-To=%3C200907022104.n62L4XbM005686%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000211.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r366 - in trunk: . develop develop/src-java-1.5	develop/src-java-1.5/de develop/src-java-1.5/de/deepamehta	develop/src-java-1.5/de/deepamehta/service	develop/src-java-1.6 develop/src-java-1.6/de	develop/src-java-1.6/de/deepamehta	develop/src-java-1.6/de/deepamehta/service	develop/src-java-1.6/de/deepamehta/service/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r366%20-%20in%20trunk%3A%20.%20develop%20develop/src-java-1.5%0A%09develop/src-java-1.5/de%20develop/src-java-1.5/de/deepamehta%0A%09develop/src-java-1.5/de/deepamehta/service%0A%09develop/src-java-1.6%20develop/src-java-1.6/de%0A%09develop/src-java-1.6/de/deepamehta%0A%09develop/src-java-1.6/de/deepamehta/service%0A%09develop/src-java-1.6/de/deepamehta/service/db&In-Reply-To=%3C200907022104.n62L4XbM005686%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r366 - in trunk: . develop develop/src-java-1.5	develop/src-java-1.5/de develop/src-java-1.5/de/deepamehta	develop/src-java-1.5/de/deepamehta/service	develop/src-java-1.6 develop/src-java-1.6/de	develop/src-java-1.6/de/deepamehta	develop/src-java-1.6/de/deepamehta/service	develop/src-java-1.6/de/deepamehta/service/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Thu Jul  2 23:04:33 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000211.html">[deepamehta-svn] r367 - in trunk/develop:	src/de/deepamehta/service/db src-java-1.5/de/deepamehta/service/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2009-07-02 23:04:32 +0200 (Thu, 02 Jul 2009)
+New Revision: 366
+
+Added:
+   trunk/develop/src-java-1.5/
+   trunk/develop/src-java-1.5/de/
+   trunk/develop/src-java-1.5/de/deepamehta/
+   trunk/develop/src-java-1.5/de/deepamehta/service/
+   trunk/develop/src-java-1.5/de/deepamehta/service/db/
+   trunk/develop/src-java-1.6/
+   trunk/develop/src-java-1.6/de/
+   trunk/develop/src-java-1.6/de/deepamehta/
+   trunk/develop/src-java-1.6/de/deepamehta/service/
+   trunk/develop/src-java-1.6/de/deepamehta/service/db/
+   trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionPreparedStatement.java
+   trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+Modified:
+   trunk/.classpath
+   trunk/build-development.xml
+   trunk/run.command
+Log:
+java 1.6 compatiblity
+
+Modified: trunk/.classpath
+===================================================================
+--- trunk/.classpath	2009-06-30 15:53:33 UTC (rev 365)
++++ trunk/.classpath	2009-07-02 21:04:32 UTC (rev 366)
+@@ -27,7 +27,6 @@
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/providerutil.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/servlet.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/xml4j.jar&quot;/&gt;
+-	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/spring-core.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/commons-logging.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;con&quot; path=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;output&quot; path=&quot;develop/build&quot;/&gt;
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2009-06-30 15:53:33 UTC (rev 365)
++++ trunk/build-development.xml	2009-07-02 21:04:32 UTC (rev 366)
+@@ -12,6 +12,12 @@
+ 	&lt;!-- create build directory --&gt;
+ 	&lt;target name=&quot;init&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot; /&gt;
++		&lt;echo&gt;Copying version specific java sources (java ${ant.java.version})&lt;/echo&gt;
++		&lt;copy todir=&quot;${sources}&quot; overwrite=&quot;true&quot;&gt;
++			&lt;fileset dir=&quot;${sources}/../src-java-${ant.java.version}&quot;&gt;
++				&lt;exclude name=&quot;**/.svn/**&quot;/&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+
+Added: trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionPreparedStatement.java
+===================================================================
+--- trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionPreparedStatement.java	2009-06-30 15:53:33 UTC (rev 365)
++++ trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionPreparedStatement.java	2009-07-02 21:04:32 UTC (rev 366)
+@@ -0,0 +1,464 @@
++package de.deepamehta.service.db;
++
++import java.io.InputStream;
++import java.io.Reader;
++import java.math.BigDecimal;
++import java.net.URL;
++import java.sql.Array;
++import java.sql.Blob;
++import java.sql.Clob;
++import java.sql.Connection;
++import java.sql.Date;
++import java.sql.NClob;
++import java.sql.ParameterMetaData;
++import java.sql.PreparedStatement;
++import java.sql.Ref;
++import java.sql.ResultSet;
++import java.sql.ResultSetMetaData;
++import java.sql.RowId;
++import java.sql.SQLException;
++import java.sql.SQLWarning;
++import java.sql.SQLXML;
++import java.sql.Time;
++import java.sql.Timestamp;
++import java.util.Calendar;
++
++public final class AutoFreeConnectionPreparedStatement implements PreparedStatement {
++
++	private final PreparedStatement statement;
++
++	private final DatabaseProvider provider;
++
++	private final Connection con;
++
++	private boolean finalClose = true;
++
++	public AutoFreeConnectionPreparedStatement(DatabaseProvider provider, String sql)
++			throws SQLException {
++		this.provider = provider;
++		this.con = provider.getConnection();
++		this.statement = con.prepareStatement(sql);
++	}
++
++	protected void finalize() throws Throwable {
++		if (finalClose) {
++			System.out.println(&quot;*** Closing statement while finalizing. &quot;
++					+ &quot;Someone forgot to close it.&quot;);
++			close();
++		}
++		super.finalize();
++	}
++
++	final public void addBatch(String arg0) throws SQLException {
++		statement.addBatch(arg0);
++	}
++
++	final public void cancel() throws SQLException {
++		statement.cancel();
++	}
++
++	final public void clearBatch() throws SQLException {
++		statement.clearBatch();
++	}
++
++	final public void clearWarnings() throws SQLException {
++		statement.clearWarnings();
++	}
++
++	final public void close() throws SQLException {
++		statement.close();
++		provider.freeConnection(con);
++		finalClose = false;
++	}
++
++	final public boolean execute(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, String[] arg1)
++			throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0);
++	}
++
++	final public int[] executeBatch() throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeBatch();
++	}
++
++	final public ResultSet executeQuery(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		return statement.executeQuery(arg0);
++	}
++
++	final public int executeUpdate(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, String[] arg1)
++			throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0);
++	}
++
++	final public Connection getConnection() throws SQLException {
++		return con;
++	}
++
++	final public int getFetchDirection() throws SQLException {
++		return statement.getFetchDirection();
++	}
++
++	final public int getFetchSize() throws SQLException {
++		return statement.getFetchSize();
++	}
++
++	final public ResultSet getGeneratedKeys() throws SQLException {
++		return statement.getGeneratedKeys();
++	}
++
++	final public int getMaxFieldSize() throws SQLException {
++		return statement.getMaxFieldSize();
++	}
++
++	final public int getMaxRows() throws SQLException {
++		return statement.getMaxRows();
++	}
++
++	final public boolean getMoreResults() throws SQLException {
++		return statement.getMoreResults();
++	}
++
++	final public boolean getMoreResults(int arg0) throws SQLException {
++		return statement.getMoreResults(arg0);
++	}
++
++	final public int getQueryTimeout() throws SQLException {
++		return statement.getQueryTimeout();
++	}
++
++	final public ResultSet getResultSet() throws SQLException {
++		return statement.getResultSet();
++	}
++
++	final public int getResultSetConcurrency() throws SQLException {
++		return statement.getResultSetConcurrency();
++	}
++
++	final public int getResultSetHoldability() throws SQLException {
++		return statement.getResultSetHoldability();
++	}
++
++	final public int getResultSetType() throws SQLException {
++		return statement.getResultSetType();
++	}
++
++	final public int getUpdateCount() throws SQLException {
++		return statement.getUpdateCount();
++	}
++
++	final public SQLWarning getWarnings() throws SQLException {
++		return statement.getWarnings();
++	}
++
++	final public void setCursorName(String arg0) throws SQLException {
++		statement.setCursorName(arg0);
++	}
++
++	final public void setEscapeProcessing(boolean arg0) throws SQLException {
++		statement.setEscapeProcessing(arg0);
++	}
++
++	final public void setFetchDirection(int arg0) throws SQLException {
++		statement.setFetchDirection(arg0);
++	}
++
++	final public void setFetchSize(int arg0) throws SQLException {
++		statement.setFetchSize(arg0);
++	}
++
++	final public void setMaxFieldSize(int arg0) throws SQLException {
++		statement.setMaxFieldSize(arg0);
++	}
++
++	final public void setMaxRows(int arg0) throws SQLException {
++		statement.setMaxRows(arg0);
++	}
++
++	final public void setQueryTimeout(int arg0) throws SQLException {
++		statement.setQueryTimeout(arg0);
++	}
++
++	public void addBatch() throws SQLException {
++		statement.addBatch();
++	}
++
++	public void clearParameters() throws SQLException {
++		statement.clearParameters();
++	}
++
++	public boolean execute() throws SQLException {
++		return statement.execute();
++	}
++
++	public ResultSet executeQuery() throws SQLException {
++		return statement.executeQuery();
++	}
++
++	public int executeUpdate() throws SQLException {
++		return statement.executeUpdate();
++	}
++
++	public ResultSetMetaData getMetaData() throws SQLException {
++		return statement.getMetaData();
++	}
++
++	public ParameterMetaData getParameterMetaData() throws SQLException {
++		return statement.getParameterMetaData();
++	}
++
++	public void setArray(int i, Array x) throws SQLException {
++		statement.setArray(i, x);
++	}
++
++	public void setAsciiStream(int parameterIndex, InputStream x, int length) throws SQLException {
++		statement.setAsciiStream(parameterIndex, x, length);
++	}
++
++	public void setBigDecimal(int parameterIndex, BigDecimal x) throws SQLException {
++		statement.setBigDecimal(parameterIndex, x);
++	}
++
++	public void setBinaryStream(int parameterIndex, InputStream x, int length) throws SQLException {
++		statement.setBinaryStream(parameterIndex, x, length);
++	}
++
++	public void setBlob(int i, Blob x) throws SQLException {
++		statement.setBlob(i, x);
++	}
++
++	public void setBoolean(int parameterIndex, boolean x) throws SQLException {
++		statement.setBoolean(parameterIndex, x);
++	}
++
++	public void setByte(int parameterIndex, byte x) throws SQLException {
++		statement.setByte(parameterIndex, x);
++	}
++
++	public void setBytes(int parameterIndex, byte[] x) throws SQLException {
++		statement.setBytes(parameterIndex, x);
++	}
++
++	public void setCharacterStream(int parameterIndex, Reader reader, int length) throws SQLException {
++		statement.setCharacterStream(parameterIndex, reader, length);
++	}
++
++	public void setClob(int i, Clob x) throws SQLException {
++		statement.setClob(i, x);
++	}
++
++	public void setDate(int parameterIndex, Date x, Calendar cal) throws SQLException {
++		statement.setDate(parameterIndex, x, cal);
++	}
++
++	public void setDate(int parameterIndex, Date x) throws SQLException {
++		statement.setDate(parameterIndex, x);
++	}
++
++	public void setDouble(int parameterIndex, double x) throws SQLException {
++		statement.setDouble(parameterIndex, x);
++	}
++
++	public void setFloat(int parameterIndex, float x) throws SQLException {
++		statement.setFloat(parameterIndex, x);
++	}
++
++	public void setInt(int parameterIndex, int x) throws SQLException {
++		statement.setInt(parameterIndex, x);
++	}
++
++	public void setLong(int parameterIndex, long x) throws SQLException {
++		statement.setLong(parameterIndex, x);
++	}
++
++	public void setNull(int paramIndex, int sqlType, String typeName) throws SQLException {
++		statement.setNull(paramIndex, sqlType, typeName);
++	}
++
++	public void setNull(int parameterIndex, int sqlType) throws SQLException {
++		statement.setNull(parameterIndex, sqlType);
++	}
++
++	public void setObject(int parameterIndex, Object x, int targetSqlType, int scale) throws SQLException {
++		statement.setObject(parameterIndex, x, targetSqlType, scale);
++	}
++
++	public void setObject(int parameterIndex, Object x, int targetSqlType) throws SQLException {
++		statement.setObject(parameterIndex, x, targetSqlType);
++	}
++
++	public void setObject(int parameterIndex, Object x) throws SQLException {
++		statement.setObject(parameterIndex, x);
++	}
++
++	public void setRef(int i, Ref x) throws SQLException {
++		statement.setRef(i, x);
++	}
++
++	public void setShort(int parameterIndex, short x) throws SQLException {
++		statement.setShort(parameterIndex, x);
++	}
++
++	public void setString(int parameterIndex, String x) throws SQLException {
++		statement.setString(parameterIndex, x);
++	}
++
++	public void setTime(int parameterIndex, Time x, Calendar cal) throws SQLException {
++		statement.setTime(parameterIndex, x, cal);
++	}
++
++	public void setTime(int parameterIndex, Time x) throws SQLException {
++		statement.setTime(parameterIndex, x);
++	}
++
++	public void setTimestamp(int parameterIndex, Timestamp x, Calendar cal) throws SQLException {
++		statement.setTimestamp(parameterIndex, x, cal);
++	}
++
++	public void setTimestamp(int parameterIndex, Timestamp x) throws SQLException {
++		statement.setTimestamp(parameterIndex, x);
++	}
++
++	/**
++	 * Deprecated
++	 */
++	public void setUnicodeStream(int parameterIndex, InputStream x, int length) throws SQLException {
++		statement.setUnicodeStream(parameterIndex, x, length);
++	}
++
++	public void setURL(int parameterIndex, URL x) throws SQLException {
++		statement.setURL(parameterIndex, x);
++	}
++
++	public boolean isClosed() throws SQLException {
++		return statement.isClosed();
++	}
++
++	public boolean isPoolable() throws SQLException {
++		return statement.isPoolable();
++	}
++
++	public boolean isWrapperFor(Class&lt;?&gt; arg0) throws SQLException {
++		return statement.isWrapperFor(arg0);
++	}
++
++	public void setAsciiStream(int arg0, InputStream arg1, long arg2) throws SQLException {
++		statement.setAsciiStream(arg0, arg1, arg2);
++	}
++
++	public void setAsciiStream(int arg0, InputStream arg1) throws SQLException {
++		statement.setAsciiStream(arg0, arg1);
++	}
++
++	public void setBinaryStream(int arg0, InputStream arg1, long arg2) throws SQLException {
++		statement.setBinaryStream(arg0, arg1, arg2);
++	}
++
++	public void setBinaryStream(int arg0, InputStream arg1) throws SQLException {
++		statement.setBinaryStream(arg0, arg1);
++	}
++
++	public void setBlob(int arg0, InputStream arg1, long arg2) throws SQLException {
++		statement.setBlob(arg0, arg1, arg2);
++	}
++
++	public void setBlob(int arg0, InputStream arg1) throws SQLException {
++		statement.setBlob(arg0, arg1);
++	}
++
++	public void setCharacterStream(int arg0, Reader arg1, long arg2) throws SQLException {
++		statement.setCharacterStream(arg0, arg1, arg2);
++	}
++
++	public void setCharacterStream(int arg0, Reader arg1) throws SQLException {
++		statement.setCharacterStream(arg0, arg1);
++	}
++
++	public void setClob(int arg0, Reader arg1, long arg2) throws SQLException {
++		statement.setClob(arg0, arg1, arg2);
++	}
++
++	public void setClob(int arg0, Reader arg1) throws SQLException {
++		statement.setClob(arg0, arg1);
++	}
++
++	public void setNCharacterStream(int arg0, Reader arg1, long arg2) throws SQLException {
++		statement.setNCharacterStream(arg0, arg1, arg2);
++	}
++
++	public void setNCharacterStream(int arg0, Reader arg1) throws SQLException {
++		statement.setNCharacterStream(arg0, arg1);
++	}
++
++	public void setNClob(int arg0, NClob arg1) throws SQLException {
++		statement.setNClob(arg0, arg1);
++	}
++
++	public void setNClob(int arg0, Reader arg1, long arg2) throws SQLException {
++		statement.setNClob(arg0, arg1, arg2);
++	}
++
++	public void setNClob(int arg0, Reader arg1) throws SQLException {
++		statement.setNClob(arg0, arg1);
++	}
++
++	public void setNString(int arg0, String arg1) throws SQLException {
++		statement.setNString(arg0, arg1);
++	}
++
++	public void setPoolable(boolean arg0) throws SQLException {
++		statement.setPoolable(arg0);
++	}
++
++	public void setRowId(int arg0, RowId arg1) throws SQLException {
++		statement.setRowId(arg0, arg1);
++	}
++
++	public void setSQLXML(int arg0, SQLXML arg1) throws SQLException {
++		statement.setSQLXML(arg0, arg1);
++	}
++
++	public &lt;T&gt; T unwrap(Class&lt;T&gt; arg0) throws SQLException {
++		return statement.unwrap(arg0);
++	}
++}
+
+Added: trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+===================================================================
+--- trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2009-06-30 15:53:33 UTC (rev 365)
++++ trunk/develop/src-java-1.6/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2009-07-02 21:04:32 UTC (rev 366)
+@@ -0,0 +1,224 @@
++package de.deepamehta.service.db;
++
++import java.sql.Connection;
++import java.sql.ResultSet;
++import java.sql.SQLException;
++import java.sql.SQLWarning;
++import java.sql.Statement;
++
++public final class AutoFreeConnectionStatement implements Statement {
++
++	private final Statement statement;
++
++	private final DatabaseProvider provider;
++
++	private final Connection con;
++
++	private boolean finalClose = true;
++	
++	public AutoFreeConnectionStatement(DatabaseProvider provider)
++			throws SQLException {
++		this.provider = provider;
++		this.con = provider.getConnection();
++		this.statement = con.createStatement();
++	}
++
++	protected void finalize() throws Throwable {
++		if (finalClose) {
++			System.out.println(&quot;*** Closing statement while finalizing. &quot;
++					+ &quot;Someone forgot to close it.&quot;);
++			close();
++		}
++		super.finalize();
++	}
++
++	final public void addBatch(String arg0) throws SQLException {
++		statement.addBatch(arg0);
++	}
++
++	final public void cancel() throws SQLException {
++		statement.cancel();
++	}
++
++	final public void clearBatch() throws SQLException {
++		statement.clearBatch();
++	}
++
++	final public void clearWarnings() throws SQLException {
++		statement.clearWarnings();
++	}
++
++	final public void close() throws SQLException {
++		statement.close();
++		provider.freeConnection(con);
++		finalClose = false;
++	}
++
++	final public boolean execute(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0, String[] arg1)
++			throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0, arg1);
++	}
++
++	final public boolean execute(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.execute(arg0);
++	}
++
++	final public int[] executeBatch() throws SQLException {
++		provider.checkPointNeeded();
++		return statement.executeBatch();
++	}
++
++	final public ResultSet executeQuery(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		return statement.executeQuery(arg0);
++	}
++
++	final public int executeUpdate(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0, String[] arg1)
++			throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0, arg1);
++	}
++
++	final public int executeUpdate(String arg0) throws SQLException {
++		provider.logStatement(arg0);
++		provider.checkPointNeeded();
++		return statement.executeUpdate(arg0);
++	}
++
++	final public Connection getConnection() throws SQLException {
++		return con;
++	}
++
++	final public int getFetchDirection() throws SQLException {
++		return statement.getFetchDirection();
++	}
++
++	final public int getFetchSize() throws SQLException {
++		return statement.getFetchSize();
++	}
++
++	final public ResultSet getGeneratedKeys() throws SQLException {
++		return statement.getGeneratedKeys();
++	}
++
++	final public int getMaxFieldSize() throws SQLException {
++		return statement.getMaxFieldSize();
++	}
++
++	final public int getMaxRows() throws SQLException {
++		return statement.getMaxRows();
++	}
++
++	final public boolean getMoreResults() throws SQLException {
++		return statement.getMoreResults();
++	}
++
++	final public boolean getMoreResults(int arg0) throws SQLException {
++		return statement.getMoreResults(arg0);
++	}
++
++	final public int getQueryTimeout() throws SQLException {
++		return statement.getQueryTimeout();
++	}
++
++	final public ResultSet getResultSet() throws SQLException {
++		return statement.getResultSet();
++	}
++
++	final public int getResultSetConcurrency() throws SQLException {
++		return statement.getResultSetConcurrency();
++	}
++
++	final public int getResultSetHoldability() throws SQLException {
++		return statement.getResultSetHoldability();
++	}
++
++	final public int getResultSetType() throws SQLException {
++		return statement.getResultSetType();
++	}
++
++	final public int getUpdateCount() throws SQLException {
++		return statement.getUpdateCount();
++	}
++
++	final public SQLWarning getWarnings() throws SQLException {
++		return statement.getWarnings();
++	}
++
++	final public void setCursorName(String arg0) throws SQLException {
++		statement.setCursorName(arg0);
++	}
++
++	final public void setEscapeProcessing(boolean arg0) throws SQLException {
++		statement.setEscapeProcessing(arg0);
++	}
++
++	final public void setFetchDirection(int arg0) throws SQLException {
++		statement.setFetchDirection(arg0);
++	}
++
++	final public void setFetchSize(int arg0) throws SQLException {
++		statement.setFetchSize(arg0);
++	}
++
++	final public void setMaxFieldSize(int arg0) throws SQLException {
++		statement.setMaxFieldSize(arg0);
++	}
++
++	final public void setMaxRows(int arg0) throws SQLException {
++		statement.setMaxRows(arg0);
++	}
++
++	final public void setQueryTimeout(int arg0) throws SQLException {
++		statement.setQueryTimeout(arg0);
++	}
++
++	public boolean isClosed() throws SQLException {
++		return statement.isClosed();
++	}
++
++	public boolean isPoolable() throws SQLException {
++		return statement.isPoolable();
++	}
++
++	public boolean isWrapperFor(Class&lt;?&gt; iface) throws SQLException {
++		return statement.isWrapperFor(iface);
++	}
++
++	public void setPoolable(boolean poolable) throws SQLException {
++		statement.setPoolable(poolable);
++	}
++
++	public &lt;T&gt; T unwrap(Class&lt;T&gt; iface) throws SQLException {
++		return statement.unwrap(iface);
++	}
++}
+
+
+Property changes on: trunk/run.command
+___________________________________________________________________
+Name: svn:executable
+   - *
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000211.html">[deepamehta-svn] r367 - in trunk/develop:	src/de/deepamehta/service/db src-java-1.5/de/deepamehta/service/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

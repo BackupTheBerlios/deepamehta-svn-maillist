@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r296 - in trunk: . install/db/db-specific	install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r296%20-%20in%20trunk%3A%20.%20install/db/db-specific%0A%09install/examples/movies&In-Reply-To=%3C200803100815.m2A8FZ7b030082%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000142.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r296 - in trunk: . install/db/db-specific	install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r296%20-%20in%20trunk%3A%20.%20install/db/db-specific%0A%09install/examples/movies&In-Reply-To=%3C200803100815.m2A8FZ7b030082%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r296 - in trunk: . install/db/db-specific	install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 10 09:15:35 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[deepamehta-svn] r295 - in trunk/install/examples: dm-browser	dm-search dm-topicmapviewer dm-web kompetenzstern
+</A></li>
+        <LI>Next message: <A HREF="000142.html">[deepamehta-svn] r297 - in trunk/install/examples:	dm-browser/images dm-web/images kompetenzstern/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-10 09:15:34 +0100 (Mon, 10 Mar 2008)
+New Revision: 296
+
+Modified:
+   trunk/build.xml
+   trunk/install/db/db-specific/createdb-ask.xml
+   trunk/install/examples/movies/build.xml
+   trunk/setup.xml
+Log:
+new target 'defaultinstall'
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-10 06:26:02 UTC (rev 295)
++++ trunk/build.xml	2008-03-10 08:15:34 UTC (rev 296)
+@@ -45,8 +45,14 @@
+ 
+ 	&lt;!-- Install --&gt;
+ 
++	&lt;target name=&quot;defaultinstall&quot;&gt;
++		&lt;ant target=&quot;install&quot; inheritall=&quot;false&quot;&gt;
++			&lt;property name=&quot;dont-ask-set-default&quot; value=&quot;true&quot; /&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;install&quot; depends=&quot;config&quot;&gt;
+-		&lt;input message=&quot;Do you want to initialize now?&quot; addproperty=&quot;do.install.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;y&quot; /&gt;
++		&lt;input2 message=&quot;Do you want to initialize now?&quot; addproperty=&quot;do.install.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;y&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;equals arg1=&quot;${do.install.now}&quot; arg2=&quot;y&quot; /&gt;
+ 			&lt;then&gt;
+
+Modified: trunk/install/db/db-specific/createdb-ask.xml
+===================================================================
+--- trunk/install/db/db-specific/createdb-ask.xml	2008-03-10 06:26:02 UTC (rev 295)
++++ trunk/install/db/db-specific/createdb-ask.xml	2008-03-10 08:15:34 UTC (rev 296)
+@@ -16,7 +16,7 @@
+ 				&lt;var name=&quot;input.createdb.default&quot; value=&quot;y&quot;/&gt;
+ 			&lt;/else&gt;
+ 		&lt;/if&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;input.createdb&quot; defaultvalue=&quot;${input.createdb.default}&quot; /&gt;
++		&lt;input2 message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;input.createdb&quot; defaultvalue=&quot;${input.createdb.default}&quot; /&gt;
+ 		&lt;var name=&quot;do.db.abort&quot; unset=&quot;true&quot; /&gt;
+ 		&lt;condition property=&quot;do.db.abort&quot; value=&quot;true&quot;&gt;
+ 			&lt;equals arg1=&quot;${input.createdb}&quot; arg2=&quot;n&quot; /&gt;
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-03-10 06:26:02 UTC (rev 295)
++++ trunk/install/examples/movies/build.xml	2008-03-10 08:15:34 UTC (rev 296)
+@@ -205,7 +205,7 @@
+ 			&lt;property name=&quot;db.sysuser&quot; value=&quot;${movies.db.sysuser}&quot; /&gt;
+ 			&lt;property name=&quot;db.hsqldb.base-path&quot; value=&quot;${movies.db.hsqldb.base-path}&quot; /&gt;
+ 		&lt;/ant&gt;
+-		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.movies.db.name&quot; defaultvalue=&quot;${movies.db.name}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.movies.db.name&quot; defaultvalue=&quot;${movies.db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${movies.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;movies.db.name&quot; value=&quot;${new.movies.db.name}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -213,8 +213,8 @@
+ 
+ 	&lt;target name=&quot;-config-movies-instance-db.user&quot; if=&quot;do.movies.config.db.user&quot;&gt;
+ 		&lt;echo&gt;It is strongly advised to change the database user and password before creation!&lt;/echo&gt;
+-		&lt;input message=&quot;Please enter the user to use:&quot; addproperty=&quot;new.movies.db.user&quot; defaultvalue=&quot;${movies.db.user}&quot; /&gt;
+-		&lt;input message=&quot;Please enter the password to use:&quot; addproperty=&quot;new.movies.db.password&quot; defaultvalue=&quot;${movies.db.password}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the user to use:&quot; addproperty=&quot;new.movies.db.user&quot; defaultvalue=&quot;${movies.db.user}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the password to use:&quot; addproperty=&quot;new.movies.db.password&quot; defaultvalue=&quot;${movies.db.password}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${movies.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;movies.db.user&quot; value=&quot;${new.movies.db.user}&quot; /&gt;
+ 			&lt;entry key=&quot;movies.db.password&quot; value=&quot;${new.movies.db.password}&quot; /&gt;
+@@ -222,7 +222,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-movies-instance-db.host&quot; if=&quot;do.movies.config.db.host&quot;&gt;
+-		&lt;input message=&quot;Please enter the host of your database:&quot; addproperty=&quot;new.movies.db.host&quot; defaultvalue=&quot;${movies.db.host}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the host of your database:&quot; addproperty=&quot;new.movies.db.host&quot; defaultvalue=&quot;${movies.db.host}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${movies.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;movies.db.host&quot; value=&quot;${new.movies.db.host}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-03-10 06:26:02 UTC (rev 295)
++++ trunk/setup.xml	2008-03-10 08:15:34 UTC (rev 296)
+@@ -23,6 +23,68 @@
+ 		&lt;/or&gt;
+ 	&lt;/condition&gt;
+ 
++	&lt;property name=&quot;NOT-SET&quot; value=&quot;*** NOT SET ***&quot; /&gt;
++
++	&lt;!-- = = = = = = = = = = = = = = = = =
++          macrodef: input2          
++         = = = = = = = = = = = = = = = = = --&gt;
++	&lt;macrodef name=&quot;input2&quot;&gt;
++		&lt;attribute name=&quot;message&quot; /&gt;
++		&lt;attribute name=&quot;addproperty&quot; /&gt;
++		&lt;attribute name=&quot;validargs&quot; default=&quot;${NOT-SET}&quot; /&gt;
++		&lt;attribute name=&quot;defaultvalue&quot; default=&quot;${NOT-SET}&quot; /&gt;
++		&lt;sequential&gt;
++			&lt;if&gt;
++				&lt;and&gt;
++					&lt;istrue value=&quot;${dont-ask-set-default}&quot; /&gt;
++					&lt;not&gt;
++						&lt;equals arg1=&quot;@{defaultvalue}&quot; arg2=&quot;${NOT-SET}&quot; /&gt;
++					&lt;/not&gt;
++				&lt;/and&gt;
++				&lt;then&gt;
++					&lt;if&gt;
++						&lt;equals arg1=&quot;@{validargs}&quot; arg2=&quot;${NOT-SET}&quot; /&gt;
++						&lt;then&gt;
++							&lt;echo&gt;@{message} [@{defaultvalue}]&lt;/echo&gt;
++						&lt;/then&gt;
++						&lt;else&gt;
++							&lt;echo&gt;@{message} (@{validargs}) [@{defaultvalue}]&lt;/echo&gt;
++						&lt;/else&gt;
++					&lt;/if&gt;
++					&lt;echo&gt;using default value &quot;@{defaultvalue}&quot;&lt;/echo&gt;
++					&lt;var name=&quot;@{addproperty}&quot; value=&quot;@{defaultvalue}&quot; /&gt;
++				&lt;/then&gt;
++				&lt;else&gt;
++					&lt;if&gt;
++						&lt;equals arg1=&quot;@{defaultvalue}&quot; arg2=&quot;${NOT-SET}&quot; /&gt;
++						&lt;then&gt;
++							&lt;if&gt;
++								&lt;equals arg1=&quot;@{validargs}&quot; arg2=&quot;${NOT-SET}&quot; /&gt;
++								&lt;then&gt;
++									&lt;input message=&quot;@{message}&quot; addproperty=&quot;@{addproperty}&quot; /&gt;
++								&lt;/then&gt;
++								&lt;else&gt;
++									&lt;input message=&quot;@{message}&quot; addproperty=&quot;@{addproperty}&quot; validargs=&quot;@{validargs}&quot; /&gt;
++								&lt;/else&gt;
++							&lt;/if&gt;
++						&lt;/then&gt;
++						&lt;else&gt;
++							&lt;if&gt;
++								&lt;equals arg1=&quot;@{validargs}&quot; arg2=&quot;${NOT-SET}&quot; /&gt;
++								&lt;then&gt;
++									&lt;input message=&quot;@{message}&quot; addproperty=&quot;@{addproperty}&quot; defaultvalue=&quot;@{defaultvalue}&quot; /&gt;
++								&lt;/then&gt;
++								&lt;else&gt;
++									&lt;input message=&quot;@{message}&quot; addproperty=&quot;@{addproperty}&quot; defaultvalue=&quot;@{defaultvalue}&quot; validargs=&quot;@{validargs}&quot; /&gt;
++								&lt;/else&gt;
++							&lt;/if&gt;
++						&lt;/else&gt;
++					&lt;/if&gt;
++				&lt;/else&gt;
++			&lt;/if&gt;
++		&lt;/sequential&gt;
++	&lt;/macrodef&gt;
++
+ 	&lt;!-- Configuration --&gt;
+ 	&lt;target name=&quot;-config-init&quot;&gt;
+ 		&lt;property name=&quot;configuration.isactive&quot; value=&quot;true&quot; /&gt;
+@@ -54,7 +116,7 @@
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;y&quot;&gt;
+ 			&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;input message=&quot;Do you want to install the example web applications (Tomcat must already be installed)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
++		&lt;input2 message=&quot;Do you want to install the example web applications (Tomcat must already be installed)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+ 			&lt;then&gt;
+@@ -73,7 +135,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-web-root&quot; if=&quot;do.web.deploy&quot; depends=&quot;-config-web&quot;&gt;
+-		&lt;input message=&quot;Please enter the home directory of your Tomcat installation.&quot; addproperty=&quot;new.tomcat.root&quot; defaultvalue=&quot;${tomcat.root}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the home directory of your Tomcat installation.&quot; addproperty=&quot;new.tomcat.root&quot; defaultvalue=&quot;${tomcat.root}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
+ 			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -120,7 +182,7 @@
+ 						&lt;/not&gt;
+ 					&lt;/and&gt;
+ 					&lt;then&gt;
+-						&lt;input message=&quot;Should '${return.instance}' be your default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot; /&gt;
++						&lt;input2 message=&quot;Should '${return.instance}' be your default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot; /&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+ 						&lt;var name=&quot;setup.default-instance&quot; value=&quot;y&quot; /&gt;
+@@ -150,7 +212,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-db.host&quot; if=&quot;do.config.db.host&quot;&gt;
+-		&lt;input message=&quot;Please enter the host of your database:&quot; addproperty=&quot;new.db.host&quot; defaultvalue=&quot;${db.host}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the host of your database:&quot; addproperty=&quot;new.db.host&quot; defaultvalue=&quot;${db.host}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.host&quot; value=&quot;${new.db.host}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -158,7 +220,7 @@
+ 
+ 	&lt;import file=&quot;${db-specific}/${db.list-names}&quot; /&gt;
+ 	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot; depends=&quot;-listdb&quot;&gt;
+-		&lt;input message=&quot;Please enter the name of the database to be created:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the name of the database to be created:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -166,8 +228,8 @@
+ 
+ 	&lt;target name=&quot;-config-instance-db.user&quot; if=&quot;do.config.db.user&quot;&gt;
+ 		&lt;echo&gt;It is strongly advised to change the database user and password before creation!&lt;/echo&gt;
+-		&lt;input message=&quot;Please enter the user to use:&quot; addproperty=&quot;new.db.user&quot; defaultvalue=&quot;${db.user}&quot; /&gt;
+-		&lt;input message=&quot;Please enter the password to use:&quot; addproperty=&quot;new.db.password&quot; defaultvalue=&quot;${db.password}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the user to use:&quot; addproperty=&quot;new.db.user&quot; defaultvalue=&quot;${db.user}&quot; /&gt;
++		&lt;input2 message=&quot;Please enter the password to use:&quot; addproperty=&quot;new.db.password&quot; defaultvalue=&quot;${db.password}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.user&quot; value=&quot;${new.db.user}&quot; /&gt;
+ 			&lt;entry key=&quot;db.password&quot; value=&quot;${new.db.password}&quot; /&gt;
+@@ -175,7 +237,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-dm.port&quot; if=&quot;do.config.dm.port&quot;&gt;
+-		&lt;input message=&quot;Network port for this instance (when served by the DeepaMehta server):&quot; addproperty=&quot;new.dm.port&quot; defaultvalue=&quot;${dm.port}&quot; /&gt;
++		&lt;input2 message=&quot;Network port for this instance (when served by the DeepaMehta server):&quot; addproperty=&quot;new.dm.port&quot; defaultvalue=&quot;${dm.port}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;dm.port&quot; value=&quot;${new.dm.port}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -228,8 +290,8 @@
+ 						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}'&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+-				&lt;var name=&quot;input&quot; unset=&quot;true&quot; /&gt;
+-				&lt;input message=&quot;Do you want to ${example.ask.verb} the example application ${example.complete-name}?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
++				&lt;var name=&quot;input2&quot; unset=&quot;true&quot; /&gt;
++				&lt;input2 message=&quot;Do you want to ${example.ask.verb} the example application ${example.complete-name}?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
+ 				&lt;var name=&quot;default&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;if&gt;
+ 					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot; /&gt;
+@@ -335,7 +397,7 @@
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+ 		&lt;var name=&quot;return.instance&quot; unset=&quot;true&quot; /&gt;
+-		&lt;input message=&quot;Currently set&quot; addproperty=&quot;return.instance&quot; defaultvalue=&quot;${default}&quot; /&gt;
++		&lt;input2 message=&quot;Currently set&quot; addproperty=&quot;return.instance&quot; defaultvalue=&quot;${default}&quot; /&gt;
+ 
+ 		&lt;var name=&quot;correct&quot; unset=&quot;true&quot; /&gt;
+ 		&lt;condition property=&quot;correct&quot;&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[deepamehta-svn] r295 - in trunk/install/examples: dm-browser	dm-search dm-topicmapviewer dm-web kompetenzstern
+</A></li>
+	<LI>Next message: <A HREF="000142.html">[deepamehta-svn] r297 - in trunk/install/examples:	dm-browser/images dm-web/images kompetenzstern/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

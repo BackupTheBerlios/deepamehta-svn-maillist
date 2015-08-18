@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r389 - trunk/develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2013-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r389%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C20130312214754.5038C55B0C%40scm.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r389 - trunk/develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at scm.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r389%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C20130312214754.5038C55B0C%40scm.berlios.de%3E"
+       TITLE="[deepamehta-svn] r389 - trunk/develop/src/de/deepamehta/service/web">maltito at scm.berlios.de
+       </A><BR>
+    <I>Tue Mar 12 22:47:54 CET 2013</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#234">[ date ]</a>
+              <a href="thread.html#234">[ thread ]</a>
+              <a href="subject.html#234">[ subject ]</a>
+              <a href="author.html#234">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2013-03-12 22:47:53 +0100 (Tue, 12 Mar 2013)
+New Revision: 389
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+Log:
+Minor optimization in JSONRPCServlet.
+
+Until now, one new Session obects was created by DM for ANY READ request made to the implementing service.
+
+Session objects are not created anymorefor POST Requests.
+
+Modified: trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2012-10-21 19:38:00 UTC (rev 388)
++++ trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2013-03-12 21:47:53 UTC (rev 389)
+@@ -218,9 +218,9 @@
+ 															throws IOException, ServletException {
+ 		RequestParameter params = new RequestParameter(request);
+ 		String method = request.getMethod();
+-    Session session = getSession(request);
+ 		CorporateDirectives directives = new CorporateDirectives();
+         if (method.equals(&quot;GET&quot;)) {
++            Session session = getSession(request);
+             System.out.println(&quot;&gt; JSONRPCServlet got delegates a GET request to ImplementingClass.performAction() hook&quot;);
+             String page = &quot;Print&quot;;
+             if (params.getPathInfo().length() &gt;= 3) {
+@@ -262,11 +262,11 @@
+             remoteMethodCall = requestBody.substring(methodStart + 11, paramStart - 3);
+             // rest is json parameter array
+             remoteParams = requestBody.substring(paramStart + 10, requestBody.length() - 1);
+-            System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
++            // System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
+           }
+           in.close();
+           // --- trigger performPostrequest() hook
+-          String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
++          String result = performPostRequest(remoteMethodCall, remoteParams, null, directives);
+           if(result.equals(&quot;&quot;)) {
+             // response.setStatus(response.SC_INTERNAL_SERVER_ERROR);
+             System.out.println(&quot; === JSONRPC === *** unexpected result *** &quot; + result + &quot; setting response to continue...&quot;);
+@@ -274,7 +274,7 @@
+           } else {
+             response.setStatus(response.SC_OK);
+             response.setContentType(&quot;application/json&quot;);
+-            System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: written in &quot;+response.getCharacterEncoding()+&quot;\r&quot;);
++            // System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: written in &quot;+response.getCharacterEncoding()+&quot;\r&quot;);
+             // write back
+             PrintWriter writer = response.getWriter();
+             writer.write(result);
+@@ -282,9 +282,8 @@
+             writer.close();
+           }
+         }
+-        // process directives
+-		directives.updateCorporateMemory(as, session, null, null);
+-		// Note: topicmapID=null, viewmode=null ### should be OK because in web interface there is no &quot;default topicmap&quot;
++        // process directives is never needed, since JSONRPC-Servlets just provide READ operations
++        // directives.updateCorporateMemory(as, null, null, null);
+ 	}
+ 
+ 	private void redirectToPage(String page, HttpServletRequest request, HttpServletResponse response)
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#234">[ date ]</a>
+              <a href="thread.html#234">[ thread ]</a>
+              <a href="subject.html#234">[ subject ]</a>
+              <a href="author.html#234">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

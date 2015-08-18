@@ -1,0 +1,1125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r240 - in trunk: develop/src/de/deepamehta/topics	install/examples/dm-browser/config install/examples/dm-web/config	install/examples/messageboard/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r240%20-%20in%20trunk%3A%20develop/src/de/deepamehta/topics%0A%09install/examples/dm-browser/config%20install/examples/dm-web/config%0A%09install/examples/messageboard/config&In-Reply-To=%3C200710282152.l9SLqoMj026771%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000084.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r240 - in trunk: develop/src/de/deepamehta/topics	install/examples/dm-browser/config install/examples/dm-web/config	install/examples/messageboard/config</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r240%20-%20in%20trunk%3A%20develop/src/de/deepamehta/topics%0A%09install/examples/dm-browser/config%20install/examples/dm-web/config%0A%09install/examples/messageboard/config&In-Reply-To=%3C200710282152.l9SLqoMj026771%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r240 - in trunk: develop/src/de/deepamehta/topics	install/examples/dm-browser/config install/examples/dm-web/config	install/examples/messageboard/config">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Oct 28 22:52:50 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000084.html">[deepamehta-svn] r239 - in trunk/install/examples: dm-browser	dm-web/pages
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#85">[ date ]</a>
+              <a href="thread.html#85">[ thread ]</a>
+              <a href="subject.html#85">[ subject ]</a>
+              <a href="author.html#85">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-10-28 22:52:40 +0100 (Sun, 28 Oct 2007)
+New Revision: 240
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+   trunk/install/examples/dm-browser/config/web.xml
+   trunk/install/examples/dm-web/config/web.xml
+   trunk/install/examples/messageboard/config/web.xml
+Log:
+1) Bug #12290 fixed (Some associations lack privilegs for non-administrators)
+2) HTML markup in javadoc comments: converted tags from uppercase to lowercase in some sourcecode files
+3) Web applications &quot;dm-browser&quot; and &quot;dm-web&quot;: removed &quot;service&quot; context parameter from deployment descriptor in order to use the default instance
+
+Modified: trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/develop/src/de/deepamehta/topics/AssociationTypeTopic.java	2007-10-28 21:52:40 UTC (rev 240)
+@@ -21,11 +21,11 @@
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 7.6.2005 (2.0b6)&lt;BR&gt;
+- * Last documentation update: 13.11.2000 (2.0a7-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 28.10.2007 (2.0b6)&lt;br&gt;
++ * Last documentation update: 13.11.2000 (2.0a7-pre2)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class AssociationTypeTopic extends TypeTopic {
+@@ -74,15 +74,18 @@
+ 	 *			BaseTopic topic, boolean evoke, boolean override, Session session)
+ 	 */
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+-		// ### try {
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
++		// try { ### compare to TopicTypeTopic.evoke()
+ 		// --- derive type from &quot;Association&quot; ---
+ 		if (getSupertype() == null) {
+-			cm.createAssociation(as.getNewAssociationID(), 1, ASSOCTYPE_DERIVATION, 1, ASSOCTYPE_GENERIC, 1, getID(), 1);
++			String assocID = as.getNewAssociationID();
++			cm.createAssociation(assocID, 1, ASSOCTYPE_DERIVATION, 1, ASSOCTYPE_GENERIC, 1, getID(), 1);
++			cm.setAssociationData(assocID, 1, PROPERTY_OWNER_ID, session.getUserID());
+ 		}
+ 		/* } catch (DeepaMehtaException e) {
+ 			throw new TopicInitException(&quot;No search type created for \&quot;&quot; + getName() + &quot;\&quot; (&quot; + e.getMessage() + &quot;)&quot;);
+ 		} */
+-		return super.evoke(session, topicmapID, viewmode);
++		return directives;
+ 	}
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-10-28 21:52:40 UTC (rev 240)
+@@ -35,21 +35,21 @@
+  * Live topics are created by the
+  * {@link de.deepamehta.service.ApplicationService application service}
+  * are living in memory for the lifetime of the service.
+- * &lt;P&gt;
+- * A &lt;CODE&gt;LiveTopic&lt;/CODE&gt; has access to the {@link de.deepamehta.service.ApplicationService} and
++ * &lt;p&gt;
++ * A &lt;code&gt;LiveTopic&lt;/code&gt; has access to the {@link de.deepamehta.service.ApplicationService} and
+  * to the {@link CorporateMemory}.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The baseclass of the DeepaMehta Application Framework.
+  * This class provides the hooks where application programmers &quot;hook in&quot; the application
+  * specific behavoir.
+  * The custom implementations making up the application may be build upon DeepaMehta's standard
+  * topics as building blocks, thus application programmers directly or indirectly derive
+- * their topics from &lt;CODE&gt;LiveTopic&lt;/CODE&gt;.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last sourcecode change: 27.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last sourcecode change: 27.9.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class LiveTopic extends BaseTopic implements DeepaMehtaConstants {
+@@ -71,14 +71,14 @@
+ 
+ 	/**
+ 	 * A live topic can deploy a {@link de.deepamehta.service.CorporateDatasource}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by {@link #setDataSource}.
+ 	 */
+ 	protected CorporateDatasource dataSource;
+ 
+ 	/**
+ 	 * The topic which represents the {@link de.deepamehta.service.CorporateDatasource}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by {@link #setDataSource}.
+ 	 */
+ 	protected DataSourceTopic dataSourceTopic;
+@@ -86,28 +86,28 @@
+ 	// --- appearance model ---
+ 
+ 	/**
+-	 * Individual appearance mode.&lt;BR&gt;
++	 * Individual appearance mode.&lt;br&gt;
+ 	 * {@link #APPEARANCE_DEFAULT} or {@link #APPEARANCE_CUSTOM_ICON}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by {@link #setIndividualAppearance}.
+ 	 */
+ 	protected int appMode;
+ 
+ 	/**
+ 	 * Individual appearance parameter.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * In case of {@link #APPEARANCE_CUSTOM_ICON} the name of the iconfile, in case of
+ 	 * {@link #APPEARANCE_DEFAULT} this field remains uninitialized.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by {@link #setIndividualAppearance}.
+ 	 */
+ 	protected String appParam;
+ 
+ 	/**
+ 	 * The name of the iconfile used to display this topic.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #setIconfile}.&lt;BR&gt;
+-	 * Accessed by {@link #getIconfile}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #setIconfile}.&lt;br&gt;
++	 * Accessed by {@link #getIconfile}.&lt;br&gt;
+ 	 */
+ 	protected String iconfile;
+ 
+@@ -145,16 +145,16 @@
+ 	/**
+ 	 * Subclasses can override this method to perform initialization at different
+ 	 * initialization levels.
+-	 * &lt;P&gt;
+-	 * ### The default implementation does nothing.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * ### The default implementation does nothing.&lt;br&gt;
+ 	 * ### Think again about init levels.
+-	 * &lt;P&gt;
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/TD&gt;&lt;TD&gt;&lt;CODE&gt;initLevel&lt;/CODE&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/TD&gt;&lt;TD&gt;1&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/TD&gt;&lt;TD&gt;variable&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/TD&gt;&lt;TD&gt;3&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;/TABLE&gt;
++	 * &lt;p&gt;
++	 * &lt;table&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;B&gt;Called by&lt;/B&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;initLevel&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#createLiveTopic}&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTopic}&lt;/td&gt;&lt;td&gt;variable&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;/table&gt;
+ 	 */
+ 	public CorporateDirectives init(int initLevel, Session session) throws TopicInitException {
+ 		CorporateDirectives directives = new CorporateDirectives();
+@@ -174,7 +174,7 @@
+ 	/**
+ 	 * Subclasses can override this method to perform some work when a topic is
+ 	 * bring into live the very first time.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation creates the topic in corporate memory and returns
+ 	 * empty directives.
+ 	 *
+@@ -194,7 +194,7 @@
+ 			String defaultValue = propDef.getDefaultValue();
+ 			if (!defaultValue.equals(&quot;&quot;)) {
+ 				String propName = propDef.getPropertyName();
+-				// existing values are not overridden
++				// existing values are not overridden ### see TypeTopic.evoke()
+ 				if (cm.getTopicData(getID(), getVersion(), propName).equals(&quot;&quot;)) {
+ 					cm.setTopicData(getID(), getVersion(), propName, defaultValue);
+ 				}
+@@ -205,15 +205,14 @@
+ 	}
+ 
+ 	/**
+-	 * Active topics can override this method to perform some work when a topic dies
+-	 * forever.
+-	 * &lt;P&gt;
++	 * Subclasses can override this method to perform some work when a topic dies forever.
++	 * &lt;p&gt;
+ 	 * The default implementation deletes the topic from 3 spots ...
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;corporate memory
+-	 * &lt;LI&gt;live corporate memory
+-	 * &lt;LI&gt;all views
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;corporate memory
++	 * &lt;li&gt;live corporate memory
++	 * &lt;li&gt;all views
++	 * &lt;/ul&gt;
+ 	 * ... and returns empty directives.
+ 	 *
+ 	 * @see		ApplicationService#deleteTopic
+@@ -241,8 +240,8 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to react upon publishing this topic.
+-	 * &lt;P&gt;
+-	 * The default implementation returns empty &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * The default implementation returns empty &lt;code&gt;CorporateDirectives&lt;/code&gt;.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#addPublishAction
+ 	 * @see		DocumentTopic#published
+@@ -253,9 +252,9 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to react upon renaming this topic.
+-	 * &lt;P&gt;
+-	 * The default implementation returns a &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt; containing
+-	 * one &lt;CODE&gt;DIRECTIVE_SET_TOPIC_NAME&lt;/CODE&gt; directive.
++	 * &lt;p&gt;
++	 * The default implementation returns a &lt;code&gt;CorporateDirectives&lt;/code&gt; containing
++	 * one &lt;code&gt;DIRECTIVE_SET_TOPIC_NAME&lt;/code&gt; directive.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#changeTopicName
+ 	 * @see		TopicMapTopic#nameChanged
+@@ -269,7 +268,7 @@
+ 	}
+ 
+ 	/**
+-	 * The default implementation returns empty &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt;.
++	 * The default implementation returns empty &lt;code&gt;CorporateDirectives&lt;/code&gt;.
+ 	 */
+ 	public CorporateDirectives nameChangedChained(String name, Session session, String result) {
+ 		return new CorporateDirectives();
+@@ -277,7 +276,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to react upon retyping this topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation performs the retyping, it should be called from subclassss.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#changeTopicType
+@@ -318,11 +317,11 @@
+ 
+ 
+ 	/**
+-	 * Active topics can override this method to reveal topic types on-the-fly.
+-	 * &lt;P&gt;
++	 * Subclasses can override this method to reveal topic types on-the-fly.
++	 * &lt;p&gt;
+ 	 * The default implementation retrieves the topic types from corporate memory.
+ 	 *
+-	 * @return	Vector of type IDs (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 * @return	Vector of type IDs (&lt;code&gt;String&lt;/code&gt;s)
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#revealTopicTypes
+ 	 */
+@@ -331,11 +330,11 @@
+ 	}
+ 
+ 	/**
+-	 * Active topics can override this method to reveal association types on-the-fly.
+-	 * &lt;P&gt;
++	 * Subclasses can override this method to reveal association types on-the-fly.
++	 * &lt;p&gt;
+ 	 * The default implementation retrieves the association types from corporate memory.
+ 	 *
+-	 * @return	Vector of type IDs (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 * @return	Vector of type IDs (&lt;code&gt;String&lt;/code&gt;s)
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#revealAssociationTypes
+ 	 */
+@@ -345,7 +344,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to reveal topics and associations on the fly.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation does nothing.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#getRelatedTopics(
+@@ -365,20 +364,20 @@
+ 
+ 	/**
+ 	 * This hook customizes the topic context menu.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation provides the standard topic commands, in case
+-	 * the triggering topicmap represents a &lt;I&gt;view&lt;/I&gt;:
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;&quot;Navigate By Topic&quot;
+-	 * &lt;LI&gt;&quot;Navigate By Association&quot;
+-	 * &lt;LI&gt;&quot;Hide&quot;
+-	 * &lt;LI&gt;&quot;Retype&quot;
+-	 * &lt;LI&gt;&quot;Delete&quot;
+-	 * &lt;/OL&gt;
+-	 * ### If the triggering topicmap represents a &lt;I&gt;workspace&lt;/I&gt; an empty command set is
++	 * the triggering topicmap represents a &lt;i&gt;view&lt;/i&gt;:
++	 * &lt;ol&gt;
++	 * &lt;li&gt;&quot;Navigate By Topic&quot;
++	 * &lt;li&gt;&quot;Navigate By Association&quot;
++	 * &lt;li&gt;&quot;Hide&quot;
++	 * &lt;li&gt;&quot;Retype&quot;
++	 * &lt;li&gt;&quot;Delete&quot;
++	 * &lt;/ol&gt;
++	 * ### If the triggering topicmap represents a &lt;i&gt;workspace&lt;/i&gt; an empty command set is
+ 	 * returned.
+-	 * &lt;P&gt;
+-	 * References checked: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * References checked: 30.12.2001 (2.0a14-pre5)&lt;br&gt;
+ 	 * Documentation updated: 11.10.2001 (2.0a12)
+ 	 *
+ 	 * @param	session		the triggering client session
+@@ -401,12 +400,12 @@
+ 
+ 	/**
+ 	 * Applications can use this hook to customize the personal workspace menu.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook is triggered for every type supposed being creatable in personal workspace.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation adds a command for creating a instance of the respective type
+ 	 * to the personal workspace menu.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 5.2.2002 (2.0a14-pre7)
+ 	 *
+ 	 * @see		de.deepamehta.service.CorporateCommands#addWorkspaceTopicTypeCommands(Vector types, Session session, CorporateDirectives directives)
+@@ -421,7 +420,7 @@
+ 
+ 	/**
+ 	 * ### Subclasses can override this method to provide context commands.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation returns an empty command set.
+ 	 *
+ 	 * @param	session		the requesting client session
+@@ -437,7 +436,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to customize the topic property form.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation does nothing.
+ 	 *
+ 	 * @see		TypeTopic#makeTypeDefinition
+@@ -461,7 +460,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to handle custom commands.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation handles the standard commands.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#executeTopicCommand
+@@ -559,9 +558,9 @@
+ 	}
+ 
+ 	/**
+-	 * Subclasses can override this method to process result of chanined actions.&lt;BR&gt;
++	 * Subclasses can override this method to process result of chanined actions.&lt;br&gt;
+ 	 * [### explain]
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation returns null.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performChainedTopicCommand
+@@ -605,9 +604,9 @@
+ 
+ 	/**
+ 	 * [###]
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * To reject the new properties (means: preventing them from being
+-	 * stored in corporate memory) the application must return &lt;CODE&gt;false&lt;/CODE&gt;.
++	 * stored in corporate memory) the application must return &lt;code&gt;false&lt;/code&gt;.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#setTopicProperties
+ 	 */
+@@ -617,13 +616,13 @@
+ 
+ 	/**
+ 	 * The &quot;properties changed&quot; hook.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * By this hook an application programmer can supply an &quot;properties changed&quot; behavoir.
+ 	 * This hook is triggered by the framework if one (### zero) or more properties of this topic
+ 	 * has been changed. The framework passes the old and the new (means: changed)
+ 	 * properties.
+-	 * &lt;P&gt;
+-	 * ### The default implementation returns empty &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * ### The default implementation returns empty &lt;code&gt;CorporateDirectives&lt;/code&gt;.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#setTopicProperties
+ 	 * @see		TopicMapTopic#propertiesChanged
+@@ -681,7 +680,7 @@
+ 
+ 	/**
+ 	 * Transfers element data retrieved from one data source entitiy into topic data.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Subclasses can override this method to supply topic data e.g. retrieved from more
+ 	 * than one data source entity. The default implementation returns the element data
+ 	 * directly.
+@@ -693,19 +692,19 @@
+ 	/**
+ 	 * Applications can use this hook to disable certain properties of this live topics
+ 	 * type definition. Disabled properties are visible but not editable by the user.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook can be utilized to implement an access control mechanism.
+ 	 * The default implementation realizes the following rule: a topic is only editable
+ 	 * if the current user
+ 	 * 1) is the owner of the topic, or&lt;br&gt;
+ 	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
+ 	 * 3) has the &quot;Editor&quot; role within a workspace the resp. topic type is assigned to.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook is triggered every time this topic is selected.
+ 	 *
+ 	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
+ 	 *
+-	 * @return		A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 * @return		A vector of property names (&lt;code&gt;String&lt;/code&gt;s)
+ 	 */
+ 	public Vector disabledProperties(Session session) {
+ 		Vector disabledProps = new Vector();
+@@ -729,13 +728,13 @@
+ 	 * Applications can use this hook to hide certain properties of this live topics
+ 	 * type definition. Hidden properties are not visible to the user. Note: also
+ 	 * &quot;derived&quot; properties can be hidden by this hook.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation hides no properties.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook is triggered statically when the type definition for this live topic
+ 	 * is build.
+ 	 *
+-	 * @return	Vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s) or &lt;code&gt;null&lt;/code&gt;
++	 * @return	Vector of property names (&lt;code&gt;String&lt;/code&gt;s) or &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#triggerHiddenProperties(TypeTopic type)
+ 	 */
+@@ -755,7 +754,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to rename derived properties.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation does nothing.
+ 	 *
+ 	 * @see		TypeTopic#setPropertyLabel
+@@ -839,7 +838,7 @@
+ 	/**
+ 	 * Subclasses can override this method to provide an additional label about to be
+ 	 * shown above the topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation returns the empty string.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#setTopicLabels(Enumeration topics)
+@@ -858,7 +857,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to provide topic details.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation returns the properties in a 1-row table format.
+ 	 *
+ 	 * @see		#executeCommand
+@@ -927,17 +926,17 @@
+ 
+ 	/**
+ 	 * This hook can be used to modify the topicmap export behaviour.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation does nothing, the actual default implementation is
+ 	 * in {@link TopicMapTopic#exportTopicmap TopicMapTopic}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The application KS-Editor modifies the default export behavoir.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 26.9.2003 (2.0b2)
+ 	 *
+ 	 * @param   handler     this object will get the generated SAX events
+ 	 * @param   collector   this object will collect document and icon files.
+-	 *                      This parameter may be &lt;CODE&gt;null&lt;/CODE&gt;, which signalizes
++	 *                      This parameter may be &lt;code&gt;null&lt;/code&gt;, which signalizes
+ 	 *                      that this is an export to SVG or PDF.
+ 	 *
+ 	 * @see		de.deepamehta.topics.helper.TopicMapExporter#transformTopicmap
+@@ -950,8 +949,8 @@
+ 
+ 	/**
+ 	 * Applications can use this hook to modify the SVG rendering of a topicmap.
+-	 * &lt;P&gt;
+-	 * The default implementation returns &lt;CODE&gt;null&lt;/CODE&gt;, the actual default
++	 * &lt;p&gt;
++	 * The default implementation returns &lt;code&gt;null&lt;/code&gt;, the actual default
+ 	 * implementation is in {@link TopicMapTopic#getSVGStylesheetName TopicMapTopic}.
+ 	 *
+ 	 * @return	the name of the stylesheet for SVG creation
+@@ -965,8 +964,8 @@
+ 
+ 	/**
+ 	 * Applications can use this hook to modify the PDF layout of a topicmap.
+-	 * &lt;P&gt;
+-	 * The default implementation returns &lt;CODE&gt;null&lt;/CODE&gt;, the actual default
++	 * &lt;p&gt;
++	 * The default implementation returns &lt;code&gt;null&lt;/code&gt;, the actual default
+ 	 * implementation is in {@link TopicMapTopic#getFOStylesheetName TopicMapTopic}.
+ 	 *
+ 	 * @return	the name of the stylesheet for FO creation
+@@ -982,8 +981,8 @@
+ 	/**
+ 	 * Applications can use this hook to specify the type of the topic
+ 	 * representing the exported file.
+-	 * &lt;P&gt;
+-	 * The default implementation returns &lt;CODE&gt;null&lt;/CODE&gt;, the actual default
++	 * &lt;p&gt;
++	 * The default implementation returns &lt;code&gt;null&lt;/code&gt;, the actual default
+ 	 * implementation is in {@link TopicMapTopic#getExportDocumentType TopicMapTopic}.
+ 	 *
+ 	 * @return  the ID of the document type topic representing the exported file
+@@ -1072,11 +1071,11 @@
+ 
+ 	/**
+ 	 * Returns the name of the iconfile used to display this topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Throws a DeepaMehtaException if the iconfile is unknown, which means this
+ 	 * LiveTopic isn't initialized properly. Regularily the iconfile is initialized
+ 	 * by setIconfile which is called at initialization level 2 (see init() hook).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 27.9.2001 (2.0a12-pre6)
+ 	 *
+ 	 * @throws	DeepaMehtaException		if the iconfile is unknown, which means
+@@ -1111,12 +1110,12 @@
+ 	/**
+ 	 * Extends the specified directives to delete this topic as well as any associations
+ 	 * this topic is involed in.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Handles the {@link #CMD_DELETE_TOPIC} command.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### Hypothesis: topicmapID and viewmode are only needed when called by client,
+ 	 * ### when called by servlet they can be set to null
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 20.8.2007 (2.0b8)
+ 	 *
+ 	 * @see		#executeCommand
+@@ -1129,12 +1128,12 @@
+ 	/**
+ 	 * Extends the specified directives to hide/delete this topic as well as any associations
+ 	 * this topic is involed in.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Handles the {@link #CMD_HIDE_TOPIC} command.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### Hypothesis: topicmapID and viewmode are only needed when called by client,
+ 	 * ### when called by servlet they can be set to null
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 20.8.2007 (2.0b8)
+ 	 *
+ 	 * @see		#executeCommand
+@@ -1195,7 +1194,7 @@
+ 
+ 	/**
+ 	 * Sets the specified property for this topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: the property is changed &quot;blind&quot; in corporate memory directly, the client is
+ 	 * not notified in any way.
+ 	 */
+@@ -1233,10 +1232,10 @@
+ 
+ 	/**
+ 	 * @param	relTopicPos		association position of the related topic (1 or 2), 0 if the postion doesn't natter
+-	 * @param	semantic		association type, &lt;CODE&gt;null&lt;/CODE&gt; if the association type doesn't natter
++	 * @param	semantic		association type, &lt;code&gt;null&lt;/code&gt; if the association type doesn't natter
+ 	 */
+ 	public final CorporateDirectives navigateByTopictype(String topicTypeID, int relTopicPos, String semantic) {
+-		// active topics have the opportunity to create topics and associations on the fly -- that means
++		// subclasses have the opportunity to create topics and associations on the fly -- that means
+ 		// before the related topics are retrieved from corporate memory (storage layer)
+ 		//
+ 		// --- trigger revealRelatedTopics() hook ---
+@@ -1262,7 +1261,7 @@
+ 	 * @see		#executeCommand
+ 	 */
+ 	protected final CorporateDirectives navigateByAssoctype(String assocTypeID) {
+-		// active topics have the opportunity to create topics and associations on the fly -- that means
++		// subclasses have the opportunity to create topics and associations on the fly -- that means
+ 		// before the related topics are retrieved from corporate memory (storage layer)
+ 		//
+ 		// --- trigger revealRelatedTopics() hook ---
+@@ -1318,13 +1317,13 @@
+ 	/**
+ 	 * Extends the specified directives to create a new child topic to this topic. Creating a child
+ 	 * topic consists of 4 steps:
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;Create a new topic of the specified type and reveal it in the near of this topic
+-	 * &lt;LI&gt;Create a new association of the specified semantic from this topic to the child topic
+-	 * &lt;LI&gt;Select the child topic
+-	 * &lt;LI&gt;Setup GUI for naming the child topic (depends on user prefs)
+-	 * &lt;/OL&gt;
+-	 * &lt;P&gt;
++	 * &lt;ol&gt;
++	 * &lt;li&gt;Create a new topic of the specified type and reveal it in the near of this topic
++	 * &lt;li&gt;Create a new association of the specified semantic from this topic to the child topic
++	 * &lt;li&gt;Select the child topic
++	 * &lt;li&gt;Setup GUI for naming the child topic (depends on user prefs)
++	 * &lt;/ol&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 24.7.2002 (2.0a15-pre11)
+ 	 *
+ 	 * @see		TypeTopic#executeCommand
+@@ -1452,7 +1451,7 @@
+ 	 * @param	path		the absolute path of the file, must not &lt;code&gt;null&lt;/code&gt;
+ 	 * @param	filetype	specifies the local repository, see the 4 FILE_... constants
+ 	 *
+-	 * @return	the filename (last component of path) resp. &lt;CODE&gt;null&lt;/CODE&gt; if path is empty
++	 * @return	the filename (last component of path) resp. &lt;code&gt;null&lt;/code&gt; if path is empty
+ 	 *
+ 	 * @see		#copyAndUpload
+ 	 * @see		TopicMapTopic#doImport
+@@ -1511,7 +1510,7 @@
+ 
+ 	/**
+ 	 * Returns a name for a topic created from specified element charactristics.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The topicname is determined by getting the value of the specified field of the
+ 	 * specified element data. If the element data doesn't contain such a field an error
+ 	 * is reported on the console and the empty string (&quot;&quot;) is returned. If the specified
+@@ -1545,7 +1544,7 @@
+ 
+ 	/**
+ 	 * Handles the {@link #CMD_EDIT_TOPIC_PROPERTY} and {@link #CMD_VIEW_TOPIC_PROPERTY} commands.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Extend the specified directives to let the user edit/view the specified
+ 	 * property of this live topic.
+ 	 *
+@@ -1647,9 +1646,9 @@
+ 
+ 	/**
+ 	 * ### to be dropped? (called only once)
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Handles the {@link #CMD_CHANGE_TOPIC_NAME} command.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 23.6.2002 (2.0a15-pre8)
+ 	 *
+ 	 * @see		#executeCommand
+@@ -1660,7 +1659,7 @@
+ 
+ 	/**
+ 	 * Adds directives to initiate topic (re)naming.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 23.6.2002 (2.0a15-pre8)
+ 	 *
+ 	 * @param	session		is null when used by web interface
+@@ -1704,7 +1703,7 @@
+ 
+ 	/**
+ 	 * Initializes {@link #iconfile}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: this method is overridden by {@link TopicTypeTopic#setIconfile TopicTypeTopic} and
+ 	 * {@link AssociationTypeTopic#setIconfile AssociationTypeTopic}.
+ 	 *
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2007-10-28 21:52:40 UTC (rev 240)
+@@ -25,11 +25,11 @@
+ 
+ /**
+  * A Topic Type.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 6.12.2005 (2.0b6-post3)&lt;BR&gt;
+- * Last documentation update: 29.11.2000 (2.0a7)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 28.10.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 29.11.2000 (2.0a7)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class TopicTypeTopic extends TypeTopic {
+@@ -97,7 +97,7 @@
+ 	/**
+ 	 * Overridden to perform some work when a topic type is bring into live the very
+ 	 * first time.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * If a new topic type is created a corresponding search type is created too.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#createLiveTopic(
+@@ -108,7 +108,9 @@
+ 		try {
+ 			// --- derive type from &quot;Topic&quot; ---
+ 			if (getSupertype() == null) {
+-				cm.createAssociation(as.getNewAssociationID(), 1, ASSOCTYPE_DERIVATION, 1, TOPICTYPE_TOPIC, 1, getID(), 1);
++				String assocID = as.getNewAssociationID();
++				cm.createAssociation(assocID, 1, ASSOCTYPE_DERIVATION, 1, TOPICTYPE_TOPIC, 1, getID(), 1);
++				cm.setAssociationData(assocID, 1, PROPERTY_OWNER_ID, session.getUserID());
+ 			}
+ 			// --- create search type ---
+ 			createSearchType(topicmapID, session, directives);
+
+Modified: trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2007-10-28 21:52:40 UTC (rev 240)
+@@ -37,20 +37,20 @@
+ /**
+  * Abstract class as basis for types -- implementations are {@link TopicTypeTopic topic type} and
+  * {@link AssociationTypeTopic association type}.
+- * &lt;P&gt;
+- * The active behavior of a &lt;CODE&gt;TypeTopic&lt;/CODE&gt; is building its type definition.
++ * &lt;p&gt;
++ * The active behavior of a &lt;code&gt;TypeTopic&lt;/code&gt; is building its type definition.
+  * The type definition is made up by the composed {@link PropertyTopic}s.
+- * &lt;P&gt;
+- * Furthermore a &lt;CODE&gt;TypeTopic&lt;/CODE&gt; maintains the data that describes the appearance
++ * &lt;p&gt;
++ * Furthermore a &lt;code&gt;TypeTopic&lt;/code&gt; maintains the data that describes the appearance
+  * of the type.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * ### this class is public because it is used in
+- * {@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;BR&gt;
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 26.5.2006 (2.0b6-post3)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * {@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;br&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 28.10.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public abstract class TypeTopic extends LiveTopic implements Type {
+@@ -96,20 +96,20 @@
+ 
+ 	/**
+ 	 * The type definition as ordered set of {@link de.deepamehta.PropertyDefinition}s.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #makeTypeDefinition}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #makeTypeDefinition}.&lt;br&gt;
+ 	 * Accessed by {@link #getTypeDefinition}
+-	 * which enumerates the single &lt;CODE&gt;PropertyDefinition&lt;/CODE&gt;s.
++	 * which enumerates the single &lt;code&gt;PropertyDefinition&lt;/code&gt;s.
+ 	 */
+ 	private Vector propDefinition;
+ 
+ 	/**
+ 	 * The type definition.
+-	 * &lt;P&gt;
+-	 * Key:   property name (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Key:   property name (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: property definition ({@link de.deepamehta.PropertyDefinition})
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #makeTypeDefinition}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #makeTypeDefinition}.&lt;br&gt;
+ 	 * Accessed by {@link #getPropertyDefinition}
+ 	 */
+ 	private Hashtable propDefinitionTable;
+@@ -122,16 +122,16 @@
+ 	 * Part of type definition.
+ 	 * &lt;p&gt;
+ 	 * Element type is {@link de.deepamehta.Relation}.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #makeTypeDefinition}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #makeTypeDefinition}.&lt;br&gt;
+ 	 * Accessed by {@link #getRelations}
+ 	 */
+ 	private Vector relations;
+ 
+ 	/**
+ 	 * Part of type definition.
+-	 * &lt;P&gt;
+-	 * Key:   association ID (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Key:   association ID (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: Relation ({@link de.deepamehta.Relation})
+ 	 */
+ 	private Hashtable relationsTable;
+@@ -144,16 +144,16 @@
+ 
+ 	/**
+ 	 * Type IDs of all supertypes of this type, including this type.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #makeTypeDefinition}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #makeTypeDefinition}.&lt;br&gt;
+ 	 * Accessed by {@link #hasSupertype}
+ 	 */
+ 	private Vector supertypes;
+ 
+ 	/**
+ 	 * Type IDs of all subtypes of this type, including this type
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #makeTypeDefinition}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #makeTypeDefinition}.&lt;br&gt;
+ 	 * Accessed by {@link #getSubtypeIDs}
+ 	 */
+ 	private Vector subtypes;
+@@ -162,16 +162,16 @@
+ 
+ 	/**
+ 	 * Reflects the value of the &quot;Custom Implementation&quot; property.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #setCustomImplementation}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #setCustomImplementation}.&lt;br&gt;
+ 	 * Accessed by {@link #getCustomImplementation}
+ 	 */
+ 	private String customImplementation;
+ 
+ 	/**
+-	 * The (derived) implementing class resp. &lt;CODE&gt;null&lt;/CODE&gt; if there is no (derived) implementation.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #setDerivedImplementation}.&lt;BR&gt;
++	 * The (derived) implementing class resp. &lt;code&gt;null&lt;/code&gt; if there is no (derived) implementation.
++	 * &lt;p&gt;
++	 * Initialized by {@link #setDerivedImplementation}.&lt;br&gt;
+ 	 * Accessed by {@link #getDerivedImplementation}
+ 	 */
+ 	private String derivedImplementation;
+@@ -180,17 +180,17 @@
+ 
+ 	/**
+ 	 * Reflects the value of the &quot;Plural Name&quot; property.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #setPluralName}.&lt;BR&gt;
+-	 * Acessed by {@link #getPluralName}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #setPluralName}.&lt;br&gt;
++	 * Acessed by {@link #getPluralName}.&lt;br&gt;
+ 	 */
+ 	private String pluralTypename;
+ 
+ 	/**
+ 	 * Reflects the value of the &quot;Creation Icon&quot; property.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #setCreationIcon}.&lt;BR&gt;
+-	 * Acessed by {@link #getCreationIcon}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #setCreationIcon}.&lt;br&gt;
++	 * Acessed by {@link #getCreationIcon}.&lt;br&gt;
+ 	 */
+ 	private String creationIcon;
+ 
+@@ -206,24 +206,24 @@
+ 	// --- Appearance ---
+ 
+ 	/**
+-	 * The type appearance mode&lt;BR&gt;
++	 * The type appearance mode&lt;br&gt;
+ 	 * ({@link #APPEARANCE_DEFAULT}, {@link #APPEARANCE_CUSTOM_COLOR} or
+ 	 * {@link #APPEARANCE_CUSTOM_ICON}). Note: the latter one is only used for topic types,
+ 	 * not for association types.
+-	 * &lt;P&gt;
+-	 * Initialized by &lt;CODE&gt;init()&lt;/CODE&gt; of the &lt;CODE&gt;TypeTopic&lt;/CODE&gt;'s subclasses
++	 * &lt;p&gt;
++	 * Initialized by &lt;code&gt;init()&lt;/code&gt; of the &lt;code&gt;TypeTopic&lt;/code&gt;'s subclasses
+ 	 * ({@link TopicTypeTopic#init} and {@link AssociationTypeTopic#init}).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Accessed by {@link #getTypeAppearanceMode}
+ 	 */
+ 	protected int typeAppMode;
+ 
+ 	/**
+ 	 * The type appearance parameter.
+-	 * &lt;P&gt;
+-	 * Initialized by &lt;CODE&gt;init()&lt;/CODE&gt; of the &lt;CODE&gt;TypeTopic&lt;/CODE&gt;'s subclasses
++	 * &lt;p&gt;
++	 * Initialized by &lt;code&gt;init()&lt;/code&gt; of the &lt;code&gt;TypeTopic&lt;/code&gt;'s subclasses
+ 	 * ({@link TopicTypeTopic#init} and {@link AssociationTypeTopic#init}).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Accessed by {@link #getTypeAppearanceParam}
+ 	 */
+ 	protected String typeAppParam;
+@@ -231,7 +231,7 @@
+ 	/**
+ 	 * Initialized by sublass
+ 	 * {@link AssociationTypeTopic#setIconfile AssociationTypeTopic}.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Accessed by {@link #getAssocTypeColor}
+ 	 */
+ 	protected String assocTypeColor;
+@@ -325,9 +325,19 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		// --- assign type to user ---
+ 		String assocID = as.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TYPES, 1, session.getUserID(), 1, getID(), 1);
++		String userID = session.getUserID();
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TYPES, 1, userID, 1, getID(), 1);
+ 		cm.setAssociationData(assocID, 1, PROPERTY_ACCESS_PERMISSION, PERMISSION_CREATE);
+-		//
++		cm.setAssociationData(assocID, 1, PROPERTY_OWNER_ID, userID);
++		// Note: programatically created &quot;Type Access&quot; associations (as here) get &quot;create&quot; permission by default
++		// whereas manually created &quot;Type Access&quot; associations get &quot;view&quot; permission by default (via corporate
++		// memory entry for &quot;Default Value&quot; property of the &quot;Access Permission&quot; property, see cm.sql). This is the
++		// intended behavoir.
++		// How this is realized: Corporate memory-based default values are set in LiveTopic.evoke() which is triggered here _after_
++		// setting the default here, and LiveTopic.evoke() doesn't set a default value if a custom implementation
++		// has already set another default value.
++		// ### Another solution to consider: perform evoke() first in this method and strip the &quot;already set&quot; check in
++		// LiveTopic.evoke().
+ 		return super.evoke(session, topicmapID, viewmode);
+ 	}
+ 
+@@ -532,8 +542,8 @@
+ 	/**
+ 	 * Returns the supertype of this type.
+ 	 *
+-	 * @return	The supertype as &lt;CODE&gt;LiveTopic&lt;/CODE&gt; (type &lt;CODE&gt;tt-topictype&lt;/CODE&gt;)
+-	 *			or &lt;CODE&gt;null&lt;/CODE&gt; if this type has no supertype
++	 * @return	The supertype as &lt;code&gt;LiveTopic&lt;/code&gt; (type &lt;code&gt;tt-topictype&lt;/code&gt;)
++	 *			or &lt;code&gt;null&lt;/code&gt; if this type has no supertype
+ 	 *
+ 	 * @throws	DeepaMehtaException			if the supertype is missing in corporate memory
+ 	 * @throws	AmbiguousSemanticException	if this type has more than one supertype
+@@ -562,8 +572,8 @@
+ 	/**
+ 	 * Returns the corresponding search type of this type.
+ 	 *
+-	 * @return	The container type as &lt;CODE&gt;LiveTopic&lt;/CODE&gt; (type &lt;CODE&gt;tt-topictype&lt;/CODE&gt;)
+-	 *			or &lt;CODE&gt;null&lt;/CODE&gt; if this type has no container type
++	 * @return	The container type as &lt;code&gt;LiveTopic&lt;/code&gt; (type &lt;code&gt;tt-topictype&lt;/code&gt;)
++	 *			or &lt;code&gt;null&lt;/code&gt; if this type has no container type
+ 	 *
+ 	 * @throws	DeepaMehtaException			### if the container type doesn't exist in live
+ 	 *											corporate memory
+@@ -611,7 +621,7 @@
+ 
+ 	/**
+ 	 * ### bad
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Finds the supertypes for the given typetopic (recursively)
+ 	 * and saves references in the given Hashtable. If the typetopic
+ 	 * is a TopicTypeTopic, the according containertype will be
+@@ -810,7 +820,7 @@
+ 
+ 	/**
+ 	 * Builds the type definition for this type.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The {@link #propDefinition} field is cleared and rebuild according the aggregated
+ 	 * properties in corporate memory. Also the property definitions of all super types
+ 	 * are respected.
+@@ -860,7 +870,7 @@
+ 	 *
+ 	 * @param	properties			the properties, enumeration of &lt;code&gt;BaseTopic&lt;/code&gt;s of type &lt;code&gt;tt-property&lt;/code&gt;
+ 	 * @param	typeTopic			the type the properties belong to
+-	 * @param	hiddenProperties	may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	hiddenProperties	may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		#makeTypeDefinition
+ 	 */
+
+Modified: trunk/install/examples/dm-browser/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-browser/config/web.xml	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/install/examples/dm-browser/config/web.xml	2007-10-28 21:52:40 UTC (rev 240)
+@@ -19,16 +19,6 @@
+     --&gt;
+ 
+     &lt;context-param&gt;
+-      &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+-      &lt;description&gt;
+-        Selects a DeepaMehta service.
+-        If this parameter is not set the &quot;default&quot; service will be used.
+-        To configure DeepaMehta services see the file install/client/dms.rc
+-      &lt;/description&gt;
+-    &lt;/context-param&gt;
+-
+-    &lt;context-param&gt;
+       &lt;param-name&gt;generator&lt;/param-name&gt;
+       &lt;param-value&gt;xslt&lt;/param-value&gt;
+       &lt;description&gt;
+
+Modified: trunk/install/examples/dm-web/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-web/config/web.xml	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/install/examples/dm-web/config/web.xml	2007-10-28 21:52:40 UTC (rev 240)
+@@ -19,16 +19,6 @@
+     --&gt;
+ 
+     &lt;context-param&gt;
+-      &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;mysql5&lt;/param-value&gt;
+-      &lt;description&gt;
+-        Selects a DeepaMehta service.
+-        If this parameter is not set the &quot;default&quot; service will be used.
+-        To configure DeepaMehta services see the file install/client/dms.rc
+-      &lt;/description&gt;
+-    &lt;/context-param&gt;
+-
+-    &lt;context-param&gt;
+       &lt;param-name&gt;generator&lt;/param-name&gt;
+       &lt;param-value&gt;jsp&lt;/param-value&gt;
+       &lt;description&gt;
+
+Modified: trunk/install/examples/messageboard/config/web.xml
+===================================================================
+--- trunk/install/examples/messageboard/config/web.xml	2007-10-28 18:34:53 UTC (rev 239)
++++ trunk/install/examples/messageboard/config/web.xml	2007-10-28 21:52:40 UTC (rev 240)
+@@ -63,7 +63,7 @@
+     --&gt;
+ 
+     &lt;session-config&gt;
+-      &lt;session-timeout&gt;60&lt;/session-timeout&gt;
++      &lt;session-timeout&gt;120&lt;/session-timeout&gt;
+     &lt;/session-config&gt;
+ 
+ &lt;/web-app&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000084.html">[deepamehta-svn] r239 - in trunk/install/examples: dm-browser	dm-web/pages
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#85">[ date ]</a>
+              <a href="thread.html#85">[ thread ]</a>
+              <a href="subject.html#85">[ subject ]</a>
+              <a href="author.html#85">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

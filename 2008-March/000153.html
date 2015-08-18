@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r308 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r308%20-%20trunk&In-Reply-To=%3C200803171453.m2HErpKQ016415%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000152.html">
+   <LINK REL="Next"  HREF="000154.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r308 - trunk</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r308%20-%20trunk&In-Reply-To=%3C200803171453.m2HErpKQ016415%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r308 - trunk">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 17 15:53:51 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000152.html">[deepamehta-svn] r307 - tags
+</A></li>
+        <LI>Next message: <A HREF="000154.html">[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-17 15:53:48 +0100 (Mon, 17 Mar 2008)
+New Revision: 308
+
+Added:
+   trunk/run.command
+Modified:
+   trunk/README-de.txt
+   trunk/run.bat
+   trunk/run.sh
+Log:
+1) Bug fix in Windows startscript: an install path containing spaces is OK
+2) Doubleclickable startscript for Mac OS included
+3) German README extended (&quot;Inbetriebnahme unter Mac OS X&quot;, &quot;Vorhandene Installation updaten&quot;)
+4) Windows and Linux startscripts simplified
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-03-15 16:26:19 UTC (rev 307)
++++ trunk/README-de.txt	2008-03-17 14:53:48 UTC (rev 308)
+@@ -11,16 +11,18 @@
+ Voraussetzungen
+ Kurzanleitung
+   - Inbetriebnahme unter Windows
+-  - Inbetriebnahme unter Linux / Mac OS X
++  - Inbetriebnahme unter Linux
++  - Inbetriebnahme unter Mac OS X
+ Installation
+   - Schritt 1: Auspacken
+   - Schritt 2: Installieren
+-  - Schritt 3: Deployen der Webanwendungen
++  - Schritt 3: Deployen der Webfrontends
++  - Vorhandene Installation updaten
+   - Nachtr&#228;gliches Installieren der Beispielanwendungen
+ Starten &amp; Beenden
+   - Einzelplatz-Anwendung
+   - Client/Server-Anwendung
+-  - Webanwendungen
++  - Webfrontends
+ Administration
+   - Setzen des root Passworts
+   - Weitere Instanzen einrichten
+@@ -28,7 +30,6 @@
+   - Instanz l&#246;schen
+   - Kontrollieren von Tomcat
+   - Die Datenbank zur&#252;cksetzen
+-  - Vorhandene Installation updaten
+   - DeepaMehta Deinstallieren
+ Wie geht's weiter?
+ 
+@@ -37,24 +38,45 @@
+ Voraussetzungen
+ ===============
+ 
+-Notwendig:
+-- Java Standard Edition (Versionen 1.4 oder 5 oder 6)
++Software (notwendig)
+ 
+-Optional:
+-- MySQL (Version 4 oder 5) -- kann als Alternative zum mitgelieferten HSQL benutzt werden.
+-- Tomcat (ab Version 4) -- wird f&#252;r die DeepaMehta Beispiel-Webanwendungen ben&#246;tigt.
++    =&gt; Java Standard Edition, Runtime Environment (JRE, Versionen 1.4 oder 5 oder 6)
++       <A HREF="http://www.java.com/">http://www.java.com/</A>
+ 
++Software (optional)
+ 
++    Wenn die DeepaMehta Webfrontends benutzt werden sollen,
++    mu&#223; folgende Software separat installiert werden:
+ 
++    =&gt; Java Standard Edition, Development Kit (JDK, Versionen 1.4 oder 5 oder 6)
++       <A HREF="http://java.sun.com/">http://java.sun.com/</A>
++
++    =&gt; MySQL (Version 4 oder 5)
++       <A HREF="http://www.mysql.com/">http://www.mysql.com/</A>
++
++    =&gt; Tomcat (ab Version 4)
++       <A HREF="http://tomcat.apache.org/">http://tomcat.apache.org/</A>
++
++Hardware (minimal)
++
++    =&gt; Prozessor: 800 MHz
++    =&gt; Arbeitsspeicher: 256 MB
++    =&gt; Festplatte: 20 MB frei + Platz f&#252;r Deine DeepaMehta Inhalte
++
++
++
+ Kurzanleitung
+ =============
+ 
+ * Inbetriebnahme unter Windows
+-* Inbetriebnahme unter Linux / Mac OS X
++* Inbetriebnahme unter Linux
++* Inbetriebnahme unter Mac OS X
+ 
+-Um DeepaMehta m&#246;glichst einfach in Betrieb nehmen zu k&#246;nnen, wird eine automatische Standardinstallation angeboten. Dabei werden keine Beispielanwendungen installiert und keine Webfrontends zur Verf&#252;gung gestellt (diese Themen, und auch der Client-Server-Betrieb, werden in den verbleibenden Abschnitten dieses READMEs behandelt).
++Diese Kurzanleitung enth&#228;lt alle Informationen, die ben&#246;tigt werden, um DeepaMehta so schnell und einfach wie m&#246;glich in Betrieb zu nehmen. Nach dem Auspacken kann DeepaMehta sofort per Doppelklick gestartet werden. Beim ersten Programmstart wird automatisch eine minimale Standardinstallation ausgef&#252;hrt. Es sind keine Terminal-Eingaben notwendig. 
+ 
++Wenn Beispielanwendungen oder Webfrontends installiert werden sollen, f&#252;hre eine manuelle (Terminal-basierte) Installation durch, die im anschlie&#223;enden Abschnitt &quot;Installation&quot; beschrieben ist. Es ist auch m&#246;glich, zun&#228;chst die automatische Installation durchzuf&#252;hren, und die Beispielanwendungen und Webfrontends nachtr&#228;glich zu installieren.
+ 
++
+ Inbetriebnahme unter Windows
+ ----------------------------
+ 
+@@ -83,14 +105,15 @@
+     Dokumentations- und Support-Quellen sind am Ende dieses READMEs genannt.
+ 
+ 
+-Inbetriebnahme unter Linux / Mac OS X
+--------------------------------------
++Inbetriebnahme unter Linux
++--------------------------
+ 
+ 1) Auspacken:
+ 
+     unzip deepamehta-2.0b8.zip
+ 
+-    Es wird ein Verzeichnis &quot;deepamehta&quot; angelegt.
++    DeepaMehta kann z.B. in Deinem Homedirectory installiert werden.
++    Beim Auspacken wird ein Verzeichnis &quot;deepamehta&quot; angelegt.
+ 
+ 2) Starten:
+ 
+@@ -110,13 +133,39 @@
+     Dokumentations- und Support-Quellen sind am Ende dieses READMEs genannt.
+ 
+ 
++Inbetriebnahme unter Mac OS X
++-----------------------------
+ 
++1) Auspacken:
++
++    Kopiere die Datei deepamehta-2.0b8.zip in Deinen Anwendungs-Ordner und doppelklicke sie
++    um sie auszupacken. Beim Auspacken wird ein Ordner &quot;deepamehta&quot; angelegt.
++
++2) Starten:
++
++	&#214;ffne den &quot;deepamehta&quot; Ordner und doppelklicke die Datei &quot;run.command&quot;.
++
++    Es wird eine automatische Standardinstallation durchgef&#252;hrt und DeepaMehta dann gestartet.
++    Sobald der Login-Dialog erscheint, gebe &quot;root&quot; ein und dr&#252;cke 2x Return.
++    Der DeepaMehta Desktop erscheint.
++
++3) Beenden: Schlie&#223;e das DeepaMehta-Fenster.
++
++    Zum erneuten Starten doppelklicke wieder die Datei &quot;run.command&quot;.
++
++4) Wie geht's weiter?
++
++    Dokumentations- und Support-Quellen sind am Ende dieses READMEs genannt.
++
++
++
+ Installation
+ ============
+ 
+ * Schritt 1: Auspacken
+ * Schritt 2: Installieren
+-* Schritt 3: Deployen der Webanwendungen
++* Schritt 3: Deployen der Webfrontends
++* Vorhandene Installation updaten
+ * Nachtr&#228;gliches Installieren der Beispielanwendungen
+ 
+ Die meisten Vorg&#228;nge, die in diesem und den folgenden Abschnitten behandelt werden, werden durch Eingabe des &quot;run&quot;-Kommandos von einem Terminal-Fenster aus durchgef&#252;hrt.
+@@ -137,8 +186,8 @@
+ Packe diese Datei in Deinem Verzeichnis f&#252;r Anwendungen aus, z.B.:
+ 
+     * Windows:     C:\Programme\
++    * Linux:       /home/you/
+     * Mac OS X:    /Macintosh HD/Applications/
+-    * Linux:       /home/you/
+ 
+ Beim Auspacken wird ein Verzeichnis &quot;deepamehta&quot; angelegt.
+ 
+@@ -151,16 +200,16 @@
+     ./run.sh install
+ 
+ Zun&#228;chst wird die DeepaMehta-Installation konfiguriert, hinsichtlich 4 Aspekten:
+-- Sollen die DeepaMehta Beispiel-Webanwendungen benutzt werden (erfordert Tomcat)?
++- Sollen die DeepaMehta Webfrontends benutzt werden (erfordert Tomcat)?
+ - Welche Datenbank soll DeepaMehta benutzen (das mitgelieferte HSQL oder MySQL)?
+ - Auf welchem Netzwerkport soll der DeepaMehta-Server Client-Verbindungen annehmen?
+ - Welche Beispielanwendungen sollen installiert werden?
+ 
+ Dazu werden ein paar Fragen gestellt, wobei die Standard-Antwort, die einfach durch Dr&#252;cken von Return ausgel&#246;st wird, in eckigen Klammern angegeben ist.
+ 
+-=&gt; Webanwendungen
++=&gt; Webfrontends
+ 
+-Als erstes wirst Du gefragt, ob Du auch die DeepaMehta Beispiel-Webanwendungen benutzen m&#246;chtest. Wenn Ja, mu&#223;t Du angeben, wo das Tomcat Home-Verzeichnis ist.
++Als erstes wirst Du gefragt, ob Du auch die DeepaMehta Webfrontends benutzen m&#246;chtest. Wenn Ja, mu&#223;t Du angeben, wo das Tomcat Home-Verzeichnis ist.
+ 
+     [input] Do you want to install the web frontends (Tomcat must already be installed)? (y, [n])
+ 
+@@ -178,7 +227,7 @@
+     [echo]
+     [input] Currently set [hsqldb-intern]
+ 
+-WICHTIG: Wenn DeepaMehta-Webfrontends und die grafische DeepaMehta-Oberfl&#228;che gleichzeitig auf einer Maschine benutzt werden sollen, mu&#223; als Datenbank MySQL benutzt werden. MySQL wird nicht mit DeepaMehta mitgeliefert und mu&#223; separat installiert werden.
++WICHTIG: Wenn DeepaMehta Webfrontends und die grafische DeepaMehta-Oberfl&#228;che gleichzeitig auf einer Maschine benutzt werden sollen, mu&#223; als Datenbank MySQL benutzt werden. MySQL wird nicht mit DeepaMehta mitgeliefert und mu&#223; separat installiert werden.
+ 
+ Dann wirst Du nach dem Namen der anzulegenden Datenbank gefragt. Gebe den Namen der anzulegenden Datenbank ein, oder dr&#252;cke einfach Return.
+ 
+@@ -205,7 +254,7 @@
+ 
+ Sofern Du das &quot;movies&quot; Beispiel installieren m&#246;chtest, wirst Du jetzt nach der Art der Datenquelle gefragt, die f&#252;r das movies-Beispiel angelegt werden soll.
+ 
+-    [echo] Please select one of the following instance configurations:
++    [echo] Please select the datasource to be used for the 'movies' example:
+     [echo]
+     [echo] * hsqldb-intern
+     [echo] * mysql4
+@@ -218,7 +267,7 @@
+ 
+     [input] Please enter the name of your database: [Movies]
+ 
+-Sofern Du eingangs gesagt hast, da&#223; Du auch die DeepaMehta Webanwendungen benutzen m&#246;chtest (unter Tomcat), wirst Du jetzt gefragt, welche der mitgelieferten Beispiel-Webanwendungen Du installieren m&#246;chtest:
++Sofern Du eingangs gesagt hast, da&#223; Du auch die DeepaMehta Webfrontends benutzen m&#246;chtest (unter Tomcat), wirst Du jetzt gefragt, welche der mitgelieferten Webfrontends Du installieren m&#246;chtest:
+ 
+     [input] Do you want to install the example application 'dm-browser'
+             (Generic web frontend demo 1)? (y, [n])
+@@ -255,10 +304,10 @@
+ Wenn die Installation erfolgreich verlaufen ist, wird &quot;BUILD SUCCESSFUL&quot; angezeigt.
+ 
+ 
+-Schritt 3: Deployen der Webanwendungen
+---------------------------------------
++Schritt 3: Deployen der Webfrontends
++------------------------------------
+ 
+-Wenn Du beim Konfigurieren gesagt hast, da&#223; Du die DeepaMehta Beispiel-Webanwendungen benutzen m&#246;chtest, werden diese jetzt unter Tomcat deployt. Zum Deployen gebe folgendes Kommando ein:
++Wenn Du beim Konfigurieren gesagt hast, da&#223; Du die DeepaMehta Webfrontends benutzen m&#246;chtest, werden diese jetzt unter Tomcat deployt. Zum Deployen gebe folgendes Kommando ein:
+ 
+     ./run.sh deploy
+ 
+@@ -267,6 +316,83 @@
+ WICHTIG: wenn beim Deployen Tomcat bereits lief, mu&#223; Tomcat jetzt neugestartet werden (auch wenn Tomcats Hot-Deployment Funktion aktiviert ist).
+ 
+ 
++Vorhandene Installation updaten
++-------------------------------
++
++Um eine &#228;ltere DeepaMehta Version auf DeepaMehta 2.0b8 zu aktualieren, und alle bereits eingegebenen Inhalte zu &#252;bernehmen, gehe in 3 Schritten vor:
++
++=&gt; Aktualisieren der Dateien
++
++Packe DeepaMehta 2.0b8 aus, wie oben im Abschnitt &quot;Instalation&quot; in &quot;Schritt 1: Auspacken&quot; beschrieben ist. Achte darauf, da&#223; die alte DeepaMehta Installation dabei nicht &#252;berschrieben wird.
++
++Wenn Du bereits eigene Icons, Topicmap-Hintergr&#252;nde oder Dokumente, in DeepaMehta eingebunden hast, kopiere diese aus den alten Verzeichnissen in die entsprechenden Verzeichnisse der neuen DeepaMehta 2.0b8 Installation:
++
++    deepamehta/install/client/icons/
++    deepamehta/install/client/backgrounds/
++    deepamehta/install/client/documents/
++
++=&gt; Konfigurieren der Datenbank
++
++Jetzt mu&#223; die alte Datenbank dem neuen DeepaMehta bekannt gemacht werden. Gebe dazu folgendes Kommando ein:
++
++    ./run.sh config
++
++Dir werden dann ein paar Fragen gestellt. Der Ablauf entspricht im Prinzip dem, der oben im Abschnitt &quot;Instalation&quot; im Punkt &quot;Schritt 2: Installieren&quot; beschrieben ist. Die Frage nach den Webfrontends kannst Du an dieser Stelle einfach mit Return beantworten.
++
++Dann wirst Du nach dem Datenbanktyp gefragt. Gebe &quot;mysql4&quot; oder &quot;mysql5&quot; ein, je nach Version Deiner MySQL-Installation.
++
++    [echo] Please select the DeepaMehta instance to be configured:
++    [echo] 
++    [echo] * hsqldb-intern (Recommended for just using DeepaMehta.)
++    [echo] * mysql4 (Required for use with web frontends. MySQL 4 must already be installed.)
++    [echo] * mysql5 (Required for use with web frontends. MySQL 5 must already be installed.)
++    [echo] 
++    [input] Currently set [hsqldb-intern]
++
++Dann wirst Du nach dem Datenbank-Host, dem Passwort des Datenbank-Rootusers, dem Datenbank-Namen, dem Namen des Datenbank-Benutzers und dem Passwort des Datenbank-Benutzers gefragt. Wenn Du damals eine DeepaMehta Standardinstallation gemacht hast, und in Deiner MySQL-Installation f&#252;r den Datenbank-Rootuser kein Passwort vergeben wurde, beantworte alle Fragen einfach mit Return.
++
++    [input] Please enter the host of your database: [127.0.0.1]
++
++    [extendedinput] Please enter the database root password:
++
++    [input] Please enter the name of the database to be created: [DeepaMehta]
++    
++    [input] Please enter the user to use: [dm]
++
++    [input] Please enter the password to use: [dm]
++
++Dann werden Fragen nach dem Netzwerkport und den Beispielanwendungen gestellt, die Du an dieser Stelle einfach mit Return beantworten kannst.
++
++Sobald die Konfiguration abgeschlossen ist, wird &quot;BUILD SUCCESSFUL&quot; angezeigt.
++
++=&gt; Aktualisieren der Datenbank
++
++Jetzt m&#252;ssen Patches in die alte Datenbank eingespielt werden, um sie auf den Stand von DeepaMehta 2.0b8 zu bringen. Die folgende Tabelle gibt Auskunft dar&#252;ber, welche Patches eingespielt werden m&#252;ssen, in Abh&#228;ngigkeit Deiner alten DeepaMehta Version. Spiele alle Patches ein, beginnend von Deiner alten DeepaMehta Version.
++
++    Deine alte            Spiele diese Patches ein, um auf
++    DeepaMehta Version    DeepaMehta 2.0b8 zu aktualisieren
++    -------------------------------------------------------
++    2.0b3                 cm-2.13.sql
++    2.0b4                 cm-2.14.sql
++    2.0b5                 cm-2.15.sql
++    2.0b6                 cm-2.16.sql
++    2.0b7                 cm-2.17.sql
++
++Wenn Du z.B. derzeit DeepaMehta 2.0b7 installiert hast, spiele nur den Patch &quot;cm-2.17.sql&quot; ein. Wenn Du z.B. derzeit DeepaMehta 2.0b5 installiert hast, spiele den 15er, 16er und 17er Patch ein (in dieser Reihenfolge).
++
++Zum Einspielen eines einzelnen Patches gebe folgendes Kommando ein (hier wird der Patch &quot;cm-2.17.sql&quot; eingespielt):
++
++    ./run.sh patchdb -Dpatch=install/db/patches/cm-2.17.sql
++
++Zur Sicherheit wird dann nachgefragt, ob der Patch eingespielt werden soll, und es wird die betroffene Datenbank angezeigt. Um den Patch einzuspielen gebe 'y' ein und dr&#252;cke Return.
++
++    [echo] You are about to apply the patch install/db/patches/cm-2.17.sql the database DeepaMehta (user 'dm', password 'dm').
++    ...
++    [input] Continue?  (y, n)
++
++Sobald der Patch eingespielt ist, wird &quot;BUILD SUCCESSFUL&quot; angezeigt. Wiederhole ggf. das Kommando, um weitere Patches einzuspielen.
++
++
+ Nachtr&#228;gliches Installieren der Beispielanwendungen
+ ---------------------------------------------------
+ 
+@@ -298,7 +424,7 @@
+ 
+ * Einzelplatz-Anwendung
+ * Client/Server-Anwendung
+-* Webanwendungen
++* Webfrontends
+ 
+ 
+ Einzelplatz-Anwendung
+@@ -358,10 +484,10 @@
+ Technischer Sicherheitshinweis: Die DeepaMehta-Clients kommunizieren mit dem DeepaMehta-Server &#252;ber TCP Sockets. Der DeepaMehta-Server &#246;ffnet einen dedizierten TCP-Port (standardm&#228;&#223;ig ist das Port 7557).
+ 
+ 
+-Webanwendungen
+---------------
++Webfrontends
++------------
+ 
+-Mit DeepaMehta werden 6 Beispiel-Webanwendungen mitgeliefert. Zum Starten einer Webanwendung gebe die entsprechende URL in Deinen Webbrowser ein:
++Mit DeepaMehta werden 6 Webfrontends mitgeliefert. Zum Starten eines Webfrontends gebe die entsprechende URL in Deinen Webbrowser ein:
+ 
+     <A HREF="http://localhost:8080/kompetenzstern/controller">http://localhost:8080/kompetenzstern/controller</A>
+     <A HREF="http://localhost:8080/messageboard/controller">http://localhost:8080/messageboard/controller</A>
+@@ -370,7 +496,7 @@
+     <A HREF="http://localhost:8080/dm-topicmapviewer/controller">http://localhost:8080/dm-topicmapviewer/controller</A>
+     <A HREF="http://localhost:8080/dm-web/controller">http://localhost:8080/dm-web/controller</A>
+ 
+-Die Webanwendungen k&#246;nnen nur gestartet werden, wenn DeepaMehta entsprechend konfiguriert wurde (siehe Abschnitt &quot;Installation&quot; den Punkt &quot;Schritt 2: Installieren&quot;) und die Webanwendungen deployt wurden (siehe ebenddort den Punkt &quot;Schritt 3: Deployen der Webanwendungen&quot;). Au&#223;erdem mu&#223; Tomcat gestartet sein.
++Die Webfrontends k&#246;nnen nur gestartet werden, wenn DeepaMehta entsprechend konfiguriert wurde (siehe Abschnitt &quot;Installation&quot; den Punkt &quot;Schritt 2: Installieren&quot;) und die Webfrontends deployt wurden (siehe ebenddort den Punkt &quot;Schritt 3: Deployen der Webfrontends&quot;). Au&#223;erdem mu&#223; Tomcat gestartet sein.
+ 
+ 
+ 
+@@ -383,7 +509,6 @@
+ * Instanz l&#246;schen
+ * Kontrollieren von Tomcat
+ * Die Datenbank zur&#252;cksetzen
+-* Vorhandene Installation updaten
+ * DeepaMehta Deinstallieren
+ 
+ 
+@@ -424,7 +549,7 @@
+ 
+     [input] Please enter the name of your database: [DeepaMehta]
+ 
+-Die anderen Fragen (bezgl. den Webanwendungen und den Beispielanwendungen) beantworte einfach mit Return, wodurch die bisherigen Einstellungen f&#252;r die neue Instanz &#252;bernommen werden (Hinweis: diese Einstellungen werden tats&#228;chlich nicht pro DeepaMehta-Instanz gespeichert, sondern sind global).
++Die anderen Fragen (bezgl. den Webfrontends und den Beispielanwendungen) beantworte einfach mit Return, wodurch die bisherigen Einstellungen f&#252;r die neue Instanz &#252;bernommen werden (Hinweis: diese Einstellungen werden tats&#228;chlich nicht pro DeepaMehta-Instanz gespeichert, sondern sind global).
+ 
+ Dann wirst Du gefragt, ob die neue Instanz jetzt installiert werden soll. Beantworte die Fragen durch Dr&#252;cken von Return.
+ 
+@@ -475,7 +600,7 @@
+ 
+     ./run.sh tomcat-start
+ 
+-WICHTIG: Tomcat mu&#223; aus dem Verzeichnis deepamehta/install/client/ heraus gestartet werden, sonst k&#246;nnen die Webanwendungen notwendige Dateien nicht finden. Benutze zum Starten von Tomcat das hier angegebene Kommando, und nicht die Mechanismen Deiner Systemumgebung (z.B. /etc/init.d bei Linux).
++WICHTIG: Tomcat mu&#223; aus dem Verzeichnis deepamehta/install/client/ heraus gestartet werden, sonst k&#246;nnen die Webfrontends notwendige Dateien nicht finden. Benutze zum Starten von Tomcat das hier angegebene Kommando, und nicht die Mechanismen Deiner Systemumgebung (z.B. /etc/init.d bei Linux).
+ 
+ =&gt; Zum Stoppen von Tomcat gebe folgendes Kommando ein:
+ 
+@@ -492,10 +617,6 @@
+ --------------------------
+ 
+ 
+-Vorhandene Installation updaten
+--------------------------------
+-
+-
+ DeepaMehta Deinstallieren
+ -------------------------
+ 
+@@ -516,4 +637,4 @@
+ 
+ ------------------------------------------------------------------------------------------------------
+ J&#246;rg Richter                                                                         www.deepamehta.de
+-11.3.2008
++17.3.2008
+
+Modified: trunk/run.bat
+===================================================================
+--- trunk/run.bat	2008-03-15 16:26:19 UTC (rev 307)
++++ trunk/run.bat	2008-03-17 14:53:48 UTC (rev 308)
+@@ -1,17 +1,6 @@
+ @echo off
+-if &quot;%ANT_HOME%&quot;==&quot;&quot; goto setDefaultAntHome
+ 
+-:stripAntHome
+-if not _%ANT_HOME:~-1%==_\ goto testAntHome
+-set ANT_HOME=%ANT_HOME:~0,-1%
+-goto stripAntHome
+-
+-:testAntHome
+-if exist %ANT_HOME%/bin/ant.bat goto callAnt
+-
+-:setDefaultAntHome
+ rem %~dp0 is expanded pathname of the current script under NT
+ set ANT_HOME=%~dp0ant
+ 
+-:callAnt
+-call %ANT_HOME%/bin/ant.bat %*
++call &quot;%ANT_HOME%\bin\ant.bat&quot; %*
+
+Added: trunk/run.command
+===================================================================
+--- trunk/run.command	2008-03-15 16:26:19 UTC (rev 307)
++++ trunk/run.command	2008-03-17 14:53:48 UTC (rev 308)
+@@ -0,0 +1,7 @@
++#!/bin/sh
++
++cd &quot;$(dirname $0)&quot;
++
++export ANT_HOME=&quot;$(pwd)/ant&quot;
++
++${ANT_HOME}/bin/ant $*
+
+
+Property changes on: trunk/run.command
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Modified: trunk/run.sh
+===================================================================
+--- trunk/run.sh	2008-03-15 16:26:19 UTC (rev 307)
++++ trunk/run.sh	2008-03-17 14:53:48 UTC (rev 308)
+@@ -1,36 +1,7 @@
+ #!/bin/sh
+ 
+-if [ &quot;$ANT_HOME&quot; != &quot;&quot; ];then
+-	if [ ! -x &quot;$ANT_HOME/bin/ant&quot; ];then
+-		export ANT_HOME=
+-	else
+-		vers=$(&quot;$ANT_HOME/bin/ant&quot; -version 2&gt;/dev/null \
+-		| sed -e 's,.* \([0-9]*\.[0-9]*\.[0-9]*\) .*,\1,g'|tr -d -c '0-9.')
+-		majorVer=$(echo $vers|cut -d. -f1)
+-		minorVer=$(echo $vers|cut -d. -f2)
+-		stepVer=$(echo $vers|cut -d. -f3)
+-		if [ &quot;$stepVer&quot; != &quot;&quot; ] ; then
+-			if	[ $majorVer -lt 1 ] \
+-			||	(	[ $majorVer -eq 1 ] \
+-				&amp;&amp;	[ $minorVer -lt 7 ] )
+-			then
+-				echo &quot;Your ant installation (version $vers) is not suiteable. Using my own!&quot; &gt;&amp;2
+-				export ANT_HOME=
+-			fi
+-		else
+-			echo &quot;Your ant installation is not suiteable. Using my own!&quot; &gt;&amp;2
+-			export ANT_HOME=
+-		fi
+-	fi
+-fi
+-
+-current=&quot;$(pwd)&quot;
+ cd &quot;$(dirname $0)&quot;
+ 
+-#if [ &quot;$ANT_HOME&quot; = &quot;&quot; ];then
+ export ANT_HOME=&quot;$(pwd)/ant&quot;
+-#fi
+ 
+-cd ${current}
+-
+ ${ANT_HOME}/bin/ant $*
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000152.html">[deepamehta-svn] r307 - tags
+</A></li>
+	<LI>Next message: <A HREF="000154.html">[deepamehta-svn] r309 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

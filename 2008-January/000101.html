@@ -1,0 +1,432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r256 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r256%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images&In-Reply-To=%3C200801151726.m0FHQLQ1020912%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000100.html">
+   <LINK REL="Next"  HREF="000102.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r256 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r256%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images&In-Reply-To=%3C200801151726.m0FHQLQ1020912%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r256 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Jan 15 18:26:21 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000100.html">[deepamehta-svn] r255 - in trunk: .	develop/src/de/deepamehta/topics install/config
+</A></li>
+        <LI>Next message: <A HREF="000102.html">[deepamehta-svn] r257 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-01-15 18:26:15 +0100 (Tue, 15 Jan 2008)
+New Revision: 256
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/install/client/images/trash.gif
+Log:
+1) An open topicmap has a 'delete' command in its context menu.
+2) Framework change: die() hook has 'session' parameter.
+ATTENTION: if your application uses this hook it must be adapted.
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 20.12.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 15.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -404,6 +404,7 @@
+ 	static final String CMD_HIDE_ASSOC   = &quot;hideAssociation&quot;;
+ 	static final String CMD_DELETE_TOPIC = &quot;deleteTopic&quot;;
+ 	static final String CMD_DELETE_ASSOC = &quot;deleteAssociation&quot;;
++	static final String CMD_DELETE_TOPICMAP = &quot;deleteTopicmap&quot;;
+ 	static final String CMD_SET_PROPERTY = &quot;setProperty&quot;;				// changes model
+ 	static final String CMD_EDIT_TOPIC_PROPERTY = &quot;editTopicProperty&quot;;	// opens detail
+ 	static final String CMD_VIEW_TOPIC_PROPERTY = &quot;viewTopicProperty&quot;;	// opens detail
+@@ -1075,9 +1076,8 @@
+ 
+ 
+ 	static final int EDITOR_CONTEXT_PERSONAL = 1;	// personal workspace topicmap 
+-	static final int EDITOR_CONTEXT_WORKGROUP = 2;	// workspace topicmap
+-	// ### static final int EDITOR_CONTEXT_CORPORATE = 3;	// corporate workspace ### not needed anymore
+-	static final int EDITOR_CONTEXT_VIEW = 4;		// topicmap
++	static final int EDITOR_CONTEXT_WORKGROUP = 2;	// shared workspace topicmap
++	static final int EDITOR_CONTEXT_VIEW = 3;		// open topicmap
+ 
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -24,7 +24,7 @@
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 15.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 9.10.2001 (2.0a12)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -386,6 +386,12 @@
+ 
+ 	// ---
+ 
++	public void addDeleteTopicmapCommand() {
++		addCommand(as.string(ITEM_DELETE_TOPIC), CMD_DELETE_TOPICMAP, FILESERVER_IMAGES_PATH, ICON_DELETE_TOPIC);
++	}
++
++	// ---
++
+ 	/**
+ 	 * @see		#addStandardCommands
+ 	 */
+@@ -794,91 +800,6 @@
+ 
+ 
+ 	/**
+-	 * @see		#addTopicTypeCommands
+-	 */
+-	private void addBuildmodeTopicTypeCommands(Commands cmdGroup, String command,
+-															boolean usePluralName) {
+-		addTypeCommand(cmdGroup, TOPICTYPE_TOPICTYPE, command, usePluralName);
+-		addTypeCommand(cmdGroup, TOPICTYPE_ASSOCTYPE, command, usePluralName);
+-		addTypeCommand(cmdGroup, TOPICTYPE_PROPERTY, command, usePluralName);
+-		addTypeCommand(cmdGroup, TOPICTYPE_PROPERTY_VALUE, command, usePluralName);
+-		addTypeCommand(cmdGroup, &quot;tt-datasource&quot;, command, usePluralName);
+-	}
+-
+-	// --- addTopicPropertyCommand (2 forms) ---
+-
+-	/**
+-	 * @see		#addTopicPropertyCommands
+-	 */
+-	/* ### private boolean addTopicPropertyCommand(PropertyDefinition propDef, boolean enabled,
+-																			LiveTopic topic, Session session) {
+-		boolean added = false;
+-		//
+-		String propName = propDef.getPropertyName();
+-		String propLabel = propDef.getPropertyLabel();
+-		String visualization = propDef.getVisualization();
+-		String editIconfile = propDef.getEditIconfile();
+-		//
+-		if (visualization.equals(VISUAL_FIELD)) {
+-			addTopicPropertyCommand(propName, propLabel, editIconfile, enabled, false, false, session);
+-			added = true;
+-		} else if (visualization.equals(VISUAL_AREA)) {
+-			addTopicPropertyCommand(propName, propLabel, editIconfile, enabled, false, true, session);
+-			added = true;
+-		} else if (visualization.equals(VISUAL_TEXT_EDITOR)) {
+-			addTopicPropertyCommand(propName, propLabel, editIconfile, enabled, true, true, session);
+-			added = true;
+-		} else if (visualization.equals(VISUAL_CHOICE) ||
+-				   visualization.equals(VISUAL_RADIOBUTTONS)) {
+-			String value = topic.getProperty(propName);
+-			addOptionsMenuCommands(propName, propLabel, editIconfile, value, propDef.getOptions(), session);
+-			added = true;
+-		} else if (visualization.equals(VISUAL_SWITCH)) {
+-			String value = topic.getProperty(propName);
+-			addSwitchCommand(propName, propLabel, editIconfile, value, session);
+-			added = true;
+-		} else if (visualization.equals(VISUAL_FILE_CHOOSER)) {
+-			addFileCommand(propName, propLabel, &quot;chooseFile.gif&quot; // ### editIconfile //, session);
+-			added = true;
+-		} else {
+-			// ### System.out.println(&quot;&gt;&gt;&gt; no command for property \&quot;&quot; + propName + &quot;\&quot; (&quot; +
+-				&quot;visualization: \&quot;&quot; + visualization + &quot;\&quot;)&quot;);
+-		}
+-		// Note: hidden properties (VISUAL_HIDDEN) are not respected
+-		// ### pending: VISUAL_DATE_CHOOSER
+-		// ### pending: VISUAL_TIME_CHOOSER
+-		// ### pending: VISUAL_PASSWORD_FIELD
+-		//
+-		return added;
+-	} */
+-
+-	/**
+-	 * @see		#addTopicPropertyCommand	(above)
+-	 */
+-	/* ### private void addTopicPropertyCommand(String propName, String propLabel, String iconfile,
+-									boolean editable, boolean styled, boolean multiline, Session session) {
+-		int item = editable ? ITEM_EDIT_PROPERTY : ITEM_VIEW_PROPERTY;
+-		String cmd = editable ? CMD_EDIT_TOPIC_PROPERTY : CMD_VIEW_TOPIC_PROPERTY;
+-		String param = COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + propLabel + COMMAND_SEPARATOR + styled + COMMAND_SEPARATOR + multiline;
+-		addCommand(as.string(item, propLabel), cmd + param, FILESERVER_IMAGES_PATH, iconfile);
+-	} */
+-
+-	// ---
+-
+-	/**
+-	 * @see		#addAssocPropertyCommands
+-	 */
+-	private void addAssociationPropertyCommand(String propName, String iconfile,
+-									boolean editable, boolean styled, boolean multiline, Session session) {
+-		int item = editable ? ITEM_EDIT_PROPERTY : ITEM_VIEW_PROPERTY;
+-		String cmd = editable ? CMD_EDIT_ASSOC_PROPERTY : CMD_VIEW_ASSOC_PROPERTY;
+-		String param = COMMAND_SEPARATOR + propName + COMMAND_SEPARATOR + styled + COMMAND_SEPARATOR + multiline;
+-		addCommand(as.string(item, propName), cmd + param, FILESERVER_IMAGES_PATH, iconfile);
+-	}
+-
+-	// ---
+-
+-	/**
+ 	 * @param	types		types to add as vector of {@link de.deepamehta.BaseTopic} ### or as vector of typeIDs (Strings)
+ 	 *
+ 	 * @see		#addTopicTypeCommands(int groupID, String command, boolean usePluralName,
+@@ -886,12 +807,6 @@
+ 	 */
+ 	public void addTopicTypeCommands(Commands cmdGroup, Vector types, String command, boolean usePluralName) {
+ 		// --- add &quot;generic&quot; type first ---
+-		/* ### boolean add;
+-		if (types.size() &gt; 0 &amp;&amp; types.firstElement() instanceof String) {
+-			add = types.contains(TOPICTYPE_TOPIC);
+-		} else {
+-			add = DeepaMehtaServiceUtils.findIndexByID(types, TOPICTYPE_TOPIC) != -1;
+-		} */
+ 		if (DeepaMehtaServiceUtils.findIndexByID(types, TOPICTYPE_TOPIC) != -1) {
+ 			addTypeCommand(cmdGroup, TOPICTYPE_TOPIC, command, usePluralName);
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -27,7 +27,7 @@
+  * with every constructor call).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 8.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -243,7 +243,7 @@
+ 					boolean die = ((Boolean) param2).booleanValue();
+ 					if (die) {
+ 						// ### the version is set to 1
+-						add(deleteTopic(topicID, 1, as));
++						add(deleteTopic(topicID, 1, as, session));
+ 						// Note: param3 (topicmapID) is not respected for &quot;delete&quot;
+ 					} else {
+ 						as.deleteViewTopic((String) param3, topicID);
+@@ -264,7 +264,7 @@
+ 					Vector topicIDs = (Vector) param1;
+ 					die = ((Boolean) param2).booleanValue();
+ 					if (die) {
+-						add(deleteLiveTopics(topicIDs, as));
++						add(deleteLiveTopics(topicIDs, as, session));
+ 						// Note: param3 (topicmapID) is not respected for &quot;delete&quot;
+ 					} else {
+ 						as.deleteViewTopics((String) param3, topicIDs);
+@@ -861,12 +861,12 @@
+ 	 *
+ 	 * @see		#updateCorporateMemory
+ 	 */
+-	private CorporateDirectives deleteLiveTopics(Vector topicIDs, ApplicationService as) {
++	private CorporateDirectives deleteLiveTopics(Vector topicIDs, ApplicationService as, Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		Enumeration e = topicIDs.elements();
+ 		while (e.hasMoreElements()) {
+ 			// ### the version is set to 1
+-			directives.add(deleteTopic((String) e.nextElement(), 1, as));
++			directives.add(deleteTopic((String) e.nextElement(), 1, as, session));
+ 		}
+ 		return directives;
+ 	}
+@@ -900,11 +900,11 @@
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+ 	 * @see		CorporateDirectives#deleteLiveTopics
+ 	 */
+-	private CorporateDirectives deleteTopic(String topicID, int version, ApplicationService as) {
++	private CorporateDirectives deleteTopic(String topicID, int version, ApplicationService as, Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		try {
+ 			// --- trigger die() hook ---
+-			directives.add(as.getLiveTopic(topicID, version).die());
++			directives.add(as.getLiveTopic(topicID, version).die(session));
+ 		} catch (DeepaMehtaException e) {
+ 			// ### add to directives
+ 			System.out.println(&quot;*** ApplicationService.deleteTopic(): &quot; + e);
+
+Modified: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -13,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 8.1.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 14.12.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -54,8 +54,8 @@
+ 		return directives;
+ 	}
+ 
+-	public CorporateDirectives die() {
+-		CorporateDirectives directives = super.die();
++	public CorporateDirectives die(Session session) {
++		CorporateDirectives directives = super.die(session);
+ 		//
+ 		updateCalendars(getCalendars(), directives);
+ 		//
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 6.11.2007 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 8.1.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -216,7 +216,7 @@
+ 	 *
+ 	 * @see		ApplicationService#deleteTopic
+ 	 */
+-	public CorporateDirectives die() {
++	public CorporateDirectives die(Session session) {
+ 		// --- delete topic from all views ---
+ 		as.deleteViewTopic(getID());
+ 		// --- delete topic and its properties from corporate memory ---
+@@ -464,8 +464,7 @@
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#executeTopicCommand
+ 	 */
+-	public CorporateDirectives executeCommand(String command, Session session,
+-													String topicmapID, String viewmode) {
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+ 		// &gt;&gt;&gt; compare to LiveAssociation.executeCommand()
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+@@ -1128,7 +1127,7 @@
+ 	 * Extends the specified directives to hide/delete this topic as well as any associations
+ 	 * this topic is involed in.
+ 	 * &lt;p&gt;
+-	 * Handles the {@link #CMD_HIDE_TOPIC} command.
++	 * Handles the commands {@link #CMD_HIDE_TOPIC} and {@link #CMD_DELETE_TOPIC} (indirectly).
+ 	 * &lt;p&gt;
+ 	 * ### Hypothesis: topicmapID and viewmode are only needed when called by client,
+ 	 * ### when called by servlet they can be set to null
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-01-06 13:20:59 UTC (rev 255)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-01-15 17:26:15 UTC (rev 256)
+@@ -84,7 +84,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 13.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 15.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -217,15 +217,16 @@
+ 
+ 
+ 
+-	public CorporateDirectives die() {
++	public CorporateDirectives die(Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		// causes the client to close this view in case it has opened it
+-		directives.add(DIRECTIVE_CLOSE_EDITOR, getID());
++		// ### directives.add(DIRECTIVE_CLOSE_EDITOR, getID());
++		close(session, directives);
+ 		// delete view from corporate memory
+ 		as.deleteUserView(getID(), getVersion());
+ 		// delete this topic from corporate memory and from live corporate memory
+ 		// Note: super.die() must perform after
+-		directives.add(super.die());
++		directives.add(super.die(session));
+ 		//
+ 		return directives;
+ 	}
+@@ -299,8 +300,9 @@
+ 			commands.addCreateCommands(viewmode, session, directives);
+ 			commands.addSeparator();
+ 			//
++			commands.addCloseCommand(session);
+ 			commands.addHideAllCommands(topicmapID, viewmode, session);
+-			commands.addCloseCommand(session);
++			commands.addDeleteTopicmapCommand();
+ 			commands.addSeparator();
+ 			//
+ 			commands.addPublishCommand(getID(), session, directives);
+@@ -401,6 +403,10 @@
+ 			String userID = session.getUserID();
+ 			String formatID = st.nextToken();
+ 			setExportFormat(userID, formatID, directives);
++		// --- delete topicmap ---
++		} else if (cmd.equals(CMD_DELETE_TOPICMAP)) {
++			delete(session.getPersonalWorkspace().getID(), VIEWMODE_USE, directives);
++		//
+ 		} else if (cmd.equals(CMD_ASSIGN_BACKGROUND)) {
+ 			directives.add(DIRECTIVE_CHOOSE_FILE);
+ 		} else if (cmd.equals(CMD_PROCESS_FILELIST)) {
+
+Modified: trunk/install/client/images/trash.gif
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000100.html">[deepamehta-svn] r255 - in trunk: .	develop/src/de/deepamehta/topics install/config
+</A></li>
+	<LI>Next message: <A HREF="000102.html">[deepamehta-svn] r257 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

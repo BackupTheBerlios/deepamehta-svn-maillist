@@ -1,0 +1,912 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r167 - in branches/ldap: .	develop/src/de/deepamehta/service install/examples/ldap	install/examples/ldap/src/de/deepamehta/topics	install/examples/messageboard
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r167%20-%20in%20branches/ldap%3A%20.%0A%09develop/src/de/deepamehta/service%20install/examples/ldap%0A%09install/examples/ldap/src/de/deepamehta/topics%0A%09install/examples/messageboard&In-Reply-To=%3C200707261326.l6QDQ0dh016156%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000011.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r167 - in branches/ldap: .	develop/src/de/deepamehta/service install/examples/ldap	install/examples/ldap/src/de/deepamehta/topics	install/examples/messageboard</H1>
+    <B>danny at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r167%20-%20in%20branches/ldap%3A%20.%0A%09develop/src/de/deepamehta/service%20install/examples/ldap%0A%09install/examples/ldap/src/de/deepamehta/topics%0A%09install/examples/messageboard&In-Reply-To=%3C200707261326.l6QDQ0dh016156%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r167 - in branches/ldap: .	develop/src/de/deepamehta/service install/examples/ldap	install/examples/ldap/src/de/deepamehta/topics	install/examples/messageboard">danny at mail.berlios.de
+       </A><BR>
+    <I>Thu Jul 26 15:26:00 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000011.html">[deepamehta-svn] r166 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install install/db/patches libs
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: danny
+Date: 2007-07-26 15:25:07 +0200 (Thu, 26 Jul 2007)
+New Revision: 167
+
+Added:
+   branches/ldap/install/examples/ldap/deepamehta.ldif
+   branches/ldap/install/examples/ldap/readme.txt
+   branches/ldap/install/examples/ldap/screenshot.png
+Modified:
+   branches/ldap/build.xml
+   branches/ldap/config.xml
+   branches/ldap/develop/src/de/deepamehta/service/CorporateLDAPSource.java
+   branches/ldap/install/examples/ldap/build.xml
+   branches/ldap/install/examples/ldap/ldap.sql
+   branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupContainerTopic.java
+   branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupTopic.java
+   branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserContainerTopic.java
+   branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserTopic.java
+   branches/ldap/install/examples/messageboard/build.xml
+Log:
+reanimated ldap example, see install/examples/ldap/readme.txt and screenshot.png
+
+
+Modified: branches/ldap/build.xml
+===================================================================
+--- branches/ldap/build.xml	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/build.xml	2007-07-26 13:25:07 UTC (rev 167)
+@@ -202,6 +202,8 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;build&quot; depends=&quot;compile&quot; description=&quot;build jar files&quot;&gt;
++		&lt;mkdir dir=&quot;${client}&quot;/&gt;
++		&lt;mkdir dir=&quot;${server}&quot;/&gt;
+ 		&lt;!-- monolith --&gt;
+ 		&lt;jar jarfile=&quot;${client}/DeepaMehta.jar&quot; basedir=&quot;${build}&quot;&gt;
+ 			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+@@ -333,6 +335,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;apidocs&quot; description=&quot;generates the API documentation&quot;&gt;
++		&lt;mkdir dir=&quot;docs&quot;/&gt;
+ 		&lt;javadoc 
+ 		   destdir=&quot;docs/apidocs&quot;
+ 		   stylesheetfile=&quot;docs/stylesheet.css&quot;
+
+Modified: branches/ldap/config.xml
+===================================================================
+--- branches/ldap/config.xml	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/config.xml	2007-07-26 13:25:07 UTC (rev 167)
+@@ -34,6 +34,7 @@
+ 	&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
++	&lt;pathelement location=&quot;${libpath}/endorsed/xerces_2_3_0.jar&quot;/&gt;
+ &lt;/path&gt;
+ &lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+ 	&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+@@ -55,7 +56,7 @@
+ 	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/ldqp/LDAPTopics.jar&quot;/&gt;						&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${examples}/ldap/LDAPTopics.jar&quot;/&gt;						            &lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/Stolpersteine/stolpersteine.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+
+Modified: branches/ldap/develop/src/de/deepamehta/service/CorporateLDAPSource.java
+===================================================================
+--- branches/ldap/develop/src/de/deepamehta/service/CorporateLDAPSource.java	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/develop/src/de/deepamehta/service/CorporateLDAPSource.java	2007-07-26 13:25:07 UTC (rev 167)
+@@ -184,25 +184,26 @@
+ 
+ 
+ 	/**
+-	 *  Performs a (re)connect to the LDAP server.
++	 * Performs a (re)connect to the LDAP server. URL format:
++	 * <A HREF="ldap://localhost:389?login=cn=admin,dc=cmdghome,dc=local&amp;password=ldap&amp;base=dc=cmdghome,dc=local&amp;scope=ou=People,dc=cmdghome,dc=local">ldap://localhost:389?login=cn=admin,dc=cmdghome,dc=local&amp;password=ldap&amp;base=dc=cmdghome,dc=local&amp;scope=ou=People,dc=cmdghome,dc=local</A>
+ 	 */
+-	private void reconnect() throws NamingException
+-	{
+-		System.out.println( &quot;=========&gt; trying reconnect...&quot; );
++	private void reconnect() throws NamingException {
+ 		int query_pos = url.indexOf(&quot;?&quot;);
+ 		String firstUrl = url.substring(0, query_pos);
+-		
++
+ 		String args = url.substring(query_pos + 1, url.length());
+ 		Hashtable hash = parseArguments(args);
+-		
+-		String login       = getValue(hash, &quot;login&quot;);
+-		String password    = getValue(hash, &quot;password&quot;);
+-		String baseDN      = getValue(hash, &quot;baseDN&quot;);
+-		String searchScope = getValue(hash, &quot;searchScope&quot;);
+-		
++
++		String login = getValue(hash, &quot;login&quot;);
++		String password = getValue(hash, &quot;password&quot;);
++		// TODO consult ldap url rfc!
++		// in ldap url like <A HREF="ldap://deepamehta.de/dc=deepamehta,dc=de">ldap://deepamehta.de/dc=deepamehta,dc=de</A>
++		String base = getValue(hash, &quot;base&quot;);
++		String scope = getValue(hash, &quot;scope&quot;);
++
+ 		initial = createInitialContext(firstUrl, login, password);
+-		ctx = (DirContext) initial.lookup(baseDN);
+-		setSearchScope(searchScope);
++		ctx = (DirContext) initial.lookup(base);
++		setSearchScope(scope);
+ 	}
+ 
+ 	/**
+
+Modified: branches/ldap/install/examples/ldap/build.xml
+===================================================================
+--- branches/ldap/install/examples/ldap/build.xml	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/build.xml	2007-07-26 13:25:07 UTC (rev 167)
+@@ -6,7 +6,9 @@
+ 
+ 	&lt;property name=&quot;jar&quot; value=&quot;LDAPTopics.jar&quot;/&gt;
+ 	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++	&lt;property name=&quot;server&quot; location=&quot;../../server&quot;/&gt;
+ 
++
+ 	&lt;import file=&quot;../../../config.xml&quot;/&gt;
+ 
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+@@ -16,8 +18,8 @@
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+
+Added: branches/ldap/install/examples/ldap/deepamehta.ldif
+===================================================================
+--- branches/ldap/install/examples/ldap/deepamehta.ldif	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/deepamehta.ldif	2007-07-26 13:25:07 UTC (rev 167)
+@@ -0,0 +1,73 @@
++dn: dc=deepamehta,dc=de
++objectClass: top
++objectClass: dcObject
++objectClass: organization
++o: Deepamehta
++dc: deepamehta
++description: Maintain your head, and share it
++l: Berlin
++
++dn: cn=admin,dc=deepamehta,dc=de
++objectClass: top
++objectClass: organizationalRole
++cn: admin
++description: LDAP administrator
++
++
++dn: ou=people,dc=deepamehta,dc=de
++objectClass: top
++objectClass: organizationalUnit
++ou: people
++
++dn: uid=danny,ou=people,dc=deepamehta,dc=de
++objectClass: top
++objectClass: person
++objectClass: organizationalPerson
++objectClass: inetOrgPerson
++cn: Danny Gr&#228;f
++description: ergomedia employee and DeepaMehta developer.
++givenName: Danny
++mail: <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">deep at dagnu.de</A>
++sn: Gr&#228;f
++uid: danny
++
++dn: uid=jri,ou=people,dc=deepamehta,dc=de
++objectClass: top
++objectClass: person
++objectClass: organizationalPerson
++objectClass: inetOrgPerson
++cn: J&#246;rg Richter
++description: DeepaMehta co-founder and lead architect. CTO of the DeepaMehta company.
++givenName: J&#246;rg
++mail: <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++sn: Richter
++uid: jri
++
++
++dn: ou=groups,dc=deepamehta,dc=de
++objectClass: top
++objectClass: organizationalUnit
++ou: groups
++
++dn: ou=developer,ou=groups,dc=deepamehta,dc=de
++objectClass: top
++objectClass: groupOfNames
++cn: Developer
++description: DeepaMehta developer.
++member: uid=danny,ou=people,dc=deepamehta,dc=de
++member: uid=jri,ou=people,dc=deepamehta,dc=de
++ou: developer
++
++
++dn: ou=services,dc=deepamehta,dc=de
++objectClass: top
++objectClass: organizationalUnit
++ou: services
++
++dn: ou=dm,ou=services,dc=deepamehta,dc=de
++objectClass: top
++objectClass: organizationalUnit
++objectClass: simpleSecurityObject
++description: DeepaMehta LDAP communication.
++ou: dm
++userPassword: secret
+
+Modified: branches/ldap/install/examples/ldap/ldap.sql
+===================================================================
+--- branches/ldap/install/examples/ldap/ldap.sql	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/ldap.sql	2007-07-26 13:25:07 UTC (rev 167)
+@@ -1,39 +1,39 @@
+-------------------------
+---- &quot;LDAP&quot; workspace ---
+-------------------------
++----------------------
++--- LDAP workspace ---
++----------------------
+ 
++INSERT INTO Topic VALUES ('tt-workspace', 1, 1, 't-ldapworkspace', 'LDAP');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Name', 'LDAP');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Public', 'on');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Default', 'off');
++INSERT INTO ViewTopic VALUES ('t-workgroupmap', 1, 't-ldapworkspace', 1, 100, 100);
++INSERT INTO Association VALUES ('at-membership', 1, 1, 'a-ad-rootuserldapworkspace', '', 't-rootuser', 1, 't-ldapworkspace', 1);
+ 
++-- assign types
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-ldapworkspaceuser', '', 't-ldapworkspace', 1, 'tt-ldapuser', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-ldapworkspacegroup', '', 't-ldapworkspace', 1, 'tt-ldapgroup', 1);
++INSERT INTO AssociationProp VALUES ('a-ad-ldapworkspaceuser', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-ad-ldapworkspacegroup', 1, 'Access Permission', 'create');
+ 
+-INSERT INTO Topic VALUES ('tt-workspace', 1, 1, 't-ldapgroup', 'LDAP');
+-INSERT INTO TopicProp VALUES ('t-ldapgroup', 1, 'Name', 'LDAP');
+-INSERT INTO TopicProp VALUES ('t-ldapgroup', 1, 'Public', 'on');
+-INSERT INTO TopicProp VALUES ('t-ldapgroup', 1, 'Default', 'off');
+ -- workspace topicmap
+-INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-ldapworkspace', 'LDAP');
+-INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Name', 'LDAP');
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-1', '', 't-ldapgroup', 1, 't-ldapworkspace', 1);
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-ldaptopicmap', 'LDAP');
++INSERT INTO TopicProp VALUES ('t-ldaptopicmap', 1, 'Name', 'LDAP');
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-1', '', 't-ldapworkspace', 1, 't-ldaptopicmap', 1);
++
+ -- chat
+ INSERT INTO Topic VALUES ('tt-chatboard', 1, 1, 't-ldapchat', 'LDAP Chats');
+ INSERT INTO TopicProp VALUES ('t-ldapchat', 1, 'Name', 'LDAP Chats');
+-INSERT INTO ViewTopic VALUES ('t-ldapworkspace', 1, 't-ldapchat', 1, 80, 40);
++INSERT INTO ViewTopic VALUES ('t-ldaptopicmap', 1, 't-ldapchat', 1, 200, 100);
++
+ -- forum
+ INSERT INTO Topic VALUES ('tt-messageboard', 1, 1, 't-ldapforum', 'LDAP Forum');
+ INSERT INTO TopicProp VALUES ('t-ldapforum', 1, 'Name', 'LDAP Forum');
+-INSERT INTO ViewTopic VALUES ('t-ldapworkspace', 1, 't-ldapforum', 1, 100, 100);
+--- assign types
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-2', '', 't-ldapgroup', 1, 'tt-ldapuser', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-ad-3', '', 't-ldapgroup', 1, 'tt-ldapgroup', 1);
+-INSERT INTO AssociationProp VALUES ('a-ad-2', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-ad-3', 1, 'Access Permission', 'create');
++INSERT INTO ViewTopic VALUES ('t-ldaptopicmap', 1, 't-ldapforum', 1, 200, 200);
+ 
+-
+-
+ -------------------
+ --- Topic Types ---
+ -------------------
+ 
+-
+-
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-ldapuser', 'LDAP User');
+ INSERT INTO TopicProp VALUES ('tt-ldapuser', 1, 'Name', 'LDAP User');
+ INSERT INTO TopicProp VALUES ('tt-ldapuser', 1, 'Plural Name', 'LDAP Users');
+@@ -60,37 +60,32 @@
+ INSERT INTO TopicProp VALUES ('tt-ldapgroupcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.LdapGroupContainerTopic');
+ 
+ -- property associations
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-membergroup', '', 'tt-ldapgroup', 1, 'pp-member', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-cngroup', '', 'tt-ldapgroup', 1, 'pp-cn', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptiongroup', '', 'tt-ldapgroup', 1, 'pp-description', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptiongroupcontainer', '', 'tt-ldapgroupcontainer', 1, 'pp-description', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptionuser', '', 'tt-ldapuser', 1, 'pp-description', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-descriptionusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-description', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-namegroup', '', 'tt-ldapgroup', 1, 'pp-namesmall', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-namegroupcontainer', '', 'tt-ldapgroupcontainer', 1, 'pp-namesmall', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-nameuser', '', 'tt-ldapuser', 1, 'pp-namesmall', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-nameusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-namesmall', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-principaluser', '', 'tt-ldapuser', 1, 'pp-userprincipalname', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-principalusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-userprincipalname', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-givennameuser', '', 'tt-ldapuser', 1, 'pp-givenname', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-membergroup', '', 'tt-ldapgroup', 1, 'pp-member', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-memberofuser', '', 'tt-ldapuser', 1, 'pp-memberof', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-ougroup', '', 'tt-ldapgroup', 1, 'pp-ou', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-ougroupcontainer', '', 'tt-ldapgroupcontainer', 1, 'pp-ou', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-snuser', '', 'tt-ldapuser', 1, 'pp-sn', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-uiduser', '', 'tt-ldapuser', 1, 'pp-uid', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-ad-uidusercontainer', '', 'tt-ldapusercontainer', 1, 'pp-uid', 1);
+ 
+ -- associations between document types and container types
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-user-usercontassoc', '', 'tt-ldapusercontainer', 1, 'tt-ldapuser', 1);
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-ad-group-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 'tt-ldapgroup', 1);
+ 
+--- associations to &quot;ActiveDirectory&quot; datasource
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-userassoc', '', 'tt-ldapuser', 1, 't-activedirectory', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupassoc', '', 'tt-ldapgroup', 1, 't-activedirectory', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-usercontassoc', '', 'tt-ldapusercontainer', 1, 't-activedirectory', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 't-activedirectory', 1);
++-- associations to LDAP datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-userassoc', '', 'tt-ldapuser', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupassoc', '', 'tt-ldapgroup', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-usercontassoc', '', 'tt-ldapusercontainer', 1, 't-ldapdatasource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-groupcontassoc', '', 'tt-ldapgroupcontainer', 1, 't-ldapdatasource', 1);
+ 
+-
+-
+ -------------------------
+ --- Association Types ---
+ -------------------------
+ 
+-
+-
+ INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-ldapmember', 'LDAP member');
+ INSERT INTO TopicProp VALUES ('at-ldapmember', 1, 'Name', 'LDAP member');
+ INSERT INTO TopicProp VALUES ('at-ldapmember', 1, 'Color', '#FFFF00');
+@@ -99,54 +94,99 @@
+ INSERT INTO TopicProp VALUES ('at-ldapmemberof', 1, 'Name', 'LDAP member of');
+ INSERT INTO TopicProp VALUES ('at-ldapmemberof', 1, 'Color', '#FFAA00');
+ 
+-
+-
+ ------------------
+ --- Properties ---
+ ------------------
+ 
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-cn', 'cn');
++INSERT INTO TopicProp VALUES ('pp-cn', 1, 'Name', 'Common Name');
++INSERT INTO TopicProp VALUES ('pp-cn', 1, 'Visualization', 'Input Field');
+ 
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-description', 'description');
++INSERT INTO TopicProp VALUES ('pp-description', 1, 'Name', 'Description');
++INSERT INTO TopicProp VALUES ('pp-description', 1, 'Visualization', 'Input Field');
+ 
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-givenname', 'givenName');
++INSERT INTO TopicProp VALUES ('pp-givenname', 1, 'Name', 'Given Name');
++INSERT INTO TopicProp VALUES ('pp-givenname', 1, 'Visualization', 'Input Field');
++
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-member', 'member');
+-INSERT INTO TopicProp VALUES ('pp-member', 1, 'Name', 'member');
++INSERT INTO TopicProp VALUES ('pp-member', 1, 'Name', 'Member');
+ INSERT INTO TopicProp VALUES ('pp-member', 1, 'Visualization', 'Multiline Input Field');
+ 
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-memberof', 'memberOf');
+-INSERT INTO TopicProp VALUES ('pp-memberof', 1, 'Name', 'memberOf');
++INSERT INTO TopicProp VALUES ('pp-memberof', 1, 'Name', 'Member Of');
+ INSERT INTO TopicProp VALUES ('pp-memberof', 1, 'Visualization', 'Multiline Input Field');
+ 
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-namesmall', 'name');
+-INSERT INTO TopicProp VALUES ('pp-namesmall', 1, 'Name', 'name');
+-INSERT INTO TopicProp VALUES ('pp-namesmall', 1, 'Visualization', 'Input Field');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-ou', 'ou');
++INSERT INTO TopicProp VALUES ('pp-ou', 1, 'Name', 'Organisational Unit');
++INSERT INTO TopicProp VALUES ('pp-ou', 1, 'Visualization', 'Input Field');
+ 
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-description', 'description');
+-INSERT INTO TopicProp VALUES ('pp-description', 1, 'Name', 'description');
+-INSERT INTO TopicProp VALUES ('pp-description', 1, 'Visualization', 'Input Field');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-sn', 'sn');
++INSERT INTO TopicProp VALUES ('pp-sn', 1, 'Name', 'Surname');
++INSERT INTO TopicProp VALUES ('pp-sn', 1, 'Visualization', 'Input Field');
+ 
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-userprincipalname', 'userPrincipalName');
+-INSERT INTO TopicProp VALUES ('pp-userprincipalname', 1, 'Name', 'userPrincipalName');
+-INSERT INTO TopicProp VALUES ('pp-userprincipalname', 1, 'Visualization', 'Input Field');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-uid', 'uid');
++INSERT INTO TopicProp VALUES ('pp-uid', 1, 'Name', 'User Identifier');
++INSERT INTO TopicProp VALUES ('pp-uid', 1, 'Visualization', 'Input Field');
+ 
+-
+-
+ ------------------
+ --- Datasource ---
+ ------------------
+ 
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-ldapdatasource', 'LDAP-Source');
++INSERT INTO TopicProp VALUES ('t-ldapdatasource', 1, 'Name', 'LDAP-Source');
++INSERT INTO TopicProp VALUES ('t-ldapdatasource', 1, 'URL', '<A HREF="ldap://localhost?login=ou=dm,ou=services,dc=deepamehta,dc=de&amp;password=secret&amp;base=dc=deepamehta,dc=de&amp;scope=SUBTREE_SCOPE">ldap://localhost?login=ou=dm,ou=services,dc=deepamehta,dc=de&amp;password=secret&amp;base=dc=deepamehta,dc=de&amp;scope=SUBTREE_SCOPE</A>');
++INSERT INTO TopicProp VALUES ('t-ldapdatasource', 1, 'Driver', 'com.sun.jndi.ldap.LdapCtxFactory');
++INSERT INTO Topic VALUES ('tt-webpage', 1, 1, 't-openldapwebpage', 'OpenLDAP');
++INSERT INTO TopicProp VALUES ('t-openldapwebpage', 1, 'Name', 'OpenLDAP');
++INSERT INTO TopicProp VALUES ('t-openldapwebpage', 1, 'URL', '<A HREF="http://www.openldap.org/">http://www.openldap.org/</A>');
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-ad-openldapdatasource', '', 't-openldapwebpage', 1, 't-ldapdatasource', 1);
+ 
++--------------------
++--- Workpad View ---
++--------------------
+ 
+-INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-activedirectory', 'ActiveDirectory (LDAP-Source)');
+-INSERT INTO TopicProp VALUES ('t-activedirectory', 1, 'Name', 'ActiveDirectory (LDAP-Source)');
+-INSERT INTO TopicProp VALUES ('t-activedirectory', 1, 'URL', '<A HREF="ldap://192.168.251.145:389?login=olaf@staps2000.local&amp;password=olaf&amp;baseDN=DC=staps2000,DC=local&amp;searchScope=SUBTREE_SCOPE">ldap://192.168.251.145:389?login=olaf@staps2000.local&amp;password=olaf&amp;baseDN=DC=staps2000,DC=local&amp;searchScope=SUBTREE_SCOPE</A>');
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-ldapmap', 'LDAP-Directory Map');
++INSERT INTO TopicProp VALUES ('t-ldapmap', 1, 'Name', 'LDAP-Directory Map');
++INSERT INTO ViewTopic VALUES ('t-ldaptopicmap', 1, 't-ldapmap', 1, 300, 100);
+ 
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-openldapwebpage', 1, 300, 50);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-ldapdatasource', 1, 300, 100);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-groupassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-groupcontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-openldapdatasource', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-userassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-usercontassoc', 1);
+ 
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'at-ldapmember', 1, 100, 300);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-ou', 1, 100, 150);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-cn', 1, 100, 200);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-member', 1, 100, 250);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapgroup', 1, 225, 200);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapgroupcontainer', 1, 225, 150);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-cngroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-group-groupcontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-membergroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ougroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ougroupcontainer', 1);
+ 
+---------------------
+---- Example View ---
+---------------------
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'at-ldapmemberof', 1, 500, 350);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-givenname', 1, 500, 200);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-sn', 1, 500, 250);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-memberof', 1, 500, 300);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'pp-uid', 1, 500, 150);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapuser', 1, 375, 200);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 'tt-ldapusercontainer', 1, 375, 150);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-givennameuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-memberofuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-snuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-user-usercontassoc', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-uiduser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-uidusercontainer', 1);
+ 
+-
+-
+-INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-activedirectorymap', 'ActiveDirectory');
+-INSERT INTO TopicProp VALUES ('t-activedirectorymap', 1, 'Name', 'ActiveDirectory');
+-INSERT INTO ViewTopic VALUES ('t-ldapworkspace', 1, 't-activedirectorymap', 1, 300, 100);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-ldapworkspace', 1, 300, 250);
++INSERT INTO ViewTopic VALUES ('t-ldapmap', 1, 't-rootuser', 1, 300, 300);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ldapworkspacegroup', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-ldapworkspaceuser', 1);
++INSERT INTO ViewAssociation VALUES ('t-ldapmap', 1, 'a-ad-rootuserldapworkspace', 1);
+
+Added: branches/ldap/install/examples/ldap/readme.txt
+===================================================================
+--- branches/ldap/install/examples/ldap/readme.txt	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/readme.txt	2007-07-26 13:25:07 UTC (rev 167)
+@@ -0,0 +1,71 @@
++Dateien in diesem Verzeichnis:
++
++ldap.sql
++* erzeugt einen &quot;LDAP&quot;-Workspace und zurgeh&#246;rige DM-Kommnikationstools
++* die LDAP-Typen werden dem erzeugten Workspace zugwiesen (TypeAccess)
++
++build.xml
++* packt die TopicType und Container-Implementierungen in ein Archiv
++
++
++
++Installation der LDAP Beispiele:
++
++
++1. Einen LDAP Server installieren und mit Testdaten best&#252;cken. 
++
++daf&#252;r empfiehlt sich die Installation einer lokalen OpenLDAP-Instanz, siehe:
++# <A HREF="http://www.openldap.org/doc/admin23/quickstart.html">http://www.openldap.org/doc/admin23/quickstart.html</A>
++
++in der Konfigurations-Datei slapd.conf folgende Anpassungen vornehmen:
++# suffix &quot;dc=deepamehta,dc=de&quot;
++# rootdn &quot;cn=admin,dc=deepamehta,dc=de&quot;
++# rootpw secret
++
++vor dem Start des Dienstes noch die Testdaten hinzuf&#252;gen
++und dann den OpenLDAP Server starten:
++# slapadd -l install/examples/ldap/deepamehta.ldif
++
++F&#252;r die Bearbeitung der Daten und einen ersten Verbindungstest 
++emfehlen sich Programme wie:
++# <A HREF="http://www.jxplorer.org/">http://www.jxplorer.org/</A>
++# <A HREF="http://directory.apache.org/studio/ldap-browser-plugin.html">http://directory.apache.org/studio/ldap-browser-plugin.html</A>
++
++F&#252;r den Zugriff auf das Verzeichnis kann der hinterlegte rootdn
++oder einer der angelegten Benutzer verwendet werden.
++
++
++2. Datenbank-Patch einspielen
++
++# ant patchdb -Dpatch=install/examples/ldap/ldap.sql
++
++
++3. Bibliothek mit den Custom-Implementierungen erstellen
++
++Archiv erzeugen (install/examples/ldap/LDAPTopics.jar):
++# ant -f install/examples/ldap/build.xml
++
++weiterhin ist u.a. noch MessageBoard erforderlich, also vorher:
++# ant -f install/examples/messageboard/build.xml jar
++
++Anmerkung: die Klassen in den Archiven sind in den Topic-Definitionen mit der
++Eigenschaft CustomImplementation zugewiesen.
++
++
++4. Die Archive m&#252;ssen in den Classpath aufgenommen werden, daf&#252;r in der Datei
++config.xml den Abschnitt &quot;DeepaMehta Applications Include&quot; pr&#252;fen, z.B.:
++# &lt;pathelement location=&quot;${examples}/ldap/LDAPTopics.jar&quot;/&gt;
++
++
++5. Nach dem DeepaMehta-Start stehen in der Suche die &quot;LDAP Users&quot; und &quot;LDAP
++Groups&quot;-Container f&#252;r eine Abfrage des Verzeichnisses zur Verf&#252;gung. Um eine
++Suche auf einem LDAP-Server auszuf&#252;hren, k&#246;nnen die Einstellungen der
++DataSource &quot;LDAP-Source&quot; in der &quot;LDAP-Directory Map&quot; angepasst werden,
++voreingestellt ist ein Zugriff auf die Beispiel-Datenbank. Ein guter
++Einstiegspunkt ist der LDAP-Workspace, in dem alle Topics f&#252;r einen &#220;berlick
++zusammengetragen sind.
++
++
++Anmerkungen zur aktuellen bzw. jetzt wieder lauff&#228;higen Implementierung:
++Die R&#252;ckgabe von getNameAttribute() der ElementContainerTopic-Abbleitung wird f&#252;r den
++DataConsumerTopic.revealTopicTypes()-Aufruf als Eigenschaft genutzt.
+\ No newline at end of file
+
+Added: branches/ldap/install/examples/ldap/screenshot.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/ldap/install/examples/ldap/screenshot.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupContainerTopic.java
+===================================================================
+--- branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupContainerTopic.java	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupContainerTopic.java	2007-07-26 13:25:07 UTC (rev 167)
+@@ -4,8 +4,9 @@
+ import de.deepamehta.service.ApplicationService;
+ 
+ /**
+- *
++ * 
+  */
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
+ public class LdapGroupContainerTopic extends ElementContainerTopic {
+ 
+ 	String[] groupingProperties = {};
+@@ -14,44 +15,34 @@
+ 		super(topic, as);
+ 	}
+ 
+-
+-
+ 	// *********************************************************
+ 	// *** Implementation of abstract ContainerTopic methods ***
+ 	// *********************************************************
+ 
+-
+-
+ 	protected String getContentType() {
+-		return &quot;group&quot;;
++		return &quot;groupOfNames&quot;;
+ 	}
+ 
+ 	protected String getContentTypeID() {
+ 		return &quot;tt-ldapgroup&quot;;
+ 	}
+ 
+-
+-
+ 	// ***************************************************************
+ 	// *** Implementation of abstract ElementContainerTopic method ***
+ 	// ***************************************************************
+ 
+-
+-
+-	public String getNameAttribute() {		// ### was getNameProperty()
+-		return &quot;cn&quot;;
++	public String getNameAttribute() { // ### was getNameProperty()
++		return &quot;ou&quot;;
+ 	}
+ 
+-
+-
+ 	// ###
+ 
+ 	protected String[] getGroupingProperties() {
+ 		return groupingProperties;
+ 	}
+-	
++
+ 	/**
+-	 *  Overwritten fro ElementContainer
++	 * Overwritten fro ElementContainer
+ 	 */
+ 	protected String createTopicID(String elementID) {
+ 		return &quot;t-&quot; + getContentType() + &quot;-&quot; + elementID.hashCode();
+
+Modified: branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupTopic.java
+===================================================================
+--- branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupTopic.java	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapGroupTopic.java	2007-07-26 13:25:07 UTC (rev 167)
+@@ -2,54 +2,43 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.service.Session;
+-import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
+ 
+-
+-
+ /**
+- *
++ * 
+  */
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
+ public class LdapGroupTopic extends DataConsumerTopic {
+ 
+-
+-
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+ 
+-
+-
+ 	public LdapGroupTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
+-
+-
+ 	// **************
+ 	// *** Method ***
+ 	// **************
+ 
+-
+-
+ 	// ----------------------
+ 	// --- Defining Hooks ---
+ 	// ----------------------
+ 
+-
+-
+ 	public CorporateDirectives init(int initLevel, Session session)
+-															throws TopicInitException {
++			throws TopicInitException {
+ 		CorporateDirectives directives = super.init(initLevel, session);
+ 		//
+ 		if (initLevel == INITLEVEL_1) {
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt;&gt;&gt; LdapGroupTopic.init(&quot; + initLevel + &quot;): &quot; + this +
+-					&quot; -- registers relation&quot;);
++				System.out.println(&quot;&gt;&gt;&gt; LdapGroupTopic.init(&quot; + initLevel
++						+ &quot;): &quot; + this + &quot; -- registers relation&quot;);
+ 			}
+-			registerRelationX(&quot;at-ldapmember&quot;, &quot;user&quot;, &quot;member&quot;, &quot;tt-ldapuser&quot;, &quot;user&quot;,
+-				&quot;cn&quot;);
++			registerRelationX(&quot;at-ldapmember&quot;, &quot;cn&quot;, &quot;member&quot;, &quot;tt-ldapuser&quot;,
++					&quot;person&quot;, &quot;cn&quot;);
+ 		}
+ 		//
+ 		return directives;
+
+Modified: branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserContainerTopic.java
+===================================================================
+--- branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserContainerTopic.java	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserContainerTopic.java	2007-07-26 13:25:07 UTC (rev 167)
+@@ -3,62 +3,45 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.service.ApplicationService;
+ 
+-
+-
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
+ public class LdapUserContainerTopic extends ElementContainerTopic {
+ 
++	String[] groupingProperties = {}; // ###
+ 
+-
+-	String[] groupingProperties = {};	// ###
+-
+-
+-
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+ 
+-
+-
+ 	public LdapUserContainerTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
+-
+-
+ 	// *********************************************************
+ 	// *** Implementation of abstract ContainerTopic methods ***
+ 	// *********************************************************
+ 
+-
+-
+ 	protected String getContentType() {
+-		return &quot;user&quot;;
++		return &quot;person&quot;;
+ 	}
+ 
+ 	protected String getContentTypeID() {
+ 		return &quot;tt-ldapuser&quot;;
+ 	}
+ 
+-
+-
+ 	// ***************************************************************
+ 	// *** Implementation of abstract ElementContainerTopic method ***
+ 	// ***************************************************************
+ 
+-
+-
+-	public String getNameAttribute() {		// ### was getNameProperty()
+-		return &quot;cn&quot;;	// ###
++	public String getNameAttribute() { // ### was getNameProperty()
++		return &quot;cn&quot;; // ###
+ 	}
+ 
+-
+-
+ 	// ###
+ 
+ 	protected String[] getGroupingProperties() {
+ 		return groupingProperties;
+ 	}
+-	
++
+ 	// Overrides ElementContainer
+ 	protected String createTopicID(String elementID) {
+ 		return &quot;t-&quot; + getContentType() + &quot;-&quot; + elementID.hashCode();
+
+Modified: branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserTopic.java
+===================================================================
+--- branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserTopic.java	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/ldap/src/de/deepamehta/topics/LdapUserTopic.java	2007-07-26 13:25:07 UTC (rev 167)
+@@ -2,55 +2,46 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.TopicInitException;
+-import de.deepamehta.service.Session;
+-import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
+ 
+-
+-
+ /**
+- *
++ * 
+  */
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
+ public class LdapUserTopic extends DataConsumerTopic {
+ 
+-
+-
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+ 
+-
+-
+ 	public LdapUserTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
+-
+-
+ 	// ----------------------
+ 	// --- Defining Hooks ---
+ 	// ----------------------
+ 
+-
+-
+ 	public CorporateDirectives init(int initLevel, Session session)
+-															throws TopicInitException {
++			throws TopicInitException {
+ 		CorporateDirectives directives = super.init(initLevel, session);
+ 		//
+ 		if (initLevel == INITLEVEL_1) {
+ 			if (LOG_TOPIC_INIT) {
+-				System.out.println(&quot;&gt;&gt;&gt; LdapUserTopic.init(&quot; + initLevel + &quot;): &quot; + this +
+-					&quot; -- register relation&quot;);
++				System.out.println(&quot;&gt;&gt;&gt; LdapUserTopic.init(&quot; + initLevel
++						+ &quot;): &quot; + this + &quot; -- register relation&quot;);
+ 			}
+-			registerRelationX(&quot;at-ldapmemberof&quot;, &quot;group&quot;, &quot;memberOf&quot;, &quot;tt-ldapgroup&quot;,
+-				&quot;group&quot;, &quot;cn&quot;);
++			registerRelationX(&quot;at-ldapmemberof&quot;, &quot;ou&quot;, &quot;memberOf&quot;,
++					&quot;tt-ldapgroup&quot;, &quot;groupOfNames&quot;, &quot;ou&quot;);
+ 		}
+ 		//
+ 		return directives;
+ 	}
+-	
++
+ 	/**
+-	 *  Overwritten from DataConsumerTopic
++	 * Overwritten from DataConsumerTopic
+ 	 */
+ 	protected String createTopicID(String topicTypeName, String id) {
+ 		return &quot;t-&quot; + topicTypeName + &quot;-&quot; + id.hashCode();
+
+Modified: branches/ldap/install/examples/messageboard/build.xml
+===================================================================
+--- branches/ldap/install/examples/messageboard/build.xml	2007-07-25 16:26:05 UTC (rev 166)
++++ branches/ldap/install/examples/messageboard/build.xml	2007-07-26 13:25:07 UTC (rev 167)
+@@ -7,6 +7,7 @@
+ 	&lt;property name=&quot;project.name&quot; value=&quot;messageboard&quot;/&gt;
+ 	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot;/&gt;
+ 	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot;/&gt;
++	&lt;property name=&quot;server&quot; location=&quot;../../server&quot;/&gt;
+ 	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
+ 
+ 	&lt;import file=&quot;../../../config.xml&quot;/&gt;
+@@ -18,8 +19,8 @@
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+ 				&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000011.html">[deepamehta-svn] r166 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install install/db/patches libs
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

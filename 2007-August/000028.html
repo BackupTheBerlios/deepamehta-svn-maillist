@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r183 - in branches/eschnepel: . install/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r183%20-%20in%20branches/eschnepel%3A%20.%20install/config&In-Reply-To=%3C200708281901.l7SJ1ek0000966%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000027.html">
+   <LINK REL="Next"  HREF="000029.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r183 - in branches/eschnepel: . install/config</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r183%20-%20in%20branches/eschnepel%3A%20.%20install/config&In-Reply-To=%3C200708281901.l7SJ1ek0000966%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r183 - in branches/eschnepel: . install/config">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug 28 21:01:40 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000027.html">[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config
+</A></li>
+        <LI>Next message: <A HREF="000029.html">[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-28 21:01:40 +0200 (Tue, 28 Aug 2007)
+New Revision: 183
+
+Added:
+   branches/eschnepel/install/config/dm-derby-intern.properties
+   branches/eschnepel/install/config/dm-hsqldb-intern.properties
+   branches/eschnepel/install/config/dm-mysql.properties
+Removed:
+   branches/eschnepel/install/config/db-derby-intern.properties
+   branches/eschnepel/install/config/db-hsqldb-intern.properties
+   branches/eschnepel/install/config/db-mysql.properties
+Modified:
+   branches/eschnepel/build.properties
+   branches/eschnepel/build.xml
+   branches/eschnepel/install/config/dm.properties
+Log:
+first step to introduce database-config files
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/build.properties	2007-08-28 19:01:40 UTC (rev 183)
+@@ -30,5 +30,5 @@
+ #dm.instance			=hsqldb-intern
+ #dm.instance			=mysql
+ 
+-dm.instance.property-file=${config}/db-${dm.instance}.properties
++dm.instance.property-file=${config}/dm-${dm.instance}.properties
+ dm.instance.build-property-file=${config}/build-${dm.instance}.properties
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/build.xml	2007-08-28 19:01:40 UTC (rev 183)
+@@ -62,8 +62,8 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;installweb-ask&quot;&gt;
+-		&lt;echo message=&quot;You are about to install the example web applications to '${web.deploy.dir}'.&quot; /&gt;
+-		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to'${web.lib.dir}'.&quot; /&gt;
++		&lt;echo message=&quot;You are about to install the web applications to '${web.deploy.dir}'.&quot; /&gt;
++		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to '${web.lib.dir}'.&quot; /&gt;
+ 		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Servlet Engine')&quot; /&gt;
+ 		&lt;echo message=&quot;or use command line options -Dweb.deploy.dir=... -Dweb.lib.dir=...&quot; /&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.installweb&quot; /&gt;
+@@ -77,7 +77,11 @@
+ 	&lt;target name=&quot;installweb-unless&quot; unless=&quot;do.abortweb&quot; depends=&quot;installweb-ask&quot;&gt;
+ 		&lt;!-- copy shared libraries --&gt;
+ 		&lt;antcall target=&quot;deploylibs&quot; /&gt;
+-		&lt;copy file=&quot;${libpath}/mysql-3.1.7.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy todir=&quot;${web.lib.dir}&quot; &gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
+ 		&lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+@@ -89,11 +93,11 @@
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;installweb&quot; depends=&quot;installweb-if,installweb-unless&quot; /&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
++	&lt;target name=&quot;deploy&quot; depends=&quot;build,installweb-ask&quot;&gt;
+ 		&lt;antcall target=&quot;deploylibs&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;deploylibs&quot;&gt;
++	&lt;target name=&quot;deploylibs&quot; unless=&quot;do.abortweb&quot;&gt;
+ 		&lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${server}/DeepaMehtaTopics.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 	&lt;/target&gt;
+
+Deleted: branches/eschnepel/install/config/db-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-derby-intern.properties	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/install/config/db-derby-intern.properties	2007-08-28 19:01:40 UTC (rev 183)
+@@ -1,15 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=derby-intern
+-dm.comporate-memory.class=RelationalCorporateMemory
+-
+-# Database
+-db.name				=DeepaMehta
+-db.user				=${db.name}
+-db.password			=dm
+-db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+-db.libs				=${libpath}/derby/*.jar
+-
+-db.derby.base-path	=${client}/db/${dm.instance}
+-db.derby.path		=${db.derby.base-path}/${db.name}
+-
+-db.url				=jdbc:derby:${db.derby.path}
+
+Deleted: branches/eschnepel/install/config/db-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-28 19:01:40 UTC (rev 183)
+@@ -1,14 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=hsqldb-intern
+-dm.comporate-memory.class=RelationalCorporateMemory
+-
+-# Database
+-db.name				=DeepaMehta
+-db.user				=sa
+-db.password			=
+-db.driver			=org.hsqldb.jdbcDriver
+-db.libs				=${libpath}/hsqldb.jar
+-
+-db.hsqldb.path		=${client}/db/${dm.instance}/${db.name}
+-
+-db.url				=jdbc:hsqldb:${db.hsqldb.path}
+
+Deleted: branches/eschnepel/install/config/db-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql.properties	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/install/config/db-mysql.properties	2007-08-28 19:01:40 UTC (rev 183)
+@@ -1,14 +0,0 @@
+-# DeepaMehta Service
+-# dm.instance		=mysql
+-dm.comporate-memory.class=RelationalCorporateMemory
+-
+-# Database
+-db.name				=DeepaMehta2
+-db.user				=dm2
+-db.password			=dm
+-db.driver			=org.gjt.mm.mysql.Driver
+-db.libs				=${libpath}/mysql-3.1.7.jar
+-
+-db.host				=127.0.0.1
+-
+-db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true
+
+Copied: branches/eschnepel/install/config/dm-derby-intern.properties (from rev 182, branches/eschnepel/install/config/db-derby-intern.properties)
+
+Copied: branches/eschnepel/install/config/dm-hsqldb-intern.properties (from rev 182, branches/eschnepel/install/config/db-hsqldb-intern.properties)
+
+Copied: branches/eschnepel/install/config/dm-mysql.properties (from rev 182, branches/eschnepel/install/config/db-mysql.properties)
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-08-28 09:40:36 UTC (rev 182)
++++ branches/eschnepel/install/config/dm.properties	2007-08-28 19:01:40 UTC (rev 183)
+@@ -9,4 +9,4 @@
+ client				=../client
+ libpath				=../../libs
+ 
+-dm.instance.property-file=${config}/db-${dm.instance}.properties
++dm.instance.property-file=${config}/dm-${dm.instance}.properties
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000027.html">[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config
+</A></li>
+	<LI>Next message: <A HREF="000029.html">[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

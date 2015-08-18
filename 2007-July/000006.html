@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r161 - in trunk/develop/src/de/deepamehta: .	assocs client service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r161%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09assocs%20client%20service&In-Reply-To=%3C200707042058.l64KwEWM006200%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r161 - in trunk/develop/src/de/deepamehta: .	assocs client service</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r161%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09assocs%20client%20service&In-Reply-To=%3C200707042058.l64KwEWM006200%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r161 - in trunk/develop/src/de/deepamehta: .	assocs client service">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Jul  4 22:58:14 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000007.html">[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-07-04 22:57:54 +0200 (Wed, 04 Jul 2007)
+New Revision: 161
+
+Added:
+   trunk/develop/src/de/deepamehta/TopicGeometry.java
+Modified:
+   trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   trunk/develop/src/de/deepamehta/client/PresentationDirectives.java
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+   trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+Log:
+1) Bug #009733 fixed: Access restrictions are not respected for associations. 2) missing file TopicGeometry.java added
+
+Added: trunk/develop/src/de/deepamehta/TopicGeometry.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/TopicGeometry.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/TopicGeometry.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -0,0 +1,41 @@
++package de.deepamehta;
++
++import java.io.Serializable;
++
++
++
++/**
++ * A model for a topic geometry.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 7.4.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class TopicGeometry implements Serializable {
++
++	public String topicID;
++	public int x1, y1, x2, y2;
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	/**
++	 * References checked: 7.4.2007 (2.0b8)
++	 *
++	 * @see		de.deepamehta.topics.TopicMapTopic#paintTopics
++	 */
++	public TopicGeometry(String topicID, int x1, int y1, int x2, int y2) {
++		this.topicID = topicID;
++		this.x1 = x1;
++		this.y1 = y1;
++		this.x2 = x2;
++		this.y2 = y2;
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -331,8 +331,43 @@
+ 		return null;
+ 	}
+ 
++	/**
++	 * Applications can use this hook to disable certain properties of this association.
++	 * Disabled properties are visible but not editable by the user.
++	 * &lt;P&gt;
++	 * This hook can be utilized to implement an access control mechanism.
++	 * The default implementation realizes the following rule: an association is only editable
++	 * if the current user
++	 * 1) is the owner of the association, or&lt;br&gt;
++	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
++	 * 3) has the &quot;Editor&quot; role within a workspace the resp. association type is assigned to.
++	 * &lt;P&gt;
++	 * This hook is triggered every time this association is selected.
++	 *
++	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
++	 *
++	 * @return		A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 */
++	public Vector disabledProperties(Session session) {
++		// ### almost identical to LiveTopic.disabledProperties()
++		Vector disabledProps = new Vector();
++		//
++		TypeTopic type = as.type(this);
++		String userID = session.getUserID();
++		if (!as.isAssocOwner(getID(), session) &amp;&amp; !as.isAdministrator(userID) &amp;&amp; !as.hasEditorRole(userID, getType())) {
++			// disable all properties
++			Enumeration e = type.getTypeDefinition().elements();
++			while (e.hasMoreElements()) {
++				PropertyDefinition propDef = (PropertyDefinition) e.nextElement();
++				disabledProps.addElement(propDef.getPropertyName());
++			}
++		}
++		//
++		return disabledProps;
++	}
+ 
+ 
++
+ 	// ------------------------------
+ 	// --- Handling Detail Window ---
+ 	// ------------------------------
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -21,7 +21,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 6.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -83,12 +83,9 @@
+ 					directives.addElement(new Directive(type, param1, param3));
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
++				case DIRECTIVE_SELECT_ASSOCIATION:
+ 					directives.addElement(new Directive(type, param1, param2, param3, param4, param5));
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					// Note: param3 (disables properties) not yet implemented ###
+-					directives.addElement(new Directive(type, param1, param2, param4, param5));
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// Note: param3 (retype allowed?) not yet implemented ###
+ 					directives.addElement(new Directive(type, param1, param2, param4));
+@@ -287,6 +284,7 @@
+ 					directives.addElement(new Directive(type, param1, param2));
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
++				case DIRECTIVE_SELECT_ASSOCIATION:
+ 					param1 = in.readUTF();
+ 					param2 = DeepaMehtaUtils.readHashtable(in);
+ 					param3 = DeepaMehtaUtils.readStrings(in);
+@@ -294,14 +292,6 @@
+ 					param5 = DeepaMehtaUtils.readHashtable(in);
+ 					directives.addElement(new Directive(type, param1, param2, param3, param4, param5));
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					param1 = in.readUTF();
+-					param2 = DeepaMehtaUtils.readHashtable(in);
+-					// ### param3 = DeepaMehtaUtils.readStrings(in);
+-					param4 = new Boolean(in.readBoolean());
+-					param5 = DeepaMehtaUtils.readHashtable(in);
+-					directives.addElement(new Directive(type, param1, param2, param4, param5));
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					param1 = DeepaMehtaUtils.readHashtable(in);
+ 					param2 = DeepaMehtaUtils.readStrings(in);
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -35,7 +35,7 @@
+  * Main controler of the graphical DeepaMehta frontend.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 10.12.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1291,10 +1291,10 @@
+ 					//
+ 					assocID = (String) param1;
+ 					props = (Hashtable) param2;
+-					// ### Vector disabledProps = (Vector) param3;
+-					retypeIsAllowed = ((Boolean) param3).booleanValue();
+-					baseURLs = (Hashtable) param4;
+-					selectAssociation(assocID, props, baseURLs, retypeIsAllowed, topicmapID, viewMode);
++					disabledProps = (Vector) param3;
++					retypeIsAllowed = ((Boolean) param4).booleanValue();
++					baseURLs = (Hashtable) param5;
++					selectAssociation(assocID, props, baseURLs, disabledProps, retypeIsAllowed, topicmapID, viewMode);
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// error check
+@@ -1811,14 +1811,14 @@
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+-	private void selectAssociation(String assocID, Hashtable props, Hashtable baseURLs, boolean retypeIsAllowed,
++	private void selectAssociation(String assocID, Hashtable props, Hashtable baseURLs, Vector disabledProps, boolean retypeIsAllowed,
+ 															String topicmapID, String viewmode) {
+ 		TopicmapEditorModel editor = getEditor(topicmapID);
+ 		editor.selectAssociation(assocID);
+ 		// --- update property panel ---
+ 		PresentationTopicMap topicmap = editor.getTopicMap();
+ 		BaseAssociation assoc = (BaseAssociation) topicmap.getAssociation(assocID);
+-		propertyPanel.assocSelected(assoc, topicmap, viewmode, props, baseURLs /* ###, disabledProps */, retypeIsAllowed);
++		propertyPanel.assocSelected(assoc, topicmap, viewmode, props, baseURLs, disabledProps, retypeIsAllowed);
+ 	}
+ 
+ 	/**
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -32,7 +32,7 @@
+  * &lt;P&gt;
+  * There is one instance created (singleton).
+  * &lt;HR&gt;
+- * Last functional change: 5.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 8.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 10.6.2001 (2.0a11-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -371,7 +371,7 @@
+ 	 * @see		PresentationService#selectTopic
+ 	 */
+ 	void topicSelected(BaseTopic topic, PresentationTopicMap topicmap, String viewmode,
+-									Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++							Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
+ 		setSelection(topic, topicmap, viewmode, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		updateTopic(topic);
+ 	}
+@@ -379,9 +379,9 @@
+ 	/**
+ 	 * @see		PresentationService#selectAssociation
+ 	 */
+-	void assocSelected(BaseAssociation assoc, PresentationTopicMap topicmap,
+-												String viewmode, Hashtable props, Hashtable baseURLs, boolean retypeIsAllowed) {
+-		setSelection(assoc, topicmap, viewmode, props, baseURLs, retypeIsAllowed);
++	void assocSelected(BaseAssociation assoc, PresentationTopicMap topicmap, String viewmode,
++							Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++		setSelection(assoc, topicmap, viewmode, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		updateAssoc(assoc);
+ 	}
+ 
+@@ -533,8 +533,8 @@
+ 	 * Updates the model to reflect the specified association is selected now.
+ 	 */
+ 	private void setSelection(BaseAssociation assoc, PresentationTopicMap topicmap,
+-					String viewmode, Hashtable props, Hashtable baseURLs /* ###, Vector disabledProperties */, boolean retypeIsAllowed) {
+-		Selection selection = new Selection(topicmap, assoc, props, baseURLs /* ###, disabledProperties */, retypeIsAllowed);
++					String viewmode, Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++		Selection selection = new Selection(topicmap, assoc, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		currentSelection = topicmap.getID() + &quot;:&quot; + viewmode;
+ 		selections.put(currentSelection, selection);
+ 		selected = SELECTED_ASSOCIATION;
+@@ -797,7 +797,7 @@
+ 			checkPropertyFields(typeID);
+ 			selectDataPanel(typeID);
+ 			showProperties(getProperties(), getBaseURLs(), typeID, true);	// all=true
+-			// ### disableProperties();
++			disableProperties();
+ 		} else if (selected == SELECTED_TOPICMAP) {
+ 			String typeID = getTopicmap().getEditor().getTopicmap().getType();
+ 			checkPropertyFields(typeID);
+@@ -877,7 +877,7 @@
+ 	 */
+ 	private void disableProperties() {
+ 		// --- get property fields ---
+-		Vector propertyFields = getPropertyFields();		// ### assocs
++		Vector propertyFields = getPropertyFields();
+ 		// error check
+ 		if (propertyFields == null) {
+ 			System.out.println(&quot;*** PropertyPanel.disableProperties(): no property &quot; +
+@@ -885,15 +885,12 @@
+ 			return;
+ 		}
+ 		// ---
+-		Enumeration e = propertyFields.elements();
+-		PropertyField propField;
+-		String propName;
+-		boolean enabled;
+ 		// go through all fields of the type definition		
++		Enumeration e = propertyFields.elements();
+ 		while (e.hasMoreElements()) {
+-			propField = (PropertyField) e.nextElement();
+-			propName = propField.getName();
+-			enabled = !getDisabledProperties().contains(propName);
++			PropertyField propField = (PropertyField) e.nextElement();
++			String propName = propField.getName();
++			boolean enabled = !getDisabledProperties().contains(propName);
+ 			propField.setEnabled(enabled);
+ 		}
+ 	}
+@@ -1706,12 +1703,12 @@
+ 		 * @see		PropertyPanel#setSelection(BaseAssociation assoc, PresentationTopicMap topicmap, String viewmode, Hashtable props)
+ 		 */
+ 		Selection(PresentationTopicMap topicmap, BaseAssociation assoc, Hashtable props, Hashtable baseURLs,
+-																	/* ###, Vector disabledProps */ boolean retypeIsAllowed) {
++																			Vector disabledProps, boolean retypeIsAllowed) {
+ 			this.topicmap = topicmap;
+ 			this.assoc = assoc;
+ 			this.props = props;
+ 			this.baseURLs = baseURLs;
+-			// ### this.disabledProps = disabledProps;
++			this.disabledProps = disabledProps;
+ 			this.retypeIsAllowed = retypeIsAllowed;
+ 			this.selected = SELECTED_ASSOCIATION;
+ 		}
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -1096,22 +1096,42 @@
+ 
+ 	/**
+ 	 * Returns the properties to be disabled for the specified topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Triggers the {@link de.deepamehta.topics.LiveTopic#disabledProperties disabledProperties() hook}
+ 	 * and returns the resulting property names.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Called for &lt;CODE&gt;DIRECTIVE_SELECT_TOPIC&lt;/CODE&gt; and &lt;CODE&gt;DIRECTIVE_SELECT_TOPICMAP&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 7.6.2007 (2.0b8)
+ 	 *
+ 	 * @return	A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		CorporateCommands#addTopicPropertyCommands
+ 	 */
+-	Vector disabledProperties(String topicID, int version, Session session) {
++	Vector disabledTopicProperties(String topicID, int version, Session session) {
+ 		// --- trigger disabledProperties() hook ---
+ 		return getLiveTopic(topicID, version).disabledProperties(session);
+ 	}
+ 
++	/**
++	 * Returns the properties to be disabled for the specified association.
++	 * &lt;p&gt;
++	 * Triggers the {@link de.deepamehta.assocs.LiveAssociation#disabledProperties disabledProperties() hook}
++	 * and returns the resulting property names.
++	 * &lt;p&gt;
++	 * Called for &lt;CODE&gt;DIRECTIVE_SELECT_ASSOCIATION&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 7.6.2007 (2.0b8)
++	 *
++	 * @return	A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 *
++	 * @see		CorporateDirectives#updateCorporateMemory
++	 */
++	Vector disabledAssocProperties(String assocID, int version, Session session) {
++		// --- trigger disabledProperties() hook ---
++		return getLiveAssociation(assocID, version).disabledProperties(session);
++	}
++
+ 	// ---
+ 
+ 	Hashtable getTopicPropertyBaseURLs(String topicID, int version) {
+@@ -2657,6 +2677,9 @@
+ 		return cm.getAssociationData(assoc.getID(), assoc.getVersion(), rolename).equals(SWITCH_ON);
+ 	}
+ 
++	/**
++	 * @param	typeID		a topic type ID or an association type ID
++	 */
+ 	public boolean hasEditorRole(String userID, String typeID) {
+ 		Vector workspaces = cm.getRelatedTopics(typeID, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_WORKSPACE, 1);
+ 		Enumeration e = workspaces.elements();
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-06-30 11:42:12 UTC (rev 160)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-07-04 20:57:54 UTC (rev 161)
+@@ -27,7 +27,7 @@
+  * with every constructor call).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 15.1.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -285,7 +285,7 @@
+ 					topicID = (String) param1;
+ 					// Note: param2 - param5 are set programatically
+ 					directive.param2 = as.getTopicProperties(topicID, 1);		// ### versions
+-					directive.param3 = as.disabledProperties(topicID, 1, session);
++					directive.param3 = as.disabledTopicProperties(topicID, 1, session);
+ 					directive.param4 = new Boolean(as.retypeTopicIsAllowed(topicID, 1, session));
+ 					directive.param5 = as.getTopicPropertyBaseURLs(topicID, 1);
+ 					break;
+@@ -293,14 +293,14 @@
+ 					assocID = (String) param1;
+ 					// Note: param2 - param5 are set programatically
+ 					directive.param2 = as.getAssocProperties(assocID, 1);		// ### versions
+-					// ### directive.param3 = as.disabledProperties(assocID, 1);
++					directive.param3 = as.disabledAssocProperties(assocID, 1, session);
+ 					directive.param4 = new Boolean(as.retypeAssociationIsAllowed(assocID, 1, session));
+ 					directive.param5 = as.getAssocPropertyBaseURLs(assocID, 1);
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// Note: param1 - param4 are set programatically
+ 					directive.param1 = as.getTopicProperties(topicMapID, 1);	// ### versions
+-					directive.param2 = as.disabledProperties(topicMapID, 1, session);
++					directive.param2 = as.disabledTopicProperties(topicMapID, 1, session);
+ 					// ### directive.param3 = new Boolean(as.retypeIsAllowed(topicMapID, 1, session));
+ 					directive.param4 = as.getTopicPropertyBaseURLs(topicMapID, 1);
+ 					break;
+@@ -413,7 +413,7 @@
+ 				System.out.println(&quot;*** CorporateDirectives.updateCorporateMemory(): &quot; + e2 + &quot; (directive type: &quot; + dirType + &quot;)&quot;);
+ 				add(DIRECTIVE_SHOW_MESSAGE, &quot;Server error while updating the corporate memory according to a directive &quot; +
+ 					&quot;of type &quot; + dirType + &quot; (&quot; + e2.getMessage() + &quot;)&quot;, new Integer(NOTIFICATION_ERROR));
+-				// ### e2.printStackTrace();
++				e2.printStackTrace();
+ 			} catch (TopicInitException e2) {
+ 				// Note: may happen e.g. when a map containing a failed-to-open datasource is re-opened
+ 				System.out.println(&quot;*** CorporateDirectives.updateCorporateMemory(): &quot; + e2 + &quot; (directive type: &quot; + dirType + &quot;)&quot;);
+@@ -486,19 +486,13 @@
+ 					out.writeUTF((String) param3);					// topicmap ID
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
+-					out.writeUTF((String) param1);								// topic ID
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// topic properties
++				case DIRECTIVE_SELECT_ASSOCIATION:
++					out.writeUTF((String) param1);								// topic/association ID
++					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// topic/association properties
+ 					DeepaMehtaUtils.writeStrings((Vector) param3, out);			// disabled properties
+ 					out.writeBoolean(((Boolean) param4).booleanValue());		// retype allowed?
+ 					DeepaMehtaUtils.writeHashtable((Hashtable) param5, out);	// base URLs
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					out.writeUTF((String) param1);								// association ID
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// association properties
+-					// ### DeepaMehtaUtils.writeStrings((Vector) param3, out);	// disabled properties
+-					out.writeBoolean(((Boolean) param4).booleanValue());		// retype allowed?
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param5, out);	// base URLs
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					DeepaMehtaUtils.writeHashtable((Hashtable) param1, out);	// topic properties
+ 					DeepaMehtaUtils.writeStrings((Vector) param2, out);			// disabled properties
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000007.html">[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

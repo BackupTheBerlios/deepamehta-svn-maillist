@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r206 - trunk/install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r206%20-%20trunk/install/db/patches&In-Reply-To=%3C200709171958.l8HJwXtp032760%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000050.html">
+   <LINK REL="Next"  HREF="000054.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r206 - trunk/install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r206%20-%20trunk/install/db/patches&In-Reply-To=%3C200709171958.l8HJwXtp032760%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r206 - trunk/install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 17 21:58:33 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000050.html">[deepamehta-svn] r205 - trunk/install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000054.html">[deepamehta-svn] r207 - in trunk: . .settings ant ant/bin ant/etc	ant/etc/checkstyle ant/lib develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config	install/db install/db/db-specific install/db/patches	install/examples/artfacts install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/knoppixforum	install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db install/examples/musicforum libs	libs/derby
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-17 21:58:25 +0200 (Mon, 17 Sep 2007)
+New Revision: 206
+
+Modified:
+   trunk/install/db/patches/cm-2.17.sql
+Log:
+Patch cm-2.17.sql updated
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-09-17 19:50:24 UTC (rev 205)
++++ trunk/install/db/patches/cm-2.17.sql	2007-09-17 19:58:25 UTC (rev 206)
+@@ -127,13 +127,13 @@
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
+ INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
+ -- create relation to &quot;Person&quot;
+-INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-253', 'Attendee', 'tt-event', 1, 'tt-person', 1);
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Name', 'Attendee');
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Cardinality', 'many');
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Association Type ID', 'at-association');
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Web Info', 'Related Topic Name');
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Web Form', 'Related Topic Selector');
+-INSERT INTO AssociationProp VALUES ('a-253', 1, 'Ordinal Number', '150');
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-323', 'Attendee', 'tt-event', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Name', 'Attendee');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-323', 1, 'Ordinal Number', '150');
+ 
+ ---
+ --- assign topic types to workspace &quot;DeepaMehta&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000050.html">[deepamehta-svn] r205 - trunk/install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000054.html">[deepamehta-svn] r207 - in trunk: . .settings ant ant/bin ant/etc	ant/etc/checkstyle ant/lib develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config	install/db install/db/db-specific install/db/patches	install/examples/artfacts install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/knoppixforum	install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db install/examples/musicforum libs	libs/derby
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

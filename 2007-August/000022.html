@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r177%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708162109.l7GL9DnQ011623%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000021.html">
+   <LINK REL="Next"  HREF="000023.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r177%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708162109.l7GL9DnQ011623%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Aug 16 23:09:13 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000021.html">[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web
+</A></li>
+        <LI>Next message: <A HREF="000023.html">[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#22">[ date ]</a>
+              <a href="thread.html#22">[ thread ]</a>
+              <a href="subject.html#22">[ subject ]</a>
+              <a href="author.html#22">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-08-16 23:09:05 +0200 (Thu, 16 Aug 2007)
+New Revision: 177
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+Log:
+Bug #11783 fixed: Emails with empty subject can't be sent
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2007-08-16 12:45:26 UTC (rev 176)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2007-08-16 21:09:05 UTC (rev 177)
+@@ -29,13 +29,15 @@
+  * An email.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 25.6.2007 (2.0b7)&lt;BR&gt;
++ * Last sourcecode change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 21.11.2001 (2.0a13-post1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class EmailTopic extends LiveTopic {
+ 
++	private static final String TEXT_NO_SUBJECT = &quot;&lt;No Subject&gt;&quot;;
++
+ 	// email states
+ 	private static final String EMAIL_STATE_DRAFT = &quot;Draft&quot;;
+ 	private static final String EMAIL_STATE_RECEIVED = &quot;Received&quot;;
+@@ -143,7 +145,7 @@
+ 													String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		if (command.equals(CMD_SEND)) {
+-			sendMail(session.getUserID(), 1, directives);
++			sendMail(directives);
+ 		} else if (command.equals(CMD_REPLY)) {
+ 			createDraftForReply(session.getUserID(), 1, directives);
+ 		} else if (command.equals(CMD_FORWARD)) {
+@@ -174,7 +176,7 @@
+ 
+ 
+ 
+-	private void sendMail(String userID, int userVersion, CorporateDirectives directives) throws DeepaMehtaException {
++	private void sendMail(CorporateDirectives directives) throws DeepaMehtaException {
+ 		Hashtable data = getProperties();
+ 		if (!data.get(PROPERTY_STATUS).equals(EMAIL_STATE_DRAFT)) {
+ 			return;
+@@ -184,7 +186,6 @@
+ 		if (aRcpts.size() == 0) {
+ 			return;
+ 		}
+-		// ### String from = as.getEmailAddress(userID);
+ 		String author = (String) data.get(PROPERTY_FROM);
+ 		System.out.println(&quot;&gt;&gt;&gt; EmailTopic.sendMail(): &quot; + this + &quot;, author=\&quot;&quot; + author + &quot;\&quot;&quot;);
+ 		Properties mprops = new Properties();
+@@ -199,7 +200,11 @@
+ 				address[i] = new InternetAddress((String)aRcpts.get(i));
+ 			}
+ 			msg.setRecipients(Message.RecipientType.TO, address);
+-			msg.setSubject((String)data.get(PROPERTY_SUBJECT));
++			String subject = (String) data.get(PROPERTY_SUBJECT);
++			if (subject == null || subject.equals(&quot;&quot;)) {
++				subject = TEXT_NO_SUBJECT;
++			}
++			msg.setSubject(subject);
+ 			Date d = new Date();
+ 			msg.setSentDate(d);			
+ 			String msgText = (String) data.get(PROPERTY_TEXT);
+@@ -223,6 +228,9 @@
+ 			MimeMessage msg = new MimeMessage(session);
+ 			msg.setFrom(new InternetAddress(from));
+ 			msg.setRecipients(Message.RecipientType.TO, to);
++			if (subject == null || subject.equals(&quot;&quot;)) {
++				subject = TEXT_NO_SUBJECT;
++			}
+ 			msg.setSubject(subject);
+ 			msg.setText(body);
+ 			msg.setSentDate(new Date());
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000021.html">[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web
+</A></li>
+	<LI>Next message: <A HREF="000023.html">[deepamehta-svn] r178 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#22">[ date ]</a>
+              <a href="thread.html#22">[ thread ]</a>
+              <a href="subject.html#22">[ subject ]</a>
+              <a href="author.html#22">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

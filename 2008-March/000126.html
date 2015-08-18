@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r281 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r281%20-%20trunk&In-Reply-To=%3C200803011635.m21GZjLk007839%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000125.html">
+   <LINK REL="Next"  HREF="000127.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r281 - trunk</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r281%20-%20trunk&In-Reply-To=%3C200803011635.m21GZjLk007839%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r281 - trunk">jri at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar  1 17:35:45 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000125.html">[deepamehta-svn] r280 - in trunk: . install/examples	install/examples/artfacts install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies
+</A></li>
+        <LI>Next message: <A HREF="000127.html">[deepamehta-svn] r282 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#126">[ date ]</a>
+              <a href="thread.html#126">[ thread ]</a>
+              <a href="subject.html#126">[ subject ]</a>
+              <a href="author.html#126">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-01 17:35:44 +0100 (Sat, 01 Mar 2008)
+New Revision: 281
+
+Modified:
+   trunk/README-de.txt
+Log:
+README extended (still german only)
+
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-03-01 14:23:44 UTC (rev 280)
++++ trunk/README-de.txt	2008-03-01 16:35:44 UTC (rev 281)
+@@ -218,40 +218,56 @@
+ Einzelplatz-Anwendung
+ ---------------------
+ 
+-Die monolithische DeepaMehta-Anwendung ist passend f&#252;r Einzelplatz-Einsatz, d.h. wenn nicht mit anderen Nutzern &#252;ber das Netz gemeinsam gearbeitet werden soll.
++Die DeepaMehta-Einzelplatz-Anwendung ist die einfachste Art DeepaMehta zu starten, und ist ausreichend, wenn nicht &#252;ber das Netzwerk mit anderen Nutzern gemeinsam gearbeitet werden soll.
+ 
+-Zum Starten von DeepaMehta als Einzelplatz-Anwendung gebe folgendes Kommando ein:
++=&gt; Zum Starten der DeepaMehta-Einzelplatz-Anwendung gebe folgendes Kommando ein:
+ 
+ 	./run.sh
+ 
+ Es erscheint der DeepaMehta-Login-Dialog. Gebe &quot;root&quot; ein und dr&#252;cke 2x Return (initial hat der DeepaMehta-root-User kein Passwort). Der DeepaMehta Desktop erscheint.
+ 
++Zum Starten einer bestimmten DeepaMehta-Instanz setze auf der Kommandozeile mittels -D die &quot;dm.instance&quot; Einstellung auf die gew&#252;nschte Instanz:
++
++	./run.sh -Ddm.instance=myinstance
++
++Um eine bestimmte Instanz als Standard-Instanz zu benutzen, &#246;ffne mit einem Texteditor die Datei deepamehta/install/config/config.properties und setze die &quot;dm.instance&quot; Einstellung dort. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird. Informationen &#252;ber DeepaMehta-Instanzen findest Du unten unter &quot;Weitere Instanzen einrichten&quot; (Abschnitt &quot;Administration&quot;).
++
++=&gt; Zum Beenden der DeepaMehta-Sitzung schlie&#223;e das DeepaMehta-Fenster.
++
+ Technischer Sicherheitshinweis: die monolithische DeepaMehta-Anwendung integriert den DeepaMehta-Client und -Server in eine einzige Anwendung, wobei &#252;ber direkte Methoden kommuniziert wird. Es wird kein Netzwerkport ge&#246;ffnet.
+ 
+-Zum Beenden der DeepaMehta-Sitzung schlie&#223;e das DeepaMehta-Fenster.
+ 
+-
+ Client/Server-Anwendung
+ -----------------------
+ 
+-Technischer Sicherheitshinweis: Die DeepaMehta-Clients kommunizieren mit dem DeepaMehta-Server &#252;ber TCP Sockets. Der DeepaMehta-Server &#246;ffnet einen dedizierten TCP-Port (standardm&#228;&#223;ig ist das Port 7557).
++Die DeepaMehta-Client/Server-Anwendung erm&#246;glicht Nutzern &#252;ber das Netzwerk gemeinsam an Inhalten zu arbeiten.
+ 
+-Zum Starten des DeepaMehta-Servers gebe folgendes Kommando ein:
++=&gt; Zum Starten des DeepaMehta-Servers gebe folgendes Kommando ein:
+ 
+ 	./run.sh dms
+ 
+-Zum Starten der DeepaMehta-Client-Anwendung gebe folgendes Kommando ein:
++Zum Servieren einer bestimmten DeepaMehta-Instanz setze auf der Kommandozeile mittels -D die &quot;dm.instance&quot; Einstellung auf die gew&#252;nschte Instanz:
+ 
++	./run.sh dms -Ddm.instance=myinstance
++
++Um eine bestimmte Instanz als Standard-Instanz zu benutzen, &#246;ffne mit einem Texteditor die Datei deepamehta/install/config/config.properties und setze die &quot;dm.instance&quot; Einstellung dort. Die Standard-Instanz ist diejenige, die benutzt wird, wenn DeepaMehta ohne Angabe einer Instanz gestartet wird. Informationen &#252;ber DeepaMehta-Instanzen findest Du unten unter &quot;Weitere Instanzen einrichten&quot; (Abschnitt &quot;Administration&quot;).
++
++=&gt; Zum Starten der DeepaMehta-Client-Anwendung gebe folgendes Kommando ein:
++
+ 	./run.sh dmc
+ 
+-Zum Starten des DeepaMehta-Client-Applets resp. des signierten Client-Applets &#246;ffne die entsprechende Webseite in Deinem Webbrowser:
++Es erscheint der DeepaMehta-Login-Dialog. Gebe &quot;root&quot; ein und dr&#252;cke 2x Return (initial hat der DeepaMehta-root-User kein Passwort). Der DeepaMehta Desktop erscheint.
+ 
++=&gt; Zum Starten des DeepaMehta-Client-Applets resp. des signierten Client-Applets &#246;ffne die entsprechende Webseite in Deinem Webbrowser:
++
+ 	.../deepamehta/install/client/start.html
+ 	.../deepamehta/install/client/start-signed.html
+ 
+ Das Client-Applet erwartet, da&#223; der DeepaMehta-Server auf der gleichen Maschine l&#228;uft, von der das Applet geladen wurde. Der Port, auf dem das Client-Applet versucht, den Server zu kontaktieren, can in den HTML-Seiten durch Angabe des Applet-Parameters &quot;PORT&quot; eingestellt werden. Wenn kein &quot;Port&quot;-Parameter vorhanden ist, wird der Standard-Port (7557) benutzt.
+ 
++Technischer Sicherheitshinweis: Die DeepaMehta-Clients kommunizieren mit dem DeepaMehta-Server &#252;ber TCP Sockets. Der DeepaMehta-Server &#246;ffnet einen dedizierten TCP-Port (standardm&#228;&#223;ig ist das Port 7557).
+ 
++
+ Webanwendungen
+ --------------
+ 
+@@ -303,7 +319,7 @@
+ 	build-hsqldb-intern.properties	=&gt; build-myinstance.properties
+ 	dm-hsqldb-intern.properties		=&gt; dm-myinstance.properties
+ 
+-2) Jetzt mu&#223; die neue Instanz konfiguriert werden, im Prinzip wie oben im Schritt 2, &quot;Konfigurieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
++2) Jetzt mu&#223; die neue Instanz konfiguriert werden, im Prinzip wie oben in &quot;Schritt 2: Konfigurieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
+ 
+ 	./run.sh config
+ 
+@@ -328,7 +344,7 @@
+ 
+ Die anderen Fragen, die das Config-Skript stellt (bezgl. den Webanwendungen und den Beispiel-Anwendungen) beantworte einfach mit Return, wodurch die bisherigen Einstellungen beibehalten werden (Hinweis: diese Einstellungen werden tats&#228;chlich nicht pro DeepaMehta-Instanz gespeichert, sondern sind global).
+ 
+-3) Nun wird die neue Instanz installiert, im Prinzip wie oben im Schritt 3, &quot;Installieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
++3) Nun wird die neue Instanz installiert, im Prinzip wie oben in &quot;Schritt 3: Installieren&quot; (Abschnitt &quot;Installation&quot;) erkl&#228;rt ist:
+ 
+ 	./run.sh install
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000125.html">[deepamehta-svn] r280 - in trunk: . install/examples	install/examples/artfacts install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/kompetenzstern	install/examples/ldap install/examples/messageboard	install/examples/movies
+</A></li>
+	<LI>Next message: <A HREF="000127.html">[deepamehta-svn] r282 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#126">[ date ]</a>
+              <a href="thread.html#126">[ thread ]</a>
+              <a href="subject.html#126">[ subject ]</a>
+              <a href="author.html#126">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

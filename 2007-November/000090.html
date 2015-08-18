@@ -1,0 +1,361 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r245 - in trunk: develop/src/de/deepamehta/topics	install/client/icons install/client/images install/db	install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r245%20-%20in%20trunk%3A%20develop/src/de/deepamehta/topics%0A%09install/client/icons%20install/client/images%20install/db%0A%09install/db/patches&In-Reply-To=%3C200711151246.lAFCkaxu018941%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000089.html">
+   <LINK REL="Next"  HREF="000091.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r245 - in trunk: develop/src/de/deepamehta/topics	install/client/icons install/client/images install/db	install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r245%20-%20in%20trunk%3A%20develop/src/de/deepamehta/topics%0A%09install/client/icons%20install/client/images%20install/db%0A%09install/db/patches&In-Reply-To=%3C200711151246.lAFCkaxu018941%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r245 - in trunk: develop/src/de/deepamehta/topics	install/client/icons install/client/images install/db	install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov 15 13:46:36 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000089.html">[deepamehta-svn] r244 - branches/ape
+</A></li>
+        <LI>Next message: <A HREF="000091.html">[deepamehta-svn] r246 - in trunk/develop/src/de/deepamehta: .	service/web util
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-11-15 13:46:15 +0100 (Thu, 15 Nov 2007)
+New Revision: 245
+
+Added:
+   trunk/install/client/icons/calendar-search.gif
+   trunk/install/client/icons/event-search.gif
+   trunk/install/client/images/makeAppointment.gif
+Modified:
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/install/db/cm.sql
+   trunk/install/db/patches/cm-2.17.sql
+Log:
+1) Calendar application updated: A person provides a new command: &quot;Make Appointment&quot;
+2) New utility method in LiveTopic: createChildTopic() with reverseAssocDir parameter
+3) Patch cm-2.17.sql fixed:
+3a) a comma was missing in ALTER TABLE statements
+3b) don't update the CM-version number yet
+
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-11-05 21:57:25 UTC (rev 244)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2007-11-15 12:46:15 UTC (rev 245)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 27.9.2007 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 6.11.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1302,7 +1302,7 @@
+ 		}
+ 	}
+ 
+-	// --- createChildTopic (2 forms) ---
++	// --- createChildTopic (3 forms) ---
+ 
+ 	/**
+ 	 * Creates a child topic directly in corporate memory ### must create live topic instead (evoke())
+@@ -1314,6 +1314,10 @@
+ 		cm.createAssociation(assocID, 1, semantic, 1, getID(), 1, childID, 1);
+ 	}
+ 
++	public final void createChildTopic(String typeID, String semantic, Session session, CorporateDirectives directives) {
++		createChildTopic(typeID, semantic, false, session, directives);
++	}
++
+ 	/**
+ 	 * Extends the specified directives to create a new child topic to this topic. Creating a child
+ 	 * topic consists of 4 steps:
+@@ -1329,13 +1333,23 @@
+ 	 * @see		TypeTopic#executeCommand
+ 	 * @see		PropertyTopic#executeCommand
+ 	 */
+-	public final void createChildTopic(String typeID, String semantic, Session session, CorporateDirectives directives) {
++	public final void createChildTopic(String typeID, String semantic, boolean reverseAssocDir,
++																	Session session, CorporateDirectives directives) {
+ 		String childID = as.getNewTopicID();
+ 		//
++		String topicID1, topicID2;
++		if (reverseAssocDir) {
++			topicID1 = childID;
++			topicID2 = getID();
++		} else {
++			topicID1 = getID();
++			topicID2 = childID;
++		}
++		//
+ 		PresentableTopic child = new PresentableTopic(childID, 1, typeID, 1, &quot;&quot;, getID(), &quot;&quot;);
+-		PresentableAssociation assoc = as.createPresentableAssociation(semantic, getID(), getVersion(), childID, 1, false);
++		PresentableAssociation assoc = as.createPresentableAssociation(semantic, topicID1, getVersion(), topicID2, 1, false);
+ 		// Note: the association must be created directly in corporate memory, to let childs evoke() logic rely on the association
+-		cm.createAssociation(assoc.getID(), 1, semantic, 1, getID(), 1, childID, 1);
++		cm.createAssociation(assoc.getID(), 1, semantic, 1, topicID1, 1, topicID2, 1);
+ 		cm.setAssociationData(assoc.getID(), 1, PROPERTY_OWNER_ID, session.getUserID());
+ 		//
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, child, Boolean.TRUE);
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2007-11-05 21:57:25 UTC (rev 244)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2007-11-15 12:46:15 UTC (rev 245)
+@@ -15,9 +15,9 @@
+ 
+ 
+ /**
+- * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * Last functional change: 5.11.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class PersonTopic extends LiveTopic {
+@@ -27,9 +27,13 @@
+ 	private static final String ITEM_SEND_TO_PERSON = &quot;Compose Email&quot;;
+ 	private static final String ICON_SEND_TO_PERSON = &quot;composeEmail.gif&quot;;
+ 	private static final String CMD_SEND_TO_PERSON = &quot;createNewMail&quot;;
++
++	private static final String ITEM_MAKE_APPOINTMENT = &quot;Make Appointment&quot;;
++	private static final String ICON_MAKE_APPOINTMENT = &quot;makeAppointment.gif&quot;;
++	private static final String CMD_MAKE_APPOINTMENT = &quot;makeAppointment&quot;;
++
+ 	
+ 	
+-	
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+@@ -56,15 +60,16 @@
+ 
+ 	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session, CorporateDirectives directives) {
+ 		CorporateCommands commands = new CorporateCommands(as);
+-		// add standard commands
++		// navigation commands
+ 		int editorContext = as.editorContext(topicmapID);
+ 		commands.addNavigationCommands(this, editorContext, session);
+ 		//
+ 		// custom commands
+ 		commands.addSeparator();
+ 		commands.addCommand(ITEM_SEND_TO_PERSON, CMD_SEND_TO_PERSON, FILESERVER_IMAGES_PATH, ICON_SEND_TO_PERSON);
++		commands.addCommand(ITEM_MAKE_APPOINTMENT, CMD_MAKE_APPOINTMENT, FILESERVER_IMAGES_PATH, ICON_MAKE_APPOINTMENT);
+ 		//
+-		// add standard commands
++		// standard commands
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+ 		//
+ 		return commands;
+@@ -94,12 +99,17 @@
+ 			}
+ 			//
+ 			String assocID = as.getNewAssociationID();
+-			PresentableAssociation assoc = new PresentableAssociation(assocID, 1, ASSOCTYPE_RECIPIENT, 1, &quot;&quot;, emailID, 1, personID, 1 );
++			PresentableAssociation assoc = new PresentableAssociation(assocID, 1, ASSOCTYPE_RECIPIENT, 1, &quot;&quot;,
++																	  emailID, 1, personID, 1 );
+ 			directives.add(DIRECTIVE_SHOW_TOPIC, email, Boolean.TRUE);
+ 			directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
+ 			directives.add(DIRECTIVE_SELECT_TOPIC, emailID);
+ 			//
+ 			return directives;
++		} else if (command.equals(CMD_MAKE_APPOINTMENT)) {
++			CorporateDirectives directives = new CorporateDirectives();
++			createChildTopic(TOPICTYPE_EVENT, SEMANTIC_EVENT_ATTENDEE, true, session, directives);	// reverseAssocDir=true
++			return directives;
+ 		} else {
+ 			return super.executeCommand(command, session, topicmapID, viewmode);
+ 		}
+
+Added: trunk/install/client/icons/calendar-search.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/icons/calendar-search.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/icons/event-search.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/icons/event-search.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/makeAppointment.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/makeAppointment.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: trunk/install/db/cm.sql
+===================================================================
+--- trunk/install/db/cm.sql	2007-11-05 21:57:25 UTC (rev 244)
++++ trunk/install/db/cm.sql	2007-11-15 12:46:15 UTC (rev 245)
+@@ -916,7 +916,7 @@
+ -- search type
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar-search', 'Calendar Search');
+ INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Name', 'Calendar Search');
+--- INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Icon', 'calendar-search.gif');
+ -- derive search type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-96', '', 'tt-topiccontainer', 1, 'tt-calendar-search', 1);
+ -- assign search type to type
+@@ -939,7 +939,7 @@
+ -- search type
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event-search', 'Event Search');
+ INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Name', 'Event Search');
+--- INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'event-search.gif');
+ -- derive search type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-99', '', 'tt-topiccontainer', 1, 'tt-event-search', 1);
+ -- assign search type to type
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-11-05 21:57:25 UTC (rev 244)
++++ trunk/install/db/patches/cm-2.17.sql	2007-11-15 12:46:15 UTC (rev 245)
+@@ -43,7 +43,7 @@
+ -- search type
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar-search', 'Calendar Search');
+ INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Name', 'Calendar Search');
+--- INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Icon', 'calendar-search.gif');
+ -- derive search type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-96', '', 'tt-topiccontainer', 1, 'tt-calendar-search', 1);
+ -- assign search type to type
+@@ -99,7 +99,7 @@
+ -- search type
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event-search', 'Event Search');
+ INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Name', 'Event Search');
+--- INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'event-search.gif');
+ -- derive search type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-99', '', 'tt-topiccontainer', 1, 'tt-event-search', 1);
+ -- assign search type to type
+@@ -166,15 +166,15 @@
+ 
+ 
+ --- *** UPDATE DATA DEFINITION *** ---
+-ALTER TABLE				TopicProp
+-     CHANGE				PropName PropName CHAR(255) NOT NULL
+-     DROP	INDEX		TopicID,
+-     ADD	PRIMARY KEY ( TopicID, TopicVersion, PropName )
++ALTER TABLE             TopicProp
++     CHANGE             PropName PropName CHAR(255) NOT NULL,
++     DROP   INDEX       TopicID,
++     ADD    PRIMARY KEY (TopicID, TopicVersion, PropName)
+ ;
+-ALTER TABLE				AssociationProp
+-     CHANGE				PropName PropName CHAR(255) NOT NULL
+-     DROP	INDEX		AssociationID,
+-     ADD	PRIMARY KEY ( AssociationID, AssociationVersion, PropName )
++ALTER TABLE             AssociationProp
++     CHANGE             PropName PropName CHAR(255) NOT NULL,
++     DROP   INDEX       AssociationID,
++     ADD    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
+ ;
+ 
+ ---
+@@ -184,13 +184,13 @@
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
+ 
+ --- Version Change
+-UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
+-UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8-preview3'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8-preview3'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
+ 
+ ---
+ --- Update DB content version
+ ---
+-UPDATE KeyGenerator SET NextKey=17 WHERE Relation='DB-Content Version';
++-- UPDATE KeyGenerator SET NextKey=17 WHERE Relation='DB-Content Version';
+ 
+ 
+ 
+@@ -198,17 +198,17 @@
+ SELECT *
+ FROM TopicProp
+ JOIN (
+-	SELECT TopicID, TopicVersion, PropName
+-	FROM TopicProp GROUP BY TopicID, TopicVersion, PropName
+-	HAVING COUNT( * ) &gt; 1 ) tp
++    SELECT TopicID, TopicVersion, PropName
++    FROM TopicProp GROUP BY TopicID, TopicVersion, PropName
++    HAVING COUNT( * ) &gt; 1 ) tp
+ USING ( TopicID, TopicVersion, PropName );
+ 
+ SELECT *
+ FROM AssociationProp
+ JOIN (
+-	SELECT AssociationID, AssociationVersion, PropName
+-	FROM AssociationProp GROUP BY AssociationID, AssociationVersion, PropName
+-	HAVING COUNT( * ) &gt; 1 ) ap
++    SELECT AssociationID, AssociationVersion, PropName
++    FROM AssociationProp GROUP BY AssociationID, AssociationVersion, PropName
++    HAVING COUNT( * ) &gt; 1 ) ap
+ USING ( AssociationID, AssociationVersion, PropName );
+ 
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000089.html">[deepamehta-svn] r244 - branches/ape
+</A></li>
+	<LI>Next message: <A HREF="000091.html">[deepamehta-svn] r246 - in trunk/develop/src/de/deepamehta: .	service/web util
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

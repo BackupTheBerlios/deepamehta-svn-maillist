@@ -1,0 +1,1028 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r181%20-%20in%20branches/eschnepel%3A%20.%20install/config%0A%09install/db%20install/examples/movies%20install/examples/movies/config&In-Reply-To=%3C200708280809.l7S89Jl8027716%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000025.html">
+   <LINK REL="Next"  HREF="000027.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r181%20-%20in%20branches/eschnepel%3A%20.%20install/config%0A%09install/db%20install/examples/movies%20install/examples/movies/config&In-Reply-To=%3C200708280809.l7S89Jl8027716%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug 28 10:09:19 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000025.html">[deepamehta-svn] r180 - branches/eschnepel
+</A></li>
+        <LI>Next message: <A HREF="000027.html">[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#26">[ date ]</a>
+              <a href="thread.html#26">[ thread ]</a>
+              <a href="subject.html#26">[ subject ]</a>
+              <a href="author.html#26">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-28 10:09:18 +0200 (Tue, 28 Aug 2007)
+New Revision: 181
+
+Added:
+   branches/eschnepel/install/db/OPTIMIZE_derby.sql
+   branches/eschnepel/install/db/OPTIMIZE_mysql.sql
+   branches/eschnepel/install/examples/movies/config/
+   branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+Removed:
+   branches/eschnepel/install/db/STATISTICS_derby.sql
+Modified:
+   branches/eschnepel/build.properties
+   branches/eschnepel/build.xml
+   branches/eschnepel/config.xml
+   branches/eschnepel/install/config/build-derby-intern.properties
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/config/build-mysql.properties
+   branches/eschnepel/install/config/db-derby-intern.properties
+   branches/eschnepel/install/examples/movies/build.xml
+Log:
+examples integtration into the build system, table optimization also for mysql
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/build.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -1,12 +1,13 @@
+ # DeepaMehta Directories
+-build				=develop/build
+-sources				=develop/src
+-install				=install
++build				=${dm.base-dir}/develop/build
++sources				=${dm.base-dir}/develop/src
++install				=${dm.base-dir}/install
+ config				=${install}/config
+ client				=${install}/client
+ server				=${install}/server
+ db					=${install}/db
+ examples			=${install}/examples
++#libpath must be set without ${dm.base-dir}
+ libpath				=libs
+ endorsedpath		=${libpath}/endorsed
+ 
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/build.xml	2007-08-28 08:09:18 UTC (rev 181)
+@@ -4,108 +4,98 @@
+ 		DeepaMehta build file
+ 	&lt;/description&gt;
+ 
+-	&lt;import file=&quot;config.xml&quot;/&gt;
++	&lt;import file=&quot;config.xml&quot; /&gt;
+ 
+-	&lt;import file=&quot;${db}/${db.create-db}&quot;/&gt;
+-	&lt;import file=&quot;${db}/${db.drop-db}&quot;/&gt;
+-	&lt;path id=&quot;javalibs&quot;&gt;
+-		&lt;fileset dir=&quot;.&quot;&gt;
+-			&lt;include name=&quot;${db.libs}&quot;/&gt;
+-		&lt;/fileset&gt;
+-		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/activation.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/jndi.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/batik.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/fop.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/spring-core.jar&quot;/&gt;
+-		&lt;pathelement location=&quot;${libpath}/commons-logging.jar&quot;/&gt;
+-	&lt;/path&gt;
++	&lt;import file=&quot;${db}/${db.create-db}&quot; /&gt;
++	&lt;import file=&quot;${db}/${db.drop-db}&quot; /&gt;
+ 
+-	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+-		&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+-		     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
+-		     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
+-		     takes care of this. --&gt;
+-		&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot;/&gt;
+-	&lt;/pathconvert&gt;
+-
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+-		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot;/&gt;		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot; /&gt;
++		&lt;!-- configure this --&gt;
+ 	&lt;/path&gt;
+ 
+ 	&lt;!-- Install --&gt;
+ 
+ 	&lt;target name=&quot;install&quot;&gt;
+-		&lt;echo message=&quot;--- DeepaMehta Installation ---&quot;/&gt;
+-		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.user}' (password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot;/&gt;
+-		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.install&quot;/&gt;
++		&lt;echo message=&quot;--- DeepaMehta Installation ---&quot; /&gt;
++		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.user}' (password '${db.password}').&quot; /&gt;
++		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot; /&gt;
++		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.install&quot; /&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.install}&quot; arg2=&quot;n&quot;/&gt;
++			&lt;equals arg1=&quot;${do.install}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] install'&quot;/&gt;
+-		&lt;antcall target=&quot;createdb&quot;/&gt;
+-		&lt;antcall target=&quot;createtables&quot;/&gt;
+-		&lt;antcall target=&quot;initdb&quot;/&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] install'&quot; /&gt;
++		&lt;antcall target=&quot;createdb&quot; /&gt;
++		&lt;antcall target=&quot;createtables&quot; /&gt;
++		&lt;antcall target=&quot;initdb&quot; /&gt;
+ 		&lt;!-- example applications --&gt;
+-		&lt;antcall target=&quot;installmovies&quot;/&gt;
+-		&lt;antcall target=&quot;installweb&quot;/&gt;
++		&lt;antcall target=&quot;installmovies&quot; /&gt;
++		&lt;antcall target=&quot;installweb&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;installmovies&quot; if=&quot;false&quot;&gt;
+-		&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/&gt;
++	&lt;target name=&quot;installmovies&quot;&gt;
++		&lt;condition property=&quot;withsyspass&quot; value=&quot;true&quot;&gt;
++			&lt;isset property=&quot;db.syspass&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot; inheritall=&quot;false&quot; inheritrefs=&quot;false&quot;&gt;
++			&lt;property name=&quot;syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
++			&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
++		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;installweb-ask&quot;&gt;
+-		&lt;echo message=&quot;You are about to install the example web applications to '${web.deploy.dir}'.&quot;/&gt;
+-		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to'${web.lib.dir}'.&quot;/&gt;
+-		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Servlet Engine')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Dweb.deploy.dir=... -Dweb.lib.dir=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.installweb&quot;/&gt;
++		&lt;echo message=&quot;You are about to install the example web applications to '${web.deploy.dir}'.&quot; /&gt;
++		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to'${web.lib.dir}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Servlet Engine')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Dweb.deploy.dir=... -Dweb.lib.dir=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.installweb&quot; /&gt;
+ 		&lt;condition property=&quot;do.abortweb&quot;&gt;
+-			&lt;equals arg1=&quot;${do.installweb}&quot; arg2=&quot;n&quot;/&gt;
++			&lt;equals arg1=&quot;${do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;installweb-if&quot; if=&quot;do.abortweb&quot; depends=&quot;installweb-ask&quot;&gt;
+-		&lt;echo message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] installweb'&quot;/&gt;
++		&lt;echo message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] installweb'&quot; /&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;installweb-unless&quot; unless=&quot;do.abortweb&quot; depends=&quot;installweb-ask&quot;&gt;
+ 		&lt;!-- copy shared libraries --&gt;
+-		&lt;antcall target=&quot;deploylibs&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/mysql-3.1.7.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
++		&lt;antcall target=&quot;deploylibs&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/mysql-3.1.7.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+-		&lt;ant antfile=&quot;${examples}/dm-browser/build.xml&quot; dir=&quot;${examples}/dm-browser&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/dm-search/build.xml&quot; dir=&quot;${examples}/dm-search&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/messageboard/build.xml&quot; dir=&quot;${examples}/messageboard&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/musicforum/build.xml&quot; dir=&quot;${examples}/musicforum&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/kompetenzstern/build.xml&quot; dir=&quot;${examples}/kompetenzstern&quot; target=&quot;deploy&quot;/&gt;
++		&lt;ant antfile=&quot;${examples}/dm-browser/build.xml&quot; dir=&quot;${examples}/dm-browser&quot; target=&quot;deploy&quot; /&gt;
++		&lt;ant antfile=&quot;${examples}/dm-search/build.xml&quot; dir=&quot;${examples}/dm-search&quot; target=&quot;deploy&quot; /&gt;
++		&lt;ant antfile=&quot;${examples}/messageboard/build.xml&quot; dir=&quot;${examples}/messageboard&quot; target=&quot;deploy&quot; /&gt;
++		&lt;ant antfile=&quot;${examples}/musicforum/build.xml&quot; dir=&quot;${examples}/musicforum&quot; target=&quot;deploy&quot; /&gt;
++		&lt;ant antfile=&quot;${examples}/kompetenzstern/build.xml&quot; dir=&quot;${examples}/kompetenzstern&quot; target=&quot;deploy&quot; /&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;installweb&quot; depends=&quot;installweb-if,installweb-unless&quot;/&gt;
++	&lt;target name=&quot;installweb&quot; depends=&quot;installweb-if,installweb-unless&quot; /&gt;
+ 
+ 	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
+-		&lt;antcall target=&quot;deploylibs&quot;/&gt;
++		&lt;antcall target=&quot;deploylibs&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;deploylibs&quot;&gt;
+-        &lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${server}/DeepaMehtaTopics.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
++		&lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${server}/DeepaMehtaTopics.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.create-db}--&gt;
+@@ -114,92 +104,106 @@
+ 	&lt;target name=&quot;createtables&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.tables}&quot;/&gt;
++				&lt;include name=&quot;${db.tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
++		&lt;antcall target=&quot;optimize&quot; /&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;optimize&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.optimize}&quot; /&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/sql&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;initdb&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;cm.sql&quot;/&gt;
+-				&lt;include name=&quot;email.sql&quot;/&gt;
+-				&lt;include name=&quot;auth.sql&quot;/&gt;
+-				&lt;include name=&quot;webcrawler.sql&quot;/&gt;
+-				&lt;include name=&quot;whois.sql&quot;/&gt;
++				&lt;include name=&quot;cm.sql&quot; /&gt;
++				&lt;include name=&quot;email.sql&quot; /&gt;
++				&lt;include name=&quot;auth.sql&quot; /&gt;
++				&lt;include name=&quot;webcrawler.sql&quot; /&gt;
++				&lt;include name=&quot;whois.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+-				&lt;include name=&quot;movies/movies.sql&quot;/&gt;
+-				&lt;include name=&quot;musicforum/music.sql&quot;/&gt;
+-				&lt;include name=&quot;artfacts/artfacts.sql&quot;/&gt;
+-				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot;/&gt;
+-				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot;/&gt;
++				&lt;include name=&quot;movies/movies.sql&quot; /&gt;
++				&lt;include name=&quot;musicforum/music.sql&quot; /&gt;
++				&lt;include name=&quot;artfacts/artfacts.sql&quot; /&gt;
++				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot; /&gt;
++				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+-				&lt;include name=&quot;names.sql&quot;/&gt;
+-				&lt;include name=&quot;help.sql&quot;/&gt;
++				&lt;include name=&quot;names.sql&quot; /&gt;
++				&lt;include name=&quot;help.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
++		&lt;antcall target=&quot;optimize&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;droptables&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.drop-tables}&quot;/&gt;
++				&lt;include name=&quot;${db.drop-tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;reset&quot;&gt;
+-		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.user}', password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;If you want reset another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.reset&quot;/&gt;
++		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.user}', password '${db.password}').&quot; /&gt;
++		&lt;echo message=&quot;If you want reset another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.reset&quot; /&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.reset}&quot; arg2=&quot;n&quot;/&gt;
++			&lt;equals arg1=&quot;${do.reset}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] reset'&quot;/&gt;
+-		&lt;antcall target=&quot;droptables&quot;/&gt;
+-		&lt;antcall target=&quot;createtables&quot;/&gt;
+-		&lt;antcall target=&quot;initdb&quot;/&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] reset'&quot; /&gt;
++		&lt;antcall target=&quot;droptables&quot; /&gt;
++		&lt;antcall target=&quot;createtables&quot; /&gt;
++		&lt;antcall target=&quot;initdb&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;patchdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.user}', password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;If you want patch another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=... -Dpatch=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.patch&quot;/&gt;
++		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.user}', password '${db.password}').&quot; /&gt;
++		&lt;echo message=&quot;If you want patch another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=... -Dpatch=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.patch&quot; /&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot;/&gt;
++			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot;/&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset&gt;
+-				&lt;include name=&quot;${patch}&quot;/&gt;
++				&lt;include name=&quot;${patch}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
++		&lt;antcall target=&quot;optimize&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Run --&gt;
+@@ -207,201 +211,196 @@
+ 	&lt;target name=&quot;dm&quot; description=&quot;runs the monolithic DeepaMehta application, default instance&quot;&gt;
+ 		&lt;java classname=&quot;de.deepamehta.service.DeepaMehta&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${client}/DeepaMehta.jar&quot;/&gt;
+-				&lt;path refid=&quot;dmapps&quot;/&gt; 
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
++				&lt;pathelement location=&quot;${client}/DeepaMehta.jar&quot; /&gt;
++				&lt;path refid=&quot;dmapps&quot; /&gt;
++				&lt;path refid=&quot;javalibs&quot; /&gt;
+ 			&lt;/classpath&gt;
+-			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot;/&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
++			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot; /&gt;
++			&lt;arg value=&quot;${dm.instance}&quot; /&gt;
++		&lt;/java&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;dms&quot; description=&quot;runs the DeepaMehta server&quot;&gt;
+ 		&lt;java classname=&quot;de.deepamehta.service.DeepaMehtaServer&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+-				&lt;path refid=&quot;dmapps&quot;/&gt; 
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
++				&lt;path refid=&quot;dmapps&quot; /&gt;
++				&lt;path refid=&quot;javalibs&quot; /&gt;
+ 			&lt;/classpath&gt;
+-			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot;/&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
++			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot; /&gt;
++			&lt;arg value=&quot;${dm.instance}&quot; /&gt;
++		&lt;/java&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;dmc&quot; description=&quot;runs the DeepaMehta client, connects to local server&quot;&gt;
+ 		&lt;java classname=&quot;de.deepamehta.client.DeepaMehtaClient&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${client}/DeepaMehtaClient.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${client}/DeepaMehtaClient.jar&quot; /&gt;
+ 			&lt;/classpath&gt;
+-			&lt;arg value=&quot;${dm.host}:${dm.port}&quot;/&gt;
+-        &lt;/java&gt;
++			&lt;arg value=&quot;${dm.host}:${dm.port}&quot; /&gt;
++		&lt;/java&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Build --&gt;
+ 
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+ 		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
++			&lt;classpath refid=&quot;javalibs&quot; /&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;build&quot; depends=&quot;compile&quot; description=&quot;build jar files&quot;&gt;
+ 		&lt;!-- monolith --&gt;
+-		&lt;mkdir dir=&quot;${client}&quot;/&gt;
++		&lt;mkdir dir=&quot;${client}&quot; /&gt;
+ 		&lt;jar jarfile=&quot;${client}/DeepaMehta.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/service/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/util/*.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/MessagingConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/TypeConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/FileserverConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/InteractionConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/MessagingConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/TypeConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/FileserverConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/ExternalConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer$Connection.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/util/*.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/MessagingConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/TypeConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/FileserverConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/InteractionConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/MessagingConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/TypeConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/FileserverConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/ExternalConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer$Connection.class&quot; /&gt;
+ 			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehta&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehta&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+ 			&lt;/manifest&gt;
+ 		&lt;/jar&gt;
+ 		&lt;!-- client --&gt;
+ 		&lt;jar jarfile=&quot;${client}/DeepaMehtaClient.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
+ 			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.client.DeepaMehtaClient&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.client.DeepaMehtaClient&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+ 			&lt;/manifest&gt;
+ 		&lt;/jar&gt;
+ 		&lt;!-- server --&gt;
+-		&lt;mkdir dir=&quot;${server}&quot;/&gt;
++		&lt;mkdir dir=&quot;${server}&quot; /&gt;
+ 		&lt;jar jarfile=&quot;${server}/DeepaMehtaService.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/util/**/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/util/**/*.class&quot; /&gt;
+ 			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+ 			&lt;/manifest&gt;
+ 		&lt;/jar&gt;
+ 		&lt;!-- topics --&gt;
+ 		&lt;jar jarfile=&quot;${server}/DeepaMehtaTopics.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
+-		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot;
+-			storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot;/&gt;
++		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot; storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;release&quot; depends=&quot;sign&quot;&gt;
+-		&lt;echo message=&quot;You are about to build the release file '${build.name}'.&quot;/&gt;
+-		&lt;echo message=&quot;If you want use another name, type 'n' and edit config.xml (section 'Build Support')&quot;/&gt;
+-		&lt;echo message=&quot;or use a command line option -Dbuild.name=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.release&quot;/&gt;
++		&lt;echo message=&quot;You are about to build the release file '${build.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want use another name, type 'n' and edit config.xml (section 'Build Support')&quot; /&gt;
++		&lt;echo message=&quot;or use a command line option -Dbuild.name=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.release&quot; /&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.release}&quot; arg2=&quot;n&quot;/&gt;
++			&lt;equals arg1=&quot;${do.release}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Release building aborted by user -- revisit with 'ant release [option]'&quot;/&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Release building aborted by user -- revisit with 'ant release [option]'&quot; /&gt;
+ 		&lt;zip destfile=&quot;${build.archive.dir}/${build.name}&quot; basedir=&quot;.&quot;&gt;
+-			&lt;exclude name=&quot;**/build/&quot;/&gt;
+-			&lt;exclude name=&quot;contrib/&quot;/&gt;
+-			&lt;exclude name=&quot;docs/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/*.pid&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/documents/*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/webpages/**&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/at-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/tt-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/ka-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/jah-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/108_*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/rote-kapelle.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/3539-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/16212*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/25984*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/ploetze.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/b17-2-harnack-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/Sacred*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/javaxml/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/HCI/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/stats/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/acro.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/anika-7.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/axel-springer-40.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/badawi.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/BMFSFJ*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/comparison.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta-earth.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/DeepaMobil.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/Driton*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/headregie.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/iso-9001.jpeg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/jah-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/knoppix-logo.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/linkafn_*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/marlene-dietrich-11.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/scidoc.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/sparkasse.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/schaukasten*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/browser/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/vergleich*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/axel-springer-40.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/comparison.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/daily*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/kartepur*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/ks-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Sacred*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Scheitern*&quot;/&gt;
+-			&lt;exclude name=&quot;install/examples/knoppixforum/&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-1.7.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-core-1.7.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-cli-1.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-collections-3.1.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-digester-1.7.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-1.0.4.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-api-1.0.4.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/jwf-1.0.1.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/log4j-1.2.13.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/libraries.txt&quot;/&gt;
+-			&lt;exclude name=&quot;**/.FBC*&quot;/&gt;
+-			&lt;exclude name=&quot;**/.xvpics/&quot;/&gt;
++			&lt;exclude name=&quot;**/build/&quot; /&gt;
++			&lt;exclude name=&quot;contrib/&quot; /&gt;
++			&lt;exclude name=&quot;docs/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/*.pid&quot; /&gt;
++			&lt;exclude name=&quot;install/client/documents/*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/webpages/**&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/at-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/tt-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/ka-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/jah-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/108_*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/rote-kapelle.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/3539-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/16212*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/25984*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/ploetze.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/b17-2-harnack-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/Sacred*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/javaxml/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/HCI/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/stats/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/acro.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/anika-7.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/axel-springer-40.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/badawi.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/BMFSFJ*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/comparison.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/deepa_mehta-earth.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/deepa_mehta.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/DeepaMobil.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/Driton*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/headregie.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/iso-9001.jpeg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/jah-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/knoppix-logo.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/linkafn_*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/marlene-dietrich-11.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/scidoc.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/sparkasse.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/schaukasten*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/stylesheets/browser/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/stylesheets/vergleich*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/axel-springer-40.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/comparison.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/daily*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/kartepur*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/ks-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/Sacred*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/Scheitern*&quot; /&gt;
++			&lt;exclude name=&quot;install/examples/knoppixforum/&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-beanutils-1.7.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-beanutils-core-1.7.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-cli-1.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-collections-3.1.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-digester-1.7.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-logging-1.0.4.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-logging-api-1.0.4.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/jwf-1.0.1.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/log4j-1.2.13.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/libraries.txt&quot; /&gt;
++			&lt;exclude name=&quot;**/.FBC*&quot; /&gt;
++			&lt;exclude name=&quot;**/.xvpics/&quot; /&gt;
+ 		&lt;/zip&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;apidocs&quot; description=&quot;generates the API documentation&quot;&gt;
+-		&lt;javadoc 
+-		   destdir=&quot;docs/apidocs&quot;
+-		   stylesheetfile=&quot;docs/stylesheet.css&quot;
+-		   package=&quot;true&quot;
+-		   windowtitle=&quot;DeepaMehta -- API Documentation&quot;&gt;
++		&lt;javadoc destdir=&quot;docs/apidocs&quot; stylesheetfile=&quot;docs/stylesheet.css&quot; package=&quot;true&quot; windowtitle=&quot;DeepaMehta -- API Documentation&quot;&gt;
+ 			&lt;fileset dir=&quot;develop/src&quot;&gt;
+-			&lt;/fileset&gt;		
++			&lt;/fileset&gt;
+ 		&lt;/javadoc&gt;
+-        &lt;copy file=&quot;docs/overview-frame.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot;/&gt;
+-        &lt;copy file=&quot;docs/overview-summary.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot;/&gt;
+-        &lt;copy file=&quot;docs/apidocs-index.html&quot; tofile=&quot;docs/apidocs/index.html&quot; overwrite=&quot;true&quot;/&gt;
++		&lt;copy file=&quot;docs/overview-frame.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
++		&lt;copy file=&quot;docs/overview-summary.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
++		&lt;copy file=&quot;docs/apidocs-index.html&quot; tofile=&quot;docs/apidocs/index.html&quot; overwrite=&quot;true&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- Fix --&gt;
+@@ -409,11 +408,11 @@
+ 	&lt;target name=&quot;fixdb&quot; depends=&quot;build&quot; description=&quot;fixes invalid HTML&quot;&gt;
+ 		&lt;java classname=&quot;de.deepamehta.service.db.DBFix&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;path refid=&quot;javalibs&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;path refid=&quot;javalibs&quot; /&gt;
+ 			&lt;/classpath&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
++			&lt;arg value=&quot;${dm.instance}&quot; /&gt;
++		&lt;/java&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/config.xml	2007-08-28 08:09:18 UTC (rev 181)
+@@ -1,5 +1,36 @@
+ &lt;project&gt;
+-	&lt;property file=&quot;build.properties&quot;/&gt;
+-	&lt;property file=&quot;${dm.instance.property-file}&quot;/&gt;
+-	&lt;property file=&quot;${dm.instance.build-property-file}&quot;/&gt;
++	&lt;condition property=&quot;dm.base-dir&quot; value=&quot;.&quot;&gt;
++		&lt;not&gt;
++			&lt;isset property=&quot;dm.base-dir&quot; /&gt;
++		&lt;/not&gt;
++	&lt;/condition&gt;
++
++	&lt;property file=&quot;${dm.base-dir}/build.properties&quot; /&gt;
++	&lt;property file=&quot;${dm.instance.property-file}&quot; /&gt;
++	&lt;property file=&quot;${dm.instance.build-property-file}&quot; /&gt;
++
++	&lt;path id=&quot;javalibs&quot;&gt;
++		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++			&lt;include name=&quot;${db.libs}&quot; /&gt;
++		&lt;/fileset&gt;
++		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/mail.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/activation.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/jndi.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/batik.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/fop.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/spring-core.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${libpath}/commons-logging.jar&quot; /&gt;
++	&lt;/path&gt;
++	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
++		&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
++		     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
++		     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
++		     takes care of this. --&gt;
++		&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot; /&gt;
++	&lt;/pathconvert&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/config/build-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-derby-intern.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/config/build-derby-intern.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -7,7 +7,8 @@
+ 
+ db.tables			=db_tables_derby.sql
+ db.drop-tables		=db_drop.sql
+-db.close-session	=STATISTICS_derby.sql
++db.close-session	=EMPTY.sql
++db.optimize			=OPTIMIZE_derby.sql
+ db.autocommit		=true
+ 
+ # db.sysname		=not needed
+
+Modified: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -8,6 +8,7 @@
+ db.tables			=db_tables_hsqldb.sql
+ db.drop-tables		=db_drop.sql
+ db.close-session	=COMMIT_SHUTDOWN.sql
++db.optimize			=EMPTY.sql
+ db.autocommit		=false
+ 
+ # db.sysname		=not needed
+
+Modified: branches/eschnepel/install/config/build-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/build-mysql.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/config/build-mysql.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -8,6 +8,7 @@
+ db.tables			=db_tables_mysql.sql
+ db.drop-tables		=db_drop.sql
+ db.close-session	=EMPTY.sql
++db.optimize			=OPTIMIZE_mysql.sql
+ db.autocommit		=true
+ 
+ db.sysname			=mysql
+
+Modified: branches/eschnepel/install/config/db-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-derby-intern.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/config/db-derby-intern.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -9,6 +9,7 @@
+ db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+ db.libs				=${libpath}/derby/*.jar
+ 
+-db.derby.path		=${client}/db/${dm.instance}/${db.name}
++db.derby.base-path	=${client}/db/${dm.instance}
++db.derby.path		=${db.derby.base-path}/${db.name}
+ 
+ db.url				=jdbc:derby:${db.derby.path}
+
+Copied: branches/eschnepel/install/db/OPTIMIZE_derby.sql (from rev 179, branches/eschnepel/install/db/STATISTICS_derby.sql)
+
+Added: branches/eschnepel/install/db/OPTIMIZE_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/OPTIMIZE_mysql.sql	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/db/OPTIMIZE_mysql.sql	2007-08-28 08:09:18 UTC (rev 181)
+@@ -0,0 +1,9 @@
++OPTIMIZE TABLE
++	Association
++,	AssociationProp
++,	KeyGenerator
++,	Topic
++,	TopicProp
++,	ViewAssociation
++,	ViewTopic
++; 
+
+Deleted: branches/eschnepel/install/db/STATISTICS_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/STATISTICS_derby.sql	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/db/STATISTICS_derby.sql	2007-08-28 08:09:18 UTC (rev 181)
+@@ -1,9 +0,0 @@
+--- The table and schema names have to be UPPER CASE!
+-
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPIC', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATION', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWTOPIC', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWASSOCIATION', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPICPROP', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATIONPROP', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'KEYGENERATOR', 1);
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-08-28 08:09:18 UTC (rev 181)
+@@ -6,15 +6,14 @@
+ 
+ 	&lt;property name=&quot;jar&quot; value=&quot;MoviesTopics.jar&quot;/&gt;
+ 	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot;/&gt;
+ 
+-	&lt;property name=&quot;movies.db.name&quot; value=&quot;Movies&quot;/&gt;
+-	&lt;property name=&quot;movies.db.userid&quot; value=&quot;movies&quot;/&gt;
+-	&lt;property name=&quot;movies.db.password&quot; value=&quot;movies&quot;/&gt;
+-	&lt;property name=&quot;movies.db.tables&quot; value=&quot;db/db_tables_mysql.sql&quot;/&gt;
+-	&lt;property name=&quot;movies.db.content&quot; value=&quot;db/db_inserts.sql&quot;/&gt;
+-	&lt;property name=&quot;movies.db.url&quot; value=&quot;jdbc:<A HREF="mysql://127.0.0.1/${movies.db.name">mysql://127.0.0.1/${movies.db.name</A>}?useUnicode=true&amp;characterEncoding=latin1&quot;/&gt;
++	&lt;import file=&quot;${dm.base-dir}/config.xml&quot;/&gt;
++	&lt;property file=&quot;config/movies-${dm.instance}.properties&quot;/&gt;
+ 
+-	&lt;import file=&quot;../../../config.xml&quot;/&gt;
++	&lt;condition property=&quot;db.syspass&quot; value=&quot;${syspass}&quot;&gt;
++		&lt;istrue value=&quot;${withsyspass}&quot; /&gt;
++	&lt;/condition&gt;
+ 
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot;/&gt;
+@@ -23,8 +22,8 @@
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+@@ -41,30 +40,44 @@
+ 
+ 	&lt;!-- example database &quot;Movies&quot; --&gt;
+ 
+-	&lt;target name=&quot;install&quot;&gt;
+-		&lt;antcall target=&quot;createdb&quot;/&gt;
+-		&lt;antcall target=&quot;createtables&quot;/&gt;
+-		&lt;antcall target=&quot;initdb&quot;/&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;initdb&quot;/&gt;
++
++	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createdb&quot;&gt;
+-		&lt;input message=&quot;Enter MySQL root user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			CREATE DATABASE ${movies.db.name};
+-			GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@localhost IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
+-			GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@&quot;%&quot;       IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
++	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;transaction&gt;
++				CREATE DATABASE ${movies.db.name};
++				GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@localhost IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
++				GRANT ALL PRIVILEGES ON ${movies.db.name}.* TO ${movies.db.userid}@&quot;%&quot;       IDENTIFIED BY '${movies.db.password}' WITH GRANT OPTION;
++			&lt;/transaction&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createtables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; src=&quot;${movies.db.tables}&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
++	&lt;target name=&quot;createtables&quot; depends=&quot;createdb&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++			    &lt;include name=&quot;${movies.db.tables}&quot;/&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;initdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; src=&quot;${movies.db.content}&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
++	&lt;target name=&quot;initdb&quot; depends=&quot;createtables&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${movies.db.url}&quot; userid=&quot;${movies.db.userid}&quot; password=&quot;${movies.db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++			    &lt;include name=&quot;${movies.db.content}&quot;/&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+
+Added: branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -0,0 +1,7 @@
++movies.db.name		=Movies
++movies.db.userid	=movies
++movies.db.password	=movies
++movies.db.tables	=db/db_tables_mysql.sql
++movies.db.content	=db/db_inserts.sql
++movies.db.derby.path=${db.derby.base-path}/${movies.db.name}
++movies.db.url		=jdbc:derby:${movies.db.derby.path}
+
+Added: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-27 11:14:02 UTC (rev 180)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 08:09:18 UTC (rev 181)
+@@ -0,0 +1,6 @@
++movies.db.name=Movies
++movies.db.userid=movies
++movies.db.password=movies
++movies.db.tables=db/db_tables_mysql.sql
++movies.db.content=db/db_inserts.sql
++movies.db.url=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000025.html">[deepamehta-svn] r180 - branches/eschnepel
+</A></li>
+	<LI>Next message: <A HREF="000027.html">[deepamehta-svn] r182 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/examples/movies install/examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#26">[ date ]</a>
+              <a href="thread.html#26">[ thread ]</a>
+              <a href="subject.html#26">[ subject ]</a>
+              <a href="author.html#26">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

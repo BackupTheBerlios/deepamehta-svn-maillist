@@ -1,0 +1,2967 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r261 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/images	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r261%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/assocs%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install/client/images%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200802032244.m13MiWLb023985%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000105.html">
+   <LINK REL="Next"  HREF="000107.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r261 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/images	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r261%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/assocs%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install/client/images%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200802032244.m13MiWLb023985%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r261 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install/client/images	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Feb  3 23:44:32 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000105.html">[deepamehta-svn] r260 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/examples/kompetenzstern
+</A></li>
+        <LI>Next message: <A HREF="000107.html">[deepamehta-svn] r262 -	trunk/install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#106">[ date ]</a>
+              <a href="thread.html#106">[ thread ]</a>
+              <a href="subject.html#106">[ subject ]</a>
+              <a href="author.html#106">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-02-03 23:44:19 +0100 (Sun, 03 Feb 2008)
+New Revision: 261
+
+Added:
+   trunk/develop/src/de/deepamehta/service/CorporateDetail.java
+   trunk/install/client/images/make-appointment.gif
+Removed:
+   trunk/develop/src/de/deepamehta/service/CorporateDetail.java
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/Detail.java
+   trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   trunk/develop/src/de/deepamehta/client/GraphPanel.java
+   trunk/develop/src/de/deepamehta/client/GraphPanelControler.java
+   trunk/develop/src/de/deepamehta/client/PresentationDetail.java
+   trunk/develop/src/de/deepamehta/client/PresentationDirectives.java
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+   trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   trunk/develop/src/de/deepamehta/client/PropertyPanelControler.java
+   trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+   trunk/develop/src/de/deepamehta/service/DeepaMehta.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+Log:
+1) Bug #13047 fixed (Help command doesn't work for topicmaps)
+2) New icon for person's &quot;Make Appointment&quot; command (thanks to Harald Mueller)
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -7,28 +7,28 @@
+ 
+ /**
+  * A collection of constants.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * There are two types of constants:
+- * &lt;OL&gt;
+- * &lt;LI&gt;Settings
+- * &lt;P&gt;
++ * &lt;ol&gt;
++ * &lt;li&gt;Settings
++ * &lt;p&gt;
+  * These constants are meant to be changed to configure the server, e.g. port number,
+  * log status, max number of clients, default database host, used JDBC-driver as well as
+  * the client e.g. default server, labels appearing in GUI, default geometry and colors
+  * ...
+- * &lt;P&gt;
+- * &lt;LI&gt;Symbolic constants
+- * &lt;P&gt;
++ * &lt;p&gt;
++ * &lt;li&gt;Symbolic constants
++ * &lt;p&gt;
+  * These constants are not meant to be changed. They serve as symbolic to make the
+  * sourcecode both easier to write and easier to read. E.g. crucial for application
+  * programmers are the {@link #DIRECTIVE_SHOW_TOPIC DIRECTIVE_XXX} constants which
+  * denotes the existing client directives.
+- * &lt;/OL&gt;
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 15.1.2008 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;/ol&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public interface DeepaMehtaConstants {
+@@ -406,10 +406,10 @@
+ 	static final String CMD_DELETE_ASSOC = &quot;deleteAssociation&quot;;
+ 	static final String CMD_DELETE_TOPICMAP = &quot;deleteTopicmap&quot;;
+ 	static final String CMD_SET_PROPERTY = &quot;setProperty&quot;;				// changes model
+-	static final String CMD_EDIT_TOPIC_PROPERTY = &quot;editTopicProperty&quot;;	// opens detail
+-	static final String CMD_VIEW_TOPIC_PROPERTY = &quot;viewTopicProperty&quot;;	// opens detail
+-	static final String CMD_EDIT_ASSOC_PROPERTY = &quot;editAssocProperty&quot;;	// opens detail
+-	static final String CMD_VIEW_ASSOC_PROPERTY = &quot;viewAssocProperty&quot;;	// opens detail
++	// ### static final String CMD_EDIT_TOPIC_PROPERTY = &quot;editTopicProperty&quot;;	// opens detail
++	// ### static final String CMD_VIEW_TOPIC_PROPERTY = &quot;viewTopicProperty&quot;;	// opens detail
++	// ### static final String CMD_EDIT_ASSOC_PROPERTY = &quot;editAssocProperty&quot;;	// opens detail
++	// ### static final String CMD_VIEW_ASSOC_PROPERTY = &quot;viewAssocProperty&quot;;	// opens detail
+ 	static final String CMD_ASSIGN_TOPIC = &quot;assignTopic&quot;;
+ 	static final String CMD_ASSIGN_NEW_TOPIC = &quot;assignNewTopic&quot;;
+ 	static final String CMD_SHOW_HELP = &quot;showHelp&quot;;						// changes model
+@@ -957,6 +957,7 @@
+ 
+ 	static final int DETAIL_TOPIC = 1;
+ 	static final int DETAIL_ASSOCIATION = 2;
++	static final int DETAIL_TOPICMAP = 3;
+ 
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/Detail.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/Detail.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/Detail.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -4,25 +4,26 @@
+ import java.io.DataOutputStream;
+ import java.io.IOException;
+ 
++import java.awt.Point;
+ 
+ 
++
+ /**
+- * Basis model of a topic/association detail.
+- * &lt;P&gt;
+- * A &lt;CODE&gt;Detail&lt;/CODE&gt; can be serialized and send through a
+- * &lt;CODE&gt;DataOutputStream&lt;/CODE&gt;. The client builds a
+- * {@link de.deepamehta.client.PresentationDetail} object upon
+- * and displays the detail in a window.
++ * Basis model for a detail window. Details windows are displayed within a topicmap and
++ * are bound to either a topic, an association, or a topicmap.
++ * &lt;p&gt;
++ * A &lt;code&gt;Detail&lt;/code&gt; can be serialized and send through a &lt;code&gt;DataOutputStream&lt;/code&gt;.
++ * The client builds a {@link de.deepamehta.client.PresentationDetail} object upon and displays the detail window.
+  *
+  * &lt;H4&gt;Hints for application programmers&lt;/H4&gt;
+  *
+- * Use the &lt;CODE&gt;DIRECTIVE_SHOW_DETAIL&lt;/CODE&gt; directive to instruct the client
++ * Use the &lt;code&gt;DIRECTIVE_SHOW_DETAIL&lt;/code&gt; directive to instruct the client
+  * to display the details of a certain topic.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 26.1.2003 (2.0a17-pre7)&lt;BR&gt;
+- * Last documentation update: 11.3.2001 (2.0a10-pre1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class Detail implements DeepaMehtaConstants {
+@@ -36,30 +37,39 @@
+ 
+ 
+ 	/**
+-	 * Detail type. {@link #DETAIL_TOPIC} or {@link #DETAIL_ASSOCIATION}.
++	 * Detail type.
++	 * {@link #DETAIL_TOPIC}, {@link #DETAIL_ASSOCIATION}, or {@link #DETAIL_TOPICMAP}.
+ 	 */
+ 	protected int detailType;
+ 
+ 	/**
+-	 * Detail content type. See the 5 {@link #DETAIL_CONTENT_NONE DETAIL_CONTENT_... constants}.
++	 * The anchor point for the guiding polygon.
++	 * Only used for detail type {@link #DETAIL_TOPICMAP}.
+ 	 */
++	protected Point guideAnchor;
++
++	/**
++	 * Detail content type.
++	 * See the 5 {@link #DETAIL_CONTENT_NONE DETAIL_CONTENT_... constants}.
++	 */
+ 	protected int contentType;
+ 
+ 	/**
+ 	 * Detail content model.
++	 * Usage depends on detail content type.
+ 	 */
+ 	protected Object param1, param2;
+ 
+ 	/**
+ 	 * The title to be used for the detail window.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by constructors.
+ 	 */
+ 	protected String title;
+ 
+ 	/**
+ 	 * The command that evoked this detail.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by constructors.
+ 	 */
+ 	protected String command;
+@@ -73,9 +83,8 @@
+ 
+ 
+ 	/**
+-	 * References checked: 22.11.2001 (2.0a13-post1)
++	 * References checked: 2.2.2008 (2.0b8)
+ 	 *
+-	 * @see		de.deepamehta.topics.LiveTopic#getDetail
+ 	 * @see		de.deepamehta.topics.ContainerTopic#getDetail
+ 	 */
+ 	public Detail(int detailType) {
+@@ -85,30 +94,35 @@
+ 
+ 	/**
+ 	 * Standard constructor.
+-	 * &lt;P&gt;
+-	 * References checked: 23.11.2001 (2.0a13-post1)
++	 * &lt;p&gt;
++	 * References checked: 2.2.2008 (2.0b8)
+ 	 *
+-	 * @see		de.deepamehta.topics.LiveTopic#getDetail
+ 	 * @see		de.deepamehta.topics.LiveTopic#openTextEditor
+-	 * @see		de.deepamehta.topics.LiveTopic#showTypeHelp
+-	 * @see		de.deepamehta.topics.LiveTopic#rename
++	 * @see		de.deepamehta.topics.LiveTopic#createTopicHelp
+ 	 * @see		de.deepamehta.topics.ContainerTopic#getDetail
++	 * @see		de.deepamehta.topics.ImageTopic#getDetail
+ 	 * @see		de.deepamehta.assocs.LiveAssociation#openTextEditor
+-	 * @see		de.deepamehta.assocs.LiveAssociation#showTypeHelp
++	 * @see		de.deepamehta.assocs.LiveAssociation#createAssociationHelp
++	 * @see		de.deepamehta.kompetenzstern.topics.KompetenzsternTopic#openTextEditor
+ 	 */
+-	public Detail(int detailType, int contentType, Object param1, Object param2,
+-    												String title, String command) {
++	public Detail(int detailType, int contentType, Object param1, Object param2, String title, String command) {
++		this(detailType, contentType, param1, param2, title, command, null);
++	}
++
++	public Detail(int detailType, int contentType, Object param1, Object param2, String title, String command,
++																							Point guideAnchor) {
+ 		this.detailType = detailType;
+ 		this.contentType = contentType;
+ 		this.param1 = param1;
+ 		this.param2 = param2;
+ 		this.title = title;
+ 		this.command = command;
++		this.guideAnchor = guideAnchor;
+ 	}
+ 
+ 	/**
+ 	 * Copy constructor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 2.1.2002 (2.0a15-pre5)
+ 	 *
+ 	 * @see		de.deepamehta.service.CorporateDetail#CorporateDetail(Detail, de.deepamehta.service.ApplicationService)
+@@ -121,17 +135,24 @@
+ 		this.param2 = detail.param2;
+ 		this.title = detail.title;
+ 		this.command = detail.command;
++		this.guideAnchor = detail.guideAnchor;
+ 	}
+ 
+ 	/**
+ 	 * Stream constructor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 15.10.2001 (2.0a13-pre1)
+ 	 *
+ 	 * @see		de.deepamehta.client.PresentationDirectives#PresentationDirectives
+ 	 */
+ 	public Detail(DataInputStream in) throws IOException {
+ 		this.detailType = in.readInt();
++		if (detailType == DETAIL_TOPICMAP) {
++			int x = in.readInt();
++			int y = in.readInt();
++			this.guideAnchor = new Point(x, y);
++		}
++		//
+ 		this.contentType = in.readInt();
+ 		switch (contentType) {
+ 		case DETAIL_CONTENT_NONE:
+@@ -203,8 +224,18 @@
+ 		return command;
+ 	}
+ 
++	public Point getGuideAnchor() {
++		return guideAnchor;
++	}
+ 
++	// ---
+ 
++	public void setGuideAnchor(Point guideAnchor) {
++		this.guideAnchor = guideAnchor;
++	}
++
++
++
+ 	// ---------------------
+ 	// --- Serialization ---
+ 	// ---------------------
+@@ -213,6 +244,11 @@
+ 
+ 	public void write(DataOutputStream out) throws IOException {
+ 		out.writeInt(detailType);
++		if (detailType == DETAIL_TOPICMAP) {
++			out.writeInt(guideAnchor.x);
++			out.writeInt(guideAnchor.y);
++		}
++		//
+ 		out.writeInt(contentType);
+ 		switch (contentType) {
+ 		case DETAIL_CONTENT_NONE:
+
+Modified: trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -24,14 +24,14 @@
+ /**
+  * A server-side proxy association for a client-side presented association that &quot;lives&quot;
+  * in {@link de.deepamehta.service.ApplicationService}.
+- * &lt;P&gt;
+- * A &lt;CODE&gt;LiveAssociation&lt;/CODE&gt; has access to the {@link de.deepamehta.service.ApplicationService} and
++ * &lt;p&gt;
++ * A &lt;code&gt;LiveAssociation&lt;/code&gt; has access to the {@link de.deepamehta.service.ApplicationService} and
+  * to the {@link CorporateMemory}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last sourcecode change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 11.12.2000 (2.0a8-pre3)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last sourcecode change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 11.12.2000 (2.0a8-pre3)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class LiveAssociation extends BaseAssociation implements DeepaMehtaConstants {
+@@ -81,7 +81,7 @@
+ 	/**
+ 	 * Subclasses can override this method to perform some work when an association is
+ 	 * bring into live the very first time.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation creates the association in corporate memory.
+ 	 * &lt;p&gt;
+ 	 * References checked: 27.9.2007 (2.0b8)
+@@ -109,13 +109,13 @@
+ 
+ 	/**
+ 	 * Triggered when an association dies.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation deletes the association from 3 spots ...
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;corporate memory
+-	 * &lt;LI&gt;live corporate memory
+-	 * &lt;LI&gt;all views
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;corporate memory
++	 * &lt;li&gt;live corporate memory
++	 * &lt;li&gt;all views
++	 * &lt;/ul&gt;
+ 	 * ... and returns empty directives.
+ 	 * &lt;p&gt;
+ 	 * References checked: 27.9.2007 (2.0b8)
+@@ -151,7 +151,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to react upon retyping this association.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation performs the retyping, it should be called from subclassss.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#changeAssociationType
+@@ -173,11 +173,11 @@
+ 
+ 	/**
+ 	 * Returns the set of standard association commands:
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;&quot;Retype&quot;
+-	 * &lt;LI&gt;&quot;Hide&quot;
+-	 * &lt;LI&gt;&quot;Delete&quot;
+-	 * &lt;/OL&gt;
++	 * &lt;ol&gt;
++	 * &lt;li&gt;&quot;Retype&quot;
++	 * &lt;li&gt;&quot;Hide&quot;
++	 * &lt;li&gt;&quot;Delete&quot;
++	 * &lt;/ol&gt;
+ 	 * Documentation updated: 11.10.2001 (2.0a12)
+ 	 *
+ 	 * @param	session		the triggering client session
+@@ -214,8 +214,8 @@
+ 	/**
+ 	 * Subclasses can override this method to supply an action behavoir.
+ 	 * An action is user triggered.
+-	 * &lt;P&gt;
+-	 * ### The default implementation returns empty &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * ### The default implementation returns empty &lt;code&gt;CorporateDirectives&lt;/code&gt;.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performAssociationAction
+ 	 */
+@@ -252,12 +252,6 @@
+ 			String prop = st.nextToken();
+ 			String value = st.nextToken();
+ 			directives.add(setAssociationData(prop, value, topicmapID, viewmode));
+-		} else if (cmd.equals(CMD_EDIT_ASSOC_PROPERTY) || cmd.equals(CMD_VIEW_ASSOC_PROPERTY)) {
+-			String prop = st.nextToken();
+-			boolean styled = new Boolean(st.nextToken()).booleanValue();
+-			boolean multiline = new Boolean(st.nextToken()).booleanValue();
+-			boolean editable = cmd.equals(CMD_EDIT_ASSOC_PROPERTY);
+-			openTextEditor(prop, styled, multiline, editable, directives, command);
+ 		} else if (cmd.equals(CMD_SHOW_HELP)) {
+ 			String typeID = st.nextToken();
+ 			showTypeHelp(typeID, session, directives);
+@@ -271,9 +265,9 @@
+ 	}
+ 
+ 	/**
+-	 * Subclasses can override this method to process result of chanined actions.&lt;BR&gt;
++	 * Subclasses can override this method to process result of chanined actions.&lt;br&gt;
+ 	 * [### explain]
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation returns null.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performChainedAssociationCommand
+@@ -294,9 +288,9 @@
+ 
+ 	/**
+ 	 * [###]
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * To reject the new properties (means: preventing them from being
+-	 * stored in corporate memory) the application must return &lt;CODE&gt;false&lt;/CODE&gt;.
++	 * stored in corporate memory) the application must return &lt;code&gt;false&lt;/code&gt;.
+ 	 */
+ 	public boolean propertiesChangeAllowed(Hashtable oldData, Hashtable newData,
+ 														CorporateDirectives directives) {
+@@ -305,11 +299,11 @@
+ 
+ 	/**
+ 	 * The &quot;properties changed&quot; hook.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * By this hook an application programmer can supply an &quot;properties changed&quot; behavoir. This hook
+ 	 * is triggered by the framework if one (### zero) or more properties of this association has
+ 	 * been changed. The framework passes the old and the new (means: changed) properties.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation returns empty directives.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#setTopicProperties
+@@ -342,19 +336,19 @@
+ 	/**
+ 	 * Applications can use this hook to disable certain properties of this association.
+ 	 * Disabled properties are visible but not editable by the user.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook can be utilized to implement an access control mechanism.
+ 	 * The default implementation realizes the following rule: an association is only editable
+ 	 * if the current user
+ 	 * 1) is the owner of the association, or&lt;br&gt;
+ 	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
+ 	 * 3) has the &quot;Editor&quot; role within a workspace the resp. association type is assigned to.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This hook is triggered every time this association is selected.
+ 	 *
+ 	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
+ 	 *
+-	 * @return		A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 * @return		A vector of property names (&lt;code&gt;String&lt;/code&gt;s)
+ 	 */
+ 	public Vector disabledProperties(Session session) {
+ 		// ### almost identical to LiveTopic.disabledProperties()
+@@ -390,7 +384,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to provide topic details.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation returns the properties in a 1-row table format.
+ 	 *
+ 	 * @see		#executeCommand
+@@ -472,33 +466,6 @@
+ 
+ 	// ---
+ 
+-	/**
+-	 * Extend the specified directives to let the user edit/view the specified
+-	 * property of this live association.
+-	 * &lt;P&gt;
+-	 * Called to handle {@link #CMD_EDIT_ASSOC_PROPERTY} and
+-	 * {@link #CMD_VIEW_ASSOC_PROPERTY} commands.
+-	 *
+-	 * @see		#executeCommand
+-	 */
+-	private void openTextEditor(String propName, boolean styled, boolean multiline,
+-					boolean editable, CorporateDirectives directives, String command) {
+-		// ### compare to LiveTopic.openTextEditor()
+-		// ### compare to KompetenzsternTopic.openTextEditor()
+-		Detail detail;
+-		String title = propName;
+-		if (styled) {
+-			detail = new Detail(DETAIL_ASSOCIATION, DETAIL_CONTENT_HTML,
+-            	getAssociationData(propName), new Boolean(editable), title, command);
+-		} else {
+-			detail = new Detail(DETAIL_ASSOCIATION, DETAIL_CONTENT_TEXT,
+-            	getAssociationData(propName), new Boolean(multiline), title, command);
+-		}
+-		directives.add(DIRECTIVE_SHOW_DETAIL, getID(), detail);
+-	}
+-
+-	// ---
+-
+ 	private void showTypeHelp(String typeID, Session session, CorporateDirectives directives) {
+ 		Detail detail = createAssociationHelp(typeID);
+ 		directives.add(DIRECTIVE_SHOW_DETAIL, getID(), detail);
+
+Modified: trunk/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/GraphPanel.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/GraphPanel.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -37,19 +37,20 @@
+ 
+ 
+ /**
+- * ### An interactive &lt;I&gt;view&lt;/I&gt; of a graph that consists of nodes and edges.
+- * &lt;P&gt;
+- * ### The &lt;I&gt;controler&lt;/I&gt; is passed to the &lt;CODE&gt;GraphPanel&lt;/CODE&gt;
+- * {@link #GraphPanel constructor}. The &lt;I&gt;model&lt;/I&gt; is supplied by the controler.
+- * &lt;P&gt;
++ * An interactive &lt;i&gt;view&lt;/i&gt; of a graph that consists of nodes and edges.
++ * The &lt;i&gt;controler&lt;/i&gt; is passed to the &lt;code&gt;GraphPanel&lt;/code&gt; {@link #GraphPanel constructor}.
++ * &lt;p&gt;
++ * This is a singleton. The graphical DeepaMehta client (namely the {@link PresentationService}) instantiates only one
++ * &lt;code&gt;GraphPanel&lt;/code&gt; and switches the &lt;i&gt;model&lt;/i&gt; on-the-fly by means of {@link #setModel}.
++ * &lt;p&gt;
+  * A controler class must implement the {@link GraphPanelControler} interface.
+  * A node class must implement the {@link GraphNode} interface.
+  * An edge class must implement the {@link GraphEdge} interface.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 25.6.2001 (2.0a11-pre6)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ class GraphPanel extends JDesktopPane implements ActionListener, DeepaMehtaConstants {
+@@ -71,16 +72,16 @@
+ 
+ 	/**
+ 	 * The graph's nodes.
+-	 * &lt;P&gt;
+-	 * Key: node id (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Key: node id (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: node ({@link GraphNode})
+ 	 */
+ 	private Hashtable nodes;
+ 
+ 	/**
+ 	 * The graph's edges.
+-	 * &lt;P&gt;
+-	 * Key: edge id (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Key: edge id (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: edge ({@link GraphEdge})
+ 	 */
+ 	private Hashtable edges;
+@@ -94,7 +95,7 @@
+ 	// --- Controler ---
+ 
+ 	/**
+-	 * The controler of this &lt;CODE&gt;GraphPanel&lt;/CODE&gt;.
++	 * The controler of this &lt;code&gt;GraphPanel&lt;/code&gt;.
+ 	 */
+ 	private GraphPanelControler controler;
+ 
+@@ -106,11 +107,11 @@
+ 
+ 	/**
+ 	 * Displayed node/edge details.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+  	 * ### The hashkey is composed by topicID/assocID AND detail command (one topic may have many
+ 	 * details open at the same time, but no two of the same processing command)
+- 	 * &lt;P&gt;
+-	 * Key: &quot;topicID:command&quot; (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++ 	 * &lt;p&gt;
++	 * Key: &quot;topicID:command&quot; (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: detail ({@link PresentationDetail})
+ 	 */
+ 	private Hashtable details;
+@@ -154,7 +155,7 @@
+ 
+ 
+ 	/**
+-	 * @see		TopicMapEditorPanel#TopicMapEditorPanel		2x
++	 * @see		PresentationService#createMainGUI
+ 	 */
+ 	GraphPanel(final GraphPanelControler controler) {
+ 		this.controler = controler;
+@@ -238,25 +239,30 @@
+ 				while (e.hasMoreElements()) {
+ 					String key = (String) e.nextElement();
+ 					PresentationDetail pd = getDetail(key);
+-					String nodeID = DeepaMehtaUtils.explode(key)[0];
++					String objectID = DeepaMehtaUtils.explode(key)[0];
+ 					// ### copy in PresentationService.showDetail()
+ 					int x, y;
+ 					switch (pd.getType()) {
+ 					case DETAIL_TOPIC:
+-						Point p = getNode(nodeID).getGeometry();
++						Point p = getNode(objectID).getGeometry();
+ 						x = p.x;
+ 						y = p.y;
+ 						break;
+ 					case DETAIL_ASSOCIATION:
+-						GraphEdge edge = getEdge(nodeID);	// ### throws DME
++						GraphEdge edge = getEdge(objectID);	// ### throws DME
+ 						Point p1 = edge.getNode1().getGeometry();
+ 						Point p2 = edge.getNode2().getGeometry();
+ 						x = (p1.x + p2.x) / 2;
+ 						y = (p1.y + p2.y) / 2;
+ 						break;
++					case DETAIL_TOPICMAP:
++						x = pd.getGuideAnchor().x;
++						y = pd.getGuideAnchor().y;
++						break;
+ 					default:
+ 						throw new DeepaMehtaException(&quot;unexpected detail type: &quot; + pd.getType());
+ 					}
++					//
+ 					pd.paintGuide(g, x + translation.x, y + translation.y);
+ 				}
+ 			}
+@@ -344,9 +350,9 @@
+ 		} else if (menuID.equals(MENU_ASSOC)) {
+ 			controler.processEdgeCommand(topicmap, selection.assoc, command);
+ 		} else if (menuID.equals(MENU_VIEW)) {
+-			// Note: the parameters of view commands are extended by the
+-			// click coordinates
+-			controler.processGraphCommand(topicmap, command + COMMAND_SEPARATOR + (mX - translation.x) + COMMAND_SEPARATOR + (mY - translation.y));
++			// Note: the parameters of view commands are extended by the click coordinates
++			controler.processGraphCommand(topicmap, command + COMMAND_SEPARATOR +
++				(mX - translation.x) + COMMAND_SEPARATOR + (mY - translation.y));
+ 		} else {
+ 			throw new DeepaMehtaException(&quot;unexpected popup menu: &quot; + menu + &quot; (menuID: \&quot;&quot; + menuID +
+ 				&quot;\&quot;) -- command \&quot;&quot; + command + &quot;\&quot; not processed&quot;);
+@@ -828,7 +834,7 @@
+ 
+ 	/**
+ 	 * Informs the controler about a node selection.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### This is only performed if the specified node is not already the selected node.
+ 	 *
+ 	 * @see		#nodeClicked
+@@ -841,7 +847,7 @@
+ 
+ 	/**
+ 	 * Informs the controler about an edge selection.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### This is only performed if the specified edge is not already the selected edge.
+ 	 *
+ 	 * @see		#edgeClicked
+@@ -854,7 +860,7 @@
+ 
+ 	/**
+ 	 * Informs the controler about graph selection.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### This is only performed if the graph is not already selected.
+ 	 *
+ 	 * @see		#graphClicked
+@@ -873,8 +879,8 @@
+ 
+ 	/**
+ 	 * Checks weather the specified mouse event represents a popup trigger.
+-	 * &lt;P&gt;
+-	 * ### This is a workaround because &lt;CODE&gt;InputEvent.isPopupTrigger()&lt;/CODE&gt;
++	 * &lt;p&gt;
++	 * ### This is a workaround because &lt;code&gt;InputEvent.isPopupTrigger()&lt;/code&gt;
+ 	 * doesn't work on Windows platform.
+ 	 *
+ 	 * @see		#nodeClicked
+@@ -1017,7 +1023,7 @@
+ 	/**
+ 	 * References checked: 9.8.2001 (2.0a11)
+ 	 *
+-	 * @return	the node at a given position or &lt;CODE&gt;null&lt;/CODE&gt; if there is no node.
++	 * @return	the node at a given position or &lt;code&gt;null&lt;/code&gt; if there is no node.
+ 	 *
+ 	 * @see		#thisPanelPressed
+ 	 * @see		#thisPanelDragged
+@@ -1076,7 +1082,7 @@
+ 	/**
+ 	 * @see		#thisPanelPressed
+ 	 *
+-	 * @return	The edge at the specified position or &lt;CODE&gt;null&lt;/CODE&gt; if there is no edge.
++	 * @return	The edge at the specified position or &lt;code&gt;null&lt;/code&gt; if there is no edge.
+ 	 */
+ 	private GraphEdge findEdge(int x, int y) {
+ 		x -= translation.x;
+
+Modified: trunk/develop/src/de/deepamehta/client/GraphPanelControler.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/GraphPanelControler.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/GraphPanelControler.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -11,11 +11,11 @@
+ 
+ /**
+  * This interface specifies the controler for a {@link GraphPanel}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 18.4.2004 (2.0b3-pre2)&lt;BR&gt;
+- * Last documentation update: 16.11.2000 (2.0a7-pre3)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 18.4.2004 (2.0b3-pre2)&lt;br&gt;
++ * Last documentation update: 16.11.2000 (2.0a7-pre3)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ interface GraphPanelControler {
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationDetail.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationDetail.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/PresentationDetail.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -17,15 +17,15 @@
+ 
+ 
+ /**
+- * Extends the topic/association detail model by a view.
+- * &lt;P&gt;
++ * Extends the detail window model by a view.
++ * &lt;p&gt;
+  * The view consists of an internal window and &quot;guides&quot; which visually couple the window
+- * with the origin topic.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 10.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 12.10.2001 (2.0a13-pre1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * with the origin topic/association/topicmap.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 10.9.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ class PresentationDetail extends Detail {
+@@ -57,14 +57,14 @@
+ 
+ 	/**
+ 	 * The window used to show the detail.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: remains uninitialized for {@link #DETAIL_CONTENT_NONE}.
+ 	 */
+ 	private JInternalFrame detailWindow;
+ 	
+ 	/**
+ 	 * The contents of the detail window.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: remains uninitialized for {@link #DETAIL_CONTENT_NONE}.
+ 	 */
+ 	private Component content;
+@@ -89,9 +89,12 @@
+ 
+ 
+ 	/**
+-	 * References checked: 30.10.2001 (2.0a13-pre3)
++	 * References checked: 3.2.2008 (2.0b8)
+ 	 *
+-	 * @see		GraphPanel#showNodeDetail
++	 * @param	x	anchor coordinate for the guiding polygon
++	 * @param	y	anchor coordinate for the guiding polygon
++	 *
++	 * @see		PresentationService#showDetail
+ 	 */
+ 	PresentationDetail(Detail detail, int x, int y, GraphPanelControler controler) {
+ 		super(detail);
+@@ -194,6 +197,9 @@
+ 	// ---
+ 
+ 	/**
++	 * @param	x	anchor coordinate
++	 * @param	y	anchor coordinate
++	 *
+ 	 * @see		GraphPanel
+ 	 */
+ 	void paintGuide(Graphics g, int x, int y) {
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationDirectives.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/PresentationDirectives.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -22,11 +22,11 @@
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class PresentationDirectives extends Directives {
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -70,17 +70,16 @@
+ 
+ 
+ /**
+- * Main controler of the graphical DeepaMehta frontend.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 12.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * Main controler of the graphical DeepaMehta client.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+-public final class PresentationService implements DeepaMehtaConstants,
+-												GraphPanelControler, PropertyPanelControler,
+-												ActionListener, Runnable {
++public final class PresentationService implements DeepaMehtaConstants, GraphPanelControler, PropertyPanelControler,
++																							ActionListener, Runnable {
+ 
+ 
+ 
+@@ -119,8 +118,8 @@
+ 	// ---
+ 
+ 	/**
+-	 * Initialized by {@link InteractionConnection#InteractionConnection}.&lt;BR&gt;
+-	 * Initialized by {@link de.deepamehta.service.DeepaMehta#initApplication}.&lt;BR&gt;
++	 * Initialized by {@link InteractionConnection#InteractionConnection}.&lt;br&gt;
++	 * Initialized by {@link de.deepamehta.service.DeepaMehta#initApplication}.&lt;br&gt;
+ 	 * Initialized by {@link de.deepamehta.service.DeepaMehta#init}.
+ 	 */
+ 	public Hashtable installationProps;
+@@ -133,8 +132,8 @@
+ 
+ 	/**
+ 	 * Reflects weather the user is logged in.
+-	 * &lt;P&gt;
+-	 * ### Initialized with &lt;CODE&gt;false&lt;/CODE&gt;, set to &lt;CODE&gt;true&lt;/CODE&gt; by the login thread ({@link #run}).
++	 * &lt;p&gt;
++	 * ### Initialized with &lt;code&gt;false&lt;/code&gt;, set to &lt;code&gt;true&lt;/code&gt; by the login thread ({@link #run}).
+ 	 */
+ 	boolean loggedIn;
+ 
+@@ -150,15 +149,15 @@
+ 	 * Key: topicmap ID (String)
+ 	 * Value: TopicMapEditorModel
+ 	 * &lt;p&gt;
+-	 * Accessed by {@link #getEditor(String topicmapID)}&lt;BR&gt;
+-	 * Added by {@link #createTopicMapEditor}&lt;BR&gt;
++	 * Accessed by {@link #getEditor(String topicmapID)}&lt;br&gt;
++	 * Added by {@link #createTopicMapEditor}&lt;br&gt;
+ 	 * Removed by {@link #removeEditor}
+ 	 */
+ 	private Hashtable editors = new Hashtable();
+ 
+ 	/**
+ 	 * ID of currently selected topicmap.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Updated in {@link #selectTopicmap} (private)
+ 	 */
+ 	private String selectedTopicmapID;
+@@ -180,8 +179,8 @@
+ 
+ 	/**
+ 	 * The number of displayed group workspaces (topicmap editors with {@link #EDITOR_CONTEXT_WORKGROUP}).
+-	 * &lt;P&gt;
+-	 * Incremented in {@link #showWorkspace}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Incremented in {@link #showWorkspace}.&lt;br&gt;
+ 	 * Decremented in {@link #removeEditor}.
+ 	 */
+ 	private int workgroupCount;
+@@ -196,18 +195,18 @@
+ 
+ 	/**
+ 	 * The main window.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: there is no other window. The main window is also used for the login dialog when
+ 	 * running as (monolithic) application
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Initialized by {@link #createMainWindow}.
+ 	 */
+ 	public JFrame mainWindow;
+ 
+ 	/**
+ 	 * Content pane of main window.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #createMainWindow}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #createMainWindow}.&lt;br&gt;
+ 	 * Accessed by {@link #createMainGUI(Directives directives)}, {@link #createMainGUI()}.
+ 	 */
+ 	public Container cp;
+@@ -361,7 +360,7 @@
+ 	// ---
+ 
+ 	/**
+-	 * @param	demoMapID	may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	demoMapID	may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		DeepeMehtaClient#init				(running as applet)
+ 	 */
+@@ -375,7 +374,7 @@
+ 	/**
+ 	 * References checked: 11.12.2006 (2.0b8)
+ 	 *
+-	 * @param	applet		may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	applet		may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		DeepeMehtaClient#init				(running as applet)
+ 	 * @see		de.deepamehta.service.DeepeMehta#init
+@@ -388,7 +387,7 @@
+ 	}
+ 
+ 	/**
+-	 * @param	as		the application service (not &lt;CODE&gt;null&lt;/CODE&gt;)
++	 * @param	as		the application service (not &lt;code&gt;null&lt;/code&gt;)
+ 	 *
+ 	 * @see		DeepeMehtaClient#initApplication	(running as application)
+ 	 * @see		DeepeMehtaClient#init				(running as applet)
+@@ -485,7 +484,7 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_SET_LAST_MODIFIED&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_SET_LAST_MODIFIED&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 * @see		SocketService#downloadFile
+@@ -535,15 +534,15 @@
+ 	/**
+ 	 * Checks if the specified topic type is known in the topicmap this controler
+ 	 * controls.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### If the topic type is not known it is retrieved from the list of corporate wide
+ 	 * topic types and is added to the editor who deploys this controler and the server
+-	 * is notified by means of a (&lt;CODE&gt;addTypeToView&lt;/CODE&gt;) message.
+-	 * &lt;P&gt;
++	 * is notified by means of a (&lt;code&gt;addTypeToView&lt;/code&gt;) message.
++	 * &lt;p&gt;
+ 	 * References checked: 2.12.2001 (2.0a14-pre1)
+ 	 *
+-	 * @return	### &lt;CODE&gt;true&lt;/CODE&gt; if the specified topic type is known in the topicmap
+-	 *			this controler controls, &lt;CODE&gt;false&lt;/CODE&gt; if the type was unknown (and
++	 * @return	### &lt;code&gt;true&lt;/code&gt; if the specified topic type is known in the topicmap
++	 *			this controler controls, &lt;code&gt;false&lt;/code&gt; if the type was unknown (and
+ 	 *			thus is retrieved now)
+ 	 *
+ 	 * @see		#showTopic
+@@ -566,15 +565,15 @@
+ 	/**
+ 	 * Checks if the specified association type is known in the topicmap this controler
+ 	 * controls.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### If the association type is not known it is retrieved from the list of corporate
+ 	 * wide association types and is added to the editor who deploys this controler and
+-	 * the server is notified by means of a (&lt;CODE&gt;addTypeToView&lt;/CODE&gt;) message.
+-	 * &lt;P&gt;
++	 * the server is notified by means of a (&lt;code&gt;addTypeToView&lt;/code&gt;) message.
++	 * &lt;p&gt;
+ 	 * References checked: 2.12.2001 (2.0a14-pre1)
+ 	 *
+-	 * @return	### &lt;CODE&gt;true&lt;/CODE&gt; if the specified association type is known in the
+-	 *			topicmap this controler controls, &lt;CODE&gt;false&lt;/CODE&gt; if the type was
++	 * @return	### &lt;code&gt;true&lt;/code&gt; if the specified association type is known in the
++	 *			topicmap this controler controls, &lt;code&gt;false&lt;/code&gt; if the type was
+ 	 *			unknown (and thus is retrieved now)
+ 	 *
+ 	 * @see		PresentationService#showTopic
+@@ -634,7 +633,7 @@
+ 	}
+ 
+ 	/**
+-	 * May return &lt;CODE&gt;null&lt;/CODE&gt;.
++	 * May return &lt;code&gt;null&lt;/code&gt;.
+ 	 */
+ 	private Image customerImage() {
+ 		// Note: the custumer icon may be not set
+@@ -730,7 +729,8 @@
+ 	public void showNodeMenu(PresentationTopicMap topicmap, GraphNode node, int x, int y) {
+ 		storeProperties();
+ 		BaseTopic topic = (BaseTopic) node;
+-		String command = CMD_GET_TOPIC_COMMANDS + COMMAND_SEPARATOR + topic.getID() + COMMAND_SEPARATOR + topic.getVersion() + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
++		String command = CMD_GET_TOPIC_COMMANDS + COMMAND_SEPARATOR + topic.getID() + COMMAND_SEPARATOR + topic.getVersion() +
++			COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
+ 		processTopicCommand(topic.getID(), topic.getVersion(), command, topicmap.getID());
+ 	}
+ 
+@@ -740,7 +740,8 @@
+ 	public void showEdgeMenu(PresentationTopicMap topicmap, GraphEdge edge, int x, int y) {
+ 		storeProperties();
+ 		BaseAssociation assoc = (BaseAssociation) edge;
+-		String command = CMD_GET_ASSOC_COMMANDS + COMMAND_SEPARATOR + assoc.getID() + COMMAND_SEPARATOR + assoc.getVersion() + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
++		String command = CMD_GET_ASSOC_COMMANDS + COMMAND_SEPARATOR + assoc.getID() + COMMAND_SEPARATOR + assoc.getVersion() +
++			COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
+ 		processAssociationCommand(assoc.getID(), assoc.getVersion(), command, topicmap.getID());
+ 	}
+ 
+@@ -749,7 +750,8 @@
+ 	 */
+ 	public void showGraphMenu(PresentationTopicMap topicmap, int x, int y) {
+ 		storeProperties();
+-		processTopicCommand(topicmap.getID(), 1, CMD_GET_VIEW_COMMANDS + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y, topicmap.getID());
++		String command = CMD_GET_VIEW_COMMANDS + COMMAND_SEPARATOR + x + COMMAND_SEPARATOR + y;
++		processTopicCommand(topicmap.getID(), 1, command, topicmap.getID());
+ 	}
+ 
+ 	// ---
+@@ -791,14 +793,18 @@
+ 	// ---
+ 
+ 	/**
+-	 * @see		GraphPanel#updateDetail
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
++	 * @see		TopicmapEditorModel#updateDetail
+ 	 */
+ 	public void processNodeDetail(PresentationTopicMap topicmap, String topicID, Detail detail) {
+ 		processTopicDetail(topicID, 1, detail, topicmap.getID());	// ### version 1
+ 	}
+ 
+ 	/**
+-	 * @see		GraphPanel#updateDetail
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
++	 * @see		TopicmapEditorModel#updateDetail
+ 	 */
+ 	public void processEdgeDetail(PresentationTopicMap topicmap, String assocID, Detail detail) {
+ 		processAssociationDetail(assocID, 1, detail, topicmap.getID());	// ### version 1
+@@ -808,13 +814,13 @@
+ 
+ 	/**
+ 	 * Notifies the application service about changed topic geometry.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Called in 3 situations
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;A single topic has been moved by the user
+-	 * &lt;LI&gt;A cluster of topics has been moved by the user
+-	 * &lt;LI&gt;A topic about to be shown gots its geometry at client side programatically
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;A single topic has been moved by the user
++	 * &lt;li&gt;A cluster of topics has been moved by the user
++	 * &lt;li&gt;A topic about to be shown gots its geometry at client side programatically
++	 * &lt;/ul&gt;
+ 	 * References checked: 5.8.2002 (2.0a15-pre11)
+ 	 *
+ 	 * @see		#updateGeometry
+@@ -827,11 +833,11 @@
+ 
+ 	/**
+ 	 * Notifies the application service about changed topicmap translation.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Called in 1 situation
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;A topicmap has been moved by the user
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;A topicmap has been moved by the user
++	 * &lt;/ul&gt;
+ 	 * References checked: 30.1.2002 (2.0a14-pre7)
+ 	 *
+ 	 * @see		GraphPanel#thisPanelReleased
+@@ -923,7 +929,6 @@
+ 		System.out.println(&quot;&gt;&gt;&gt; save topic properties of &quot; + topic);
+ 		Directives directives = as.setTopicProperties(topicmap.getID(), VIEWMODE_USE, topic.getID(), topic.getVersion(), newData);
+ 		processDirectives(directives, topicmap);
+-		// ### topicmap.changeTopicData(topic, newData);
+ 	}
+ 
+ 	/**
+@@ -933,7 +938,6 @@
+ 		System.out.println(&quot;&gt;&gt;&gt; save association properties of &quot; + assoc);
+ 		Directives directives = as.setAssocProperties(topicmap.getID(), VIEWMODE_USE, assoc.getID(), assoc.getVersion(), newData);
+ 		processDirectives(directives, topicmap);
+-		// ### topicmap.changeAssocData(assoc, newData);
+ 	}
+ 
+ 	// ---
+@@ -985,7 +989,7 @@
+ 
+ 	/**
+ 	 * Processes the action events triggered by the login screen.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Once the enter key is pressed inside the password field a server side password
+ 	 * check is performed. If the password check is successfull the login procedure is
+ 	 * run in its own thread.
+@@ -1020,13 +1024,17 @@
+ 			ComboBoxItem item = (ComboBoxItem) topicmapChoice.getSelectedItem();
+ 			// ### error check
+ 			if (item == null) {
+-				System.out.println(&quot;*** PresentationService.performAction(): action \&quot;selectTopicmap\&quot; can't perform (topicmap choice has no selection)&quot;);
++				System.out.println(&quot;*** PresentationService.performAction(): action \&quot;selectTopicmap\&quot; &quot; +
++					&quot;can't perform (topicmap choice has no selection)&quot;);
+ 				return;
+ 			}
+ 			//
+ 			String topicmapID = item.topicID;
+ 			addToHistory(topicmapID);
++			//
++			beginLongTask();	// ### no effect
+ 			selectTopicmap(topicmapID);
++			endTask();
+ 		} else if (command.equals(&quot;back&quot;)) {
+ 			selectTopicmap(back());
+ 		} else if (command.equals(&quot;forward&quot;)) {
+@@ -1108,6 +1116,11 @@
+ 	// ---
+ 
+ 	/**
++	 * Delegates the execution of a topic command to the application service and processes the resulting directives.
++	 * If the directives contains a chained directive another execution-processing-cycle is performed.
++	 *
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
+ 	 * @see		#showNodeMenu
+ 	 * @see		#showGraphMenu
+ 	 * @see		#processNodeCommand
+@@ -1126,6 +1139,11 @@
+ 	}
+ 
+ 	/**
++	 * Delegates the execution of an association command to the application service and processes the resulting directives.
++	 * If the directives contains a chained directive another execution-processing-cycle is performed.
++	 *
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
+ 	 * @see		#showEdgeMenu
+ 	 * @see		#processEdgeCommand
+ 	 * @see		#executeAssocCommand
+@@ -1160,54 +1178,51 @@
+ 
+ 	// --- processDirectives (3 forms) ---
+ 
++	/**
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
++	 * @see		#performRequest
++	 * @see		#createMainGUI
++	 * @see		MessagingConnection#processMessage
++	 * @see		de.deepamehta.service.DeepaMehta#sendDirectives
++	 */
+ 	public String processDirectives(Directives directives) {
+ 		return processDirectives(directives, null);
+ 	}
+ 
+-	// ### topicmapID, viewmode should be known also for asynchronously send directives
++	/**
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
++	 * @see		#processTopicCommand
++	 * @see		#processAssociationCommand
++	 * @see		#processTopicDetail
++	 * @see		#processAssociationDetail
++	 */
+ 	String processDirectives(Directives directives, String topicmapID, String viewmode) {
++		// ### topicmapID, viewmode should be known also for asynchronously send directives
+ 		PresentationTopicMap topicmap = getEditor(topicmapID).getTopicMap();
+ 		return processDirectives(directives, topicmap);
+ 	}
+ 
+ 	/**
++	 * References checked: 3.2.2008 (2.0b8)
++	 *
+ 	 * @param	topicmap	The topicmap in which the action was triggered resp.
+-	 *						&lt;CODE&gt;null&lt;/CODE&gt; if the directives has been received
++	 *						&lt;code&gt;null&lt;/code&gt; if the directives has been received
+ 	 *						asynchronously.
+-	 * @param	viewMode	The viewmode in which the action was triggered resp.
+-	 *						&lt;CODE&gt;null&lt;/CODE&gt; if the directives has been received
+-	 *						asynchronously.
+ 	 *
+-	 * @return	processing result, used for chained directives:&lt;BR&gt;
++	 * @return	processing result, used for chained directives:&lt;br&gt;
+ 	 *			DIRECTIVE_CHOOSE_FILE: result is the path of the choosen file, resp. &quot;&quot; if file
+ 	 *				choosing has been aborted by the user
+ 	 *			DIRECTIVE_CHOOSE_COLOR: result is the chosen color representation, resp. &quot;&quot; if color
+ 	 *				choosing has been aborted by the user
+ 	 *
+-	 * @see		DeepaMehtaClient#createGUI
+-	 * @see		MessagingConnection#processMessage
+-	 *
+-	 * @see		PresentationTopicMap#importTopicmap		2x
+-	 * @see		PresentationTopicMap#viewmodeSwitched
+-	 * @see		PresentationTopicMap#changeTopicName
+-	 * @see		PresentationTopicMap#changeTopicType
+-	 * @see		PresentationTopicMap#changeAssocType
+-	 * @see		PresentationTopicMap#changeTopicData
+-	 * @see		PresentationTopicMap#hideTopic
+-	 * @see		PresentationTopicMap#deleteTopic
+-	 * @see		PresentationTopicMap#hideAssociation
+-	 * @see		PresentationTopicMap#deleteAssociation
+-	 * @see		PresentationTopicMap#showTopicsByType
+-	 * @see		PresentationTopicMap#hideTopicsByType
+-	 * @see		PresentationTopicMap#createNewTopic
+-	 * @see		PresentationTopicMap#createNewTopicType
+-	 * @see		PresentationTopicMap#createNewAssociationType
+-	 * @see		PresentationTopicMap#navigateByTopicType
+-	 * @see		PresentationTopicMap#navigateByAssociationType
+-	 * @see		PresentationTopicMap#performTopicAction
++	 * @see		#nodesMoved
++	 * @see		#changeTopicData
++	 * @see		#changeAssocData
+ 	 */
+ 	String processDirectives(Directives directives, PresentationTopicMap topicmap) {
+-		String result = null;	// processing result, used for chained directives (DIRECTIVE_CHOOSE_FILE)
++		String result = null;	// processing result, used for chained directives (DIRECTIVE_CHOOSE_FILE, DIRECTIVE_CHOOSE_COLOR)
+ 		String viewMode = null;
+ 		//
+ 		// Used to collect topics which have got their geometry at client side
+@@ -1437,9 +1452,9 @@
+ 					showMenu(menuID, commands, p.x, p.y);
+ 					break;
+ 				case DIRECTIVE_SHOW_DETAIL:
+-					topicID = (String) param1;
++					String obbjectID = (String) param1;
+ 					Detail detail = (Detail) param2;
+-					showDetail(topicmapID, viewMode, topicID, detail);
++					showDetail(topicmapID, viewMode, obbjectID, detail);
+ 					break;
+ 				case DIRECTIVE_SHOW_WORKSPACE:
+ 					PresentableTopic topicmapMetadata = (PresentableTopic) param1;
+@@ -1573,7 +1588,7 @@
+ 	// ---
+ 
+ 	/**
+-	 * @return	the topic type specified by its ID or &lt;CODE&gt;null&lt;/CODE&gt; if no such
++	 * @return	the topic type specified by its ID or &lt;code&gt;null&lt;/code&gt; if no such
+ 	 *			topic type is known.
+ 	 */
+ 	PresentationType getTopicType(String typeID) {
+@@ -1581,7 +1596,7 @@
+ 	}
+ 
+ 	/**
+-	 * @return	the association type specified by its ID or &lt;CODE&gt;null&lt;/CODE&gt; if no such
++	 * @return	the association type specified by its ID or &lt;code&gt;null&lt;/code&gt; if no such
+ 	 *			association type is known.
+ 	 */
+ 	PresentationType getAssociationType(String typeID) {
+@@ -1665,10 +1680,10 @@
+ 
+ 	/**
+ 	 * Processes {@link #DIRECTIVE_SHOW_TOPIC} and {@link #DIRECTIVE_SHOW_TOPICS} (called repeatedly).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * If the topic's type don't exists in the specified viewmode the topic type is copied
+ 	 * from the list of corporate wide topic types before the topic is added ###.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 16.4.2002 (2.0a14-post1)
+ 	 *
+ 	 * @param	updateGeometry			return parameter to collect the topics which have got their
+@@ -1967,7 +1982,7 @@
+ 
+ 	/**
+ 	 * ### params not needed
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Processes {@link #DIRECTIVE_FOCUS_NAME}.
+ 	 *
+ 	 * @see		#processDirectives
+@@ -1980,7 +1995,7 @@
+ 
+ 	/**
+ 	 * ### params not needed
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Processes {@link #DIRECTIVE_FOCUS_PROPERTY}.
+ 	 *
+ 	 * @see		#processDirectives
+@@ -2167,38 +2182,47 @@
+ 	/**
+ 	 * Processes {@link #DIRECTIVE_SHOW_DETAIL}.
+ 	 *
++	 * @param	objectID	ID of the topic/association/topicmap the detail window is bound to
++	 *
+ 	 * @see		#processDirectives
+ 	 */
+-	private void showDetail(String topicmapID, String viewmode, String topicID, Detail detail) {
++	private void showDetail(String topicmapID, String viewmode, String objectID, Detail detail) {
+ 		if (detail.getContentType() == DETAIL_CONTENT_NONE) {
+ 			return;
+ 		}
+ 		// check weather the detail of the specified topic is already shown
+ 		TopicmapEditorModel editor = getEditor(topicmapID);
+-		String key = getKey(topicID, detail.getCommand());
++		String key = getKey(objectID, detail.getCommand());
+ 		PresentationDetail pd = editor.getDetail(key);
+ 		JInternalFrame detailWindow;
+ 		if (pd == null) {
+ 			// --- create detail window ---
++			// ### copy in GraphPanel.paintDetails()
+ 			int x, y;
+ 			switch (detail.getType()) {
+ 			case DETAIL_TOPIC:
+-				PresentationTopic topic = editor.getTopic(topicID);				// throws DME
++				PresentationTopic topic = editor.getTopic(objectID);				// throws DME
+ 				Point p = topic.getGeometry();
+ 				x = p.x;
+ 				y = p.y;
+ 				break;
+ 			case DETAIL_ASSOCIATION:
+-				PresentationAssociation assoc = editor.getAssociation(topicID);	// ### throws DME
++				PresentationAssociation assoc = editor.getAssociation(objectID);	// throws DME
+ 				Point p1 = editor.getTopic(assoc.getTopicID1()).getGeometry();
+ 				Point p2 = editor.getTopic(assoc.getTopicID2()).getGeometry();
+ 				x = (p1.x + p2.x) / 2;
+ 				y = (p1.y + p2.y) / 2;
+ 				break;
++			case DETAIL_TOPICMAP:
++				x = detail.getGuideAnchor().x;
++				y = detail.getGuideAnchor().y;
++				break;
+ 			default:
+ 				throw new DeepaMehtaException(&quot;unexpected detail type: &quot; + detail.getType());
+ 			}
+-			pd = new PresentationDetail(detail, x, y, this);
++			//
++			Point translation = editor.getTopicMap().getTranslation();
++			pd = new PresentationDetail(detail, x + translation.x, y + translation.y, this);
+ 			detailWindow = pd.getWindow();
+ 			detailWindow.setName(key);		// component name is used to store key
+ 			editor.addDetailListeners(detailWindow);
+@@ -2210,6 +2234,10 @@
+ 			detailWindow = pd.getWindow();
+ 			System.out.println(&quot;&gt;&gt;&gt; detail \&quot;&quot; + detailWindow.getName() + &quot;\&quot; reopened&quot;);
+ 			// ### possibly update content
++			// adjust guide anchor position
++			if (detail.getType() == DETAIL_TOPICMAP) {
++				pd.setGuideAnchor(detail.getGuideAnchor());
++			}
+ 		}
+ 		// select detail window
+ 		try {
+@@ -2276,7 +2304,7 @@
+ 	// --- Notifying the user ---
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_SHOW_MESSAGE&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2296,16 +2324,11 @@
+ 	 * @see		#setDefaultCursor
+ 	 */
+ 	private void setMouseCursor(int cursorType) {
+-		/* ### if (mainWindow == null) {
+-			// Note: this is the case if running as applet and not logged in yet
+-			applet.setCursor(new Cursor(cursorType));
+-		} else { */
+ 		mainWindow.setCursor(new Cursor(cursorType));
+-		// ### }
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_PLAY_SOUND&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_PLAY_SOUND&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2377,7 +2400,7 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_RENAME_EDITOR&lt;/CODE&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_RENAME_EDITOR&lt;/code&gt;
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2420,7 +2443,7 @@
+ 	// --- executeCommand (2 forms) ---
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_LAUNCH_APPLICATION&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_LAUNCH_APPLICATION&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2444,7 +2467,7 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_OPEN_FILE&lt;/CODE&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_OPEN_FILE&lt;/code&gt;
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2477,11 +2500,11 @@
+ 	// ---
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_CHOOSE_FILE&lt;/CODE&gt;
+-	 * &lt;P&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_CHOOSE_FILE&lt;/code&gt;
++	 * &lt;p&gt;
+ 	 * Presents the filechooser dialog to let the user choose one file from the local
+ 	 * filesystem. If a file has been selected the path is returned. If the
+-	 * user aborts the selection or if an error occurs &lt;CODE&gt;null&lt;/CODE&gt; is returned.
++	 * user aborts the selection or if an error occurs &lt;code&gt;null&lt;/code&gt; is returned.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2509,11 +2532,11 @@
+ 	// ---
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_CHOOSE_COLOR&lt;/CODE&gt; and &lt;CODE&gt;DIRECTIVE_CHOOSE_BACKGROUND_COLOR&lt;/CODE&gt;
+-	 * &lt;P&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_CHOOSE_COLOR&lt;/code&gt; and &lt;code&gt;DIRECTIVE_CHOOSE_BACKGROUND_COLOR&lt;/code&gt;
++	 * &lt;p&gt;
+ 	 * Presents the color chooser dialog to let the user choose a color.
+ 	 * If a color has been selected the hexadecimal representation is returned. If the
+-	 * user aborts the selection or if an error occurs &lt;CODE&gt;null&lt;/CODE&gt; is returned.
++	 * user aborts the selection or if an error occurs &lt;code&gt;null&lt;/code&gt; is returned.
+ 	 *
+ 	 * @see         #processDirectives
+ 	 */
+@@ -2561,13 +2584,13 @@
+ 	// ---
+ 	
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_COPY_FILE&lt;/CODE&gt;.
+-	 * &lt;P&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_COPY_FILE&lt;/code&gt;.
++	 * &lt;p&gt;
+ 	 * Queues the specified file for being copied from local filesystem into the local
+ 	 * document repository.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The file is expected to exist on local filesystem. ### If not so an error
+-	 * is reported and the copy request is &lt;I&gt;not&lt;/I&gt; queued.
++	 * is reported and the copy request is &lt;i&gt;not&lt;/i&gt; queued.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2576,7 +2599,7 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_DOWNLOAD_FILE&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_DOWNLOAD_FILE&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2640,16 +2663,16 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_UPLOAD_FILE&lt;/CODE&gt;.
+-	 * &lt;P&gt;
++	 * Processes &lt;code&gt;DIRECTIVE_UPLOAD_FILE&lt;/code&gt;.
++	 * &lt;p&gt;
+ 	 * Queues the specified file for being uploaded if it has changed against the
+ 	 * specified timestamp.
+-	 * &lt;P&gt;
+-	 * ### If the specified timestamp is &lt;CODE&gt;0&lt;/CODE&gt; the upload request &lt;I&gt;is&lt;/I&gt; queued
++	 * &lt;p&gt;
++	 * ### If the specified timestamp is &lt;code&gt;0&lt;/code&gt; the upload request &lt;i&gt;is&lt;/i&gt; queued
+ 	 * (regardless of the local files timestamp).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The file is expected to exist in the local document repository. If not so, an
+-	 * error is reported and the upload request is &lt;I&gt;not&lt;/I&gt; queued.
++	 * error is reported and the upload request is &lt;i&gt;not&lt;/i&gt; queued.
+ 	 * ### true again, now we can queue directives
+ 	 * jri 3.5.2001 (2.0a10-pre8)]
+ 	 *
+@@ -2662,7 +2685,7 @@
+ 	// ---
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_QUEUE_MESSAGE&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_QUEUE_MESSAGE&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2672,7 +2695,7 @@
+ 	}
+ 
+ 	/**
+-	 * Processes &lt;CODE&gt;DIRECTIVE_QUEUE_DIRECTIVES&lt;/CODE&gt;.
++	 * Processes &lt;code&gt;DIRECTIVE_QUEUE_DIRECTIVES&lt;/code&gt;.
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+@@ -2684,7 +2707,7 @@
+ 	// --- Image Utilities ---
+ 
+ 	/**
+-	 * ### Also application should retrieve image from server (instead of accessing them locally)&lt;BR&gt;
++	 * ### Also application should retrieve image from server (instead of accessing them locally)&lt;br&gt;
+ 	 * ### Java Plugin workaraound?
+ 	 *
+ 	 * @see		PresentationTopic#setIcon
+@@ -2700,7 +2723,7 @@
+ 	}
+ 
+ 	/**
+-	 * Workaround for Sun's Java Plugin: returns &lt;CODE&gt;null&lt;/CODE&gt; if imagefile is empty.
++	 * Workaround for Sun's Java Plugin: returns &lt;code&gt;null&lt;/code&gt; if imagefile is empty.
+ 	 *
+ 	 * @see		#changeEditorIcon
+ 	 * @see		#editorIcon
+@@ -2981,7 +3004,7 @@
+ 	}
+ 
+ 	/**
+-	 * @param	host	&lt;CODE&gt;null&lt;/CODE&gt; is allowed
++	 * @param	host	&lt;code&gt;null&lt;/code&gt; is allowed
+ 	 *
+ 	 * @see		DeepaMehtaClient#initApplication
+ 	 * @see		DeepaMehtaClient#init
+@@ -3010,7 +3033,7 @@
+ 
+ 	/**
+ 	 * Removes the login screen and creates the main GUI.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The workspaces and the message panel is created in the upper screen area.
+ 	 * The progress bar used to reflect background file transfers is created in the
+ 	 * lower screen end.
+@@ -3029,8 +3052,7 @@
+ 		// --- create main GUI ---
+ 		createMainGUI();
+ 		processDirectives(directives);	// creates workspaces and views
+-		// Note: the listener is set once workspaces and views are added
+-		// ### topicmapChoice.addActionListener(this);
++		//
+ 		propertyPanel.init();
+ 		//
+ 		progressBar = new JProgressBar(progressModel);
+@@ -3050,7 +3072,7 @@
+ 		topicmapChoice.setRenderer(new ComboBoxRenderer());
+ 		// topicmapChoice.setOpaque(false);	// ###
+ 		topicmapChoice.setActionCommand(&quot;selectTopicmap&quot;);
+-		// Note: the listener is set once workspaces and views are added, see createMainGUI(Directives directives)
++		// Note: the listener is set once workspaces and views are added, see createTopicMapEditor()
+ 		backButton = new JButton(&quot;&lt;&quot;);
+ 		backButton.setSize(42, 20);		// ### width 38, 40 are to small for windows
+ 		backButton.setLocation(10, 11);
+@@ -3169,7 +3191,7 @@
+ 
+ 	/**
+ 	 * Closes the editor that is opened for the specified view.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Processes {@kink #DIRECTIVE_CLOSE_EDITOR}.
+ 	 *
+ 	 * @see		#processDirectives
+@@ -3453,7 +3475,7 @@
+ 		/**
+ 		 * ### Creates the fileserver connection and the messaging connection, then creates
+ 		 * main GUI.
+-		 * &lt;P&gt;
++		 * &lt;p&gt;
+ 		 * Performed for normal login as well as demo login.
+ 		 *
+ 		 * @see		#startSession
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -19,14 +19,14 @@
+ 
+ /**
+  * Topicmap model as instantiated by the graphical DeepaMehta frontend.
+- * &lt;P&gt;
+- * A &lt;CODE&gt;PresentationTopicMap&lt;/CODE&gt; is cpomosed by
++ * &lt;p&gt;
++ * A &lt;code&gt;PresentationTopicMap&lt;/code&gt; is cpomosed by
+  * {@link PresentationTopic}'s, {@link PresentationAssociation}'s and {@link PresentationType}'s.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class PresentationTopicMap extends PresentableTopicMap implements DeepaMehtaConstants {
+@@ -40,36 +40,36 @@
+ 
+ 
+ 	/**
+-	 * ### The client who deploys this &lt;CODE&gt;PresentationTopicMap&lt;/CODE&gt;
++	 * ### The client who deploys this &lt;code&gt;PresentationTopicMap&lt;/code&gt;
+ 	 */
+ 	PresentationService ps;		// accessed by TopicmapEditorModel.normalViewActivated()
+ 
+ 	/**
+-	 * The ID of the topic (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;) representing this topicmap.
+-	 * &lt;P&gt;
+-	 * &lt;B&gt;Initialized by&lt;/B&gt;
+-	 * &lt;UL&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;PresentationTopicMap()&lt;/CODE&gt;&lt;/LI&gt;
+-	 * &lt;/UL&gt;
+-	 * &lt;B&gt;Accessed by&lt;/B&gt;
+-	 * &lt;UL&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;getID()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;hideTopic()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;createNewTopic()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;createNewAssociation()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;createNewTopicType()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;createNewAssociationType()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;showRelatedTopics()&lt;/CODE&gt;&lt;/LI&gt;
+-	 *     &lt;LI&gt;&lt;CODE&gt;processTopicCommand()&lt;/CODE&gt;&lt;/LI&gt;
+-	 * &lt;/UL&gt;
++	 * The ID of the topic (type &lt;code&gt;tt-topicmap&lt;/code&gt;) representing this topicmap.
++	 * &lt;p&gt;
++	 * &lt;b&gt;Initialized by&lt;/b&gt;
++	 * &lt;ul&gt;
++	 *     &lt;li&gt;&lt;code&gt;PresentationTopicMap()&lt;/code&gt;&lt;/li&gt;
++	 * &lt;/ul&gt;
++	 * &lt;b&gt;Accessed by&lt;/b&gt;
++	 * &lt;ul&gt;
++	 *     &lt;li&gt;&lt;code&gt;getID()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;hideTopic()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;createNewTopic()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;createNewAssociation()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;createNewTopicType()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;createNewAssociationType()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;showRelatedTopics()&lt;/code&gt;&lt;/li&gt;
++	 *     &lt;li&gt;&lt;code&gt;processTopicCommand()&lt;/code&gt;&lt;/li&gt;
++	 * &lt;/ul&gt;
+ 	 */
+ 	private String topicmapID;
+ 
+ 	/**
+-	 * The viewmode this &lt;CODE&gt;PresentationTopicMap&lt;/CODE&gt; is deployed for
++	 * The viewmode this &lt;code&gt;PresentationTopicMap&lt;/code&gt; is deployed for
+ 	 * ({@link #VIEWMODE_USE} resp. {@link #VIEWMODE_BUILD}).
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #PresentationTopicMap constructor}.&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #PresentationTopicMap constructor}.&lt;br&gt;
+ 	 * Accessed by {@link #getViewmode}.
+ 	 */
+ 	private String viewMode;
+@@ -100,7 +100,7 @@
+ 
+ 	/**
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(Directives, PresentationService)
+@@ -120,9 +120,9 @@
+ 
+ 	/**
+ 	 * Stream constructor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(DataInputStream, PresentationService)
+@@ -218,11 +218,11 @@
+ 
+ 	/**
+ 	 * Initialites the geometry of the specified topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 29.1.2002 (2.0a14-pre7)
+ 	 *
+-	 * @return	&lt;CODE&gt;true&lt;/CODE&gt; if the geometry has been initialized,
+-	 *			&lt;CODE&gt;false&lt;/CODE&gt; if the topic already have a geometry.
++	 * @return	&lt;code&gt;true&lt;/code&gt; if the geometry has been initialized,
++	 *			&lt;code&gt;false&lt;/code&gt; if the topic already have a geometry.
+ 	 *
+ 	 * @see		TopicmapEditorModel#showTopic
+ 	 */
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanelControler.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanelControler.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanelControler.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -12,11 +12,11 @@
+ 
+ /**
+  * This interface specifies the controler for a {@link PropertyPanel}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 8.12.2002 (2.0a17-pre2)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 8.12.2002 (2.0a17-pre2)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ interface PropertyPanelControler {
+
+Modified: trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -22,11 +22,11 @@
+ 
+ /**
+  * Editor model for an opened topicmap.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 3.1.2005 (2.0b4)&lt;BR&gt;
+- * Last documentation update: 7.6.2001 (2.0a11-pre4)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 7.6.2001 (2.0a11-pre4)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ class TopicmapEditorModel implements DeepaMehtaConstants {
+@@ -42,24 +42,24 @@
+ 	private PresentationTopicMap topicMap;
+ 
+ 	/**
+-	 * The topicmap being edited by this topicmap editor (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;).
++	 * The topicmap being edited by this topicmap editor (type &lt;code&gt;tt-topicmap&lt;/code&gt;).
+ 	 */
+ 	private BaseTopic topicmapTopic;
+ 
+ 	/**
+ 	 * The editor context this editor is deployed for.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * See the 4 {@link #EDITOR_CONTEXT_PERSONAL EDITOR_CONTEXT_XXX constants}.
+ 	 */
+ 	private int editorContext;
+ 
+ 	/**
+ 	 * Displayed topic/assoc details.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+  	 * ### The hashkey is composed by topicID/assocID AND detail command (one topic may have many
+ 	 * details open at the same time, but no two of the same processing command)
+- 	 * &lt;P&gt;
+-	 * Key: &quot;topicID:command&quot; (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++ 	 * &lt;p&gt;
++	 * Key: &quot;topicID:command&quot; (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: detail ({@link PresentationDetail})
+ 	 */
+ 	private Hashtable details = new Hashtable();
+@@ -81,9 +81,9 @@
+ 
+ 
+ 	/**
+-	 * @param	editorContext	The editor context this editor is deployed for.&lt;BR&gt;
++	 * @param	editorContext	The editor context this editor is deployed for.&lt;br&gt;
+ 	 *							See the 4 {@link #EDITOR_CONTEXT_PERSONAL EDITOR_CONTEXT_XXX constants}.
+-	 * @param	topicmapTopic	The topic representing the view being edited by this editor (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;).
++	 * @param	topicmapTopic	The topic representing the view being edited by this editor (type &lt;code&gt;tt-topicmap&lt;/code&gt;).
+ 	 * @param	topicMap
+ 	 *
+ 	 * @see		PresentationService#createTopicMapEditor
+@@ -118,7 +118,7 @@
+ 
+ 	/**
+ 	 * Returns the topic representing the view being edited by this editor (type
+-	 * &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;).
++	 * &lt;code&gt;tt-topicmap&lt;/code&gt;).
+ 	 *
+ 	 * @see		TopicMapEditorControler#getTopicmapTopic
+ 	 */
+@@ -229,16 +229,16 @@
+ 	/**
+ 	 * Initializes the geometry of the specified topic and adds it to the
+ 	 * specified viewmode of this editor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Presumption: the type is already present.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Part of processing {@link #DIRECTIVE_SHOW_TOPIC} and
+ 	 * {@link #DIRECTIVE_SHOW_TOPICS} (called repeatedly).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 30.3.2003 (2.0a18-pre8)
+ 	 *
+-	 * @return	&lt;CODE&gt;true&lt;/CODE&gt; if the geometry has been initialized,
+-	 *			&lt;CODE&gt;false&lt;/CODE&gt; if the topic already have a geometry.
++	 * @return	&lt;code&gt;true&lt;/code&gt; if the geometry has been initialized,
++	 *			&lt;code&gt;false&lt;/code&gt; if the topic already have a geometry.
+ 	 *
+ 	 * @see		PresentationService#showTopic
+ 	 */
+@@ -253,10 +253,10 @@
+ 
+ 	/**
+ 	 * Adds the specified association to the specified viewmode of this editor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Part of processing {@link #DIRECTIVE_SHOW_ASSOCIATION} and
+ 	 * {@link #DIRECTIVE_SHOW_ASSOCIATIONS} (called repeatedly).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 1.4.2003 (2.0a18-pre8)
+ 	 *
+ 	 * @param	assoc	The association to add (the associated topics are not yet set)
+@@ -327,7 +327,7 @@
+ 
+ 	/**
+ 	 * Updates the model to reflect the specified topic is selected now.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 8.5.2002 (2.0a15-pre1)
+ 	 *
+ 	 * @see		TopicmapEditorModel#selectTopic
+@@ -348,7 +348,7 @@
+ 
+ 	/**
+ 	 * Updates the model to reflect the specified assoc is selected now.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 8.5.2002 (2.0a15-pre1)
+ 	 *
+ 	 * @see		TopicmapEditorModel#selectAssociation
+@@ -369,7 +369,7 @@
+ 
+ 	/**
+ 	 * Updates the model to reflect this graph is selected now.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 10.6.2002 (2.0a15-pre7)
+ 	 *
+ 	 * @see		TopicmapEditorModel#selectTopicMap
+@@ -391,7 +391,7 @@
+ 	/**
+ 	 * If the selected topic is the specified topic the model is updated to reflect nothing is
+ 	 * selected now.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 10.6.2002 (2.0a15-pre7)
+ 	 *
+ 	 * @see		TopicmapEditorModel#removeSelection(String viewmode)
+@@ -405,7 +405,7 @@
+ 	/**
+ 	 * If the selected topic is the specified topic the model is updated to reflect nothing is
+ 	 * selected now.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 10.6.2002 (2.0a15-pre7)
+ 	 *
+ 	 * @see		TopicmapEditorModel#removeSelection(String viewmode)
+@@ -484,6 +484,8 @@
+ 				controler.processNodeDetail(topicMap, id, detail);
+ 			} else if (detailType == DETAIL_ASSOCIATION) {
+ 				controler.processEdgeDetail(topicMap, id, detail);
++			} else if (detailType == DETAIL_TOPICMAP) {
++				// ### ?
+ 			} else {
+ 				// ### error
+ 			}
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -3774,7 +3774,7 @@
+ 
+ 
+ 	/**
+-	 * Sends the specified directives &lt;I&gt;asynchronously&lt;/I&gt; to every enumerated user.
++	 * Sends the specified directives &lt;i&gt;asynchronously&lt;/i&gt; to every enumerated user.
+ 	 *
+ 	 * @param	storeForLaterDelivery		### not yet used
+ 	 *
+@@ -3797,7 +3797,7 @@
+ 	}
+ 
+ 	/**
+-	 * Sends the specified directives &lt;I&gt;asynchronously&lt;/I&gt; to every enumerated session.
++	 * Sends the specified directives &lt;i&gt;asynchronously&lt;/i&gt; to every enumerated session.
+ 	 *
+ 	 * @param	storeForLaterDelivery		### not yet used
+ 	 *
+@@ -4061,7 +4061,7 @@
+ 	/**
+ 	 * Extends the specified directives to let the client create the initial GUI.
+ 	 * &lt;p&gt;
+-	 * The initial GUI consists of the users &lt;I&gt;workspaces&lt;/I&gt; as well as the &lt;I&gt;views&lt;/I&gt;
++	 * The initial GUI consists of the users &lt;i&gt;workspaces&lt;/i&gt; as well as the &lt;i&gt;views&lt;/i&gt;
+ 	 * from previous session.
+ 	 * &lt;p&gt;
+ 	 * Called once a user logged in sucessfully.
+@@ -4432,7 +4432,7 @@
+ 
+ 	/**
+ 	 * ### Actually creates an PresentableTopic based on the specified BaseTopic
+-	 * &lt;I&gt;and&lt;/I&gt; initializes its appearance. Note: the appearance initialization
++	 * &lt;i&gt;and&lt;/i&gt; initializes its appearance. Note: the appearance initialization
+ 	 * is based on the corresponding LiveTopic, thus an DeepaMehtaException is
+ 	 * thrown if the topic dosn't exist in live corporate memory. The geometry of
+ 	 * the created PresentableTopic remains uninitialized.
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -22,11 +22,11 @@
+ 
+ /**
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 1.2.2008 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 9.10.2001 (2.0a12)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 1.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 9.10.2001 (2.0a12)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public final class CorporateCommands extends Commands implements DeepaMehtaConstants {
+@@ -63,7 +63,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Create&quot; command group to this (view) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 11.6.2002 (2.0a15-pre7)
+ 	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#viewCommands
+@@ -79,7 +79,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Search by Topic Type&quot; command group to this (view) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 31.1.2008 (2.0b8)
+ 	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#viewCommands
+@@ -94,7 +94,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Hide all&quot; command group to this (view) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 4.12.2002 (2.0a17-pre2)
+ 	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#viewCommands
+@@ -273,7 +273,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Retype&quot; command to this (topic) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.2.2005 (2.0b5)
+ 	 *
+ 	 * @see		#addStandardCommands
+@@ -294,7 +294,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Retype&quot; command to this (association) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.2.2005 (2.0b5)
+ 	 *
+ 	 * @see		de.deepamehta.assocs.LiveAssociation#contextCommands
+@@ -317,8 +317,8 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Hide&quot; command to this (topic) command set.
+-	 * &lt;P&gt;
+-	 * References checked: 11.10.2001 (2.0a12)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * References checked: 11.10.2001 (2.0a12)&lt;br&gt;
+ 	 * Documentation updated: 11.10.2001 (2.0a12)
+ 	 *
+ 	 * @see		#addStandardCommands
+@@ -329,7 +329,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Hide&quot; command to this (association) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 11.10.2001 (2.0a12)
+ 	 *
+ 	 * @see		de.deepamehta.assocs.LiveAssociation#contextCommands
+@@ -342,7 +342,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Delete&quot; command to this (topic) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.2.2005 (2.0b5)
+ 	 *
+ 	 * @see		#addStandardCommands
+@@ -364,7 +364,7 @@
+ 
+ 	/**
+ 	 * Adds a &quot;Delete&quot; command to this (association) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.2.2005 (2.0b5)
+ 	 *
+ 	 * @see		de.deepamehta.assocs.LiveAssociation#contextCommands
+@@ -539,17 +539,17 @@
+ 
+ 	/**
+ 	 * Adds topic commands to the specified command group of this (topic) command set.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * This method is useful for creating preference submenus, e.g. the submenus for
+ 	 * the export preferences or the Kompetenzstern preferences are build by help
+ 	 * of this method.
+-	 * &lt;P&gt;
+-	 * References checked: 14.12.2001 (2.0a14-pre4)&lt;BR&gt;
++	 * &lt;p&gt;
++	 * References checked: 14.12.2001 (2.0a14-pre4)&lt;br&gt;
+ 	 * Documentation updated: 9.10.2001 (2.0a12)
+ 	 *
+ 	 * @param	topics			vector of topics (BaseTopic) resp. topic IDs (String)
+-	 * @param	selectedTopic	currently selected topic, may be &lt;CODE&gt;null&lt;/CODE&gt;
+-	 * @param	title			appears before commands, may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	selectedTopic	currently selected topic, may be &lt;code&gt;null&lt;/code&gt;
++	 * @param	title			appears before commands, may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		#addExportCommand
+ 	 */
+@@ -579,8 +579,8 @@
+ 
+ 	/**
+ 	 * @param	topics				vector of topics (BaseTopic) resp. topic IDs (String)
+-	 * @param	selectedTopicIDs	IDs of currently selected topics, may be &lt;CODE&gt;null&lt;/CODE&gt;
+-	 * @param	disabledTopicIDs	IDs of currently disabled topics, may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	selectedTopicIDs	IDs of currently selected topics, may be &lt;code&gt;null&lt;/code&gt;
++	 * @param	disabledTopicIDs	IDs of currently disabled topics, may be &lt;code&gt;null&lt;/code&gt;
+ 	 */
+ 	public void addTopicCommands(Commands cmdGroup, Vector topics, String command,
+ 								int commandState, Vector selectedTopicIDs, Vector disabledTopicIDs, String title,
+@@ -608,9 +608,9 @@
+ 
+ 	/**
+ 	 * Adds commands for all topic types which are accessible by the user to the specified command group.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Used for &quot;Retype&quot;, &quot;Create&quot;, &quot;Search&quot; and workspace's &quot;Assign Topic Type&quot; commands.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 31.1.2008 (2.0b8)
+ 	 *
+ 	 * @see		#addCreateCommands
+@@ -668,9 +668,9 @@
+ 
+ 	/**
+ 	 * Adds commands for all association types which are accessible by the user to the specified command group.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Used for &quot;Retype&quot; and workspace's &quot;Assign Association Type&quot; commands.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.2.2005 (2.0b5)
+ 	 *
+ 	 * @see		#addRetypeAssociationCommand
+@@ -764,9 +764,9 @@
+ 	 * Used for &quot;Navigate by Topic&quot;, &quot;Navigate by Association&quot; and &quot;Hide all&quot; commands.
+ 	 *
+ 	 * @param	types		the types to add as typeID/count pairs
+-	 * @param	heading		can be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param	heading		can be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+-	 * @return	&lt;CODE&gt;true&lt;/CODE&gt; if at least one command has been added
++	 * @return	&lt;code&gt;true&lt;/code&gt; if at least one command has been added
+ 	 *
+ 	 * @see		#addHideAllCommands
+ 	 * @see		#addNavigationCommands
+
+Deleted: trunk/develop/src/de/deepamehta/service/CorporateDetail.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDetail.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/service/CorporateDetail.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -1,110 +0,0 @@
+-package de.deepamehta.service;
+-
+-import de.deepamehta.DeepaMehtaException;
+-import de.deepamehta.Detail;
+-
+-import java.io.DataInputStream;
+-import java.io.IOException;
+-import java.util.Hashtable;
+-import java.util.StringTokenizer;
+-
+-
+-
+-/**
+- * ### to be dropped
+- * &lt;P&gt;
+- * Server side extension of topic/association {@link de.deepamehta.Detail}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 14.10.2001 (2.0a13-pre1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+- */
+-public class CorporateDetail extends Detail {
+-
+-
+-
+-	// **************
+-	// *** Fields ***
+-	// **************
+-
+-
+-
+-	private ApplicationService as;
+-
+-
+-
+-	// ********************
+-	// *** Constructors ***
+-	// ********************
+-
+-
+-
+-	/**
+-	 * Copy constructor.
+-	 * &lt;P&gt;
+-	 * References checked: 2.1.2002 (2.0a14-pre5)
+-	 *
+-	 * @see		EmbeddedService#processTopicDetail
+-	 */
+-	public CorporateDetail(Detail detail, ApplicationService as) {
+-		super(detail);
+-		this.as = as;
+-	}
+-
+-	/**
+-	 * Stream constructor.
+-	 * &lt;P&gt;
+-	 * References checked: 20.10.2001 (2.0a13-pre1)
+-	 *
+-	 * @see		InteractionConnection#performProcessTopicDetail
+-	 */
+-	CorporateDetail(DataInputStream in, ApplicationService as) throws IOException {
+-		super(in);
+-		this.as = as;
+-	}
+-
+-
+-
+-	// ***************
+-	// *** Methods ***
+-	// ***************
+-
+-
+-
+-	/**
+-	 * References checked: 22.11.2001 (2.0a13-post1)
+-	 *
+-	 * @see		de.deepamehta.topics.LiveTopic#processDetailHook
+-	 */
+-	public CorporateDirectives process(Session session, String topicID, int version,
+-													String topicmapID, String viewmode) {
+-		CorporateDirectives directives = new CorporateDirectives();
+-		//
+-		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+-		String cmd = st.nextToken();
+-		//
+-		/* ### if (cmd.equals(CMD_CHANGE_TOPIC_NAME)) {
+-			String name = (String) param1;
+-			directives.add(as.changeTopicName(topicID, version, name, topicmapID, viewmode));
+-			return directives;
+-		} else */ if (cmd.equals(CMD_EDIT_TOPIC_PROPERTY)) {
+-			String prop = st.nextToken();
+-			String value = (String) param1;
+-			Hashtable props = new Hashtable();
+-			props.put(prop, value);
+-			directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, topicID, props, new Integer(version));
+-			return directives;
+-		} else if (cmd.equals(CMD_EDIT_ASSOC_PROPERTY)) {
+-			String prop = st.nextToken();
+-			String value = (String) param1;
+-			Hashtable props = new Hashtable();
+-			props.put(prop, value);
+-			directives.add(DIRECTIVE_SHOW_ASSOC_PROPERTIES, topicID, props, new Integer(version));
+-			return directives;
+-		} else {
+-			throw new DeepaMehtaException(&quot;unexpected command: \&quot;&quot; + command + &quot;\&quot;&quot;);
+-		}
+-	}
+-}
+
+Added: trunk/develop/src/de/deepamehta/service/CorporateDetail.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDetail.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/service/CorporateDetail.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -0,0 +1,85 @@
++package de.deepamehta.service;
++
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.Detail;
++
++import java.io.DataInputStream;
++import java.io.IOException;
++import java.util.Hashtable;
++import java.util.StringTokenizer;
++
++
++
++/**
++ * ### to be dropped
++ * &lt;p&gt;
++ * Server side extension of topic/association {@link de.deepamehta.Detail}.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 14.10.2001 (2.0a13-pre1)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ */
++public class CorporateDetail extends Detail {
++
++
++
++	// **************
++	// *** Fields ***
++	// **************
++
++
++
++	private ApplicationService as;
++
++
++
++	// ********************
++	// *** Constructors ***
++	// ********************
++
++
++
++	/**
++	 * Copy constructor.
++	 * &lt;p&gt;
++	 * References checked: 2.1.2002 (2.0a14-pre5)
++	 *
++	 * @see		EmbeddedService#processTopicDetail
++	 */
++	public CorporateDetail(Detail detail, ApplicationService as) {
++		super(detail);
++		this.as = as;
++	}
++
++	/**
++	 * Stream constructor.
++	 * &lt;p&gt;
++	 * References checked: 20.10.2001 (2.0a13-pre1)
++	 *
++	 * @see		InteractionConnection#performProcessTopicDetail
++	 */
++	CorporateDetail(DataInputStream in, ApplicationService as) throws IOException {
++		super(in);
++		this.as = as;
++	}
++
++
++
++	// ***************
++	// *** Methods ***
++	// ***************
++
++
++
++	/**
++	 * References checked: 22.11.2001 (2.0a13-post1)
++	 *
++	 * @see		de.deepamehta.topics.LiveTopic#processDetailHook
++	 */
++	public CorporateDirectives process(Session session, String topicID, int version,
++													String topicmapID, String viewmode) {
++		return new CorporateDirectives();
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/service/DeepaMehta.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/DeepaMehta.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/service/DeepaMehta.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -53,7 +53,7 @@
+ 	public void sendDirectives(Session session, CorporateDirectives directives,
+ 							   ApplicationService as, String topicmapID, String viewmode) {
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+-		// ### the monolitih application knows topicmapID, viewmode, the client not!!!
++		// ### the monolitic application knows topicmapID, viewmode, the client not!!!
+ 		ps.processDirectives(new PresentationDirectives(directives, ps) /* ###, topicmapID, viewmode */);
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -47,8 +47,8 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 22.1.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * Last sourcecode change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+@@ -520,13 +520,6 @@
+ 			String prop = st.nextToken();
+ 			String value = st.nextToken();
+ 			directives.add(setTopicData(prop, value, topicmapID, viewmode));
+-		} else if (cmd.equals(CMD_EDIT_TOPIC_PROPERTY) || cmd.equals(CMD_VIEW_TOPIC_PROPERTY)) {
+-			String prop = st.nextToken();
+-			String propLabel = st.nextToken();
+-			boolean styled = new Boolean(st.nextToken()).booleanValue();
+-			boolean multiline = new Boolean(st.nextToken()).booleanValue();
+-			boolean editable = cmd.equals(CMD_EDIT_TOPIC_PROPERTY);
+-			openTextEditor(prop, propLabel, styled, multiline, editable, directives, command);
+ 		} else if (cmd.equals(CMD_ASSIGN_TOPIC)) {
+ 			String assocTypeID = st.nextToken();
+ 			String cardinality = st.nextToken();
+@@ -858,36 +851,14 @@
+ 
+ 
+ 	/**
+-	 * Subclasses can override this method to provide topic details.
++	 * Subclasses can override this method to provide a topic detail window.
+ 	 * &lt;p&gt;
+-	 * ### The default implementation returns the properties in a 1-row table format.
++	 * The default implementation returns the help text for this topic's type.
+ 	 *
+ 	 * @see		#executeCommand
+ 	 */
+ 	public Detail getDetail() {
+-		/* ### Vector typeDef = as.type(this).getTypeDefinition();
+-		int propCount = typeDef.size();
+-		if (propCount == 0) {
+-			return new Detail(DETAIL_TOPIC);
+-		}
+-		//
+-		String[] columnNames = new String[propCount];
+-		String[][] values = new String[1][propCount];
+-		//
+-		Hashtable props = getProperties();
+-		String propName, propVal;
+-		Enumeration e = typeDef.elements();
+-		for (int i = 0; i &lt; propCount; i++) {
+-			propName = ((PropertyDefinition) e.nextElement()).getPropertyName();
+-			columnNames[i] = propName;
+-			propVal = (String) props.get(propName);
+-			values[0][i] = propVal != null ? propVal : &quot;&quot;;
+-		}
+-		//
+-		String title = getName().equals(&quot;&quot;) ? &quot;Topic Properties&quot; : &quot;\&quot;&quot; + getName() + &quot;\&quot;&quot;;
+-		Detail detail = new Detail(DETAIL_TOPIC, DETAIL_CONTENT_TABLE, columnNames, values, title, &quot;setProperties&quot;); */
+-		Detail detail = createTopicHelp(getType());
+-		return detail;
++		return createTopicHelp(getType());
+ 	}
+ 
+ 	/**
+@@ -1559,34 +1530,6 @@
+ 
+ 
+ 	/**
+-	 * Handles the {@link #CMD_EDIT_TOPIC_PROPERTY} and {@link #CMD_VIEW_TOPIC_PROPERTY} commands.
+-	 * &lt;p&gt;
+-	 * Extend the specified directives to let the user edit/view the specified
+-	 * property of this live topic.
+-	 *
+-	 * @see		#executeCommand
+-	 */
+-	private void openTextEditor(String propName, String propLabel, boolean styled,
+-									boolean multiline, boolean editable,
+-									CorporateDirectives directives, String command) {
+-		// ### compare to LiveAssociation.openTextEditor()
+-		// ### compare to KompetenzsternTopic.openTextEditor()
+-		Detail detail;
+-		String title = getName().equals(&quot;&quot;) ? as.typeName(this) + &quot; &quot; + propLabel :
+-			propLabel + &quot; von \&quot;&quot; + getName() + &quot;\&quot;&quot;;
+-		if (styled) {
+-			detail = new Detail(DETAIL_TOPIC, DETAIL_CONTENT_HTML, getProperty(propName),
+-				new Boolean(editable), title, command);
+-		} else {
+-			detail = new Detail(DETAIL_TOPIC, DETAIL_CONTENT_TEXT, getProperty(propName),
+-				new Boolean(multiline), title, command);
+-		}
+-		directives.add(DIRECTIVE_SHOW_DETAIL, getID(), detail);
+-	}
+-
+-	// ---
+-
+-	/**
+ 	 * Handles the {@link #CMD_ASSIGN_TOPIC} command.
+ 	 *
+ 	 * @see		#executeCommand
+@@ -1661,19 +1604,6 @@
+ 	// ---
+ 
+ 	/**
+-	 * ### to be dropped? (called only once)
+-	 * &lt;p&gt;
+-	 * Handles the {@link #CMD_CHANGE_TOPIC_NAME} command.
+-	 * &lt;p&gt;
+-	 * References checked: 23.6.2002 (2.0a15-pre8)
+-	 *
+-	 * @see		#executeCommand
+-	 */
+-	/* ### private void rename(BaseTopic topic, Session session, CorporateDirectives directives) {
+-		rename(topic.getID(), topic.getType(), topic.getName(), session, directives);
+-	} */
+-
+-	/**
+ 	 * Adds directives to initiate topic (re)naming.
+ 	 * &lt;p&gt;
+ 	 * References checked: 23.6.2002 (2.0a15-pre8)
+@@ -1687,19 +1617,11 @@
+ 	 * @see		TypeTopic#executeCommand
+ 	 * @see		PropertyTopic#executeCommand
+ 	 */
+-	protected final void rename(String topicID, String typeID, String name, Session session,
+-															   CorporateDirectives directives) {
++	protected final void rename(String topicID, String typeID, String name, Session session, CorporateDirectives directives) {
+ 		if (session == null) {
+ 			return;
+ 		}
+-		// ### if (session.getUserPreferences().showSidebar) {
+ 		directives.add(DIRECTIVE_FOCUS_PROPERTY);
+-		/* ### } else {
+-			String title = as.typeName(typeID) + &quot; Name&quot;;
+-			Detail detail = new Detail(DETAIL_TOPIC, DETAIL_CONTENT_TEXT, name, Boolean.FALSE,
+-				title, CMD_CHANGE_TOPIC_NAME);		// ### command not handled
+-			directives.add(DIRECTIVE_SHOW_DETAIL, topicID, detail);
+-		} */
+ 	}
+ 
+ 	// ---
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -15,7 +15,7 @@
+ 
+ 
+ /**
+- * Last functional change: 22.1.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -29,7 +29,7 @@
+ 	private static final String CMD_SEND_TO_PERSON = &quot;createNewMail&quot;;
+ 
+ 	private static final String ITEM_MAKE_APPOINTMENT = &quot;Make Appointment&quot;;
+-	private static final String ICON_MAKE_APPOINTMENT = &quot;createAppointment.gif&quot;;
++	private static final String ICON_MAKE_APPOINTMENT = &quot;make-appointment.gif&quot;;
+ 	private static final String CMD_MAKE_APPOINTMENT = &quot;makeAppointment&quot;;
+ 
+ 	
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -3,6 +3,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.BaseTopicMap;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.Detail;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PresentableTopicMap;
+@@ -42,51 +43,51 @@
+ 
+ 
+ /**
+- * This active kernel topic represents a &lt;I&gt;Topicmap&lt;/I&gt; (in DeepaMehta a synonym is
+- * &lt;I&gt;View&lt;/I&gt;). Topics representing topicmaps are mainly represented in the workspaces
++ * This active kernel topic represents a &lt;i&gt;Topicmap&lt;/i&gt; (in DeepaMehta a synonym is
++ * &lt;i&gt;View&lt;/i&gt;). Topics representing topicmaps are mainly represented in the workspaces
+  * in the upper display area.
+  *
+- * &lt;H4&gt;Active behavoir&lt;/H4&gt;
++ * &lt;h4&gt;Active behavoir&lt;/h4&gt;
+  *
+- * ### The active &lt;I&gt;evocation&lt;/I&gt; behavoir of a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; is setting the
+- * initial view by duplicating the generic view (&lt;CODE&gt;t-genericmap&lt;/CODE&gt;) in corporate
++ * ### The active &lt;i&gt;evocation&lt;/i&gt; behavoir of a &lt;code&gt;TopicMapTopic&lt;/code&gt; is setting the
++ * initial view by duplicating the generic view (&lt;code&gt;t-genericmap&lt;/code&gt;) in corporate
+  * memory.
+- * &lt;P&gt;
+- * The active &lt;I&gt;dying&lt;/I&gt; behavoir of a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; is deleting the view
++ * &lt;p&gt;
++ * The active &lt;i&gt;dying&lt;/i&gt; behavoir of a &lt;code&gt;TopicMapTopic&lt;/code&gt; is deleting the view
+  * from corporate memory as well as from users personal workspace and causing the client
+  * to close this view if opened.
+- * &lt;P&gt;
+- * The &lt;I&gt;default command&lt;/I&gt; (triggered by doublecklicking) provided by a
+- * &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; is &lt;I&gt;opening&lt;/I&gt; the topicmap.
+- * &lt;P&gt;
+- * The &lt;I&gt;context-commands&lt;/I&gt; (about to appear in the topic context menu) provided by a
+- * &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; are &lt;I&gt;publishing&lt;/I&gt; the topicmap resp. &lt;I&gt;exporting&lt;/I&gt;
++ * &lt;p&gt;
++ * The &lt;i&gt;default command&lt;/i&gt; (triggered by doublecklicking) provided by a
++ * &lt;code&gt;TopicMapTopic&lt;/code&gt; is &lt;i&gt;opening&lt;/i&gt; the topicmap.
++ * &lt;p&gt;
++ * The &lt;i&gt;context-commands&lt;/i&gt; (about to appear in the topic context menu) provided by a
++ * &lt;code&gt;TopicMapTopic&lt;/code&gt; are &lt;i&gt;publishing&lt;/i&gt; the topicmap resp. &lt;i&gt;exporting&lt;/i&gt;
+  * this topicmap to an archive file. In regard of publishing it is active behavoir of a
+- * &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; to determe to which workgroups this topicmap may published
++ * &lt;code&gt;TopicMapTopic&lt;/code&gt; to determe to which workgroups this topicmap may published
+  * by the user. This depends on the status of this view (newly created in personal
+  * workspace vs. opened from a shared workspace), group memberships of the user, further
+  * publish permissions of the user and administrator status of the user (yes/no).
+- * &lt;P&gt;
+- * The active &lt;I&gt;renaming&lt;/I&gt; behavoir of a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; is causing the
++ * &lt;p&gt;
++ * The active &lt;i&gt;renaming&lt;/i&gt; behavoir of a &lt;code&gt;TopicMapTopic&lt;/code&gt; is causing the
+  * client to rename the corresponding topicmap editor if this view is opened.
+- * &lt;P&gt;
+- * The active &lt;I&gt;property change&lt;/I&gt; behavoir of a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; is causing
++ * &lt;p&gt;
++ * The active &lt;i&gt;property change&lt;/i&gt; behavoir of a &lt;code&gt;TopicMapTopic&lt;/code&gt; is causing
+  * the client to update the background color of the corresponding topicmap editor (only
+- * &lt;CODE&gt;VIEWMODE_USE&lt;/CODE&gt; for now) if this view is opened.
++ * &lt;code&gt;VIEWMODE_USE&lt;/code&gt; for now) if this view is opened.
+  *
+- * &lt;H4&gt;Importing of topicmaps&lt;/H4&gt;
++ * &lt;h4&gt;Importing of topicmaps&lt;/h4&gt;
+  * The importing of topicmaps on the server side is divided into three steps:
+- * &lt;P&gt;&lt;OL&gt;
+- * &lt;LI&gt;sending of directive for choosing archive file name ({@link #executeCommand})&lt;/LI&gt;
+- * &lt;LI&gt;sending of directives for copying of archive file to client's document repository
+- *     and upload to the server ({@link #doImport})&lt;/LI&gt;
+- * &lt;LI&gt;importing from archive file stored in server's document repository
+- *     ({@link #importFromFile})&lt;/LI&gt;
+- * &lt;/OL&gt;
+- * &lt;HR&gt;
+- * Last functional change: 29.1.2008 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;&lt;ol&gt;
++ * &lt;li&gt;sending of directive for choosing archive file name ({@link #executeCommand})&lt;/li&gt;
++ * &lt;li&gt;sending of directives for copying of archive file to client's document repository
++ *     and upload to the server ({@link #doImport})&lt;/li&gt;
++ * &lt;li&gt;importing from archive file stored in server's document repository
++ *     ({@link #importFromFile})&lt;/li&gt;
++ * &lt;/ol&gt;
++ * &lt;hr&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class TopicMapTopic extends LiveTopic {
+@@ -108,8 +109,8 @@
+ 	/**
+ 	 * ### If this topicmap is part of a shared workspace this variable holds the respective
+ 	 * workspace. May be null.
+-	 * &lt;P&gt;
+-	 * Initialized by {@link #updateOwnership}&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Initialized by {@link #updateOwnership}&lt;br&gt;
+ 	 * Accessed by {@link #openTopicmap}
+ 	 */
+ 	private BaseTopic owner;
+@@ -136,16 +137,16 @@
+ 
+ 	/**
+ 	 * Exports this topicmap to corporate document repository and instructs the client to
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;download the exported file
+-	 * &lt;LI&gt;show the exported file as document topic
+-	 * &lt;LI&gt;notify the user about completion
+-	 * &lt;/OL&gt;
++	 * &lt;ol&gt;
++	 * &lt;li&gt;download the exported file
++	 * &lt;li&gt;show the exported file as document topic
++	 * &lt;li&gt;notify the user about completion
++	 * &lt;/ol&gt;
+ 	 * Export performs in the background.
+-	 * Note: the returned directives are send &lt;I&gt;asynchronously&lt;/I&gt;.
+-	 * &lt;P&gt;
++	 * Note: the returned directives are send &lt;i&gt;asynchronously&lt;/i&gt;.
++	 * &lt;p&gt;
+ 	 * Presumption: all the document files are existing in corporate document repository.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.11.2004 (2.0b3)
+ 	 *
+ 	 * @throws	DeepaMehtaException	if an I/O error occurrs while export
+@@ -261,10 +262,10 @@
+ 
+ 
+ 	/**
+-	 * Creates the action commands for a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; and returns them.
+-	 * &lt;P&gt;
+-	 * A &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; provides two commands: &lt;I&gt;publishing&lt;/I&gt; and
+-	 * &lt;I&gt;exporting&lt;/I&gt;.
++	 * Creates the action commands for a &lt;code&gt;TopicMapTopic&lt;/code&gt; and returns them.
++	 * &lt;p&gt;
++	 * A &lt;code&gt;TopicMapTopic&lt;/code&gt; provides two commands: &lt;i&gt;publishing&lt;/i&gt; and
++	 * &lt;i&gt;exporting&lt;/i&gt;.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#showTopicMenu
+ 	 */
+@@ -323,7 +324,7 @@
+ 
+ 	/**
+ 	 * Subclasses can override this method to customize the topic property form.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * ### The default implementation does nothing.
+ 	 *
+ 	 * @see		TypeTopic#makeTypeDefinition
+@@ -410,6 +411,12 @@
+ 		// --- delete topicmap ---
+ 		} else if (cmd.equals(CMD_DELETE_TOPICMAP)) {
+ 			delete(session.getPersonalWorkspace().getID(), VIEWMODE_USE, directives);
++		// --- help ---
++		} else if (cmd.equals(CMD_SHOW_HELP)) {
++			String typeID = st.nextToken();
++			int x = Integer.parseInt(st.nextToken());
++			int y = Integer.parseInt(st.nextToken());
++			showTypeHelp(typeID, x, y, session, directives);
+ 		//
+ 		} else if (cmd.equals(CMD_ASSIGN_BACKGROUND)) {
+ 			directives.add(DIRECTIVE_CHOOSE_FILE);
+@@ -425,7 +432,7 @@
+ 	}
+ 
+ 	/**
+-	 * The chained action of a &lt;CODE&gt;TopicMapTopic&lt;/CODE&gt; performs ### opening (the default
++	 * The chained action of a &lt;code&gt;TopicMapTopic&lt;/code&gt; performs ### opening (the default
+ 	 * action) and publishing of this topicmap.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performChainedTopicCommand
+@@ -524,17 +531,17 @@
+ 
+ 	/**
+ 	 * Opens this topicmap. Precondition: this topicmap is currently not opened.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Adds the directives for opening this topicmap to the specified directives.
+ 	 * Called in 3 situaltions:
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;(interactively) -- this view is double-clicked and is not already open
+-	 * &lt;LI&gt;(programatically) -- this view is opened while restoring a user session
+-	 * &lt;LI&gt;(programatically) -- this view is opened while starting a demo session
+-	 * &lt;/UL&gt;
+-	 * &lt;P&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;(interactively) -- this view is double-clicked and is not already open
++	 * &lt;li&gt;(programatically) -- this view is opened while restoring a user session
++	 * &lt;li&gt;(programatically) -- this view is opened while starting a demo session
++	 * &lt;/ul&gt;
++	 * &lt;p&gt;
+ 	 * Note: overridden in KompetenzsternTopic (super implementation is called)
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 23.5.2003 (2.0a18)
+ 	 *
+ 	 * @throws	DeepaMehtaException	if an error occurrs while opening
+@@ -557,17 +564,17 @@
+ 
+ 	/**
+ 	 * This hook can be used to modify the export behaviour of this topicmap.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The default implementation exports all topics and associations of this topicmap,
+ 	 * along with their icon and document files.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: The application KS-Editor modifies the default export behavoir.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 26.9.2003 (2.0b2)
+ 	 *
+ 	 * @param   handler     this object will get the generated SAX events
+ 	 * @param   collector   this object will collect document and icon files.
+-	 *                      This parameter may be &lt;CODE&gt;null&lt;/CODE&gt;, which signalizes
++	 *                      This parameter may be &lt;code&gt;null&lt;/code&gt;, which signalizes
+ 	 *                      that this is an export to SVG or PDF.
+ 	 *
+ 	 * @see		de.deepamehta.topics.helper.TopicMapExporter#transformTopicmap
+@@ -750,7 +757,7 @@
+ 
+ 
+ 	/**
+-	 * Handles &lt;CODE&gt;CMD_CREATE_TOPIC&lt;/CODE&gt;.
++	 * Handles &lt;code&gt;CMD_CREATE_TOPIC&lt;/code&gt;.
+ 	 *
+ 	 * @see		#executeCommand
+ 	 * @see		ChatBoardTopic#executeCommand
+@@ -818,7 +825,7 @@
+ 
+ 	/**
+ 	 * Initializes the {@link #owner} field.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Checks wheather this topicmap is part of a shared workspace resp. part of the personal workspace.
+ 	 *
+ 	 * @see		#isShared
+@@ -915,7 +922,7 @@
+ 
+ 	/**
+ 	 * Opens this group view.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: This topicmap is about to be personalized.
+ 	 *
+ 	 * @return	the ID of the personal view
+@@ -1291,4 +1298,25 @@
+ 			}
+ 		}
+ 	}
++
++
++
++	// ------------
++	// --- Help ---
++	// ------------
++
++
++
++	private void showTypeHelp(String typeID, int x, int y, Session session, CorporateDirectives directives) {
++		Detail detail = createTopicHelp(typeID, x, y);
++		directives.add(DIRECTIVE_SHOW_DETAIL, getID(), detail);
++	}
++
++	private Detail createTopicHelp(String typeID, int x, int y) {
++		TypeTopic type = as.type(typeID, 1);
++		String html = type.getProperty(PROPERTY_DESCRIPTION);
++		String title = as.string(ITEM_SHOW_HELP, type.getName());
++		Detail detail = new Detail(DETAIL_TOPICMAP, DETAIL_CONTENT_HTML, html, Boolean.FALSE, title, &quot;??&quot;, new Point(x, y));	// ### command=&quot;??&quot;
++		return detail;
++	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -32,11 +32,11 @@
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 19.1.2008 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+- * Malte Rei&szlig;ig&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 19.1.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 28.7.2001 (2.0a11)&lt;br&gt;
++ * Malte Rei&szlig;ig&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public class DeepaMehtaUtils implements DeepaMehtaConstants {
+@@ -50,7 +50,7 @@
+ 
+ 
+ 	/**
+-	 * Returns the contents of the specified file as a &lt;CODE&gt;String&lt;/CODE&gt;.
++	 * Returns the contents of the specified file as a &lt;code&gt;String&lt;/code&gt;.
+ 	 * &lt;p&gt;
+ 	 * References checked: 4.2.2005 (2.0b5)
+ 	 *
+@@ -434,10 +434,10 @@
+ 
+ 	/**
+ 	 * ### to be dropped, use a StringTokenizer or split() instead
+-	 * &lt;P&gt;
+-	 * Convenience method to split a string that contains a &lt;CODE&gt;:&lt;/CODE&gt; into 2
++	 * &lt;p&gt;
++	 * Convenience method to split a string that contains a &lt;code&gt;:&lt;/code&gt; into 2
+ 	 * substrings.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Used here to split a refresh request into topicmap ID and viewmode.
+ 	 */
+ 	static public String[] explode(String str) {
+
+Added: trunk/install/client/images/make-appointment.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/make-appointment.gif
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/BewertungsebeneTopic.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -19,7 +19,7 @@
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 15.10.2001 (2.0a13-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -103,14 +103,7 @@
+ 		//
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+         String cmd = st.nextToken();
+-		if (cmd.equals(CMD_DEFAULT)) {
+-			boolean insideTemplate = as.getLiveTopic(topicmapID, 1).getType().equals(
+-			TOPICTYPE_KOMPETENZSTERN_TEMPLATE);
+-			String prop = insideTemplate ? PROPERTY_HELP : PROPERTY_DESCRIPTION;
+-			String propLabel = insideTemplate ? PROPERTY_HELP : PROPERTY_BESCHREIBUNG;
+-			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + COMMAND_SEPARATOR + prop + COMMAND_SEPARATOR +
+-				propLabel + COMMAND_SEPARATOR + &quot;true&quot; + COMMAND_SEPARATOR + &quot;true&quot;, session, topicmapID, viewmode);
+-		} else if (KompetenzsternTopic.executeOrderCommand(this, command, directives,
++		if (KompetenzsternTopic.executeOrderCommand(this, command, directives,
+         	as)) {		// do nothing
+ 		} else if (KompetenzsternTopic.executeDocumentCommand(this, command, session, directives)) {
+ 			// do nothing
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2008-02-01 13:02:50 UTC (rev 260)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2008-02-03 22:44:19 UTC (rev 261)
+@@ -24,7 +24,7 @@
+  * Part of {@link KompetenzsternTopic Kompetenzstern} application.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 3.2.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 25.8.2001 (2.0a12-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -170,13 +170,7 @@
+         //
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+         String cmd = st.nextToken();
+-		if (cmd.equals(CMD_DEFAULT)) {
+-			boolean insideTemplate = as.getLiveTopic(topicmapID, 1).getType().equals(TOPICTYPE_KOMPETENZSTERN_TEMPLATE);
+-			String prop = insideTemplate ? PROPERTY_HELP : PROPERTY_DESCRIPTION;
+-			String propLabel = insideTemplate ? PROPERTY_HELP : PROPERTY_BESCHREIBUNG;
+-			return super.executeCommand(CMD_EDIT_TOPIC_PROPERTY + COMMAND_SEPARATOR + prop + COMMAND_SEPARATOR +
+-				propLabel + COMMAND_SEPARATOR + &quot;true&quot; + COMMAND_SEPARATOR + &quot;true&quot;, session, topicmapID, viewmode);
+-		} else if (cmd.equals(CMD_NAVIGATE_BY_CRITERION)) {
++		if (cmd.equals(CMD_NAVIGATE_BY_CRITERION)) {
+ 			return navigateByTopictype(getSubkriteriumTypeID(), 2, SEMANTIC_STERN_COMPOSITION);
+ 		} else if (cmd.equals(CMD_ASSIGN_NEW_CRITERION)) {
+ 			// ### in template: TOPICTYPE_BEWERTUNGS_KRITERIUM
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000105.html">[deepamehta-svn] r260 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/examples/kompetenzstern
+</A></li>
+	<LI>Next message: <A HREF="000107.html">[deepamehta-svn] r262 -	trunk/install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#106">[ date ]</a>
+              <a href="thread.html#106">[ thread ]</a>
+              <a href="subject.html#106">[ subject ]</a>
+              <a href="author.html#106">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

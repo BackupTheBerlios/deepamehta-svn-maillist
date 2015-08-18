@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r358 - trunk/develop/src/de/deepamehta/client
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r358%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200811281823.mASINC8h023689%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000201.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r358 - trunk/develop/src/de/deepamehta/client</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r358%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200811281823.mASINC8h023689%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r358 - trunk/develop/src/de/deepamehta/client">maltito at mail.berlios.de
+       </A><BR>
+    <I>Fri Nov 28 19:23:12 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000201.html">[deepamehta-svn] r357 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#202">[ date ]</a>
+              <a href="thread.html#202">[ thread ]</a>
+              <a href="subject.html#202">[ subject ]</a>
+              <a href="author.html#202">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2008-11-28 19:23:06 +0100 (Fri, 28 Nov 2008)
+New Revision: 358
+
+Modified:
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+Log:
+Fixed Client Side Bug #14804 import of dropped files from Ubuntu
+current solution absorbs filedrops from &quot;Linux&quot; and shouldn't touch the working solutions for other systems maybe both solutions can be merged later
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-11-11 13:32:19 UTC (rev 357)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2008-11-28 18:23:06 UTC (rev 358)
+@@ -32,14 +32,17 @@
+ import java.awt.event.WindowAdapter;
+ import java.awt.event.WindowEvent;
+ import java.beans.PropertyVetoException;
++import java.io.BufferedReader;
+ import java.io.File;
+ import java.io.IOException;
++import java.io.Reader;
+ import java.net.InetAddress;
+ import java.net.URL;
+ import java.net.UnknownHostException;
+ import java.util.Date;
+ import java.util.Enumeration;
+ import java.util.Hashtable;
++import java.util.Properties;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
+ 
+@@ -3507,43 +3510,100 @@
+ 				boolean hasStringFlavor = t.isDataFlavorSupported(DataFlavor.stringFlavor);
+ 				boolean hasImageFlavor = t.isDataFlavorSupported(DataFlavor.imageFlavor);
+ 				boolean hasFilelistFlavor = t.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
++				String os = java.lang.System.getProperties().getProperty(&quot;os.name&quot;);
+ 				//
+-				System.out.println(&quot;&gt;&gt;&gt; data dropped to graph panel (&quot; + flavors.length + &quot; flavors)&quot;);
++				System.out.println(&quot;&gt;&gt;&gt; data dropped to graph panel (&quot; + flavors.length + &quot; flavors) from &quot; + os);
+ 				System.out.println(&quot;  &gt;   string flavor supported: &quot; + hasStringFlavor);
+ 				System.out.println(&quot;  &gt;    image flavor supported: &quot; + hasImageFlavor);
+ 				System.out.println(&quot;  &gt; filelist flavor supported: &quot; + hasFilelistFlavor);
+-				//
+-				if (hasImageFlavor) {
+-					// ### not yet implemented
+-				}
+-				if (hasStringFlavor) {
+-	                String str = (String) t.getTransferData(DataFlavor.stringFlavor);
+-					System.out.println(&quot;    string=\&quot;&quot; + str + &quot;\&quot;&quot;);
+-					processGraphCommand(getTopicmap(), CMD_PROCESS_STRING + COMMAND_SEPARATOR + str);
+-				} else if (hasFilelistFlavor) {
+-	                java.util.List files = (java.util.List) t.getTransferData(DataFlavor.javaFileListFlavor);
+-					System.out.println(&quot;    &quot; + files.size() + &quot; files:&quot;);
+-					StringBuffer cmdBuf = new StringBuffer(CMD_PROCESS_FILELIST);
+-	                for (int i = 0; i &lt; files.size(); i++) {
+-						File file = (File) files.get(i);
+-						System.out.println(&quot;    &quot; + file);
+-						cmdBuf.append(COMMAND_SEPARATOR);
+-						cmdBuf.append(file);
++				// 
++				if(os.equals(&quot;Linux&quot;)) {
++					// linux
++					reader:
++					for (int zz = 0; zz &lt; flavors.length; zz++) {
++						// checks if DataFlavor is a subclass of java.io.Reader
++						if (flavors[zz].isRepresentationClassReader()) {
++							DataFlavor bestFlavor = DataFlavor.selectBestTextFlavor(flavors);
++							// System.out.println(&quot;	flavor check, says the best result comes with: &quot; +
++							//	&quot;&quot; + bestFlavor.getMimeType() + &quot; instead of: &quot; + flavors[zz].getMimeType());
++							Reader reader = bestFlavor.getReaderForText(t);
++							BufferedReader br = new BufferedReader(reader);
++							File[] files = createFileArray(br);
++							StringBuffer cmdBuf = new StringBuffer(CMD_PROCESS_FILELIST);
++							System.out.println(&quot;    &quot; + files.length + &quot; files:&quot;);
++							for (int i = 0; i &lt; files.length; i++) {
++								File file = (File) files[i];
++								System.out.println(&quot;    &quot; + file);
++								cmdBuf.append(COMMAND_SEPARATOR);
++								cmdBuf.append(file);
++							}
++							processGraphCommand(getTopicmap(), cmdBuf.toString());
++							break reader;
++						}
+ 					}
+-					processGraphCommand(getTopicmap(), cmdBuf.toString());
++					return true;
++				} else {
++					// just not linux
++					if (hasImageFlavor) {
++						// ### not yet implemented
++					}
++					if (hasStringFlavor) {
++						String str = (String) t.getTransferData(DataFlavor.stringFlavor);
++						System.out.println(&quot;    string=\&quot;&quot; + str + &quot;\&quot;&quot;);
++						processGraphCommand(getTopicmap(), CMD_PROCESS_STRING + COMMAND_SEPARATOR + str);
++					} else if (hasFilelistFlavor) {
++						java.util.List files = (java.util.List) t.getTransferData(DataFlavor.javaFileListFlavor);
++						System.out.println(&quot;    &quot; + files.size() + &quot; files:&quot;);
++						StringBuffer cmdBuf = new StringBuffer(CMD_PROCESS_FILELIST);
++						for (int i = 0; i &lt; files.size(); i++) {
++							File file = (File) files.get(i);
++							System.out.println(&quot;    &quot; + file);
++							cmdBuf.append(COMMAND_SEPARATOR);
++							cmdBuf.append(file);
++						}
++						processGraphCommand(getTopicmap(), cmdBuf.toString());
++					}
++					return true;
+ 				}
+-				return true;
+             } catch (UnsupportedFlavorException ufe) {
+                 System.out.println(&quot;*** while dropping to graph panel: &quot; + ufe);
+             } catch (IOException ioe) {
+                 System.out.println(&quot;*** while dropping to graph panel: &quot; + ioe);
+             }
+-			// ### for (int i = 0; i &lt; flavors.length; i++) {
+-			// ### 	System.out.println(flavors[i]);
+-			// ### }
+ 			//
+ 			return super.importData(c, t);
+ 		}
++		
++		/** 
++		 *  Adopted from <A HREF="http://iharder.sourceforge.net/current/java/filedrop/">http://iharder.sourceforge.net/current/java/filedrop/</A> licensed under GPL
++		 *  BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
++		 *  KDE seems to append a 0 char to the end of the reader
++		 */
++		private String ZERO_CHAR_STRING = &quot;&quot; + (char)0;
++		private File[] createFileArray(BufferedReader bReader)
++		{
++			try { 
++				java.util.List list = new java.util.ArrayList();
++				java.lang.String line = null;
++				while ((line = bReader.readLine()) != null) {
++					try {
++						// kde
++						if(ZERO_CHAR_STRING.equals(line)) continue; 
++						java.io.File file = new java.io.File(new java.net.URI(line));
++						list.add(file);
++					} catch (Exception ex) {
++						System.out.println(&quot;Error with &quot; + line + &quot;: &quot; + ex.getMessage());
++					}
++				}
++				return (java.io.File[]) list.toArray(new File[list.size()]);
++			} catch (IOException ex) {
++				System.out.println(&quot;<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">GraphPanelTransferHandler at createFileArray</A>: IOException&quot;);
++			}
++			return new File[0];
++		}
++		/** 
++		 * END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
++		 */
+ 	}
+ 
+ 	private class QueuedRequest {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000201.html">[deepamehta-svn] r357 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#202">[ date ]</a>
+              <a href="thread.html#202">[ thread ]</a>
+              <a href="subject.html#202">[ subject ]</a>
+              <a href="author.html#202">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

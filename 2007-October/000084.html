@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r239 - in trunk/install/examples: dm-browser	dm-web/pages
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r239%20-%20in%20trunk/install/examples%3A%20dm-browser%0A%09dm-web/pages&In-Reply-To=%3C200710281834.l9SIYwD4009707%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000083.html">
+   <LINK REL="Next"  HREF="000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r239 - in trunk/install/examples: dm-browser	dm-web/pages</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r239%20-%20in%20trunk/install/examples%3A%20dm-browser%0A%09dm-web/pages&In-Reply-To=%3C200710281834.l9SIYwD4009707%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r239 - in trunk/install/examples: dm-browser	dm-web/pages">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Oct 28 19:34:58 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000083.html">[deepamehta-svn] r238 - in trunk: . develop/src/de/deepamehta	install/client install/client/backgrounds	install/client/documents install/client/sounds	install/client/webpages
+</A></li>
+        <LI>Next message: <A HREF="000085.html">[deepamehta-svn] r240 - in trunk: develop/src/de/deepamehta/topics	install/examples/dm-browser/config install/examples/dm-web/config	install/examples/messageboard/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-10-28 19:34:53 +0100 (Sun, 28 Oct 2007)
+New Revision: 239
+
+Modified:
+   trunk/install/examples/dm-browser/browser.xsl
+   trunk/install/examples/dm-browser/build.xml
+   trunk/install/examples/dm-web/pages/Login.jsp
+Log:
+Bug #12170 fixed (Web applications: password is shown in clear)
+
+Modified: trunk/install/examples/dm-browser/browser.xsl
+===================================================================
+--- trunk/install/examples/dm-browser/browser.xsl	2007-10-28 13:54:57 UTC (rev 238)
++++ trunk/install/examples/dm-browser/browser.xsl	2007-10-28 18:34:53 UTC (rev 239)
+@@ -11,10 +11,10 @@
+ 	&lt;xsl:template match=&quot;/&quot;&gt;
+ 		&lt;html&gt;
+ 			&lt;head&gt;
+-				&lt;title&gt;DeepaMehta&lt;/title&gt;
++				&lt;title&gt;DeepaMehta Browser&lt;/title&gt;
+ 			&lt;/head&gt;
+ 			&lt;body&gt;
+-				&lt;h2&gt;DeepaMehta&lt;/h2&gt;
++				&lt;h2&gt;DeepaMehta Browser&lt;/h2&gt;
+ 				&lt;xsl:if test=&quot;page/@name!='Login'&quot;&gt;
+ 					Logged in as &quot;&lt;xsl:value-of select=&quot;page/param[@name='user']/topic/topname/basename&quot;/&gt;&quot;.&lt;br/&gt;
+ 					&lt;xsl:if test=&quot;page/@name!='Home'&quot;&gt;
+@@ -30,23 +30,23 @@
+ 
+ 	&lt;xsl:template match=&quot;page[@name='Login']&quot;&gt;
+ 		&lt;form&gt;
+-			&lt;TABLE&gt;
+-				&lt;TR&gt;
+-					&lt;TD WIDTH=&quot;60&quot;&gt;&lt;SMALL&gt;Username&lt;/SMALL&gt;&lt;/TD&gt;
+-					&lt;TD&gt;&lt;input TYPE=&quot;Text&quot; NAME=&quot;Username&quot;/&gt;&lt;/TD&gt;
+-				&lt;/TR&gt;
+-				&lt;TR&gt;
+-					&lt;TD&gt;&lt;SMALL&gt;Password&lt;/SMALL&gt;&lt;/TD&gt;
+-					&lt;TD&gt;&lt;input TYPE=&quot;Text&quot; NAME=&quot;Password&quot;/&gt;&lt;/TD&gt;
+-				&lt;/TR&gt;
+-				&lt;TR&gt;
+-					&lt;TD&gt;&lt;/TD&gt;
+-					&lt;TD&gt;
+-						&lt;input TYPE=&quot;Submit&quot; VALUE=&quot;Login&quot;/&gt;
+-						&lt;input TYPE=&quot;Hidden&quot; NAME=&quot;action&quot; VALUE=&quot;tryLogin&quot;/&gt;
+-					&lt;/TD&gt;
+-				&lt;/TR&gt;
+-			&lt;/TABLE&gt;
++			&lt;table&gt;
++				&lt;tr&gt;
++					&lt;td width=&quot;60&quot;&gt;&lt;small&gt;Username&lt;/small&gt;&lt;/td&gt;
++					&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;Username&quot;/&gt;&lt;/td&gt;
++				&lt;/tr&gt;
++				&lt;tr&gt;
++					&lt;td&gt;&lt;small&gt;Password&lt;/small&gt;&lt;/td&gt;
++					&lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;Password&quot;/&gt;&lt;/td&gt;
++				&lt;/tr&gt;
++				&lt;tr&gt;
++					&lt;td&gt;&lt;/td&gt;
++					&lt;td&gt;
++						&lt;input type=&quot;submit&quot; value=&quot;Login&quot;/&gt;
++						&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;tryLogin&quot;/&gt;
++					&lt;/td&gt;
++				&lt;/tr&gt;
++			&lt;/table&gt;
+ 		&lt;/form&gt;
+ 	&lt;/xsl:template&gt;
+ 
+@@ -57,9 +57,9 @@
+ 		&lt;/table&gt;
+ 		&lt;h3&gt;Search&lt;/h3&gt;
+ 		&lt;form&gt;
+-			&lt;input type=&quot;submit&quot; VALUE=&quot;Search Topic&quot;/&gt;
++			&lt;input type=&quot;submit&quot; value=&quot;Search Topic&quot;/&gt;
+ 			&lt;input type=&quot;text&quot; name=&quot;search&quot;/&gt;
+-			&lt;input type=&quot;hidden&quot; name=&quot;action&quot; VALUE=&quot;search&quot;/&gt;
++			&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;search&quot;/&gt;
+ 		&lt;/form&gt;
+ 	&lt;/xsl:template&gt;
+ 
+
+Modified: trunk/install/examples/dm-browser/build.xml
+===================================================================
+--- trunk/install/examples/dm-browser/build.xml	2007-10-28 13:54:57 UTC (rev 238)
++++ trunk/install/examples/dm-browser/build.xml	2007-10-28 18:34:53 UTC (rev 239)
+@@ -19,8 +19,8 @@
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+ 				&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+
+Modified: trunk/install/examples/dm-web/pages/Login.jsp
+===================================================================
+--- trunk/install/examples/dm-web/pages/Login.jsp	2007-10-28 13:54:57 UTC (rev 238)
++++ trunk/install/examples/dm-web/pages/Login.jsp	2007-10-28 18:34:53 UTC (rev 239)
+@@ -15,7 +15,7 @@
+ 			&lt;/tr&gt;
+ 			&lt;tr&gt;
+ 				&lt;td&gt;&lt;small&gt;Password&lt;/small&gt;&lt;/td&gt;
+-				&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;Password&quot;/&gt;&lt;/td&gt;
++				&lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;Password&quot;/&gt;&lt;/td&gt;
+ 			&lt;/tr&gt;
+ 			&lt;tr&gt;
+ 				&lt;td&gt;&lt;/td&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000083.html">[deepamehta-svn] r238 - in trunk: . develop/src/de/deepamehta	install/client install/client/backgrounds	install/client/documents install/client/sounds	install/client/webpages
+</A></li>
+	<LI>Next message: <A HREF="000085.html">[deepamehta-svn] r240 - in trunk: develop/src/de/deepamehta/topics	install/examples/dm-browser/config install/examples/dm-web/config	install/examples/messageboard/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

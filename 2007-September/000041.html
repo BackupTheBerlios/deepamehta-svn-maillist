@@ -1,0 +1,994 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r196 - in trunk/install: client client/images	db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r196%20-%20in%20trunk/install%3A%20client%20client/images%0A%09db/patches&In-Reply-To=%3C200709142142.l8ELgMgS009057%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000040.html">
+   <LINK REL="Next"  HREF="000042.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r196%20-%20in%20trunk/install%3A%20client%20client/images%0A%09db/patches&In-Reply-To=%3C200709142142.l8ELgMgS009057%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 14 23:42:22 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000040.html">[deepamehta-svn] r195 - in trunk/install: . client	client/stylesheets
+</A></li>
+        <LI>Next message: <A HREF="000042.html">[deepamehta-svn] r197 - branches/ldap/install/examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#41">[ date ]</a>
+              <a href="thread.html#41">[ thread ]</a>
+              <a href="subject.html#41">[ subject ]</a>
+              <a href="author.html#41">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-14 23:39:55 +0200 (Fri, 14 Sep 2007)
+New Revision: 196
+
+Added:
+   trunk/install/client/images/
+   trunk/install/client/images/assignAssociationType.gif
+   trunk/install/client/images/assignTopicType.gif
+   trunk/install/client/images/bold.gif
+   trunk/install/client/images/button-arrow-left.png
+   trunk/install/client/images/button-arrow-right.png
+   trunk/install/client/images/button-day-activated.png
+   trunk/install/client/images/button-day.png
+   trunk/install/client/images/button-month-activated.png
+   trunk/install/client/images/button-month.png
+   trunk/install/client/images/button-week-activated.png
+   trunk/install/client/images/button-week.png
+   trunk/install/client/images/changing.gif
+   trunk/install/client/images/chooseFile.gif
+   trunk/install/client/images/compareKompetenzstern.gif
+   trunk/install/client/images/composeEmail.gif
+   trunk/install/client/images/create.gif
+   trunk/install/client/images/createBewertungsebene.gif
+   trunk/install/client/images/createDocument.gif
+   trunk/install/client/images/createKompetenzstern.gif
+   trunk/install/client/images/createKompetenzsterntemplate.gif
+   trunk/install/client/images/createKriterium.gif
+   trunk/install/client/images/createProject.gif
+   trunk/install/client/images/createProperty.gif
+   trunk/install/client/images/createTopicmap.gif
+   trunk/install/client/images/createUnterkriterium.gif
+   trunk/install/client/images/dashedeye.gif
+   trunk/install/client/images/deepamehta-logo-tiny.png
+   trunk/install/client/images/down.gif
+   trunk/install/client/images/editcolor.gif
+   trunk/install/client/images/editdescription.gif
+   trunk/install/client/images/editicon.gif
+   trunk/install/client/images/empty.gif
+   trunk/install/client/images/error.gif
+   trunk/install/client/images/export.gif
+   trunk/install/client/images/eye.gif
+   trunk/install/client/images/google.gif
+   trunk/install/client/images/hide.gif
+   trunk/install/client/images/hideUnterkriterien.gif
+   trunk/install/client/images/hidedocument.gif
+   trunk/install/client/images/import.gif
+   trunk/install/client/images/info.gif
+   trunk/install/client/images/italic.gif
+   trunk/install/client/images/left.gif
+   trunk/install/client/images/publishing.gif
+   trunk/install/client/images/rename.gif
+   trunk/install/client/images/retype.gif
+   trunk/install/client/images/right.gif
+   trunk/install/client/images/sendEmail.gif
+   trunk/install/client/images/setOrder.gif
+   trunk/install/client/images/setcorporateworkgroup.gif
+   trunk/install/client/images/setdisabled.gif
+   trunk/install/client/images/sethiddentopicnames.gif
+   trunk/install/client/images/setshowbuildpanel.gif
+   trunk/install/client/images/setshowsidepanel.gif
+   trunk/install/client/images/setsplittedscreen.gif
+   trunk/install/client/images/setsubscribable.gif
+   trunk/install/client/images/setvisualization.gif
+   trunk/install/client/images/setwert.gif
+   trunk/install/client/images/show.gif
+   trunk/install/client/images/showDocuments.gif
+   trunk/install/client/images/showHilfe.gif
+   trunk/install/client/images/showUnterkriterien.gif
+   trunk/install/client/images/startWebcrawler.gif
+   trunk/install/client/images/stopWebcrawler.gif
+   trunk/install/client/images/subscribe.gif
+   trunk/install/client/images/trash.gif
+   trunk/install/client/images/underline.gif
+   trunk/install/client/images/unsubscribe.gif
+   trunk/install/client/images/up.gif
+   trunk/install/client/images/viewhilfe.gif
+   trunk/install/client/images/warning.gif
+Modified:
+   trunk/install/db/patches/cm-2.17.sql
+Log:
+1) images directory added.
+2) patch cm-2.17.sql modified.
+
+Added: trunk/install/client/images/assignAssociationType.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/assignAssociationType.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/assignTopicType.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/assignTopicType.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/bold.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/bold.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-arrow-left.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-arrow-left.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-arrow-right.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-arrow-right.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-day-activated.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-day-activated.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-day.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-day.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-month-activated.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-month-activated.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-month.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-month.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-week-activated.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-week-activated.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/button-week.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-week.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/changing.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/changing.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/chooseFile.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/chooseFile.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/compareKompetenzstern.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/compareKompetenzstern.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/composeEmail.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/composeEmail.gif
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/create.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/create.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createBewertungsebene.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createBewertungsebene.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createDocument.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createDocument.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createKompetenzstern.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createKompetenzstern.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createKompetenzsterntemplate.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createKompetenzsterntemplate.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createKriterium.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createKriterium.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createProject.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createProject.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createProperty.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createProperty.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createTopicmap.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createTopicmap.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/createUnterkriterium.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/createUnterkriterium.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/dashedeye.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/dashedeye.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/deepamehta-logo-tiny.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/deepamehta-logo-tiny.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/down.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/down.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/editcolor.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/editcolor.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/editdescription.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/editdescription.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/editicon.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/editicon.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/empty.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/empty.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/error.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/error.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/export.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/export.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/eye.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/eye.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/google.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/google.gif
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/hide.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/hide.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/hideUnterkriterien.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/hideUnterkriterien.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/hidedocument.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/hidedocument.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/import.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/import.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/info.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/info.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/italic.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/italic.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/left.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/left.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/publishing.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/publishing.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/rename.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/rename.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/retype.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/retype.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/right.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/right.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/sendEmail.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/sendEmail.gif
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setOrder.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setOrder.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setcorporateworkgroup.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setcorporateworkgroup.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setdisabled.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setdisabled.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/sethiddentopicnames.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/sethiddentopicnames.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setshowbuildpanel.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setshowbuildpanel.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setshowsidepanel.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setshowsidepanel.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setsplittedscreen.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setsplittedscreen.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setsubscribable.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setsubscribable.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setvisualization.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setvisualization.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/setwert.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/setwert.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/show.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/show.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/showDocuments.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/showDocuments.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/showHilfe.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/showHilfe.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/showUnterkriterien.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/showUnterkriterien.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/startWebcrawler.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/startWebcrawler.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/stopWebcrawler.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/stopWebcrawler.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/subscribe.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/subscribe.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/trash.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/trash.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/underline.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/underline.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/unsubscribe.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/unsubscribe.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/up.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/up.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/viewhilfe.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/viewhilfe.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/client/images/warning.gif
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/warning.gif
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-09-14 17:21:39 UTC (rev 195)
++++ trunk/install/db/patches/cm-2.17.sql	2007-09-14 21:39:55 UTC (rev 196)
+@@ -134,6 +134,16 @@
+ 
+ 
+ 
++---
++--- Update standard installation
++---
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
++DELETE FROM TopicProp                                     WHERE TopicID='t-deepamehtainstallation' AND PropName='Corporate Icon';
++INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
++
++
++
+ --- *** UPDATE DATA DEFINITION *** ---
+ ALTER TABLE       TopicProp CHANGE PropName PropName CHAR(255) NOT NULL;
+ ALTER TABLE AssociationProp CHANGE PropName PropName CHAR(255) NOT NULL;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000040.html">[deepamehta-svn] r195 - in trunk/install: . client	client/stylesheets
+</A></li>
+	<LI>Next message: <A HREF="000042.html">[deepamehta-svn] r197 - branches/ldap/install/examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#41">[ date ]</a>
+              <a href="thread.html#41">[ thread ]</a>
+              <a href="subject.html#41">[ subject ]</a>
+              <a href="author.html#41">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

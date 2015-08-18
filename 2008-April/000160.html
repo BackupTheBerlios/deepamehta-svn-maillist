@@ -1,0 +1,742 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r315 - in trunk/develop/src/de/deepamehta: service	service/web topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r315%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09service/web%20topics&In-Reply-To=%3C200804202045.m3KKj8aN007195%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000159.html">
+   <LINK REL="Next"  HREF="000161.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r315 - in trunk/develop/src/de/deepamehta: service	service/web topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r315%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09service/web%20topics&In-Reply-To=%3C200804202045.m3KKj8aN007195%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r315 - in trunk/develop/src/de/deepamehta: service	service/web topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 20 22:45:08 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000159.html">[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db
+</A></li>
+        <LI>Next message: <A HREF="000161.html">[deepamehta-svn] r316 - in trunk/develop/src/de/deepamehta/service:	. db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#160">[ date ]</a>
+              <a href="thread.html#160">[ thread ]</a>
+              <a href="subject.html#160">[ subject ]</a>
+              <a href="author.html#160">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-04-20 22:45:01 +0200 (Sun, 20 Apr 2008)
+New Revision: 315
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/service/EmbeddedService.java
+   trunk/develop/src/de/deepamehta/service/InteractionConnection.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/develop/src/de/deepamehta/topics/ChatTopic.java
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+Log:
+1) Bug #13629 (&quot;Calendar app.: view not updated once person is renamed&quot;) addressed, but not yet fixed
+2) ApplicationService.setTopicProperties(): parameter &quot;triggerPropertiesChangedHook&quot; removed
+3) Apidocs changes
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -1255,7 +1255,7 @@
+ 	 * Use this method deliberately.
+ 	 * &lt;p&gt;
+ 	 * If you want set property values at application service level use
+-	 * {@link #setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, boolean triggerPropertiesChangedHook, Session)}
++	 * {@link #setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, Session)}
+ 	 *
+ 	 * @see		CorporateDirectives#createLiveTopic
+ 	 */
+@@ -1528,10 +1528,9 @@
+ 	/**
+ 	 * Triggers the nameChanged() hook of the specified topic.
+ 	 * &lt;p&gt;
+-	 * References checked: 4.3.2003 (2.0a18-pre4)
++	 * References checked: 20.4.2008 (2.0b8)
+ 	 *
+ 	 * @see		#setTopicProperties
+-	 * @see		CorporateDetail#process
+ 	 */
+ 	public CorporateDirectives changeTopicName(String topicID, int version, String name, String topicmapID, String viewmode) {
+ 		// --- trigger nameChanged() hook ---
+@@ -1669,7 +1668,7 @@
+ 
+ 
+ 	/**
+-	 * Sets a topic property.
++	 * Sets a topic property at application service level.
+ 	 * &lt;p&gt;
+ 	 * References checked: 6.9.2002 (2.0a16-pre2)
+ 	 *
+@@ -1679,28 +1678,29 @@
+ 												String topicmapID, String viewmode, Session session) {
+ 		Hashtable props = new Hashtable();
+ 		props.put(propName, propValue);
+-		return setTopicProperties(topicID, version, props, topicmapID, true, session);	// triggerPropertiesChangedHook=true
++		return setTopicProperties(topicID, version, props, topicmapID, session);
+ 	}
+ 
+ 	/**
+-	 * Sets topic properties.
++	 * Sets topic properties at application service level.
+ 	 * &lt;p&gt;
+-	 * References checked: 13.2.2005 (2.0b5)
++	 * The 4 topic hooks &lt;code&gt;propertiesChangeAllowed()&lt;/code&gt;, &lt;code&gt;propertiesChanged()&lt;/code&gt;, &lt;code&gt;getNameProperty()&lt;/code&gt;,
++	 * and &lt;code&gt;getTopicName()&lt;/code&gt; are potentially triggered.
++	 * &lt;p&gt;
++	 * References checked: 17.4.2008 (2.0b8)
+ 	 *
+ 	 * @param	topicmapID						### may be null
+-	 * @param	triggerPropertiesChangedHook	### always true, not required anymore -- the &lt;code&gt;propertiesChanged()&lt;/code&gt; hook is only triggered if set to &lt;code&gt;true&lt;/code&gt;
+ 	 * @param	session							### may be null
+ 	 *
+-	 * @see		#setTopicProperty							true
+-	 * @see		#performGoogleSearch						true
+-	 * @see		CorporateDirectives#setTopicProperties		true
+-	 * @see		InteractionConnection#setTopicData			true
+-	 * @see		EmbeddedService#setTopicProperties			true
+-	 * @see		ChatTopic#evoke								true
+-	 * @see		DeepaMehtaServlet#processForm				true
++	 * @see		#setTopicProperty
++	 * @see		#performGoogleSearch
++	 * @see		CorporateDirectives#setTopicProperties
++	 * @see		InteractionConnection#setTopicData
++	 * @see		EmbeddedService#setTopicProperties
++	 * @see		de.deepamehta.topics.ChatTopic#evoke
++	 * @see		de.deepamehta.service.web.DeepaMehtaServlet#processForm
+ 	 */
+-	public CorporateDirectives setTopicProperties(String topicID, int version, Hashtable props, String topicmapID,
+-																	boolean triggerPropertiesChangedHook, Session session) {
++	public CorporateDirectives setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, Session session) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+ 		try {
+@@ -1712,9 +1712,7 @@
+ 				// update cm
+ 				setTopicProperties(topicID, version, props);
+ 				// --- trigger propertiesChanged() hook ---
+-				if (triggerPropertiesChangedHook) {
+-					directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
+-				}
++				directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
+ 				// --- topic name behavoir ---
+ 				String name;
+ 				// trigger getNameProperty() hook
+@@ -3657,7 +3655,7 @@
+ 				// ### must evoke here, because createNewContainer() evokes only if &lt; 7
+ 				if (webpage.getEvoke()) {
+ 					createLiveTopic(webpage, topicmapID, viewmode, session, directives);
+-					setTopicProperties(webpageID, 1, webpage.getProperties(), topicmapID, true, session);	// triggerPropertiesChangedHook=true
++					setTopicProperties(webpageID, 1, webpage.getProperties(), topicmapID, session);
+ 				}
+ 				if (!cm.associationExists(topicID, webpageID, false)) {	// ignoreDirection=false
+ 					String assocID = getNewAssociationID();
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -22,14 +22,14 @@
+ 
+ 
+ /**
+- * ### Note: other as the name suggests (&quot;Corporate&quot;) a &lt;CODE&gt;CorporateDirectives&lt;/CODE&gt;
++ * ### Note: other as the name suggests (&quot;Corporate&quot;) a &lt;code&gt;CorporateDirectives&lt;/code&gt;
+  * object isn't aware of the LCM (the application is not required to pass the LCM
+  * with every constructor call).
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 8.1.2008 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class CorporateDirectives extends Directives {
+@@ -57,8 +57,8 @@
+ 	/**
+ 	 * Covenience constructor.
+ 	 *
+-	 * @param	directives	array of 2 vectors:&lt;BR&gt;
+-	 *			Vector 1: Vector of {@link de.deepamehta.PresentableTopic}s&lt;BR&gt;
++	 * @param	directives	array of 2 vectors:&lt;br&gt;
++	 *			Vector 1: Vector of {@link de.deepamehta.PresentableTopic}s&lt;br&gt;
+ 	 *			Vector 2: Vector of {@link de.deepamehta.PresentableAssociation}s
+ 	 *
+ 	 * @see		de.deepamehta.topics.LiveTopic#navigateByTopictype
+@@ -86,7 +86,7 @@
+ 	}
+ 
+ 	/**
+-	 * Adds a directive with one parameters to this &lt;CODE&gt;Directives&lt;/CODE&gt; object.
++	 * Adds a directive with one parameters to this &lt;code&gt;Directives&lt;/code&gt; object.
+ 	 *
+ 	 * @param	type	The directive type
+ 	 * @param	param	The parameter depending on the directive type
+@@ -154,7 +154,7 @@
+ 	/**
+ 	 * Updates live corporate memory and updates view according to this directives.
+ 	 *
+-	 * @param	session		current user (user who requests this directives)&lt;BR&gt;
++	 * @param	session		current user (user who requests this directives)&lt;br&gt;
+ 	 *						only needed for DIRECTIVE_SHOW_VIEW
+ 	 * @param	topicMapID	current topicmap (view the user currently manipulates)
+ 	 * @param	viewMode	current viewmode (viewmode the user is currently working in)
+@@ -834,10 +834,11 @@
+ 	private void setTopicProperties(String topicID, int version, Hashtable props, ApplicationService as,
+                                         			Session session, String topicmapID, String viewmode) {
+ 		if (props != null) {
+-			// ### triggerPropertiesChangedHook?
++			// ### triggerPropertiesChangedHook? is obsolete. Implicitely set to true.
+ 			// ### true required while changing e.g. &quot;Icon&quot; property
+-			// ### false required while moving e.g. an Instituton topic with YADE coordinares ### true works also (but creates one unnecessary DIRECTIVE_GEOMETRY)
+-			add(as.setTopicProperties(topicID, version, props, topicmapID, true, session));	// ### triggerPropertiesChangedHook=false
++			// ### false required while moving e.g. an Instituton topic with YADE coordinares
++			// ### true works also (but creates one unnecessary DIRECTIVE_GEOMETRY)
++			add(as.setTopicProperties(topicID, version, props, topicmapID, session));
+ 		}
+ 	}
+ 
+@@ -891,10 +892,10 @@
+ 	/**
+ 	 * Returns the directives to delete the specified topic. Note: the directives to delete the
+ 	 * associations the specified topic is involved are not build by this method.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Called for {@link #DIRECTIVE_HIDE_TOPIC} and {@link #DIRECTIVE_HIDE_TOPICS} (indirectly)
+-	 * if the &lt;CODE&gt;die&lt;/CODE&gt; parameter set to &lt;CODE&gt;Boolean.TRUE&lt;/CODE&gt;.
+-	 * &lt;P&gt;
++	 * if the &lt;code&gt;die&lt;/code&gt; parameter set to &lt;code&gt;Boolean.TRUE&lt;/code&gt;.
++	 * &lt;p&gt;
+ 	 * Triggers the die() hook of the specified topic and returns the resulting directives.
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+
+Modified: trunk/develop/src/de/deepamehta/service/EmbeddedService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/EmbeddedService.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/service/EmbeddedService.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -21,11 +21,11 @@
+ /**
+  * Proxy of the application service which communicates via direct method calls.
+  * Presentation service and application service are running inside the same VM.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 27.2.2005 (2.0b6)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public final class EmbeddedService implements de.deepamehta.client.ApplicationService, DeepaMehtaConstants {
+@@ -191,8 +191,7 @@
+ 				&quot;REQUEST_SET_TOPIC_DATA \&quot;&quot; + topicID + &quot;:&quot; + version + &quot;\&quot;&quot;);
+ 		}
+ 		// --- handle request ---
+-		CorporateDirectives directives = as.setTopicProperties(topicID, version, props,
+-			topicmapID, true, session);		// triggerPropertiesChangedHook=true
++		CorporateDirectives directives = as.setTopicProperties(topicID, version, props, topicmapID, session);
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		return new PresentationDirectives(directives, ps);
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/service/InteractionConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/InteractionConnection.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/service/InteractionConnection.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -15,20 +15,20 @@
+ /**
+  * For every connected client the server maintains a socket connection to handle user
+  * interaction.
+- * &lt;P&gt;
+- * An &lt;CODE&gt;InteractionConnection&lt;/CODE&gt; performs &lt;I&gt;synchronous&lt;/I&gt; communication between
++ * &lt;p&gt;
++ * An &lt;code&gt;InteractionConnection&lt;/code&gt; performs &lt;i&gt;synchronous&lt;/i&gt; communication between
+  * client and server (request/reply protocol). To represent the request types there are
+  * the {@link InteractionConnection#REQUEST_LOGIN REQUEST_XXX constants} defined in
+  * {@link de.deepamehta.DeepaMehtaConstants}.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * Besides this connection for every connected client the server maintains 2 further
+- * connections simultanously: the {@link MessagingConnection} (used for &lt;I&gt;asynchronous&lt;/I&gt; communication)
++ * connections simultanously: the {@link MessagingConnection} (used for &lt;i&gt;asynchronous&lt;/i&gt; communication)
+  * and the {@link FileserverConnection} (used for background file transfers).
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 22.11.2004 (2.0b4)&lt;BR&gt;
+- * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ final class InteractionConnection implements DeepaMehtaConstants, Runnable {
+@@ -375,8 +375,7 @@
+ 		// --- log request ---
+ 		log(&quot;REQUEST_SET_TOPIC_DATA \&quot;&quot; + topicID + &quot;:&quot; + version + &quot;\&quot;&quot;);
+ 		// --- handle request ---
+-		CorporateDirectives directives = as.setTopicProperties(topicID, version, newData,
+-			topicmapID, true, session);		// triggerPropertiesChangedHook=true
++		CorporateDirectives directives = as.setTopicProperties(topicID, version, newData, topicmapID, session);
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		directives.write(out);
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -52,11 +52,11 @@
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 27.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class DeepaMehtaServlet extends HttpServlet implements ApplicationServiceHost, DeepaMehtaConstants {
+@@ -358,9 +358,9 @@
+ 
+ 	/**
+ 	 * Processes a topic form. Called recusively to process embedded forms.
+-	 * &lt;P&gt;
+-	 * Used for both: &quot;create topic&quot; (&lt;CODE&gt;doCreate=true&lt;/CODE&gt;) and
+-	 * &quot;update topic&quot; (&lt;CODE&gt;doCreate=false&lt;/CODE&gt;) actions.
++	 * &lt;p&gt;
++	 * Used for both: &quot;create topic&quot; (&lt;code&gt;doCreate=true&lt;/code&gt;) and
++	 * &quot;update topic&quot; (&lt;code&gt;doCreate=false&lt;/code&gt;) actions.
+ 	 *
+ 	 * @param	typeID		the topic type of the form resp. embedded form
+ 	 * @param	topicID		the ID of the topic to be created resp. updated
+@@ -385,7 +385,7 @@
+ 		}
+ 		// properties
+ 		Hashtable props = getProperties(params, typeID);
+-		directives.add(as.setTopicProperties(topicID, 1, props, topicmapID, true, session));	// triggerPropertiesChangedHook=true
++		directives.add(as.setTopicProperties(topicID, 1, props, topicmapID, session));
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		// weak relations
+ 		updateWeakRelations(typeID, topicID, getWeakRelationParameters(params));
+@@ -397,15 +397,15 @@
+ 
+ 	/**
+ 	 * Processes an association form.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Hint to application developers: your derived servlet will call this method to perform &quot;create association&quot;
+-	 * (&lt;CODE&gt;doCreate=true&lt;/CODE&gt;) and &quot;update association&quot; (&lt;CODE&gt;doCreate=false&lt;/CODE&gt;) actions.
++	 * (&lt;code&gt;doCreate=true&lt;/code&gt;) and &quot;update association&quot; (&lt;code&gt;doCreate=false&lt;/code&gt;) actions.
+ 	 *
+ 	 * @param	assocID		the ID of the association to be created resp. updated
+ 	 * @param	params		all request parameters as hashtable
+-	 * @param	doCreate	if &lt;CODE&gt;true&lt;/CODE&gt; the association is created, otherwise updated
+-	 * @param	topicID1	only used for &lt;CODE&gt;doCreate=true&lt;/CODE&gt;
+-	 * @param	topicID2	only used for &lt;CODE&gt;doCreate=true&lt;/CODE&gt;
++	 * @param	doCreate	if &lt;code&gt;true&lt;/code&gt; the association is created, otherwise updated
++	 * @param	topicID1	only used for &lt;code&gt;doCreate=true&lt;/code&gt;
++	 * @param	topicID2	only used for &lt;code&gt;doCreate=true&lt;/code&gt;
+ 	 */
+ 	private void processForm(String typeID, String assocID, Hashtable params, boolean doCreate,
+ 																		String topicID1, String topicID2, Session session) {
+@@ -830,8 +830,8 @@
+ 	/**
+ 	 * @param	params		### all request parameters as hashtable
+ 	 *
+-	 * @return	the parameter values for weak relations (weak means: non-strong) as hashtable,&lt;BR&gt;
+-	 *			key: relation ID (string)&lt;BR&gt;
++	 * @return	the parameter values for weak relations (weak means: non-strong) as hashtable,&lt;br&gt;
++	 *			key: relation ID (string)&lt;br&gt;
+ 	 *			value: IDs of selected topics (array of strings)
+ 	 *
+ 	 * @see		#processForm
+@@ -872,10 +872,10 @@
+ 	/**
+ 	 * @param	params		### all request parameters as hashtable
+ 	 *
+-	 * @return	the parameters of related topics (via strong relation) as hashtable,&lt;BR&gt;
+-	 *			key: relation ID (string)&lt;BR&gt;
+-	 *			value: parameter of related topic as hashtable,&lt;BR&gt;
+-	 *			&nbsp;&nbsp;&nbsp;&nbsp;key: property name (string)&lt;BR&gt;
++	 * @return	the parameters of related topics (via strong relation) as hashtable,&lt;br&gt;
++	 *			key: relation ID (string)&lt;br&gt;
++	 *			value: parameter of related topic as hashtable,&lt;br&gt;
++	 *			&nbsp;&nbsp;&nbsp;&nbsp;key: property name (string)&lt;br&gt;
+ 	 *			&nbsp;&nbsp;&nbsp;&nbsp;value: property value (string)
+ 	 *
+ 	 * @see		#processForm
+
+Modified: trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -13,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.4.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -128,16 +128,7 @@
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic person = (BaseTopic) e.nextElement();
+ 			Vector calendars = ((PersonTopic) as.getLiveTopic(person)).getCalendars();
+-			updateCalendars(calendars, directives);
++			CalendarTopic.updateCalendars(calendars, directives, as);
+ 		}
+ 	}
+-
+-	// ### copy in EventTopic
+-	private void updateCalendars(Vector calendars, CorporateDirectives directives) {
+-		Enumeration e = calendars.elements();
+-		while (e.hasMoreElements()) {
+-			BaseTopic calendar = (BaseTopic) e.nextElement();
+-			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
+-		}
+-	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -8,6 +8,7 @@
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.CorporateMemory;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.util.DeepaMehtaUtils;
+ 
+@@ -222,7 +223,50 @@
+ 
+ 
+ 
+-	void updateView(CorporateDirectives directives) {
++	/**
++	 * @see		#updateAllCalendars
++	 */
++	static Vector getAllCalendars(CorporateMemory cm) {
++		return cm.getTopics(TOPICTYPE_CALENDAR);
++	}
++
++	/**
++	 * @see		EventTopic#die
++	 * @see		EventTopic#propertiesChanged
++	 * @see		PersonTopic#propertiesChanged
++	 */
++	static void updateAllCalendars(CorporateDirectives directives, ApplicationService as) {
++		Vector calendars = getAllCalendars(as.cm);
++		updateCalendars(calendars, directives, as);
++	}
++
++	/**
++	 * @see		#updateAllCalendars
++	 * @see		AppointmentTopic#updateCalendars
++	 */
++	static void updateCalendars(Vector calendars, CorporateDirectives directives, ApplicationService as) {
++		Enumeration e = calendars.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic calendar = (BaseTopic) e.nextElement();
++			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++		}
++	}
++
++	// ---
++
++	/**
++	 * Refreshs the view (HTML rendering) of this calendar.
++	 * All content is retrieved from the corporate memory, the display model is build, and HTML is rendered.
++	 * &lt;p&gt;
++	 * References checked: 20.4.2008 (2.0b8)
++	 *
++	 * @see		evoke
++	 * @see		propertiesChanged
++	 * @see		associated
++	 * @see		associationRemoved
++	 * @see		updateCalendars
++	 */
++	private void updateView(CorporateDirectives directives) {
+ 		Vector appointments = getAppointments();
+ 		Vector events = getEvents();
+ 		System.out.println(&quot;&gt;&gt;&gt; Update calender \&quot;&quot; + getName() + &quot;\&quot; (&quot; + appointments.size() + &quot; appointments, &quot; +
+
+Modified: trunk/develop/src/de/deepamehta/topics/ChatTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ChatTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/ChatTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -15,11 +15,11 @@
+ 
+ /**
+  * A chat between logged users which are members of the same workspace.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 27.5.2001 (2.0a11-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 27.5.2001 (2.0a11-pre2)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class ChatTopic extends LiveTopic {
+@@ -33,26 +33,26 @@
+ 
+ 
+ 	/**
+-	 * The workspace this &lt;CODE&gt;ChatTopic&lt;/CODE&gt; belongs to.
+-	 * &lt;P&gt;
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Initialized by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #initWorkspace}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Accessed by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #executeCommand}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;/TABLE&gt;
++	 * The workspace this &lt;code&gt;ChatTopic&lt;/code&gt; belongs to.
++	 * &lt;p&gt;
++	 * &lt;table&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Initialized by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #initWorkspace}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Accessed by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #executeCommand}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;/table&gt;
+ 	 */
+ 	private BaseTopic workspace;
+ 
+ 	/**
+-	 * The workspace of the workgroup this &lt;CODE&gt;ChatTopic&lt;/CODE&gt; belongs to.
+-	 * &lt;P&gt;
+-	 * &lt;TABLE&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Initialized by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #initWorkspace}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;&lt;B&gt;Accessed by&lt;/B&gt;&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;TR&gt;&lt;TD&gt;{@link #executeCommand}&lt;/TD&gt;&lt;/TR&gt;
+-	 * &lt;/TABLE&gt;
++	 * The workspace of the workgroup this &lt;code&gt;ChatTopic&lt;/code&gt; belongs to.
++	 * &lt;p&gt;
++	 * &lt;table&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Initialized by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #initWorkspace}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;&lt;b&gt;Accessed by&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;tr&gt;&lt;td&gt;{@link #executeCommand}&lt;/td&gt;&lt;/tr&gt;
++	 * &lt;/table&gt;
+ 	 */
+ 	// ### private BaseTopic chatBoard;
+ 
+@@ -103,7 +103,7 @@
+ 		props.put(PROPERTY_DATE, DeepaMehtaUtils.getDate());
+ 		props.put(PROPERTY_BEGIN, DeepaMehtaUtils.getTime(false));	// withSecs=false
+ 		// Note: the application service must be used in order to trigger the topic naming behavoir
+-		directives.add(as.setTopicProperties(getID(), 1, props, topicmapID, true, session));	// triggerPropertiesChangedHook=true
++		directives.add(as.setTopicProperties(getID(), 1, props, topicmapID, session));
+ 		// notify workspace members
+ 		Vector sessions = activeSessions(session);
+ 		String text = &quot;User \&quot;&quot; + session.getUserName() + &quot;\&quot; invites you to a \&quot;&quot; + workspace.getName() +
+@@ -130,14 +130,14 @@
+ 
+ 	/**
+ 	 * Here is all active behavoir of ChatTopic class.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * &quot;Your Remark&quot; property is added to &quot;Chat Flow&quot; property and then
+-	 * &lt;CODE&gt;DIRECTIVE_SHOW_TOPIC_PROPERTIES&lt;/CODE&gt; directive is broadcasted to all related
++	 * &lt;code&gt;DIRECTIVE_SHOW_TOPIC_PROPERTIES&lt;/code&gt; directive is broadcasted to all related
+ 	 * users. 
+-	 * If &lt;CODE&gt;ChatTopic&lt;/CODE&gt; belongs to Corporate
++	 * If &lt;code&gt;ChatTopic&lt;/code&gt; belongs to Corporate
+ 	 * workspace, directive is broadcasted to all existing client sessions, otherwise
+ 	 * it is broadcasted to the client sessions that belong to given workspace.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Property &quot;Your Remark&quot; is cleaned only for current client session, for other
+ 	 * client sessions it is left unchanged.
+ 	 */
+@@ -225,7 +225,7 @@
+ 
+ 
+ 	/**
+-	 * Initializes &lt;CODE&gt;workspace&lt;/CODE&gt; variable.
++	 * Initializes &lt;code&gt;workspace&lt;/code&gt; variable.
+ 	 *
+ 	 * @see		#init
+ 	 */
+
+Modified: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -13,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.4.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 14.12.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -57,7 +57,7 @@
+ 	public CorporateDirectives die(Session session) {
+ 		CorporateDirectives directives = super.die(session);
+ 		//
+-		updateCalendars(getCalendars(), directives);
++		CalendarTopic.updateAllCalendars(directives, as);
+ 		//
+ 		return directives;
+ 	}
+@@ -75,29 +75,8 @@
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+ 			topicmapID, viewmode, session);
+ 		//
+-		updateCalendars(getCalendars(), directives);
++		CalendarTopic.updateAllCalendars(directives, as);
+ 		//
+ 		return directives;
+ 	}
+-
+-
+-
+-	// **********************
+-	// *** Custom Methods ***
+-	// **********************
+-
+-
+-
+-	private Vector getCalendars() {
+-		return cm.getTopics(TOPICTYPE_CALENDAR);
+-	}
+-
+-	// ### copy in AppointmentTopic
+-	private void updateCalendars(Vector calendars, CorporateDirectives directives) {
+-		Enumeration e = calendars.elements();
+-		while (e.hasMoreElements()) {
+-			BaseTopic calendar = (BaseTopic) e.nextElement();
+-			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
+-		}
+-	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -257,6 +257,7 @@
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#changeTopicName
+ 	 * @see		TopicMapTopic#nameChanged
++	 * @see		TopicTypeTopic#nameChanged
+ 	 * @see		UserTopic#nameChanged
+ 	 * @see		WorkspaceTopic#nameChanged
+ 	 */
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-04-12 10:15:24 UTC (rev 314)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-04-20 20:45:01 UTC (rev 315)
+@@ -15,7 +15,7 @@
+ 
+ 
+ /**
+- * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.4.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -123,6 +123,19 @@
+ 
+ 
+ 
++	public CorporateDirectives propertiesChanged(Hashtable newProps, Hashtable oldProps,
++											String topicmapID, String viewmode, Session session) {
++		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
++			topicmapID, viewmode, session);
++		// Simplification: if this person is attendee in any appointment update all calendars
++		Vector appointments = getCalendarAppointments();
++		if (appointments.size() &gt; 0) {
++			CalendarTopic.updateAllCalendars(directives, as);
++		}
++		//
++		return directives;
++	}
++
+ 	public String getNameProperty() {
+ 		return null;
+ 	}
+@@ -173,6 +186,9 @@
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_CALENDAR, 1);
+ 	}
+ 
++	/**
++	 * @see		CalendarTopic#getAppointments
++	 */
+ 	public Vector getCalendarAppointments() {
+ 		return cm.getRelatedTopics(getID(), SEMANTIC_APPOINTMENT_ATTENDEE, TOPICTYPE_APPOINTMENT, 1);
+ 	}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000159.html">[deepamehta-svn] r314 - in trunk: . .settings	develop/src/de/deepamehta/service/db
+</A></li>
+	<LI>Next message: <A HREF="000161.html">[deepamehta-svn] r316 - in trunk/develop/src/de/deepamehta/service:	. db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#160">[ date ]</a>
+              <a href="thread.html#160">[ thread ]</a>
+              <a href="subject.html#160">[ subject ]</a>
+              <a href="author.html#160">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

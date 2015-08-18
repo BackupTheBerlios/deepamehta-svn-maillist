@@ -1,0 +1,681 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r325 - in trunk: develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-May/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r325%20-%20in%20trunk%3A%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200805251433.m4PEXiba032506%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000169.html">
+   <LINK REL="Next"  HREF="000171.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r325 - in trunk: develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r325%20-%20in%20trunk%3A%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics&In-Reply-To=%3C200805251433.m4PEXiba032506%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r325 - in trunk: develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun May 25 16:33:44 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000169.html">[deepamehta-svn] r324 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+        <LI>Next message: <A HREF="000171.html">[deepamehta-svn] r326 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-05-25 16:33:36 +0200 (Sun, 25 May 2008)
+New Revision: 325
+
+Modified:
+   trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+   trunk/develop/src/de/deepamehta/topics/UserTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+Log:
+1) Bug #13629 fixed (&quot;Calendar app.: view not updated once person is renamed&quot;)
+2) Framework logic changed: propertiesChanged() hook is triggered _after_ the topic's name is actually updated (in memory and the database). Thus, application's propertiesChanged() logic can rely on up-to-date content.
+3) API changed:
+3a) nameChanged() hook changed: &quot;viewmode&quot; parameter dropped, &quot;session&quot; parameter added
+3b) as.getContainerType(String typeID) renamed to getSearchType()
+3c) new setTopicProperty() method with BaseTopic parameter: setTopicProperty(BaseTopic topic, String propName, String propValue, String topicmapID, Session session)
+
+
+Modified: trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/assocs/LiveAssociation.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -143,6 +143,7 @@
+ 
+ 
+ 
++	// ### compare to LiveTopic.nameChanged()
+ 	public CorporateDirectives nameChanged(String name) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		directives.add(DIRECTIVE_SET_ASSOC_NAME, getID(), name, new Integer(getVersion()));
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 25.3.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1526,15 +1526,27 @@
+ 	// ---
+ 
+ 	/**
+-	 * Triggers the nameChanged() hook of the specified topic.
++	 * Updates the topic name at all 3 spots (memory, database, and client) and triggers the nameChanged() hook.
+ 	 * &lt;p&gt;
+-	 * References checked: 20.4.2008 (2.0b8)
++	 * Note: this is not directly called by application developers but always as a reaction of changed topic properties.
++	 * &lt;p&gt;
++	 * References checked: 20.5.2008 (2.0b8)
+ 	 *
+ 	 * @see		#setTopicProperties
+ 	 */
+-	public CorporateDirectives changeTopicName(String topicID, int version, String name, String topicmapID, String viewmode) {
++	private CorporateDirectives changeTopicName(String topicID, int version, String name, String topicmapID, Session session) {
++		LiveTopic topic = getLiveTopic(topicID, version);
++		// update memory
++		topic.setName(name);
++		// update corporate memory (database)
++		cm.changeTopicName(topicID, version, name);
++		// update client
++		CorporateDirectives directives = new CorporateDirectives();
++		directives.add(DIRECTIVE_SET_TOPIC_NAME, topicID, name, new Integer(version));
+ 		// --- trigger nameChanged() hook ---
+-		return getLiveTopic(topicID, version).nameChanged(name, topicmapID, viewmode);
++		directives.add(topic.nameChanged(name, topicmapID, session));
++		//
++		return directives;
+ 	}
+ 
+ 	/**
+@@ -1667,6 +1679,13 @@
+ 
+ 
+ 
++	// --- setTopicProperty (2 forms) ---
++
++	public CorporateDirectives setTopicProperty(BaseTopic topic, String propName, String propValue,
++																		String topicmapID, Session session) {
++		return setTopicProperty(topic.getID(), topic.getVersion(), propName, propValue, topicmapID, session);
++	}
++
+ 	/**
+ 	 * Sets a topic property at application service level.
+ 	 * &lt;p&gt;
+@@ -1675,17 +1694,19 @@
+ 	 * @see		de.deepamehta.kompetenzstern.topics.KompetenzsternTopic#propertiesChanged
+ 	 */
+ 	public CorporateDirectives setTopicProperty(String topicID, int version, String propName, String propValue,
+-												String topicmapID, String viewmode, Session session) {
++																		String topicmapID, Session session) {
+ 		Hashtable props = new Hashtable();
+ 		props.put(propName, propValue);
+ 		return setTopicProperties(topicID, version, props, topicmapID, session);
+ 	}
+ 
++	// ---
++
+ 	/**
+ 	 * Sets topic properties at application service level.
+ 	 * &lt;p&gt;
+-	 * The 4 topic hooks &lt;code&gt;propertiesChangeAllowed()&lt;/code&gt;, &lt;code&gt;propertiesChanged()&lt;/code&gt;, &lt;code&gt;getNameProperty()&lt;/code&gt;,
+-	 * and &lt;code&gt;getTopicName()&lt;/code&gt; are potentially triggered.
++	 * The 5 topic hooks &lt;code&gt;propertiesChangeAllowed()&lt;/code&gt;, &lt;code&gt;propertiesChanged()&lt;/code&gt;, &lt;code&gt;getNameProperty()&lt;/code&gt;,
++	 * &lt;code&gt;getTopicName()&lt;/code&gt;, and &lt;code&gt;nameChanged()&lt;/code&gt; are potentially triggered.
+ 	 * &lt;p&gt;
+ 	 * References checked: 17.4.2008 (2.0b8)
+ 	 *
+@@ -1709,10 +1730,8 @@
+ 			LiveTopic topic = getLiveTopic(topicID, version);	// may throw DME
+ 			// trigger propertiesChangeAllowed() hook
+ 			if (topic.propertiesChangeAllowed(oldProps, props, directives)) {
+-				// update cm
+-				setTopicProperties(topicID, version, props);
+-				// --- trigger propertiesChanged() hook ---
+-				directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
++				// update corporate memory (database)
++				cm.setTopicData(topicID, version, props);
+ 				// --- topic name behavoir ---
+ 				String name;
+ 				// trigger getNameProperty() hook
+@@ -1724,8 +1743,12 @@
+ 					name = topic.getTopicName(props, oldProps);
+ 				}
+ 				if (name != null) {
+-					directives.add(changeTopicName(topicID, version, name, topicmapID, VIEWMODE_USE));
++					// trigger nameChanged() hook
++					directives.add(changeTopicName(topicID, version, name, topicmapID, session));
+ 				}
++				// ---
++				// trigger propertiesChanged() hook
++				directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
+ 			}
+ 		} catch (DeepaMehtaException e) {
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+@@ -3570,7 +3593,7 @@
+ 	 * @see		#getAllTopics(String typeID, int x, int y)
+ 	 * @see		de.deepamehta.topics.TopicTypeTopic#nameChanged
+ 	 */
+-	public BaseTopic getContainerType(String typeID) {
++	public BaseTopic getSearchType(String typeID) {
+ 		Vector types = cm.getRelatedTopics(typeID, SEMANTIC_CONTAINER_TYPE, 1);
+ 		// error check 1
+ 		if (types.size() == 0) {
+@@ -4389,21 +4412,21 @@
+ 	// ---
+ 
+ 	/**
+-	 * References checked: 2.10.2002 (2.0a16-pre5)
++	 * References checked: 20.5.2008 (2.0b8)
+ 	 *
+ 	 * @see		de.deepamehta.topics.TopicTypeTopic#nameChanged
+-	 * @see		de.deepamehta.topics.TopicTypeTopic#createContainerType
++	 * @see		de.deepamehta.topics.TopicTypeTopic#createSearchType
+ 	 */
+-	public String containerTypeName(String typeName) throws DeepaMehtaException {
+-		String containerTypeName = typeName + &quot; &quot; + CONTAINER_SUFFIX_NAME;
++	public String searchTypeName(String typeName) throws DeepaMehtaException {
++		String searchTypeName = typeName + &quot; &quot; + CONTAINER_SUFFIX_NAME;
+ 		// error check
+-		int len = containerTypeName.length();
++		int len = searchTypeName.length();
+ 		if (len &gt; MAX_NAME_LENGTH) {
+-			throw new DeepaMehtaException(&quot;container type name for \&quot;&quot; + typeName + &quot;\&quot; too long: \&quot;&quot; +
+-				containerTypeName + &quot;\&quot;, &quot; + len + &quot; characters, maximum is &quot; + MAX_NAME_LENGTH + &quot; characters&quot;);
++			throw new DeepaMehtaException(&quot;search type name for \&quot;&quot; + typeName + &quot;\&quot; too long: \&quot;&quot; +
++				searchTypeName + &quot;\&quot;, &quot; + len + &quot; characters, maximum is &quot; + MAX_NAME_LENGTH + &quot; characters&quot;);
+ 		}
+ 		//
+-		return containerTypeName;
++		return searchTypeName;
+ 	}
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -27,7 +27,7 @@
+  * with every constructor call).
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -333,7 +333,6 @@
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_NAME:
+ 					topicID = (String) param1;
+-					changeTopicName(topicID, ((Integer) param3).intValue(), (String) param2, as);
+ 					addToSyncList(syncList, topicID);
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_LABEL:
+@@ -759,19 +758,6 @@
+ 	// ---
+ 
+ 	/**
+-	 * Called for {@link #DIRECTIVE_SET_TOPIC_NAME}
+-	 *
+-	 * @see		#updateCorporateMemory
+-	 */
+-	private void changeTopicName(String topicID, int version, String name, ApplicationService as) {
+-		LiveTopic topic = as.getLiveTopic(topicID, version);
+-		// --- change name in live corporate memory ---
+-		topic.setName(name);
+-		// --- change name in corporate memory ---
+-		as.cm.changeTopicName(topicID, version, name);
+-	}
+-
+-	/**
+ 	 * Called for {@link #DIRECTIVE_SET_ASSOC_NAME}
+ 	 *
+ 	 * @see		#updateCorporateMemory
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -22,7 +22,7 @@
+ 
+ 
+ /**
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -504,16 +504,13 @@
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic appointment = (BaseTopic) e.nextElement();
+ 			Hashtable props = as.getTopicProperties(appointment);
+-			String name = (String) props.get(PROPERTY_NAME);	// note: appointment.getName() doesn't work here, because the
+-			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
+-			// is updated in CM.
+ 			String description = getHTMLBodyContent((String) props.get(PROPERTY_DESCRIPTION));
+ 			String beginDate = (String) props.get(PROPERTY_BEGIN_DATE);
+ 			String beginTime = (String) props.get(PROPERTY_BEGIN_TIME);
+ 			String endDate = (String) props.get(PROPERTY_END_DATE);
+ 			String endTime = (String) props.get(PROPERTY_END_TIME);
+ 			html.append(&quot;&lt;p&gt;&quot; + timeRange(beginDate, beginTime, endDate, endTime) +
+-				&quot; &lt;b&gt;&quot; + name + &quot;&lt;/b&gt;&lt;/p&gt;&quot; + description);
++				&quot; &lt;b&gt;&quot; + appointment.getName() + &quot;&lt;/b&gt;&lt;/p&gt;&quot; + description);
+ 		}
+ 		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+ 		return html.toString();
+@@ -589,12 +586,10 @@
+ 			// find free slot for the day (a column)
+ 			WeekAppointmentModel[] daySlot = findFreeDaySlot(weekAppointmentModel, dayOfWeek, beginSegment, segmentCount);
+ 			// 1) add beginning segment to model
+-			String appointmentName = getProperty(appointment, PROPERTY_NAME);
++			String appointmentName = appointment.getName();
+ 			AppointmentTopic at = (AppointmentTopic) as.getLiveTopic(appointment);
+ 			BaseTopic location = at.getLocation();
+ 			Vector attendees = at.getAttendees();
+-			// Note: appointment.getName() doesn't work here, because the propertiesChanged() hook is triggered after
+-			// the properties are updated in CM but _before_ the topic name is updated in CM.
+ 			System.out.println(&quot;add appointment \&quot;&quot; + appointmentName + &quot;\&quot;&quot;);
+ 			daySlot[beginSegment] = new WeekAppointmentModel(appointment.getID(), appointmentName, beginTime, location,
+ 				attendees, segmentCount);
+@@ -762,15 +757,12 @@
+ 			}
+ 			// --- add to model ---
+ 			int dayOfMonth = DeepaMehtaUtils.getDay(beginDate);
+-			String appointmentName = getProperty(appointment, PROPERTY_NAME);	// note: appointment.getName() doesn't work here, because the
+-			// propertiesChanged() hook is triggered after the properties are updated in CM but _before_ the topic name
+-			// is updated in CM.
+ 			Vector dayModel = monthAppointmentModel[dayOfMonth - 1];
+ 			if (dayModel == null) {
+ 				dayModel = new Vector();
+ 				monthAppointmentModel[dayOfMonth - 1] = dayModel;
+ 			}
+-			dayModel.addElement(new MonthAppointmentModel(appointment.getID(), appointmentName));		// ### could sort appointments by begin time
++			dayModel.addElement(new MonthAppointmentModel(appointment.getID(), appointment.getName()));		// ### could sort appointments by begin time
+ 		}
+ 		//
+ 		return monthAppointmentModel;
+@@ -843,10 +835,8 @@
+ 		// find free event slot (a row)
+ 		EventModel[] eventSlot = findFreeEventSlot(eventModel, beginDay, endDay);
+ 		// 1) add beginning day to model
+-		String eventName = getProperty(event, PROPERTY_NAME);
++		String eventName = event.getName();
+ 		int dayCount = endDay - beginDay + 1;
+-		// Note: event.getName() doesn't work here, because the propertiesChanged() hook is triggered after
+-		// the properties are updated in CM but _before_ the topic name is updated in CM.
+ 		System.out.println(&quot;add event \&quot;&quot; + eventName + &quot;\&quot;&quot;);
+ 		eventSlot[beginDay] = new EventModel(event.getID(), eventName, dayCount);
+ 		// 2) add ocupied days to model
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -261,10 +261,8 @@
+ 	 * @see		UserTopic#nameChanged
+ 	 * @see		WorkspaceTopic#nameChanged
+ 	 */
+-	public CorporateDirectives nameChanged(String name, String topicmapID, String viewmode) {
+-		CorporateDirectives directives = new CorporateDirectives();
+-		directives.add(DIRECTIVE_SET_TOPIC_NAME, getID(), name, new Integer(getVersion()));
+-		return directives;
++	public CorporateDirectives nameChanged(String name, String topicmapID, Session session) {
++		return new CorporateDirectives();
+ 	}
+ 
+ 	/**
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -85,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/li&gt;
+  * &lt;/ol&gt;
+  * &lt;hr&gt;
+- * Last functional change: 3.2.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -240,9 +240,8 @@
+ 
+ 
+ 
+-	public CorporateDirectives nameChanged(String name, String topicmapID, String viewmode) {
+-		// rename this map
+-		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
++	public CorporateDirectives nameChanged(String name, String topicmapID, Session session) {
++		CorporateDirectives directives = super.nameChanged(name, topicmapID, session);
+ 		// rename editor
+ 		directives.add(DIRECTIVE_RENAME_EDITOR, getID(), name);
+ 		//
+@@ -784,7 +783,7 @@
+ 									Session session, CorporateDirectives directives) {
+ 		TypeTopic typeProxy = as.type(typeID, 1);	// version=1
+ 		String typeName = typeProxy.getName();
+-		BaseTopic containerType = as.getContainerType(typeID);
++		BaseTopic containerType = as.getSearchType(typeID);
+ 		// error check 1
+ 		if (containerType == null) {
+ 			throw new DeepaMehtaException(&quot;the container-type of type \&quot;&quot; +
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/TopicTypeTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -27,7 +27,7 @@
+  * A Topic Type.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 28.10.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -131,39 +131,30 @@
+ 	/**
+ 	 * @see		de.deepamehta.service.ApplicationService#changeTopicName
+ 	 */
+-	public CorporateDirectives nameChanged(String name, String topicmapID, String viewmode) {
+-		// change name of this topic type
+-		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
++	public CorporateDirectives nameChanged(String name, String topicmapID, Session session) {
++		// &gt;&gt;&gt; compare to UserTopic.nameChanged()
++		// &gt;&gt;&gt; compare to WorkspaceTopic.nameChanged()
+ 		//
++		CorporateDirectives directives = super.nameChanged(name, topicmapID, session);
++		//
+ 		if (isSearchType()) {
+-			System.out.println(&quot;&gt; TopicTypeTopic.nameChanged(): &quot; + this +
+-				&quot; is already a search type -- no further search type renamed&quot;);
++			System.out.println(&quot;&gt; TopicTypeTopic.nameChanged(): &quot; + this + &quot; is a search type -- do nothing&quot;);
+ 			return directives;
+ 		}
+-		// --- get search type ---
+-		BaseTopic containerType = as.getContainerType(getID());
+-		// error check
+-		if (containerType == null) {
++		// --- rename search type ---
++		BaseTopic searchType = as.getSearchType(getID());
++		// error check ### move to getSearchType()
++		if (searchType == null) {
+ 			System.out.println(&quot;*** TopicTypeTopic.nameChanged(): the search-&quot; +
+ 				&quot;type of type &quot; + this + &quot; is unknown -- search-type not renamed&quot;);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;The search-type of type \&quot;&quot; + getName() +
+ 				&quot;\&quot; is unknown&quot;, new Integer(NOTIFICATION_WARNING));
+ 			return directives;
+ 		}
+-		// --- change name of search type ---
+-		try {
+-			String containerName = as.containerTypeName(name);
+-			TopicTypeTopic containerTypeProxy = (TopicTypeTopic) as.getLiveTopic(containerType);
+-			directives.add(containerTypeProxy.nameChanged(containerName, topicmapID, viewmode));
+-			// set name
+-			cm.setTopicData(containerType.getID(), 1, PROPERTY_NAME, containerName);
+-		} catch (DeepaMehtaException e) {
+-			// ### should be avoided
+-			System.out.println(&quot;*** TopicTypeTopic.nameChanged(): &quot; + e.getMessage() +
+-				&quot; -- search type only renamed in corporate memory&quot;);
+-			cm.changeTopicName(containerType.getID(), containerType.getVersion(), name);
+-			// ### name property
+-		}
++		//
++		String searchTypeName = as.searchTypeName(name);
++		directives.add(as.setTopicProperty(searchType, PROPERTY_NAME, searchTypeName, topicmapID, session));
++		//
+ 		return directives;
+ 	}
+ 
+@@ -483,9 +474,9 @@
+ 	 */
+ 	private void createSearchType(String topicmapID, Session session, CorporateDirectives directives) throws DeepaMehtaException {
+ 		String containerTypeID = as.getNewTopicID();
+-		String containerTypeName = as.containerTypeName(getName());		// may throw
++		String searchTypeName = as.searchTypeName(getName());		// may throw
+ 		// Note: the search type must be created directly in CM, especially evoke() is not called
+-		cm.createTopic(containerTypeID, 1, TOPICTYPE_TOPICTYPE, 1, containerTypeName);
++		cm.createTopic(containerTypeID, 1, TOPICTYPE_TOPICTYPE, 1, searchTypeName);
+ 		//
+ 		TypeTopic superType = getSupertype();
+ 		System.out.println(&quot;&gt;&gt;&gt; TopicTypeTopic.createSearchType(): supertype of &quot; + this + &quot; is &quot; + superType);
+@@ -497,7 +488,7 @@
+ 		// associate this type with search type
+ 		cm.createAssociation(as.getNewAssociationID(), 1, SEMANTIC_CONTAINER_TYPE, 1, containerTypeID, 1, getID(), 1);
+ 		// set properties of search type
+-		cm.setTopicData(containerTypeID, 1, PROPERTY_NAME, containerTypeName);
++		cm.setTopicData(containerTypeID, 1, PROPERTY_NAME, searchTypeName);
+ 		cm.setTopicData(containerTypeID, 1, PROPERTY_OWNER_ID, session.getUserID());
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/TypeTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -48,7 +48,7 @@
+  * {@link de.deepamehta.service.ApplicationService#initTypeTopic}&lt;br&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 22.1.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -597,7 +597,7 @@
+ 	 * @see     AssociationTypeTopic#exportTypeDefinition
+ 	 */
+ 	protected final TypeTopic getSearchType() throws DeepaMehtaException, AmbiguousSemanticException {
+-		BaseTopic containertype = as.getContainerType(getID());
++		BaseTopic containertype = as.getSearchType(getID());
+ 		return containertype != null ? (TypeTopic) as.getLiveTopic(containertype) : null;	// ### session, directives?
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/UserTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -94,15 +94,15 @@
+ 
+ 
+ 
+-	public CorporateDirectives nameChanged(String name, String topicmapID, String viewmode) {
++	public CorporateDirectives nameChanged(String name, String topicmapID, Session session) {
+ 		// &gt;&gt;&gt; compare to WorkspaceTopic.nameChanged()
++		// &gt;&gt;&gt; compare to TopicTypeTopic.nameChanged()
+ 		//
+-		// change name of this user
+-		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
+-		// change name of users personal workspace
+-		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+-		if (workspace != null) {
+-			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
++		CorporateDirectives directives = super.nameChanged(name, topicmapID, session);
++		// rename workspace topicmap (personal workspace)
++		BaseTopic workspaceTopicmap = as.getWorkspaceTopicmap(getID(), directives);
++		if (workspaceTopicmap != null) {
++			directives.add(as.setTopicProperty(workspaceTopicmap, PROPERTY_NAME, name, topicmapID, session));
+ 		}
+ 		//
+ 		return directives;
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -28,7 +28,7 @@
+  * this &lt;code&gt;WorkspaceTopic&lt;/code&gt; is renamed.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -118,25 +118,25 @@
+ 
+ 
+ 
+-	public CorporateDirectives nameChanged(String name, String topicmapID, String viewmode) {
++	public CorporateDirectives nameChanged(String name, String topicmapID, Session session) {
+ 		// &gt;&gt;&gt; compare to UserTopic.nameChanged()
++		// &gt;&gt;&gt; compare to TopicTypeTopic.nameChanged()
+ 		//
+-		// change name of this workspace
+-		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
++		CorporateDirectives directives = super.nameChanged(name, topicmapID, session);
+ 		// rename workspace topicmap
+-		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+-		if (workspace != null) {
+-			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
++		BaseTopic workspaceTopicmap = as.getWorkspaceTopicmap(getID(), directives);
++		if (workspaceTopicmap != null) {
++			directives.add(as.setTopicProperty(workspaceTopicmap, PROPERTY_NAME, name, topicmapID, session));
+ 		}
+ 		// rename chat
+-		BaseTopic chat = as.getChatboard(this, directives);
+-		if (chat != null) {
+-			directives.add(as.getLiveTopic(chat).nameChanged(name + &quot; Chats&quot;, topicmapID, viewmode));	// ### hardcoded
++		BaseTopic chatboard = as.getChatboard(this, directives);
++		if (chatboard != null) {
++			directives.add(as.setTopicProperty(chatboard, PROPERTY_NAME, name + &quot; Chats&quot;, topicmapID, session));	// ### hardcoded
+ 		}
+ 		// rename message board
+-		BaseTopic board = as.getMessageboard(this, directives);
+-		if (board != null) {
+-			directives.add(as.getLiveTopic(board).nameChanged(name + &quot; Forum&quot;, topicmapID, viewmode));	// ### hardcoded
++		BaseTopic messageboard = as.getMessageboard(this, directives);
++		if (messageboard != null) {
++			directives.add(as.setTopicProperty(messageboard, PROPERTY_NAME, name + &quot; Forum&quot;, topicmapID, session));	// ### hardcoded
+ 		}
+ 		//
+ 		return directives;
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KompetenzsternTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -46,7 +46,7 @@
+  * underlying {@link TemplateTopic Template}, but this isn't completely achieved yet.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -358,7 +358,7 @@
+ 			newProps.get(PROPERTY_ERFASSER) != null) {
+ 			// --- set background image ---
+ 			directives = as.setTopicProperty(getID(), getVersion(), PROPERTY_BACKGROUND_IMAGE,
+-				backgroundFilename(kriterien, werte), topicmapID, viewmode, session);
++				backgroundFilename(kriterien, werte), topicmapID, session);
+ 			checkBackground(directives);
+ 		} else {
+ 			directives = super.propertiesChanged(newProps, oldProps, topicmapID, viewmode, session);
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2008-05-05 08:54:47 UTC (rev 324)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics/KriteriumTopic.java	2008-05-25 14:33:36 UTC (rev 325)
+@@ -103,23 +103,6 @@
+ 		boolean hasSubCriteria = !getSubCriteria().isEmpty();
+ 		boolean hasRelatedDocuments = !getRelatedDocuments().isEmpty();
+ 		boolean addHideDelete = isSubCriteria();
+-		/* ### if (insideTemplate) {
+-			// ### Note: a kriterium can only be renamed inside a template
+-			// commands.addRenameTopicCommand(this);	### obsolete
+-			// ### KompetenzsternTopic.addSetOrderCommand(this, commands, directives, as); ### obsolete
+-		} */
+-		// ### compare to BewertungsebeneTopic.contextCommands()
+-		/* ### if (!session.getUserPreferences().showSidebar) {
+-			Vector moreHiddenProps = new Vector();
+-			if (insideTemplate) {
+-				moreHiddenProps.addElement(PROPERTY_DESCRIPTION);
+-			} else {
+-				moreHiddenProps.addElement(PROPERTY_NAME);
+-			}
+-			if (commands.addTopicPropertyCommands(this, moreHiddenProps, session)) {
+-				commands.addSeparator();
+-			}
+-		} */
+ 		//
+ 		if (!insideTemplate) {
+         	// --- Unterkriterien anzeigen ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000169.html">[deepamehta-svn] r324 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+	<LI>Next message: <A HREF="000171.html">[deepamehta-svn] r326 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r163 - in trunk/install: db/patches examples/ldap
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r163%20-%20in%20trunk/install%3A%20db/patches%20examples/ldap&In-Reply-To=%3C200707052000.l65K0BM1024496%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000007.html">
+   <LINK REL="Next"  HREF="000009.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r163 - in trunk/install: db/patches examples/ldap</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r163%20-%20in%20trunk/install%3A%20db/patches%20examples/ldap&In-Reply-To=%3C200707052000.l65K0BM1024496%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r163 - in trunk/install: db/patches examples/ldap">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Jul  5 22:00:11 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000007.html">[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer
+</A></li>
+        <LI>Next message: <A HREF="000009.html">[deepamehta-svn] r164 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-07-05 21:59:47 +0200 (Thu, 05 Jul 2007)
+New Revision: 163
+
+Added:
+   trunk/install/db/patches/cm-2.17.sql
+   trunk/install/examples/ldap/build.xml
+Log:
+2 files added: 1) build file for LDAP example: build.xml 2) database patch for updating to forthcoming DeepaMehta 2.0b8 release: cm-2.17.sql
+
+Added: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-07-05 12:44:38 UTC (rev 162)
++++ trunk/install/db/patches/cm-2.17.sql	2007-07-05 19:59:47 UTC (rev 163)
+@@ -0,0 +1,27 @@
++---
++--- This patch updates CM 2.16 to 2.17
++--- Apply this patch if you want to update DeepaMehta 2.0b7 to 2.0b8 while keeping your content
++---
++
++
++---
++--- New &quot;Membership&quot; Properties: &quot;Editor&quot; and &quot;Publisher&quot;
++---
++-- create properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-editor', 'Editor');
++INSERT INTO TopicProp VALUES ('pp-editor', 1, 'Name', 'Editor');
++INSERT INTO TopicProp VALUES ('pp-editor', 1, 'Visualization', 'Switch');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-publisher', 'Publisher');
++INSERT INTO TopicProp VALUES ('pp-publisher', 1, 'Name', 'Publisher');
++INSERT INTO TopicProp VALUES ('pp-publisher', 1, 'Visualization', 'Switch');
++-- assign properties to association type &quot;Membership&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-93', '', 'at-membership', 1, 'pp-editor', 1);
++INSERT INTO AssociationProp VALUES ('a-93', 1, 'Ordinal Number', '10');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-94', '', 'at-membership', 1, 'pp-publisher', 1);
++INSERT INTO AssociationProp VALUES ('a-94', 1, 'Ordinal Number', '20');
++
++
++
++--- *** UPDATE DATA DEFINITION *** ---
++ALTER TABLE       TopicProp CHANGE PropName PropName CHAR(255) NOT NULL;
++ALTER TABLE AssociationProp CHANGE PropName PropName CHAR(255) NOT NULL;
+
+Added: trunk/install/examples/ldap/build.xml
+===================================================================
+--- trunk/install/examples/ldap/build.xml	2007-07-05 12:44:38 UTC (rev 162)
++++ trunk/install/examples/ldap/build.xml	2007-07-05 19:59:47 UTC (rev 163)
+@@ -0,0 +1,35 @@
++&lt;project name=&quot;LDAP&quot; default=&quot;jar&quot; basedir=&quot;.&quot;&gt;
++
++	&lt;description&gt;
++		LDAP
++	&lt;/description&gt;
++
++	&lt;property name=&quot;jar&quot; value=&quot;LDAPTopics.jar&quot;/&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++
++	&lt;import file=&quot;../../../config.xml&quot;/&gt;
++
++	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
++			&lt;classpath&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++			&lt;/classpath&gt;
++		&lt;/javac&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
++   	    &lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/topics/*.class&quot; /&gt;
++		&lt;/jar&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
++		&lt;delete dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++&lt;/project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000007.html">[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer
+</A></li>
+	<LI>Next message: <A HREF="000009.html">[deepamehta-svn] r164 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

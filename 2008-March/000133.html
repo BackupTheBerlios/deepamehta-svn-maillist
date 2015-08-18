@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r288 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r288%20-%20trunk&In-Reply-To=%3C200803041149.m24Bn70X011521%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000132.html">
+   <LINK REL="Next"  HREF="000134.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r288 - trunk</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r288%20-%20trunk&In-Reply-To=%3C200803041149.m24Bn70X011521%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r288 - trunk">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar  4 12:49:07 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000132.html">[deepamehta-svn] r287 - in trunk: . install/db/db-specific
+</A></li>
+        <LI>Next message: <A HREF="000134.html">[deepamehta-svn] r289 - in trunk: . install/config	install/db/db-specific install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-04 12:49:06 +0100 (Tue, 04 Mar 2008)
+New Revision: 288
+
+Modified:
+   trunk/config.xml
+Log:
+reset target again;forgot config.xml
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2008-03-04 11:48:03 UTC (rev 287)
++++ trunk/config.xml	2008-03-04 11:49:06 UTC (rev 288)
+@@ -54,7 +54,11 @@
+ 	&lt;condition property=&quot;do.web.deploy&quot; value=&quot;true&quot;&gt;
+ 		&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 	&lt;/condition&gt;
+-
++	
++	&lt;condition property=&quot;dont.db.ask&quot; value=&quot;true&quot;&gt;
++		&lt;istrue value=&quot;${db.ask.dont}&quot; /&gt;
++	&lt;/condition&gt;
++	
+ 	&lt;taskdef resource=&quot;org/apache/tools/ant/taskdefs/antinput.properties&quot; /&gt;
+ 	&lt;taskdef resource=&quot;net/sf/antcontrib/antcontrib.properties&quot; /&gt;
+ 	&lt;taskdef name=&quot;for&quot; classname=&quot;net.sf.antcontrib.logic.ForTask&quot; /&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000132.html">[deepamehta-svn] r287 - in trunk: . install/db/db-specific
+</A></li>
+	<LI>Next message: <A HREF="000134.html">[deepamehta-svn] r289 - in trunk: . install/config	install/db/db-specific install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

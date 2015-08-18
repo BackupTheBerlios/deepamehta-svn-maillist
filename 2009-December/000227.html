@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r383 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r383%20-%0A%09branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta&In-Reply-To=%3C200912151132.nBFBWZh9022108%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000226.html">
+   <LINK REL="Next"  HREF="000228.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r383 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r383%20-%0A%09branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta&In-Reply-To=%3C200912151132.nBFBWZh9022108%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r383 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Dec 15 12:32:35 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000226.html">[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta
+</A></li>
+        <LI>Next message: <A HREF="000228.html">[deepamehta-svn] r384 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-12-15 12:32:30 +0100 (Tue, 15 Dec 2009)
+New Revision: 383
+
+Modified:
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+Log:
+Minor Improvements 
+
+* TopicBeans need typeId, posX/posY and label for being rendered properly
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-14 16:26:22 UTC (rev 382)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-15 11:32:30 UTC (rev 383)
+@@ -878,9 +878,15 @@
+         //
+         TopicBean topicBean = as.createTopicBean(topic.getID(), 1);
+         System.out.println(&quot;&gt;&gt;&gt; created bean with &quot;+topicBean.fields.size()+&quot;fields&quot;);
++        int posX = topic.getGeometry().x;
++        int posY = topic.getGeometry().y;
+         bean.append(&quot;{\&quot;id\&quot;: \&quot;&quot; + topicBean.id + &quot;\&quot;,&quot;);
+         bean.append(&quot;\&quot;name\&quot;: \&quot;&quot; + topicBean.name + &quot;\&quot;,&quot;);
+-        bean.append(&quot;\&quot;iconFile\&quot;: \&quot;&quot; + topicBean.icon + &quot;\&quot;,&quot;);
++        bean.append(&quot;\&quot;label\&quot;: \&quot;&quot; + topic.getLabel() + &quot;\&quot;, &quot;);
++        bean.append(&quot;\&quot;posX\&quot;: &quot; + posX + &quot;, &quot;);
++        bean.append(&quot;\&quot;posY\&quot;: &quot; + posY + &quot;, &quot;);
++        bean.append(&quot;\&quot;typeId\&quot;: \&quot;&quot; + topic.getType() + &quot;\&quot;, &quot;);
++        bean.append(&quot;\&quot;iconFile\&quot;: \&quot;&quot; + topicBean.icon + &quot;\&quot;, &quot;);
+         bean.append(&quot;\&quot;properties\&quot;: [&quot;);
+         Vector properties = topicBean.fields;
+         for(int p = 0; p &lt; properties.size(); p++)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000226.html">[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta
+</A></li>
+	<LI>Next message: <A HREF="000228.html">[deepamehta-svn] r384 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

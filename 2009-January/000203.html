@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r359 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r359%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200901191426.n0JEQAZe028668%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000204.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r359 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r359%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200901191426.n0JEQAZe028668%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r359 - trunk/develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan 19 15:26:10 CET 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000204.html">[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2009-01-19 15:25:52 +0100 (Mon, 19 Jan 2009)
+New Revision: 359
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+Log:
+Bug #14882 fixed (unicode characters are not treated propertly in emails)
+
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-11-28 18:23:06 UTC (rev 358)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2009-01-19 14:25:52 UTC (rev 359)
+@@ -251,7 +251,7 @@
+ 				subject = TEXT_NO_SUBJECT;
+ 			}
+ 			msg.setSubject(subject);
+-			msg.setText(body);
++			msg.setText(body, &quot;UTF-8&quot;);
+ 			msg.setSentDate(new Date());
+ 			//
+ 			Transport.send(msg);
+@@ -364,7 +364,7 @@
+ 				if (mp == null) {
+ 					mp = new MimeMultipart();
+ 					MimeBodyPart mbpText = new MimeBodyPart();
+-					mbpText.setContent(msgText, &quot;text/plain&quot;);
++					mbpText.setText(msgText, &quot;UTF-8&quot;);
+ 					mp.addBodyPart(mbpText);
+ 				}
+ 				mp.addBodyPart(mbp);
+@@ -374,7 +374,7 @@
+ 		if (mp != null) {
+ 			msg.setContent(mp);
+ 		} else {
+-			msg.setContent(msgText, &quot;text/plain&quot;);
++			msg.setText(msgText, &quot;UTF-8&quot;);
+ 		}
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000204.html">[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

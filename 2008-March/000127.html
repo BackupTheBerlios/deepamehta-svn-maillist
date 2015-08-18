@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r282 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r282%20-%20trunk&In-Reply-To=%3C200803012318.m21NIJwY026799%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000126.html">
+   <LINK REL="Next"  HREF="000128.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r282 - trunk</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r282%20-%20trunk&In-Reply-To=%3C200803012318.m21NIJwY026799%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r282 - trunk">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar  2 00:18:19 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000126.html">[deepamehta-svn] r281 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000128.html">[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-02 00:18:18 +0100 (Sun, 02 Mar 2008)
+New Revision: 282
+
+Modified:
+   trunk/README-de.txt
+Log:
+README updated to reflect the installer changes of rev 280
+
+Modified: trunk/README-de.txt
+===================================================================
+--- trunk/README-de.txt	2008-03-01 16:35:44 UTC (rev 281)
++++ trunk/README-de.txt	2008-03-01 23:18:18 UTC (rev 282)
+@@ -12,9 +12,8 @@
+ Inbetriebnahme, Kurzanleitung
+ Installation
+   - Schritt 1: Auspacken
+-  - Schritt 2: Konfigurieren
+-  - Schritt 3: Installieren
+-  - Schritt 4: Deployen der Webanwendungen
++  - Schritt 2: Konfigurieren &amp; Installieren
++  - Schritt 3: Deployen der Webanwendungen
+ Starten &amp; Beenden
+   - Einzelplatz-Anwendung
+   - Client/Server-Anwendung
+@@ -79,9 +78,8 @@
+ ============
+ 
+ * Schritt 1: Auspacken
+-* Schritt 2: Konfigurieren
+-* Schritt 3: Installieren
+-* Schritt 4: Deployen der Webanwendungen
++* Schritt 2: Konfigurieren &amp; Installieren
++* Schritt 3: Deployen der Webanwendungen
+ 
+ 
+ Schritt 1: Auspacken
+@@ -97,8 +95,8 @@
+ Beim Auspacken wird ein Verzeichnis &quot;deepamehta&quot; angelegt.
+ 
+ 
+-Schritt 2: Konfigurieren
+-------------------------
++Schritt 2: Konfigurieren &amp; Installieren
++---------------------------------------
+ 
+ Jetzt wird die DeepaMehta-Installation konfiguriert, hinsichtlich 3 Aspekten:
+ - Sollen die DeepaMehta Beispiel-Webanwendungen benutzt werden (erfordert Tomcat)?
+@@ -113,9 +111,9 @@
+ 
+ Als erstes wirst Du gefragt, ob Du auch die DeepaMehta Beispiel-Webanwendungen benutzen m&#246;chtest. Wenn Ja, mu&#223;t Du angeben, wo das Tomcat Home-Verzeichnis ist.
+ 
+-	[input] Do you want to install web applications? (y, [n])
++	[input] Do you want to install the example web applications (Tomcat must already be installed)? (y, [n])
+ 
+-	[input] Please enter the root directory of your application server. [/usr/local/tomcat]
++	[input] Please enter the home directory of your Tomcat installation. [/usr/local/tomcat]
+ 
+ Dann wirst Du gefragt, in welcher Datenbank DeepaMehta seine Daten ablegen soll. Wenn die mitgelieferte HSQL-Datenbank benutzt werden soll, dr&#252;cke einfach Return.
+ 
+@@ -125,7 +123,7 @@
+ 	[echo] * mysql4
+ 	[echo] * mysql5
+ 	[echo]
+-	[input] currently set (default) [hsqldb-intern]
++	[input] Currently set [hsqldb-intern]
+ 
+ ACHTUNG: Wenn DeepaMehta-Webfrontends und die grafische DeepaMehta-Oberfl&#228;che gleichzeitig auf einer Maschine benutzt werden sollen, mu&#223; als Datenbank MySQL benutzt werden. MySQL wird nicht mit DeepaMehta mitgeliefert und mu&#223; separat installiert werden.
+ 
+@@ -162,19 +160,13 @@
+ 	[input] Shall the example dm-search be processed? (y, [n])
+ 	[input] Shall the example dm-topicmapviewer be processed? (y, [n])
+ 	[input] Shall the example dm-web be processed? (y, [n])
+-	[input] Shall the example knoppixforum be processed? (y, [n])
+-	[input] Shall the example musicforum be processed? (y, [n])
+ 
+-Wenn die Konfiguration erfolgreich abgeschlossen wurde, wird &quot;BUILD SUCCESSFUL&quot; angezeigt.
++Damit ist die Konfiguration abgeschlossen.
+ 
++Du wirst gefragt, ob die eigentliche Installation jetzt vorgenommen werden soll. W&#228;hrend der Installation wird die DeepaMehta-Datenbank angelegt und die ausgew&#228;hlten Beispiel-Anwendungen eingespielt. Um mit der Installation fortzufahren, dr&#252;cke Return.
+ 
+-Schritt 3: Installieren
+------------------------
++	[input] Do you want to install now? ([y], n)
+ 
+-Jetzt wird DeepaMehta und die ausgew&#228;hlten Beispiel-Anwendungen installiert. Zum Starten der Installation gebe folgendes Kommando ein:
+-
+-	./run.sh install
+-
+ Dir werden nochmal die konfigurierten Datenbank-Angaben gezeigt. Sobald Du Return dr&#252;ckst wird die DeepaMehta-Datenbank angelegt und mit den initialen Inhalten gef&#252;llt.
+ 
+ 	[echo] --- DeepaMehta Installation ---
+@@ -194,8 +186,8 @@
+ Wenn die Installation erfolgreich verlaufen ist, wird &quot;BUILD SUCCESSFUL&quot; angezeigt.
+ 
+ 
+-Schritt 4: Deployen der Webanwendungen
+--------------------------------------
++Schritt 3: Deployen der Webanwendungen
++--------------------------------------
+ 
+ Wenn Du beim Konfigurieren gesagt hast, da&#223; Du die DeepaMehta Beispiel-Webanwendungen benutzen m&#246;chtest, werden diese jetzt unter Tomcat deployt. Zum Deployen gebe folgendes Kommando ein:
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000126.html">[deepamehta-svn] r281 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000128.html">[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

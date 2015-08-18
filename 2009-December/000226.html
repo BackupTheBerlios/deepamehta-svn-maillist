@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r382%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09src/de/rpc/deepamehta&In-Reply-To=%3C200912141626.nBEGQOK4004279%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000225.html">
+   <LINK REL="Next"  HREF="000227.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r382%20-%20in%20branches/apps/install/apps/dmrpc%3A%20.%0A%09src/de/rpc/deepamehta&In-Reply-To=%3C200912141626.nBEGQOK4004279%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r382 - in branches/apps/install/apps/dmrpc: .	src/de/rpc/deepamehta">maltito at mail.berlios.de
+       </A><BR>
+    <I>Mon Dec 14 17:26:24 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000225.html">[deepamehta-svn] r381 - in branches/apps/install/apps/dmrpc: .	config pages src/de/rpc/deepamehta src/de/rpc/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000227.html">[deepamehta-svn] r383 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#226">[ date ]</a>
+              <a href="thread.html#226">[ thread ]</a>
+              <a href="subject.html#226">[ subject ]</a>
+              <a href="author.html#226">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-12-14 17:26:22 +0100 (Mon, 14 Dec 2009)
+New Revision: 382
+
+Modified:
+   branches/apps/install/apps/dmrpc/
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+Log:
+Minor Improvements 
+
+* Topics in Topicmaps are loaded as full TopicBeans and not as SlimTopics
+
+
+Property changes on: branches/apps/install/apps/dmrpc
+___________________________________________________________________
+Name: svn:ignore
+   + .build.xml.swp
+
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-02 23:48:13 UTC (rev 381)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-12-14 16:26:22 UTC (rev 382)
+@@ -630,7 +630,8 @@
+         for(int i = 0; i&lt; allTopics.size(); i++) {
+             PresentableTopic topic = (PresentableTopic) allTopics.get(i);
+             // System.out.println(&quot;    e: &quot; + topic.getName());
+-            String topicString  = createSlimPresentable(topic, messages);
++            // String topicString  = createSlimPresentable(topic, messages);
++            String topicString  = createBean(topic, messages);
+             // System.out.println(&quot;geo: &quot; + geo);
+             mapBuffer.append(topicString);
+             // mapTopics.append(&quot;}&quot;);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000225.html">[deepamehta-svn] r381 - in branches/apps/install/apps/dmrpc: .	config pages src/de/rpc/deepamehta src/de/rpc/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000227.html">[deepamehta-svn] r383 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#226">[ date ]</a>
+              <a href="thread.html#226">[ thread ]</a>
+              <a href="subject.html#226">[ subject ]</a>
+              <a href="author.html#226">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

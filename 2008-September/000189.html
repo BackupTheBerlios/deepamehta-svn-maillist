@@ -1,0 +1,422 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r345%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200809091525.m89FPgu4025331%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000188.html">
+   <LINK REL="Next"  HREF="000190.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r345%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200809091525.m89FPgu4025331%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep  9 17:25:42 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000188.html">[deepamehta-svn] r344 - in trunk/develop/src/de/deepamehta: client	service
+</A></li>
+        <LI>Next message: <A HREF="000190.html">[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-09 17:25:35 +0200 (Tue, 09 Sep 2008)
+New Revision: 345
+
+Modified:
+   trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+   trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+   trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+Log:
+1) Bug #14470 fixed (Linebreaks get lost in &quot;Description&quot; fields).
+Note: all &quot;corrupted&quot; topics must be repaired manually: Select the topic and insert the line breaks again. From that moment they will not get lost anymore.
+2) Minor GUI fix: &quot;Multiline Input Fields&quot; no longer show a vertical scrollbar when content fits the viewport.
+
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2008-09-07 23:55:25 UTC (rev 344)
++++ trunk/develop/src/de/deepamehta/client/PresentationPropertyDefinition.java	2008-09-09 15:25:35 UTC (rev 345)
+@@ -113,7 +113,9 @@
+ 		} else if (visualization.equals(VISUAL_AREA)) {
+ 			// ### VISUAL_AREA doesn't yet support action buttons
+ 			JComponent area = createTextArea();
+-			result[0] = new JScrollPane(area);
++			JScrollPane scrollPane = new JScrollPane(area);
++			scrollPane.setPreferredSize(new Dimension(0, 1200));
++			result[0] = scrollPane;
+ 			result[1] = area;
+ 			return result;
+ 		} else if (visualization.equals(VISUAL_TEXT_EDITOR)) {
+@@ -194,7 +196,7 @@
+ 	 * Called for &lt;code&gt;VISUAL_AREA&lt;/code&gt;.
+ 	 */
+ 	private JComponent createTextArea() {
+-		JTextArea area = new JTextArea(50, 0);	// ### 50 rows
++		JTextArea area = new JTextArea();
+ 		area.setLineWrap(true);
+ 		area.setWrapStyleWord(true);
+ 		return area;
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-07 23:55:25 UTC (rev 344)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-09-09 15:25:35 UTC (rev 345)
+@@ -777,8 +777,7 @@
+ 			showProperties(properties, baseURLs, topicmap.getEditor().getTopicmap().getType(), false);
+ 			setSelectionProperties(properties, false);
+ 		} else {
+-			logger.info(&quot;topicmap &quot; + topicmap.getEditor().getTopicmap() + &quot; isn't currently selected -- no need to show &quot; +
+-				&quot;properties now&quot;);
++			logger.info(&quot;topicmap &quot; + topicmap + &quot; isn't currently selected -- no need to show properties now&quot;);
+ 		}
+ 	}
+ 
+@@ -1047,16 +1046,12 @@
+ 
+ 	// ---
+ 
+-	private String getProperty(String name) {
+-		return (String) getPanelProperties().get(name);
+-	}
+-
+ 	/**
+ 	 * Returns the property values currently entered in the property panel.
+ 	 * &lt;p&gt;
+ 	 * Values of hidden properties are not returned.
+ 	 * &lt;p&gt;
+-	 * References checked: 4.8.2001 (2.0a11)
++	 * References checked: 9.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	the property values as a hashtable.&lt;br&gt;
+ 	 *			Key: property name (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+@@ -1169,8 +1164,6 @@
+ 		}
+ 	}
+ 
+-	// --- setSelectedItem (2 forms) ---
+-
+ 	/**
+ 	 * @see		PropertyField#setDate
+ 	 * @see		PropertyField#setTime
+@@ -1181,12 +1174,6 @@
+ 		cbox.addActionListener(actionListener);
+ 	}
+ 
+-	/* ### private void setSelectedIndex(JComboBox cbox, int index, ActionListener actionListener) {
+-		cbox.removeActionListener(actionListener);
+-		cbox.setSelectedIndex(index);
+-		cbox.addActionListener(actionListener);
+-	} */
+-
+ 	// ---
+ 
+ 	private JPanel getPropertyPanel(String typeID) {
+@@ -1348,7 +1335,7 @@
+ 			}
+ 			// logging
+ 			if (logText != null) {
+-				logger.info(logText);
++				logger.fine(logText);
+ 			}
+ 		}
+ 	}
+@@ -1827,7 +1814,7 @@
+ 				Integer scrollbarValue = (Integer) scrollbarValues.get(getName());
+ 				Integer caretPosition = (Integer) caretPositions.get(getName());
+ 				if (scrollbarValue != null) {
+-					logger.info(&quot;restoring scrollbar value of &quot; + getSelectedObject() +
++					logger.fine(&quot;restoring scrollbar value of &quot; + getSelectedObject() +
+ 						&quot;\n    \&quot;&quot; + getName() + &quot;\&quot;: scrollbarValue=&quot; + scrollbarValue + &quot; caretPosition=&quot; + caretPosition);
+ 					scrollbar.setValue(scrollbarValue.intValue());
+ 					textComponent.setCaretPosition(caretPosition.intValue());
+
+Modified: trunk/develop/src/de/deepamehta/client/TextEditorPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-07 23:55:25 UTC (rev 344)
++++ trunk/develop/src/de/deepamehta/client/TextEditorPanel.java	2008-09-09 15:25:35 UTC (rev 345)
+@@ -16,6 +16,8 @@
+ import java.net.MalformedURLException;
+ import java.net.URL;
+ import java.util.Hashtable;
++import java.util.logging.Logger;
++import java.util.logging.Level;
+ 
+ import javax.swing.Action;
+ import javax.swing.Icon;
+@@ -95,8 +97,10 @@
+ 	 */
+ 	private boolean isDirty;
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
+ 
+ 
++
+ 	// ********************
+ 	// *** Constructors ***
+ 	// ********************
+@@ -275,8 +279,12 @@
+ 	}
+ 
+ 	/**
+-	 * @param	baseURL		may be &lt;code&gt;null&lt;/code&gt;
++	 * Note: if called by PropertyPanel the PropertyPanel is the document listener, and if called
++	 * by PresentationDetail this TextEditorPanel itself is the document listener.
+ 	 *
++	 * @param	baseURL				may be &lt;code&gt;null&lt;/code&gt;
++	 * @param	documentListener	the document listener notified about text changes.
++	 *
+ 	 * @see		PropertyPanel.PropertyField#setText
+ 	 */
+ 	void setText(String text, String baseURL, DocumentListener documentListener) {
+@@ -296,15 +304,16 @@
+ 					((HTMLDocument) textComponent.getDocument()).setBase(new URL(baseURL));
+ 				}
+ 			} catch (MalformedURLException mue) {
+-				System.out.println(&quot;*** TextEditorPanel.setText(): invalid base URL: &quot; + mue);
++				logger.warning(&quot;invalid base URL: &quot; + mue);
+ 			}
+ 			//
+ 			// --- set text ---
+ 			try {
++				text = fixMissingParagraphTag(text);	// ###
+ 				textComponent.setText(text);
+ 			} catch (Throwable e) {
+ 				textComponent.setText(&quot;&lt;html&gt;&lt;body&gt;&lt;font color=#FF0000&gt;Page can't be displayed&lt;/font&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+-				System.out.println(&quot;*** TextEditorPanel.setText(): error while HTML rendering: &quot; + e);
++				logger.warning(&quot;error while HTML rendering: &quot; + e);
+ 			}
+ 		} else {
+ 			textComponent.setText(text);
+@@ -321,8 +330,6 @@
+ 
+ 
+ 
+-	// --- addButton (2 forms) ---
+-
+ 	private void addButton(JPanel container, Action action, Hashtable actions, Icon icon) {
+ 		String actionName = (String) action.getValue(Action.NAME);
+ 		String actionCommand = (String) action.getValue(Action.ACTION_COMMAND_KEY);
+@@ -332,7 +339,37 @@
+ 		container.add(button);
+ 	}
+ 
+-	// ---
++	private String fixMissingParagraphTag(String text) {
++		// check for &lt;body&gt; tag
++		int bs = text.indexOf(&quot;&lt;body&gt;&quot;);
++		if (bs == -1) {
++			if (text.length() &gt; 0) {
++				logger.warning(&quot;no &lt;body&gt; tag found in\n&quot; + text);
++			}
++			return text;
++		}
++		// skip whitespace
++		int ws = bs + 6;
++		char c = text.charAt(ws);
++		while (Character.isWhitespace(c)) {
++			c = text.charAt(++ws);
++		}
++		// check for &lt;p&gt; tag
++		int p = ws;
++		if (text.substring(p, p + 3).equals(&quot;&lt;p&gt;&quot;)) {
++			// no need to fix
++			logger.fine(&quot;no need to fix\n&quot; + text);
++			return text;
++		}
++		// check for &lt;/body&gt; tag
++		int be = text.indexOf(&quot;&lt;/body&gt;&quot;, p);
++		// fix missing &lt;p&gt; tag
++		StringBuffer fixedText = new StringBuffer(text);
++		fixedText.insert(be, &quot;&lt;/p&gt;&quot;);
++		fixedText.insert(p, &quot;&lt;p&gt;&quot;);
++		logger.fine(text + &quot;\n                fixed to\n&quot; + fixedText);
++		return fixedText.toString();
++	}
+ 
+ 	/**
+ 	 * @see		#changedUpdate
+@@ -341,7 +378,7 @@
+ 	 */
+ 	private void setDirty(String message) {
+ 		if (!isDirty) {
+-			System.out.println(&quot;&gt; text editor content changed (by &quot; + message + &quot;)&quot;);
++			logger.info(&quot;text editor content changed (by &quot; + message + &quot;)&quot;);
+ 			isDirty = true;
+ 		}
+ 	}
+@@ -372,7 +409,7 @@
+ 
+ 		public boolean importData(JComponent c, Transferable t) {
+ 			if (c != textComponent) {	// ### never happens, we dont share transfer handlers
+-				System.out.println(&quot;*** importData(): c=&quot; + c);
++				logger.warning(&quot;c=&quot; + c);
+ 			}
+ 			try {
+ 				DataFlavor[] flavors = t.getTransferDataFlavors();
+@@ -380,19 +417,19 @@
+ 				boolean hasImageFlavor = t.isDataFlavorSupported(DataFlavor.imageFlavor);
+ 				boolean hasFilelistFlavor = t.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+ 				//
+-				System.out.println(&quot;&gt;&gt;&gt; import data to text panel (&quot; + flavors.length + &quot; flavors)&quot;);
++				logger.info(&quot;importing data to text panel (&quot; + flavors.length + &quot; flavors)&quot; +
++					&quot;    string flavor supported: &quot; + hasStringFlavor +
++					&quot;    image flavor supported: &quot; + hasImageFlavor +
++					&quot;    filelist flavor supported: &quot; + hasFilelistFlavor);
+ 				// ### for (int i = 0; i &lt; flavors.length; i++) {
+ 				// ###	System.out.println(flavors[i]);
+ 				// ###}
+-				System.out.println(&quot;  &gt;   string flavor supported: &quot; + hasStringFlavor);
+-				System.out.println(&quot;  &gt;    image flavor supported: &quot; + hasImageFlavor);
+-				System.out.println(&quot;  &gt; filelist flavor supported: &quot; + hasFilelistFlavor);
+ 				//
+ 				// We do not allow dropping on top of the selected text
+ 		        if ((source == textComponent) &amp;&amp; (textComponent.getCaretPosition() &gt;= p0.getOffset()) &amp;&amp;
+                                                 (textComponent.getCaretPosition() &lt;= p1.getOffset())) {
+ 					shouldRemove = false;
+-					System.out.println(&quot;&gt;&gt;&gt; dropping on top of the selected text is not allowed -- import canceled&quot;);
++					logger.info(&quot;dropping on top of the selected text is not allowed -- import canceled&quot;);
+ 					return true;
+ 				}
+ 				//
+@@ -405,25 +442,25 @@
+ 						String html = &quot;&lt;img src=\&quot;&quot; + data + &quot;\&quot;&gt;&lt;/img&gt;&quot;;
+ 						kit.insertHTML(doc, pos, html, 0, 0, HTML.Tag.IMG);	// ### &lt;img&gt; not XML conform
+ 						// ### doc.insertBeforeStart(doc.getParagraphElement(pos), html); 
+-						System.out.println(&quot;&gt;&gt;&gt; IMG tag inserted: \&quot;&quot; + html + &quot;\&quot;&quot;);
++						logger.info(&quot;inserting &lt;img&gt; tag \&quot;&quot; + html + &quot;\&quot;&quot;);
+ 					} else {
+ 						textComponent.getDocument().insertString(pos, data, null);
+-						System.out.println(&quot;&gt;&gt;&gt; regular text inserted: \&quot;&quot; + data + &quot;\&quot;&quot;);
++						logger.info(&quot;inserting regular text \&quot;&quot; + data + &quot;\&quot;&quot;);
+ 					}
+ 				} else if (hasFilelistFlavor) {
+ 	                java.util.List files = (java.util.List) t.getTransferData(DataFlavor.javaFileListFlavor);
+-					System.out.println(&quot;    &quot; + files.size() + &quot; files:&quot;);
++					logger.info(&quot;    &quot; + files.size() + &quot; files:&quot;);
+ 	                for (int i = 0; i &lt; files.size(); i++) {
+ 						File file = (File) files.get(i);
+ 						String filename = file.getName();
+-						System.out.println(&quot;    &quot; + file);
++						logger.info(&quot;    &quot; + file);
+ 						if (DeepaMehtaUtils.isHTML(filename)) {
+ 							String html = DeepaMehtaUtils.readFile(file);
+ 							textComponent.setText(html);	// ### replace instead insert
+ 							textComponent.setCaretPosition(0);
+ 							// ### ((JEditorPane) textComponent).setPage(&quot;<A HREF="file://">file://</A>&quot; + file);	// ### replace instead insert
+ 							// ### setDirty(&quot;dropping HTML file&quot;);
+-							System.out.println(&quot;&gt;&gt;&gt; HTML inserted (read from file)&quot;);
++							logger.info(&quot;inserting HTML (read from file)&quot;);
+ 							break;	// ### max one file is inserted
+ 						} else if (DeepaMehtaUtils.isImage(filename)) {
+ 							HTMLEditorKit kit = (HTMLEditorKit) ((JEditorPane) textComponent).getEditorKit();
+@@ -433,21 +470,21 @@
+ 							String html = &quot;&lt;img src=\&quot;&quot; + imagefile + &quot;\&quot;&gt;&lt;/img&gt;&quot;;
+ 							kit.insertHTML(doc, pos, html, 0, 0, HTML.Tag.IMG);	// ### &lt;img&gt; not XML conform
+ 							// ### doc.insertBeforeStart(doc.getParagraphElement(pos), html); 
+-							System.out.println(&quot;&gt;&gt;&gt; IMG tag inserted: \&quot;&quot; + html + &quot;\&quot;&quot;);
++							logger.info(&quot;inserting &lt;img&gt; tag \&quot;&quot; + html + &quot;\&quot;&quot;);
+ 						} else {
+-							System.out.println(&quot;### importData(): only implemented for HTML files -- import canceled&quot;);
++							logger.warning(&quot;only implemented for HTML files -- import canceled&quot;);
+ 						}
+ 					}
+ 				} else {
+-					System.out.println(&quot;*** importData(): no supported flavor &quot; + c);
++					logger.warning(&quot;no supported flavor &quot; + c);
+ 				}
+ 				return true;
+             } catch (UnsupportedFlavorException ufe) {
+-                System.out.println(&quot;*** while dropping to text panel: &quot; + ufe);
++                logger.warning(&quot;while dropping to text panel: &quot; + ufe);
+ 			} catch (BadLocationException ble) {
+-                System.out.println(&quot;*** while dropping to text panel: &quot; + ble);
++                logger.warning(&quot;while dropping to text panel: &quot; + ble);
+             } catch (IOException ioe) {
+-                System.out.println(&quot;*** while dropping to text panel: &quot; + ioe);
++                logger.warning(&quot;while dropping to text panel: &quot; + ioe);
+ 			}
+ 			//
+ 			return super.importData(c, t);
+@@ -462,7 +499,7 @@
+ 		// Create a Transferable implementation that contains the selected text.
+ 		protected Transferable createTransferable(JComponent c) {
+ 			if (c != textComponent) {	// ###
+-				System.out.println(&quot;*** createTransferable(): c=&quot; + c);
++				logger.warning(&quot;c=&quot; + c);
+ 			}
+ 			source = (JTextComponent) c;
+ 			int start = source.getSelectionStart();
+@@ -474,10 +511,9 @@
+ 			try {
+ 				p0 = doc.createPosition(start);
+ 				p1 = doc.createPosition(end);
+-				System.out.println(&quot;&gt;&gt;&gt; createTransferable(): p0=&quot; + p0 + &quot;, p1=&quot; + p1);
++				logger.info(&quot;p0=&quot; + p0 + &quot;, p1=&quot; + p1);
+ 			} catch (BadLocationException e) {
+-				System.out.println(&quot;*** createTransferable(): &quot; +
+-					&quot;Can't create position - unable to remove text from source.&quot;);
++				logger.warning(&quot;can't create position -- unable to remove text from source&quot;);
+ 			}
+ 			shouldRemove = true;
+ 			String data = source.getSelectedText();
+@@ -488,15 +524,15 @@
+ 		// However, we do not allow dropping on top of the selected text, so in that case do nothing.
+ 		protected void exportDone(JComponent c, Transferable data, int action) {
+ 			if (c != textComponent) {	// ###
+-				System.out.println(&quot;*** exportDone(): c=&quot; + c);
++				logger.warning(&quot;c=&quot; + c);
+ 			}
+-			System.out.println(&quot;&gt;&gt;&gt; exportDone(): action=&quot; + action + &quot;, MOVE=&quot; + MOVE + &quot;, shouldRemove=&quot; + shouldRemove);
++			logger.info(&quot;action=&quot; + action + &quot;, MOVE=&quot; + MOVE + &quot;, shouldRemove=&quot; + shouldRemove);
+ 			if (shouldRemove &amp;&amp; (action == MOVE)) {
+ 				if ((p0 != null) &amp;&amp; (p1 != null) &amp;&amp; (p0.getOffset() != p1.getOffset())) {
+ 					try {
+ 						textComponent.getDocument().remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
+ 					} catch (BadLocationException e) {
+-						System.out.println(&quot;*** exportDone(): Can't remove text from source.&quot;);
++						logger.warning(&quot;can't remove text from source&quot;);
+ 					}
+ 				}
+ 			}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000188.html">[deepamehta-svn] r344 - in trunk/develop/src/de/deepamehta: client	service
+</A></li>
+	<LI>Next message: <A HREF="000190.html">[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

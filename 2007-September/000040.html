@@ -1,0 +1,1013 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r195 - in trunk/install: . client	client/stylesheets
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r195%20-%20in%20trunk/install%3A%20.%20client%0A%09client/stylesheets&In-Reply-To=%3C200709141722.l8EHMCWR006498%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000039.html">
+   <LINK REL="Next"  HREF="000041.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r195 - in trunk/install: . client	client/stylesheets</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r195%20-%20in%20trunk/install%3A%20.%20client%0A%09client/stylesheets&In-Reply-To=%3C200709141722.l8EHMCWR006498%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r195 - in trunk/install: . client	client/stylesheets">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 14 19:22:12 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000039.html">[deepamehta-svn] r194 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000041.html">[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-14 19:21:39 +0200 (Fri, 14 Sep 2007)
+New Revision: 195
+
+Added:
+   trunk/install/client/
+   trunk/install/client/stylesheets/
+   trunk/install/client/stylesheets/calendar.css
+   trunk/install/client/stylesheets/html2fo.xsl
+   trunk/install/client/stylesheets/xml2fo.xsl
+   trunk/install/client/stylesheets/xml2html.xsl
+   trunk/install/client/stylesheets/xml2svg.xsl
+Log:
+Added the 'stylesheets' directory. Note: the 4 .xsl stylesheets are required for DeepaMehta's export feature, and the .css stylesheet is required by the Calendar application.
+
+Added: trunk/install/client/stylesheets/calendar.css
+===================================================================
+--- trunk/install/client/stylesheets/calendar.css	2007-09-14 16:54:19 UTC (rev 194)
++++ trunk/install/client/stylesheets/calendar.css	2007-09-14 17:21:39 UTC (rev 195)
+@@ -0,0 +1,15 @@
++td {
++	font-family: Lucida Grande;
++	font-size: 9px;
++
++	padding: 0px;
++
++	border-style: solid;
++	border-width: 1px;
++	border-color: #CCCCCC;
++
++}
++
++.event {
++	background: #FFFFFF;
++}
+
+Added: trunk/install/client/stylesheets/html2fo.xsl
+===================================================================
+--- trunk/install/client/stylesheets/html2fo.xsl	2007-09-14 16:54:19 UTC (rev 194)
++++ trunk/install/client/stylesheets/html2fo.xsl	2007-09-14 17:21:39 UTC (rev 195)
+@@ -0,0 +1,93 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;!--
++	date: 2001/10/26
++	version: dm-2.0a13-pre2
++
++	stylesheet for the transformation 
++	of HTML tags into formatting objects
++--&gt;
++&lt;xsl:stylesheet version=&quot;1.0&quot;
++	xmlns:xsl=&quot;<A HREF="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</A>&quot;
++	xmlns:fo=&quot;<A HREF="http://www.w3.org/1999/XSL/Format">http://www.w3.org/1999/XSL/Format</A>&quot;&gt;
++	
++	&lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
++
++
++
++	&lt;!-- paragraph level formatting --&gt;
++
++
++
++	&lt;!-- adaption of HTML headline --&gt;
++	&lt;xsl:template match=&quot;h2|H2&quot;&gt;
++		&lt;fo:block font-size=&quot;1.1em&quot; font-weight=&quot;bold&quot; space-before=&quot;3pt&quot; space-after=&quot;3pt&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:block&gt;
++	&lt;/xsl:template&gt;
++	
++	&lt;!-- adaption of HTML headline --&gt;
++	&lt;xsl:template match=&quot;h3|H3&quot;&gt;
++		&lt;fo:block font-weight=&quot;bold&quot; space-before=&quot;3pt&quot; space-after=&quot;3pt&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:block&gt;
++	&lt;/xsl:template&gt;
++	
++	&lt;!-- adaption of HTML paragraphs --&gt;
++	&lt;xsl:template match=&quot;p|P&quot;&gt;
++		&lt;fo:block space-before=&quot;3pt&quot; space-after=&quot;3pt&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:block&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- adaption of HTML unordered list --&gt;
++	&lt;xsl:template match=&quot;ul|UL&quot;&gt;
++		&lt;fo:list-block provisional-distance-between-starts=&quot;0.3cm&quot; provisional-label-separation=&quot;0.15cm&quot;&gt;
++			&lt;xsl:apply-templates select=&quot;li&quot;/&gt;
++		&lt;/fo:list-block&gt;
++	&lt;/xsl:template&gt;
++	
++	&lt;!-- adaption of HTML unordered list items --&gt;
++	&lt;xsl:template match=&quot;ul/li|UL/LI&quot;&gt;
++		&lt;fo:list-item&gt;
++			&lt;fo:list-item-label end-indent=&quot;label-end()&quot;&gt;
++				&lt;fo:block&gt;
++					&lt;fo:inline font-size=&quot;10pt&quot; font-family=&quot;Symbol&quot;&gt;&#183;&lt;/fo:inline&gt;
++				&lt;/fo:block&gt;
++			&lt;/fo:list-item-label&gt;	
++			&lt;fo:list-item-body start-indent=&quot;body-start()&quot;&gt;
++				&lt;fo:block&gt;
++					&lt;xsl:apply-templates/&gt;
++				&lt;/fo:block&gt;
++			&lt;/fo:list-item-body&gt;
++		&lt;/fo:list-item&gt;
++	&lt;/xsl:template&gt;
++
++
++
++	&lt;!-- character level formatting --&gt;
++
++
++	
++	&lt;!-- adaption of HTML boldtype style --&gt;
++	&lt;xsl:template match=&quot;b|B&quot;&gt;
++		&lt;fo:inline font-weight=&quot;bold&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:inline&gt;
++	&lt;/xsl:template&gt;
++	
++	&lt;!-- adaption of HTML italic style --&gt;
++	&lt;xsl:template match=&quot;i|I&quot;&gt;
++		&lt;fo:inline font-style=&quot;italic&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:inline&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- adaption of HTML underline style --&gt;
++	&lt;xsl:template match=&quot;u|U&quot;&gt;
++		&lt;fo:inline text-decoration=&quot;underline&quot;&gt;
++			&lt;xsl:apply-templates/&gt;
++		&lt;/fo:inline&gt;
++	&lt;/xsl:template&gt;
++
++&lt;/xsl:stylesheet&gt;
+
+
+Property changes on: trunk/install/client/stylesheets/html2fo.xsl
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: trunk/install/client/stylesheets/xml2fo.xsl
+===================================================================
+--- trunk/install/client/stylesheets/xml2fo.xsl	2007-09-14 16:54:19 UTC (rev 194)
++++ trunk/install/client/stylesheets/xml2fo.xsl	2007-09-14 17:21:39 UTC (rev 195)
+@@ -0,0 +1,412 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;!--
++	date: 2002/01/30
++	version: dm-2.0a14-pre6
++
++	stylesheet for the transformation of
++	XML-exported topicmaps to formatting objects
++--&gt;
++&lt;xsl:stylesheet version=&quot;1.0&quot;
++	xmlns:xsl=&quot;<A HREF="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</A>&quot;
++	xmlns:fo=&quot;<A HREF="http://www.w3.org/1999/XSL/Format">http://www.w3.org/1999/XSL/Format</A>&quot;
++	xmlns:fox=&quot;<A HREF="http://xml.apache.org/fop/extensions">http://xml.apache.org/fop/extensions</A>&quot;
++	xmlns:svg=&quot;<A HREF="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</A>&quot;&gt;
++
++	&lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
++
++
++
++	&lt;!-- stylesheet imports --&gt;
++
++
++
++	&lt;!-- import HTML -&gt; FO stylesheet --&gt;
++	&lt;xsl:include href=&quot;stylesheets/html2fo.xsl&quot;/&gt;
++
++
++
++	&lt;!-- top-level parameters, submitted by the XSL processor --&gt;
++
++
++
++	&lt;!-- directory which contains topic icons --&gt;
++	&lt;xsl:param name=&quot;iconDirectory&quot; select=&quot;'iconDirectory parameter not submitted by XSL processor'&quot;/&gt;
++
++
++
++	&lt;!-- global variables --&gt;
++
++
++
++	&lt;!-- colors --&gt;
++	&lt;xsl:variable name=&quot;color-head-foot&quot; select=&quot;'#880000'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-topic-head&quot; select=&quot;'#880000'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-refs-props&quot; select=&quot;'#D8D8C8'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-label-left&quot; select=&quot;'#E8E8D8'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-label-right&quot; select=&quot;'#E8E8D8'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-field-left&quot; select=&quot;'#F8F8E8'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-field-right&quot; select=&quot;'#F8F8E8'&quot;/&gt;
++	&lt;xsl:variable name=&quot;color-hyperlink&quot; select=&quot;'#880000'&quot;/&gt;
++
++
++
++	&lt;!-- templates --&gt;
++
++
++
++	&lt;xsl:template match=&quot;/&quot;&gt;
++		&lt;fo:root&gt;
++			&lt;fo:layout-master-set&gt;
++				&lt;fo:simple-page-master master-name=&quot;A4&quot;
++				page-height=&quot;29.7cm&quot; page-width=&quot;21cm&quot;
++				margin-top=&quot;1cm&quot; margin-bottom=&quot;2cm&quot;
++				margin-left=&quot;2.5cm&quot; margin-right=&quot;2cm&quot;
++				widows=&quot;2&quot; orphans=&quot;2&quot;&gt;
++					&lt;fo:region-before extent=&quot;1cm&quot;/&gt;
++					&lt;fo:region-body margin-top=&quot;1cm&quot; margin-bottom=&quot;1cm&quot;/&gt;
++					&lt;fo:region-after extent=&quot;1cm&quot;/&gt;
++				&lt;/fo:simple-page-master&gt;
++			&lt;/fo:layout-master-set&gt;
++			&lt;fo:page-sequence master-reference=&quot;A4&quot; initial-page-number=&quot;1&quot;&gt;
++				&lt;!-- header --&gt;
++				&lt;fo:static-content flow-name=&quot;xsl-region-before&quot;&gt;
++	          &lt;fo:block font-style=&quot;italic&quot;&gt;
++						&lt;fo:table&gt;
++							&lt;fo:table-column column-width=&quot;4.5cm&quot;/&gt;
++							&lt;fo:table-column column-width=&quot;12cm&quot;/&gt;
++							&lt;fo:table-body&gt;
++								&lt;fo:table-row&gt;
++									&lt;fo:table-cell&gt;
++										&lt;fo:block&gt;
++											&lt;xsl:call-template name=&quot;expandTopicTypeName&quot;&gt;
++												&lt;xsl:with-param name=&quot;id&quot; select=&quot;/topicmap/@type&quot;/&gt;
++											&lt;/xsl:call-template&gt;
++										&lt;/fo:block&gt;
++									&lt;/fo:table-cell&gt;
++									&lt;fo:table-cell&gt;
++										&lt;fo:block text-align=&quot;end&quot;&gt;
++											&lt;xsl:value-of select=&quot;/topicmap/@name&quot;/&gt;
++										&lt;/fo:block&gt;
++									&lt;/fo:table-cell&gt;
++								&lt;/fo:table-row&gt;
++							&lt;/fo:table-body&gt;
++						&lt;/fo:table&gt;
++					&lt;/fo:block&gt;
++					&lt;fo:block&gt;
++					  &lt;fo:leader leader-length=&quot;100%&quot; leader-pattern=&quot;rule&quot;
++	             rule-thickness=&quot;2pt&quot; color=&quot;{$color-head-foot}&quot;/&gt;
++					&lt;/fo:block&gt;
++	        &lt;/fo:static-content&gt;
++				&lt;!-- footer --&gt;
++	        &lt;fo:static-content flow-name=&quot;xsl-region-after&quot;&gt;
++					&lt;fo:block&gt;
++					  &lt;fo:leader leader-length=&quot;100%&quot; leader-pattern=&quot;rule&quot;
++					             rule-thickness=&quot;2pt&quot; color=&quot;{$color-head-foot}&quot;/&gt;
++					&lt;/fo:block&gt;
++	          &lt;fo:block text-align=&quot;end&quot; font-style=&quot;italic&quot;&gt;Seite &lt;fo:page-number/&gt; von &lt;fo:page-number-citation ref-id=&quot;last&quot;/&gt;&lt;/fo:block&gt;
++	        &lt;/fo:static-content&gt;
++				&lt;!-- text flow with hyphenation (german) --&gt;
++				&lt;fo:flow flow-name=&quot;xsl-region-body&quot; hyphenate=&quot;true&quot; language=&quot;de&quot;&gt;
++					&lt;fo:block space-before=&quot;3pt&quot;&gt;
++						&lt;fo:table border-collapse=&quot;separate&quot;&gt;
++							&lt;fo:table-column column-width=&quot;5cm&quot;/&gt;
++							&lt;fo:table-column column-width=&quot;0.5cm&quot;/&gt;
++							&lt;fo:table-column column-width=&quot;11cm&quot;/&gt;
++							&lt;fo:table-body&gt;
++								&lt;!-- map title --&gt;
++								&lt;fo:table-row&gt;
++									&lt;fo:table-cell number-columns-spanned=&quot;3&quot; padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot; background-color=&quot;{$color-topic-head}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++										&lt;fo:block color=&quot;white&quot; font-weight=&quot;bold&quot; font-size=&quot;1.2em&quot;&gt;
++											&lt;xsl:call-template name=&quot;expandTopicTypeName&quot;&gt;
++												&lt;xsl:with-param name=&quot;id&quot; select=&quot;/topicmap/@type&quot;/&gt;
++											&lt;/xsl:call-template&gt;
++											&lt;xsl:text&gt;: &quot;&lt;/xsl:text&gt;
++											&lt;xsl:value-of select=&quot;/topicmap/@name&quot;/&gt;
++											&lt;xsl:text&gt;&quot;&lt;/xsl:text&gt;
++										&lt;/fo:block&gt;
++									&lt;/fo:table-cell&gt;
++								&lt;/fo:table-row&gt;
++								&lt;!-- render map properties, if present --&gt;
++								&lt;xsl:if test=&quot;/topicmap/property&quot;&gt;
++									&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++										&lt;xsl:with-param name=&quot;text&quot; select=&quot;'Eigenschaften dieser TopicMap'&quot;/&gt;
++									&lt;/xsl:call-template&gt;
++									&lt;xsl:call-template name=&quot;render_legend&quot;&gt;
++										&lt;xsl:with-param name=&quot;left&quot; select=&quot;'Eigenschaft'&quot;/&gt;
++										&lt;xsl:with-param name=&quot;right&quot; select=&quot;'Wert'&quot;/&gt;
++									&lt;/xsl:call-template&gt;
++									&lt;xsl:apply-templates select=&quot;/topicmap/property&quot;&gt;
++										&lt;xsl:sort select=&quot;@name&quot;/&gt;
++									&lt;/xsl:apply-templates&gt;
++								&lt;/xsl:if&gt;
++								&lt;!-- SVG figure --&gt;
++								&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++									&lt;xsl:with-param name=&quot;text&quot; select=&quot;'Grafische Darstellung dieser TopicMap'&quot;/&gt;
++								&lt;/xsl:call-template&gt;
++								&lt;fo:table-row&gt;
++									&lt;fo:table-cell number-columns-spanned=&quot;3&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++										&lt;fo:block&gt;
++											&lt;fo:instream-foreign-object&gt;
++												&lt;!-- marker for the SAX processor to insert the SVG graphics here --&gt;
++												&lt;xsl:processing-instruction name=&quot;insert&quot;&gt;svg&lt;/xsl:processing-instruction&gt;
++											&lt;/fo:instream-foreign-object&gt;
++										&lt;/fo:block&gt;
++									&lt;/fo:table-cell&gt;
++								&lt;/fo:table-row&gt;
++								&lt;!-- list of topics visible in the map --&gt;
++								&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++									&lt;xsl:with-param name=&quot;text&quot; select=&quot;'In dieser TopicMap vorhandene Topics'&quot;/&gt;
++								&lt;/xsl:call-template&gt;
++								&lt;xsl:call-template name=&quot;render_legend&quot;&gt;
++									&lt;xsl:with-param name=&quot;left&quot; select=&quot;'Topictyp'&quot;/&gt;
++									&lt;xsl:with-param name=&quot;right&quot; select=&quot;'Topic'&quot;/&gt;
++								&lt;/xsl:call-template&gt;
++								&lt;xsl:apply-templates select=&quot;/topicmap/topic&quot; mode=&quot;table&quot;&gt;
++									&lt;xsl:sort select=&quot;@types&quot;/&gt;
++								&lt;/xsl:apply-templates&gt;
++							&lt;/fo:table-body&gt;
++						&lt;/fo:table&gt;
++					&lt;/fo:block&gt;
++					&lt;!-- now render the topics --&gt;
++					&lt;fo:block space-before=&quot;5pt&quot; break-before=&quot;page&quot;&gt;
++						&lt;xsl:apply-templates select=&quot;/topicmap/topic&quot;&gt;
++							&lt;xsl:sort select=&quot;@types&quot;/&gt;
++						&lt;/xsl:apply-templates&gt;
++					&lt;/fo:block&gt;
++					&lt;!-- marker for last page (= number of pages) --&gt;
++					&lt;fo:block id=&quot;last&quot;/&gt;
++				&lt;/fo:flow&gt;
++			&lt;/fo:page-sequence&gt;
++			&lt;!-- FOP extension: PDF bookmarks --&gt;
++			&lt;xsl:for-each select=&quot;/topicmap/topic&quot;&gt;
++				&lt;xsl:sort select=&quot;@types&quot;/&gt;
++				&lt;xsl:variable name=&quot;ID&quot; select=&quot;@ID&quot;/&gt;
++				&lt;fox:outline internal-destination=&quot;{$ID}&quot;&gt;
++					&lt;fox:label&gt;
++						&lt;xsl:call-template name=&quot;expandTopicTypeName&quot;&gt;
++							&lt;xsl:with-param name=&quot;id&quot; select=&quot;@types&quot;/&gt;
++						&lt;/xsl:call-template&gt;
++						&lt;xsl:text&gt;: &quot;&lt;/xsl:text&gt;
++						&lt;xsl:apply-templates select=&quot;topname/basename&quot;/&gt;
++						&lt;xsl:text&gt;&quot;&lt;/xsl:text&gt;
++					&lt;/fox:label&gt;
++				&lt;/fox:outline&gt;
++			&lt;/xsl:for-each&gt;
++		&lt;/fo:root&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render a topic as hyperlink --&gt;
++	&lt;xsl:template match=&quot;topic&quot; mode=&quot;link&quot;&gt;
++		&lt;xsl:variable name=&quot;ID&quot; select=&quot;@ID&quot;/&gt;
++		&lt;xsl:call-template name=&quot;expandTopicIcon&quot;&gt;
++			&lt;xsl:with-param name=&quot;topic&quot; select=&quot;.&quot;/&gt;
++		&lt;/xsl:call-template&gt;
++		&lt;xsl:text&gt;  &lt;/xsl:text&gt;
++		&lt;fo:basic-link internal-destination=&quot;{$ID}&quot; color=&quot;{$color-hyperlink}&quot;&gt;
++			&lt;xsl:apply-templates select=&quot;topname/basename&quot;/&gt; (Seite &lt;fo:page-number-citation ref-id=&quot;{$ID}&quot;/&gt;)
++		&lt;/fo:basic-link&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render a topic in table layout --&gt;
++	&lt;xsl:template match=&quot;topic&quot;&gt;
++		&lt;xsl:variable name=&quot;ID&quot; select=&quot;@ID&quot;/&gt;
++		&lt;fo:block space-before=&quot;10pt&quot; space-after=&quot;10pt&quot;&gt;
++			&lt;!-- table start--&gt;
++			&lt;fo:block space-before=&quot;3pt&quot;&gt;
++				&lt;fo:table border-collapse=&quot;separate&quot;&gt;
++					&lt;fo:table-column column-width=&quot;5cm&quot;/&gt;
++					&lt;fo:table-column column-width=&quot;0.5cm&quot;/&gt;
++					&lt;fo:table-column column-width=&quot;11cm&quot;/&gt;
++					&lt;fo:table-body&gt;
++						&lt;!-- table header --&gt;
++						&lt;fo:table-row&gt;
++							&lt;fo:table-cell number-columns-spanned=&quot;3&quot; padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot; background-color=&quot;{$color-topic-head}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++								&lt;fo:block color=&quot;white&quot; font-weight=&quot;bold&quot; font-size=&quot;1.2em&quot; id=&quot;{$ID}&quot;&gt;
++									&lt;xsl:call-template name=&quot;expandTopicIcon&quot;&gt;
++										&lt;xsl:with-param name=&quot;topic&quot; select=&quot;.&quot;/&gt;
++									&lt;/xsl:call-template&gt;
++									&lt;xsl:text&gt;  &lt;/xsl:text&gt;
++									&lt;xsl:call-template name=&quot;expandTopicTypeName&quot;&gt;
++										&lt;xsl:with-param name=&quot;id&quot; select=&quot;@types&quot;/&gt;
++									&lt;/xsl:call-template&gt;
++									&lt;xsl:text&gt;: &quot;&lt;/xsl:text&gt;
++									&lt;xsl:apply-templates select=&quot;topname/basename&quot;/&gt;
++									&lt;xsl:text&gt;&quot;&lt;/xsl:text&gt;
++								&lt;/fo:block&gt;
++							&lt;/fo:table-cell&gt;
++						&lt;/fo:table-row&gt;
++						&lt;!-- render referenced topics, if present --&gt;
++						&lt;xsl:if test=&quot;/topicmap/assoc[assocrl[1]=$ID]&quot;&gt;
++							&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++								&lt;xsl:with-param name=&quot;text&quot; select=&quot;'referenzierte Topics'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:call-template name=&quot;render_legend&quot;&gt;
++								&lt;xsl:with-param name=&quot;left&quot; select=&quot;'Assoziationstyp'&quot;/&gt;
++								&lt;xsl:with-param name=&quot;right&quot; select=&quot;'Topic'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:apply-templates select=&quot;/topicmap/assoc[assocrl[1]=$ID]&quot;&gt;
++								&lt;xsl:sort select=&quot;@type&quot;/&gt;
++								&lt;xsl:with-param name=&quot;topic_pos&quot; select=&quot;2&quot;/&gt;
++							&lt;/xsl:apply-templates&gt;
++						&lt;/xsl:if&gt;
++						&lt;!-- render referencing topics, if present --&gt;
++						&lt;xsl:if test=&quot;/topicmap/assoc[assocrl[2]=$ID]&quot;&gt;
++							&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++								&lt;xsl:with-param name=&quot;text&quot; select=&quot;'wird von folgenden Topics referenziert'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:call-template name=&quot;render_legend&quot;&gt;
++								&lt;xsl:with-param name=&quot;left&quot; select=&quot;'Assoziationstyp'&quot;/&gt;
++								&lt;xsl:with-param name=&quot;right&quot; select=&quot;'Topic'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:apply-templates select=&quot;/topicmap/assoc[assocrl[2]=$ID]&quot;&gt;
++								&lt;xsl:sort select=&quot;@type&quot;/&gt;
++								&lt;xsl:with-param name=&quot;topic_pos&quot; select=&quot;1&quot;/&gt;
++							&lt;/xsl:apply-templates&gt;
++						&lt;/xsl:if&gt;
++						&lt;!-- render properties, if present --&gt;
++						&lt;xsl:if test=&quot;property&quot;&gt;
++							&lt;xsl:call-template name=&quot;render_spanned_columns&quot;&gt;
++								&lt;xsl:with-param name=&quot;text&quot; select=&quot;'Eigenschaften dieses Topics'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:call-template name=&quot;render_legend&quot;&gt;
++								&lt;xsl:with-param name=&quot;left&quot; select=&quot;'Eigenschaft'&quot;/&gt;
++								&lt;xsl:with-param name=&quot;right&quot; select=&quot;'Wert'&quot;/&gt;
++							&lt;/xsl:call-template&gt;
++							&lt;xsl:apply-templates select=&quot;property&quot;&gt;
++								&lt;xsl:sort select=&quot;@name&quot;/&gt;
++							&lt;/xsl:apply-templates&gt;
++						&lt;/xsl:if&gt;
++					&lt;/fo:table-body&gt;
++				&lt;/fo:table&gt;
++			&lt;/fo:block&gt;
++		&lt;/fo:block&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render multi-column headers --&gt;
++	&lt;xsl:template name=&quot;render_spanned_columns&quot;&gt;
++		&lt;xsl:param name=&quot;text&quot; select=&quot;'test'&quot;/&gt;
++		&lt;fo:table-row&gt;
++			&lt;fo:table-cell number-columns-spanned=&quot;3&quot; padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot; background-color=&quot;{$color-refs-props}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++				&lt;fo:block font-style=&quot;italic&quot; font-weight=&quot;bold&quot;&gt;&lt;xsl:value-of select=&quot;$text&quot;/&gt;&lt;/fo:block&gt;
++			&lt;/fo:table-cell&gt;
++		&lt;/fo:table-row&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render names of columns --&gt;
++	&lt;xsl:template name=&quot;render_legend&quot;&gt;
++		&lt;xsl:param name=&quot;left&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:param name=&quot;right&quot; select=&quot;'test'&quot;/&gt;
++		&lt;fo:table-row&gt;
++			&lt;fo:table-cell padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot; background-color=&quot;{$color-label-left}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++				&lt;fo:block font-style=&quot;italic&quot; text-align=&quot;end&quot;&gt;
++					&lt;xsl:value-of select=&quot;$left&quot;/&gt;
++				&lt;/fo:block&gt;
++			&lt;/fo:table-cell&gt;
++			&lt;fo:table-cell/&gt;
++			&lt;fo:table-cell padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot;  background-color=&quot;{$color-label-right}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++				&lt;fo:block font-style=&quot;italic&quot;&gt;
++					&lt;xsl:value-of select=&quot;$right&quot;/&gt;
++				&lt;/fo:block&gt;
++			&lt;/fo:table-cell&gt;
++		&lt;/fo:table-row&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render table rows --&gt;
++	&lt;xsl:template name=&quot;render_table&quot;&gt;
++		&lt;xsl:param name=&quot;left&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:param name=&quot;right&quot; select=&quot;'test'&quot;/&gt;
++			&lt;fo:table-row&gt;
++				&lt;fo:table-cell padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot; background-color=&quot;{$color-field-left}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++					&lt;fo:block font-weight=&quot;bold&quot; text-align=&quot;end&quot;&gt;
++						&lt;xsl:copy-of select=&quot;$left&quot;/&gt;
++					&lt;/fo:block&gt;
++				&lt;/fo:table-cell&gt;
++				&lt;fo:table-cell/&gt;
++				&lt;fo:table-cell padding-left=&quot;5pt&quot; padding-right=&quot;5pt&quot;  background-color=&quot;{$color-field-right}&quot; border-width=&quot;2pt&quot; border-color=&quot;white&quot; border-style=&quot;solid&quot;&gt;
++					&lt;fo:block&gt;
++						&lt;xsl:copy-of select=&quot;$right&quot;/&gt;
++					&lt;/fo:block&gt;
++				&lt;/fo:table-cell&gt;
++			&lt;/fo:table-row&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render topics in table rows --&gt;
++	&lt;xsl:template match=&quot;topic&quot; mode=&quot;table&quot;&gt;
++		&lt;xsl:param name=&quot;topic_pos&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:variable name=&quot;topicID2&quot; select=&quot;assocrl[$topic_pos]&quot;/&gt;
++		&lt;xsl:call-template name=&quot;render_table&quot;&gt;
++			&lt;xsl:with-param name=&quot;left&quot;&gt;
++				&lt;xsl:call-template name=&quot;expandTopicTypeName&quot;&gt;
++					&lt;xsl:with-param name=&quot;id&quot; select=&quot;@types&quot;/&gt;
++				&lt;/xsl:call-template&gt;
++			&lt;/xsl:with-param&gt;
++			&lt;xsl:with-param name=&quot;right&quot;&gt;
++				&lt;xsl:apply-templates select=&quot;.&quot; mode=&quot;link&quot;/&gt;
++			&lt;/xsl:with-param&gt;
++		&lt;/xsl:call-template&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render associations as referenced/referencing topics in table rows --&gt;
++	&lt;xsl:template match=&quot;assoc&quot;&gt;
++		&lt;xsl:param name=&quot;topic_pos&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:variable name=&quot;topicID2&quot; select=&quot;assocrl[$topic_pos]&quot;/&gt;
++		&lt;xsl:call-template name=&quot;render_table&quot;&gt;
++			&lt;xsl:with-param name=&quot;left&quot;&gt;
++				&lt;xsl:call-template name=&quot;expandAssocTypeName&quot;&gt;
++					&lt;xsl:with-param name=&quot;id&quot; select=&quot;@type&quot;/&gt;
++				&lt;/xsl:call-template&gt;
++			&lt;/xsl:with-param&gt;
++			&lt;xsl:with-param name=&quot;right&quot;&gt;
++				&lt;xsl:apply-templates select=&quot;/topicmap/topic[@ID=$topicID2]&quot; mode=&quot;link&quot;/&gt;
++			&lt;/xsl:with-param&gt;
++		&lt;/xsl:call-template&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render properties in table rows --&gt;
++	&lt;xsl:template match=&quot;property&quot;&gt;
++		&lt;xsl:param name=&quot;topic_pos&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:variable name=&quot;topicID2&quot; select=&quot;assocrl[$topic_pos]&quot;/&gt;
++		&lt;xsl:if test=&quot;*|text()&quot;&gt;
++			&lt;xsl:call-template name=&quot;render_table&quot;&gt;
++				&lt;xsl:with-param name=&quot;left&quot;&gt;
++				&lt;xsl:apply-templates select=&quot;@name&quot;/&gt;
++				&lt;/xsl:with-param&gt;
++				&lt;xsl:with-param name=&quot;right&quot;&gt;
++					&lt;xsl:apply-templates/&gt;
++				&lt;/xsl:with-param&gt;
++			&lt;/xsl:call-template&gt;
++		&lt;/xsl:if&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render name of a topic referenced by 'id' parameter --&gt;
++	&lt;!--
++	&lt;xsl:template name=&quot;expandTopicName&quot;&gt;
++		&lt;xsl:param name=&quot;id&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:apply-templates select=&quot;/topicmap/topic[@ID=$id][1]/topname/basename&quot;/&gt;
++	&lt;/xsl:template&gt;
++	--&gt;
++
++	&lt;!-- render name of a topictype referenced by 'id' parameter --&gt;
++	&lt;xsl:template name=&quot;expandTopicTypeName&quot;&gt;
++		&lt;xsl:param name=&quot;id&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:apply-templates select=&quot;/topicmap/topictype[@ID=$id][1]/name&quot;/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render name of a assoctype referenced by 'id' parameter --&gt;
++	&lt;xsl:template name=&quot;expandAssocTypeName&quot;&gt;
++		&lt;xsl:param name=&quot;id&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:apply-templates select=&quot;/topicmap/assoctype[@ID=$id][1]/name&quot;/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render topic icon --&gt;
++	&lt;xsl:template name=&quot;expandTopicIcon&quot;&gt;
++		&lt;xsl:param name=&quot;topic&quot; select=&quot;'test'&quot;/&gt;
++		&lt;xsl:variable name=&quot;icon&quot; select=&quot;$topic/@icon&quot;/&gt;
++		&lt;fo:external-graphic src=&quot;{$iconDirectory}{$icon}&quot;/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- the following elements should not be rendered --&gt;
++	&lt;xsl:template match=&quot;topictype&quot;/&gt;
++	&lt;xsl:template match=&quot;assoctype&quot;/&gt;
++&lt;/xsl:stylesheet&gt;
+
+
+Property changes on: trunk/install/client/stylesheets/xml2fo.xsl
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: trunk/install/client/stylesheets/xml2html.xsl
+===================================================================
+--- trunk/install/client/stylesheets/xml2html.xsl	2007-09-14 16:54:19 UTC (rev 194)
++++ trunk/install/client/stylesheets/xml2html.xsl	2007-09-14 17:21:39 UTC (rev 195)
+@@ -0,0 +1,253 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;<A HREF="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</A>&quot;&gt;
++
++	&lt;!-- Topic Info --&gt;
++
++	&lt;xsl:template match=&quot;topic&quot;&gt;
++		&lt;table border=&quot;0&quot;&gt;
++			&lt;xsl:call-template name=&quot;topicInfo&quot;&gt;
++				&lt;xsl:with-param name=&quot;typeID&quot; select=&quot;@types&quot;/&gt;
++				&lt;xsl:with-param name=&quot;props&quot; select=&quot;property&quot;/&gt;
++			&lt;/xsl:call-template&gt;
++		&lt;/table&gt;
++		&lt;table border=&quot;0&quot;&gt;
++			&lt;tr bgcolor=&quot;#e8e8e8&quot;&gt;
++				&lt;td width=&quot;50&quot; height=&quot;50&quot;&gt;
++					&lt;a href=&quot;controller?action=showTopicForm&amp;typeID={@types}&amp;topicID={@ID}&quot;&gt;
++						&lt;img src=&quot;images/edit.gif&quot; border=&quot;0&quot;/&gt;
++					&lt;/a&gt;
++				&lt;/td&gt;
++				&lt;td width=&quot;50&quot; height=&quot;50&quot;&gt;
++					&lt;a href=&quot;controller?action=deleteTopic&amp;topicID={@ID}&quot;&gt;
++						&lt;img src=&quot;images/trash.gif&quot; border=&quot;0&quot;/&gt;
++					&lt;/a&gt;
++				&lt;/td&gt;
++				&lt;xsl:if test=&quot;@types='tt-topictype'&quot;&gt;
++					&lt;td width=&quot;50&quot;&gt;
++						&lt;a href=&quot;controller?action=showTopics&amp;typeID={@ID}&quot;&gt;
++							&lt;img src=&quot;images/eye.gif&quot; border=&quot;0&quot;/&gt;
++						&lt;/a&gt;
++					&lt;/td&gt;
++					&lt;td width=&quot;50&quot;&gt;
++						&lt;a href=&quot;controller?action=showTopicForm&amp;typeID={@ID}&quot;&gt;
++							&lt;img src=&quot;images/create.gif&quot; border=&quot;0&quot;/&gt;
++						&lt;/a&gt;
++					&lt;/td&gt;
++				&lt;/xsl:if&gt;
++			&lt;/tr&gt;
++		&lt;/table&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template name=&quot;topicInfo&quot;&gt;
++		&lt;xsl:param name=&quot;typeID&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:param name=&quot;props&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:variable name=&quot;type&quot; select=&quot;/page/topictype[@ID=$typeID]&quot;/&gt;
++		&lt;!-- supertypes first --&gt;
++		&lt;xsl:if test=&quot;$type/@supertypeID&quot;&gt;
++			&lt;xsl:call-template name=&quot;topicInfo&quot;&gt;
++				&lt;xsl:with-param name=&quot;typeID&quot; select=&quot;$type/@supertypeID&quot;/&gt;
++				&lt;xsl:with-param name=&quot;props&quot; select=&quot;$props&quot;/&gt;
++			&lt;/xsl:call-template&gt;
++		&lt;/xsl:if&gt;
++		&lt;!-- --&gt;
++		&lt;xsl:for-each select=&quot;$type/propertydef[@visualization!='hidden']&quot;&gt;
++			&lt;xsl:variable name=&quot;propName&quot; select=&quot;@name&quot;/&gt;
++			&lt;tr valign=&quot;top&quot;&gt;
++				&lt;td width=&quot;200&quot;&gt;&lt;small&gt;&lt;xsl:value-of select=&quot;$propName&quot;/&gt;&lt;/small&gt;&lt;/td&gt;
++				&lt;td&gt;
++					&lt;xsl:if test=&quot;@visualization!='Text Editor' and @visualization!='Password Field'&quot;&gt;
++						&lt;xsl:value-of select=&quot;$props[@name=$propName]&quot;/&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Text Editor'&quot;&gt;
++						&lt;xsl:apply-templates select=&quot;$props[@name=$propName]/html/body&quot;/&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Password Field'&quot;&gt;
++						&lt;xsl:attribute name=&quot;bgcolor&quot;&gt;
++							&lt;xsl:value-of select=&quot;'#CCCCCC'&quot;/&gt;
++						&lt;/xsl:attribute&gt;
++					&lt;/xsl:if&gt;
++				&lt;/td&gt;
++			&lt;/tr&gt;
++		&lt;/xsl:for-each&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- ### stupid! --&gt;
++
++	&lt;xsl:template match=&quot;body&quot;&gt;
++		&lt;xsl:apply-templates/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;p&quot;&gt;
++		&lt;p&gt;&lt;xsl:apply-templates/&gt;&lt;/p&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;pre&quot;&gt;
++		&lt;pre&gt;&lt;xsl:apply-templates/&gt;&lt;/pre&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;ul&quot;&gt;
++		&lt;ul&gt;&lt;xsl:apply-templates/&gt;&lt;/ul&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;ol&quot;&gt;
++		&lt;ol&gt;&lt;xsl:apply-templates/&gt;&lt;/ol&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;li&quot;&gt;
++		&lt;li&gt;&lt;xsl:apply-templates/&gt;&lt;/li&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;table&quot;&gt;
++		&lt;table&gt;&lt;xsl:apply-templates/&gt;&lt;/table&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;tr&quot;&gt;
++		&lt;tr&gt;&lt;xsl:apply-templates/&gt;&lt;/tr&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;td&quot;&gt;
++		&lt;td&gt;&lt;xsl:apply-templates/&gt;&lt;/td&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;img&quot;&gt;
++		&lt;xsl:if test=&quot;starts-with(@src, 'http:') or starts-with(@src, 'file:')&quot;&gt;
++			&lt;img src=&quot;{@src}&quot;/&gt;
++		&lt;/xsl:if&gt;
++		&lt;xsl:if test=&quot;starts-with(@src, 'http:')=false and starts-with(@src, 'file:')=false&quot;&gt;
++			&lt;img src=&quot;{/page/@baseURL}{@src}&quot;/&gt;
++		&lt;/xsl:if&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;b&quot;&gt;
++		&lt;b&gt;&lt;xsl:apply-templates/&gt;&lt;/b&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;u&quot;&gt;
++		&lt;u&gt;&lt;xsl:apply-templates/&gt;&lt;/u&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;i&quot;&gt;
++		&lt;i&gt;&lt;xsl:apply-templates/&gt;&lt;/i&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template match=&quot;br&quot;&gt;
++		&lt;br/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- Form --&gt;
++
++	&lt;!-- parameter &quot;topic&quot; is optional --&gt;
++	&lt;xsl:template name=&quot;form&quot;&gt;
++		&lt;xsl:param name=&quot;typeID&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:param name=&quot;action&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:param name=&quot;topic&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;!-- topic: &lt;xsl:value-of select=&quot;$topic&quot;/&gt; --&gt;
++		&lt;form&gt;
++			&lt;table border=&quot;0&quot;&gt;
++				&lt;xsl:call-template name=&quot;formFields&quot;&gt;
++					&lt;xsl:with-param name=&quot;typeID&quot; select=&quot;$typeID&quot;/&gt;
++					&lt;xsl:with-param name=&quot;topic&quot; select=&quot;$topic&quot;/&gt;
++				&lt;/xsl:call-template&gt;
++				&lt;tr valign=&quot;bottom&quot;&gt;
++					&lt;td height=&quot;40&quot;&gt;&lt;/td&gt;
++					&lt;td&gt;
++						&lt;input type=&quot;submit&quot; value=&quot;OK&quot;/&gt;
++						&lt;input type=&quot;hidden&quot; name=&quot;typeID&quot; value=&quot;{$typeID}&quot;/&gt;
++						&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;{$action}&quot;/&gt;
++						&lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;{$topic/@ID}&quot;/&gt;
++					&lt;/td&gt;
++				&lt;/tr&gt;
++			&lt;/table&gt;
++		&lt;/form&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;xsl:template name=&quot;formFields&quot;&gt;
++		&lt;xsl:param name=&quot;typeID&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:param name=&quot;topic&quot; select=&quot;UNDEFINED&quot;/&gt;
++		&lt;xsl:variable name=&quot;type&quot; select=&quot;/page/topictype[@ID=$typeID]&quot;/&gt;
++		&lt;!-- supertypes first --&gt;
++		&lt;xsl:if test=&quot;$type/@supertypeID&quot;&gt;
++			&lt;xsl:call-template name=&quot;formFields&quot;&gt;
++				&lt;xsl:with-param name=&quot;typeID&quot; select=&quot;$type/@supertypeID&quot;/&gt;
++				&lt;xsl:with-param name=&quot;topic&quot; select=&quot;$topic&quot;/&gt;
++			&lt;/xsl:call-template&gt;
++		&lt;/xsl:if&gt;
++		&lt;!-- --&gt;
++		&lt;xsl:for-each select=&quot;$type/propertydef[@visualization!='hidden']&quot;&gt;
++			&lt;xsl:variable name=&quot;propName&quot; select=&quot;@name&quot;/&gt;
++			&lt;tr valign=&quot;top&quot;&gt;
++				&lt;td width=&quot;200&quot;&gt;&lt;small&gt;&lt;xsl:value-of select=&quot;$propName&quot;/&gt;&lt;/small&gt;&lt;/td&gt;
++				&lt;td&gt;
++					&lt;xsl:if test=&quot;@visualization='Input Field'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Multiline Input Field' or @visualization='Text Editor'&quot;&gt;
++						&lt;textarea name=&quot;{$propName}&quot; rows=&quot;5&quot; cols=&quot;50&quot;&gt;
++							&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++						&lt;/textarea&gt;
++					&lt;/xsl:if&gt;
++					&lt;!-- JUST DUMMIES FOR NOW --&gt;
++					&lt;xsl:if test=&quot;@visualization='Options Menu'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Option Buttons'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Switch'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Password Field'&quot;&gt;
++						&lt;xsl:attribute name=&quot;bgcolor&quot;&gt;
++							&lt;xsl:value-of select=&quot;'#CCCCCC'&quot;/&gt;
++						&lt;/xsl:attribute&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Date Chooser'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='Time Chooser'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++					&lt;xsl:if test=&quot;@visualization='File Chooser'&quot;&gt;
++						&lt;input type=&quot;text&quot; name=&quot;{$propName}&quot; size=&quot;50&quot;&gt;
++							&lt;xsl:attribute name=&quot;value&quot;&gt;
++								&lt;xsl:value-of select=&quot;$topic/property[@name=$propName]&quot;/&gt;
++							&lt;/xsl:attribute&gt;
++						&lt;/input&gt;
++					&lt;/xsl:if&gt;
++				&lt;/td&gt;
++			&lt;/tr&gt;
++		&lt;/xsl:for-each&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- --&gt;
++
++	&lt;xsl:template name=&quot;dayChooser&quot;&gt;
++		&lt;xsl:param name=&quot;day&quot; select=&quot;0&quot;/&gt;
++	&lt;/xsl:template&gt;
++
++&lt;/xsl:stylesheet&gt;
+
+Added: trunk/install/client/stylesheets/xml2svg.xsl
+===================================================================
+--- trunk/install/client/stylesheets/xml2svg.xsl	2007-09-14 16:54:19 UTC (rev 194)
++++ trunk/install/client/stylesheets/xml2svg.xsl	2007-09-14 17:21:39 UTC (rev 195)
+@@ -0,0 +1,116 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;!--
++	date: 2003/10/19
++	version: dm-2.0b2
++
++	stylesheet for the transformation of
++	XML-exported topicmaps to SVG graphic
++--&gt;
++&lt;xsl:stylesheet version=&quot;1.0&quot;
++	xmlns:xsl=&quot;<A HREF="http://www.w3.org/1999/XSL/Transform">http://www.w3.org/1999/XSL/Transform</A>&quot;
++	xmlns:svg=&quot;<A HREF="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</A>&quot;
++	xmlns:xlink=&quot;<A HREF="http://www.w3.org/1999/xlink">http://www.w3.org/1999/xlink</A>&quot;&gt;
++
++	&lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
++
++	&lt;!-- top-level parameters, submitted by the XSL processor --&gt;
++
++	&lt;!-- directory which contains topic icons --&gt;
++	&lt;xsl:param name=&quot;iconDirectory&quot; select=&quot;'iconDirectory parameter not submitted by XSL processor'&quot;/&gt;
++
++	&lt;!-- templates --&gt;
++
++	&lt;xsl:template match=&quot;/&quot;&gt;
++		&lt;xsl:apply-templates/&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render figure frame --&gt;
++	&lt;xsl:template match=&quot;topicmap&quot;&gt;
++		&lt;xsl:variable name=&quot;width&quot; select=&quot;500&quot;/&gt;
++		&lt;xsl:variable name=&quot;height&quot; select=&quot;250&quot;/&gt;
++		&lt;svg:svg width=&quot;{$width}px&quot; height=&quot;{$height}px&quot;&gt;
++			&lt;!--svg:g transform=&quot;translate(0 {$width}) rotate(-90)&quot;--&gt;
++			&lt;svg:rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;{$width}&quot; height=&quot;{$height}&quot; fill=&quot;#F0F0E0&quot;/&gt;
++			&lt;svg:g transform=&quot;scale(0.5) translate({$width div 2} {$height div 2})&quot;&gt;
++				&lt;xsl:apply-templates select=&quot;assoc&quot;/&gt;
++				&lt;xsl:apply-templates select=&quot;topic&quot;/&gt;
++			&lt;/svg:g&gt;
++		&lt;/svg:svg&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- decide whether associations should be rendered &quot;directed&quot; or &quot;not directed&quot; --&gt;
++	&lt;xsl:template match=&quot;assoc&quot;&gt;
++		&lt;!-- &lt;xsl:if test=&quot;true()&quot;&gt; --&gt;
++			&lt;xsl:variable name=&quot;assoctype&quot; select=&quot;@type&quot;/&gt;
++			&lt;xsl:variable name=&quot;color&quot; select=&quot;@color&quot;/&gt;
++			&lt;xsl:variable name=&quot;directed&quot; select=&quot;not(@type='at-generic' or @type='at-kompetenzstern')&quot;/&gt;
++			&lt;!-- workaround in case of empty &quot;color&quot; attribute was dropped --&gt;
++			&lt;xsl:apply-templates select=&quot;.&quot; mode=&quot;draw_assoc&quot;&gt;
++				&lt;xsl:with-param name=&quot;fill_color&quot; select=&quot;$color&quot;/&gt;
++				&lt;xsl:with-param name=&quot;directed_assoc&quot; select=&quot;$directed&quot;/&gt;
++			&lt;/xsl:apply-templates&gt;
++		&lt;!-- &lt;/xsl:if&gt; --&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!--
++		Render associations.
++		@param directed_assoc if true, a &quot;directed association&quot; will be drawn.
++	 --&gt;
++	&lt;xsl:template match=&quot;assoc&quot; mode=&quot;draw_assoc&quot;&gt;
++		&lt;xsl:param name=&quot;directed_assoc&quot; select=&quot;false&quot;/&gt;
++		&lt;xsl:param name=&quot;fill_color&quot; select=&quot;0&quot;/&gt;
++		&lt;xsl:variable name=&quot;topID1&quot; select=&quot;assocrl[1]&quot;/&gt;
++		&lt;xsl:variable name=&quot;topID2&quot; select=&quot;assocrl[2]&quot;/&gt;
++		&lt;xsl:variable name=&quot;x1&quot; select=&quot;/topicmap/topic[@ID=$topID1]/@x&quot;/&gt;
++		&lt;xsl:variable name=&quot;y1&quot; select=&quot;/topicmap/topic[@ID=$topID1]/@y&quot;/&gt;
++		&lt;xsl:variable name=&quot;x2&quot; select=&quot;/topicmap/topic[@ID=$topID2]/@x&quot;/&gt;
++		&lt;xsl:variable name=&quot;y2&quot; select=&quot;/topicmap/topic[@ID=$topID2]/@y&quot;/&gt;
++		&lt;xsl:choose&gt;
++			&lt;xsl:when test=&quot;$directed_assoc&quot;&gt;
++				&lt;svg:polygon fill=&quot;{$fill_color}&quot; points=&quot;{$x1 - 2},{$y1} {$x1 + 2},{$y1} {$x2},{$y2}&quot;/&gt;
++				&lt;svg:polygon fill=&quot;{$fill_color}&quot; points=&quot;{$x1},{$y1 - 2} {$x1},{$y1 + 2} {$x2},{$y2}&quot;/&gt;
++			&lt;/xsl:when&gt;
++			&lt;xsl:otherwise&gt;
++				&lt;svg:line stroke=&quot;{$fill_color}&quot; stroke-width=&quot;3&quot; x1=&quot;{$x1}&quot; y1=&quot;{$y1}&quot; x2=&quot;{$x2}&quot; y2=&quot;{$y2}&quot;/&gt;
++			&lt;/xsl:otherwise&gt;
++		&lt;/xsl:choose&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!--
++		Decide whether to render a hyperlink for a topic
++		(in case of a document topic) or to draw the topic only
++	--&gt;
++	&lt;xsl:template match=&quot;topic&quot;&gt;
++		&lt;!-- &lt;xsl:if test=&quot;true()&quot;&gt; --&gt;
++			&lt;xsl:choose&gt;
++				&lt;xsl:when test=&quot;@types='tt-document'&quot;&gt;
++						&lt;xsl:variable name=&quot;filename&quot; select=&quot;property[@name='File']&quot;/&gt;
++						&lt;svg:a xlink:href=&quot;{$filename}&quot;&gt;
++							&lt;xsl:apply-templates select=&quot;.&quot; mode=&quot;draw_topic&quot;/&gt;
++						&lt;/svg:a&gt;
++				&lt;/xsl:when&gt;
++				&lt;xsl:otherwise&gt;
++					&lt;xsl:apply-templates select=&quot;.&quot; mode=&quot;draw_topic&quot;/&gt;
++				&lt;/xsl:otherwise&gt;
++			&lt;/xsl:choose&gt;
++		&lt;!-- &lt;/xsl:if&gt; --&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- render the topic --&gt;
++	&lt;xsl:template match=&quot;topic&quot; mode=&quot;draw_topic&quot;&gt;
++		&lt;xsl:variable name=&quot;x&quot; select=&quot;@x&quot;/&gt;
++		&lt;xsl:variable name=&quot;y&quot; select=&quot;@y&quot;/&gt;
++		&lt;xsl:variable name=&quot;topictype&quot; select=&quot;@types&quot;/&gt;
++		&lt;xsl:variable name=&quot;color&quot; select=&quot;/topicmap/topic[@types='tt-topictype' and @ID=$topictype]/property[@name='Color']&quot;/&gt;
++		&lt;xsl:variable name=&quot;icon&quot; select=&quot;@icon&quot;/&gt;
++		&lt;svg:image x=&quot;{$x - 10}&quot; y=&quot;{$y - 10}&quot; width=&quot;20px&quot; height=&quot;20px&quot; xlink:href=&quot;{$iconDirectory}{$icon}&quot;/&gt;
++		&lt;xsl:if test=&quot;not(@types='tt-bewertung')&quot;&gt;
++			&lt;svg:text x=&quot;{$x - 10}&quot; y=&quot;{$y + 20}&quot; font-family=&quot;Helvetica&quot; fill=&quot;black&quot;&gt;&lt;xsl:value-of select=&quot;topname/basename&quot;/&gt;&lt;/svg:text&gt;
++		&lt;/xsl:if&gt;
++	&lt;/xsl:template&gt;
++
++	&lt;!-- the following elements should not be rendered --&gt;
++	&lt;xsl:template match=&quot;topictype&quot;/&gt;
++	&lt;xsl:template match=&quot;assoctype&quot;/&gt;
++&lt;/xsl:stylesheet&gt;
+
+
+Property changes on: trunk/install/client/stylesheets/xml2svg.xsl
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000039.html">[deepamehta-svn] r194 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000041.html">[deepamehta-svn] r196 - in trunk/install: client client/images	db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1568 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r185 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/config install/db	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r185%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/config%20install/db%0A%09install/db/db-specific%20install/examples/movies%0A%09install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200708300621.l7U6Lk0I011382%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000029.html">
+   <LINK REL="Next"  HREF="000031.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r185 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/config install/db	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r185%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/config%20install/db%0A%09install/db/db-specific%20install/examples/movies%0A%09install/examples/movies/config%20install/examples/movies/db&In-Reply-To=%3C200708300621.l7U6Lk0I011382%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r185 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/config install/db	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Thu Aug 30 08:21:46 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000029.html">[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+        <LI>Next message: <A HREF="000031.html">[deepamehta-svn] r186 - in	branches/eschnepel/develop/src/de/deepamehta: client service	service/web topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-30 08:21:44 +0200 (Thu, 30 Aug 2007)
+New Revision: 185
+
+Added:
+   branches/eschnepel/install/db/db-specific/
+   branches/eschnepel/install/db/db-specific/COMMIT.sql
+   branches/eschnepel/install/db/db-specific/COMMIT_SHUTDOWN.sql
+   branches/eschnepel/install/db/db-specific/EMPTY.sql
+   branches/eschnepel/install/db/db-specific/OPTIMIZE_derby.sql
+   branches/eschnepel/install/db/db-specific/OPTIMIZE_mysql.sql
+   branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml
+   branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml
+   branches/eschnepel/install/db/db-specific/createdb-sql92.xml
+   branches/eschnepel/install/db/db-specific/db_drop.sql
+   branches/eschnepel/install/db/db-specific/db_dropall.sql
+   branches/eschnepel/install/db/db-specific/db_tables_derby.sql
+   branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+   branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+   branches/eschnepel/install/db/db-specific/db_tables_oracle.sql
+   branches/eschnepel/install/db/db-specific/dropdb-derby.xml
+   branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml
+   branches/eschnepel/install/db/db-specific/dropdb-sql92.xml
+   branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-xml.properties
+   branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-xml.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies.sql
+Removed:
+   branches/eschnepel/install/db/COMMIT.sql
+   branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql
+   branches/eschnepel/install/db/EMPTY.sql
+   branches/eschnepel/install/db/OPTIMIZE_derby.sql
+   branches/eschnepel/install/db/OPTIMIZE_mysql.sql
+   branches/eschnepel/install/db/createdb-CONNECT.xml
+   branches/eschnepel/install/db/createdb-EMPTY.xml
+   branches/eschnepel/install/db/createdb-sql92.xml
+   branches/eschnepel/install/db/db_drop.sql
+   branches/eschnepel/install/db/db_dropall.sql
+   branches/eschnepel/install/db/db_tables_derby.sql
+   branches/eschnepel/install/db/db_tables_hsqldb.sql
+   branches/eschnepel/install/db/db_tables_mysql.sql
+   branches/eschnepel/install/db/db_tables_oracle.sql
+   branches/eschnepel/install/db/dropdb-derby.xml
+   branches/eschnepel/install/db/dropdb-hsqldb.xml
+   branches/eschnepel/install/db/dropdb-sql92.xml
+   branches/eschnepel/install/examples/movies/movies.sql
+Modified:
+   branches/eschnepel/build.properties
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+   branches/eschnepel/install/config/dm-hsqldb-intern.properties
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+   branches/eschnepel/install/examples/movies/db/db_tables_derby.sql
+   branches/eschnepel/install/examples/movies/db/db_tables_mysql.sql
+   branches/eschnepel/install/examples/movies/db/db_tables_oracle.sql
+Log:
+Result of developer meeting; moved db-specific things into own dir, splitted movies-db-init-script into a common one and several db-specific ones
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/build.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -6,6 +6,7 @@
+ client				=${install}/client
+ server				=${install}/server
+ db					=${install}/db
++db-specific			=${db}/db-specific
+ examples			=${install}/examples
+ #libpath must be set without ${dm.base-dir}
+ libpath				=libs
+@@ -26,8 +27,8 @@
+ appspath			=/Users/jri/Projects
+ 
+ # DeepaMehta Service
+-dm.instance			=derby-intern
+-#dm.instance			=hsqldb-intern
++#dm.instance			=derby-intern
++dm.instance			=hsqldb-intern
+ #dm.instance			=mysql
+ 
+ dm.instance.property-file		=${config}/dm-${dm.instance}.properties
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/build.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -6,14 +6,12 @@
+ 
+ 	&lt;import file=&quot;config.xml&quot; /&gt;
+ 
+-	&lt;import file=&quot;${db}/${db.create-db}&quot; /&gt;
+-	&lt;import file=&quot;${db}/${db.drop-db}&quot; /&gt;
++	&lt;import file=&quot;${db-specific}/${db.create-db}&quot; /&gt;
++	&lt;import file=&quot;${db-specific}/${db.drop-db}&quot; /&gt;
+ 
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+ 		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot; /&gt;
+-		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot; /&gt;
+@@ -103,14 +101,14 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.create-db}--&gt;
+-	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.drop-db}--&gt;
++	&lt;!-- The target dropdb has been &quot;outsourced&quot; to ${db.drop-db}--&gt;
+ 
+ 	&lt;target name=&quot;createtables&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -119,10 +117,10 @@
+ 
+ 	&lt;target name=&quot;optimize&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.optimize}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -137,19 +135,19 @@
+ 				&lt;include name=&quot;webcrawler.sql&quot; /&gt;
+ 				&lt;include name=&quot;whois.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+-				&lt;include name=&quot;movies/movies.sql&quot; /&gt;
++				&lt;include name=&quot;movies/db/dmdb-movies.sql&quot; /&gt;
++				&lt;include name=&quot;movies/db/dmdb-movies-${dm-instance}.sql&quot; /&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot; /&gt;
+-				&lt;include name=&quot;artfacts/artfacts.sql&quot; /&gt;
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot; /&gt;
+ 				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -158,7 +156,7 @@
+ 				&lt;include name=&quot;names.sql&quot; /&gt;
+ 				&lt;include name=&quot;help.sql&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -167,10 +165,10 @@
+ 
+ 	&lt;target name=&quot;droptables&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.drop-tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -203,7 +201,7 @@
+ 			&lt;fileset&gt;
+ 				&lt;include name=&quot;${patch}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaException.java	2007-08-30 06:21:44 UTC (rev 185)
+@@ -13,4 +13,8 @@
+     public DeepaMehtaException(String s) {
+ 		super(s);
+     }
++
++	public DeepaMehtaException(String string, Exception e) {
++		super(string,e);
++	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-08-30 06:21:44 UTC (rev 185)
+@@ -766,6 +766,7 @@
+ 			// are no directives send back, but a vector of strings)
+ 			System.out.println(&quot;*** ApplicationService.revealTopictypes(): &quot; + e +
+ 				&quot; -- topic types not available&quot;);
++			e.printStackTrace();
+ 			return new Hashtable();
+ 		}
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataConsumerTopic.java	2007-08-30 06:21:44 UTC (rev 185)
+@@ -190,7 +190,7 @@
+ 			return topicTypes;
+ 		} catch (Exception e) {
+ 			throw new DeepaMehtaException(&quot;*** DataConsumerTopic.revealTopicTypes(): &quot; +
+-				&quot;topic types of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;);
++				&quot;topic types of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;,e);
+ 		}
+ 	}
+ 
+@@ -259,7 +259,7 @@
+ 			}
+ 		} catch (Exception e) {
+ 			throw new DeepaMehtaException(&quot;*** DataConsumerTopic.revealRelatedTopics():&quot; +
+-				&quot; related topics of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;);
++				&quot; related topics of &quot; + this + &quot; not revealed (&quot; + e + &quot;)&quot;,e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2007-08-30 06:21:44 UTC (rev 185)
+@@ -341,8 +341,9 @@
+ 			//
+ 			return topicID;
+ 		} catch (Exception e) {
++			e.printStackTrace();
+ 			throw new DeepaMehtaException(&quot;*** ElementContainerTopic.revealTopic(): &quot; +
+-				&quot;topic \&quot;&quot; + id + &quot;\&quot; not revealed (&quot; + e + &quot;)&quot;);
++				&quot;topic \&quot;&quot; + id + &quot;\&quot; not revealed (&quot; + e + &quot;)&quot;,e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/install/config/dm-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/dm-hsqldb-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/config/dm-hsqldb-intern.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -3,11 +3,12 @@
+ dm.comporate-memory.class=RelationalCorporateMemory
+ 
+ # Database
+-db.name				=DeepaMehta
+-db.user				=sa
+-db.password			=
+-db.type				=hsqldb
++db.name						=DeepaMehta
++db.user						=sa
++db.password					=
++db.type						=hsqldb
+ 
+-db.hsqldb.path		=${client}/db/${dm.instance}/${db.name}
++db.hsqldb.base-path			=${client}/db/${dm.instance}
++db.hsqldb.path				=${db.hsqldb.base-path}/${db.name}
+ 
+-db.url				=jdbc:hsqldb:${db.hsqldb.path}
++db.url						=jdbc:hsqldb:${db.hsqldb.path}
+
+Deleted: branches/eschnepel/install/db/COMMIT.sql
+===================================================================
+--- branches/eschnepel/install/db/COMMIT.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/COMMIT.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1 +0,0 @@
+-COMMIT;
+\ No newline at end of file
+
+Deleted: branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql
+===================================================================
+--- branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,2 +0,0 @@
+-COMMIT;
+-SHUTDOWN;
+
+Deleted: branches/eschnepel/install/db/EMPTY.sql
+===================================================================
+
+Deleted: branches/eschnepel/install/db/OPTIMIZE_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/OPTIMIZE_derby.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/OPTIMIZE_derby.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,9 +0,0 @@
+--- The table and schema names have to be UPPER CASE!
+-
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPIC', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATION', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWTOPIC', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'VIEWASSOCIATION', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'TOPICPROP', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'ASSOCIATIONPROP', 1);
+-CALL SYSCS_UTIL.SYSCS_COMPRESS_TABLE('DEEPAMEHTA', 'KEYGENERATOR', 1);
+
+Deleted: branches/eschnepel/install/db/OPTIMIZE_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/OPTIMIZE_mysql.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/OPTIMIZE_mysql.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,9 +0,0 @@
+-OPTIMIZE TABLE
+-	Association
+-,	AssociationProp
+-,	KeyGenerator
+-,	Topic
+-,	TopicProp
+-,	ViewAssociation
+-,	ViewTopic
+-; 
+
+Deleted: branches/eschnepel/install/db/createdb-CONNECT.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-CONNECT.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/createdb-CONNECT.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,14 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-createdb-CONNECT&quot; &gt;
+-&lt;!-- DeepaMehta Database creation script.--&gt;
+-&lt;!-- must run as database root user.--&gt;
+-	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+-	&lt;/target&gt;
+-	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;EMPTY.sql&quot;/&gt;
+-			&lt;/fileset&gt;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/createdb-EMPTY.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-EMPTY.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/createdb-EMPTY.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,5 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-createdb-EMPTY&quot; &gt;
+-	&lt;target name=&quot;createdb&quot;&gt;
+-		&lt;echo message=&quot;There is nothing to do to create a db for this type database&quot;/&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/createdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-sql92.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/createdb-sql92.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,15 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-createdb-sql92&quot; &gt;
+-&lt;!-- DeepaMehta Database creation script.--&gt;
+-&lt;!-- must run as database root user.--&gt;
+-	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+-	&lt;/target&gt;
+-	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
+-		&lt;echo&gt;Creating Database ${db.name} for user ${db.user} with password ${db.password} ...&lt;/echo&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			CREATE DATABASE ${db.name};
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Copied: branches/eschnepel/install/db/db-specific/COMMIT.sql (from rev 184, branches/eschnepel/install/db/COMMIT.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/COMMIT_SHUTDOWN.sql (from rev 184, branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/EMPTY.sql (from rev 184, branches/eschnepel/install/db/EMPTY.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/OPTIMIZE_derby.sql (from rev 184, branches/eschnepel/install/db/OPTIMIZE_derby.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/OPTIMIZE_mysql.sql (from rev 184, branches/eschnepel/install/db/OPTIMIZE_mysql.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/createdb-CONNECT.xml (from rev 184, branches/eschnepel/install/db/createdb-CONNECT.xml)
+
+Copied: branches/eschnepel/install/db/db-specific/createdb-EMPTY.xml (from rev 184, branches/eschnepel/install/db/createdb-EMPTY.xml)
+
+Copied: branches/eschnepel/install/db/db-specific/createdb-sql92.xml (from rev 184, branches/eschnepel/install/db/createdb-sql92.xml)
+
+Copied: branches/eschnepel/install/db/db-specific/db_drop.sql (from rev 184, branches/eschnepel/install/db/db_drop.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_dropall.sql (from rev 184, branches/eschnepel/install/db/db_dropall.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_derby.sql (from rev 184, branches/eschnepel/install/db/db_tables_derby.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql (from rev 184, branches/eschnepel/install/db/db_tables_hsqldb.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_mysql.sql (from rev 184, branches/eschnepel/install/db/db_tables_mysql.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/db_tables_oracle.sql (from rev 184, branches/eschnepel/install/db/db_tables_oracle.sql)
+
+Copied: branches/eschnepel/install/db/db-specific/dropdb-derby.xml (from rev 184, branches/eschnepel/install/db/dropdb-derby.xml)
+
+Copied: branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml (from rev 184, branches/eschnepel/install/db/dropdb-hsqldb.xml)
+===================================================================
+--- branches/eschnepel/install/db/dropdb-hsqldb.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,18 @@
++&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
++	&lt;target name=&quot;dropdb&quot;&gt;
++		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
++		&lt;echo&gt;${db.hsqldb.path}&lt;/echo&gt;
++		&lt;delete&gt;
++			&lt;fileset dir=&quot;${db.hsqldb.base-path}&quot;&gt;
++				&lt;include name=&quot;${db.name}.*&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/delete&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Copied: branches/eschnepel/install/db/db-specific/dropdb-sql92.xml (from rev 184, branches/eschnepel/install/db/dropdb-sql92.xml)
+
+Deleted: branches/eschnepel/install/db/db_drop.sql
+===================================================================
+--- branches/eschnepel/install/db/db_drop.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_drop.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,9 +0,0 @@
+--- drops all tables
+-
+-drop table Association;
+-drop table AssociationProp;
+-drop table Topic;
+-drop table TopicProp;
+-drop table ViewTopic;
+-drop table ViewAssociation;
+-drop table KeyGenerator;
+
+Deleted: branches/eschnepel/install/db/db_dropall.sql
+===================================================================
+--- branches/eschnepel/install/db/db_dropall.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_dropall.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,7 +0,0 @@
+-DROP DATABASE DeepaMehta;
+-DELETE FROM user where User='dm';
+-DELETE FROM db where Db='DeepaMehta';
+-
+-DROP DATABASE Movies;
+-DELETE FROM user where User='movies';
+-DELETE FROM db where Db='Movies';
+
+Deleted: branches/eschnepel/install/db/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_derby.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_tables_derby.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,87 +0,0 @@
+--- DeepaMehta database model for use with DERBY.
+--- DERBY comes with Java 1.6 but is delivered with DM too.
+--- This script just creates the tables.
+-
+-CREATE TABLE Topic (
+-    TypeID VARCHAR(40) NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID VARCHAR(40) NOT NULL,
+-    Name VARCHAR(255) NOT NULL,
+-	PRIMARY KEY (ID, Version)
+-);
+-CREATE INDEX IDX_TopicType ON Topic (
+-	TypeID, TypeVersion, Name
+-);
+-
+-CREATE TABLE Association (
+-    TypeID VARCHAR(40) NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID VARCHAR(40) NOT NULL,
+-    Name VARCHAR(255) NOT NULL,
+-    TopicID1 VARCHAR(40) NOT NULL,
+-    TopicVersion1 INT NOT NULL,
+-    TopicID2 VARCHAR(40) NOT NULL,
+-    TopicVersion2 INT NOT NULL,
+-	PRIMARY KEY (ID, Version)
+-);
+-CREATE INDEX IDX_AssociationType ON Association (
+-	ID, Version, TypeID, TypeVersion
+-);
+-CREATE INDEX IDX_TopicAssociation1 ON Association (
+-    TopicID1, TopicVersion1
+-);
+-CREATE INDEX IDX_TopicAssociation2 ON Association (
+-    TopicID2, TopicVersion2
+-);
+-
+-CREATE TABLE ViewTopic (
+-    ViewTopicID VARCHAR(40) NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    TopicID VARCHAR(40) NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    x INT NOT NULL,
+-    y INT NOT NULL
+-);
+-CREATE INDEX IDX_ViewTopic ON ViewTopic (
+-    ViewTopicID, ViewTopicVersion
+-);
+-CREATE INDEX IDX_ViewTopicRef ON ViewTopic (
+-	TopicID
+-);
+-
+-CREATE TABLE ViewAssociation (
+-    ViewTopicID VARCHAR(40) NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    AssociationID VARCHAR(40) NOT NULL,
+-    AssociationVersion INT NOT NULL
+-);
+-CREATE INDEX IDX_ViewAssociation ON ViewAssociation (
+-	ViewTopicID, ViewTopicVersion
+-);
+-
+-CREATE TABLE TopicProp (
+-    TopicID VARCHAR(40) NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    PropName VARCHAR(40) NOT NULL,
+-    PropValue VARCHAR(4096)
+-);
+-CREATE INDEX IDX_TopicProp ON TopicProp (
+-    TopicID, TopicVersion, PropName
+-);
+-
+-CREATE TABLE AssociationProp (
+-    AssociationID VARCHAR(40) NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    PropName VARCHAR(40) NOT NULL,
+-    PropValue VARCHAR(4096)
+-);
+-CREATE INDEX IDX_AssociationProp ON AssociationProp (
+-    AssociationID, AssociationVersion, PropName
+-);
+-
+-CREATE TABLE KeyGenerator (
+-    Relation VARCHAR(24) NOT NULL PRIMARY KEY,
+-    NextKey INT NOT NULL
+-);
+
+Deleted: branches/eschnepel/install/db/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,89 +0,0 @@
+--- DeepaMehta database model for use with HSQLDB.
+--- This script just creates the tables.
+-
+-CREATE CACHED TABLE Topic (
+-    TypeID CHAR(40) NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) NOT NULL,
+-    Name VARCHAR_IGNORECASE NOT NULL,
+-	PRIMARY KEY (ID, Version)
+-);
+-CREATE INDEX IDX_TopicType ON Topic (
+-	TypeID, TypeVersion, Name
+-);
+-
+-CREATE CACHED TABLE Association (
+-    TypeID CHAR(40) NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) NOT NULL,
+-    Name VARCHAR_IGNORECASE NOT NULL,
+-    TopicID1 CHAR(40) NOT NULL,
+-    TopicVersion1 INT NOT NULL,
+-    TopicID2 CHAR(40) NOT NULL,
+-    TopicVersion2 INT NOT NULL,
+-	PRIMARY KEY (ID, Version)
+-);
+-CREATE INDEX IDX_AssociationType ON Association (
+-	ID, Version, TypeID, TypeVersion
+-);
+-CREATE INDEX IDX_TopicAssociation1 ON Association (
+-    TopicID1, TopicVersion1
+-);
+-CREATE INDEX IDX_TopicAssociation2 ON Association (
+-    TopicID2, TopicVersion2
+-);
+-
+-CREATE CACHED TABLE ViewTopic (
+-    ViewTopicID CHAR(40) NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    TopicID CHAR(40) NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    x INT NOT NULL,
+-    y INT NOT NULL
+-);
+-CREATE INDEX IDX_ViewTopic ON ViewTopic (
+-    ViewTopicID, ViewTopicVersion
+-);
+-CREATE INDEX IDX_ViewTopicRef ON ViewTopic (
+-	TopicID
+-);
+-
+-CREATE CACHED TABLE ViewAssociation (
+-    ViewTopicID CHAR(40) NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    AssociationID CHAR(40) NOT NULL,
+-    AssociationVersion INT NOT NULL
+-);
+-CREATE INDEX IDX_ViewAssociation ON ViewAssociation (
+-	ViewTopicID, ViewTopicVersion
+-);
+-
+-CREATE CACHED TABLE TopicProp (
+-    TopicID CHAR(40) NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
+-    PropValue VARCHAR_IGNORECASE
+-);
+-CREATE INDEX IDX_TopicProp ON TopicProp (
+-    TopicID, TopicVersion, PropName
+-);
+-
+-CREATE CACHED TABLE AssociationProp (
+-    AssociationID CHAR(40) NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
+-    PropValue VARCHAR_IGNORECASE
+-);
+-CREATE INDEX IDX_AssociationProp ON AssociationProp (
+-    AssociationID, AssociationVersion, PropName
+-);
+-
+-CREATE TABLE KeyGenerator (
+-    Relation CHAR(24) NOT NULL PRIMARY KEY,
+-    NextKey INT NOT NULL
+-);
+-
+-SET WRITE_DELAY 0 MILLIS
+-;
+
+Deleted: branches/eschnepel/install/db/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_mysql.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_tables_mysql.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,68 +0,0 @@
+--- DeepaMehta database model for use with MySQL.
+--- This script just creates the tables.
+-
+-CREATE TABLE Topic (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-    INDEX (TypeID, TypeVersion, Name)
+-);
+-
+-CREATE TABLE Association (
+-    TypeID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TypeVersion INT NOT NULL,
+-    Version INT NOT NULL,
+-    ID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    Name CHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+-    TopicID1 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion1 INT NOT NULL,
+-    TopicID2 CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion2 INT NOT NULL,
+-	PRIMARY KEY (ID, Version),
+-	INDEX (ID, Version, TypeID, TypeVersion),
+-    INDEX (TopicID1, TopicVersion1),
+-    INDEX (TopicID2, TopicVersion2)
+-);
+-
+-CREATE TABLE ViewTopic (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    x INT NOT NULL,
+-    y INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion),
+-	INDEX (TopicID)
+-);
+-
+-CREATE TABLE ViewAssociation (
+-    ViewTopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-	ViewTopicVersion INT NOT NULL,
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    INDEX (ViewTopicID, ViewTopicVersion)
+-);
+-
+-CREATE TABLE TopicProp (
+-    TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    TopicVersion INT NOT NULL,
+-    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    INDEX (TopicID, TopicVersion, PropName)
+-);
+-
+-CREATE TABLE AssociationProp (
+-    AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    AssociationVersion INT NOT NULL,
+-    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+-    PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    INDEX (AssociationID, AssociationVersion, PropName)
+-);
+-
+-CREATE TABLE KeyGenerator (
+-    Relation CHAR(24) CHARACTER SET utf8 COLLATE utf8_bin PRIMARY KEY NOT NULL,
+-    NextKey INT NOT NULL
+-);
+
+Deleted: branches/eschnepel/install/db/db_tables_oracle.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_oracle.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/db_tables_oracle.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,83 +0,0 @@
+--- DeepaMehta database model for use with Oracle.
+--- This script creates just the tables.
+-
+-CREATE TABLE topic (
+-    typeid      VARCHAR2(40) NOT NULL,
+-    typeversion INT         NOT NULL,
+-    version     INT         NOT NULL,
+-    id          VARCHAR2(40) NOT NULL,
+-    name        VARCHAR2(255) NOT NULL,
+-    CONSTRAINT pk_topic PRIMARY KEY (id, version)
+-);
+-CREATE INDEX i_topic ON topic (typeid, typeversion, name);
+-
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE association (
+-    typeid        VARCHAR2(40) NOT NULL,
+-    typeversion   INT         NOT NULL,
+-    version       INT         NOT NULL,
+-    id            VARCHAR2(40) NOT NULL,
+-    name          VARCHAR2(255) NOT NULL,
+-    topicid1      VARCHAR2(40) NOT NULL,
+-    topicversion1 INT         NOT NULL,
+-    topicid2      VARCHAR2(40) NOT NULL,
+-    topicversion2 INT         NOT NULL,
+-    CONSTRAINT pk_association PRIMARY KEY (id, version)
+-);
+-CREATE INDEX i1_association ON association (id, version, typeid, typeversion);
+-CREATE INDEX i2_association ON association (topicid1, topicversion1);
+-CREATE INDEX i3_association ON association (topicid2, topicversion2);
+-
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE viewtopic (
+-    viewtopicid      VARCHAR2(40) NOT NULL,
+-    viewtopicversion INT         NOT NULL,
+-    topicid          VARCHAR2(40) NOT NULL,
+-    topicversion     INT         NOT NULL,
+-    x                INT         NOT NULL,
+-    y                INT         NOT NULL
+-);
+-CREATE INDEX i1_viewtopic ON viewtopic (ViewTopicID, ViewTopicVersion);
+-CREATE INDEX i2_viewtopic ON viewtopic (TopicID);
+-
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE viewassociation (
+-    viewtopicid        VARCHAR2(40) NOT NULL,
+-    viewtopicversion   INT         NOT NULL,
+-    associationid      VARCHAR2(40) NOT NULL,
+-    associationversion INT         NOT NULL
+-);
+-CREATE INDEX i_viewassociation ON viewassociation (viewtopicid, viewtopicversion);
+-
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE topicprop (
+-    topicid      VARCHAR2(40) NOT NULL,
+-    topicversion INT         NOT NULL,
+-    propname    VARCHAR2(40) NOT NULL,
+-    propvalue   VARCHAR2(4000)
+-);
+-CREATE INDEX i_topicprop ON topicprop (topicid, topicversion, propname);
+-
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE associationprop (
+-    associationid      VARCHAR2(40) NOT NULL,
+-    associationversion INT         NOT NULL,
+-    propname          VARCHAR2(40) NOT NULL,
+-    propvalue         VARCHAR2(4000)
+-);
+-CREATE INDEX i_associationprop ON associationprop (associationid, associationversion, propname);
+-    
+--- ----------------------------------------------------------------------------
+-
+-CREATE TABLE keygenerator (
+-    relation VARCHAR2(24) NOT NULL,
+-    nextkey  INT         NOT NULL,
+-    CONSTRAINT pk_keygenerator PRIMARY KEY (relation)
+-);
+-
+--- ----------------------------------------------------------------------------
+
+Deleted: branches/eschnepel/install/db/dropdb-derby.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-derby.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/dropdb-derby.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,13 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
+-	&lt;target name=&quot;dropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
+-		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
+-		&lt;delete dir=&quot;${db.derby.path}&quot; /&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/dropdb-hsqldb.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-hsqldb.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/dropdb-hsqldb.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,17 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
+-	&lt;target name=&quot;dropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
+-		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
+-		&lt;delete&gt;
+-			&lt;fileset dir=&quot;.&quot;&gt;
+-				&lt;include name=&quot;${db.hsqldb.path}.*&quot; /&gt;
+-			&lt;/fileset&gt;
+-		&lt;/delete&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/dropdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,23 +0,0 @@
+-&lt;project name=&quot;DeepaMehta-db-dropedb-sql92&quot; &gt;
+-	&lt;target name=&quot;predropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to drop the DeepaMehta database '${db.name}' and the user '${db.user}'.&quot;/&gt;
+-		&lt;echo message=&quot;You will be asked for the database ${db.sysuser} user password.&quot;/&gt;
+-		&lt;echo message=&quot;If you want drop another database and user, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot;/&gt;
+-	&lt;/target&gt;
+-	&lt;target name=&quot;asksyspass&quot; depends=&quot;predropdb&quot; unless=&quot;db.syspass&quot;&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
+-	&lt;/target&gt;
+-	&lt;target name=&quot;dropdb&quot; depends=&quot;asksyspass&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			DROP DATABASE ${db.name};
+-			DELETE FROM user where User='${db.user}';
+-			DELETE FROM db where Db='${db.name}';
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-&lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-08-30 06:21:44 UTC (rev 185)
+@@ -56,7 +56,7 @@
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.tables}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+@@ -67,7 +67,7 @@
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${movies.db.content}&quot; /&gt;
+ 			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
++			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -11,4 +11,4 @@
+ 
+ movies.db.tables	=db/db_tables_derby.sql
+ movies.db.content	=db/db_inserts.sql
+-movies.db.create-db	=${db}/createdb-CONNECT.xml
++movies.db.create-db	=${db-specific}/createdb-CONNECT.xml
+
+Added: branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,13 @@
++movies.db.name			=Movies
++movies.db.user			=sa
++movies.db.password		=
++
++movies.db.hsqldb.path	=${db.hsqldb.base-path}/${movies.db.name}
++movies.db.url			=jdbc:hsqldb:${movies.db.hsqldb.path}
++movies.db.sysuser		=${movies.db.user}
++movies.db.syspass		=${movies.db.password}
++movies.db.sysurl		=${movies.db.url};create=true
++
++movies.db.tables		=db/db_tables_hsqldb.sql
++movies.db.content		=db/db_inserts.sql
++movies.db.create-db		=${db-specific}/createdb-EMPTY.xml
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -9,4 +9,4 @@
+ 
+ movies.db.tables	=db/db_tables_mysql.sql
+ movies.db.content	=db/db_inserts.sql
+-movies.db.create-db	=${db}/createdb-sql92.xml
++movies.db.create-db	=${db-specific}/createdb-sql92.xml
+
+Added: branches/eschnepel/install/examples/movies/config/movies-xml.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-xml.properties	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/config/movies-xml.properties	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,9 @@
++movies.db.name		=${db.name}
++movies.db.user		=${db.user}
++movies.db.password	=${db.password}
++
++movies.db.url		=${db.url}
++
++movies.db.tables	=${db-specific}/EMPTY.sql
++movies.db.content	=${db-specific}/EMPTY.sql
++movies.db.create-db	=${db-specific}/createdb-EMPTY.xml
+
+Modified: branches/eschnepel/install/examples/movies/db/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_derby.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/db_tables_derby.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -5,7 +5,7 @@
+     Originaltitle VARCHAR(100),
+     GattungID INT,
+     Country VARCHAR(20),
+-    &quot;Year&quot; VARCHAR(10),
++    YearOfProduction VARCHAR(10),
+     Duration CHAR(4)
+ );
+ 
+
+Added: branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,29 @@
++
++CREATE TABLE Movie (
++    ID INT NOT NULL PRIMARY KEY,
++    TITLE VARCHAR(100),
++    ORIGINALTITLE VARCHAR(100),
++    GATTUNGID INT,
++    COUNTRY VARCHAR(20),
++    YEAROFPRODUCTION VARCHAR(10),
++    DURATION CHAR(4)
++);
++
++CREATE TABLE ACTOR (
++    ID INT NOT NULL PRIMARY KEY,
++    NAME VARCHAR(40)
++);
++
++CREATE TABLE Mitwirkung (
++    MOVIEID INT NOT NULL,
++    ACTORID INT NOT NULL
++);
++
++CREATE INDEX IDX_Mitwirkung_MovieID ON Mitwirkung(MOVIEID);
++CREATE INDEX IDX_Mitwirkung_ActorID ON Mitwirkung(ACTORID);
++
++CREATE TABLE Gattung (
++    ID INT NOT NULL PRIMARY KEY,
++    NAME VARCHAR(40)
++);
++
+
+Modified: branches/eschnepel/install/examples/movies/db/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_mysql.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/db_tables_mysql.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -5,7 +5,7 @@
+     Originaltitle VARCHAR(100),
+     GattungID INT,
+     Country VARCHAR(20),
+-    Year VARCHAR(10),
++    YearOfProduction VARCHAR(10),
+     Duration CHAR(4)
+ );
+ 
+
+Modified: branches/eschnepel/install/examples/movies/db/db_tables_oracle.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_oracle.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/db_tables_oracle.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -5,7 +5,7 @@
+     originaltitle VARCHAR(100),
+     gattungid     INT,
+     country       VARCHAR(20),
+-    year          VARCHAR(10),
++    YearOfProduction          VARCHAR(10),
+     duration      VARCHAR(4),
+     CONSTRAINT pk_movie PRIMARY KEY (id)
+ );
+
+Added: branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,18 @@
++------------------
++--- Datasource ---
++------------------
++
++
++
++--- SQL Datasource ---
++-- &quot;Movies&quot; datasource
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:hsqldb:../client/db/hsqldb-intern/Movies');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'org.hsqldb.jdbcDriver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
++-- Associate types with datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,18 @@
++------------------
++--- Datasource ---
++------------------
++
++
++
++--- SQL Datasource ---
++-- &quot;Movies&quot; datasource
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:<A HREF="mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1">mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1</A>');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'org.gjt.mm.mysql.Driver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
++-- Associate types with datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/dmdb-movies-mysql.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,31 @@
++------------------
++--- Datasource ---
++------------------
++
++
++
++--- SQL Datasource ---
++-- &quot;Movies&quot; datasource
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:oracle:thin:dm/<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">dm at localhost</A>:1521:orcl');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'oracle.jdbc.driver.OracleDriver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
++-- Associate types with datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
++
++--- XML Datasource --- ### can't be used together with SQL example
++-- The &quot;Movies and Actors&quot; example map
++-- INSERT INTO Topic VALUES ('tt-project', 1, 1, 't-moviesxmlmap', 'Movies and Actors (XML-Source)');
++-- &quot;Movies&quot; datasource
++-- INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesxmlsource', 'Movies (XML-File)');
++-- INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'URL', 'xml:../../examples/Movies.xml');
++-- INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'Entities', 'Movie Actor Association');
++-- Associate types with datasource
++-- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-518', '', 'tt-movie', 1, 't-moviesxmlsource', 1);
++-- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-519', '', 'tt-moviecontainer', 1, 't-moviesxmlsource', 1);
++-- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-520', '', 'tt-actor', 1, 't-moviesxmlsource', 1);
++-- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-521', '', 'tt-actorcontainer', 1, 't-moviesxmlsource', 1);
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/dmdb-movies-oracle.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/eschnepel/install/examples/movies/db/dmdb-movies-xml.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-xml.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-xml.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,18 @@
++------------------
++--- Datasource ---
++------------------
++
++
++
++--- XML Datasource ---
++-- The &quot;Movies and Actors&quot; example map
++INSERT INTO Topic VALUES ('tt-project', 1, 1, 't-moviesxmlmap', 'Movies and Actors (XML-Source)');
++-- &quot;Movies&quot; datasource
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesxmlsource', 'Movies (XML-File)');
++INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'URL', 'xml:../../examples/Movies.xml');
++INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'Entities', 'Movie Actor Association');
++-- Associate types with datasource
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-518', '', 'tt-movie', 1, 't-moviesxmlsource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-519', '', 'tt-moviecontainer', 1, 't-moviesxmlsource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-520', '', 'tt-actor', 1, 't-moviesxmlsource', 1);
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-521', '', 'tt-actorcontainer', 1, 't-moviesxmlsource', 1);
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/dmdb-movies-xml.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Copied: branches/eschnepel/install/examples/movies/db/dmdb-movies.sql (from rev 184, branches/eschnepel/install/examples/movies/movies.sql)
+===================================================================
+--- branches/eschnepel/install/examples/movies/movies.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -0,0 +1,140 @@
++--------------------------
++--- &quot;Movies&quot; workspace ---
++--------------------------
++
++
++
++-- workspace
++INSERT INTO Topic VALUES ('tt-workspace', 1, 1, 't-examplesgroup', 'Movies');
++INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Name', 'Movies');
++INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Public', 'on');
++INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Default', 'off');
++-- workspace topicmap
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-examplesgroupmap', 'Movies');
++INSERT INTO TopicProp VALUES ('t-examplesgroupmap', 1, 'Name', 'Movies');
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-502', '', 't-examplesgroup', 1, 't-examplesgroupmap', 1);
++-- chat
++INSERT INTO Topic VALUES ('tt-chatboard', 1, 1, 't-exampleschat', 'Movies Chats');
++INSERT INTO TopicProp VALUES ('t-exampleschat', 1, 'Name', 'Movies Chats');
++INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-exampleschat', 1, 30, 100);
++-- forum
++INSERT INTO Topic VALUES ('tt-messageboard', 1, 1, 't-moviesforum', 'Movies Forum');
++INSERT INTO TopicProp VALUES ('t-moviesforum', 1, 'Name', 'Movies Forum');
++INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-moviesforum', 1, 120, 100);
++-- assign types to workspace
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-198', '', 't-examplesgroup', 1, 'tt-movie', 1);
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-199', '', 't-examplesgroup', 1, 'tt-actor', 1);
++INSERT INTO AssociationProp VALUES ('a-198', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-199', 1, 'Access Permission', 'create');
++
++
++
++-------------------
++--- Topic Types ---
++-------------------
++
++
++
++--- &quot;Movie&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-movie', 'Movie');
++-- set properties
++INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Name', 'Movie');
++INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Plural Name', 'Movies');
++INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Icon', 'movie.gif');
++INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.MovieTopic');
++-- assign properties
++-- INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-506', '', 'tt-movie', 1, 'pp-title', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-507', '', 'tt-movie', 1, 'pp-year', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-508', '', 'tt-movie', 1, 'pp-country', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-509', '', 'tt-movie', 1, 'pp-duration', 1);
++INSERT INTO AssociationProp VALUES ('a-507', 1, 'Ordinal Number', '120');
++INSERT INTO AssociationProp VALUES ('a-508', 1, 'Ordinal Number', '110');
++INSERT INTO AssociationProp VALUES ('a-509', 1, 'Ordinal Number', '130');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-506', '', 'tt-generic', 1, 'tt-movie', 1);
++-- container type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-moviecontainer', 'Movie Search');
++-- set properties of container type
++INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Name', 'Movie Search');
++INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Icon', 'moviecontainer.gif');
++INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.MovieContainerTopic');
++-- assign properties to container type
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-510', '', 'tt-moviecontainer', 1, 'pp-title', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-511', '', 'tt-moviecontainer', 1, 'pp-year', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-512', '', 'tt-moviecontainer', 1, 'pp-country', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-513', '', 'tt-actorcontainer', 1, 'pp-name', 1);
++-- derive container type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-503', '', 'tt-elementcontainer', 1, 'tt-moviecontainer', 1);
++-- assign type to container type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-518', '', 'tt-moviecontainer', 1, 'tt-movie', 1);
++
++--- &quot;Actor&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-actor', 'Actor');
++-- set properties
++INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Name', 'Actor');
++INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Plural Name', 'Actors');
++INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Icon', 'actor.gif');
++INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.ActorTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-505', '', 'tt-person', 1, 'tt-actor', 1);
++-- container type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-actorcontainer', 'Actor Search');
++-- set properties of container type
++INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Name', 'Actor Search');
++INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Icon', 'actorcontainer.gif');
++INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.ActorContainerTopic');
++-- derive container type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-504', '', 'tt-elementcontainer', 1, 'tt-actorcontainer', 1);
++-- assign type to container type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-519', '', 'tt-actorcontainer', 1, 'tt-actor', 1);
++
++
++
++------------------
++--- Properties ---
++------------------
++
++
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-title', 'Title');
++INSERT INTO TopicProp VALUES ('pp-title', 1, 'Name', 'Title');
++INSERT INTO TopicProp VALUES ('pp-title', 1, 'Visualization', 'Input Field');
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-year', 'Year');
++INSERT INTO TopicProp VALUES ('pp-year', 1, 'Name', 'Year');
++INSERT INTO TopicProp VALUES ('pp-year', 1, 'Visualization', 'Input Field');
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-country', 'Country');
++INSERT INTO TopicProp VALUES ('pp-country', 1, 'Name', 'Country');
++INSERT INTO TopicProp VALUES ('pp-country', 1, 'Visualization', 'Input Field');
++
++
++
++------------------
++--- Datasource ---
++------------------
++
++-- This will be done by another script
++
++
++
++--------------------
++--- Example View ---
++--------------------
++
++
++
++-- The &quot;Movies and Actors&quot; example map
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-moviesmap', 'Movies and Actors');
++INSERT INTO TopicProp VALUES ('t-moviesmap', 1, 'Name', 'Movies and Actors');
++INSERT INTO TopicProp VALUES ('t-moviesmap', 1, 'Description', 'This example demonstrates the integration of corporate datasources.\n\nThe &quot;Movies and Actors&quot; example uses a SQL-Datasource.');
++-- &quot;Movies&quot; and &quot;Actors&quot; container
++INSERT INTO Topic VALUES ('tt-moviecontainer', 1, 1, 't-movies', 'Movies');
++INSERT INTO Topic VALUES ('tt-actorcontainer', 1, 1, 't-actors', 'Actors');
++
++INSERT INTO ViewTopic VALUES ('t-moviesmap', 1, 't-movies', 1, 150, 100);
++INSERT INTO ViewTopic VALUES ('t-moviesmap', 1, 't-actors', 1, 270, 120);
++
++INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-moviesmap', 1, 100, 50);
+
+Deleted: branches/eschnepel/install/examples/movies/movies.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/movies.sql	2007-08-28 21:03:50 UTC (rev 184)
++++ branches/eschnepel/install/examples/movies/movies.sql	2007-08-30 06:21:44 UTC (rev 185)
+@@ -1,170 +0,0 @@
+---------------------------
+---- &quot;Movies&quot; workspace ---
+---------------------------
+-
+-
+-
+--- workspace
+-INSERT INTO Topic VALUES ('tt-workspace', 1, 1, 't-examplesgroup', 'Movies');
+-INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Name', 'Movies');
+-INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Public', 'on');
+-INSERT INTO TopicProp VALUES ('t-examplesgroup', 1, 'Default', 'off');
+--- workspace topicmap
+-INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-examplesgroupmap', 'Movies');
+-INSERT INTO TopicProp VALUES ('t-examplesgroupmap', 1, 'Name', 'Movies');
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-502', '', 't-examplesgroup', 1, 't-examplesgroupmap', 1);
+--- chat
+-INSERT INTO Topic VALUES ('tt-chatboard', 1, 1, 't-exampleschat', 'Movies Chats');
+-INSERT INTO TopicProp VALUES ('t-exampleschat', 1, 'Name', 'Movies Chats');
+-INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-exampleschat', 1, 30, 100);
+--- forum
+-INSERT INTO Topic VALUES ('tt-messageboard', 1, 1, 't-moviesforum', 'Movies Forum');
+-INSERT INTO TopicProp VALUES ('t-moviesforum', 1, 'Name', 'Movies Forum');
+-INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-moviesforum', 1, 120, 100);
+--- assign types to workspace
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-198', '', 't-examplesgroup', 1, 'tt-movie', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-199', '', 't-examplesgroup', 1, 'tt-actor', 1);
+-INSERT INTO AssociationProp VALUES ('a-198', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-199', 1, 'Access Permission', 'create');
+-
+-
+-
+--------------------
+---- Topic Types ---
+--------------------
+-
+-
+-
+---- &quot;Movie&quot; ---
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-movie', 'Movie');
+--- set properties
+-INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Name', 'Movie');
+-INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Plural Name', 'Movies');
+-INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Icon', 'movie.gif');
+-INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Unique Topic Names', 'on');
+-INSERT INTO TopicProp VALUES ('tt-movie', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.MovieTopic');
+--- assign properties
+--- INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-506', '', 'tt-movie', 1, 'pp-title', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-507', '', 'tt-movie', 1, 'pp-year', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-508', '', 'tt-movie', 1, 'pp-country', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-509', '', 'tt-movie', 1, 'pp-duration', 1);
+-INSERT INTO AssociationProp VALUES ('a-507', 1, 'Ordinal Number', '120');
+-INSERT INTO AssociationProp VALUES ('a-508', 1, 'Ordinal Number', '110');
+-INSERT INTO AssociationProp VALUES ('a-509', 1, 'Ordinal Number', '130');
+--- super type
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-506', '', 'tt-generic', 1, 'tt-movie', 1);
+--- container type
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-moviecontainer', 'Movie Search');
+--- set properties of container type
+-INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Name', 'Movie Search');
+-INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Icon', 'moviecontainer.gif');
+-INSERT INTO TopicProp VALUES ('tt-moviecontainer', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.MovieContainerTopic');
+--- assign properties to container type
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-510', '', 'tt-moviecontainer', 1, 'pp-title', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-511', '', 'tt-moviecontainer', 1, 'pp-year', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-512', '', 'tt-moviecontainer', 1, 'pp-country', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-513', '', 'tt-actorcontainer', 1, 'pp-name', 1);
+--- derive container type
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-503', '', 'tt-elementcontainer', 1, 'tt-moviecontainer', 1);
+--- assign type to container type
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-518', '', 'tt-moviecontainer', 1, 'tt-movie', 1);
+-
+---- &quot;Actor&quot; ---
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-actor', 'Actor');
+--- set properties
+-INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Name', 'Actor');
+-INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Plural Name', 'Actors');
+-INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Icon', 'actor.gif');
+-INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Unique Topic Names', 'on');
+-INSERT INTO TopicProp VALUES ('tt-actor', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.ActorTopic');
+--- super type
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-505', '', 'tt-person', 1, 'tt-actor', 1);
+--- container type
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-actorcontainer', 'Actor Search');
+--- set properties of container type
+-INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Name', 'Actor Search');
+-INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Icon', 'actorcontainer.gif');
+-INSERT INTO TopicProp VALUES ('tt-actorcontainer', 1, 'Custom Implementation', 'de.deepamehta.movies.topics.ActorContainerTopic');
+--- derive container type
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-504', '', 'tt-elementcontainer', 1, 'tt-actorcontainer', 1);
+--- assign type to container type
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-519', '', 'tt-actorcontainer', 1, 'tt-actor', 1);
+-
+-
+-
+-------------------
+---- Properties ---
+-------------------
+-
+-
+-
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-title', 'Title');
+-INSERT INTO TopicProp VALUES ('pp-title', 1, 'Name', 'Title');
+-INSERT INTO TopicProp VALUES ('pp-title', 1, 'Visualization', 'Input Field');
+-
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-year', 'Year');
+-INSERT INTO TopicProp VALUES ('pp-year', 1, 'Name', 'Year');
+-INSERT INTO TopicProp VALUES ('pp-year', 1, 'Visualization', 'Input Field');
+-
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-country', 'Country');
+-INSERT INTO TopicProp VALUES ('pp-country', 1, 'Name', 'Country');
+-INSERT INTO TopicProp VALUES ('pp-country', 1, 'Visualization', 'Input Field');
+-
+-
+-
+-------------------
+---- Datasource ---
+-------------------
+-
+-
+-
+---- SQL Datasource ---
+--- &quot;Movies&quot; datasource
+-INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+--- for MySQL
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:<A HREF="mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1">mysql://127.0.0.1/Movies?user=movies&amp;password=movies&amp;useUnicode=true&amp;characterEncoding=latin1</A>');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'org.gjt.mm.mysql.Driver');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+--- for Oracle
+--- INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:oracle:thin:dm/<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">dm at localhost</A>:1521:orcl');
+--- INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'oracle.jdbc.driver.OracleDriver');
+--- Associate types with datasource
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-515', '', 'tt-moviecontainer', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-516', '', 'tt-actor', 1, 't-moviesdb', 1);
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-517', '', 'tt-actorcontainer', 1, 't-moviesdb', 1);
+-
+---- XML Datasource --- ### can't be used together with SQL example
+--- The &quot;Movies and Actors&quot; example map
+--- INSERT INTO Topic VALUES ('tt-project', 1, 1, 't-moviesxmlmap', 'Movies and Actors (XML-Source)');
+--- &quot;Movies&quot; datasource
+--- INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesxmlsource', 'Movies (XML-File)');
+--- INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'URL', 'xml:../../examples/Movies.xml');
+--- INSERT INTO TopicProp VALUES ('t-moviesxmlsource', 1, 'Entities', 'Movie Actor Association');
+--- Associate types with datasource
+--- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-518', '', 'tt-movie', 1, 't-moviesxmlsource', 1);
+--- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-519', '', 'tt-moviecontainer', 1, 't-moviesxmlsource', 1);
+--- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-520', '', 'tt-actor', 1, 't-moviesxmlsource', 1);
+--- INSERT INTO Association VALUES ('at-association', 1, 1, 'a-521', '', 'tt-actorcontainer', 1, 't-moviesxmlsource', 1);
+-
+-
+-
+---------------------
+---- Example View ---
+---------------------
+-
+-
+-
+--- The &quot;Movies and Actors&quot; example map
+-INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-moviesmap', 'Movies and Actors');
+-INSERT INTO TopicProp VALUES ('t-moviesmap', 1, 'Name', 'Movies and Actors');
+-INSERT INTO TopicProp VALUES ('t-moviesmap', 1, 'Description', 'This example demonstrates the integration of corporate datasources.\n\nThe &quot;Movies and Actors&quot; example uses a SQL-Datasource.');
+--- &quot;Movies&quot; and &quot;Actors&quot; container
+-INSERT INTO Topic VALUES ('tt-moviecontainer', 1, 1, 't-movies', 'Movies');
+-INSERT INTO Topic VALUES ('tt-actorcontainer', 1, 1, 't-actors', 'Actors');
+-
+-INSERT INTO ViewTopic VALUES ('t-moviesmap', 1, 't-movies', 1, 150, 100);
+-INSERT INTO ViewTopic VALUES ('t-moviesmap', 1, 't-actors', 1, 270, 120);
+-
+-INSERT INTO ViewTopic VALUES ('t-examplesgroupmap', 1, 't-moviesmap', 1, 100, 50);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000029.html">[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db
+</A></li>
+	<LI>Next message: <A HREF="000031.html">[deepamehta-svn] r186 - in	branches/eschnepel/develop/src/de/deepamehta: client service	service/web topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

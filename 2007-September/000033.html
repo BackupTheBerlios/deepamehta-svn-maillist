@@ -1,0 +1,1447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r188 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/db/db-specific install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r188%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/db/db-specific%20install/examples/messageboard%0A%09install/examples/movies%20install/examples/movies/config%0A%09install/examples/movies/db&In-Reply-To=%3C200709021025.l82AP1IC025785%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000032.html">
+   <LINK REL="Next"  HREF="000034.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r188 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/db/db-specific install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r188%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics%20install/db%0A%09install/db/db-specific%20install/examples/messageboard%0A%09install/examples/movies%20install/examples/movies/config%0A%09install/examples/movies/db&In-Reply-To=%3C200709021025.l82AP1IC025785%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r188 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db	install/db/db-specific install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  2 12:25:01 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000032.html">[deepamehta-svn] r187 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000034.html">[deepamehta-svn] r189 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/topics	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#33">[ date ]</a>
+              <a href="thread.html#33">[ thread ]</a>
+              <a href="subject.html#33">[ subject ]</a>
+              <a href="author.html#33">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-02 12:24:58 +0200 (Sun, 02 Sep 2007)
+New Revision: 188
+
+Added:
+   branches/eschnepel/build-development.xml
+   branches/eschnepel/install/db/auth-ldap.sql
+   branches/eschnepel/install/db/auth-xbuilder.sql
+   branches/eschnepel/install/db/db-specific/dropdb-ask.xml
+Modified:
+   branches/eschnepel/build.xml
+   branches/eschnepel/config.xml
+   branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+   branches/eschnepel/install/db/auth.sql
+   branches/eschnepel/install/db/cm.sql
+   branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+   branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml
+   branches/eschnepel/install/examples/messageboard/
+   branches/eschnepel/install/examples/messageboard/build.xml
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+   branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+Log:
+- sepreated the development part of build.xml into build-development.xml which is optionaly included into build.xml
+- fixed libpath config var
+- introduced db.type config var for using it in a datasource
+- additional statements in the database sweeper for cleaning up views of non-existent topics/associations
+- splitted auth.sql for 'excluding' the non-relevant xbuilder- and ldap-datasources
+- intregrating messageboard into the build-process
+
+Added: branches/eschnepel/build-development.xml
+===================================================================
+--- branches/eschnepel/build-development.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/build-development.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -0,0 +1,170 @@
++&lt;project name=&quot;DeepaMehta development&quot; default=&quot;build&quot; basedir=&quot;.&quot;&gt;
++
++	&lt;description&gt;
++		DeepaMehta development build file
++	&lt;/description&gt;
++
++	&lt;import file=&quot;build.xml&quot;/&gt;
++	
++	&lt;!-- Build --&gt;
++	&lt;!-- create build directory --&gt;
++	&lt;target name=&quot;init&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
++		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
++			&lt;classpath refid=&quot;javalibs&quot; /&gt;
++		&lt;/javac&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;build&quot; depends=&quot;compile&quot; description=&quot;build jar files&quot;&gt;
++		&lt;!-- monolith --&gt;
++		&lt;mkdir dir=&quot;${client}&quot; /&gt;
++		&lt;jar jarfile=&quot;${client}/DeepaMehta.jar&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/util/*.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/MessagingConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/TypeConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/client/FileserverConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/InteractionConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/MessagingConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/TypeConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/FileserverConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/ExternalConnection.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer.class&quot; /&gt;
++			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer$Connection.class&quot; /&gt;
++			&lt;manifest&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehta&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
++			&lt;/manifest&gt;
++		&lt;/jar&gt;
++		&lt;!-- client --&gt;
++		&lt;jar jarfile=&quot;${client}/DeepaMehtaClient.jar&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
++			&lt;manifest&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.client.DeepaMehtaClient&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
++			&lt;/manifest&gt;
++		&lt;/jar&gt;
++		&lt;!-- server --&gt;
++		&lt;mkdir dir=&quot;${server}&quot; /&gt;
++		&lt;jar jarfile=&quot;${server}/DeepaMehtaService.jar&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/util/**/*.class&quot; /&gt;
++			&lt;manifest&gt;
++				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot; /&gt;
++				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
++			&lt;/manifest&gt;
++		&lt;/jar&gt;
++		&lt;!-- topics --&gt;
++		&lt;jar jarfile=&quot;${server}/DeepaMehtaTopics.jar&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
++		&lt;/jar&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
++		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot; storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot; /&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;release&quot; depends=&quot;sign&quot;&gt;
++		&lt;echo message=&quot;You are about to build the release file '${build.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want use another name, type 'n' and edit config.xml (section 'Build Support')&quot; /&gt;
++		&lt;echo message=&quot;or use a command line option -Dbuild.name=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.release&quot; /&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.release}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Release building aborted by user -- revisit with 'ant release [option]'&quot; /&gt;
++		&lt;zip destfile=&quot;${build.archive.dir}/${build.name}&quot; basedir=&quot;.&quot;&gt;
++			&lt;exclude name=&quot;**/build/&quot; /&gt;
++			&lt;exclude name=&quot;contrib/&quot; /&gt;
++			&lt;exclude name=&quot;docs/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/*.pid&quot; /&gt;
++			&lt;exclude name=&quot;install/client/documents/*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/webpages/**&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/at-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/tt-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/ka-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/jah-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/108_*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/rote-kapelle.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/3539-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/16212*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/25984*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/ploetze.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/b17-2-harnack-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/icons/Sacred*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/javaxml/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/HCI/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/stats/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/acro.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/anika-7.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/axel-springer-40.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/badawi.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/BMFSFJ*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/comparison.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/deepa_mehta-earth.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/deepa_mehta.jpg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/DeepaMobil.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/Driton*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/headregie.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/iso-9001.jpeg&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/jah-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/knoppix-logo.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/linkafn_*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/marlene-dietrich-11.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/scidoc.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/sparkasse.gif&quot; /&gt;
++			&lt;exclude name=&quot;install/client/images/schaukasten*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/stylesheets/browser/&quot; /&gt;
++			&lt;exclude name=&quot;install/client/stylesheets/vergleich*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/axel-springer-40.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/comparison.png&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/daily*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/kartepur*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/ks-*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/Sacred*&quot; /&gt;
++			&lt;exclude name=&quot;install/client/backgrounds/Scheitern*&quot; /&gt;
++			&lt;exclude name=&quot;install/examples/knoppixforum/&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-beanutils-1.7.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-beanutils-core-1.7.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-cli-1.0.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-collections-3.1.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-digester-1.7.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-logging-1.0.4.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/commons-logging-api-1.0.4.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/jwf-1.0.1.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/log4j-1.2.13.jar&quot; /&gt;
++			&lt;exclude name=&quot;libs/libraries.txt&quot; /&gt;
++			&lt;exclude name=&quot;**/.FBC*&quot; /&gt;
++			&lt;exclude name=&quot;**/.xvpics/&quot; /&gt;
++		&lt;/zip&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;apidocs&quot; description=&quot;generates the API documentation&quot;&gt;
++		&lt;javadoc destdir=&quot;docs/apidocs&quot; stylesheetfile=&quot;docs/stylesheet.css&quot; package=&quot;true&quot; windowtitle=&quot;DeepaMehta -- API Documentation&quot;&gt;
++			&lt;fileset dir=&quot;develop/src&quot;&gt;
++			&lt;/fileset&gt;
++		&lt;/javadoc&gt;
++		&lt;copy file=&quot;docs/overview-frame.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
++		&lt;copy file=&quot;docs/overview-summary.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
++		&lt;copy file=&quot;docs/apidocs-index.html&quot; tofile=&quot;docs/apidocs/index.html&quot; overwrite=&quot;true&quot; /&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
++	&lt;/target&gt;
++
++&lt;/project&gt;
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/build.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -1,4 +1,4 @@
+-&lt;project name=&quot;DeepaMehta&quot; default=&quot;deploy&quot; basedir=&quot;.&quot;&gt;
++&lt;project name=&quot;DeepaMehta&quot; default=&quot;dm&quot; basedir=&quot;.&quot;&gt;
+ 
+ 	&lt;description&gt;
+ 		DeepaMehta build file
+@@ -9,6 +9,8 @@
+ 	&lt;import file=&quot;${db-specific}/${db.create-db}&quot; /&gt;
+ 	&lt;import file=&quot;${db-specific}/${db.drop-db}&quot; /&gt;
+ 
++	&lt;import file=&quot;build-development.xml&quot; optional=&quot;true&quot;/&gt;
++	
+ 	&lt;path id=&quot;dmapps&quot;&gt;
+ 		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+@@ -30,7 +32,7 @@
+ 
+ 	&lt;!-- Install --&gt;
+ 
+-	&lt;target name=&quot;install&quot;&gt;
++	&lt;target name=&quot;preinstall&quot;&gt;
+ 		&lt;echo message=&quot;--- DeepaMehta Installation ---&quot; /&gt;
+ 		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.user}' (password '${db.password}').&quot; /&gt;
+ 		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot; /&gt;
+@@ -41,14 +43,30 @@
+ 			&lt;equals arg1=&quot;${do.install}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] install'&quot; /&gt;
++	&lt;/target&gt;
++	
++	&lt;target name=&quot;install&quot; depends=&quot;preinstall&quot; description=&quot;initialises the database&quot;&gt;
+ 		&lt;antcall target=&quot;createdb&quot; /&gt;
+ 		&lt;antcall target=&quot;createtables&quot; /&gt;
+ 		&lt;antcall target=&quot;initdb&quot; /&gt;
+ 		&lt;!-- example applications --&gt;
+ 		&lt;antcall target=&quot;installmovies&quot; /&gt;
+-		&lt;antcall target=&quot;installweb&quot; /&gt;
++		
++		&lt;!-- this should be a seperate call to ant--&gt;
++		
++		&lt;!--antcall target=&quot;installweb&quot; /--&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;!-- Movies --&gt;
++	&lt;target name=&quot;dropmovies&quot;&gt;
++		&lt;condition property=&quot;withsyspass&quot; value=&quot;true&quot;&gt;
++			&lt;isset property=&quot;db.syspass&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;dropmoviesdb&quot; inheritall=&quot;false&quot; inheritrefs=&quot;false&quot;&gt;
++			&lt;property name=&quot;syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
++			&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
+ 	&lt;target name=&quot;installmovies&quot;&gt;
+ 		&lt;condition property=&quot;withsyspass&quot; value=&quot;true&quot;&gt;
+ 			&lt;isset property=&quot;db.syspass&quot; /&gt;
+@@ -59,6 +77,7 @@
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;!-- Web-related tasks --&gt;
+ 	&lt;target name=&quot;installweb-ask&quot;&gt;
+ 		&lt;echo message=&quot;You are about to install the web applications to '${web.deploy.dir}'.&quot; /&gt;
+ 		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to '${web.lib.dir}'.&quot; /&gt;
+@@ -142,7 +161,7 @@
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;movies/db/dmdb-movies.sql&quot; /&gt;
+-				&lt;include name=&quot;movies/db/dmdb-movies-${dm-instance}.sql&quot; /&gt;
++				&lt;include name=&quot;movies/db/dmdb-movies-${dm.instance}.sql&quot; /&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot; /&gt;
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot; /&gt;
+ 				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot; /&gt;
+@@ -244,170 +263,9 @@
+ 		&lt;/java&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;!-- Build --&gt;
+-
+-	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+-		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot; /&gt;
+-		&lt;/javac&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;build&quot; depends=&quot;compile&quot; description=&quot;build jar files&quot;&gt;
+-		&lt;!-- monolith --&gt;
+-		&lt;mkdir dir=&quot;${client}&quot; /&gt;
+-		&lt;jar jarfile=&quot;${client}/DeepaMehta.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/service/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/util/*.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/MessagingConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/TypeConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/FileserverConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/InteractionConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/MessagingConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/TypeConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/FileserverConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/ExternalConnection.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer.class&quot; /&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer$Connection.class&quot; /&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehta&quot; /&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- client --&gt;
+-		&lt;jar jarfile=&quot;${client}/DeepaMehtaClient.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot; /&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.client.DeepaMehtaClient&quot; /&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- server --&gt;
+-		&lt;mkdir dir=&quot;${server}&quot; /&gt;
+-		&lt;jar jarfile=&quot;${server}/DeepaMehtaService.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/util/**/*.class&quot; /&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot; /&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot; /&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- topics --&gt;
+-		&lt;jar jarfile=&quot;${server}/DeepaMehtaTopics.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot; /&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot; /&gt;
+-		&lt;/jar&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
+-		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot; storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot; /&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;release&quot; depends=&quot;sign&quot;&gt;
+-		&lt;echo message=&quot;You are about to build the release file '${build.name}'.&quot; /&gt;
+-		&lt;echo message=&quot;If you want use another name, type 'n' and edit config.xml (section 'Build Support')&quot; /&gt;
+-		&lt;echo message=&quot;or use a command line option -Dbuild.name=...&quot; /&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.release&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.release}&quot; arg2=&quot;n&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Release building aborted by user -- revisit with 'ant release [option]'&quot; /&gt;
+-		&lt;zip destfile=&quot;${build.archive.dir}/${build.name}&quot; basedir=&quot;.&quot;&gt;
+-			&lt;exclude name=&quot;**/build/&quot; /&gt;
+-			&lt;exclude name=&quot;contrib/&quot; /&gt;
+-			&lt;exclude name=&quot;docs/&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/*.pid&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/documents/*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/webpages/**&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/at-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/tt-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/ka-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/jah-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/108_*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/rote-kapelle.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/3539-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/16212*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/25984*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/ploetze.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/b17-2-harnack-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/icons/Sacred*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/javaxml/&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/HCI/&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/stats/&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/acro.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/anika-7.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/axel-springer-40.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/badawi.jpg&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/BMFSFJ*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/comparison.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta-earth.jpg&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta.jpg&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/DeepaMobil.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/Driton*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/headregie.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/iso-9001.jpeg&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/jah-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/knoppix-logo.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/linkafn_*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/marlene-dietrich-11.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/scidoc.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/sparkasse.gif&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/images/schaukasten*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/browser/&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/vergleich*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/axel-springer-40.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/comparison.png&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/daily*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/kartepur*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/ks-*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Sacred*&quot; /&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Scheitern*&quot; /&gt;
+-			&lt;exclude name=&quot;install/examples/knoppixforum/&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-1.7.0.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-core-1.7.0.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-cli-1.0.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-collections-3.1.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-digester-1.7.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-1.0.4.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-api-1.0.4.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/jwf-1.0.1.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/log4j-1.2.13.jar&quot; /&gt;
+-			&lt;exclude name=&quot;libs/libraries.txt&quot; /&gt;
+-			&lt;exclude name=&quot;**/.FBC*&quot; /&gt;
+-			&lt;exclude name=&quot;**/.xvpics/&quot; /&gt;
+-		&lt;/zip&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;apidocs&quot; description=&quot;generates the API documentation&quot;&gt;
+-		&lt;javadoc destdir=&quot;docs/apidocs&quot; stylesheetfile=&quot;docs/stylesheet.css&quot; package=&quot;true&quot; windowtitle=&quot;DeepaMehta -- API Documentation&quot;&gt;
+-			&lt;fileset dir=&quot;develop/src&quot;&gt;
+-			&lt;/fileset&gt;
+-		&lt;/javadoc&gt;
+-		&lt;copy file=&quot;docs/overview-frame.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
+-		&lt;copy file=&quot;docs/overview-summary.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot; /&gt;
+-		&lt;copy file=&quot;docs/apidocs-index.html&quot; tofile=&quot;docs/apidocs/index.html&quot; overwrite=&quot;true&quot; /&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot; /&gt;
+-	&lt;/target&gt;
+-
+ 	&lt;!-- Fix --&gt;
+ 
+-	&lt;target name=&quot;fixdb&quot; depends=&quot;build&quot; description=&quot;fixes invalid HTML&quot;&gt;
++	&lt;target name=&quot;fixdb&quot; description=&quot;fixes invalid HTML&quot;&gt;
+ 		&lt;java classname=&quot;de.deepamehta.service.db.DBFix&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
+
+Modified: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/config.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -1,4 +1,4 @@
+-&lt;project&gt;
++&lt;project name=&quot;DeepaMehta Config file&quot;&gt;
+ 	&lt;condition property=&quot;dm.base-dir&quot; value=&quot;.&quot;&gt;
+ 		&lt;not&gt;
+ 			&lt;isset property=&quot;dm.base-dir&quot; /&gt;
+@@ -17,24 +17,24 @@
+ 		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 			&lt;include name=&quot;${db.libs}&quot; /&gt;
+ 		&lt;/fileset&gt;
+-		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/mail.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/activation.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/jndi.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/batik.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/fop.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/spring-core.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${libpath}/commons-logging.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/servlet.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/mail.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/activation.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/jndi.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/batik.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/fop.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/xml4j.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/avalon-framework.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/commons-fileupload-1.0.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/googleapi.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/spring-core.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/commons-logging.jar&quot; /&gt;
+ 	&lt;/path&gt;
+ 	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+ 		&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+ 		     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
+ 		     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
+ 		     takes care of this. --&gt;
+-		&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot; /&gt;
++		&lt;map from=&quot;${dm.base-dir}/${libpath}&quot; to=&quot;../../libs&quot; /&gt;
+ 	&lt;/pathconvert&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -10,13 +10,22 @@
+ 
+ 	private static final long serialVersionUID = 1L;
+ 
++	private static Configuration globalInstance;
++
++	private String dbTypePropertyFile;
++
+ 	public Configuration(String configFile) {
+ 		this(null, configFile);
+ 	}
+ 
+ 	public Configuration(String name, String configFile) {
++		super();
++		if (globalInstance == null) {
++			globalInstance = this;
++		}
+ 		try {
+ 			loadProperties(configFile);
++			dbTypePropertyFile = getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE);
+ 			putAll(System.getProperties());
+ 			if (null != name) {
+ 				setProperty(ConfigurationConstants.Instance.DM_INSTANCE, name);
+@@ -26,8 +35,6 @@
+ 			resolveReferences();
+ 			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
+ 			resolveReferences();
+-			loadProperties(getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
+-			resolveReferences();
+ 		} catch (FileNotFoundException e) {
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+@@ -35,6 +42,26 @@
+ 		}
+ 	}
+ 
++	public static Configuration getDbConfig(String dbType){
++		Configuration c = (Configuration) globalInstance.clone();
++		c.setProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE,
++				globalInstance.dbTypePropertyFile);
++		c.setProperty(ConfigurationConstants.Database.DB_TYPE, dbType);
++		c.resolveReferences();
++		try {
++			c.loadProperties(c.getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
++		} catch (Exception e) {
++			System.out.println(&quot;&gt;&gt;&gt; Unable to resolve config file for database specific settings.&quot;);
++			System.out.println(&quot;&gt;&gt;&gt; You may have luck when only accessing global setting...&quot;);
++		}
++		c.resolveReferences();
++		return c;
++	}
++
++	public static Configuration getGlobalConfig() {
++		return globalInstance;
++	}
++
+ 	private void loadProperties(String configFile) throws IOException,
+ 			FileNotFoundException {
+ 		Properties p = new Properties();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -25,5 +25,7 @@
+ 		public static final String DB_LIBS = &quot;db.libs&quot;;
+ 
+ 		public static final String DB_TYPE_PROPERTY_FILE = &quot;db.type.property-file&quot;;
++
++		public static final String DB_TYPE = &quot;db.type&quot;;
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -48,13 +48,12 @@
+ 	 * @param libs 
+ 	 * @see		de.deepamehta.topics.DataSourceTopic#openCorporateDatasource
+ 	 */
+-	public CorporateSQLSource(String url, String driver, String libs) throws Exception {
++	public CorporateSQLSource(String url, String dbtype) throws Exception {
+ 		// create database connection
+ 		System.out.println(&quot;&gt;&gt;&gt; CorporateSQLSource(): connecting to database ... &quot;);
+-		System.out.println(&quot;&gt;    URL: \&quot;&quot; + url + &quot;\&quot;\n&gt;    driver: \&quot;&quot; + driver + &quot;\&quot;&quot;);
++		System.out.println(&quot;&gt;    URL: \&quot;&quot; + url + &quot;\&quot;\n&gt;    dbtype: \&quot;&quot; + dbtype + &quot;\&quot;&quot;);
+ 		Properties conf = new Properties();
+-		conf.setProperty(ConfigurationConstants.Database.DB_LIBS, libs);
+-		conf.setProperty(ConfigurationConstants.Database.DB_DRIVER, driver);
++		conf.setProperty(ConfigurationConstants.Database.DB_TYPE, dbtype);
+ 		conf.setProperty(ConfigurationConstants.Database.DB_URL, url);
+ 		provider = DatabaseProviderFactory.getProvider(conf);
+ 		Statement statement = provider.getStatement();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -9,10 +9,9 @@
+ import de.deepamehta.util.Benchmark;
+ 
+ /**
+- * This class implements some database related cleanup routines.
+- * If there is an error and the db is not in an consistent state
+- * (maybe due to autocommit and not using transactions),
+- * this helps to return to the consistent state.
++ * This class implements some database related cleanup routines. If there is an
++ * error and the db is not in an consistent state (maybe due to autocommit and
++ * not using transactions), this helps to return to the consistent state.
+  * 
+  * @author enrico
+  */
+@@ -23,14 +22,7 @@
+ 				Statement statement = provider.getStatement();
+ 				Connection con = statement.getConnection();
+ 				try {
+-					sweep(
+-							statement,
+-							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID1 = Topic.ID)&quot;,
+-							&quot;Associations with stale target Topic&quot;);
+-					sweep(
+-							statement,
+-							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID2 = Topic.ID)&quot;,
+-							&quot;Associations with stale source Topic&quot;);
++					sweep(statement);
+ 					if (!con.getAutoCommit())
+ 						con.commit();
+ 				} catch (SQLException e) {
+@@ -45,9 +37,44 @@
+ 			}
+ 		}
+ 
++		private void sweep(Statement statement) throws SQLException {
++			sweep(statement,
++					&quot;Association a WHERE NOT EXISTS (SELECT * FROM Topic t WHERE &quot;
++							+ compareIDVer(&quot;a.Topic&quot;, &quot;1&quot;, &quot;t.&quot;, &quot;&quot;) + &quot;)&quot;,
++					&quot;Associations with stale source Topic&quot;);
++			sweep(statement,
++					&quot;Association a WHERE NOT EXISTS (SELECT * FROM Topic t WHERE &quot;
++							+ compareIDVer(&quot;a.Topic&quot;, &quot;2&quot;, &quot;t.&quot;, &quot;&quot;) + &quot;)&quot;,
++					&quot;Associations with stale target Topic&quot;);
++			sweep(statement,
++					&quot;ViewAssociation va WHERE NOT EXISTS (SELECT * FROM Association a WHERE &quot;
++							+ compareIDVer(&quot;a.&quot;, &quot;&quot;, &quot;va.Association&quot;, &quot;&quot;)
++							+ &quot;)&quot;, &quot;non-existent ViewAssociations&quot;);
++			sweep(statement,
++					&quot;ViewTopic vt WHERE NOT EXISTS (SELECT * FROM Topic t WHERE &quot;
++							+ compareIDVer(&quot;t.&quot;, &quot;&quot;, &quot;vt.Topic&quot;, &quot;&quot;) + &quot;)&quot;,
++					&quot;non-existent ViewTopic&quot;);
++			sweep(statement,
++					&quot;ViewAssociation va WHERE NOT EXISTS (SELECT * FROM Association a WHERE &quot;
++							+ compareIDVer(&quot;a.&quot;, &quot;&quot;, &quot;va.Association&quot;, &quot;&quot;)
++							+ &quot;)&quot;, &quot;non-existent View in ViewAssociations&quot;);
++			sweep(statement,
++					&quot;ViewTopic vt WHERE NOT EXISTS (SELECT * FROM Topic t WHERE &quot;
++							+ compareIDVer(&quot;t.&quot;, &quot;&quot;, &quot;vt.Topic&quot;, &quot;&quot;) + &quot;)&quot;,
++					&quot;non-existent View in ViewTopic&quot;);
++		}
++
++		private String compareIDVer(String cmp1, String add1, String cmp2,
++				String add2) {
++			return cmp1 + &quot;ID&quot; + add1 + &quot; = &quot; + cmp2 + &quot;ID&quot; + add2 + &quot; AND &quot;
++					+ cmp1 + &quot;Version&quot; + add1 + &quot; = &quot; + cmp2 + &quot;Version&quot; + add2;
++		}
++
+ 		private void sweep(Statement statement, String cmd, String message)
+ 				throws SQLException {
+-			ResultSet res = statement.executeQuery(&quot;SELECT * FROM &quot; + cmd);
++			String query = &quot;SELECT * FROM &quot; + cmd;
++			System.out.println(query);
++			ResultSet res = statement.executeQuery(query);
+ 			if (res.next()) {
+ 				System.out.println(&quot;*** &quot; + message + &quot;:&quot;);
+ 				ResultSetMetaData metaData = res.getMetaData();
+@@ -63,7 +90,9 @@
+ 					}
+ 					System.out.println(sb.toString());
+ 				} while (res.next());
+-				int cnt = statement.executeUpdate(&quot;DELETE FROM &quot; + cmd);
++				query = &quot;DELETE FROM &quot; + cmd;
++				System.out.println(query);
++				int cnt = statement.executeUpdate(query);
+ 				System.out.println(&quot;*** Deleted &quot; + cnt + &quot; &quot; + message + &quot;!&quot;);
+ 			}
+ 		}
+@@ -71,8 +100,7 @@
+ 
+ 	private final DatabaseProvider provider;
+ 
+-	public DatabaseSweeper(DatabaseProvider provider)
+-			throws SQLException {
++	public DatabaseSweeper(DatabaseProvider provider) throws SQLException {
+ 		this.provider = provider;
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.service.db;
+ 
+ import java.io.File;
++import java.io.FileNotFoundException;
+ import java.io.IOException;
+ import java.net.MalformedURLException;
+ import java.net.URL;
+@@ -15,6 +16,7 @@
+ import org.springframework.core.io.Resource;
+ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+ 
++import de.deepamehta.Configuration;
+ import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaException;
+ 
+@@ -29,6 +31,8 @@
+ 	/** SQL92 DBMS Hint */
+ 	public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
+ 
++	private static final String DEFAULT_DB_TYPE = &quot;mysql&quot;;
++
+ 	private final LinkedList freeCons = new LinkedList();
+ 
+ 	private final LinkedList allCons = new LinkedList();
+@@ -41,6 +45,8 @@
+ 
+ 	private Driver driver;
+ 
++	private String dbType;
++
+ 	public DefaultDatabaseProvider(Properties conf)
+ 			throws ClassNotFoundException, SQLException,
+ 			InstantiationException, IllegalAccessException {
+@@ -54,20 +60,27 @@
+ 	protected void setupDatabaseProvider(Properties conf)
+ 			throws ClassNotFoundException, SQLException,
+ 			InstantiationException, IllegalAccessException {
+-		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+-		System.out.println(&quot;Using Database URL &quot; + jdbcURL);
+-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+-		Resource[] resources;
++		jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++		dbType = conf.getProperty(ConfigurationConstants.Database.DB_TYPE);
++		if (dbType == null) {
++			dbType = DEFAULT_DB_TYPE;
++		}
++		Configuration c2;
+ 		try {
+-			resources = resolver
+-					.getResources(&quot;file:&quot;
+-							+ conf
+-									.getProperty(ConfigurationConstants.Database.DB_LIBS));
+-		} catch (IOException e) {
+-			throw new ClassNotFoundException(e.getMessage(), e);
++			c2 = Configuration.getDbConfig(dbType);
++		} catch (Exception e) {
++			c2 = Configuration.getGlobalConfig();
+ 		}
+-		loadClassFromLibs(resources, conf
+-				.getProperty(ConfigurationConstants.Database.DB_DRIVER));
++		String libs = c2.getProperty(ConfigurationConstants.Database.DB_LIBS);
++		String driverClazz = c2
++				.getProperty(ConfigurationConstants.Database.DB_DRIVER);
++
++		System.out.println(&quot;Using Database&quot;);
++		System.out.println(&quot;  Type : &quot; + dbType);
++		System.out.println(&quot;  URL : &quot; + jdbcURL);
++		System.out.println(&quot;  Driver : &quot; + driverClazz);
++
++		loadClassFromLibs(libs, driverClazz);
+ 		driver = (Driver) driverClass.newInstance();
+ 		if (!driver.acceptsURL(jdbcURL))
+ 			throw new DeepaMehtaException(
+@@ -81,26 +94,44 @@
+ 		}
+ 	}
+ 
++	private void loadClassFromLibs(String libs, String driverClazz)
++			throws ClassNotFoundException {
++		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
++		Resource[] resources;
++		try {
++			resources = resolver.getResources(&quot;file:&quot; + libs);
++		} catch (IOException e) {
++			throw new ClassNotFoundException(e.getMessage(), e);
++		}
++		loadClassFromLibs(resources, driverClazz);
++	}
++
+ 	private void loadClassFromLibs(Resource[] resources, String clazz)
+ 			throws ClassNotFoundException {
+-		URLClassLoader classLoader;
++		URL[] urls = new URL[resources.length];
+ 		try {
+-			System.out.println(&quot;Using Classloader for Jars:&quot;);
+-			URL[] urls = new URL[resources.length];
+ 			for (int i = 0; i &lt; resources.length; i++) {
+ 				Resource res = resources[i];
+ 				File file = res.getFile();
+ 				String path = file.getCanonicalPath();
+-				System.out.println(path);
+ 				String urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
+ 				urls[i] = new URL(urlString);
+ 			}
+-			classLoader = new URLClassLoader(urls);
+ 		} catch (MalformedURLException e) {
+ 			throw new ClassNotFoundException(e.getMessage(), e);
+ 		} catch (IOException e) {
+ 			throw new ClassNotFoundException(e.getMessage(), e);
+ 		}
++		loadClassFromLibs(urls, clazz);
++	}
++
++	private void loadClassFromLibs(URL[] urls, String clazz)
++			throws ClassNotFoundException {
++		System.out.println(&quot;Using separate Classloader for:&quot;);
++		for (int i = 0; i &lt; urls.length; i++) {
++			System.out.println(&quot;  &quot; + urls[i].toExternalForm());
++		}
++		URLClassLoader classLoader = new URLClassLoader(urls);
+ 		driverClass = classLoader.loadClass(clazz);
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/DataSourceTopic.java	2007-09-02 10:24:58 UTC (rev 188)
+@@ -40,7 +40,7 @@
+ 
+ 	protected String url;
+ 
+-	protected String driver;
++	protected String dbtype;
+ 
+ 	protected String elements;
+ 
+@@ -205,7 +205,7 @@
+ 	 */
+ 	private void openCorporateDatasource() throws TopicInitException {
+ 		this.url = getProperty(&quot;URL&quot;);
+-		this.driver = getProperty(&quot;Driver&quot;);
++		this.dbtype = getProperty(&quot;Database Type&quot;);
+ 		this.elements = getProperty(&quot;Entities&quot;);
+ 		this.idleElement = getProperty(&quot;Idle Elementtype&quot;);
+ 		//
+@@ -215,19 +215,19 @@
+ 			throw new TopicInitException(text + &quot;(URL not set)&quot;);
+ 		}
+ 		// error check 2
+-		if (driver.equals(&quot;&quot;)) {
+-			throw new TopicInitException(text + &quot;(Driver not set)&quot;);
++		if (dbtype.equals(&quot;&quot;)) {
++			throw new TopicInitException(text + &quot;(Database Type not set)&quot;);
+ 		}
+ 		// ### passing text bad
+ 		if (url.startsWith(&quot;xml:&quot;)) {
+-			this.dataSource = createXMLSource(url, elements, text); // throws
+-																	// TopicInitException
++			this.dataSource = createXMLSource(url, elements, text);
++			// throws TopicInitException
+ 		} else if (url.startsWith(&quot;jdbc:&quot;)) {
+-			this.dataSource = createSQLSource(url, driver, text); // throws
+-																	// TopicInitException
++			this.dataSource = createSQLSource(url, dbtype, text);
++			// throws TopicInitException
+ 		} else if (url.startsWith(&quot;ldap:&quot;)) {
+-			this.dataSource = createLDAPSource(url, text); // throws
+-															// TopicInitException
++			this.dataSource = createLDAPSource(url, text); 
++			// throws TopicInitException
+ 		} else {
+ 			throw new TopicInitException(
+ 					text
+@@ -258,15 +258,11 @@
+ 	/**
+ 	 * @return a new instance of CorporateSQLSource
+ 	 */
+-	private CorporateDatasource createSQLSource(String url, String driver,
++	private CorporateDatasource createSQLSource(String url, String dbtype,
+ 			String errmsg) throws TopicInitException {
+ 		// --- open SQL datasource ---
+ 		try {
+-			CorporateDatasource source = new CorporateSQLSource(
+-					url,
+-					driver,
+-					as
+-							.getConfigurationProperty(ConfigurationConstants.Database.DB_LIBS));
++			CorporateDatasource source = new CorporateSQLSource(url, dbtype);
+ 			startIdleThread();
+ 			return source;
+ 		} catch (ClassNotFoundException e) {
+
+Added: branches/eschnepel/install/db/auth-ldap.sql
+===================================================================
+--- branches/eschnepel/install/db/auth-ldap.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/auth-ldap.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -0,0 +1,25 @@
++-- &quot;Domain Name&quot; property
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-domainname', 'Domain Name');
++INSERT INTO TopicProp VALUES ('pp-domainname', 1, 'Name', 'Domain Name');
++
++-- &quot;ActiveDirectoryLogin&quot; topic type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-adlogin', 'ActiveDirectoryLogin');
++INSERT INTO TopicProp VALUES ('tt-adlogin', 1, 'Name', 'ActiveDirectoryLogin');
++INSERT INTO TopicProp VALUES ('tt-adlogin', 1, 'Unique Topic Names', 'on');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-166', '', 'tt-login', 1, 'tt-adlogin', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-167', '', 'tt-adlogin', 1, 'pp-url', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-168', '', 'tt-adlogin', 1, 'pp-domainname', 1);
++
++-- &quot;ActiveDirectoryLogin Search&quot;
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-adlogincontainer', 'ActiveDirectoryLogin Search');
++INSERT INTO TopicProp VALUES ('tt-adlogincontainer', 1, 'Name', 'ActiveDirectoryLogin Search');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-169', '', 'tt-topiccontainer', 1, 'tt-adlogincontainer', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-170', '', 'tt-adlogin', 1, 'tt-adlogincontainer', 1);
++
++-- &quot;ActiveDirectoryLogin&quot; topic
++INSERT INTO Topic VALUES ('tt-adlogin', 1, 1, 't-adlogin', 'ActiveDirectory auf Onyx');
++INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'Name', 'ActiveDirectory auf Onyx');
++INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'URL', '<A HREF="ldap://192.168.251.145:389">ldap://192.168.251.145:389</A>');
++INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'Domain Name', 'staps2000.local');
++
++INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-adlogin', 1, 300, 200);
+
+Added: branches/eschnepel/install/db/auth-xbuilder.sql
+===================================================================
+--- branches/eschnepel/install/db/auth-xbuilder.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/auth-xbuilder.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -0,0 +1,40 @@
++-- &quot;WebBuilderLogin&quot; topic type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-wblogin', 'WebBuilderLogin');
++INSERT INTO TopicProp VALUES ('tt-wblogin', 1, 'Name', 'WebBuilderLogin');
++INSERT INTO TopicProp VALUES ('tt-wblogin', 1, 'Unique Topic Names', 'on');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-158', '', 'tt-login', 1, 'tt-wblogin', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-159', '', 'tt-wblogin', 1, 'pp-profileelementtype', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-160', '', 'tt-wblogin', 1, 'pp-usernameattr', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-161', '', 'tt-wblogin', 1, 'pp-passwordattr', 1);
++
++-- &quot;WebBuilderLogin Search&quot;
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-wblogincontainer', 'WebBuilderLogin Search');
++INSERT INTO TopicProp VALUES ('tt-wblogincontainer', 1, 'Name', 'WebBuilderLogin Search');
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-164', '', 'tt-topiccontainer', 1, 'tt-wblogincontainer', 1);
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-165', '', 'tt-wblogin', 1, 'tt-wblogincontainer', 1);
++
++-- &quot;WebBuilderLogin&quot; topic
++INSERT INTO Topic VALUES ('tt-wblogin', 1, 1, 't-wblogin', 'Login auf Production');
++INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Name', 'Login auf Production');
++INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Profile Elementtype', 'user_profile');
++INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Username Attribute', 'login');
++INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Password Attribute', 'password');
++
++INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-wblogin', 1, 300, 150);
++
++-- create new DataSourceTopic for sample WebBuilder system
++INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-xbuilderdb', 'XBuilder auf Production');
++INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'Name', 'XBuilder auf Production');
++INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'Driver', 'oracle.jdbc.driver.OracleDriver');
++INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'URL', 'jdbc:oracle:thin:www1/<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">www1 at production</A>:1521:stapstst');
++
++-- associate DataSourceTopic and WebBuilderLogin
++INSERT INTO Association VALUES ('at-association', 1, 1, 'a-172', '', 't-wblogin', 1, 't-xbuilderdb', 1);
++
++-- make DataSourceTopic and association visible
++INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-xbuilderdb', 1, 400, 150);
++INSERT INTO ViewAssociation VALUES ('t-directoriesmap', 1, 'a-172', 1);
++
++-- write comments in &quot;description&quot; of WebBuilderLogin
++INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Description', 'This topic must be associated with a Datasource which provides a connection to a running WebBuilder system. The association must be of type &quot;association&quot; and directed from WebBuilderLogin to DataSource.');
++
+
+Modified: branches/eschnepel/install/db/auth.sql
+===================================================================
+--- branches/eschnepel/install/db/auth.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/auth.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -13,73 +13,3 @@
+ INSERT INTO TopicProp VALUES ('tt-logincontainer', 1, 'Name', 'Login Search');
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-153', '', 'tt-topiccontainer', 1, 'tt-logincontainer', 1);
+ INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-154', '', 'tt-login', 1, 'tt-logincontainer', 1);
+-
+--- &quot;WebBuilderLogin&quot; topic type
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-wblogin', 'WebBuilderLogin');
+-INSERT INTO TopicProp VALUES ('tt-wblogin', 1, 'Name', 'WebBuilderLogin');
+-INSERT INTO TopicProp VALUES ('tt-wblogin', 1, 'Unique Topic Names', 'on');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-158', '', 'tt-login', 1, 'tt-wblogin', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-159', '', 'tt-wblogin', 1, 'pp-profileelementtype', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-160', '', 'tt-wblogin', 1, 'pp-usernameattr', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-161', '', 'tt-wblogin', 1, 'pp-passwordattr', 1);
+-
+--- &quot;WebBuilderLogin Search&quot;
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-wblogincontainer', 'WebBuilderLogin Search');
+-INSERT INTO TopicProp VALUES ('tt-wblogincontainer', 1, 'Name', 'WebBuilderLogin Search');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-164', '', 'tt-topiccontainer', 1, 'tt-wblogincontainer', 1);
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-165', '', 'tt-wblogin', 1, 'tt-wblogincontainer', 1);
+-
+--- &quot;WebBuilderLogin&quot; topic
+-INSERT INTO Topic VALUES ('tt-wblogin', 1, 1, 't-wblogin', 'Login auf Production');
+-INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Name', 'Login auf Production');
+-INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Profile Elementtype', 'user_profile');
+-INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Username Attribute', 'login');
+-INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Password Attribute', 'password');
+-
+-INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-wblogin', 1, 300, 150);
+-
+--- create new DataSourceTopic for sample WebBuilder system
+-INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-xbuilderdb', 'XBuilder auf Production');
+-INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'Name', 'XBuilder auf Production');
+-INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'Driver', 'oracle.jdbc.driver.OracleDriver');
+-INSERT INTO TopicProp VALUES ('t-xbuilderdb', 1, 'URL', 'jdbc:oracle:thin:www1/<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">www1 at production</A>:1521:stapstst');
+-
+--- associate DataSourceTopic and WebBuilderLogin
+-INSERT INTO Association VALUES ('at-association', 1, 1, 'a-172', '', 't-wblogin', 1, 't-xbuilderdb', 1);
+-
+--- make DataSourceTopic and association visible
+-INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-xbuilderdb', 1, 400, 150);
+-INSERT INTO ViewAssociation VALUES ('t-directoriesmap', 1, 'a-172', 1);
+-
+--- write comments in &quot;description&quot; of WebBuilderLogin and AuthentificationSource
+-INSERT INTO TopicProp VALUES ('t-useraccounts', 1, 'Description', 'This topic must be associated with one of the Login topics. The association must be of type &quot;association&quot; and directed from AuthentificationSource to Login. If there is no such association, the CorporateMemory will be used for authentification.');
+-INSERT INTO TopicProp VALUES ('t-wblogin', 1, 'Description', 'This topic must be associated with a Datasource which provides a connection to a running WebBuilder system. The association must be of type &quot;association&quot; and directed from WebBuilderLogin to DataSource.');
+-
+-
+-
+-
+--- &quot;Domain Name&quot; property
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-domainname', 'Domain Name');
+-INSERT INTO TopicProp VALUES ('pp-domainname', 1, 'Name', 'Domain Name');
+-
+--- &quot;ActiveDirectoryLogin&quot; topic type
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-adlogin', 'ActiveDirectoryLogin');
+-INSERT INTO TopicProp VALUES ('tt-adlogin', 1, 'Name', 'ActiveDirectoryLogin');
+-INSERT INTO TopicProp VALUES ('tt-adlogin', 1, 'Unique Topic Names', 'on');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-166', '', 'tt-login', 1, 'tt-adlogin', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-167', '', 'tt-adlogin', 1, 'pp-url', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-168', '', 'tt-adlogin', 1, 'pp-domainname', 1);
+-
+--- &quot;ActiveDirectoryLogin Search&quot;
+-INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-adlogincontainer', 'ActiveDirectoryLogin Search');
+-INSERT INTO TopicProp VALUES ('tt-adlogincontainer', 1, 'Name', 'ActiveDirectoryLogin Search');
+-INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-169', '', 'tt-topiccontainer', 1, 'tt-adlogincontainer', 1);
+-INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-170', '', 'tt-adlogin', 1, 'tt-adlogincontainer', 1);
+-
+--- &quot;ActiveDirectoryLogin&quot; topic
+-INSERT INTO Topic VALUES ('tt-adlogin', 1, 1, 't-adlogin', 'ActiveDirectory auf Onyx');
+-INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'Name', 'ActiveDirectory auf Onyx');
+-INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'URL', '<A HREF="ldap://192.168.251.145:389">ldap://192.168.251.145:389</A>');
+-INSERT INTO TopicProp VALUES ('t-adlogin', 1, 'Domain Name', 'staps2000.local');
+-
+-INSERT INTO ViewTopic VALUES ('t-directoriesmap', 1, 't-adlogin', 1, 300, 200);
+
+Modified: branches/eschnepel/install/db/cm.sql
+===================================================================
+--- branches/eschnepel/install/db/cm.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/cm.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -166,7 +166,7 @@
+ INSERT INTO TopicProp VALUES ('tt-datasource', 1, 'Custom Implementation', 'de.deepamehta.topics.DataSourceTopic');
+ -- assign properties
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-20', '', 'tt-datasource', 1, 'pp-url', 1);
+-INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21', '', 'tt-datasource', 1, 'pp-driver', 1);
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-21', '', 'tt-datasource', 1, 'pp-dbtype', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-134', '', 'tt-datasource', 1, 'pp-idleelementtype', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-22', '', 'tt-datasource', 1, 'pp-entities', 1);
+ INSERT INTO AssociationProp VALUES ('a-20', 1, 'Ordinal Number', '110');
+@@ -1204,9 +1204,9 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-wit_domains', 'Domains');
+ INSERT INTO TopicProp VALUES ('pp-wit_domains', 1, 'Name', 'Domains');
+ 
+---- &quot;Driver&quot; ---
+-INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-driver', 'Driver');
+-INSERT INTO TopicProp VALUES ('pp-driver', 1, 'Visualization', 'Input Field');
++--- &quot;Database Type&quot; ---
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-dbtype', 'Database Type');
++INSERT INTO TopicProp VALUES ('pp-dbtype', 1, 'Visualization', 'Input Field');
+ 
+ --- &quot;Entities&quot; ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-entities', 'Entities');
+@@ -1739,6 +1739,8 @@
+ -- the User Authentification Datasource
+ INSERT INTO Topic VALUES ('tt-authentificationsource', 1, 1, 't-useraccounts', 'User Accounts');
+ INSERT INTO TopicProp VALUES ('t-useraccounts', 1, 'Name', 'User Accounts');
++-- write comments in &quot;description&quot; of AuthentificationSource
++INSERT INTO TopicProp VALUES ('t-useraccounts', 1, 'Description', 'This topic must be associated with one of the Login topics. The association must be of type &quot;association&quot; and directed from AuthentificationSource to Login. If there is no such association, the CorporateMemory will be used for authentification.');
+ -- CM Import/Export
+ INSERT INTO Topic VALUES ('tt-cmimportexport', 1, 1, 't-cmimportexport', 'CM Import/Export');
+ INSERT INTO TopicProp VALUES ('t-cmimportexport', 1, 'Name', 'CM Import/Export');
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -16,8 +16,8 @@
+ CREATE CACHED TABLE Association (
+     TypeID CHAR(40) NOT NULL,
+     TypeVersion INT NOT NULL,
++    ID CHAR(40) NOT NULL,
+     Version INT NOT NULL,
+-    ID CHAR(40) NOT NULL,
+     Name VARCHAR_IGNORECASE NOT NULL,
+     TopicID1 CHAR(40) NOT NULL,
+     TopicVersion1 INT NOT NULL,
+@@ -43,11 +43,11 @@
+     x INT NOT NULL,
+     y INT NOT NULL
+ );
+-CREATE INDEX IDX_ViewTopic ON ViewTopic (
++CREATE INDEX IDX_ViewTopic_View ON ViewTopic (
+     ViewTopicID, ViewTopicVersion
+ );
+-CREATE INDEX IDX_ViewTopicRef ON ViewTopic (
+-	TopicID
++CREATE INDEX IDX_ViewTopic_Topic ON ViewTopic (
++	TopicID, TopicVersion
+ );
+ 
+ CREATE CACHED TABLE ViewAssociation (
+@@ -56,9 +56,12 @@
+     AssociationID CHAR(40) NOT NULL,
+     AssociationVersion INT NOT NULL
+ );
+-CREATE INDEX IDX_ViewAssociation ON ViewAssociation (
++CREATE INDEX IDX_ViewAssociation_View ON ViewAssociation (
+ 	ViewTopicID, ViewTopicVersion
+ );
++CREATE INDEX IDX_ViewAssociation_Assoc ON ViewAssociation (
++	AssociationID, AssociationVersion
++);
+ 
+ CREATE CACHED TABLE TopicProp (
+     TopicID CHAR(40) NOT NULL,
+
+Added: branches/eschnepel/install/db/db-specific/dropdb-ask.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/dropdb-ask.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/db-specific/dropdb-ask.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -0,0 +1,11 @@
++&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
++	&lt;target name=&quot;askdropdb&quot;&gt;
++		&lt;echo message=&quot;You are about to delete the database '${db.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;/condition&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/db/db-specific/dropdb-hsqldb.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -1,14 +1,6 @@
+-&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
+-	&lt;target name=&quot;dropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
+-		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
+-		&lt;echo&gt;${db.hsqldb.path}&lt;/echo&gt;
++&lt;project name=&quot;DeepaMehta-db-dropdb-hsqldb&quot;&gt;
++	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
++	&lt;target name=&quot;dropdb&quot; depends=&quot;askdropdb&quot; unless=&quot;do.abort&quot;&gt;
+ 		&lt;delete&gt;
+ 			&lt;fileset dir=&quot;${db.hsqldb.base-path}&quot;&gt;
+ 				&lt;include name=&quot;${db.name}.*&quot; /&gt;
+
+
+Property changes on: branches/eschnepel/install/examples/messageboard
+___________________________________________________________________
+Name: svn:ignore
+   + messageboard.jar
+messageboard.war
+build
+
+
+Modified: branches/eschnepel/install/examples/messageboard/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/messageboard/build.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/messageboard/build.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -4,58 +4,61 @@
+ 		DeepaMehta MessageBoard Servlet
+ 	&lt;/description&gt;
+ 
+-	&lt;property name=&quot;project.name&quot; value=&quot;messageboard&quot;/&gt;
+-	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot;/&gt;
+-	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot;/&gt;
+-	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++	&lt;property name=&quot;project.name&quot; value=&quot;messageboard&quot; /&gt;
++	&lt;property name=&quot;jar&quot; value=&quot;${project.name}.jar&quot; /&gt;
++	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot; /&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
+ 
+-	&lt;import file=&quot;../../../config.xml&quot;/&gt;
++	&lt;property name=&quot;dm.base-dir&quot; location=&quot;../../..&quot; /&gt;
+ 
++	&lt;import file=&quot;${dm.base-dir}/config.xml&quot; /&gt;
++
+ 	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${web.servlet.lib}&quot; /&gt;
++				&lt;path refid=&quot;javalibs&quot; /&gt;
+ 			&lt;/classpath&gt;
+ 		&lt;/javac&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
+ 		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/messageboard/MessageBoard.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/messageboard/topics/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/messageboard/assocs/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/messageboard/MessageBoard.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/messageboard/topics/*.class&quot; /&gt;
++			&lt;include name=&quot;de/deepamehta/messageboard/assocs/*.class&quot; /&gt;
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;war&quot; depends=&quot;jar&quot;&gt;
+-   	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
+-		    &lt;classes dir=&quot;${build}&quot;&gt;
++		&lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
++			&lt;classes dir=&quot;${build}&quot;&gt;
+ 				&lt;include name=&quot;de/deepamehta/messageboard/*.class&quot; /&gt;
+-            &lt;/classes&gt;
+-         	&lt;fileset dir=&quot;.&quot;&gt;
+-            	&lt;include name=&quot;pages/*&quot;/&gt;
+-            	&lt;include name=&quot;images/*&quot;/&gt;
+-         	&lt;/fileset&gt;
++			&lt;/classes&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;pages/*&quot; /&gt;
++				&lt;include name=&quot;images/*&quot; /&gt;
++			&lt;/fileset&gt;
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;build&quot; depends=&quot;war&quot;&gt;
+-		&lt;antcall target=&quot;deploy&quot;/&gt;
++		&lt;antcall target=&quot;deploy&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;deploy&quot;&gt;
+-        &lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
++		&lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
++		&lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-09-02 10:24:58 UTC (rev 188)
+@@ -73,4 +73,13 @@
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;dropmoviesdb&quot; &gt;
++		&lt;ant antfile=&quot;${movies.db.drop-db}&quot; target=&quot;dropdb&quot; inheritrefs=&quot;true&quot;&gt;
++			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
++			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
++			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
++			&lt;property name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
++
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/movies/config/movies-hsqldb-intern.properties	2007-09-02 10:24:58 UTC (rev 188)
+@@ -11,3 +11,4 @@
+ movies.db.tables		=db/db_tables_hsqldb.sql
+ movies.db.content		=db/db_inserts.sql
+ movies.db.create-db		=${db-specific}/createdb-EMPTY.xml
++movies.db.drop-db		=${db-specific}/dropdb-hsqldb.xml
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-09-02 10:24:58 UTC (rev 188)
+@@ -10,3 +10,4 @@
+ movies.db.tables	=db/db_tables_mysql.sql
+ movies.db.content	=db/db_inserts.sql
+ movies.db.create-db	=${db-specific}/createdb-sql92.xml
++movies.db.drop-db	=${db-specific}/dropdb-sql92.xml
+
+Modified: branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/movies/db/db_tables_hsqldb.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -1,29 +1,29 @@
+ 
+ CREATE TABLE Movie (
+     ID INT NOT NULL PRIMARY KEY,
+-    TITLE VARCHAR(100),
+-    ORIGINALTITLE VARCHAR(100),
+-    GATTUNGID INT,
+-    COUNTRY VARCHAR(20),
+-    YEAROFPRODUCTION VARCHAR(10),
+-    DURATION CHAR(4)
++    Title VARCHAR(100),
++    Originaltitle VARCHAR(100),
++    GattungID INT,
++    Country VARCHAR(20),
++    YearOfProduction VARCHAR(10),
++    Duration CHAR(4)
+ );
+ 
+ CREATE TABLE ACTOR (
+     ID INT NOT NULL PRIMARY KEY,
+-    NAME VARCHAR(40)
++    Name VARCHAR(40)
+ );
+ 
+ CREATE TABLE Mitwirkung (
+-    MOVIEID INT NOT NULL,
+-    ACTORID INT NOT NULL
++    MovieID INT NOT NULL,
++    ActorID INT NOT NULL
+ );
+ 
+-CREATE INDEX IDX_Mitwirkung_MovieID ON Mitwirkung(MOVIEID);
+-CREATE INDEX IDX_Mitwirkung_ActorID ON Mitwirkung(ACTORID);
++CREATE INDEX IDX_Mitwirkung_MovieID ON Mitwirkung(MovieID);
++CREATE INDEX IDX_Mitwirkung_ActorID ON Mitwirkung(ActorID);
+ 
+ CREATE TABLE Gattung (
+     ID INT NOT NULL PRIMARY KEY,
+-    NAME VARCHAR(40)
++    Name VARCHAR(40)
+ );
+ 
+
+Modified: branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-09-01 14:22:13 UTC (rev 187)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-09-02 10:24:58 UTC (rev 188)
+@@ -9,7 +9,7 @@
+ INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:hsqldb:../client/db/hsqldb-intern/Movies');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Driver', 'org.hsqldb.jdbcDriver');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'hsqldb');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+ -- Associate types with datasource
+ INSERT INTO Association VALUES ('at-association', 1, 1, 'a-514', '', 'tt-movie', 1, 't-moviesdb', 1);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000032.html">[deepamehta-svn] r187 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000034.html">[deepamehta-svn] r189 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/topics	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#33">[ date ]</a>
+              <a href="thread.html#33">[ thread ]</a>
+              <a href="subject.html#33">[ subject ]</a>
+              <a href="author.html#33">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

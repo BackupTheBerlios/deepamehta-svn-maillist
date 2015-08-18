@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r365 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-June/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r365%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200906301553.n5UFrZaF005793%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r365 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r365%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200906301553.n5UFrZaF005793%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r365 - trunk/develop/src/de/deepamehta/topics">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Jun 30 17:53:35 CEST 2009</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#209">[ date ]</a>
+              <a href="thread.html#209">[ thread ]</a>
+              <a href="subject.html#209">[ subject ]</a>
+              <a href="author.html#209">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-06-30 17:53:33 +0200 (Tue, 30 Jun 2009)
+New Revision: 365
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+Log:
+Deactivated downloading via PersonalWebCrawler
+
+Modified: trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-05-13 13:25:38 UTC (rev 364)
++++ trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-06-30 15:53:33 UTC (rev 365)
+@@ -198,9 +198,11 @@
+ 				String domain = DeepaMehtaServiceUtils.domain(host, as);
+ 				String domainID = as.createTopic(TOPICTYPE_INTERNET_DOMAIN, domain);
+ 				as.createAssociation(ASSOCTYPE_ASSOCIATION, websiteID, domainID);	// ### use semantic
+-				//
++                // copy the URL so the browser knows which website is next to load
++                // as.setTopicProperty(this, VISUAL_BROWSER, url.toString());
++                //
+ 				// download this webpage
+-				download(topicmapID, viewmode, session, directives);
++				// download(topicmapID, viewmode, session, directives);
+ 			} catch (MalformedURLException e) {
+ 				// ### should never happen because prohibited by propertyChangeAllowed()
+ 				System.out.println(&quot;*** WebpageTopic.propertiesChanged(): &quot; + e);
+@@ -229,6 +231,8 @@
+ 	public static Vector hiddenProperties(TypeTopic type) {
+ 		Vector props = new Vector();
+ 		props.addElement(PROPERTY_ICON);
++        // props.addElement(PROPERTY_DESCRIPTION);
++        // props.addElement(PROPERTY_URL);
+ 		return props;
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#209">[ date ]</a>
+              <a href="thread.html#209">[ thread ]</a>
+              <a href="subject.html#209">[ subject ]</a>
+              <a href="author.html#209">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

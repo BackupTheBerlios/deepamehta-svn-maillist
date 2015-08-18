@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r388 - in trunk: . install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2012-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r388%20-%20in%20trunk%3A%20.%20install/db&In-Reply-To=%3C20121021193801.2218855B0C%40scm.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r388 - in trunk: . install/db</H1>
+    <B>maltito at scm.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r388%20-%20in%20trunk%3A%20.%20install/db&In-Reply-To=%3C20121021193801.2218855B0C%40scm.berlios.de%3E"
+       TITLE="[deepamehta-svn] r388 - in trunk: . install/db">maltito at scm.berlios.de
+       </A><BR>
+    <I>Sun Oct 21 21:38:01 CEST 2012</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#233">[ date ]</a>
+              <a href="thread.html#233">[ thread ]</a>
+              <a href="subject.html#233">[ subject ]</a>
+              <a href="author.html#233">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2012-10-21 21:38:00 +0200 (Sun, 21 Oct 2012)
+New Revision: 388
+
+Modified:
+   trunk/build.properties
+   trunk/config.xml
+   trunk/install/db/cm.sql
+Log:
+fixing installation from source.
+
+clarifying proper usage of servlet-api for building dm-webapps.
+and since tomcat 5.5.x reaches EOL, installation was tested against a fresh tomcat 6.0.36.
+
+
+
+Modified: trunk/build.properties
+===================================================================
+--- trunk/build.properties	2012-01-04 11:02:11 UTC (rev 387)
++++ trunk/build.properties	2012-10-21 19:38:00 UTC (rev 388)
+@@ -1,30 +1,31 @@
+ # DeepaMehta Directories
+-build				=${dm.base-dir}/develop/build
++build				  =${dm.base-dir}/develop/build
+ sources				=${dm.base-dir}/develop/src
+ install				=${dm.base-dir}/install
+ config				=${install}/config
+ client				=${install}/client
+ server				=${install}/server
+-db				=${install}/db
+-db-specific			=${db}/db-specific
++db				    =${install}/db
++db-specific		=${db}/db-specific
+ examples			=${install}/examples
++
+ #libpath must be set without ${dm.base-dir}
+ libpath				=libs
+-endorsedpath			=${libpath}/endorsed
++endorsedpath	=${libpath}/endorsed
+ 
+ # Servlet Engine
+-tomcat.root			=/home/malted/tools/katwalk/
+-web.deploy.dir			=${tomcat.root}/webapps
+-web.lib.dir			=${tomcat.root}/shared/lib
+-web.classes.dir			=${tomcat.root}/shared/classes
+-web.servlet.lib			=${tomcat.root}/common/lib/servlet-api.jar
++tomcat.root			=/home/malt/tee/apache-tomcat-636
++web.deploy.dir	=${tomcat.root}/webapps
++web.lib.dir			=${tomcat.root}/lib
++web.classes.dir	=${tomcat.root}/shared/classes
++web.servlet.lib	=${tomcat.root}/lib/servlet-api.jar
+ 
+ # Build Support
+-build.archive.dir		=/home/malted/tools/dm2Trunk/
+-build.name			=deepamehta-2.0b7.zip
++build.archive.dir	=/home/malt/source/dm2/trunk
++build.name			=deepamehta-2.0b8e.zip
+ 
+ # DeepaMehta Applications
+-appspath			=/Users/jri/Projects
++appspath			=/home/malt/source
+ 
+ dm.host				=localhost
+ dm.port				=7557
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2012-01-04 11:02:11 UTC (rev 387)
++++ trunk/config.xml	2012-10-21 19:38:00 UTC (rev 388)
+@@ -30,7 +30,8 @@
+ 		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 			&lt;include name=&quot;${db.libs}&quot; /&gt;
+ 		&lt;/fileset&gt;
+-		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/servlet.jar&quot; /&gt;
++		&lt;!-- Note: we should compile against the servlet.jar provided by our servlet-container here, like:--&gt;
++		&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/mail.jar&quot; /&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/activation.jar&quot; /&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/jndi.jar&quot; /&gt;
+
+Modified: trunk/install/db/cm.sql
+===================================================================
+--- trunk/install/db/cm.sql	2012-01-04 11:02:11 UTC (rev 387)
++++ trunk/install/db/cm.sql	2012-10-21 19:38:00 UTC (rev 388)
+@@ -1180,8 +1180,18 @@
+ INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Plural Name', 'Attachments');
+ INSERT INTO TopicProp VALUES ('at-attachment', 1, 'Color', '#408000');
+ 
++--- &quot;Helptext&quot; (for Webforms) ---
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-form-helptext', 'Helptext');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Name', 'Helptext');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Plural Name', 'Helptexts');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Description', '&lt;html&gt;&lt;body&gt;&lt;p&gt;A &lt;i&gt;Helptext&lt;/i&gt;-Edge is used for setting a Note-Topic in relation with a Property-Topic. Once set, the Description-Text of the Note-Topic is rendered as a Hint in the form above the label and the input field of the associated Property.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Description Query', 'What is a Helptext association?');
++INSERT INTO TopicProp VALUES ('at-form-helptext', 1, 'Color', '#3f4da6');
++--- Assignment of the &quot;Helptext&quot;-Edge to the &quot;Administration&quot;-Workspace ---
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-form-helptext-use', '', 't-administrationgroup', 1, 'at-form-helptext', 1);
+ 
+ 
++
+ ------------------
+ --- Properties ---
+ ------------------
+@@ -2224,4 +2234,4 @@
+ -- Not a Key Generator but the (constant) version of the database model
+ INSERT INTO KeyGenerator VALUES ('DB-Model Version', 2);
+ -- Not a Key Generator but the (constant) version of the database content
+-INSERT INTO KeyGenerator VALUES ('DB-Content Version', 19);
++INSERT INTO KeyGenerator VALUES ('DB-Content Version', 20);
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#233">[ date ]</a>
+              <a href="thread.html#233">[ thread ]</a>
+              <a href="subject.html#233">[ subject ]</a>
+              <a href="author.html#233">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

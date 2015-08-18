@@ -1,0 +1,420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r255 - in trunk: .	develop/src/de/deepamehta/topics install/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r255%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/topics%20install/config&In-Reply-To=%3C200801061321.m06DLTMl027654%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000101.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r255 - in trunk: .	develop/src/de/deepamehta/topics install/config</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r255%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/topics%20install/config&In-Reply-To=%3C200801061321.m06DLTMl027654%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r255 - in trunk: .	develop/src/de/deepamehta/topics install/config">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Jan  6 14:21:29 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000101.html">[deepamehta-svn] r256 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-01-06 14:20:59 +0100 (Sun, 06 Jan 2008)
+New Revision: 255
+
+Added:
+   trunk/install/config/build.properties
+Modified:
+   trunk/build.properties
+   trunk/build.xml
+   trunk/config.xml
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/install/config/build-derby-intern.properties
+   trunk/install/config/build-hsqldb-intern.properties
+   trunk/install/config/build-mysql4.properties
+   trunk/install/config/build-mysql5.properties
+   trunk/install/config/db-derby.properties
+   trunk/install/config/db-hsqldb.properties
+   trunk/install/config/db-mysql4.properties
+   trunk/install/config/db-mysql5.properties
+   trunk/install/config/dm-derby-intern.properties
+   trunk/install/config/dm-hsqldb-intern.properties
+   trunk/install/config/dm-mysql4.properties
+   trunk/install/config/dm-mysql5.properties
+   trunk/install/config/dm.properties
+   trunk/setup.xml
+Log:
+1) Results from Dec 21, 2007 development meeting integrated. Aim was better configuration management:
+a) configuration behavoir changed: the &quot;config&quot; target doesn't switch the default instance silently. The user is asked weather to do so.
+b) better commenting of the various .properties files to clearify where to set the default instance
+c) the default instance is configured at a single spot: install/config/config.properties. The &quot;dm.instance&quot; setting applies to both, server (resp. monolithic application) AND web applications. Note: the second &quot;config.properties&quot; file which resides in the home directory contains no &quot;dm.instance&quot; setting anymore.
+d) Bug fix: &quot;patchdb&quot; target works again
+
+2) Bug fix in Calendar application: appointments doesn't appear twice
+
+
+Modified: trunk/build.properties
+===================================================================
+--- trunk/build.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/build.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -26,14 +26,5 @@
+ # DeepaMehta Applications
+ appspath			=/Users/jri/Projects
+ 
+-# DeepaMehta Service
+-#dm.instance			=derby-intern
+-dm.instance			=hsqldb-intern
+-#dm.instance			=mysql
+-
+-dm.instance.property-file		=${config}/dm-${dm.instance}.properties
+-dm.instance.build-property-file	=${config}/build-${dm.instance}.properties
+-dm.instance.config-property-file=${config}/config-${dm.instance}.properties
+-
+ dm.host				=localhost
+ dm.port				=7557
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/build.xml	2008-01-06 13:20:59 UTC (rev 255)
+@@ -191,9 +191,7 @@
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot; onerror=&quot;continue&quot;&gt;
+-			&lt;fileset dir=&quot;.&quot;&gt;
+-				&lt;include name=&quot;${patch}&quot; /&gt;
+-			&lt;/fileset&gt;
++			&lt;fileset file=&quot;${patch}&quot; /&gt;
+ 			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+@@ -312,6 +310,7 @@
+ 		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+ 			&lt;try&gt;
+ 				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/${example}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
++					&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 					&lt;property name=&quot;do.dmdb.abort&quot; value=&quot;${do.db.abort}&quot; /&gt;
+ 					&lt;property name=&quot;db.syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
+ 					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
+@@ -330,6 +329,7 @@
+ 		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+ 			&lt;try&gt;
+ 				&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${app-dir}&quot; target=&quot;${target}&quot; inheritall=&quot;false&quot;&gt;
++					&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 					&lt;property name=&quot;do.dmdb.abort&quot; value=&quot;${do.db.abort}&quot; /&gt;
+ 					&lt;property name=&quot;db.syspass&quot; value=&quot;${db.syspass}&quot; /&gt;
+ 					&lt;property name=&quot;withsyspass&quot; value=&quot;${withsyspass}&quot; /&gt;
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/config.xml	2008-01-06 13:20:59 UTC (rev 255)
+@@ -9,6 +9,8 @@
+ 
+ 	&lt;property file=&quot;${config.properties}&quot; /&gt;
+ 	&lt;property file=&quot;${dm.base-dir}/build.properties&quot; /&gt;
++	&lt;property file=&quot;${config}/config.properties&quot; /&gt;
++	&lt;property file=&quot;${config}/build.properties&quot; /&gt;
+ 	&lt;property file=&quot;${dm.instance.config-property-file}&quot; /&gt;
+ 	&lt;property file=&quot;${dm.instance.property-file}&quot; /&gt;
+ 	&lt;property file=&quot;${dm.instance.build-property-file}&quot; /&gt;
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2008-01-06 13:20:59 UTC (rev 255)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 21.12.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -820,7 +820,13 @@
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic person = (BaseTopic) e.nextElement();
+ 			Vector personAppointments = ((PersonTopic) as.getLiveTopic(person)).getCalendarAppointments();
+-			appointments.addAll(personAppointments);
++			Enumeration e2 = personAppointments.elements();
++			while (e2.hasMoreElements()) {
++				BaseTopic appointment = (BaseTopic) e2.nextElement();
++				if (!containsID(appointments, appointment)) {
++					appointments.addElement(appointment);
++				}
++			}
+ 		}
+ 		return appointments;
+ 	}
+@@ -936,6 +942,17 @@
+ 		return html.substring(i1 + 6, i2);
+ 	}
+ 
++	private boolean containsID(Vector topics, BaseTopic topic) {
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic t = (BaseTopic) e.nextElement();
++			if (t.getID().equals(topic.getID())) {
++				return true;
++			}
++		}
++		return false;
++	}
++
+ 	private boolean isSet(String dateOrTime) {
+ 		// ### return !dateOrTime.equals(&quot;-/-/-&quot;) &amp;&amp; !dateOrTime.equals(&quot;-:-&quot;);
+ 		return dateOrTime.length() &gt; 0 &amp;&amp; dateOrTime.indexOf(VALUE_NOT_SET) == -1;
+
+Modified: trunk/install/config/build-derby-intern.properties
+===================================================================
+--- trunk/install/config/build-derby-intern.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/build-derby-intern.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=derby-intern
++# in case of dm.instance = derby-intern
+ 
+ # Database
+ db.create-db		=createdb-CONNECT.xml
+
+Modified: trunk/install/config/build-hsqldb-intern.properties
+===================================================================
+--- trunk/install/config/build-hsqldb-intern.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/build-hsqldb-intern.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=hsqldb-intern
++# in case of dm.instance = hsqldb-intern
+ 
+ # Database
+ db.create-db		=createdb-hsqldb.xml
+
+Modified: trunk/install/config/build-mysql4.properties
+===================================================================
+--- trunk/install/config/build-mysql4.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/build-mysql4.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=mysql
++# in case of dm.instance = mysql4
+ 
+ # Database
+ db.create-db		=createdb-sql92.xml
+
+Modified: trunk/install/config/build-mysql5.properties
+===================================================================
+--- trunk/install/config/build-mysql5.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/build-mysql5.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=mysql
++# in case of dm.instance = mysql5
+ 
+ # Database
+ db.create-db		=createdb-sql92.xml
+
+Added: trunk/install/config/build.properties
+===================================================================
+--- trunk/install/config/build.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/build.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -0,0 +1,7 @@
++# DeepaMehta Service
++dm.instance			=hsqldb-intern
++#dm.instance			=mysql5
++
++dm.instance.property-file		=${config}/dm-${dm.instance}.properties
++dm.instance.build-property-file	=${config}/build-${dm.instance}.properties
++dm.instance.config-property-file=${config}/config-${dm.instance}.properties
+
+Modified: trunk/install/config/db-derby.properties
+===================================================================
+--- trunk/install/config/db-derby.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/db-derby.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# db.type			=derby
++# in case of db.type = derby
+ 
+ db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+ db.libs				=${libpath}/derby/*.jar
+
+Modified: trunk/install/config/db-hsqldb.properties
+===================================================================
+--- trunk/install/config/db-hsqldb.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/db-hsqldb.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# db.type			=hsqldb
++# in case of db.type = hsqldb
+ 
+ db.driver			=org.hsqldb.jdbcDriver
+ db.libs				=${libpath}/hsqldb.jar
+
+Modified: trunk/install/config/db-mysql4.properties
+===================================================================
+--- trunk/install/config/db-mysql4.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/db-mysql4.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# db.type			=mysql
++# in case of db.type = mysql4
+ 
+ db.driver			=org.gjt.mm.mysql.Driver
+ db.libs				=${libpath}/mysql-3.1.7.jar
+
+Modified: trunk/install/config/db-mysql5.properties
+===================================================================
+--- trunk/install/config/db-mysql5.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/db-mysql5.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# db.type			=mysql
++# in case of db.type = mysql5
+ 
+ db.driver			=org.gjt.mm.mysql.Driver
+ db.libs				=${libpath}/mysql-3.1.7.jar
+
+Modified: trunk/install/config/dm-derby-intern.properties
+===================================================================
+--- trunk/install/config/dm-derby-intern.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/dm-derby-intern.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=derby-intern
++# in case of dm.instance = derby-intern
+ dm.comporate-memory.class=RelationalCorporateMemory
+ 
+ # Database
+
+Modified: trunk/install/config/dm-hsqldb-intern.properties
+===================================================================
+--- trunk/install/config/dm-hsqldb-intern.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/dm-hsqldb-intern.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=hsqldb-intern
++# in case of dm.instance = hsqldb-intern
+ dm.comporate-memory.class=RelationalCorporateMemory
+ 
+ # Database
+
+Modified: trunk/install/config/dm-mysql4.properties
+===================================================================
+--- trunk/install/config/dm-mysql4.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/dm-mysql4.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=mysql
++# in case of dm.instance = mysql4
+ dm.comporate-memory.class=RelationalCorporateMemory
+ 
+ # Database
+
+Modified: trunk/install/config/dm-mysql5.properties
+===================================================================
+--- trunk/install/config/dm-mysql5.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/dm-mysql5.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,5 +1,5 @@
+ # DeepaMehta Service
+-# dm.instance		=mysql
++# in case of dm.instance = mysql5
+ dm.comporate-memory.class=RelationalCorporateMemory
+ 
+ # Database
+
+Modified: trunk/install/config/dm.properties
+===================================================================
+--- trunk/install/config/dm.properties	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/install/config/dm.properties	2008-01-06 13:20:59 UTC (rev 255)
+@@ -1,7 +1,6 @@
+ # DeepaMehta Service
+-#dm.instance			=mysql
+-#dm.instance			=hsqldb-intern
+-dm.instance			=mysql5
++#dm.instance			=mysql5
++dm.instance			=hsqldb-intern
+ dm.host				=localhost
+ dm.port				=7557
+ 
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2007-12-20 13:57:06 UTC (rev 254)
++++ trunk/setup.xml	2008-01-06 13:20:59 UTC (rev 255)
+@@ -66,13 +66,29 @@
+ 		&lt;var name=&quot;prefix&quot; value=&quot;dm&quot; /&gt;
+ 		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot; /&gt;
++		&lt;if&gt;
++			&lt;not&gt;
++				&lt;or&gt;
++					&lt;equals arg1=&quot;${return.instance}&quot; arg2=&quot;${dm.instance}&quot; /&gt;
++					&lt;isset property=&quot;example.execute&quot; /&gt;
++				&lt;/or&gt;
++			&lt;/not&gt;
++			&lt;then&gt;
++				&lt;input message=&quot;Setup ${return.instance} as default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot;/&gt;
++				&lt;if&gt;
++					&lt;equals arg1=&quot;${setup.default-instance}&quot; arg2=&quot;y&quot; /&gt;
++					&lt;then&gt;
++&lt;!--						&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
++							&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
++						&lt;/propertyfile&gt;
++--&gt;						&lt;propertyfile file=&quot;${config}/config.properties&quot;&gt;
++							&lt;entry key=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
++						&lt;/propertyfile&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
+ 		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
+-		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
+-			&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+-		&lt;/propertyfile&gt;
+-		&lt;propertyfile file=&quot;${config}/config.properties&quot;&gt;
+-			&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+-		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-dm-instance&quot; depends=&quot;-config-which-dm-instance&quot;&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000101.html">[deepamehta-svn] r256 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

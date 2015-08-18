@@ -1,0 +1,726 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r170 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/util install/config install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r170%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/util%20install/config%20install/db&In-Reply-To=%3C200708070747.l777lMSj019749%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000014.html">
+   <LINK REL="Next"  HREF="000016.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r170 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/util install/config install/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r170%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/util%20install/config%20install/db&In-Reply-To=%3C200708070747.l777lMSj019749%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r170 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/util install/config install/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug  7 09:47:22 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000014.html">[deepamehta-svn] r169 - branches/eschnepel/install/db
+</A></li>
+        <LI>Next message: <A HREF="000016.html">[deepamehta-svn] r171 - branches/eschnepel/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-07 09:47:20 +0200 (Tue, 07 Aug 2007)
+New Revision: 170
+
+Added:
+   branches/eschnepel/config.xml
+   branches/eschnepel/install/config/build-mysql.properties
+   branches/eschnepel/install/config/db-mysql.properties
+   branches/eschnepel/install/db/createdb-EMPTY.xml
+   branches/eschnepel/install/db/createdb-sql92.xml
+   branches/eschnepel/install/db/dropdb-hsqldb.xml
+   branches/eschnepel/install/db/dropdb-sql92.xml
+Removed:
+   branches/eschnepel/install/db/db_create.sql
+Modified:
+   branches/eschnepel/.classpath
+   branches/eschnepel/build.properties
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/config/db-hsqldb-intern.properties
+   branches/eschnepel/install/config/dm.properties
+Log:
+mysql re-integration
+
+Modified: branches/eschnepel/.classpath
+===================================================================
+--- branches/eschnepel/.classpath	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/.classpath	2007-08-07 07:47:20 UTC (rev 170)
+@@ -1,6 +1,15 @@
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;classpath&gt;
+ 	&lt;classpathentry kind=&quot;src&quot; path=&quot;develop/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/artfacts/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-browser/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-search/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-topicmapviewer/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-web/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/kompetenzstern/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/ldap/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/messageboard/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/movies/src&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/activation.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/avalon-framework.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/batik.jar&quot;/&gt;
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/build.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -25,7 +25,8 @@
+ appspath			=/Users/jri/Projects
+ 
+ # DeepaMehta Service
+-dm.instance			=hsqldb-intern
++#dm.instance			=hsqldb-intern
++dm.instance			=mysql
+ 
+ dm.instance.property-file=${config}/db-${dm.instance}.properties
+-dm.instance.build-property-file=${config}/db-${dm.instance}.properties
++dm.instance.build-property-file=${config}/build-${dm.instance}.properties
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/build.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -4,10 +4,11 @@
+ 		DeepaMehta build file
+ 	&lt;/description&gt;
+ 
+-	&lt;property file=&quot;build.properties&quot;/&gt;
+-	&lt;property file=&quot;${dm.instance.property-file}&quot;/&gt;
+-	&lt;property file=&quot;${dm.instance.build-property-file}&quot;/&gt;
++	&lt;import file=&quot;config.xml&quot;/&gt;
+ 
++	&lt;import file=&quot;${db}/${db.create-db}&quot;/&gt;
++	&lt;import file=&quot;${db}/${db.drop-db}&quot;/&gt;
++
+ 	&lt;path id=&quot;javalibs&quot;&gt;
+ 		&lt;pathelement location=&quot;${db.lib}&quot;/&gt;
+ 		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+@@ -46,10 +47,10 @@
+ 
+ 	&lt;target name=&quot;install&quot;&gt;
+ 		&lt;echo message=&quot;--- DeepaMehta Installation ---&quot;/&gt;
+-		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.userid}' (password '${db.password}').&quot;/&gt;
++		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.user}' (password '${db.password}').&quot;/&gt;
+ 		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot;/&gt;
+ 		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=...&quot;/&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot;/&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.install&quot;/&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.install}&quot; arg2=&quot;n&quot;/&gt;
+@@ -63,11 +64,11 @@
+ 		&lt;antcall target=&quot;installweb&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;installmovies&quot;&gt;
+-		&lt;!--ant antfile=&quot;${examples}/movies/build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/--&gt;
++	&lt;target name=&quot;installmovies&quot; if=&quot;false&quot;&gt;
++		&lt;ant antfile=&quot;build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;installweb&quot;&gt;
++	&lt;target name=&quot;installweb-ask&quot;&gt;
+ 		&lt;echo message=&quot;You are about to install the example web applications to '${web.deploy.dir}'.&quot;/&gt;
+ 		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to'${web.lib.dir}'.&quot;/&gt;
+ 		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Servlet Engine')&quot;/&gt;
+@@ -76,7 +77,11 @@
+ 		&lt;condition property=&quot;do.abortweb&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.installweb}&quot; arg2=&quot;n&quot;/&gt;
+ 		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abortweb&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] installweb'&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;installweb-if&quot; if=&quot;do.abortweb&quot; depends=&quot;installweb-ask&quot;&gt;
++		&lt;echo message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] installweb'&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;installweb-unless&quot; unless=&quot;do.abortweb&quot; depends=&quot;installweb-ask&quot;&gt;
+ 		&lt;!-- copy shared libraries --&gt;
+ 		&lt;antcall target=&quot;deploylibs&quot;/&gt;
+         &lt;copy file=&quot;${libpath}/mysql-3.1.7.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+@@ -89,9 +94,10 @@
+ 		&lt;ant antfile=&quot;${examples}/musicforum/build.xml&quot; dir=&quot;${examples}/musicforum&quot; target=&quot;deploy&quot;/&gt;
+ 		&lt;ant antfile=&quot;${examples}/kompetenzstern/build.xml&quot; dir=&quot;${examples}/kompetenzstern&quot; target=&quot;deploy&quot;/&gt;
+ 	&lt;/target&gt;
++	&lt;target name=&quot;installweb&quot; depends=&quot;installweb-if,installweb-unless&quot;/&gt;
+ 
+ 	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
+-		&lt;!--antcall target=&quot;deploylibs&quot;/--&gt;
++		&lt;antcall target=&quot;deploylibs&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;deploylibs&quot;&gt;
+@@ -99,37 +105,11 @@
+         &lt;copy file=&quot;${server}/DeepaMehtaTopics.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;createdb&quot;&gt;
+-&lt;!-- MYSQL Only
+-		&lt;input message=&quot;Enter MySQL root user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			CREATE DATABASE ${db.name};
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.userid}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.userid}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-		&lt;/sql&gt;
+---&gt;
+-	&lt;/target&gt;
++	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.create-db}--&gt;
++	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.drop-db}--&gt;
+ 
+-	&lt;target name=&quot;dropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to drop the DeepaMehta database '${db.name}' and the user '${db.userid}'.&quot;/&gt;
+-		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot;/&gt;
+-		&lt;echo message=&quot;If you want drop another database and user, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot;/&gt;
+-		&lt;input message=&quot;Enter MySQL root user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			DROP DATABASE ${db.name};
+-			DELETE FROM user where User='${db.userid}';
+-			DELETE FROM db where Db='${db.name}';
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+ 	&lt;target name=&quot;createtables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;${db.tables}&quot;/&gt;
+ 			&lt;/fileset&gt;
+@@ -140,7 +120,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;initdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;cm.sql&quot;/&gt;
+ 				&lt;include name=&quot;email.sql&quot;/&gt;
+@@ -148,7 +128,6 @@
+ 				&lt;include name=&quot;webcrawler.sql&quot;/&gt;
+ 				&lt;include name=&quot;whois.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
+-		&lt;!--
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;movies/movies.sql&quot;/&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot;/&gt;
+@@ -156,7 +135,6 @@
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot;/&gt;
+ 				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
+-		--&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+ 				&lt;include name=&quot;names.sql&quot;/&gt;
+ 				&lt;include name=&quot;help.sql&quot;/&gt;
+@@ -168,7 +146,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;droptables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;${db.drop-tables}&quot;/&gt;
+ 			&lt;/fileset&gt;
+@@ -179,9 +157,9 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;reset&quot;&gt;
+-		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.userid}', password '${db.password}').&quot;/&gt;
++		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.user}', password '${db.password}').&quot;/&gt;
+ 		&lt;echo message=&quot;If you want reset another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=...&quot;/&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot;/&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.reset&quot;/&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.reset}&quot; arg2=&quot;n&quot;/&gt;
+@@ -193,15 +171,15 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;patchdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.userid}', password '${db.password}').&quot;/&gt;
++		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.user}', password '${db.password}').&quot;/&gt;
+ 		&lt;echo message=&quot;If you want patch another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=... -Dpatch=...&quot;/&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=... -Dpatch=...&quot;/&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.patch&quot;/&gt;
+ 		&lt;condition property=&quot;do.abort&quot;&gt;
+ 			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot;/&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			&lt;fileset&gt;
+ 				&lt;include name=&quot;${patch}&quot;/&gt;
+ 			&lt;/fileset&gt;
+
+Added: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/config.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,5 @@
++&lt;project&gt;
++	&lt;property file=&quot;build.properties&quot;/&gt;
++	&lt;property file=&quot;${dm.instance.property-file}&quot;/&gt;
++	&lt;property file=&quot;${dm.instance.build-property-file}&quot;/&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-07 07:47:20 UTC (rev 170)
+@@ -14,7 +14,7 @@
+ 	}
+ 
+ 	public final class Database {
+-		public final static String DB_USERID = &quot;db.user&quot;;
++		public final static String DB_USER = &quot;db.user&quot;;
+ 
+ 		public final static String DB_PASSWORD = &quot;db.password&quot;;
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-07 07:47:20 UTC (rev 170)
+@@ -1,50 +1,87 @@
+ package de.deepamehta.service.db;
+ 
+ import java.sql.Connection;
++import java.sql.ResultSet;
++import java.sql.ResultSetMetaData;
+ import java.sql.SQLException;
+ import java.sql.Statement;
+ 
+ import de.deepamehta.util.Benchmark;
+ 
++/**
++ * This class implements some database related cleanup routines. If there is an
++ * error (maybe due to autocommit) and the db is not in an consistent state,
++ * this helps to return to the consistent state.
++ * 
++ * @author enrico
++ */
+ public class DatabaseSweeper {
+-	private final Connection con;
++	private final class Worker implements Runnable {
++		public void run() {
++			try {
++				Statement statement = provider.getStatement();
++				Connection con = statement.getConnection();
++				try {
++					sweep(
++							statement,
++							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID1 = Topic.ID);&quot;,
++							&quot;Accosiations with stale target Topic&quot;);
++					sweep(
++							statement,
++							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID2 = Topic.ID);&quot;,
++							&quot;Accosiations with stale source Topic&quot;);
++					if (!con.getAutoCommit())
++						con.commit();
++				} catch (SQLException e) {
++					if (!con.getAutoCommit())
++						con.rollback();
++					throw new RuntimeException(e);
++				} finally {
++					statement.close();
++				}
++			} catch (SQLException e) {
++				throw new RuntimeException(e);
++			}
++		}
+ 
+-	public DatabaseSweeper(Connection con) {
+-		this.con = con;
++		private void sweep(Statement statement, String cmd, String message)
++				throws SQLException {
++			ResultSet res = statement.executeQuery(&quot;SELECT * FROM &quot; + cmd);
++			if (res.next()) {
++				System.out.println(&quot;*** &quot; + message + &quot;:&quot;);
++				ResultSetMetaData metaData = res.getMetaData();
++				do {
++					StringBuffer sb = new StringBuffer(&quot;***  &quot;);
++					int columnCount = metaData.getColumnCount();
++					for (int i = 1; i &lt;= columnCount; i++) {
++						sb.append(&quot; &quot;);
++						sb.append(metaData.getColumnLabel(i));
++						sb.append(&quot;:\&quot;&quot;);
++						sb.append(res.getString(i));
++						sb.append(&quot;\&quot;&quot;);
++					}
++					System.out.println(sb.toString());
++				} while (res.next());
++				int cnt = statement.executeUpdate(&quot;DELETE FROM &quot; + cmd);
++				System.out.println(&quot;*** Deleted &quot; + cnt + &quot; &quot; + message + &quot;!&quot;);
++			}
++		}
+ 	}
+ 
++	private final DatabaseProvider provider;
++
++	public DatabaseSweeper(DefaultDatabaseProvider provider)
++			throws SQLException {
++		this.provider = provider;
++	}
++
+ 	public void sweep() throws SQLException {
+ 		try {
+-			Benchmark.run(&quot;Sweeping Database&quot;, new Runnable() {
+-				public void run() {
+-					try {
+-						final Statement statement = con
+-								.createStatement();
+-						sweep(
+-								statement,
+-								&quot;delete from association where not exists (select * from topic where topicid1 = topic.id);&quot;,
+-								&quot;Deleted $$ Accosiations with stale target Topic!&quot;);
+-						sweep(
+-								statement,
+-								&quot;delete from association where not exists (select * from topic where topicid2 = topic.id);&quot;,
+-								&quot;Deleted $$ Accosiations with stale source Topic!&quot;);
+-						statement.execute(&quot;commit&quot;);
+-						statement.close();
+-					} catch (SQLException e) {
+-						throw new RuntimeException(e);
+-					}
+-				}
+-			});
++			Benchmark.run(&quot;Sweeping Database&quot;, new Worker());
+ 		} catch (RuntimeException e) {
+-			throw (SQLException) e.getCause();
++			SQLException cause = (SQLException) e.getCause();
++			cause.printStackTrace();
++			throw cause;
+ 		}
+ 	}
+-
+-	private void sweep(Statement statement, String cmd, String message)
+-			throws SQLException {
+-		int cnt = statement.executeUpdate(cmd);
+-		if (cnt &gt; 0) {
+-			System.out.println(&quot;&gt;  &quot; + message.replace(&quot;$$&quot;, &quot;&quot; + cnt));
+-		}
+-	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-07 07:47:20 UTC (rev 170)
+@@ -12,6 +12,7 @@
+ import java.util.Properties;
+ 
+ import de.deepamehta.ConfigurationConstants;
++import de.deepamehta.DeepaMehtaException;
+ 
+ public class DefaultDatabaseProvider implements DatabaseProvider {
+ 
+@@ -31,13 +32,17 @@
+ 	private Driver driver;
+ 
+ 	public DefaultDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
+ 		setupDatabaseProvider(conf);
++		new DatabaseSweeper(this).sweep();
+ 	}
+ 
+ 	protected void setupDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
++			throws ClassNotFoundException, SQLException,
++			InstantiationException, IllegalAccessException {
+ 		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++		System.out.println(&quot;Using Database URL &quot;+jdbcURL);
+ 		File libFile = new File(conf
+ 				.getProperty(ConfigurationConstants.Database.DB_LIB));
+ 		String urlString;
+@@ -48,9 +53,16 @@
+ 			driverClass = classLoader.loadClass(conf
+ 					.getProperty(ConfigurationConstants.Database.DB_DRIVER));
+ 			driver = (Driver) driverClass.newInstance();
++			if (!driver.acceptsURL(jdbcURL))
++				throw new DeepaMehtaException(
++						&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
+ 		} catch (MalformedURLException e) {
+ 			throw new ClassNotFoundException(e.getMessage());
+ 		}
++		setConnectionProperty(&quot;user&quot;, conf
++				.getProperty(ConfigurationConstants.Database.DB_USER));
++		setConnectionProperty(&quot;password&quot;, conf
++				.getProperty(ConfigurationConstants.Database.DB_PASSWORD));
+ 	}
+ 
+ 	public synchronized Connection getConnection() throws SQLException {
+@@ -77,9 +89,6 @@
+ 	protected synchronized Connection newConnection() throws SQLException {
+ 		Connection con = driver.connect(jdbcURL, conProps);
+ 		con.setAutoCommit(true);
+-		if (allCons.size() == 0) {
+-			new DatabaseSweeper(con).sweep();
+-		}
+ 		allCons.add(con);
+ 		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
+ 				+ freeCons.size());
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java	2007-08-07 07:47:20 UTC (rev 170)
+@@ -4,13 +4,14 @@
+ 
+ 	public static void run(String taskName, Runnable test)
+ 			throws RuntimeException {
+-		System.out.println(&quot;&gt; Start of &quot; + taskName);
++		System.out.println(&quot;&gt; Start of task \&quot;&quot; + taskName + &quot;\&quot; ...&quot;);
+ 		long start = System.currentTimeMillis();
+ 		try {
+ 			test.run();
+ 		} finally {
+-			System.out.println(&quot;&gt; Done with &quot; + taskName + &quot; in &quot;
+-					+ (System.currentTimeMillis() - start) / 1000.0);
++			System.out.println(&quot;&gt; Done with task \&quot;&quot; + taskName + &quot;\&quot; in &quot;
++					+ (System.currentTimeMillis() - start) / 1000.0
++					+ &quot;seconds.&quot;);
+ 		}
+ 	}
+ }
+
+Modified: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -2,10 +2,13 @@
+ # dm.instance		=hsqldb-intern
+ 
+ # Database
++db.create-db		=createdb-EMPTY.xml
++db.drop-db			=dropdb-hsqldb.xml
++
+ db.tables			=db_tables_hsqldb.sql
+ db.drop-tables		=db_drop.sql
+ db.close-session	=COMMIT_SHUTDOWN.sql
+ 
+-db.sysname			=sa
+-db.sysuser			=
++# db.sysname		=not needed
++db.sysuser			=${db.user}
+ db.sysurl			=${db.url}
+
+Added: branches/eschnepel/install/config/build-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/build-mysql.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/config/build-mysql.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,14 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++
++# Database
++db.create-db		=createdb-sql92.xml
++db.drop-db			=dropdb-sql92.xml
++
++db.tables			=db_tables_mysql.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=EMPTY.sql
++
++db.sysname			=mysql
++db.sysuser			=root
++db.sysurl			=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}
+
+Modified: branches/eschnepel/install/config/db-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -4,11 +4,11 @@
+ 
+ # Database
+ db.name				=DeepaMehta
+-db.userid			=sa
++db.user				=sa
+ db.password			=
+ db.driver			=org.hsqldb.jdbcDriver
+ db.lib				=${libpath}/hsqldb.jar
+-db.host				=127.0.0.1
+ 
+ db.hsqldb.path		=${client}/db/${db.name}
++
+ db.url				=jdbc:hsqldb:${db.hsqldb.path}
+
+Added: branches/eschnepel/install/config/db-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/config/db-mysql.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,14 @@
++# DeepaMehta Service
++# dm.instance		=mysql
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta2
++db.user				=dm2
++db.password			=dm
++db.driver			=org.gjt.mm.mysql.Driver
++db.lib				=${libpath}/mysql-3.1.7.jar
++
++db.host				=127.0.0.1
++
++db.url				=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=latin1
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/config/dm.properties	2007-08-07 07:47:20 UTC (rev 170)
+@@ -1,5 +1,6 @@
+ # DeepaMehta Service
+-dm.instance			=hsqldb-intern
++dm.instance			=mysql
++#dm.instance			=hsqldb-intern
+ dm.host				=localhost
+ dm.port				=7557
+ 
+@@ -8,4 +9,3 @@
+ libpath				=../../libs
+ 
+ dm.instance.property-file=${config}/db-${dm.instance}.properties
+-dm.instance.build-property-file=${config}/db-${dm.instance}.properties
+
+Added: branches/eschnepel/install/db/createdb-EMPTY.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-EMPTY.xml	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/db/createdb-EMPTY.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,5 @@
++&lt;project name=&quot;DeepaMehta-db-createdb-EMPTY&quot; &gt;
++	&lt;target name=&quot;createdb&quot;&gt;
++		&lt;echo message=&quot;There is nothing to do to create a db for this type database&quot;/&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Copied: branches/eschnepel/install/db/createdb-sql92.xml (from rev 168, branches/eschnepel/install/db/db_create.sql)
+===================================================================
+--- branches/eschnepel/install/db/db_create.sql	2007-08-05 18:51:16 UTC (rev 168)
++++ branches/eschnepel/install/db/createdb-sql92.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,12 @@
++&lt;project name=&quot;DeepaMehta-db-createdb-sql92&quot; &gt;
++&lt;!-- DeepaMehta Database creation script.--&gt;
++&lt;!-- must run as database root user.--&gt;
++	&lt;target name=&quot;createdb&quot;&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
++			CREATE DATABASE ${db.name};
++			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
++			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
++		&lt;/sql&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Deleted: branches/eschnepel/install/db/db_create.sql
+===================================================================
+--- branches/eschnepel/install/db/db_create.sql	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/db/db_create.sql	2007-08-07 07:47:20 UTC (rev 170)
+@@ -1,7 +0,0 @@
+--- DeepaMehta Database creation script for use with MySQL.
+--- must run as MySQL root user.
+-
+-
+-CREATE DATABASE DeepaMehta;
+-GRANT ALL PRIVILEGES ON DeepaMehta.* TO <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">dm at localhost</A> IDENTIFIED BY 'dm' WITH GRANT OPTION;
+-GRANT ALL PRIVILEGES ON DeepaMehta.* TO dm@&quot;%&quot; IDENTIFIED BY 'dm' WITH GRANT OPTION;
+
+Added: branches/eschnepel/install/db/dropdb-hsqldb.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-hsqldb.xml	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/db/dropdb-hsqldb.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,17 @@
++&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
++	&lt;target name=&quot;dropdb&quot;&gt;
++		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
++		&lt;delete&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;${db.hsqldb.path}.*&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/delete&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Added: branches/eschnepel/install/db/dropdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-07 07:43:45 UTC (rev 169)
++++ branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-07 07:47:20 UTC (rev 170)
+@@ -0,0 +1,19 @@
++&lt;project name=&quot;DeepaMehta-db-dropedb-sql92&quot; &gt;
++	&lt;target name=&quot;dropdb&quot;&gt;
++		&lt;echo message=&quot;You are about to drop the DeepaMehta database '${db.name}' and the user '${db.user}'.&quot;/&gt;
++		&lt;echo message=&quot;You will be asked for the database ${db.sysuser} user password.&quot;/&gt;
++		&lt;echo message=&quot;If you want drop another database and user, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=...&quot;/&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot;/&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot;/&gt;
++		&lt;/condition&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot;/&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
++			DROP DATABASE ${db.name};
++			DELETE FROM user where User='${db.user}';
++			DELETE FROM db where Db='${db.name}';
++		&lt;/sql&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000014.html">[deepamehta-svn] r169 - branches/eschnepel/install/db
+</A></li>
+	<LI>Next message: <A HREF="000016.html">[deepamehta-svn] r171 - branches/eschnepel/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

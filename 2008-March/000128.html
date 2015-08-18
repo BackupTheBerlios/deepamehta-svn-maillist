@@ -1,0 +1,537 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r283%20-%20in%20trunk%3A%20.%20install/examples/artfacts%0A%09install/examples/dm-browser%20install/examples/dm-search%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/kompetenzstern%20install/examples/ldap%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200803021428.m22EShQ4029176%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000127.html">
+   <LINK REL="Next"  HREF="000129.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r283%20-%20in%20trunk%3A%20.%20install/examples/artfacts%0A%09install/examples/dm-browser%20install/examples/dm-search%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/kompetenzstern%20install/examples/ldap%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200803021428.m22EShQ4029176%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar  2 15:28:43 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000127.html">[deepamehta-svn] r282 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000129.html">[deepamehta-svn] r284 - in trunk: . install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-02 15:28:41 +0100 (Sun, 02 Mar 2008)
+New Revision: 283
+
+Modified:
+   trunk/build-development.xml
+   trunk/build.xml
+   trunk/install/examples/artfacts/build.xml
+   trunk/install/examples/dm-browser/build.xml
+   trunk/install/examples/dm-search/build.xml
+   trunk/install/examples/dm-topicmapviewer/build.xml
+   trunk/install/examples/dm-web/build.xml
+   trunk/install/examples/kompetenzstern/build.xml
+   trunk/install/examples/ldap/build.xml
+   trunk/install/examples/messageboard/build.xml
+   trunk/install/examples/movies/build.xml
+   trunk/setup.xml
+Log:
+messages and other stuff
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/build-development.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -201,6 +201,7 @@
+ 			&lt;fileset dir=&quot;${build}&quot; /&gt;
+ 		&lt;/delete&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
++			&lt;property name=&quot;example.executeall&quot; value=&quot;true&quot; /&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;cleanup&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+@@ -232,6 +233,7 @@
+ 				
+ 				&lt;echo message=&quot;calling the examples&quot;/&gt;
+ 				&lt;ant target=&quot;-call-examples&quot;&gt;
++					&lt;property name=&quot;example.executeall&quot; value=&quot;true&quot; /&gt;
+ 					&lt;property name=&quot;target&quot; value=&quot;-strip&quot; /&gt;
+ 				&lt;/ant&gt;
+ 				
+@@ -273,7 +275,12 @@
+ 					&lt;fileset dir=&quot;${config}&quot; includes=&quot;*derby*.properties&quot; /&gt;
+ 					&lt;fileset dir=&quot;install/examples/movies/config&quot; includes=&quot;*derby*.properties&quot; /&gt;
+ 				&lt;/delete&gt;
+-	
++
++				&lt;echo message=&quot;who is artfacts?&quot;/&gt;
++				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
++					&lt;fileset dir=&quot;install/examples/artfacts&quot; /&gt;
++				&lt;/delete&gt;
++
+ 				&lt;echo message=&quot;self destruction&quot;/&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset file=&quot;build-development.xml&quot; /&gt;
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -273,31 +273,47 @@
+ 	&lt;target name=&quot;-call-examples-noweb-intern&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;ldap&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;LDAP-Client&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;movies&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Movies database&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-call-examples-web-intern&quot; if=&quot;do.web.deploy&quot;&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot; /&gt;
+-		&lt;/ant&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-search&quot; /&gt;
+-		&lt;/ant&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-topicmapviewer&quot; /&gt;
+-		&lt;/ant&gt;
+-		&lt;ant target=&quot;-call-example&quot;&gt;
+-			&lt;property name=&quot;example&quot; value=&quot;dm-web&quot; /&gt;
+-		&lt;/ant&gt;
++	&lt;target name=&quot;-call-examples-web-intern&quot;&gt;
++		&lt;if&gt;
++			&lt;or&gt;
++				&lt;isset property=&quot;do.web.deploy&quot;/&gt;
++				&lt;istrue value=&quot;${example.executeall}&quot;/&gt;
++			&lt;/or&gt;
++			&lt;then&gt;
++				&lt;ant target=&quot;-call-example&quot;&gt;
++					&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++				&lt;/ant&gt;
++				&lt;ant target=&quot;-call-example&quot;&gt;
++					&lt;property name=&quot;example&quot; value=&quot;dm-search&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++				&lt;/ant&gt;
++				&lt;ant target=&quot;-call-example&quot;&gt;
++					&lt;property name=&quot;example&quot; value=&quot;dm-topicmapviewer&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;web based Topicmap-viewer&quot; /&gt;
++				&lt;/ant&gt;
++				&lt;ant target=&quot;-call-example&quot;&gt;
++					&lt;property name=&quot;example&quot; value=&quot;dm-web&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++				&lt;/ant&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-examples-both-intern&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;kompetenzstern&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Kompetenzstern&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;messageboard&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Messageboard&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-external-apps&quot;&gt;
+@@ -321,7 +337,9 @@
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
++				&lt;!--
+ 				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++				--&gt;
+ 			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+@@ -340,10 +358,30 @@
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
++				&lt;!--
+ 				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++				--&gt;
+ 			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in external application &quot;${app-dir}&quot;&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;tomcat-start&quot;&gt;
++		&lt;exec executeable=&quot;${tomcat.root}/bin/startup.sh&quot; dir=&quot;${client}&quot;&gt;
++			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
++			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
++		&lt;/exec&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;tomcat-stop&quot;&gt;
++		&lt;exec executeable=&quot;${tomcat.root}/bin/shutdown.sh&quot; dir=&quot;${client}&quot;&gt;
++			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
++			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
++		&lt;/exec&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;tomcat-log&quot;&gt;
++		&lt;exec executeable=&quot;tail&quot;&gt;
++			&lt;arg value=&quot;-f&quot;/&gt;
++			&lt;arg value=&quot;${tomcat.root}/logs/catalina.out&quot;/&gt;
++		&lt;/exec&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/artfacts/build.xml
+===================================================================
+--- trunk/install/examples/artfacts/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/artfacts/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -35,13 +35,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 	
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/install/examples/dm-browser/build.xml
+===================================================================
+--- trunk/install/examples/dm-browser/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/dm-browser/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -46,13 +46,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-search/build.xml
+===================================================================
+--- trunk/install/examples/dm-search/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/dm-search/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -49,13 +49,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-topicmapviewer/build.xml
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/dm-topicmapviewer/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -47,13 +47,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-web/build.xml
+===================================================================
+--- trunk/install/examples/dm-web/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/dm-web/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -46,13 +46,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/kompetenzstern/build.xml
+===================================================================
+--- trunk/install/examples/kompetenzstern/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/kompetenzstern/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -74,13 +74,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/install/examples/ldap/build.xml
+===================================================================
+--- trunk/install/examples/ldap/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/ldap/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -34,13 +34,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/install/examples/messageboard/build.xml
+===================================================================
+--- trunk/install/examples/messageboard/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/messageboard/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -65,13 +65,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/install/examples/movies/build.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -85,13 +85,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot; include=&quot;**&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot;/&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-03-01 23:18:18 UTC (rev 282)
++++ trunk/setup.xml	2008-03-02 14:28:41 UTC (rev 283)
+@@ -54,17 +54,16 @@
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;y&quot;&gt;
+ 			&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;input message=&quot;Do you want to install the example web applications (Tomcat must 
+-already be installed)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
++		&lt;input message=&quot;Do you want to install the example web applications (Tomcat must be installed already)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+ 			&lt;then&gt;
+ 				&lt;var name=&quot;web.deploy.do&quot; value=&quot;false&quot; /&gt;
+-				&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot; /&gt;
++				&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot; /&gt;&lt;!--unset--&gt;
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
++				&lt;var name=&quot;web.deploy.do&quot; value=&quot;true&quot; /&gt;
+ 				&lt;var name=&quot;do.web.deploy&quot; value=&quot;true&quot; /&gt;
+-				&lt;var name=&quot;web.deploy.do&quot; value=&quot;true&quot; /&gt;
+ 			&lt;/else&gt;
+ 		&lt;/if&gt;
+ 		&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
+@@ -83,7 +82,9 @@
+ 		&lt;var name=&quot;path&quot; value=&quot;${config}&quot; /&gt;
+ 		&lt;var name=&quot;prefix&quot; value=&quot;dm&quot; /&gt;
+ 		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
+-		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot; /&gt;
++		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
++			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to configure&quot;/&gt;
++		&lt;/antcallback&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+ 				&lt;not&gt;
+@@ -109,10 +110,7 @@
+ 				&lt;if&gt;
+ 					&lt;equals arg1=&quot;${setup.default-instance}&quot; arg2=&quot;y&quot; /&gt;
+ 					&lt;then&gt;
+-&lt;!--						&lt;propertyfile file=&quot;${config.properties}&quot;&gt;
+-							&lt;entry key=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+-						&lt;/propertyfile&gt;
+---&gt;						&lt;propertyfile file=&quot;${config}/config.properties&quot;&gt;
++						&lt;propertyfile file=&quot;${config}/config.properties&quot;&gt;
+ 							&lt;entry key=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
+ 						&lt;/propertyfile&gt;
+ 					&lt;/then&gt;
+@@ -160,6 +158,7 @@
+ 	&lt;target name=&quot;-config-examples&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;config&quot; /&gt;
++			&lt;property name=&quot;example.ask.verb&quot; value=&quot;installed&quot;/&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+@@ -170,7 +169,10 @@
+ 			&lt;or&gt;
+ 				&lt;istrue value=&quot;${configuration.isactive}&quot; /&gt;
+ 				&lt;not&gt;
+-					&lt;isset property=&quot;example.execute&quot; /&gt;
++					&lt;or&gt;
++						&lt;isset property=&quot;example.execute&quot; /&gt;
++						&lt;isset property=&quot;example.executeall&quot; /&gt;
++					&lt;/or&gt;
+ 				&lt;/not&gt;
+ 			&lt;/or&gt;
+ 			&lt;then&gt;
+@@ -183,8 +185,25 @@
+ 						&lt;var name=&quot;default&quot; value=&quot;n&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
++				&lt;if&gt;
++					&lt;not&gt;
++						&lt;isset property=&quot;example.ask.verb&quot;/&gt;
++					&lt;/not&gt;
++					&lt;then&gt;
++						&lt;var name=&quot;example.ask.verb&quot; value=&quot;processed&quot;/&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++				&lt;if&gt;
++					&lt;isset property=&quot;example.name&quot;/&gt;
++					&lt;then&gt;
++						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example.name}' (${example})&quot;/&gt;
++					&lt;/then&gt;
++					&lt;else&gt;
++						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}'&quot;/&gt;
++					&lt;/else&gt;
++				&lt;/if&gt;
+ 				&lt;var name=&quot;input&quot; unset=&quot;true&quot; /&gt;
+-				&lt;input message=&quot;Shall the example ${example} be processed?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
++				&lt;input message=&quot;Shall the example application ${example.complete-name} be ${example.ask.verb}?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
+ 				&lt;var name=&quot;default&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;if&gt;
+ 					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot; /&gt;
+@@ -204,7 +223,10 @@
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
+ 				&lt;if&gt;
+-					&lt;istrue value=&quot;${example.execute}&quot; /&gt;
++					&lt;or&gt;
++						&lt;istrue value=&quot;${example.execute}&quot; /&gt;
++						&lt;istrue value=&quot;${example.executeall}&quot; /&gt;
++					&lt;/or&gt;
+ 					&lt;then&gt;
+ 						&lt;var name=&quot;do.example.execute&quot; value=&quot;true&quot; /&gt;
+ 					&lt;/then&gt;
+@@ -217,7 +239,15 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-which-generic-instance&quot;&gt;
+-		&lt;echo&gt;Please select one of the following instance configurations:&lt;/echo&gt;
++		&lt;if&gt;
++			&lt;not&gt;
++				&lt;isset property=&quot;message&quot;/&gt;
++			&lt;/not&gt;
++			&lt;then&gt;
++				&lt;var name=&quot;message&quot; value=&quot;Please select one of the following instance configurations:&quot;/&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++		&lt;echo&gt;${message}&lt;/echo&gt;
+ 		&lt;echo /&gt;
+ 		&lt;for param=&quot;list.instance.config.file&quot;&gt;
+ 			&lt;path&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000127.html">[deepamehta-svn] r282 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000129.html">[deepamehta-svn] r284 - in trunk: . install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

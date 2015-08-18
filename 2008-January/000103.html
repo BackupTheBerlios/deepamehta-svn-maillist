@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r258 - trunk/develop/src/de/deepamehta/util
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r258%20-%20trunk/develop/src/de/deepamehta/util&In-Reply-To=%3C200801191304.m0JD42IZ015275%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000102.html">
+   <LINK REL="Next"  HREF="000104.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r258 - trunk/develop/src/de/deepamehta/util</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r258%20-%20trunk/develop/src/de/deepamehta/util&In-Reply-To=%3C200801191304.m0JD42IZ015275%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r258 - trunk/develop/src/de/deepamehta/util">jri at mail.berlios.de
+       </A><BR>
+    <I>Sat Jan 19 14:04:02 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000102.html">[deepamehta-svn] r257 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+        <LI>Next message: <A HREF="000104.html">[deepamehta-svn] r259 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/icons	install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-01-19 14:03:59 +0100 (Sat, 19 Jan 2008)
+New Revision: 258
+
+Modified:
+   trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+Log:
+Bug #12968 fixed (Contents containg single quote character (') are not stored)
+
+Modified: trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-01-17 17:05:51 UTC (rev 257)
++++ trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-01-19 13:03:59 UTC (rev 258)
+@@ -34,7 +34,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 15.11.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 19.1.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+  * Malte Rei&szlig;ig&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+@@ -454,22 +454,26 @@
+ 	}
+ 
+ 	static public String replace(String str, char oldChar, String newStr) {
+-		return str.replaceAll(&quot;&quot;+oldChar, newStr);
+-//		int pos = str.indexOf(oldChar);
+-//		if (pos == -1) {
+-//			return str;
+-//		}
+-//		//
+-//		StringBuffer result = new StringBuffer();
+-//		int pos0 = 0;
+-//		while (pos != -1) {
+-//			result.append(str.substring(pos0, pos));
+-//			result.append(newStr);
+-//			pos0 = pos + 1;
+-//			pos = str.indexOf(oldChar, pos0);
+-//		}
+-//		result.append(str.substring(pos0));
+-//		return result.toString();
++		// ### return str.replaceAll(&quot;&quot;+oldChar, newStr);
++		// ###
++		// ### replaceAll() works with regexps and ist NOT compatible with the following regexp-less solution
++		// ### The difference regards Quoting: a backslash in a Java string must be quoted: \\
++		// ### BUT within regexps each backslash must be quoted again: \\\\
++		int pos = str.indexOf(oldChar);
++		if (pos == -1) {
++			return str;
++		}
++		//
++		StringBuffer result = new StringBuffer();
++		int pos0 = 0;
++		while (pos != -1) {
++			result.append(str.substring(pos0, pos));
++			result.append(newStr);
++			pos0 = pos + 1;
++			pos = str.indexOf(oldChar, pos0);
++		}
++		result.append(str.substring(pos0));
++		return result.toString();
+ 	}
+ 
+ 	static public String replaceLF(String text) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000102.html">[deepamehta-svn] r257 - trunk/develop/src/de/deepamehta/service/web
+</A></li>
+	<LI>Next message: <A HREF="000104.html">[deepamehta-svn] r259 - in trunk: develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/icons	install/client/images
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r180 - branches/eschnepel
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r180%20-%20branches/eschnepel&In-Reply-To=%3C200708271114.l7RBE3xa011923%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r180 - branches/eschnepel</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r180%20-%20branches/eschnepel&In-Reply-To=%3C200708271114.l7RBE3xa011923%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r180 - branches/eschnepel">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 27 13:14:03 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-27 13:14:02 +0200 (Mon, 27 Aug 2007)
+New Revision: 180
+
+Modified:
+   branches/eschnepel/build.xml
+Log:
+derby integration
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-27 11:13:09 UTC (rev 179)
++++ branches/eschnepel/build.xml	2007-08-27 11:14:02 UTC (rev 180)
+@@ -22,6 +22,8 @@
+ 		&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+ 		&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+ 		&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/spring-core.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/commons-logging.jar&quot;/&gt;
+ 	&lt;/path&gt;
+ 
+ 	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+@@ -110,7 +112,7 @@
+ 	&lt;!-- The target createdb has been &quot;outsourced&quot; to ${db.drop-db}--&gt;
+ 
+ 	&lt;target name=&quot;createtables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;${db.tables}&quot;/&gt;
+ 			&lt;/fileset&gt;
+@@ -121,7 +123,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;initdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;cm.sql&quot;/&gt;
+ 				&lt;include name=&quot;email.sql&quot;/&gt;
+@@ -129,6 +131,11 @@
+ 				&lt;include name=&quot;webcrawler.sql&quot;/&gt;
+ 				&lt;include name=&quot;whois.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
++		&lt;/sql&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;movies/movies.sql&quot;/&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot;/&gt;
+@@ -136,6 +143,11 @@
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot;/&gt;
+ 				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
++		&lt;/sql&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+ 				&lt;include name=&quot;names.sql&quot;/&gt;
+ 				&lt;include name=&quot;help.sql&quot;/&gt;
+@@ -147,7 +159,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;droptables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+ 				&lt;include name=&quot;${db.drop-tables}&quot;/&gt;
+ 			&lt;/fileset&gt;
+@@ -180,7 +192,7 @@
+ 			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot;/&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset&gt;
+ 				&lt;include name=&quot;${patch}&quot;/&gt;
+ 			&lt;/fileset&gt;
+@@ -248,6 +260,7 @@
+ 			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/util/*.class&quot;/&gt;
+ 			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot;/&gt;
+ 			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot;/&gt;
+ 			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot;/&gt;
+@@ -280,6 +293,7 @@
+ 		&lt;jar jarfile=&quot;${server}/DeepaMehtaService.jar&quot; basedir=&quot;${build}&quot;&gt;
+ 			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/util/**/*.class&quot;/&gt;
+ 			&lt;manifest&gt;
+ 				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot;/&gt;
+ 				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
+@@ -393,10 +407,10 @@
+ 	&lt;!-- Fix --&gt;
+ 
+ 	&lt;target name=&quot;fixdb&quot; depends=&quot;build&quot; description=&quot;fixes invalid HTML&quot;&gt;
+-		&lt;java classname=&quot;de.deepamehta.service.DBFix&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
++		&lt;java classname=&quot;de.deepamehta.service.db.DBFix&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
++				&lt;path refid=&quot;javalibs&quot;/&gt;
+ 			&lt;/classpath&gt;
+ 			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+         &lt;/java&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[deepamehta-svn] r179 - in branches/eschnepel:	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db install/config install/db
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[deepamehta-svn] r181 - in branches/eschnepel: . install/config	install/db install/examples/movies install/examples/movies/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,3097 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r166 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install install/db/patches libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r166%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install%20install/db/patches%20libs&In-Reply-To=%3C200707251626.l6PGQ92m017911%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000010.html">
+   <LINK REL="Next"  HREF="000012.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r166 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install install/db/patches libs</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r166%20-%20in%20branches/eschnepel%3A%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/assocs%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install%20install/db/patches%20libs&In-Reply-To=%3C200707251626.l6PGQ92m017911%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r166 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install install/db/patches libs">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Jul 25 18:26:09 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000010.html">[deepamehta-svn] r165 - branches
+</A></li>
+        <LI>Next message: <A HREF="000012.html">[deepamehta-svn] r167 - in branches/ldap: .	develop/src/de/deepamehta/service install/examples/ldap	install/examples/ldap/src/de/deepamehta/topics	install/examples/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-07-25 18:26:05 +0200 (Wed, 25 Jul 2007)
+New Revision: 166
+
+Added:
+   branches/eschnepel/develop/src/de/deepamehta/TopicGeometry.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+   branches/eschnepel/install/examples/
+   branches/eschnepel/libs/jimi-1.0.jar
+Modified:
+   branches/eschnepel/develop/src/de/deepamehta/BaseAssociation.java
+   branches/eschnepel/develop/src/de/deepamehta/BaseTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+   branches/eschnepel/develop/src/de/deepamehta/Detail.java
+   branches/eschnepel/develop/src/de/deepamehta/PresentableTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+   branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+   branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateTopicMap.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+   branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/Session.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/WebSession.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+Log:
+merge 145:HEAD
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/BaseAssociation.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/BaseAssociation.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/BaseAssociation.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -40,8 +40,6 @@
+ 	protected String topicID2;
+ 	protected int topicVersion1;
+ 	protected int topicVersion2;
+-	// ### private String roletype1;
+-	// ### private String roletype2;
+ 
+ 
+ 
+@@ -86,8 +84,6 @@
+ 		this.topicVersion1 = in.readInt();
+ 		this.topicID2 = in.readUTF();
+ 		this.topicVersion2 = in.readInt();
+-		// ### this.roletype1 = in.readUTF();
+-		// ### this.roletype2 = in.readUTF();
+ 	}
+ 
+ 	/**
+@@ -154,8 +150,6 @@
+ 		out.writeInt(getTopicVersion1());
+ 		out.writeUTF(getTopicID2());
+ 		out.writeInt(getTopicVersion2());
+-		// ### out.writeUTF(getRoletype1());
+-		// ### out.writeUTF(getRoletype2());
+ 	}
+ 
+ 
+@@ -207,14 +201,4 @@
+ 	public void setTopicID2(String id){
+ 		this.topicID2 = id;
+ 	}
+-
+-	/* ### ---
+-
+-	public String getRoletype1() {
+-		return roletype1;
+-	}
+-
+-	public String getRoletype2() {
+-		return roletype2;
+-	} */
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/BaseTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/BaseTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/BaseTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -51,7 +51,7 @@
+ 	 * Standard constructor.
+ 	 *
+ 	 * @see		de.deepamehta.service.RelationalCorporateMemory#queryBaseTopics(String query)
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public BaseTopic(String id, int version, String type, int typeVersion, String name) {
+ 		this.id = id;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/BaseTopicMap.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -143,17 +143,9 @@
+ 	 * @see		de.deepamehta.service.ApplicationService#deleteLiveTopic
+ 	 */
+ 	public void deleteTopic(String topicID) {
+-		/* ### error check
+-		Topic topic = getTopic(topicID);
+-		if (topic instanceof PresentationTopic) {
+-			if (((PresentationTopic) topic).getEdges().hasMoreElements()) {
+-				System.out.println(&quot;*** WARNING: &quot; + topic + &quot; with registered edges is deleted&quot;);
+-			}
+-		} */
+ 		if (topics.remove(topicID) == null) {
+ 			System.out.println(&quot;*** BaseTopicMap.deleteTopic(): \&quot;&quot; + topicID + &quot;\&quot; not found -- topic not deleted&quot;);
+ 		}
+-		// ### System.out.println(&quot;&gt;&gt;&gt; topic \&quot;&quot; + topicID + &quot;\&quot; deleted from topicmap (&quot; + getClass() + &quot;)&quot;);
+ 	}
+ 	
+ 	/**
+@@ -163,7 +155,6 @@
+ 		if (associations.remove(assocID) == null) {
+ 			System.out.println(&quot;*** BaseTopicMap.deleteAssociation(): \&quot;&quot; + assocID + &quot;\&quot; not found -- association not deleted&quot;);
+ 		}
+-		// ### System.out.println(&quot;&gt;&gt;&gt; association \&quot;&quot; + assocID + &quot;\&quot; deleted from topicmap (&quot; + getClass() + &quot;)&quot;);
+ 	}
+ 
+ 	// ---
+@@ -247,9 +238,6 @@
+ 	 */
+ 	protected final void addTopic(String id, Topic topic) {
+ 		Object o = topics.put(id, topic);
+-		/* ### if (o != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic + &quot; added to topicmap (&quot; + getClass() + &quot;) OVERRIDDEN&quot;);
+-		} */
+ 	}
+ 
+ 	/**
+@@ -258,8 +246,5 @@
+ 	 */
+ 	protected final void addAssociation(String id, Association association) {
+ 		Object o = associations.put(id, association);
+-		/* ### if (o != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + association + &quot; added to topicmap (&quot; + getClass() + &quot;) OVERRIDDEN&quot;);
+-		} */
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 6.7.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -94,6 +94,10 @@
+ 	static final String PROPERTY_TO = &quot;To&quot;;
+ 	static final String PROPERTY_STATUS = &quot;Status&quot;;
+ 	static final String PROPERTY_DATE = &quot;Date&quot;;
++	static final String PROPERTY_BEGIN_DATE = &quot;Begin Date&quot;;
++	static final String PROPERTY_BEGIN_TIME = &quot;Begin Time&quot;;
++	static final String PROPERTY_END_DATE = &quot;End Date&quot;;
++	static final String PROPERTY_END_TIME = &quot;End Time&quot;;
+ 	static final String PROPERTY_LAST_REPLY_DATE = &quot;Last Reply Date&quot;;
+ 	static final String PROPERTY_LAST_REPLY_TIME = &quot;Last Reply Time&quot;;
+ 	static final String PROPERTY_BEGIN = &quot;Begin&quot;;
+@@ -130,9 +134,9 @@
+ 	static final String PROPERTY_ORDINAL_NUMBER = &quot;Ordinal Number&quot;;
+ 	static final String PROPERTY_ACCESS_PERMISSION = &quot;Access Permission&quot;;
+ 	static final String PROPERTY_CARDINALITY = &quot;Cardinality&quot;;
+-	static final String PROPERTY_ASSOCIATION_TYPE_ID = &quot;Association Type ID&quot;;	// &quot;relation&quot;
+-	static final String PROPERTY_WEB_INFO = &quot;Web Info&quot;;						// &quot;relation&quot;
+-	static final String PROPERTY_WEB_FORM = &quot;Web Form&quot;;					// &quot;relation&quot;
++	static final String PROPERTY_ASSOCIATION_TYPE_ID = &quot;Association Type ID&quot;;	// &quot;Relation&quot;
++	static final String PROPERTY_WEB_INFO = &quot;Web Info&quot;;							// &quot;Relation&quot;
++	static final String PROPERTY_WEB_FORM = &quot;Web Form&quot;;							// &quot;Relation&quot;
+ 	// ### static final String PROPERTY_STRONG = &quot;Strong&quot;;
+ 	static final String PROPERTY_PUBLIC = &quot;Public&quot;;
+ 	static final String PROPERTY_DEFAULT_WORKSPACE = &quot;Default&quot;;
+@@ -143,6 +147,8 @@
+ 	static final String PROPERTY_SEARCH = &quot;Search&quot;;								// &quot;TopicSearch&quot;
+ 	static final String PROPERTY_RELATED_TOPIC_ID = &quot;RelatedTopicID&quot;;			// &quot;Search&quot;
+ 	static final String PROPERTY_RELATED_TOPIC_SEMANTIC = &quot;AssociationTypeID&quot;;	// &quot;Search&quot;
++	static final String PROPERTY_ROLE_EDITOR = &quot;Editor&quot;;						// &quot;Membership&quot;
++	static final String PROPERTY_ROLE_PUBLISHER = &quot;Publisher&quot;;					// &quot;Membership&quot;
+ 	// property values
+ 	static final String PERMISSION_VIEW = &quot;view&quot;;
+ 	static final String PERMISSION_CREATE = &quot;create&quot;;
+@@ -165,7 +171,7 @@
+ 	static final String DATE_SEPARATOR = &quot;/&quot;;
+ 	static final String TIME_SEPARATOR = &quot;:&quot;;
+ 	static final String[] monthNames = {&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;};
+-	static final int YEAR_MIN = 1900;
++	static final int YEAR_MIN = 1850;
+ 	static final int YEAR_MAX = 2010;
+ 	static final String PARAM_SEPARATOR = &quot;_&quot;;	// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
+ 	static final String LEVEL_SEPARATOR = &quot;:&quot;;
+@@ -501,6 +507,8 @@
+ 	static final String TOPICTYPE_FAX_NUMBER = &quot;tt-faxnumber&quot;;
+ 	static final String TOPICTYPE_EMAIL_ADDRESS = &quot;tt-emailaddress&quot;;
+ 	static final String TOPICTYPE_EMAIL = &quot;tt-email&quot;;
++	static final String TOPICTYPE_CALENDAR = &quot;tt-calendar&quot;;
++	static final String TOPICTYPE_EVENT = &quot;tt-event&quot;;
+ 	static final String TOPICTYPE_DOCUMENT = &quot;tt-document&quot;;
+ 	static final String TOPICTYPE_IMAGE = &quot;tt-image&quot;;
+ 	static final String TOPICTYPE_WEBPAGE = &quot;tt-webpage&quot;;
+@@ -547,15 +555,15 @@
+ 
+ 
+ 
+-	// direction is from origin view to personal view
++	// direction is from origin topic map to personal topic map
+ 	static final String SEMANTIC_ORIGIN_MAP = ASSOCTYPE_DERIVATION;
+ 
+-	// direction is from personal view to workgroup
++	// direction is from personal topic map to workspace
+ 	static final String SEMANTIC_ORIGIN_WORKSPACE = ASSOCTYPE_PUBLISHING;
+ 
+ 	// *** User --&gt; Workgroup, Workspace, Configuration Map ***
+ 
+-	// direction is from user to workgroup
++	// direction is from user to workspace
+ 	static final String SEMANTIC_MEMBERSHIP = ASSOCTYPE_MEMBERSHIP;
+ 
+ 	// direction is from user to MIME Configuration
+@@ -564,14 +572,14 @@
+ 	// direction is from user to email address
+ 	static final String SEMANTIC_EMAIL_ADDRESS = ASSOCTYPE_ASSOCIATION;
+ 
+-	// direction is from user to view
++	// direction is from user to topic map
+ 	static final String SEMANTIC_VIEW_IN_USE = ASSOCTYPE_VIEW_IN_USE;
+ 
+ 	// direction is from authentification source to login topic
+ 	static final String SEMANTIC_AUTHENTIFICATION_SOURCE = ASSOCTYPE_ASSOCIATION;
+ 
+-	// direction is from user resp. workgroup to workspace
+-	static final String SEMANTIC_WORKSPACE = ASSOCTYPE_AGGREGATION;
++	// direction is from user resp. workspace to workspace topicmap
++	static final String SEMANTIC_WORKSPACE_TOPICMAP = ASSOCTYPE_AGGREGATION;
+ 
+ 	// *** Deployer (User resp. Workspace) --&gt; Workspace Topicmap ***
+ 
+@@ -580,10 +588,10 @@
+ 
+ 	// *** Workgroup resp. User --&gt; Type ***
+ 
+-	// direction is from user resp. workgroup to topic type
+-	static final String SEMANTIC_WORKGROUP_TYPES = ASSOCTYPE_USES;
++	// direction is from user resp. workspace to topic type
++	static final String SEMANTIC_WORKSPACE_TYPES = ASSOCTYPE_USES;
+ 
+-	// direction is from workgroup to association type
++	// direction is from workspace to association type
+ 	static final String SEMANTIC_MEMBERSHIP_TYPE = ASSOCTYPE_ASSOCIATION;
+ 
+ 	// *** Document Type --&gt; MIME Type --&gt; Application ***
+@@ -631,7 +639,7 @@
+ 
+ 	// *** Preferences ***
+ 
+-	// direction is from user resp. workgroup to somewhat
++	// direction is from user resp. workspace to somewhat
+ 	static final String SEMANTIC_PREFERENCE = ASSOCTYPE_PREFERENCE;
+ 
+ 	// ---
+@@ -649,8 +657,13 @@
+ 	// direction is from chat board to chat
+ 	static final String SEMANTIC_CHAT = ASSOCTYPE_ASSOCIATION;
+ 
++	// *** Calendar ***
+ 
++	// direction is from calendar to event
++	static final String SEMANTIC_CALENDAR_EVENT = ASSOCTYPE_ASSOCIATION;
+ 
++
++
+ 	// ----------------
+ 	// --- Requests ---
+ 	// ----------------
+@@ -670,7 +683,7 @@
+ 	static final int REQUEST_EXEC_ASSOC_COMMAND_CHAINED = 8;
+ 	static final int REQUEST_PROCESS_ASSOC_DETAIL = 9;
+ 	static final int REQUEST_SET_ASSOC_DATA = 10;
+-	// --- view requests ---
++	// --- topic map requests ---
+ 	static final int REQUEST_SET_GEOMETRY = 11;		// ### should be a message
+ 	static final int REQUEST_SET_TRANSLATION = 12;	// ### should be a message
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -9,7 +9,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 13.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -210,7 +210,7 @@
+ 
+ 
+ 
+-	// --- parseHexColor (3 forms) ---
++	// --- parseHexColor (4 forms) ---
+ 
+ 	public static Color parseHexColor(String color) {
+ 		return parseHexColor(color, 255);
+@@ -228,17 +228,16 @@
+ 		}
+ 	}
+ 
+-	// ### to be dropped
+ 	public static Color parseHexColor(String color, String defaultColor) {
+ 		return parseHexColor(color, parseHexColor(defaultColor, Color.white));
+ 	}
+ 
+-	// ### to be dropped
++	/**
++	 * @param	color	a string of format #rrggbb, may be &lt;code&gt;null&lt;/code&gt; or empty.
++	 */
+ 	public static Color parseHexColor(String color, Color defaultColor) {
+ 		try {
+-			if (color.length() == 0) {
+-				System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaUtils.parseHexColor(): no &quot; +
+-					&quot;color specified -- default color used&quot;);
++			if (color == null || color.length() == 0) {
+ 				return defaultColor;
+ 			}
+ 			//
+@@ -294,6 +293,41 @@
+ 
+ 
+ 
++	// ---
++
++	public static Rectangle getBounds(PresentableTopicMap topicmap) {
++		return initBounds(topicmap, null);
++	}
++
++	public static Rectangle initBounds(PresentableTopicMap topicmap, Rectangle returnObject) {
++		int xMin = Integer.MAX_VALUE;
++		int yMin = Integer.MAX_VALUE;
++		int xMax = Integer.MIN_VALUE;
++		int yMax = Integer.MIN_VALUE;
++		//
++		Enumeration e = topicmap.getTopics().elements();
++		while (e.hasMoreElements()) {
++			PresentableTopic topic = (PresentableTopic) e.nextElement();
++			Point p = topic.getGeometry();
++			if (p.x &lt; xMin) xMin = p.x;
++			if (p.x &gt; xMax) xMax = p.x;
++			if (p.y &lt; yMin) yMin = p.y;
++			if (p.y &gt; yMax) yMax = p.y;
++		}
++		//
++		if (returnObject == null) {
++			returnObject = new Rectangle();
++		}
++		returnObject.x = xMin;
++		returnObject.y = yMin;
++		returnObject.width = xMax - xMin;
++		returnObject.height = yMax - yMin;
++		//
++		return returnObject;
++	}
++
++	// ---
++
+ 	/**
+ 	 * References checked: 4.9.2001 (2.0a12-pre1)
+ 	 *
+@@ -482,7 +516,7 @@
+ 		return xml.toString();
+ 	}
+ 
+-	// ---
++	// --- quoteHTML (2 forms) ---
+ 
+ 	static public String quoteHTML(String text) {
+ 		return quoteHTML(text, false);
+@@ -511,6 +545,8 @@
+ 		return quotedText.toString();
+ 	}
+ 
++	// ---
++
+ 	static private String getWord(StringBuffer str, int fromIndex) {
+ 		int i = fromIndex;
+ 		while (i &lt; str.length() &amp;&amp; Character.isLetter(str.charAt(i))) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Detail.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Detail.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/Detail.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -109,7 +109,7 @@
+ 	 * &lt;P&gt;
+ 	 * References checked: 2.1.2002 (2.0a15-pre5)
+ 	 *
+-	 * @see		de.deepamehta.service.CorporateDetail#CorporateDetail(Detail, ApplicationService)
++	 * @see		de.deepamehta.service.CorporateDetail#CorporateDetail(Detail, de.deepamehta.service.ApplicationService)
+ 	 * @see		de.deepamehta.client.PresentationDetail#PresentationDetail
+ 	 */
+ 	public Detail(Detail detail) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/PresentableTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/PresentableTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/PresentableTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -311,7 +311,7 @@
+ 	}
+ 
+ 	/**
+-	 * @see		ApplicationService#initTopicLock
++	 * @see		de.deepamehta.service.ApplicationService#initTopicLock
+ 	 * @see		RelationalCorporateMemory#queryPresentableTopics(String query)
+ 	 * @see		PresentationTopicMap#setTopicLock
+ 	 */
+
+Copied: branches/eschnepel/develop/src/de/deepamehta/TopicGeometry.java (from rev 165, trunk/develop/src/de/deepamehta/TopicGeometry.java)
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/assocs/LiveAssociation.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -331,8 +331,43 @@
+ 		return null;
+ 	}
+ 
++	/**
++	 * Applications can use this hook to disable certain properties of this association.
++	 * Disabled properties are visible but not editable by the user.
++	 * &lt;P&gt;
++	 * This hook can be utilized to implement an access control mechanism.
++	 * The default implementation realizes the following rule: an association is only editable
++	 * if the current user
++	 * 1) is the owner of the association, or&lt;br&gt;
++	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
++	 * 3) has the &quot;Editor&quot; role within a workspace the resp. association type is assigned to.
++	 * &lt;P&gt;
++	 * This hook is triggered every time this association is selected.
++	 *
++	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
++	 *
++	 * @return		A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 */
++	public Vector disabledProperties(Session session) {
++		// ### almost identical to LiveTopic.disabledProperties()
++		Vector disabledProps = new Vector();
++		//
++		TypeTopic type = as.type(this);
++		String userID = session.getUserID();
++		if (!as.isAssocOwner(getID(), session) &amp;&amp; !as.isAdministrator(userID) &amp;&amp; !as.hasEditorRole(userID, getType())) {
++			// disable all properties
++			Enumeration e = type.getTypeDefinition().elements();
++			while (e.hasMoreElements()) {
++				PropertyDefinition propDef = (PropertyDefinition) e.nextElement();
++				disabledProps.addElement(propDef.getPropertyName());
++			}
++		}
++		//
++		return disabledProps;
++	}
+ 
+ 
++
+ 	// ------------------------------
+ 	// --- Handling Detail Window ---
+ 	// ------------------------------
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/GraphPanel.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -186,29 +186,24 @@
+ 			private void paintNodes(Graphics g) {
+ 				Enumeration e = nodes.elements();
+ 				GraphNode node = null;
+-				// ### System.out.println(&quot;&gt;&gt;&gt; paintNodes():&quot;);
+ 				while (e.hasMoreElements()) {
+ 					try {
+ 						node = (GraphNode) e.nextElement();
+ 						paintNode(node, g);
+ 					} catch (DeepaMehtaException e2) {
+-						System.out.println(&quot;*** node &quot; + node + &quot; not painted (&quot; +
+-							e2.getMessage() + &quot;)&quot;);
+-						// ### e2.printStackTrace();
++						System.out.println(&quot;*** node &quot; + node + &quot; not painted (&quot; + e2.getMessage() + &quot;)&quot;);
+ 					}
+ 				}
+ 			}
+ 
+ 			private void paintEdges(Graphics g) {
+ 				Enumeration e = edges.elements();
+-				GraphEdge edge;
+-				Point p;
+ 				while (e.hasMoreElements()) {
+-					edge = (GraphEdge) e.nextElement();
++					GraphEdge edge = (GraphEdge) e.nextElement();
+ 					paintEdge(edge, g);
+ 				}
+ 				if (edgeInProgress) {
+-					p = selection.topic.getGeometry();
++					Point p = selection.topic.getGeometry();
+ 					g.setColor(EDGE_COLOR);
+ 					DeepaMehtaUtils.paintLine(g, p.x, p.y, ex - translation.x, ey - translation.y, true);
+ 				}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/MessagePanel.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -15,7 +15,7 @@
+  * The message panel the client uses to notify the user about certain circumstances.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 3.5.2003 (2.0a18-pre10)&lt;BR&gt;
++ * Last functional change: 10.12.2006 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 10.11.2000 (2.0a7-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -78,12 +78,12 @@
+ 			System.out.print(&quot;&gt; MessagePanel: loading icons and sounds ... &quot;);
+ 			// Note: +1 counts the &quot;empty&quot; icon
+ 			for (int i = 0; i &lt;= NOTIFICATION_COUNT; i++) {
+-				infoIcons[i] = new ImageIcon(ps.applet.getImage(ps.applet.getDocumentBase(),
++				infoIcons[i] = new ImageIcon(ps.applet.getImage(ps.applet.getCodeBase(),
+ 					FILESERVER_IMAGES_PATH + NOTIFICATION_ICONS[i]));
+ 			}
+ 			if (PLAY_SOUNDS) {
+ 				for (int i = 1; i &lt;= NOTIFICATION_COUNT; i++) {
+-					newMessageClip[i] = ps.applet.getAudioClip(ps.applet.getDocumentBase(),
++					newMessageClip[i] = ps.applet.getAudioClip(ps.applet.getCodeBase(),
+ 						FILESERVER_SOUNDS_PATH + NOTIFICATION_SOUNDS[i]);
+ 				}
+ 			}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationDirectives.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -21,7 +21,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 6.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -83,12 +83,9 @@
+ 					directives.addElement(new Directive(type, param1, param3));
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
++				case DIRECTIVE_SELECT_ASSOCIATION:
+ 					directives.addElement(new Directive(type, param1, param2, param3, param4, param5));
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					// Note: param3 (disables properties) not yet implemented ###
+-					directives.addElement(new Directive(type, param1, param2, param4, param5));
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// Note: param3 (retype allowed?) not yet implemented ###
+ 					directives.addElement(new Directive(type, param1, param2, param4));
+@@ -287,6 +284,7 @@
+ 					directives.addElement(new Directive(type, param1, param2));
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
++				case DIRECTIVE_SELECT_ASSOCIATION:
+ 					param1 = in.readUTF();
+ 					param2 = DeepaMehtaUtils.readHashtable(in);
+ 					param3 = DeepaMehtaUtils.readStrings(in);
+@@ -294,14 +292,6 @@
+ 					param5 = DeepaMehtaUtils.readHashtable(in);
+ 					directives.addElement(new Directive(type, param1, param2, param3, param4, param5));
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					param1 = in.readUTF();
+-					param2 = DeepaMehtaUtils.readHashtable(in);
+-					// ### param3 = DeepaMehtaUtils.readStrings(in);
+-					param4 = new Boolean(in.readBoolean());
+-					param5 = DeepaMehtaUtils.readHashtable(in);
+-					directives.addElement(new Directive(type, param1, param2, param4, param5));
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					param1 = DeepaMehtaUtils.readHashtable(in);
+ 					param2 = DeepaMehtaUtils.readStrings(in);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -35,7 +35,7 @@
+  * Main controler of the graphical DeepaMehta frontend.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -324,9 +324,12 @@
+ 	}
+ 
+ 	/**
++	 * References checked: 11.12.2006 (2.0b8)
++	 *
+ 	 * @param	applet		may be &lt;CODE&gt;null&lt;/CODE&gt;
+ 	 *
+ 	 * @see		DeepeMehtaClient#init				(running as applet)
++	 * @see		de.deepamehta.service.DeepeMehta#init
+ 	 */
+ 	public void setApplet(Applet applet) {
+ 		if (applet != null) {
+@@ -1288,10 +1291,10 @@
+ 					//
+ 					assocID = (String) param1;
+ 					props = (Hashtable) param2;
+-					// ### Vector disabledProps = (Vector) param3;
+-					retypeIsAllowed = ((Boolean) param3).booleanValue();
+-					baseURLs = (Hashtable) param4;
+-					selectAssociation(assocID, props, baseURLs, retypeIsAllowed, topicmapID, viewMode);
++					disabledProps = (Vector) param3;
++					retypeIsAllowed = ((Boolean) param4).booleanValue();
++					baseURLs = (Hashtable) param5;
++					selectAssociation(assocID, props, baseURLs, disabledProps, retypeIsAllowed, topicmapID, viewMode);
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// error check
+@@ -1808,14 +1811,14 @@
+ 	 *
+ 	 * @see		#processDirectives
+ 	 */
+-	private void selectAssociation(String assocID, Hashtable props, Hashtable baseURLs, boolean retypeIsAllowed,
++	private void selectAssociation(String assocID, Hashtable props, Hashtable baseURLs, Vector disabledProps, boolean retypeIsAllowed,
+ 															String topicmapID, String viewmode) {
+ 		TopicmapEditorModel editor = getEditor(topicmapID);
+ 		editor.selectAssociation(assocID);
+ 		// --- update property panel ---
+ 		PresentationTopicMap topicmap = editor.getTopicMap();
+ 		BaseAssociation assoc = (BaseAssociation) topicmap.getAssociation(assocID);
+-		propertyPanel.assocSelected(assoc, topicmap, viewmode, props, baseURLs /* ###, disabledProps */, retypeIsAllowed);
++		propertyPanel.assocSelected(assoc, topicmap, viewmode, props, baseURLs, disabledProps, retypeIsAllowed);
+ 	}
+ 
+ 	/**
+@@ -2262,7 +2265,7 @@
+ 			if (runsAsApplet) {
+ 				System.out.println(&quot;&gt; PresentationService.playSound(): \&quot;&quot; +
+ 					soundfile + &quot;\&quot;&quot;);
+-				applet.play(applet.getDocumentBase(), FILESERVER_SOUNDS_PATH + soundfile);
++				applet.play(applet.getCodeBase(), FILESERVER_SOUNDS_PATH + soundfile);
+ 			} else {
+ 				// ###
+ 				showMessage(&quot;Playing sounds not yet supported if running as application (&quot; + soundfile +
+@@ -2397,6 +2400,12 @@
+ 	 * @see		#processDirectives
+ 	 */
+ 	private void executeCommand(String command, String param) {
++		// ### hack for Mac OS X: the application is ignored, the file is opened with &quot;open&quot; instead.
++		// ### I don't know how to start Mac OS X applications with Runtime.exec().
++		if (platform.equals(PLATFORM_MACOSX)) {
++			command = &quot;open&quot;;
++		}
++		//
+ 		String[] cmd = {command, FILESERVER_DOCUMENTS_PATH + param};
+ 		String cmdStr = &quot;\&quot;&quot; + cmd[0] + &quot; &quot; + cmd[1] + &quot;\&quot;&quot;;	// just for reporting
+ 		try {
+@@ -2635,7 +2644,7 @@
+ 	public Image getImage(String imagefile) {
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; PresentationService.getImage(): \&quot;&quot; + imagefile + &quot;\&quot;&quot;);
+ 		if (runsAsApplet) {
+-			return applet.getImage(applet.getDocumentBase(), imagefile);
++			return applet.getImage(applet.getCodeBase(), imagefile);
+ 		} else {
+ 			return Toolkit.getDefaultToolkit().createImage(imagefile);
+ 		}
+@@ -2868,8 +2877,12 @@
+ 
+ 
+ 	/**
++	 * References checked: 11.12.2006 (2.0b8)
++	 *
+ 	 * @see		DeepaMehtaClient#initApplication
+ 	 * @see		DeepaMehtaClient#init
++	 * @see		de.deepamehta.service.DeepeMehta#initApplication
++	 * @see		de.deepamehta.service.DeepeMehta#init
+ 	 */
+ 	public Component createLoginGUI() {
+ 		JPanel p1 = new JPanel();
+@@ -2894,11 +2907,16 @@
+ 	}
+ 
+ 	/**
++	 * References checked: 11.12.2006 (2.0b8)
++	 *
+ 	 * @see		DeepaMehtaClient#init
++	 * @see		de.deepamehta.service.DeepeMehta#init
+ 	 */
+ 	public Component createStartDemoGUI() {
+-		startDemoButton = new JButton(START_DEMO_LABEL);
+-		startDemoButton.setBackground(COLOR_PROPERTY_PANEL);
++		String label = applet.getParameter(&quot;BUTTON_LABEL&quot;);
++		String color = applet.getParameter(&quot;BACKGROUND_COLOR&quot;);
++		startDemoButton = new JButton(label != null ? label : START_DEMO_LABEL);
++		startDemoButton.setBackground(DeepaMehtaUtils.parseHexColor(color, COLOR_PROPERTY_PANEL));
+ 		startDemoButton.setActionCommand(&quot;startdemo&quot;);
+ 		startDemoButton.addActionListener(this);
+ 		return startDemoButton;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -26,7 +26,7 @@
+  * {@link PresentationTopic}'s, {@link PresentationAssociation}'s and {@link PresentationType}'s.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 1.5.2003 (2.0a18-pre10)&lt;BR&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -103,7 +103,7 @@
+ 	/**
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+ 	 * &lt;P&gt;
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(Directives, PresentationService)
+ 	 */
+@@ -125,7 +125,7 @@
+ 	 * &lt;P&gt;
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+ 	 * &lt;P&gt;
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(DataInputStream, PresentationService)
+ 	 */
+@@ -312,7 +312,7 @@
+ 			this.bgImage = ps.getImage(FILESERVER_BACKGROUNDS_PATH + bgImagefile);
+ 		}
+ 		// background color
+-		String defaultColor = viewMode == VIEWMODE_USE ? DEFAULT_VIEW_BGCOLOR : DEFAULT_BGCOLOR_DESIGN;
++		String defaultColor = DEFAULT_VIEW_BGCOLOR;
+ 		this.bgColor = DeepaMehtaUtils.parseHexColor(bgColorcode, defaultColor);
+ 		// translation
+ 		this.translation = DeepaMehtaUtils.parsePoint(translationCoord);	// translationCoord is defined in superclass
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PropertyPanel.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -32,7 +32,7 @@
+  * &lt;P&gt;
+  * There is one instance created (singleton).
+  * &lt;HR&gt;
+- * Last functional change: 5.2.2005 (2.0b5)&lt;BR&gt;
++ * Last functional change: 8.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 10.6.2001 (2.0a11-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -371,7 +371,7 @@
+ 	 * @see		PresentationService#selectTopic
+ 	 */
+ 	void topicSelected(BaseTopic topic, PresentationTopicMap topicmap, String viewmode,
+-									Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++							Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
+ 		setSelection(topic, topicmap, viewmode, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		updateTopic(topic);
+ 	}
+@@ -379,9 +379,9 @@
+ 	/**
+ 	 * @see		PresentationService#selectAssociation
+ 	 */
+-	void assocSelected(BaseAssociation assoc, PresentationTopicMap topicmap,
+-												String viewmode, Hashtable props, Hashtable baseURLs, boolean retypeIsAllowed) {
+-		setSelection(assoc, topicmap, viewmode, props, baseURLs, retypeIsAllowed);
++	void assocSelected(BaseAssociation assoc, PresentationTopicMap topicmap, String viewmode,
++							Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++		setSelection(assoc, topicmap, viewmode, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		updateAssoc(assoc);
+ 	}
+ 
+@@ -533,8 +533,8 @@
+ 	 * Updates the model to reflect the specified association is selected now.
+ 	 */
+ 	private void setSelection(BaseAssociation assoc, PresentationTopicMap topicmap,
+-					String viewmode, Hashtable props, Hashtable baseURLs /* ###, Vector disabledProperties */, boolean retypeIsAllowed) {
+-		Selection selection = new Selection(topicmap, assoc, props, baseURLs /* ###, disabledProperties */, retypeIsAllowed);
++					String viewmode, Hashtable props, Hashtable baseURLs, Vector disabledProperties, boolean retypeIsAllowed) {
++		Selection selection = new Selection(topicmap, assoc, props, baseURLs, disabledProperties, retypeIsAllowed);
+ 		currentSelection = topicmap.getID() + &quot;:&quot; + viewmode;
+ 		selections.put(currentSelection, selection);
+ 		selected = SELECTED_ASSOCIATION;
+@@ -797,7 +797,7 @@
+ 			checkPropertyFields(typeID);
+ 			selectDataPanel(typeID);
+ 			showProperties(getProperties(), getBaseURLs(), typeID, true);	// all=true
+-			// ### disableProperties();
++			disableProperties();
+ 		} else if (selected == SELECTED_TOPICMAP) {
+ 			String typeID = getTopicmap().getEditor().getTopicmap().getType();
+ 			checkPropertyFields(typeID);
+@@ -877,7 +877,7 @@
+ 	 */
+ 	private void disableProperties() {
+ 		// --- get property fields ---
+-		Vector propertyFields = getPropertyFields();		// ### assocs
++		Vector propertyFields = getPropertyFields();
+ 		// error check
+ 		if (propertyFields == null) {
+ 			System.out.println(&quot;*** PropertyPanel.disableProperties(): no property &quot; +
+@@ -885,15 +885,12 @@
+ 			return;
+ 		}
+ 		// ---
+-		Enumeration e = propertyFields.elements();
+-		PropertyField propField;
+-		String propName;
+-		boolean enabled;
+ 		// go through all fields of the type definition		
++		Enumeration e = propertyFields.elements();
+ 		while (e.hasMoreElements()) {
+-			propField = (PropertyField) e.nextElement();
+-			propName = propField.getName();
+-			enabled = !getDisabledProperties().contains(propName);
++			PropertyField propField = (PropertyField) e.nextElement();
++			String propName = propField.getName();
++			boolean enabled = !getDisabledProperties().contains(propName);
+ 			propField.setEnabled(enabled);
+ 		}
+ 	}
+@@ -1706,12 +1703,12 @@
+ 		 * @see		PropertyPanel#setSelection(BaseAssociation assoc, PresentationTopicMap topicmap, String viewmode, Hashtable props)
+ 		 */
+ 		Selection(PresentationTopicMap topicmap, BaseAssociation assoc, Hashtable props, Hashtable baseURLs,
+-																	/* ###, Vector disabledProps */ boolean retypeIsAllowed) {
++																			Vector disabledProps, boolean retypeIsAllowed) {
+ 			this.topicmap = topicmap;
+ 			this.assoc = assoc;
+ 			this.props = props;
+ 			this.baseURLs = baseURLs;
+-			// ### this.disabledProps = disabledProps;
++			this.disabledProps = disabledProps;
+ 			this.retypeIsAllowed = retypeIsAllowed;
+ 			this.selected = SELECTED_ASSOCIATION;
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -429,32 +429,14 @@
+ 	// ---
+ 
+ 	/**
+-	 * References checked: 29.4.2003 (2.0a18-pre10)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		TopicmapEditorModel#TopicmapEditorModel
+ 	 * @see		PresentationService#updateBounds
+ 	 * @see		PresentationService#processDirectives	4x
+ 	 */
+ 	void setBounds() {
+-		int xMin = Integer.MAX_VALUE;
+-		int yMin = Integer.MAX_VALUE;
+-		int xMax = Integer.MIN_VALUE;
+-		int yMax = Integer.MIN_VALUE;
+-		//
+-		Enumeration e = topicMap.getTopics().elements();
+-		while (e.hasMoreElements()) {
+-			PresentationTopic topic = (PresentationTopic) e.nextElement();
+-			Point p = topic.getGeometry();
+-			if (p.x &lt; xMin) xMin = p.x;
+-			if (p.x &gt; xMax) xMax = p.x;
+-			if (p.y &lt; yMin) yMin = p.y;
+-			if (p.y &gt; yMax) yMax = p.y;
+-		}
+-		//
+-		bounds.x = xMin;
+-		bounds.y = yMin;
+-		bounds.width = xMax - xMin;
+-		bounds.height = yMax - yMin;
++		DeepaMehtaUtils.initBounds(topicMap, bounds);
+ 	}
+ 
+ 	void addDetailListeners(JInternalFrame detailWindow) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -50,7 +50,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1088,22 +1088,42 @@
+ 
+ 	/**
+ 	 * Returns the properties to be disabled for the specified topic.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Triggers the {@link de.deepamehta.topics.LiveTopic#disabledProperties disabledProperties() hook}
+ 	 * and returns the resulting property names.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Called for &lt;CODE&gt;DIRECTIVE_SELECT_TOPIC&lt;/CODE&gt; and &lt;CODE&gt;DIRECTIVE_SELECT_TOPICMAP&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 7.6.2007 (2.0b8)
+ 	 *
+ 	 * @return	A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		CorporateCommands#addTopicPropertyCommands
+ 	 */
+-	Vector disabledProperties(String topicID, int version, Session session) {
++	Vector disabledTopicProperties(String topicID, int version, Session session) {
+ 		// --- trigger disabledProperties() hook ---
+ 		return getLiveTopic(topicID, version).disabledProperties(session);
+ 	}
+ 
++	/**
++	 * Returns the properties to be disabled for the specified association.
++	 * &lt;p&gt;
++	 * Triggers the {@link de.deepamehta.assocs.LiveAssociation#disabledProperties disabledProperties() hook}
++	 * and returns the resulting property names.
++	 * &lt;p&gt;
++	 * Called for &lt;CODE&gt;DIRECTIVE_SELECT_ASSOCIATION&lt;/CODE&gt;.
++	 * &lt;p&gt;
++	 * References checked: 7.6.2007 (2.0b8)
++	 *
++	 * @return	A vector of property names (&lt;CODE&gt;String&lt;/CODE&gt;s)
++	 *
++	 * @see		CorporateDirectives#updateCorporateMemory
++	 */
++	Vector disabledAssocProperties(String assocID, int version, Session session) {
++		// --- trigger disabledProperties() hook ---
++		return getLiveAssociation(assocID, version).disabledProperties(session);
++	}
++
+ 	// ---
+ 
+ 	Hashtable getTopicPropertyBaseURLs(String topicID, int version) {
+@@ -1120,14 +1140,23 @@
+ 
+ 	// ---
+ 
++	/**
++	 * @see		retypeTopicIsAllowed
++	 * @see		deleteTopicIsAllowed
++	 * @see		de.deepamehta.topics.LiveTopic#disabledProperties
++	 */
+ 	public boolean isTopicOwner(String topicID, Session session) {
+ 		String userID = session.getUserID();
+-		return getTopicProperty(topicID, 1, PROPERTY_OWNER_ID).equals(userID) || isAdministrator(userID);
++		return getTopicProperty(topicID, 1, PROPERTY_OWNER_ID).equals(userID);
+ 	}
+ 
++	/**
++	 * @see		retypeAssociationIsAllowed
++	 * @see		deleteAssociationIsAllowed
++	 */
+ 	public boolean isAssocOwner(String assocID, Session session) {
+ 		String userID = session.getUserID();
+-		return getAssocProperty(assocID, 1, PROPERTY_OWNER_ID).equals(userID) || isAdministrator(userID);
++		return getAssocProperty(assocID, 1, PROPERTY_OWNER_ID).equals(userID);
+ 	}
+ 
+ 	// ---
+@@ -1142,12 +1171,14 @@
+ 		TypeTopic type = type(getLiveTopic(topicID, version));
+ 		boolean isSearch = type.isSearchType();
+ 		boolean isTopicmap = type.hasSupertype(TOPICTYPE_TOPICMAP);
+-		return !isSearch &amp;&amp; !isTopicmap &amp;&amp; isTopicOwner(topicID, session);
++		String userID = session.getUserID();
++		return !isSearch &amp;&amp; !isTopicmap &amp;&amp; (isTopicOwner(topicID, session) || isAdministrator(userID));
+ 	}
+ 
+ 	boolean retypeAssociationIsAllowed(String assocID, int version, Session session) {
+ 		boolean isSearch = type(getLiveAssociation(assocID, version)).isSearchType();
+-		return !isSearch &amp;&amp; isAssocOwner(assocID, session);
++		String userID = session.getUserID();
++		return !isSearch &amp;&amp; (isAssocOwner(assocID, session) || isAdministrator(userID));
+ 	}
+ 
+ 	// ---
+@@ -1156,14 +1187,16 @@
+ 		// --- trigger deleteAllowed() hook ---
+ 		boolean allowed = getLiveTopic(topic).deleteAllowed(session);
+ 		//
+-		return allowed &amp;&amp; isTopicOwner(topic.getID(), session);
++		String userID = session.getUserID();
++		return allowed &amp;&amp; (isTopicOwner(topic.getID(), session) || isAdministrator(userID));
+ 	}
+ 
+ 	boolean deleteAssociationIsAllowed(BaseAssociation assoc, Session session) {
+ 		// ### --- trigger deleteAllowed() hook ---
+ 		// ### boolean allowed = getLiveTopic(topic).deleteAllowed(session);
+ 		//
+-		return isAssocOwner(assoc.getID(), session);
++		String userID = session.getUserID();
++		return isAssocOwner(assoc.getID(), session) || isAdministrator(userID);
+ 	}
+ 
+ 	// --- setTopicProperty (2 forms) ---
+@@ -1961,14 +1994,15 @@
+ 	/**
+ 	 * Retrieves the specified view from corporate memory and creates
+ 	 * a {@link de.deepamehta.PresentableTopicMap} object from it.
++	 * &lt;p&gt;
++	 * References checked: 5.4.2007 (2.0b8)
+ 	 *
+ 	 * @param	topicmapID	the view
+ 	 * @param	version		the version of the view
+-	 * @param	viewMode	the view mode ({@link #VIEWMODE_USE}, {@link #VIEWMODE_BUILD})
+ 	 *
+-	 * @see		CorporateTopicMap#CorporateTopicMap		2x
++	 * @see		CorporateTopicMap#CorporateTopicMap
+ 	 */
+-	PresentableTopicMap createUserView(String topicmapID, int version, String viewMode,
++	PresentableTopicMap createUserView(String topicmapID, int version,
+ 								String bgImage, String bgColor, String translation) {
+ 		// vector of PresentableTopic
+ 		// vector of PresentableAssociation
+@@ -1979,7 +2013,7 @@
+ 
+ 	/**
+ 	 * Duplicates the specified viewmode of the specified view in corporate memory.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 17.2.2003 (2.0a18-pre2)
+ 	 *
+ 	 * @param	topicmap		view to duplicate
+@@ -2361,7 +2395,7 @@
+ 	/**
+ 	 * Returns all workspaces the specified user is a member of.
+ 	 * &lt;P&gt;
+-	 * References checked: 15.2.2005 (2.0b5)
++	 * References checked: 7.6.2007 (2.0b8)
+ 	 *
+ 	 * @return	The workspaces as vector of {@link de.deepamehta.BaseTopic}s
+ 	 *			(type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+@@ -2374,8 +2408,9 @@
+ 	 * @see		de.deepamehta.topics.LiveTopic#handleWorkspaceCommand
+ 	 * @see		de.deepamehta.topics.UserTopic#contextCommands
+ 	 * @see		de.deepamehta.browser.BrowserServlet#preparePage
++	 * @see		de.deepamehta.webfrontend.WebFrontendServlet#preparePage
+ 	 */
+-	public Vector getWorkgroups(String userID) {
++	public Vector getWorkspaces(String userID) {
+ 		// Note: also subtypes of association type &quot;at-membership&quot; are respected
+ 		Vector subtypes = type(SEMANTIC_MEMBERSHIP, 1).getSubtypeIDs();
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; respect &quot; + subtypes.size() + &quot; association subtypes ...&quot;);
+@@ -2426,7 +2461,7 @@
+ 			assocProp = PROPERTY_ACCESS_PERMISSION;
+ 			propValue = permissionMode;
+ 		}
+-		return cm.getRelatedTopics(id, SEMANTIC_WORKGROUP_TYPES, TOPICTYPE_TOPICTYPE, 2, assocProp, propValue, true);
++		return cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_TOPICTYPE, 2, assocProp, propValue, true);
+ 		// sortAssociations=true
+ 	}
+ 
+@@ -2453,7 +2488,7 @@
+ 			assocProp = PROPERTY_ACCESS_PERMISSION;
+ 			propValue = permissionMode;
+ 		}
+-		return cm.getRelatedTopics(id, SEMANTIC_WORKGROUP_TYPES, TOPICTYPE_ASSOCTYPE, 2, assocProp, propValue, true);
++		return cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_ASSOCTYPE, 2, assocProp, propValue, true);
+ 		// sortAssociations=true
+ 	}
+ 
+@@ -2634,6 +2669,21 @@
+ 		return cm.getAssociationData(assoc.getID(), assoc.getVersion(), rolename).equals(SWITCH_ON);
+ 	}
+ 
++	/**
++	 * @param	typeID		a topic type ID or an association type ID
++	 */
++	public boolean hasEditorRole(String userID, String typeID) {
++		Vector workspaces = cm.getRelatedTopics(typeID, SEMANTIC_WORKSPACE_TYPES, TOPICTYPE_WORKSPACE, 1);
++		Enumeration e = workspaces.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic workspace = (BaseTopic) e.nextElement();
++			if (hasRole(userID, workspace.getID(), PROPERTY_ROLE_EDITOR)) {
++				return true;
++			}
++		}
++		return false;
++	}
++
+ 	public boolean isViewOpen(String viewID, String userID) {
+ 		return associationExists(userID, viewID, SEMANTIC_VIEW_IN_USE);
+ 	}
+@@ -2644,186 +2694,191 @@
+ 		return cm.associationExists(topicID1, topicID2, subtypes);
+ 	}
+ 
+-	// --- getChat (2 forms) ---
++	// --- getChatboard (2 forms) ---
+ 
+ 	/**
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
++	 * Returns the chatboard (type &lt;CODE&gt;tt-chatboard&lt;/CODE&gt;) of the specified workspace.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
++	 *
++	 * @return	the chatboard or &lt;code&gt;null&lt;/code&gt; if there is no chatboard.
++	 *
++	 * @see		#getChatboard(BaseTopic, CorporateDirectives)
+ 	 */
+-	public BaseTopic getChat(String workgroupID) throws AmbiguousSemanticException {
+-		BaseTopic workspace = getWorkspace(workgroupID);
+-		Vector chatIDs = cm.getTopicIDs(TOPICTYPE_CHAT_BOARD, workspace.getID());
++	public BaseTopic getChatboard(String workspaceID) throws AmbiguousSemanticException {
++		BaseTopic topicmap = getWorkspaceTopicmap(workspaceID);
++		Vector chatboardIDs = cm.getTopicIDs(TOPICTYPE_CHAT_BOARD, topicmap.getID());
+ 		// error check 1
+-		if (chatIDs.size() == 0) {
++		if (chatboardIDs.size() == 0) {
+ 			return null;
+ 		}
+ 		//
+-		String chatID = (String) chatIDs.firstElement();
+-		BaseTopic chatTopic = cm.getTopic(chatID, 1);	// ### version is set to 1
++		String chatboardID = (String) chatboardIDs.firstElement();
++		BaseTopic chatboard = cm.getTopic(chatboardID, 1);	// ### version is set to 1
+ 		// error check 2
+-		if (chatIDs.size() &gt; 1) {
+-			throw new AmbiguousSemanticException(&quot;Workgroup \&quot;&quot; + workgroupID +
+-				&quot;\&quot; has &quot; + chatIDs.size() + &quot; chats (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + chatTopic, chatTopic);
++		if (chatboardIDs.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;Workspace \&quot;&quot; + workspaceID + &quot;\&quot; has &quot; + chatboardIDs.size() +
++				&quot; chatboards (expected is 1) -- considering only &quot; + chatboard, chatboard);
+ 		}
+ 		//
+-		return chatTopic;
++		return chatboard;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getChat(String workgroupID)} that
+-	 * handles the exceptional cases by adding corresponding DIRECTIVE_SHOW_MESSAGE
++	 * Convenience method as a wrapper for {@link #getChatboard(String workspaceID)} that
++	 * handles the exceptional cases by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt;
+ 	 * directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	workgroup	a workgroup topic
++	 * @param	workspace	a workspace topic
+ 	 *
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 */
+-	public BaseTopic getChat(BaseTopic workgroup, CorporateDirectives directives) {
++	public BaseTopic getChatboard(BaseTopic workspace, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic chat = getChat(workgroup.getID());
++			BaseTopic chatboard = getChatboard(workspace.getID());
+ 			// error check
+-			if (chat == null) {
+-				System.out.println(&quot;*** ApplicationService.getChat(2): &quot; + this +
+-					&quot; has no chat&quot;);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE,
+-					&quot;Workgroup \&quot;&quot; + workgroup.getName() + &quot;\&quot; has no chat&quot;,
+-					new Integer(NOTIFICATION_WARNING));
++			if (chatboard == null) {
++				String errText = &quot;Workspace \&quot;&quot; + workspace.getName() + &quot;\&quot; has no chatboard&quot;;
++				System.out.println(&quot;*** ApplicationService.getChatboard(2): &quot; + errText);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+-			return chat;
++			return chatboard;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getChat(2): &quot; + e);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_WARNING));
++			System.out.println(&quot;*** ApplicationService.getChatboard(2): &quot; + e);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+ 	}
+ 
+-	// --- getMessageBoard (2 forms) ---
++	// --- getMessageboard (2 forms) ---
+ 
+ 	/**
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
++	 * Returns the messageboard (type &lt;CODE&gt;tt-messageboard&lt;/CODE&gt;) of the specified workspace.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
++	 *
++	 * @return	the messageboard or &lt;code&gt;null&lt;/code&gt; if there is no messageboard.
++	 *
++	 * @see		#getMessageboard(BaseTopic, CorporateDirectives)
+ 	 */
+-	public BaseTopic getMessageBoard(String workgroupID) throws AmbiguousSemanticException {
+-		BaseTopic workspace = getWorkspace(workgroupID);
+-		Vector boardIDs = cm.getTopicIDs(TOPICTYPE_MESSAGE_BOARD, workspace.getID());
++	public BaseTopic getMessageboard(String workspaceID) throws AmbiguousSemanticException {
++		BaseTopic topicmap = getWorkspaceTopicmap(workspaceID);
++		Vector messageboardIDs = cm.getTopicIDs(TOPICTYPE_MESSAGE_BOARD, topicmap.getID());
+ 		// error check 1
+-		if (boardIDs.size() == 0) {
++		if (messageboardIDs.size() == 0) {
+ 			return null;
+ 		}
+ 		//
+-		String boardID = (String) boardIDs.firstElement();
+-		BaseTopic messageBoard = cm.getTopic(boardID, 1);	// ### version is set to 1
++		String messageboardID = (String) messageboardIDs.firstElement();
++		BaseTopic messageboard = cm.getTopic(messageboardID, 1);	// ### version is set to 1
+ 		// error check 2
+-		if (boardIDs.size() &gt; 1) {
+-			// ### should not be an error
+-			throw new AmbiguousSemanticException(&quot;Workgroup \&quot;&quot; + workgroupID +
+-				&quot;\&quot; has &quot; + boardIDs.size() + &quot; message boards (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + messageBoard, messageBoard);
++		if (messageboardIDs.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;Workspace \&quot;&quot; + workspaceID + &quot;\&quot; has &quot; + messageboardIDs.size() +
++				&quot; messageboards (expected is 1) -- considering only &quot; + messageboard, messageboard);
+ 		}
+ 		//
+-		return messageBoard;
++		return messageboard;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getMessageBoard(String workgroupID)} that
+-	 * handles the exceptional cases by adding corresponding DIRECTIVE_SHOW_MESSAGE
++	 * Convenience method as a wrapper for {@link #getMessageboard(String workspaceID)} that
++	 * handles the exceptional cases by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt;
+ 	 * directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	workgroup	a workgroup topic
++	 * @param	workspace	a workspace topic
+ 	 *
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 */
+-	public BaseTopic getMessageBoard(BaseTopic workgroup, CorporateDirectives directives) {
++	public BaseTopic getMessageboard(BaseTopic workspace, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic messageBoard = getMessageBoard(workgroup.getID());
++			BaseTopic messageboard = getMessageboard(workspace.getID());
+ 			// error check
+-			if (messageBoard == null) {
+-				System.out.println(&quot;*** ApplicationService.getMessageBoard(2): &quot; + this +
+-					&quot; has no message board&quot;);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Workgroup \&quot;&quot; + workgroup.getName() +
+-					&quot;\&quot; has no message board&quot;, new Integer(NOTIFICATION_WARNING));
++			if (messageboard == null) {
++				String errText = &quot;Workspace \&quot;&quot; + workspace.getName() + &quot;\&quot; has no messageboard&quot;;
++				System.out.println(&quot;*** ApplicationService.getMessageboard(2): &quot; + errText);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+-			return messageBoard;
++			return messageboard;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getMessageBoard(2): &quot; + e);
++			System.out.println(&quot;*** ApplicationService.getMessageboard(2): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+ 	}
+ 
+-	// --- getWorkspace (2 forms) ---
++	// --- getWorkspaceTopicmap (2 forms) ---
+ 
+ 	/**
+-	 * Returns the workspace (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;) of the specified user
+-	 * resp. group or &lt;CODE&gt;null&lt;/CODE&gt; if the specified user resp. group has no
+-	 * workspace.
++	 * Returns the workspace topicmap (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;) of the specified user
++	 * resp. workspace or &lt;CODE&gt;null&lt;/CODE&gt; if the specified user resp. workspace has no
++	 * workspace topicmap.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. group
+-	 *					(type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;) topic
++	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+ 	 *
+-	 * @return	the topic representing the workspace (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;)
++	 * @return	the workspace topicmap (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;)
+ 	 *
+-	 * @throws	DeepaMehtaException		if the specified user resp. group topic is not in
+-	 *									ApplicationService resp. is not
+-	 *									properly initialized (iconfile is unknown)
+-	 * @see		#getChat
+-	 * @see		#getWorkspace(String id, CorporateDirectives directives)
+-	 * @see		#getCorporateSpace
+-	 * @see		InteractionConnection#addPersonalMap
+-	 * @see		InteractionConnection#addGroupMaps
+-	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.UserTopic#nameChanged
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
++	 * @throws	DeepaMehtaException		if the specified user resp. workspace is not in ApplicationService resp.
++	 *									is not properly initialized (iconfile is unknown)
++	 * @see		#getChatboard
++	 * @see		#getMessageboard
++	 * @see		#getWorkspaceTopicmap(String id, CorporateDirectives directives)
++	 * @see		#addPersonalWorkspace
++	 * @see		#addGroupWorkspaces
++	 * @see		de.deepamehta.topics.TopicMapTopic#publishTo
++	 * @see		de.deepamehta.topics.UserTopic#propertiesChanged
++	 * @see		de.deepamehta.topics.UserTopic#createPersonalWorkspace
++	 * @see		de.deepamehta.topics.WorkspaceTopic#propertiesChanged
+ 	 */
+-	public PresentableTopic getWorkspace(String id) throws DeepaMehtaException,
+-															AmbiguousSemanticException {
+-		Vector workspaces = cm.getRelatedTopics(id, SEMANTIC_WORKSPACE, TOPICTYPE_TOPICMAP, 2);
+-		if (workspaces.size() == 0) {
+-			// Note: this is not an exceptional condition because getWorkspace() is
+-			// also used for workspace existence check
++	public PresentableTopic getWorkspaceTopicmap(String id) throws DeepaMehtaException, AmbiguousSemanticException {
++		Vector topicmaps = cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TOPICMAP, TOPICTYPE_TOPICMAP, 2);
++		if (topicmaps.size() == 0) {
++			// Note: this is not an exceptional condition because getWorkspaceTopicmap() is
++			// also used for workspace topicmap existence check
+ 			return null;
+ 		}
+ 		//
+-		BaseTopic wsp = (BaseTopic) workspaces.firstElement();
+-		PresentableTopic workspace = createPresentableTopic(wsp, id);	// may throw DME
++		PresentableTopic topicmap = createPresentableTopic((BaseTopic) topicmaps.firstElement(), id);	// may throw DME
+ 		// error check
+-		if (workspaces.size() &gt; 1) {
+-			throw new AmbiguousSemanticException(&quot;User resp. workgroup \&quot;&quot; + id +
+-				&quot;\&quot; has &quot; + workspaces.size() + &quot; workspaces (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + workspace, workspace);
++		if (topicmaps.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;User resp. workspace \&quot;&quot; + id + &quot;\&quot; has &quot; + topicmaps.size() +
++				&quot; workspace topicmaps (expected is 1) -- considering only &quot; + topicmap, topicmap);
+ 		}
+ 		//
+-		return workspace;
++		return topicmap;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getWorkspace(String id)} that handles the exceptional cases by
+-	 * adding corresponding DIRECTIVE_SHOW_MESSAGE directives to the specified directives object.
+-	 * &lt;P&gt;
+-	 * References checked: 29.3.2003 (2.0a18-pre8)
++	 * Convenience method as a wrapper for {@link #getWorkspaceTopicmap(String id)} that handles the exceptional cases
++	 * by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt; directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	id		ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;) topic
++	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+ 	 *
+ 	 * @see		de.deepamehta.topics.UserTopic#nameChanged
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#joinUser
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#leaveUser
+ 	 */
+-	public BaseTopic getWorkspace(String id, CorporateDirectives directives) {
++	public BaseTopic getWorkspaceTopicmap(String id, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic workspace = getWorkspace(id);	// may throw DME
++			BaseTopic topicmap = getWorkspaceTopicmap(id);	// may throw DME
+ 			// error check
+-			if (workspace == null) {
+-				String errText = &quot;User resp. workgroup \&quot;&quot; + id + &quot;\&quot; has no workspace&quot;;
+-				System.out.println(&quot;*** ApplicationService.getWorkspace(2): &quot; + errText);
++			if (topicmap == null) {
++				String errText = &quot;User resp. workspace \&quot;&quot; + id + &quot;\&quot; has no workspace topicmap&quot;;
++				System.out.println(&quot;*** ApplicationService.getWorkspaceTopicmap(2): &quot; + errText);
+ 				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+ 			//
+-			return workspace;
++			return topicmap;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getWorkspace(2): &quot; + e);
++			System.out.println(&quot;*** ApplicationService.getWorkspaceTopicmap(2): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+@@ -3874,44 +3929,31 @@
+ 	 */
+ 	public void startSession(BaseTopic userTopic, Session session, CorporateDirectives directives) {
+ 		String userID = userTopic.getID();
+-		/* ### --- create user preferences ---
+-		BaseTopic userPrefs = getUserPreferences(userID, &quot;tt-preferences&quot;, directives);	// DME
+-		boolean splitScreen = getTopicProperty(userPrefs, PROPERTY_SPLIT_SCREEN).equals(SWITCH_ON);
+-		boolean showSidebar = getTopicProperty(userPrefs, PROPERTY_SHOW_SIDEBAR).equals(SWITCH_ON);
+-		boolean showBuildPanel = getTopicProperty(userPrefs, PROPERTY_SHOW_BUILD_PANEL).equals(SWITCH_ON);
+-		UserPreferences prefs = new UserPreferences(splitScreen, showSidebar, showBuildPanel); */
+ 		// --- initialize session ---
+ 		session.setDemo(false);
+ 		session.setLoggedIn(true);
+ 		session.setUserID(userID);
+ 		session.setUserName(userTopic.getName());
+-		// ### session.setUserPreferences(prefs);
+-		// ### session.setEmailChecker(new EmailChecker(userID, 1, this));	// ### threads are not stopped / creates to many threads on the server
++		// ### email checking is disabled. ### threads are not stopped / creates to many threads on the server
++		// ### session.setEmailChecker(new EmailChecker(userID, 1, this));
+ 		// --- report on server console ---
+ 		updateServerConsole();
+ 		// --- let client create the initial  GUI ---
+ 		addPersonalWorkspace(session, directives);	// adding workspaces
+ 		addGroupWorkspaces(session, directives);	// ### workspace order required
+-		// ### addCorporateSpace(session, directives);		// ### separate handling required?
+ 		addViewsInUse(session, directives);			// open views from previous session
+-		//
+-		// ### return prefs;
+ 	}
+ 
+ 	/**
+ 	 * @see		InteractionConnection#login
+ 	 */
+ 	public void startDemo(String demoMapID, Session session, CorporateDirectives directives) {
+-		// --- create user preferences ---
+-		// ### Note: the user preferences of a demo user are set to default values
+-		// ### UserPreferences prefs = new UserPreferences(false, true, true);		// splitScreen, showSidebar, showBuildPanel
+ 		// --- initialize session ---
+ 		String userName = &quot;Guest &quot; + session.getSessionID();
+ 		session.setDemo(true);
+ 		session.setLoggedIn(true);
+ 		// Note: a demo user has no ID (there is no tt-user topic for a demo user)
+ 		session.setUserName(userName);
+-		// ### session.setUserPreferences(prefs);
+ 		// --- report on server console ---
+ 		updateServerConsole();
+ 		//
+@@ -3928,8 +3970,6 @@
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;The demo is not available (&quot; + dme.getMessage() + &quot;)&quot;,
+ 				new Integer(NOTIFICATION_ERROR));
+ 		}
+-		//
+-		// ### return prefs;
+ 	}
+ 
+ 	// ---
+@@ -3992,7 +4032,7 @@
+ 		PresentableTopic personalWorkspace;
+ 		try {
+ 			String userID = session.getUserID();
+-			personalWorkspace = getWorkspace(userID);
++			personalWorkspace = getWorkspaceTopicmap(userID);
+ 			// error check
+ 			if (personalWorkspace == null) {
+ 				System.out.println(&quot;*** InteractionConnection.addPersonalWorkspace(): &quot; +
+@@ -4024,13 +4064,13 @@
+ 	 * @see		#startSession
+ 	 */
+ 	private void addGroupWorkspaces(Session session, CorporateDirectives directives) {
+-		Enumeration e = getWorkgroups(session.getUserID()).elements();
++		Enumeration e = getWorkspaces(session.getUserID()).elements();
+ 		while (e.hasMoreElements()) {
+ 			PresentableTopic groupWorkspace;
+ 			try {
+ 				BaseTopic workgroup = (BaseTopic) e.nextElement();
+ 				String workgroupID = workgroup.getID();
+-				groupWorkspace = getWorkspace(workgroupID);
++				groupWorkspace = getWorkspaceTopicmap(workgroupID);
+ 				if (groupWorkspace == null) {
+ 					System.out.println(&quot;*** InteractionConnection.addGroupWorkspaces():&quot; +
+ 						&quot; workgroup \&quot;&quot; + workgroupID + &quot;\&quot; has no workspace&quot;);
+@@ -4258,7 +4298,7 @@
+ 	 *									ApplicationService resp. is not
+ 	 *									properly initialized (iconfile is unknown)
+ 	 *
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalTopicmap
+ 	 */
+ 	public PresentableTopic createPresentableTopic(BaseTopic topic) throws DeepaMehtaException {
+ 		return createPresentableTopic(topic, topic.getID());
+@@ -4267,10 +4307,10 @@
+ 	/**
+ 	 * @throws	DeepaMehtaException		if the specified topic is not loaded resp. not
+ 	 *									properly initialized (iconfile is unknown)
+-	 * @see		#getWorkspace
++	 * @see		#getWorkspaceTopicmap
+ 	 * @see		#getCorporateSpace
+ 	 * @see		#createPresentableTopic(BaseTopic topic)	(above)
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public PresentableTopic createPresentableTopic(BaseTopic topic, String appTopicID)
+ 															throws DeepaMehtaException {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateCommands.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -24,7 +24,7 @@
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 9.10.2001 (2.0a12)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -126,43 +126,50 @@
+ 	 */
+ 	public void addPublishCommand(String topicmapID, Session session, CorporateDirectives directives) {
+ 		String userID = session.getUserID();
+-		String workgroupID;
++		String workspaceID;
++		int cmdState;
+ 		Commands commandGroup = addCommandGroup(as.string(ITEM_PUBLISH), FILESERVER_IMAGES_PATH, ICON_PUBLISH);
+-		BaseTopic workgroup = as.getOriginWorkspace(topicmapID);
+-		if (workgroup == null) {
++		BaseTopic workspace = as.getOriginWorkspace(topicmapID);
++		if (workspace == null) {
+ 			// this topicmap has been created in the users personal workspace originally -- it was never
+-			// published. Publishing policy is as follows: it can be published to all worspaces the user
+-			// has joined as well as to the default workspace if the user is an administrator
++			// published. Publishing policy is as follows: it can be published to all workspaces the user
++			// is a member of and has the &quot;Publisher&quot; role.
+ 			//
+ 			// enable publishing to users default workspace first
+ 			BaseTopic defaultWorkspace = as.getUsersDefaultWorkspace(userID, directives);
+ 			String defaultWorkspaceID = null;
+ 			if (defaultWorkspace != null) {
+-				workgroupID = defaultWorkspace.getID();
+-				defaultWorkspaceID = workgroupID;
+-				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace));
++				workspaceID = defaultWorkspace.getID();
++				defaultWorkspaceID = workspaceID;
++				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace), cmdState);
+ 				commandGroup.addSeparator();	// ### conditional
+ 			}
+ 			// enable publishing to other workspaces the user is a member of
+-			Vector workgroups = as.getWorkgroups(userID);
+-			Enumeration e = workgroups.elements();
++			Vector workspaces = as.getWorkspaces(userID);
++			Enumeration e = workspaces.elements();
+ 			while (e.hasMoreElements()) {
+-				BaseTopic workgroupTopic = (BaseTopic) e.nextElement();
+-				workgroupID = workgroupTopic.getID();
++				BaseTopic workspaceTopic = (BaseTopic) e.nextElement();
++				workspaceID = workspaceTopic.getID();
+ 				// skip default workspace
+-				if (workgroupID.equals(defaultWorkspaceID)) {
++				if (workspaceID.equals(defaultWorkspaceID)) {
+ 					continue;
+ 				}
+-				commandGroup.addCommand(workgroupTopic.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-					FILESERVER_ICONS_PATH, as.getIconfile(workgroupTopic));
++				cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				commandGroup.addCommand(workspaceTopic.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++					FILESERVER_ICONS_PATH, as.getIconfile(workspaceTopic), cmdState);
+ 			}
+ 		} else {
+ 			// this topicmap is a personalized view originating from a shared workspace -- it can be published
+-			// &quot;back&quot; to its original workspace. Note: also the default workspace is a shared workspace.
+-			workgroupID = workgroup.getID();
+-			commandGroup.addCommand(workgroup.getName(), CMD_PUBLISH + &quot;:&quot; + workgroupID,
+-				FILESERVER_ICONS_PATH, as.getIconfile(workgroup));
++			// &quot;back&quot; to its original workspace.
++			workspaceID = workspace.getID();
++			cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
++				COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++			commandGroup.addCommand(workspace.getName(), CMD_PUBLISH + &quot;:&quot; + workspaceID,
++				FILESERVER_ICONS_PATH, as.getIconfile(workspace), cmdState);
+ 		}
+ 	}
+ 
+@@ -616,18 +623,18 @@
+ 			}
+ 			addTopicTypeCommands(commandsGroup, types, command, usePluralName);
+ 		}
+-		// --- add workgroup types ---
+-		Vector workgroups = as.getWorkgroups(userID);
+-		Enumeration e = workgroups.elements();
++		// --- add workspace types ---
++		Vector workspaces = as.getWorkspaces(userID);
++		Enumeration e = workspaces.elements();
+ 		boolean first = true;
+ 		while (e.hasMoreElements()) {
+-			BaseTopic workgroup = (BaseTopic) e.nextElement();
++			BaseTopic workspace = (BaseTopic) e.nextElement();
+ 			// skip default workspace
+-			if (workgroup.getID().equals(defaultWorkspaceID)) {
++			if (workspace.getID().equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+ 			//
+-			types = as.getTopicTypes(workgroup.getID(), permissionMode);
++			types = as.getTopicTypes(workspace.getID(), permissionMode);
+ 			if (!types.isEmpty()) {
+ 				if (first) {
+ 					if (!commandsGroup.isEmpty()) {
+@@ -636,8 +643,8 @@
+ 					first = false;
+ 				}
+ 				// create sub menu
+-				Commands cmdGroup = commandsGroup.addCommandGroup(workgroup.getName(),
+-					FILESERVER_ICONS_PATH, as.getLiveTopic(workgroup).getIconfile());
++				Commands cmdGroup = commandsGroup.addCommandGroup(workspace.getName(),
++					FILESERVER_ICONS_PATH, as.getLiveTopic(workspace).getIconfile());
+ 				addTopicTypeCommands(cmdGroup, types, command, usePluralName);
+ 			}
+ 		}
+@@ -674,17 +681,17 @@
+ 			// add association type commands
+ 			addAssocTypeCommands(commandsGroup, types, command, usePluralName);
+ 		}
+-		// --- add workgroup types ---
+-		Vector workgroups = as.getWorkgroups(userID);
+-		Enumeration e = workgroups.elements();
++		// --- add workspace types ---
++		Vector workspaces = as.getWorkspaces(userID);
++		Enumeration e = workspaces.elements();
+ 		boolean first = true;
+ 		while (e.hasMoreElements()) {
+-			BaseTopic workgroup = (BaseTopic) e.nextElement();
++			BaseTopic workspace = (BaseTopic) e.nextElement();
+ 			// skip default workspace
+-			if (workgroup.getID().equals(defaultWorkspaceID)) {
++			if (workspace.getID().equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+-			types = as.getAssociationTypes(workgroup.getID(), permissionMode);
++			types = as.getAssociationTypes(workspace.getID(), permissionMode);
+ 			if (!types.isEmpty()) {
+ 				if (first) {
+ 					if (!commandsGroup.isEmpty()) {
+@@ -693,8 +700,8 @@
+ 					first = false;
+ 				}
+ 				// create sub menu
+-				Commands cmdGroup = commandsGroup.addCommandGroup(workgroup.getName(),
+-					FILESERVER_ICONS_PATH, as.getLiveTopic(workgroup).getIconfile());
++				Commands cmdGroup = commandsGroup.addCommandGroup(workspace.getName(),
++					FILESERVER_ICONS_PATH, as.getLiveTopic(workspace).getIconfile());
+ 				addAssocTypeCommands(cmdGroup, types, command, usePluralName);
+ 			}
+ 		}
+@@ -720,14 +727,14 @@
+ 			types = as.getTopicTypes(defaultWorkspaceID, PERMISSION_CREATE_IN_WORKSPACE);
+ 			addWorkspaceTopicTypeCommands(types, session, directives);
+ 		}
+-		// --- add workgroup types ---
+-		Enumeration e = as.getWorkgroups(userID).elements();
++		// --- add workspace types ---
++		Enumeration e = as.getWorkspaces(userID).elements();
+ 		while (e.hasMoreElements()) {
+-			String workgroupID = ((BaseTopic) e.nextElement()).getID();
+-			if (workgroupID.equals(defaultWorkspaceID)) {
++			String workspaceID = ((BaseTopic) e.nextElement()).getID();
++			if (workspaceID.equals(defaultWorkspaceID)) {
+ 				continue;
+ 			}
+-			types = as.getTopicTypes(workgroupID, PERMISSION_CREATE_IN_WORKSPACE);
++			types = as.getTopicTypes(workspaceID, PERMISSION_CREATE_IN_WORKSPACE);
+ 			addWorkspaceTopicTypeCommands(types, session, directives);
+ 		}
+ 		// --- add user types ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -27,7 +27,7 @@
+  * with every constructor call).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 15.1.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -286,7 +286,7 @@
+ 					topicID = (String) param1;
+ 					// Note: param2 - param5 are set programatically
+ 					directive.param2 = as.getTopicProperties(topicID, 1);		// ### versions
+-					directive.param3 = as.disabledProperties(topicID, 1, session);
++					directive.param3 = as.disabledTopicProperties(topicID, 1, session);
+ 					directive.param4 = new Boolean(as.retypeTopicIsAllowed(topicID, 1, session));
+ 					directive.param5 = as.getTopicPropertyBaseURLs(topicID, 1);
+ 					break;
+@@ -294,14 +294,14 @@
+ 					assocID = (String) param1;
+ 					// Note: param2 - param5 are set programatically
+ 					directive.param2 = as.getAssocProperties(assocID, 1);		// ### versions
+-					// ### directive.param3 = as.disabledProperties(assocID, 1);
++					directive.param3 = as.disabledAssocProperties(assocID, 1, session);
+ 					directive.param4 = new Boolean(as.retypeAssociationIsAllowed(assocID, 1, session));
+ 					directive.param5 = as.getAssocPropertyBaseURLs(assocID, 1);
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					// Note: param1 - param4 are set programatically
+ 					directive.param1 = as.getTopicProperties(topicMapID, 1);	// ### versions
+-					directive.param2 = as.disabledProperties(topicMapID, 1, session);
++					directive.param2 = as.disabledTopicProperties(topicMapID, 1, session);
+ 					// ### directive.param3 = new Boolean(as.retypeIsAllowed(topicMapID, 1, session));
+ 					directive.param4 = as.getTopicPropertyBaseURLs(topicMapID, 1);
+ 					break;
+@@ -414,7 +414,7 @@
+ 				System.out.println(&quot;*** CorporateDirectives.updateCorporateMemory(): &quot; + e2 + &quot; (directive type: &quot; + dirType + &quot;)&quot;);
+ 				add(DIRECTIVE_SHOW_MESSAGE, &quot;Server error while updating the corporate memory according to a directive &quot; +
+ 					&quot;of type &quot; + dirType + &quot; (&quot; + e2.getMessage() + &quot;)&quot;, new Integer(NOTIFICATION_ERROR));
+-				// ### e2.printStackTrace();
++				e2.printStackTrace();
+ 			} catch (TopicInitException e2) {
+ 				// Note: may happen e.g. when a map containing a failed-to-open datasource is re-opened
+ 				System.out.println(&quot;*** CorporateDirectives.updateCorporateMemory(): &quot; + e2 + &quot; (directive type: &quot; + dirType + &quot;)&quot;);
+@@ -487,19 +487,13 @@
+ 					out.writeUTF((String) param3);					// topicmap ID
+ 					break;
+ 				case DIRECTIVE_SELECT_TOPIC:
+-					out.writeUTF((String) param1);								// topic ID
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// topic properties
++				case DIRECTIVE_SELECT_ASSOCIATION:
++					out.writeUTF((String) param1);								// topic/association ID
++					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// topic/association properties
+ 					DeepaMehtaUtils.writeStrings((Vector) param3, out);			// disabled properties
+ 					out.writeBoolean(((Boolean) param4).booleanValue());		// retype allowed?
+ 					DeepaMehtaUtils.writeHashtable((Hashtable) param5, out);	// base URLs
+ 					break;
+-				case DIRECTIVE_SELECT_ASSOCIATION:
+-					out.writeUTF((String) param1);								// association ID
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param2, out);	// association properties
+-					// ### DeepaMehtaUtils.writeStrings((Vector) param3, out);	// disabled properties
+-					out.writeBoolean(((Boolean) param4).booleanValue());		// retype allowed?
+-					DeepaMehtaUtils.writeHashtable((Hashtable) param5, out);	// base URLs
+-					break;
+ 				case DIRECTIVE_SELECT_TOPICMAP:
+ 					DeepaMehtaUtils.writeHashtable((Hashtable) param1, out);	// topic properties
+ 					DeepaMehtaUtils.writeStrings((Vector) param2, out);			// disabled properties
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateTopicMap.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateTopicMap.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateTopicMap.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -10,21 +10,19 @@
+ 
+ /**
+  * A short-living representation of a topicmap that is ready for presentation at client side.
+- * &lt;P
+- * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; is always (### optimization possible)
+- * composed of 2 {@link de.deepamehta.PresentableTopicMap}s -- the &quot;Use&quot; map and
+- * the &quot;Build&quot; map -- regardless weather the &quot;Build&quot; mode is displayed at client side.
++ * &lt;p&gt;
++ * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; holds a {@link de.deepamehta.PresentableTopicMap}.
+  * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; is created at server side and send to the client
+- * who builds 2 {@link de.deepamehta.client.PresentationTopicMap}s upon it.&lt;BR&gt;
+- * Note: Once a View is send to the client this server-side representation is forgotten.
+- * &lt;P&gt;
+- * While constructing a &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; the specified view is retrieved
++ * who builds a {@link de.deepamehta.client.PresentationTopicMap} upon it.&lt;BR&gt;
++ * Note: Once a topicmap is send to the client this server-side representation is forgotten.
++ * &lt;p&gt;
++ * While constructing a &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; the specified topicmap is retrieved
+  * from corporate memory.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 29.10.2004 (2.0b3)&lt;BR&gt;
+- * Last documentation update: 27.10.2001 (2.0a13-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 29.10.2004 (2.0b3)&lt;br&gt;
++ * Last documentation update: 5.4.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class CorporateTopicMap implements DeepaMehtaConstants {
+@@ -40,7 +38,7 @@
+ 	private ApplicationService as;
+ 	private String topicmapID;
+ 	//
+-	private PresentableTopicMap useMap;
++	private PresentableTopicMap topicmap;
+ 
+ 
+ 
+@@ -51,14 +49,16 @@
+ 
+ 
+ 	/**
+-	 * @see		InteractionConnection#addPersonalWorkspace
+-	 * @see		InteractionConnection#addGroupWorkspaces
+-	 * @see		InteractionConnection#addCorporateSpace
+-	 * @see		de.deepamehta.topics.TopicMapTopic#evoke
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalView
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
+-	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+-	 * @see		de.deepamehta.topics.TopicMapTopic#exportToFile
++	 * References checked: 5.4.2007 (2.0b8)
++	 *
++	 * @see		ApplicationService#addPersonalWorkspace
++	 * @see		ApplicationService#addGroupWorkspaces
++	 * @see		de.deepamehta.topics.TopicMapTopic#exportTopicmap
++	 * @see		de.deepamehta.topics.TopicMapTopic#addPublishDirectives
++	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalTopicmap
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
++	 * @see		de.deepamehta.topics.UserTopic#createConfigurationMap
++	 * @see		de.deepamehta.topics.WorkspaceTopic#joinUser
+ 	 */
+ 	public CorporateTopicMap(ApplicationService as, String topicmapID, int version) {
+ 		this.as = as;
+@@ -66,18 +66,18 @@
+ 		// --- backgroung image ---
+ 		String bgImage = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_IMAGE);
+ 		// --- background color ---
+-		String bgColorUse = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_COLOR);
+-		if (bgColorUse.equals(&quot;&quot;)) {
+-			bgColorUse = DEFAULT_VIEW_BGCOLOR;
++		String bgColor = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_COLOR);
++		if (bgColor.equals(&quot;&quot;)) {
++			bgColor = DEFAULT_VIEW_BGCOLOR;
+ 		}
+ 		//
+ 		// --- translation ---
+-		String translationUse = as.getTopicProperty(topicmapID, version, PROPERTY_TRANSLATION_USE);
+-		if (translationUse.equals(&quot;&quot;)) {
+-			translationUse = &quot;0:0&quot;;
++		String translation = as.getTopicProperty(topicmapID, version, PROPERTY_TRANSLATION_USE);
++		if (translation.equals(&quot;&quot;)) {
++			translation = &quot;0:0&quot;;
+ 		}
+ 		// --- retrieve topicmaps ---
+-		useMap  = as.createUserView(topicmapID, version, VIEWMODE_USE, bgImage, bgColorUse, translationUse);
++		topicmap  = as.createUserView(topicmapID, version, bgImage, bgColor, translation);
+ 	}
+ 
+ 
+@@ -92,7 +92,7 @@
+ 	 * @see		de.deepamehta.topics.helper.TopicMapExporter#makeTopicmapXML
+ 	 */
+ 	public PresentableTopicMap getTopicMap() {
+-		return useMap;
++		return topicmap;
+ 	}
+ 
+ 	// ---
+@@ -114,14 +114,14 @@
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void createLiveTopics(CorporateDirectives directives, Session session) throws TopicInitException {
+-		as.createLiveTopics(useMap, directives, session);
++		as.createLiveTopics(topicmap, directives, session);
+ 	}
+ 
+ 	/**
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void createLiveAssociations(Session session, CorporateDirectives directives) {
+-		as.createLiveAssociations(useMap, session, directives);
++		as.createLiveAssociations(topicmap, session, directives);
+ 	}
+ 
+ 	/**
+@@ -138,14 +138,14 @@
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void setAppearance() {
+-		as.setAppearance(useMap);
++		as.setAppearance(topicmap);
+ 	}
+ 
+ 	/**
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void setTopicLabels() {
+-		as.setTopicLabels(useMap);
++		as.setTopicLabels(topicmap);
+ 	}
+ 
+ 
+@@ -162,7 +162,7 @@
+ 	 */
+ 	public void write(DataOutputStream out) throws IOException {
+ 		// ### compare to client.PresentationTopicMap
+-		useMap.write(out);
++		topicmap.write(out);
+ 	}
+ 
+ 
+@@ -174,25 +174,25 @@
+ 
+ 
+ 	/**
+-	 * Duplicates this view in corporate memory (&lt;CODE&gt;ViewTopic&lt;/CODE&gt;,
++	 * Duplicates this topicmap in corporate memory (&lt;CODE&gt;ViewTopic&lt;/CODE&gt;,
+ 	 * &lt;CODE&gt;ViewAssociation&lt;/CODE&gt; and &lt;CODE&gt;ViewGeometry&lt;/CODE&gt; entries).
+ 	 * &lt;P&gt;
+ 	 * References checked: 2.4.2003 (2.0a18-pre8)
+ 	 *
+-	 * @param	destTopicmapID	the destination view ID
++	 * @param	destTopicmapID	the destination topicmap ID
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+ 	 * @see		de.deepamehta.topics.UserTopic#createConfigurationMap
+ 	 */
+ 	public void personalize(String destTopicmapID) {
+-		as.personalizeView(useMap, topicmapID, VIEWMODE_USE, destTopicmapID);
++		as.personalizeView(topicmap, topicmapID, VIEWMODE_USE, destTopicmapID);
+ 	}
+ 
+ 	/**
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public void addPublishDirectives(CorporateDirectives directives) {
+-		as.addPublishDirectives(useMap, directives);
++		as.addPublishDirectives(topicmap, directives);
+ 	}
+ 
+ 
+@@ -209,6 +209,6 @@
+ 	private void initUserView(int initLevel, CorporateDirectives directives,
+ 																Session session) {
+ 		// init topics
+-		as.initTopics(useMap.getTopics().elements(), initLevel, directives, session);
++		as.initTopics(topicmap.getTopics().elements(), initLevel, directives, session);
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -108,7 +108,6 @@
+ 			ApplicationService as = ApplicationService.create(this, instance);		// throws DME
+ 			// ### Note: the client name is unknown at this point
+ 			ps.createMainWindow(&quot;DeepaMehta &quot; + CLIENT_VERSION);
+-			// ### as.setGraphicsContext(ps.mainWindow);
+ 			ps.installationProps = as.getInstallationProps();
+ 			// --- create session ---
+ 			Session session = as.createSession(as.getNewSessionID(), &quot;localhost&quot;, ps.hostAddress);
+@@ -157,7 +156,6 @@
+ 			String demoMapID = getParameter(&quot;DEMO_MAP&quot;);
+ 			ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(serviceName);
+ 			ApplicationService as = ApplicationService.create(this, instance);	// throws DME
+-			// ### as.setGraphicsContext(this);
+ 			ps.installationProps = as.getInstallationProps();
+ 			// --- create session ---
+ 			Session session = as.createSession(as.getNewSessionID(), &quot;localhost&quot;, ps.hostAddress);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -86,11 +86,6 @@
+ 	 */
+ 	private String userName;
+ 
+-	/**
+-	 * Accessed by {@link #getUserPreferences}
+-	 */
+-	// ### private UserPreferences userPrefs;
+-
+ 	private EmailChecker emailChecker;
+ 
+ 	// ---
+@@ -173,7 +168,7 @@
+ 
+ 	/**
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public boolean isDemo() {
+ 		return isDemo;
+@@ -194,15 +189,11 @@
+ 		return userName;
+ 	}
+ 
+-	/* ### public UserPreferences getUserPreferences() {
+-		return userPrefs;
+-	} */
+-
+ 	/**
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public BaseTopic getPersonalWorkspace() throws DeepaMehtaException {
+@@ -259,13 +250,6 @@
+ 	}
+ 
+ 	/**
+-	 * @see		ApplicationService#startSession
+-	 */
+-	/* ### public void setUserPreferences(UserPreferences userPrefs) {
+-		this.userPrefs = userPrefs;
+-	} */
+-
+-	/**
+ 	 * @see		ApplicationService#addPersonalWorkspace
+ 	 */
+ 	public void setPersonalWorkspace(BaseTopic personalWorkspace) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -348,7 +348,7 @@
+ 	/**
+ 	 * @return	vector of {@link de.deepamehta.BaseTopic}
+ 	 *
+-	 * @see		ApplicationService#getWorkgroups
++	 * @see		ApplicationService#getWorkspaces
+ 	 * @see		ApplicationService#workgroupMembers
+ 	 */
+ 	public Vector getRelatedTopics(String topicID, Vector assocTypes, int relTopicPos) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/Session.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/Session.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/Session.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -33,7 +33,6 @@
+ 	boolean loggedIn();
+ 	String getUserID();
+ 	String getUserName();
+-	// ### UserPreferences getUserPreferences();
+ 	BaseTopic getPersonalWorkspace();
+ 	Object getCommunication();
+ 
+@@ -43,7 +42,6 @@
+ 	void setLoggedIn(boolean loggedIn);
+ 	void setUserID(String userID);
+ 	void setUserName(String userName);
+-	// ### void setUserPreferences(UserPreferences userPrefs);
+ 	void setPersonalWorkspace(BaseTopic personalWorkspace);
+ 	void setCommunication(Object comm);
+ 	void setEmailChecker(EmailChecker ec);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -51,7 +51,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 13.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 21.2.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -259,71 +259,6 @@
+ 		return getUser(session).getID();
+ 	}
+ 
+-	// ---
+-
+-	/**
+-	 * Converts the specified request parameters (originating from a topic/association form)
+-	 * into topic/association properties.
+-	 */
+-	protected final Hashtable getProperties(Hashtable params, String typeID) {
+-		Hashtable props = new Hashtable();
+-		Hashtable compProps = new Hashtable();
+-		//
+-		Enumeration e = params.keys();
+-		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			String propValue = ((String[]) params.get(propName))[0];
+-			// ### skip &quot;action&quot;, &quot;button&quot;, &quot;id&quot;, &quot;typeID&quot; properties
+-			// ### as well as properties with empty value
+-			if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;) ||
+-				propName.equals(&quot;id&quot;) || propName.equals(&quot;typeID&quot;)) {
+-				continue;
+-			}
+-			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1) {
+-				String propertyName = propName.substring(0, pos);
+-				if (propertyName.equals(PARAM_RELATION)) {
+-					// value is part of relation
+-					continue;
+-				}
+-				// value is part of composed date/time value
+-				int partNumber = Integer.parseInt(propName.substring(pos + 1));
+-				String[] compProp = (String[]) compProps.get(propertyName);
+-				if (compProp == null) {
+-					compProp = new String[3];
+-					compProps.put(propertyName, compProp);
+-				}
+-				compProp[partNumber] = propValue;
+-			} else {
+-				// value is simple property value
+-				PropertyDefinition propDef = as.type(typeID, 1).getPropertyDefinition(propName);
+-				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
+-				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
+-					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
+-					propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
+-				}
+-				props.put(propName, propValue);
+-			}
+-		}
+-		//
+-		e = compProps.keys();
+-		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			String[] compProp = (String[]) compProps.get(propName);
+-			String propValue;
+-			if (compProp[2] != null) {
+-				// date property
+-				propValue = compProp[0] + DATE_SEPARATOR + compProp[1] + DATE_SEPARATOR + compProp[2];
+-			} else {
+-				// time property
+-				propValue = compProp[0] + TIME_SEPARATOR + compProp[1];
+-			}
+-			props.put(propName, propValue);
+-		}		
+-		//
+-		return props;
+-	}
+-
+ 	// --- getTopicTree (5 forms) ---
+ 
+ 	protected final TopicTree getTopicTree(String topicID) {
+@@ -419,11 +354,12 @@
+ 	// --- processForm (2 forms) ---
+ 
+ 	/**
+-	 * Processes a topic form.
++	 * Processes a topic form. Called recusively to process embedded forms.
+ 	 * &lt;P&gt;
+ 	 * Used for both: &quot;create topic&quot; (&lt;CODE&gt;doCreate=true&lt;/CODE&gt;) and
+ 	 * &quot;update topic&quot; (&lt;CODE&gt;doCreate=false&lt;/CODE&gt;) actions.
+ 	 *
++	 * @param	typeID		the topic type of the form resp. embedded form
+ 	 * @param	topicID		the ID of the topic to be created resp. updated
+ 	 * @param	params		all request parameters as hashtable
+ 	 *
+@@ -449,7 +385,7 @@
+ 		directives.add(as.setTopicProperties(topicID, 1, props, topicmapID, true, session));	// triggerPropertiesChangedHook=true
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		// weak relations
+-		updateWeakRelations(topicID, typeID, getWeakRelationParameters(params));
++		updateWeakRelations(typeID, topicID, getWeakRelationParameters(params));
+ 		// strong relations
+ 		updateStrongRelations(typeID, topicID, getStrongRelationParameters(params), doCreate, session);
+ 	}
+@@ -705,17 +641,17 @@
+ 	/**
+ 	 * @see		#processForm
+ 	 */
+-	private void updateWeakRelations(String topicID, String typeID, Hashtable relParams) {
++	private void updateWeakRelations(String typeID, String topicID, Hashtable params) {
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; update relations of topic \&quot;&quot; + topicID + &quot;\&quot;&quot;);
+ 		TypeTopic type = as.type(typeID, 1);	// ### version=1
+-		Enumeration e = relParams.keys();
++		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+ 			String relID = (String) e.nextElement();
+ 			Relation rel = type.getRelation(relID);
+ 			// remove existing assignments
+ 			removeAssignments(topicID, rel);
+ 			// create new assignments
+-			String[] values = (String[]) relParams.get(relID);
++			String[] values = (String[]) params.get(relID);
+ 			createAssignments(topicID, rel, values);
+ 		}
+ 	}
+@@ -809,6 +745,88 @@
+ 	// ---
+ 
+ 	/**
++	 * ### Converts the specified request parameters (originating from a topic/association form)
++	 * into topic/association properties. Basically two conversions are performed:
++	 * &lt;ol&gt;
++	 *	&lt;li&gt;Composed properties are merged into one property. Composed properties are such that results from more than
++	 *		one form field, e.g. date and time selectors&lt;/li&gt;
++	 *	&lt;li&gt;Properties of related topics are filtered out.&lt;/li&gt;
++	 * &lt;/ol&gt;
++	 *
++	 * @see		#processForm
++	 */
++	private final Hashtable getProperties(Hashtable params, String typeID) {
++		Hashtable props = new Hashtable();		// return object
++		Hashtable compProps = new Hashtable();	// intermediate table to compile the single values of composed properties
++		//
++		Enumeration e = params.keys();
++		while (e.hasMoreElements()) {
++			String propName = (String) e.nextElement();
++			String propValue = ((String[]) params.get(propName))[0];
++			// ### skip &quot;action&quot;, &quot;button&quot;, &quot;id&quot;, &quot;typeID&quot; properties
++			// ### as well as properties with empty value
++			if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;) ||
++				propName.equals(&quot;id&quot;) || propName.equals(&quot;typeID&quot;)) {
++				// Note: the internally used parameters &quot;action&quot; and &quot;button&quot; must be removed here
++				// to not confuse getWeakRelationParameters()
++				if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;)) {
++					params.remove(propName);
++				}
++				//
++				continue;
++			}
++			int pos = propName.indexOf(PARAM_SEPARATOR);
++			if (pos != -1) {
++				String propertyName = propName.substring(0, pos);
++				if (propertyName.equals(PARAM_RELATION)) {
++					// value is part of relation
++					continue;
++				}
++				// value is part of composed date/time value
++				int partNumber = Integer.parseInt(propName.substring(pos + 1));
++				String[] compProp = (String[]) compProps.get(propertyName);
++				if (compProp == null) {
++					compProp = new String[3];
++					compProps.put(propertyName, compProp);
++				}
++				compProp[partNumber] = propValue;
++			} else {
++				// value is simple property value
++				PropertyDefinition propDef = as.type(typeID, 1).getPropertyDefinition(propName);
++				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
++				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
++					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
++					if (!propValue.startsWith(&quot;&lt;html&gt;&quot;)) {	// ### must ignore case. &lt;HTML&gt; used in help texts?
++						propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
++					}
++				}
++				props.put(propName, propValue);
++			}
++			// remove processed parameter
++			if (params.remove(propName) == null) {
++				throw new DeepaMehtaException(&quot;parameter \&quot;&quot; + propName + &quot;\&quot; not found&quot;);
++			}
++		}
++		// assemble composed properties from compiled single values
++		e = compProps.keys();
++		while (e.hasMoreElements()) {
++			String propName = (String) e.nextElement();
++			String[] compProp = (String[]) compProps.get(propName);
++			String propValue;
++			if (compProp[2] != null) {
++				// date property
++				propValue = compProp[0] + DATE_SEPARATOR + compProp[1] + DATE_SEPARATOR + compProp[2];
++			} else {
++				// time property
++				propValue = compProp[0] + TIME_SEPARATOR + compProp[1];
++			}
++			props.put(propName, propValue);
++		}		
++		//
++		return props;
++	}
++
++	/**
+ 	 * @param	params		### all request parameters as hashtable
+ 	 *
+ 	 * @return	the parameter values for weak relations (weak means: non-strong) as hashtable,&lt;BR&gt;
+@@ -823,13 +841,28 @@
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+ 			String propName = (String) e.nextElement();
++			// ### skip &quot;id&quot; parameter
++			if (propName.equals(&quot;id&quot;)) {
++				continue;
++			}
++			// only level 0 is processed here.
++			// deeper levels are processed via recursion.
++			if (propName.indexOf(LEVEL_SEPARATOR) &gt;= 0) {
++				continue;
++			}
+ 			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1 &amp;&amp; propName.substring(0, pos).equals(PARAM_RELATION) &amp;&amp;
+-							 propName.indexOf(LEVEL_SEPARATOR, pos + 1) == -1) {
+-				String relID = propName.substring(pos + 1);
+-				String[] values = (String[]) params.get(propName);
+-				relParams.put(relID, values);
++			// error check
++			if (pos == -1) {
++				throw new DeepaMehtaException(&quot;no PARAM_SEPARATOR \&quot;&quot; + PARAM_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + propName + &quot;\&quot;&quot;);
+ 			}
++			//
++			String relID = propName.substring(pos + 1);
++			String[] values = (String[]) params.get(propName);
++			relParams.put(relID, values);
++			// remove processed parameter
++			if (params.remove(propName) == null) {
++				throw new DeepaMehtaException(&quot;parameter \&quot;&quot; + propName + &quot;\&quot; not found&quot;);
++			}
+ 		}
+ 		//
+ 		return relParams;
+@@ -851,28 +884,37 @@
+ 		//
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1 &amp;&amp; propName.substring(0, pos).equals(PARAM_RELATION)) {
+-				int pos2 = propName.indexOf(LEVEL_SEPARATOR, pos + 1);
+-				if (pos2 != -1) {
+-					// error check
+-					if (propName.indexOf(LEVEL_SEPARATOR, pos2 + 1) != -1) {
+-						throw new DeepaMehtaException(&quot;too many relation levels -- property \&quot;&quot; +
+-							propName + &quot; will be omitted&quot;);
+-					}
+-					//
+-					String relID = propName.substring(pos + 1, pos2);
+-					Hashtable props = (Hashtable) relParams.get(relID);
+-					if (props == null) {
+-						props = new Hashtable();
+-						relParams.put(relID, props);
+-					}
+-					String name = propName.substring(pos2 + 1);
+-					String[] values = (String[]) params.get(propName);
+-					props.put(name, values);
+-				}
++			String paramName = (String) e.nextElement();
++			// ### skip &quot;id&quot; parameter
++			if (paramName.equals(&quot;id&quot;)) {
++				continue;
+ 			}
++			//
++			int pos = paramName.indexOf(PARAM_SEPARATOR);
++			// error check 1
++			if (pos == -1) {
++				throw new DeepaMehtaException(&quot;no PARAM_SEPARATOR \&quot;&quot; + PARAM_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			// error check 2
++			if (!paramName.substring(0, pos).equals(PARAM_RELATION)) {
++				throw new DeepaMehtaException(&quot;no PARAM_RELATION \&quot;&quot; + PARAM_RELATION + &quot;\&quot; found at beginning of \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			//
++			int pos2 = paramName.indexOf(LEVEL_SEPARATOR, pos + 1);
++			// error check 3
++			if (pos2 == -1) {
++				throw new DeepaMehtaException(&quot;no LEVEL_SEPARATOR \&quot;&quot; + LEVEL_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			//
++			String relID = paramName.substring(pos + 1, pos2);
++			Hashtable nextLevelParams = (Hashtable) relParams.get(relID);
++			if (nextLevelParams == null) {
++				nextLevelParams = new Hashtable();
++				relParams.put(relID, nextLevelParams);
++			}
++			String nextLevelParamName = paramName.substring(pos2 + 1);	// strip relation ID
++			String[] values = (String[]) params.get(paramName);
++			nextLevelParams.put(nextLevelParamName, values);
+ 		}
+ 		//
+ 		return relParams;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -25,7 +25,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 13.6.2006 (2.0b7)&lt;br&gt;
++ * Last sourcecode change: 9.5.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -436,7 +436,7 @@
+ 
+ 	public String link(String text, String action, String params) {
+ 		StringBuffer html = new StringBuffer();
+-		link(action, params, null, text, true, html);	// topicID=null, bold=true
++		link(action, params, null, text, false, true, html);	// topicID=null, quoteHTML=false, bold=true
+ 		//
+ 		return html.toString();
+ 	}
+@@ -448,7 +448,7 @@
+ 		Enumeration e = topics.elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic topic = (BaseTopic) e.nextElement();
+-			link(action, null, topic.getID(), topic.getName(), true, html);		// params=null, bold=true
++			link(action, null, topic.getID(), topic.getName(), false, true, html);	// params=null, quoteHTML=false, bold=true
+ 			html.append(&quot;&lt;p&gt;&quot;);
+ 		}
+ 		//
+@@ -608,7 +608,7 @@
+ 					&quot;&lt;img src=\&quot;images/arrow_empty.gif\&quot; border=0 hspace=10&gt;&quot;);
+ 			}
+ 			// node name
+-			link(infoAction, topicID, tree.topic.getName(), indent == 1, html);
++			link(infoAction, topicID, tree.topic.getName(), true, indent == 1, html);	// quoteHTML=true
+ 			html.append(&quot;&lt;/td&gt;&quot;);
+ 			// buttons
+ 			actionButtons(topicID, actions, html);
+@@ -866,7 +866,7 @@
+ 		//
+ 		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&lt;td&gt;&lt;small&gt;&quot; + propLabel + &quot;&lt;/small&gt;&lt;/td&gt;&lt;td&gt;&quot;);
+ 		//
+-		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD)) {
++		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD) || visual.equals(VISUAL_COLOR_CHOOSER)) {
+ 			html.append(&quot;&lt;input type=\&quot;text\&quot; name=\&quot;&quot; + prefix + propName + &quot;\&quot; value=\&quot;&quot; +
+ 				(propValue != null ? propValue : &quot;&quot;) + &quot;\&quot; size=&quot; + INPUTFIELD_WIDTH + &quot;&gt;&quot;);
+ 		} else if (visual.equals(VISUAL_AREA) || visual.equals(VISUAL_TEXT_EDITOR)) {
+@@ -929,6 +929,8 @@
+ 		String propValue = (String) props.get(propName);
+ 		if (visual.equals(VISUAL_SWITCH)) {
+ 			propValue = SWITCH_ON.equals(propValue) ? SWITCH_ON : SWITCH_OFF;
++		} else if (visual.equals(VISUAL_PASSWORD_FIELD)) {
++			propValue = &quot;&bull;&bull;&bull;&quot;;
+ 		}
+ 		//
+ 		if (layout == LAYOUT_COLS) {
+@@ -936,7 +938,8 @@
+ 		}
+ 		//
+ 		html.append(&quot;&lt;td&gt;&quot;);
+-		infolinkAdded = link(infoAction, infoActionParams, topicID, propValue, html);
++		boolean quoteHTML = !visual.equals(VISUAL_TEXT_EDITOR);
++		infolinkAdded = link(infoAction, infoActionParams, topicID, propValue, quoteHTML, html);
+ 		html.append(&quot;&lt;/td&gt;&quot;);
+ 		//
+ 		if (layout == LAYOUT_COLS) {
+@@ -1067,15 +1070,15 @@
+ 
+ 	// --- link (3 forms) ---
+ 
+-	private boolean link(String action, String topicID, String text, boolean bold, StringBuffer html) {
+-		return link(action, null, topicID, text, bold, html);
++	private boolean link(String action, String topicID, String text, boolean quoteHTML, boolean bold, StringBuffer html) {
++		return link(action, null, topicID, text, quoteHTML, bold, html);
+ 	}
+ 
+-	private boolean link(String action, String params, String topicID, String text, StringBuffer html) {
+-		return link(action, params, topicID, text, false, html);
++	private boolean link(String action, String params, String topicID, String text, boolean quoteHTML, StringBuffer html) {
++		return link(action, params, topicID, text, quoteHTML, false, html);
+ 	}
+ 
+-	private boolean link(String action, String params, String topicID, String text, boolean bold, StringBuffer html) {
++	private boolean link(String action, String params, String topicID, String text, boolean quoteHTML, boolean bold, StringBuffer html) {
+ 		boolean linkAdded = false;
+ 		//
+ 		if (action != null) {
+@@ -1084,8 +1087,10 @@
+ 			linkAdded = true;
+ 		}
+ 		if (text != null) {
+-			text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// needed for &quot;Multiline Input Field&quot;
+-			text = DeepaMehtaUtils.quoteHTML(text);
++			if (quoteHTML) {
++				text = DeepaMehtaUtils.quoteHTML(text);
++				text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
++			}
+ 			html.append((bold ? &quot;&lt;b&gt;&quot; : &quot;&quot;) + text + (bold ? &quot;&lt;/b&gt;&quot; : &quot;&quot;));
+ 		}
+ 		if (action != null) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/WebSession.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/WebSession.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/WebSession.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -89,11 +89,6 @@
+ 	 */
+ 	// ### private String userName;
+ 
+-	/**
+-	 * Accessed by {@link #getUserPreferences}
+-	 */
+-	// ### private UserPreferences userPrefs;
+-
+ 	// ---
+ 
+ 	/**
+@@ -118,7 +113,7 @@
+ 
+ 
+ 	/**
+-	 * @see		ApplicationService#createSession
++	 * @see		de.deepamehta.service.ApplicationService#createSession
+ 	 */
+ 	WebSession(HttpSession session) {
+ 		this.session = session;
+@@ -171,7 +166,7 @@
+ 
+ 	/**
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public boolean isDemo() {
+ 		return false;	// ###
+@@ -192,15 +187,11 @@
+ 		return null;	// ###
+ 	}
+ 
+-	/* ### public UserPreferences getUserPreferences() {
+-		return null;	// ###
+-	} */
+-
+ 	/**
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public BaseTopic getPersonalWorkspace() throws DeepaMehtaException {
+@@ -253,13 +244,6 @@
+ 	}
+ 
+ 	/**
+-	 * @see		ApplicationService#startSession
+-	 */
+-	/* ### public void setUserPreferences(UserPreferences userPrefs) {
+-		// ### this.userPrefs = userPrefs;
+-	} */
+-
+-	/**
+ 	 * @see		ApplicationService#addPersonalWorkspace
+ 	 */
+ 	public void setPersonalWorkspace(BaseTopic personalWorkspace) {
+
+Copied: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java (from rev 165, trunk/develop/src/de/deepamehta/topics/CalendarTopic.java)
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/ChatTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -237,7 +237,7 @@
+ 		}
+ 		//
+ 		this.workspace = owner;
+-		// ### this.chatBoard = as.getWorkspace(workspace.getID(), directives);
++		// ### this.chatBoard = as.getWorkspaceTopicmap(workspace.getID(), directives);
+ 	}
+ 
+ 	private Vector activeSessions(Session session) {
+
+Copied: branches/eschnepel/develop/src/de/deepamehta/topics/EventTopic.java (from rev 165, trunk/develop/src/de/deepamehta/topics/EventTopic.java)
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/LiveTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -41,16 +41,14 @@
+  * to the {@link CorporateMemory}.
+  * &lt;P&gt;
+  * The baseclass of the DeepaMehta Application Framework.
+- * &lt;P&gt;
+  * This class provides the hooks where application programmers &quot;hook in&quot; the application
+  * specific behavoir.
+- * &lt;P&gt;
+- * The active topics making up the application may be build upon DeepaMehta's standard
++ * The custom implementations making up the application may be build upon DeepaMehta's standard
+  * topics as building blocks, thus application programmers directly or indirectly derive
+  * their topics from &lt;CODE&gt;LiveTopic&lt;/CODE&gt;.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last sourcecode change: 26.5.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last sourcecode change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -692,11 +690,16 @@
+ 
+ 	/**
+ 	 * Applications can use this hook to disable certain properties of this live topics
+-	 * type definition. Disabled properties are visible but not changable by the user.
++	 * type definition. Disabled properties are visible but not editable by the user.
+ 	 * &lt;P&gt;
+-	 * ### The default implementation disables no properties.
++	 * This hook can be utilized to implement an access control mechanism.
++	 * The default implementation realizes the following rule: a topic is only editable
++	 * if the current user
++	 * 1) is the owner of the topic, or&lt;br&gt;
++	 * 2) is a DeepaMehta administrator, or&lt;br&gt;
++	 * 3) has the &quot;Editor&quot; role within a workspace the resp. topic type is assigned to.
+ 	 * &lt;P&gt;
+-	 * This hook is triggered every time this live topic is selected.
++	 * This hook is triggered every time this topic is selected.
+ 	 *
+ 	 * @see			de.deepamehta.service.ApplicationService#disabledProperties
+ 	 *
+@@ -706,7 +709,9 @@
+ 		Vector disabledProps = new Vector();
+ 		//
+ 		TypeTopic type = as.type(this);
+-		if (!type.isSearchType() &amp;&amp; !as.isTopicOwner(getID(), session)) {
++		String userID = session.getUserID();
++		if (!type.isSearchType() &amp;&amp; !as.isTopicOwner(getID(), session) &amp;&amp;
++									!as.isAdministrator(userID) &amp;&amp; !as.hasEditorRole(userID, getType())) {
+ 			// disable all properties
+ 			Enumeration e = type.getTypeDefinition().elements();
+ 			while (e.hasMoreElements()) {
+@@ -1753,7 +1758,7 @@
+ 		Vector types = as.getTopicTypes(corpGroup.getID(), PERMISSION_CREATE_IN_WORKSPACE);
+ 		directives.add(handleWorkspaceCommand(command, types, session, topicmapID, viewmode)); */
+ 		// --- handle workgroup types ---
+-		Enumeration e = as.getWorkgroups(userID).elements();
++		Enumeration e = as.getWorkspaces(userID).elements();
+ 		while (e.hasMoreElements()) {
+ 			String workgroupID = ((BaseTopic) e.nextElement()).getID();
+ 			/* ### if (workgroupID.equals(corpGroup.getID())) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -10,12 +10,15 @@
+ import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
++import de.deepamehta.PresentableTopicMap;
+ import de.deepamehta.PropertyDefinition;
++import de.deepamehta.TopicGeometry;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.CorporateTopicMap;
++import de.deepamehta.service.DeepaMehtaServiceUtils;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.helper.ArchiveFileCollector;
+ import de.deepamehta.topics.helper.TopicMapExporter;
+@@ -23,7 +26,17 @@
+ import org.xml.sax.ContentHandler;
+ import org.xml.sax.SAXException;
+ //
++import javax.swing.ImageIcon;
++//
++import java.awt.Color;
++import java.awt.Graphics;
++import java.awt.Graphics2D;
++import java.awt.Image;
+ import java.awt.Point;
++import java.awt.Rectangle;
++import java.awt.RenderingHints;
++import java.awt.Toolkit;
++import java.awt.image.BufferedImage;
+ import java.util.*;
+ import java.io.*;
+ 
+@@ -72,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.4.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -87,6 +100,12 @@
+ 
+ 
+ 
++	// padding for topicmap export as PNG
++	private final int PAD_TOP = 30;
++	private final int PAD_LEFT = 30;
++	private final int PAD_BOTTOM = 45;
++	private final int PAD_RIGHT = 120;
++
+ 	/**
+ 	 * ### If this topicmap is part of a shared workspace this variable holds the respective
+ 	 * workspace. May be null.
+@@ -518,9 +537,9 @@
+ 	public String openTopicmap(Session session, CorporateDirectives directives) throws DeepaMehtaException {
+ 		if (isShared()) {
+ 		 	// Note: this topicmap is about to be personalized
+-			return openGroupView(session, directives, owner);
++			return openSharedTopicmap(session, directives, owner);
+ 		} else {
+-			openPersonalView(session, directives);
++			openPersonalTopicmap(session, directives);
+ 			return getID();
+ 		}
+ 	}
+@@ -626,6 +645,95 @@
+ 
+ 
+ 
++	// **********************
++	// *** Public Methods ***
++	// **********************
++
++
++
++	/**
++	 * Exports a visible redition of this topicmap as PNG image file.
++	 *
++	 * @return	Geometry data of the topics of this topicmap. Vector of {@link de.deepamehta.TopicGeometry}.
++	 */
++	public Vector exportToPNG() {
++		Vector geometryData = new Vector();
++		// --- retrieve topics and associations from corporate memory ---
++		PresentableTopicMap topicmap = new CorporateTopicMap(as, getID(), getVersion()).getTopicMap();
++		// --- create image ---
++		Rectangle bounds = DeepaMehtaUtils.getBounds(topicmap);
++		final int imageWidth = bounds.width + PAD_LEFT + PAD_RIGHT;
++		final int imageHeight = bounds.height + PAD_TOP + PAD_BOTTOM;
++		BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
++		Graphics2D g = image.createGraphics();
++		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
++		//
++		// ### g.setColor(COLOR_VIEW_BGCOLOR);
++		g.setBackground(COLOR_VIEW_BGCOLOR);
++		g.clearRect(0, 0, imageWidth, imageHeight);	// ### Mac OS X, Java 1.4: fillRect() following drawing commands are ignored!
++		// ### g.setColor(DeepaMehtaUtils.parseHexColor(color));
++		// --- paint topicmap ---
++		g.translate(PAD_LEFT - bounds.x, PAD_TOP - bounds.y);
++		//
++		paintAssociations(topicmap.getAssociations().elements(), g, topicmap.getTopics());
++		paintTopics(topicmap.getTopics().elements(), g, geometryData, bounds);
++		// --- save image as PNG file ---
++		File file = new File(FILESERVER_DOCUMENTS_PATH + &quot;topicmap-&quot; + getID() + &quot;.png&quot;);
++		DeepaMehtaServiceUtils.createImageFile(image, file);
++		//
++		return geometryData;
++	}
++
++	private void paintTopics(Enumeration topics, Graphics g, Vector geometryData, Rectangle bounds) {
++		// ### compare to GraphPanel.paintNode()
++		while (topics.hasMoreElements()) {
++			PresentableTopic topic = (PresentableTopic) topics.nextElement();
++			Point p = topic.getGeometry();
++			// --- paint icon ---
++			String iconfile = as.getLiveTopic(topic).getIconfile();
++			// Note 1: Toolkit.getImage() is used here instead of createImage() in order to utilize
++			// the Toolkits caching mechanism
++			// Note 2: ImageIcon is a kluge to make sure the image is fully loaded before we proceed
++			Image icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(FILESERVER_ICONS_PATH + iconfile)).getImage();
++			int iconWidth = icon.getWidth(null);
++			int iconHeight = icon.getHeight(null);
++			int iw2 = iconWidth / 2;
++			int ih2 = iconHeight / 2;
++			int x1 = p.x - iw2;
++			int y1 = p.y - ih2;
++			g.drawImage(icon, x1, y1, null);
++			// --- paint name ---
++			int x2 = x1 + iconWidth;
++			int y2 = y1 + iconHeight;
++			// ### g.setFont(font);
++			g.setColor(TEXT_COLOR);
++			g.drawString(topic.getName(), x1, y2 + 12 /* ### font.getSize() */ + 2);
++			// --- add geometry data ---
++			geometryData.addElement(new TopicGeometry(topic.getID(), x1 + PAD_LEFT - bounds.x, y1 + PAD_TOP - bounds.y,
++				x2 + PAD_LEFT - bounds.x, y2 + PAD_TOP - bounds.y));
++		}
++	}
++
++	private void paintAssociations(Enumeration assocs, Graphics g, Hashtable topics) {
++		// ### compare to GraphPanel.paintEdge()
++		while (assocs.hasMoreElements()) {
++			PresentableAssociation assoc = (PresentableAssociation) assocs.nextElement();
++			Point p1 = ((PresentableTopic) topics.get(assoc.getTopicID1())).getGeometry();
++			Point p2 = ((PresentableTopic) topics.get(assoc.getTopicID2())).getGeometry();
++			//
++			String assocTypeID = assoc.getType();
++			TypeTopic type = as.type(assocTypeID, 1);
++			Color color = DeepaMehtaUtils.parseHexColor(type.getAssocTypeColor());
++			boolean directed = !assocTypeID.equals(&quot;at-generic&quot;) &amp;&amp;			
++				!assocTypeID.equals(&quot;at-kompetenzstern&quot;);		// ### application specific
++			//
++			g.setColor(color);
++			DeepaMehtaUtils.paintLine(g, p1.x, p1.y, p2.x, p2.y, directed);
++		}
++	}
++
++
++
+ 	// *************************
+ 	// *** Protected Methods ***
+ 	// *************************
+@@ -790,7 +898,7 @@
+ 	 *
+ 	 * @see		#openTopicmap
+ 	 */
+-	private void openPersonalView(Session session, CorporateDirectives directives) throws DeepaMehtaException {
++	private void openPersonalTopicmap(Session session, CorporateDirectives directives) throws DeepaMehtaException {
+ 		PresentableTopic metadata = as.createPresentableTopic(this);
+ 		CorporateTopicMap topicmap = new CorporateTopicMap(as, getID(), getVersion());
+ 		directives.add(DIRECTIVE_SHOW_VIEW, metadata, topicmap);
+@@ -805,7 +913,7 @@
+ 	 *
+ 	 * @see		#openTopicmap
+ 	 */
+-	private String openGroupView(Session session, CorporateDirectives directives, BaseTopic owner)
++	private String openSharedTopicmap(Session session, CorporateDirectives directives, BaseTopic owner)
+ 																				throws DeepaMehtaException {
+ 		System.out.println(&quot;&gt;&gt;&gt; topicmap &quot; + this + &quot; is about to be personalized&quot;);
+ 		// --- retrieve this topicmap from corporate memory ---
+@@ -917,7 +1025,7 @@
+ 				&quot;\&quot; (first publishing of this map into this group)&quot;);
+ 			// adding DIRECTIVE_SHOW_TOPIC causes the client to creating a new topicmap topic in the shared workspace
+ 			PresentableTopic topic = new PresentableTopic(this);
+-			directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.FALSE, as.getWorkspace(workspaceID).getID());
++			directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.FALSE, as.getWorkspaceTopicmap(workspaceID).getID());
+ 		} else {
+ 			BaseTopic originTopicmap = as.originTopicmap(getID());
+ 			String originTopicmapID = originTopicmap.getID();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/TypeTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -324,7 +324,7 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		// --- assign type to user ---
+ 		String assocID = as.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKGROUP_TYPES, 1, session.getUserID(), 1, getID(), 1);
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TYPES, 1, session.getUserID(), 1, getID(), 1);
+ 		cm.setAssociationData(assocID, 1, PROPERTY_ACCESS_PERMISSION, PERMISSION_CREATE);
+ 		//
+ 		return super.evoke(session, topicmapID, viewmode);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/UserTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 3.8.2004 (2.0b3)&lt;BR&gt;
++ * Last functional change: 7.6.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -98,7 +98,7 @@
+ 		// change name of this user
+ 		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
+ 		// change name of users personal workspace
+-		BaseTopic workspace = as.getWorkspace(getID(), directives);
++		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 		if (workspace != null) {
+ 			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
+ 		}
+@@ -123,7 +123,7 @@
+ 		//
+ 		// --- &quot;Set Standard Workspace&quot; ---
+ 		String userID = getID();
+-		Vector workspaces = as.getWorkgroups(userID);
++		Vector workspaces = as.getWorkspaces(userID);
+ 		// ### compare to as.getUsersDefaultWorkspace()
+ 		BaseTopic standardWorkspace = as.getRelatedTopic(userID, SEMANTIC_PREFERENCE, TOPICTYPE_WORKSPACE, 2, true);	// emptyAllowed=true
+ 		//
+@@ -171,7 +171,7 @@
+ 					// cause the client to show the changed icon
+ 					CorporateDirectives iconDirective = new CorporateDirectives();
+ 					iconDirective.add(DIRECTIVE_SET_EDITOR_ICON,
+-						as.getWorkspace(getID()).getID(), newIcon);
++						as.getWorkspaceTopicmap(getID()).getID(), newIcon);
+ 					// Note: the DIRECTIVE_SET_TOPIC_ICON must be _queued_, because the
+ 					// icon upload must be completed _before_ the icon can be shown
+ 					directives.add(DIRECTIVE_QUEUE_DIRECTIVES, iconDirective);
+@@ -214,7 +214,7 @@
+ 	private String createPersonalWorkspace() {
+ 		// Note: this user might already have a workspace, because this
+ 		// topic might been of type tt-user before through retyping
+-		if (as.getWorkspace(getID()) != null) {
++		if (as.getWorkspaceTopicmap(getID()) != null) {
+ 			System.out.println(&quot;&gt;&gt;&gt; User \&quot;&quot; + getName() + &quot;\&quot; has already a workspace&quot;);
+ 			return null;
+ 		}
+@@ -227,7 +227,7 @@
+ 		cm.createTopic(mapID, 1, TOPICTYPE_TOPICMAP, 1, getName());		// ### create live topic instead 
+ 		// --- associate user with its personal workspace ---
+ 		String assocID = cm.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE, 1, getID(), 1, mapID, 1);
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TOPICMAP, 1, getID(), 1, mapID, 1);
+ 		//
+ 		return mapID;
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -68,7 +68,7 @@
+  * changes on webpages).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 5.4.2005 (2.0b6)&lt;BR&gt;
++ * Last functional change: 14.12.2006 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 21.3.2001&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -131,23 +131,24 @@
+ 		if (command.equals(CMD_DEFAULT)) { // when double-clicked
+ 			// it is necessary to handle correctly downloaded pages
+ 			String urlProperty = getProperty(PROPERTY_URL);
+-			try {
++			// ### try {
+ 				String urlString;
+-				if (as.localFileExists(new URL(urlProperty))) {
+-					urlString = as.getCorporateWebBaseURL() + urlProperty.substring(7);
+-					// ### 7
+-					System.out.println(&quot;&gt;&gt;&gt; Webpage \&quot;&quot; + urlProperty + &quot;\&quot; exists &quot; +
+-						&quot;locally -- URL transformed to \&quot;&quot; + urlString + &quot;\&quot;&quot;);
+-				} else {
++				// ### accessing local pages is disabled
++				// ###
++				// ### if (as.localFileExists(new URL(urlProperty))) {
++				// ###	urlString = as.getCorporateWebBaseURL() + urlProperty.substring(7);		// ### 7
++				// ###	System.out.println(&quot;&gt;&gt;&gt; Webpage \&quot;&quot; + urlProperty + &quot;\&quot; exists &quot; +
++				// ###		&quot;locally -- URL transformed to \&quot;&quot; + urlString + &quot;\&quot;&quot;);
++				// ### } else {
+ 					urlString = urlProperty;
+ 					//
+-					System.out.println(&quot;&gt;&gt;&gt; Webpage \&quot;&quot; + urlProperty + &quot;\&quot; does NOT &quot; +
+-						&quot;exists locally -- online connection required&quot;);
+-				}
++				// ###	System.out.println(&quot;&gt;&gt;&gt; Webpage \&quot;&quot; + urlProperty + &quot;\&quot; does NOT &quot; +
++				// ###		&quot;exists locally -- online connection required&quot;);
++				// ### }
+ 				directives.add(DIRECTIVE_OPEN_URL, urlString);
+-			} catch (MalformedURLException e) {
+-				throw new DeepaMehtaException(&quot;URL is invalid: \&quot;&quot; + urlProperty + &quot;\&quot;&quot;);
+-			}
++			// ### } catch (MalformedURLException e) {
++			// ###	throw new DeepaMehtaException(&quot;URL is invalid: \&quot;&quot; + urlProperty + &quot;\&quot;&quot;);
++			// ### }
+ 		} else if (command.equals(CMD_DOWNLOAD_WEBPAGE)) {
+ 			download(topicmapID, viewmode, session, directives);
+ 		} else {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-07-23 20:35:56 UTC (rev 165)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-07-25 16:26:05 UTC (rev 166)
+@@ -27,7 +27,7 @@
+  * this &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.5.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -91,7 +91,7 @@
+ 		cm.createTopic(mapID, 1, TOPICTYPE_TOPICMAP, 1, &quot;&quot;);		// ### create live topic instead ### version=1
+ 		// --- associate workspace with its topicmap ---
+ 		String assocID = cm.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE, 1, getID(), 1, mapID, 1);		// ### version=1
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TOPICMAP, 1, getID(), 1, mapID, 1);		// ### version=1
+ 		// --- create chat board---
+ 		String chatId = cm.getNewTopicID();
+ 		cm.createTopic(chatId, 1, TOPICTYPE_CHAT_BOARD, 1, &quot;Chats&quot;);			// ### hardcoded
+@@ -123,17 +123,17 @@
+ 		// change name of this workspace
+ 		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
+ 		// rename workspace topicmap
+-		BaseTopic workspace = as.getWorkspace(getID(), directives);
++		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 		if (workspace != null) {
+ 			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
+ 		}
+ 		// rename chat
+-		BaseTopic chat = as.getChat(this, directives);
++		BaseTopic chat = as.getChatboard(this, directives);
+ 		if (chat != null) {
+ 			directives.add(as.getLiveTopic(chat).nameChanged(name + &quot; Chats&quot;, topicmapID, viewmode));	// ### hardcoded
+ 		}
+ 		// rename message board
+-		BaseTopic board = as.getMessageBoard(this, directives);
++		BaseTopic board = as.getMessageboard(this, directives);
+ 		if (board != null) {
+ 			directives.add(as.getLiveTopic(board).nameChanged(name + &quot; Forum&quot;, topicmapID, viewmode));	// ### hardcoded
+ 		}
+@@ -291,7 +291,7 @@
+ 					// cause the client to show the changed icon
+ 					CorporateDirectives iconDirective = new CorporateDirectives();
+ 					iconDirective.add(DIRECTIVE_SET_EDITOR_ICON,
+-						as.getWorkspace(getID()).getID(), newIcon);	// ### consider as.getWorkspace(2)
++						as.getWorkspaceTopicmap(getID()).getID(), newIcon);	// ### consider as.getWorkspaceTopicmap(2)
+ 					// Note: the DIRECTIVE_SET_EDITOR_ICON must be _queued_, because the
+ 					// icon upload must be completed _before_ the icon can be shown
+ 					directives.add(DIRECTIVE_QUEUE_DIRECTIVES, iconDirective);
+@@ -346,7 +346,7 @@
+ 		// --- open workspace ---
+ 		boolean isCurrentUser = userID.equals(session.getUserID());
+ 		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspace(getID(), directives);
++			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 			if (workspace != null) {
+ 				CorporateTopicMap topicmap = new CorporateTopicMap(as, workspace.getID(), 1);
+ 				topicmap.createLiveTopicmap(session, directives);
+@@ -388,7 +388,7 @@
+ 		// --- close workspace ---
+ 		boolean isCurrentUser = userID.equals(session.getUserID());
+ 		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspace(getID(), directives);
++			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 			if (workspace != null) {
+ 				directives.add(DIRECTIVE_CLOSE_EDITOR, workspace.getID());
+ 			}
+@@ -456,7 +456,7 @@
+ 	private void assignType(String typeID, CorporateDirectives directives) {
+ 		PresentableTopic type = new PresentableTopic(as.getLiveTopic(typeID, 1), getID());
+ 		PresentableAssociation assoc = as.createPresentableAssociation(
+-			SEMANTIC_WORKGROUP_TYPES, getID(), getVersion(), typeID, 1, false);
++			SEMANTIC_WORKSPACE_TYPES, getID(), getVersion(), typeID, 1, false);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, type);
+ 		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
+ 	}
+
+Copied: branches/eschnepel/install/db/patches/cm-2.17.sql (from rev 165, trunk/install/db/patches/cm-2.17.sql)
+
+Copied: branches/eschnepel/install/examples (from rev 165, trunk/install/examples)
+
+Copied: branches/eschnepel/libs/jimi-1.0.jar (from rev 165, trunk/libs/jimi-1.0.jar)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000010.html">[deepamehta-svn] r165 - branches
+</A></li>
+	<LI>Next message: <A HREF="000012.html">[deepamehta-svn] r167 - in branches/ldap: .	develop/src/de/deepamehta/service install/examples/ldap	install/examples/ldap/src/de/deepamehta/topics	install/examples/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

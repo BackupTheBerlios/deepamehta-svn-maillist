@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r293 - in trunk: . develop	install/client/stylesheets install/examples/artfacts	install/examples/dm-web install/examples/kompetenzstern	install/examples/messageboard install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r293%20-%20in%20trunk%3A%20.%20develop%0A%09install/client/stylesheets%20install/examples/artfacts%0A%09install/examples/dm-web%20install/examples/kompetenzstern%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200803100607.m2A676kp008442%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000137.html">
+   <LINK REL="Next"  HREF="000139.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r293 - in trunk: . develop	install/client/stylesheets install/examples/artfacts	install/examples/dm-web install/examples/kompetenzstern	install/examples/messageboard install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r293%20-%20in%20trunk%3A%20.%20develop%0A%09install/client/stylesheets%20install/examples/artfacts%0A%09install/examples/dm-web%20install/examples/kompetenzstern%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200803100607.m2A676kp008442%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r293 - in trunk: . develop	install/client/stylesheets install/examples/artfacts	install/examples/dm-web install/examples/kompetenzstern	install/examples/messageboard install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 10 07:07:06 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000137.html">[deepamehta-svn] r292 - in trunk: . install/examples/kompetenzstern
+</A></li>
+        <LI>Next message: <A HREF="000139.html">[deepamehta-svn] r294 - in trunk: develop install/examples/dm-web	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#138">[ date ]</a>
+              <a href="thread.html#138">[ thread ]</a>
+              <a href="subject.html#138">[ subject ]</a>
+              <a href="author.html#138">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-10 07:06:52 +0100 (Mon, 10 Mar 2008)
+New Revision: 293
+
+Removed:
+   trunk/develop/build/
+   trunk/install/examples/dm-web/build/
+   trunk/install/examples/messageboard/build/
+   trunk/install/examples/movies/build/
+Modified:
+   trunk/.classpath
+   trunk/build-development.xml
+   trunk/install/client/stylesheets/
+   trunk/install/examples/artfacts/
+   trunk/install/examples/kompetenzstern/build.xml
+Log:
+deleted some build-directories - they should be on the svn ignore list; update for eclipse classpath-settings; new build-all target to avoid config before build
+
+Modified: trunk/.classpath
+===================================================================
+--- trunk/.classpath	2008-03-09 21:30:37 UTC (rev 292)
++++ trunk/.classpath	2008-03-10 06:06:52 UTC (rev 293)
+@@ -1,15 +1,15 @@
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;classpath&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;develop/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/artfacts/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-browser/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-search/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-topicmapviewer/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-web/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/kompetenzstern/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/ldap/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/messageboard/src&quot;/&gt;
+-	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/movies/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;develop/build&quot; path=&quot;develop/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/artfacts/build&quot; path=&quot;install/examples/artfacts/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/dm-browser/build&quot; path=&quot;install/examples/dm-browser/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/dm-search/build&quot; path=&quot;install/examples/dm-search/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/dm-topicmapviewer/build&quot; path=&quot;install/examples/dm-topicmapviewer/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/dm-web/build&quot; path=&quot;install/examples/dm-web/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/kompetenzstern/build&quot; path=&quot;install/examples/kompetenzstern/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/ldap/build&quot; path=&quot;install/examples/ldap/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/messageboard/build&quot; path=&quot;install/examples/messageboard/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; output=&quot;install/examples/movies/build&quot; path=&quot;install/examples/movies/src&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/activation.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/avalon-framework.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/batik.jar&quot;/&gt;
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-03-09 21:30:37 UTC (rev 292)
++++ trunk/build-development.xml	2008-03-10 06:06:52 UTC (rev 293)
+@@ -109,6 +109,13 @@
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;build-all&quot; depends=&quot;-build-self&quot; description=&quot;build jar files&quot;&gt;
++		&lt;ant target=&quot;-call-examples&quot;&gt;
++			&lt;property name=&quot;target&quot; value=&quot;build&quot; /&gt;
++			&lt;property name=&quot;example.executeall&quot; value=&quot;true&quot; /&gt;
++		&lt;/ant&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
+ 		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot; storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot; /&gt;
+ 	&lt;/target&gt;
+
+
+Property changes on: trunk/install/client/stylesheets
+___________________________________________________________________
+Name: svn:ignore
+   + vergleich2fo.xsl
+vergleich2svg.xsl
+
+
+
+Property changes on: trunk/install/examples/artfacts
+___________________________________________________________________
+Name: svn:ignore
+   + build
+
+
+Modified: trunk/install/examples/kompetenzstern/build.xml
+===================================================================
+--- trunk/install/examples/kompetenzstern/build.xml	2008-03-09 21:30:37 UTC (rev 292)
++++ trunk/install/examples/kompetenzstern/build.xml	2008-03-10 06:06:52 UTC (rev 293)
+@@ -17,9 +17,9 @@
+ 	&lt;target name=&quot;-init&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+-	&lt;echoproperties prefix=&quot;dm.&quot; /&gt;
++
+ 	&lt;target name=&quot;-compile&quot; depends=&quot;-init&quot;&gt;
+-		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
++		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;UTF8&quot;&gt;
+ 			&lt;classpath&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
+ 				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000137.html">[deepamehta-svn] r292 - in trunk: . install/examples/kompetenzstern
+</A></li>
+	<LI>Next message: <A HREF="000139.html">[deepamehta-svn] r294 - in trunk: develop install/examples/dm-web	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#138">[ date ]</a>
+              <a href="thread.html#138">[ thread ]</a>
+              <a href="subject.html#138">[ subject ]</a>
+              <a href="author.html#138">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

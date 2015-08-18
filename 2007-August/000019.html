@@ -1,0 +1,950 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r174 - in branches/eschnepel: .	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/config	install/db libs libs/derby
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r174%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/db%20install/config%0A%09install/db%20libs%20libs/derby&In-Reply-To=%3C200708101949.l7AJnBBa016867%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000018.html">
+   <LINK REL="Next"  HREF="000020.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r174 - in branches/eschnepel: .	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/config	install/db libs libs/derby</H1>
+    <B>eschnepel at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r174%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service/db%20install/config%0A%09install/db%20libs%20libs/derby&In-Reply-To=%3C200708101949.l7AJnBBa016867%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r174 - in branches/eschnepel: .	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/config	install/db libs libs/derby">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Fri Aug 10 21:49:11 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000018.html">[deepamehta-svn] r173 - branches/eschnepel/install/db
+</A></li>
+        <LI>Next message: <A HREF="000020.html">[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-10 21:46:50 +0200 (Fri, 10 Aug 2007)
+New Revision: 174
+
+Added:
+   branches/eschnepel/install/config/build-derby-intern.properties
+   branches/eschnepel/install/config/db-derby-intern.properties
+   branches/eschnepel/install/db/createdb-CONNECT.xml
+   branches/eschnepel/install/db/db_tables_derby.sql
+   branches/eschnepel/install/db/dropdb-derby.xml
+   branches/eschnepel/libs/commons-logging.jar
+   branches/eschnepel/libs/derby/
+   branches/eschnepel/libs/derby/derby.jar
+   branches/eschnepel/libs/derby/derbyLocale_cs.jar
+   branches/eschnepel/libs/derby/derbyLocale_de_DE.jar
+   branches/eschnepel/libs/derby/derbyLocale_es.jar
+   branches/eschnepel/libs/derby/derbyLocale_fr.jar
+   branches/eschnepel/libs/derby/derbyLocale_hu.jar
+   branches/eschnepel/libs/derby/derbyLocale_it.jar
+   branches/eschnepel/libs/derby/derbyLocale_ja_JP.jar
+   branches/eschnepel/libs/derby/derbyLocale_ko_KR.jar
+   branches/eschnepel/libs/derby/derbyLocale_pl.jar
+   branches/eschnepel/libs/derby/derbyLocale_pt_BR.jar
+   branches/eschnepel/libs/derby/derbyLocale_ru.jar
+   branches/eschnepel/libs/derby/derbyLocale_zh_CN.jar
+   branches/eschnepel/libs/derby/derbyLocale_zh_TW.jar
+   branches/eschnepel/libs/derby/derbyclient.jar
+   branches/eschnepel/libs/derby/derbynet.jar
+   branches/eschnepel/libs/derby/derbyrun.jar
+   branches/eschnepel/libs/derby/derbytools.jar
+   branches/eschnepel/libs/spring-core.jar
+Modified:
+   branches/eschnepel/.classpath
+   branches/eschnepel/build.properties
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/config/db-hsqldb-intern.properties
+   branches/eschnepel/install/config/db-mysql.properties
+   branches/eschnepel/install/config/dm.properties
+   branches/eschnepel/install/db/createdb-sql92.xml
+   branches/eschnepel/install/db/dropdb-sql92.xml
+Log:
+Integration of Apache Derby DB
+
+Modified: branches/eschnepel/.classpath
+===================================================================
+--- branches/eschnepel/.classpath	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/.classpath	2007-08-10 19:46:50 UTC (rev 174)
+@@ -27,6 +27,8 @@
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/providerutil.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/servlet.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/xml4j.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/spring-core.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/commons-logging.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;con&quot; path=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;output&quot; path=&quot;develop/build&quot;/&gt;
+ &lt;/classpath&gt;
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/build.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -25,8 +25,9 @@
+ appspath			=/Users/jri/Projects
+ 
+ # DeepaMehta Service
++dm.instance			=derby-intern
+ #dm.instance			=hsqldb-intern
+-dm.instance			=mysql
++#dm.instance			=mysql
+ 
+ dm.instance.property-file=${config}/db-${dm.instance}.properties
+ dm.instance.build-property-file=${config}/build-${dm.instance}.properties
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/build.xml	2007-08-10 19:46:50 UTC (rev 174)
+@@ -8,9 +8,10 @@
+ 
+ 	&lt;import file=&quot;${db}/${db.create-db}&quot;/&gt;
+ 	&lt;import file=&quot;${db}/${db.drop-db}&quot;/&gt;
+-
+ 	&lt;path id=&quot;javalibs&quot;&gt;
+-		&lt;pathelement location=&quot;${db.lib}&quot;/&gt;
++		&lt;fileset dir=&quot;.&quot;&gt;
++			&lt;include name=&quot;${db.libs}&quot;/&gt;
++		&lt;/fileset&gt;
+ 		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+ 		&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
+ 		&lt;pathelement location=&quot;${libpath}/activation.jar&quot;/&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-10 19:46:50 UTC (rev 174)
+@@ -22,6 +22,6 @@
+ 
+ 		public final static String DB_URL = &quot;db.url&quot;;
+ 
+-		public static final String DB_LIB = &quot;db.lib&quot;;
++		public static final String DB_LIBS = &quot;db.libs&quot;;
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-08-10 19:46:50 UTC (rev 174)
+@@ -25,7 +25,7 @@
+ 
+ 	protected void finalize() throws Throwable {
+ 		if (finalClose) {
+-			System.out.println(&quot;*** Closing statement while finalizing.&quot;
++			System.out.println(&quot;*** Closing statement while finalizing. &quot;
+ 					+ &quot;Someone forgot to close it.&quot;);
+ 			close();
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-08-10 19:46:50 UTC (rev 174)
+@@ -24,11 +24,11 @@
+ 				try {
+ 					sweep(
+ 							statement,
+-							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID1 = Topic.ID);&quot;,
++							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID1 = Topic.ID)&quot;,
+ 							&quot;Accosiations with stale target Topic&quot;);
+ 					sweep(
+ 							statement,
+-							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID2 = Topic.ID);&quot;,
++							&quot;Association WHERE NOT EXISTS (SELECT * FROM Topic WHERE Association.TopicID2 = Topic.ID)&quot;,
+ 							&quot;Accosiations with stale source Topic&quot;);
+ 					if (!con.getAutoCommit())
+ 						con.commit();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-08-10 19:46:50 UTC (rev 174)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.service.db;
+ 
+ import java.io.File;
++import java.io.IOException;
+ import java.net.MalformedURLException;
+ import java.net.URL;
+ import java.net.URLClassLoader;
+@@ -11,125 +12,152 @@
+ import java.util.LinkedList;
+ import java.util.Properties;
+ 
++import org.springframework.core.io.Resource;
++import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
++
+ import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaException;
+ 
+ public class DefaultDatabaseProvider implements DatabaseProvider {
+ 
+-	/** SQL92 DBMS Hint */
+-	public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
++    /** SQL92 DBMS Hint */
++    public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
+ 
+-	private final LinkedList freeCons = new LinkedList();
++    private final LinkedList freeCons = new LinkedList();
+ 
+-	private final LinkedList allCons = new LinkedList();
++    private final LinkedList allCons = new LinkedList();
+ 
+-	private String jdbcURL;
++    private String jdbcURL;
+ 
+-	private Class driverClass;
++    private Class driverClass;
+ 
+-	private Properties conProps = new Properties();
++    private Properties conProps = new Properties();
+ 
+-	private Driver driver;
++    private Driver driver;
+ 
+-	public DefaultDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException,
+-			InstantiationException, IllegalAccessException {
+-		setupDatabaseProvider(conf);
+-		new DatabaseSweeper(this).sweep();
+-	}
++    public DefaultDatabaseProvider(Properties conf)
++            throws ClassNotFoundException, SQLException,
++            InstantiationException, IllegalAccessException {
++        setupDatabaseProvider(conf);
++        new DatabaseSweeper(this).sweep();
++    }
+ 
+-	protected void setupDatabaseProvider(Properties conf)
+-			throws ClassNotFoundException, SQLException,
+-			InstantiationException, IllegalAccessException {
+-		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
+-		System.out.println(&quot;Using Database URL &quot;+jdbcURL);
+-		File libFile = new File(conf
+-				.getProperty(ConfigurationConstants.Database.DB_LIB));
+-		String urlString;
+-		try {
+-			urlString = &quot;jar:&quot; + libFile.toURL().toExternalForm() + &quot;!/&quot;;
+-			ClassLoader classLoader = new URLClassLoader(new URL[] { new URL(
+-					urlString) });
+-			driverClass = classLoader.loadClass(conf
+-					.getProperty(ConfigurationConstants.Database.DB_DRIVER));
+-			driver = (Driver) driverClass.newInstance();
+-			if (!driver.acceptsURL(jdbcURL))
+-				throw new DeepaMehtaException(
+-						&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
+-		} catch (MalformedURLException e) {
+-			throw new ClassNotFoundException(e.getMessage());
+-		}
+-		setConnectionProperty(&quot;user&quot;, conf
+-				.getProperty(ConfigurationConstants.Database.DB_USER));
+-		setConnectionProperty(&quot;password&quot;, conf
+-				.getProperty(ConfigurationConstants.Database.DB_PASSWORD));
+-	}
++    protected void setupDatabaseProvider(Properties conf)
++            throws ClassNotFoundException, SQLException,
++            InstantiationException, IllegalAccessException {
++        this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++        System.out.println(&quot;Using Database URL &quot; + jdbcURL);
++        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
++        Resource[] resources;
++        try {
++            resources = resolver.getResources(&quot;file:&quot;+conf
++                    .getProperty(ConfigurationConstants.Database.DB_LIBS));
++        } catch (IOException e) {
++            throw new ClassNotFoundException(e.getMessage(), e);
++        }
++        loadClassFromLibs(resources, conf
++                .getProperty(ConfigurationConstants.Database.DB_DRIVER));
++        driver = (Driver) driverClass.newInstance();
++        if (!driver.acceptsURL(jdbcURL))
++            throw new DeepaMehtaException(
++                    &quot;JDBC-Driver and JDBC-Url does not match!&quot;);
++        String user = conf.getProperty(ConfigurationConstants.Database.DB_USER);
++        if ((null != user) || (&quot;&quot;.equals(user))) {
++            setConnectionProperty(&quot;user&quot;, user);
++            String password = conf
++                      .getProperty(ConfigurationConstants.Database.DB_PASSWORD);
++            setConnectionProperty(&quot;password&quot;, password);
++        }
++    }
+ 
+-	public synchronized Connection getConnection() throws SQLException {
+-		if (0 == freeCons.size()) {
+-			return newConnection();
+-		}
+-		return (Connection) freeCons.poll();
+-	}
++    private void loadClassFromLibs(Resource[] resources, String clazz)
++            throws ClassNotFoundException {
++        URLClassLoader classLoader;
++        try {
++            System.out.println(&quot;Using Classloader for Jars:&quot;);
++            URL[] urls = new URL[resources.length];
++            for (int i = 0; i &lt; resources.length; i++) {
++                Resource res = resources[i];
++                File file = res.getFile();
++                String path = file.getCanonicalPath();
++                System.out.println(path);
++                String urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
++                urls[i] = new URL(urlString);
++            }
++            classLoader = new URLClassLoader(urls);
++        } catch (MalformedURLException e) {
++            throw new ClassNotFoundException(e.getMessage(), e);
++        } catch (IOException e) {
++            throw new ClassNotFoundException(e.getMessage(), e);
++        }
++        driverClass = classLoader.loadClass(clazz);
++    }
+ 
+-	public DbmsHint getDbmsHint() {
+-		return DBMS_HINT_SQL92;
+-	}
++    public synchronized Connection getConnection() throws SQLException {
++        if (0 == freeCons.size()) {
++            return newConnection();
++        }
++        return (Connection) freeCons.poll();
++    }
+ 
+-	public synchronized void freeConnection(Connection con) throws SQLException {
+-		freeCons.addLast(con);
+-		// System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot;
+-		// FREE:&quot;+freeCons.size());
+-	}
++    public DbmsHint getDbmsHint() {
++        return DBMS_HINT_SQL92;
++    }
+ 
+-	protected void setConnectionProperty(String key, String value) {
+-		conProps.setProperty(key, value);
+-	}
++    public synchronized void freeConnection(Connection con) throws SQLException {
++        freeCons.addLast(con);
++        // System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot;
++        // FREE:&quot;+freeCons.size());
++    }
+ 
+-	protected synchronized Connection newConnection() throws SQLException {
+-		Connection con = driver.connect(jdbcURL, conProps);
+-		con.setAutoCommit(true);
+-		allCons.add(con);
+-		System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
+-				+ freeCons.size());
+-		return con;
+-	}
++    protected void setConnectionProperty(String key, String value) {
++        conProps.setProperty(key, value);
++    }
+ 
+-	protected void finalize() throws Throwable {
+-		closeAllCons();
+-		super.finalize();
+-	}
++    protected synchronized Connection newConnection() throws SQLException {
++        Connection con = driver.connect(jdbcURL, conProps);
++        con.setAutoCommit(true);
++        allCons.add(con);
++        System.out.println(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot;
++                + freeCons.size());
++        return con;
++    }
+ 
+-	protected void closeAllCons() throws SQLException {
+-		Connection con;
+-		while (null != (con = (Connection) allCons.poll())) {
+-			con.close();
+-		}
+-	}
++    protected void finalize() throws Throwable {
++        closeAllCons();
++        super.finalize();
++    }
+ 
+-	public Statement getStatement() throws SQLException {
+-		Connection con;
+-		// at least 2 free Connections for better
+-		// Performance of parallel accesses
+-		if (freeCons.size() &lt; 2) {
+-			con = newConnection();
+-		} else {
+-			con = getConnection();
+-		}
+-		Statement stmt = new AutoFreeConnectionStatement(this, con);
+-		return stmt;
+-	}
++    protected void closeAllCons() throws SQLException {
++        Connection con;
++        while (null != (con = (Connection) allCons.poll())) {
++            con.close();
++        }
++    }
+ 
+-	public void release() {
+-		try {
+-			System.out.println(&quot;all / free connections : &quot; + allCons.size()
+-					+ &quot; / &quot; + freeCons.size());
+-			closeAllCons();
+-		} catch (SQLException e) {
+-			e.printStackTrace();
+-		}
+-	}
++    public Statement getStatement() throws SQLException {
++        Connection con;
++        // at least 2 free Connections for better
++        // Performance of parallel accesses
++        if (freeCons.size() &lt; 2) {
++            con = newConnection();
++        } else {
++            con = getConnection();
++        }
++        Statement stmt = new AutoFreeConnectionStatement(this, con);
++        return stmt;
++    }
+ 
+-	public void checkPointNeeded() {
+-	}
++    public void release() {
++        try {
++            System.out.println(&quot;all / free connections : &quot; + allCons.size()
++                    + &quot; / &quot; + freeCons.size());
++            closeAllCons();
++        } catch (SQLException e) {
++            e.printStackTrace();
++        }
++    }
++
++    public void checkPointNeeded() {
++    }
+ }
+
+Added: branches/eschnepel/install/config/build-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-derby-intern.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/build-derby-intern.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -0,0 +1,16 @@
++# DeepaMehta Service
++# dm.instance		=derby-intern
++
++# Database
++db.create-db		=createdb-CONNECT.xml
++db.drop-db			=dropdb-derby.xml
++
++db.tables			=db_tables_derby.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=EMPTY.sql
++
++# db.sysname		=not needed
++db.sysuser			=${db.user}
++db.syspass			=${db.password}
++db.sysurl			=${db.url};create=true
++
+
+Modified: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -11,4 +11,5 @@
+ 
+ # db.sysname		=not needed
+ db.sysuser			=${db.user}
++db.syspass			=${db.password}
+ db.sysurl			=${db.url}
+
+Added: branches/eschnepel/install/config/db-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-derby-intern.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/db-derby-intern.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -0,0 +1,14 @@
++# DeepaMehta Service
++# dm.instance		=derby-intern
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta
++db.user				=
++db.password			=
++db.driver			=org.apache.derby.jdbc.EmbeddedDriver
++db.libs				=${libpath}/derby/*.jar
++
++db.derby.path		=${client}/db/${dm.instance}/${db.name}
++
++db.url				=jdbc:derby:${db.derby.path}
+
+Modified: branches/eschnepel/install/config/db-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -7,8 +7,8 @@
+ db.user				=sa
+ db.password			=
+ db.driver			=org.hsqldb.jdbcDriver
+-db.lib				=${libpath}/hsqldb.jar
++db.libs				=${libpath}/hsqldb.jar
+ 
+-db.hsqldb.path		=${client}/db/${db.name}
++db.hsqldb.path		=${client}/db/${dm.instance}/${db.name}
+ 
+ db.url				=jdbc:hsqldb:${db.hsqldb.path}
+
+Modified: branches/eschnepel/install/config/db-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/db-mysql.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -7,7 +7,7 @@
+ db.user				=dm2
+ db.password			=dm
+ db.driver			=org.gjt.mm.mysql.Driver
+-db.lib				=${libpath}/mysql-3.1.7.jar
++db.libs				=${libpath}/mysql-3.1.7.jar
+ 
+ db.host				=127.0.0.1
+ 
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/config/dm.properties	2007-08-10 19:46:50 UTC (rev 174)
+@@ -1,6 +1,7 @@
+ # DeepaMehta Service
+-dm.instance			=mysql
++#dm.instance			=mysql
+ #dm.instance			=hsqldb-intern
++dm.instance			=derby-intern
+ dm.host				=localhost
+ dm.port				=7557
+ 
+
+Added: branches/eschnepel/install/db/createdb-CONNECT.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-CONNECT.xml	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/db/createdb-CONNECT.xml	2007-08-10 19:46:50 UTC (rev 174)
+@@ -0,0 +1,14 @@
++&lt;project name=&quot;DeepaMehta-db-createdb-CONNECT&quot; &gt;
++&lt;!-- DeepaMehta Database creation script.--&gt;
++&lt;!-- must run as database root user.--&gt;
++	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;EMPTY.sql&quot;/&gt;
++			&lt;/fileset&gt;
++		&lt;/sql&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/createdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/createdb-sql92.xml	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/db/createdb-sql92.xml	2007-08-10 19:46:50 UTC (rev 174)
+@@ -1,9 +1,11 @@
+ &lt;project name=&quot;DeepaMehta-db-createdb-sql92&quot; &gt;
+ &lt;!-- DeepaMehta Database creation script.--&gt;
+ &lt;!-- must run as database root user.--&gt;
+-	&lt;target name=&quot;createdb&quot;&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;target name=&quot;asksyspass&quot; unless=&quot;db.syspass&quot;&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;createdb&quot; depends=&quot;asksyspass&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			CREATE DATABASE ${db.name};
+ 			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+ 			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.user}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+
+Added: branches/eschnepel/install/db/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_derby.sql	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/db/db_tables_derby.sql	2007-08-10 19:46:50 UTC (rev 174)
+@@ -0,0 +1,86 @@
++-- DeepaMehta database model for use with MySQL.
++-- This script just creates the tables.
++
++CREATE TABLE Topic (
++    TypeID VARCHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID VARCHAR(40) NOT NULL,
++    Name VARCHAR(255) NOT NULL,
++	PRIMARY KEY (ID, Version)
++);
++CREATE INDEX IDX_TopicType ON Topic (
++	TypeID, TypeVersion, Name
++);
++
++CREATE TABLE Association (
++    TypeID VARCHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID VARCHAR(40) NOT NULL,
++    Name VARCHAR(255) NOT NULL,
++    TopicID1 VARCHAR(40) NOT NULL,
++    TopicVersion1 INT NOT NULL,
++    TopicID2 VARCHAR(40) NOT NULL,
++    TopicVersion2 INT NOT NULL,
++	PRIMARY KEY (ID, Version)
++);
++CREATE INDEX IDX_AssociationType ON Association (
++	ID, Version, TypeID, TypeVersion
++);
++CREATE INDEX IDX_TopicAssociation1 ON Association (
++    TopicID1, TopicVersion1
++);
++CREATE INDEX IDX_TopicAssociation2 ON Association (
++    TopicID2, TopicVersion2
++);
++
++CREATE TABLE ViewTopic (
++    ViewTopicID VARCHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    TopicID VARCHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    x INT NOT NULL,
++    y INT NOT NULL
++);
++CREATE INDEX IDX_ViewTopic ON ViewTopic (
++    ViewTopicID, ViewTopicVersion
++);
++CREATE INDEX IDX_ViewTopicRef ON ViewTopic (
++	TopicID
++);
++
++CREATE TABLE ViewAssociation (
++    ViewTopicID VARCHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    AssociationID VARCHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL
++);
++CREATE INDEX IDX_ViewAssociation ON ViewAssociation (
++	ViewTopicID, ViewTopicVersion
++);
++
++CREATE TABLE TopicProp (
++    TopicID VARCHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    PropName VARCHAR(40) NOT NULL,
++    PropValue VARCHAR(4096)
++);
++CREATE INDEX IDX_TopicProp ON TopicProp (
++    TopicID, TopicVersion, PropName
++);
++
++CREATE TABLE AssociationProp (
++    AssociationID VARCHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL,
++    PropName VARCHAR(40) NOT NULL,
++    PropValue VARCHAR(4096)
++);
++CREATE INDEX IDX_AssociationProp ON AssociationProp (
++    AssociationID, AssociationVersion, PropName
++);
++
++CREATE TABLE KeyGenerator (
++    Relation VARCHAR(24) NOT NULL PRIMARY KEY,
++    NextKey INT NOT NULL
++);
+
+
+Property changes on: branches/eschnepel/install/db/db_tables_derby.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/eschnepel/install/db/dropdb-derby.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-derby.xml	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/db/dropdb-derby.xml	2007-08-10 19:46:50 UTC (rev 174)
+@@ -0,0 +1,13 @@
++&lt;project name=&quot;DeepaMehta-db-dropedb-hsqldb&quot;&gt;
++	&lt;target name=&quot;dropdb&quot;&gt;
++		&lt;echo message=&quot;You are about to delete the DeepaMehta database '${db.name}'.&quot; /&gt;
++		&lt;echo message=&quot;If you want delete another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
++		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot; /&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot; /&gt;
++		&lt;condition property=&quot;do.abort&quot;&gt;
++			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot; /&gt;
++		&lt;/condition&gt;
++		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot; /&gt;
++		&lt;delete dir=&quot;${db.derby.path}&quot; /&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/dropdb-sql92.xml
+===================================================================
+--- branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-08 09:20:53 UTC (rev 173)
++++ branches/eschnepel/install/db/dropdb-sql92.xml	2007-08-10 19:46:50 UTC (rev 174)
+@@ -1,5 +1,5 @@
+ &lt;project name=&quot;DeepaMehta-db-dropedb-sql92&quot; &gt;
+-	&lt;target name=&quot;dropdb&quot;&gt;
++	&lt;target name=&quot;predropdb&quot;&gt;
+ 		&lt;echo message=&quot;You are about to drop the DeepaMehta database '${db.name}' and the user '${db.user}'.&quot;/&gt;
+ 		&lt;echo message=&quot;You will be asked for the database ${db.sysuser} user password.&quot;/&gt;
+ 		&lt;echo message=&quot;If you want drop another database and user, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+@@ -9,8 +9,12 @@
+ 			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot;/&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot;/&gt;
+-		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;asksyspass&quot; depends=&quot;predropdb&quot; unless=&quot;db.syspass&quot;&gt;
++		&lt;input message=&quot;Enter database ${db.sysuser} user password: &quot; addproperty=&quot;db.syspass&quot;/&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;dropdb&quot; depends=&quot;asksyspass&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;javalibs&quot;&gt;
+ 			DROP DATABASE ${db.name};
+ 			DELETE FROM user where User='${db.user}';
+ 			DELETE FROM db where Db='${db.name}';
+
+Added: branches/eschnepel/libs/commons-logging.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/commons-logging.jar
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derby.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derby.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_cs.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_cs.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_de_DE.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_de_DE.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_es.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_es.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_fr.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_fr.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_hu.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_hu.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_it.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_it.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_ja_JP.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_ja_JP.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_ko_KR.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_ko_KR.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_pl.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_pl.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_pt_BR.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_pt_BR.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_ru.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_ru.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_zh_CN.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_zh_CN.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyLocale_zh_TW.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyLocale_zh_TW.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyclient.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyclient.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbynet.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbynet.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbyrun.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbyrun.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/derby/derbytools.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/derby/derbytools.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/libs/spring-core.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/libs/spring-core.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000018.html">[deepamehta-svn] r173 - branches/eschnepel/install/db
+</A></li>
+	<LI>Next message: <A HREF="000020.html">[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

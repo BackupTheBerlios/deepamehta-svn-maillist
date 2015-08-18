@@ -1,0 +1,519 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r330 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r330%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics&In-Reply-To=%3C200806291130.m5TBUBUh014161%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000174.html">
+   <LINK REL="Next"  HREF="000176.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r330 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r330%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics&In-Reply-To=%3C200806291130.m5TBUBUh014161%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r330 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Jun 29 13:30:11 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000174.html">[deepamehta-svn] r329 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000176.html">[deepamehta-svn] r331 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-06-29 13:30:04 +0200 (Sun, 29 Jun 2008)
+New Revision: 330
+
+Modified:
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/topics/AuthentificationSourceTopic.java
+   trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+Log:
+Web engine extended: utility method createTopic() has optional &quot;topicmapID&quot; and &quot;topicID&quot; parameters, allowing both,
+a) application specific logic, as triggered e.g. by the propertiesChanged() hook can operate on topicmapID
+b) the ID of the topic to be created can be specified in advance
+REQUIRED by Kiezatlas revision 46 and later
+
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/build.xml	2008-06-29 11:30:04 UTC (rev 330)
+@@ -364,6 +364,7 @@
+ 
+ 	&lt;target name=&quot;patchdb&quot;&gt;
+ 		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.user}', password '${db.password}').&quot; /&gt;
++		&lt;echo message=&quot;Databse URL: ${db.url}&quot; /&gt;
+ 		&lt;echo message=&quot;If you want patch another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
+ 		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=... -Dpatch=...&quot; /&gt;
+ 		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.patch&quot; /&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 24.6.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 25.3.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -265,20 +265,25 @@
+ 
+ 
+ 
+-	// ---------------------------------------------
+-	// --- Accessing Proxy Topics / Associations ---
+-	// ---------------------------------------------
++	// -------------------------------------------------
++	// --- Accessing Live Topics / Live Associations ---
++	// -------------------------------------------------
+ 
+ 
+ 
+ 	// --- getLiveTopic (4 forms) ---
+ 
+-	public LiveTopic getLiveTopic(String id, int version) throws DeepaMehtaException {
+-		return getLiveTopic(id, version, null, null);
++	public LiveTopic getLiveTopic(String topicID, int version) throws DeepaMehtaException {
++		return getLiveTopic(topicID, version, null, null);
+ 	}
+ 
+-	public LiveTopic getLiveTopic(String id, int version, Session session, CorporateDirectives directives) throws DeepaMehtaException {
+-		return checkLiveTopic(id, version, session, directives);
++	public LiveTopic getLiveTopic(String topicID, int version, Session session, CorporateDirectives directives) throws DeepaMehtaException {
++		// error check
++		if (topicID == null) {
++			throw new DeepaMehtaException(&quot;null passed as topic ID&quot;);
++		}
++		//
++		return checkLiveTopic(topicID, version, session, directives);
+ 	}
+ 
+ 	public LiveTopic getLiveTopic(BaseTopic topic) throws DeepaMehtaException {
+@@ -298,7 +303,7 @@
+ 
+ 	public LiveAssociation getLiveAssociation(BaseAssociation assoc) throws DeepaMehtaException {
+ 		if (assoc == null) {
+-			throw new DeepaMehtaException(&quot;null passed to getLiveAssociation()&quot;);
++			throw new DeepaMehtaException(&quot;null passed instead a BaseAssociation&quot;);
+ 		}
+ 		return getLiveAssociation(assoc.getID(), assoc.getVersion());
+ 	}
+@@ -321,24 +326,11 @@
+ 	// ---
+ 
+ 	/**
+-	 * ### should have parameters &quot;topicID&quot; and &quot;version&quot; instead of &quot;topic&quot;
+-	 * &lt;p&gt;
+-	 * References checked: 14.12.2001 (2.0a14-pre4)
++	 * References checked: 24.6.2008 (2.0b8)
+ 	 *
+ 	 * @param	session		passed to init() hook (init levels 1-3)
+ 	 *
+-	 * @see		#getLoginCheck
+-	 * @see		#type
+-	 * @see		CorporateCommands#addTopicCommands
+-	 * @see		#startSession
+-	 * @see		#addGroupWorkspaces
+-	 * @see		#addCorporateSpace
+-	 * @see		#addViewsInUse
+-	 * @see		de.deepamehta.topics.LiveTopic#setDataSource
+-	 * @see		de.deepamehta.topics.PropertyTopic#setPropertyDefinition
+-	 * @see		de.deepamehta.topics.TopicContainerTopic#getAppearance
+-	 * @see		de.deepamehta.topics.TypeTopic#getSupertype
+-	 * @see		de.deepamehta.topics.TypeTopic#makeTypeDefinition
++	 * @see		#getLiveTopic(String id, int version, Session session, CorporateDirectives directives)
+ 	 */
+ 	private LiveTopic checkLiveTopic(String id, int version, Session session, CorporateDirectives directives)
+ 																	throws DeepaMehtaException, TopicInitException {
+@@ -532,6 +524,8 @@
+ 			if (d != null) {
+ 				directives.add(d);
+ 			}
++			//
++			newTopic = getLiveTopic(topic);
+ 			// --- evoke ---
+ 			// ### Note: a topic is evoked also if init(1) fails. Consider this case:
+ 			// interactively created datasource topics have no URL and driver set, thus the
+@@ -541,7 +535,7 @@
+ 			// will trigger evoke, but the topic could already be in CM if revealed before
+ 			if (evoke) {
+ 				try {
+-					directives.add(evokeLiveTopic(topic, session, topicmapID, viewmode));	// DME, ASE
++					directives.add(newTopic.evoke(session, topicmapID, viewmode));	// DME, ASE
+ 				} catch (DeepaMehtaException e) {
+ 					System.out.println(&quot;*** ApplicationService.createLiveTopic(): &quot; + e);
+ 					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_ERROR));
+@@ -551,7 +545,6 @@
+ 				}
+ 			}
+ 			// --- init(2) and init(3) ---
+-			newTopic = getLiveTopic(topic);
+ 			directives.add(newTopic.init(INITLEVEL_2, session));	// throws TopicInitException
+ 			directives.add(newTopic.init(INITLEVEL_3, session));	// throws TopicInitException
+ 		} catch (TopicInitException e) {
+@@ -1339,32 +1332,6 @@
+ 	// ---
+ 
+ 	/**
+-	 * Evokes the specified live topic.
+-	 * &lt;p&gt;
+-	 * Accesses the specified topic in live corporate memory and triggers its
+-	 * {@link de.deepamehta.topics.LiveTopic#evoke evoke()} hook with the
+-	 * specified parameters.
+-	 *
+-	 * @throws	DeepaMehtaException, AmbiguousSemanticException. Exceptions occurring
+-	 *			while topic evocation are propagated.
+-	 *
+-	 * @see		CorporateDirectives#evokeLiveTopic
+-	 * @see		CorporateDirectives#createProxyTypeTopic
+-	 * @see		CorporateDirectives#changeTopicType
+-	 * @see		### de.deepamehta.topics.AuthentificationSourceTopic#loginCheck
+-	 * @see		### de.deepamehta.topics.CorporateSearchTopic#addContainerByType
+-	 * @see		### de.deepamehta.topics.CorporateSearchTopic#createCopyOfSearchTopic
+-	 */
+-	public CorporateDirectives evokeLiveTopic(BaseTopic topic, Session session,
+-									String topicmapID, String viewmode) throws
+-									DeepaMehtaException, AmbiguousSemanticException {
+-		// --- trigger evoke() hook ---
+-		return getLiveTopic(topic).evoke(session, topicmapID, viewmode);
+-	}
+-
+-	// ---
+-
+-	/**
+ 	 * @see		InteractionConnection#performProcessTopicCommand
+ 	 * @see		EmbeddedService#executeTopicCommand
+ 	 */
+@@ -2307,15 +2274,14 @@
+ 	 * presentable type topics.
+ 	 *
+ 	 * @param	triggerInit		if &lt;code&gt;true&lt;/code&gt; the &lt;code&gt;init(2)&lt;/code&gt; and
+-	 *							&lt;code&gt;init(3)&lt;/code&gt; hooks of the corresponding proxy
++	 *							&lt;code&gt;init(3)&lt;/code&gt; hooks of the corresponding
+ 	 *							type topics are triggered ###
+ 	 *
+ 	 * @see		#loadKernelTopics							2x	true
+ 	 * @see		CorporateTopicMap#initLiveTopics			4x	false
+ 	 * @see		CorporateDirectives#updateCorporateMemory		false
+ 	 */
+-	void initTypeTopics(Enumeration typeTopics, boolean triggerInit,
+-								Session session, CorporateDirectives directives) {
++	void initTypeTopics(Enumeration typeTopics, boolean triggerInit, Session session, CorporateDirectives directives) {
+ 		// &gt;&gt;&gt; compare to initTopics()
+ 		PresentableType typeTopic;
+ 		while (typeTopics.hasMoreElements()) {
+@@ -2323,15 +2289,12 @@
+ 			try {
+ 				initTypeTopic(typeTopic, triggerInit, session);
+ 			} catch (TopicInitException e) {
+-				System.out.println(&quot;*** ApplicationService.initTypeTopics(): &quot; +
+-					e.getMessage());
++				System.out.println(&quot;*** ApplicationService.initTypeTopics(): &quot; + e.getMessage());
+ 				if (directives != null) {
+-					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-						new Integer(NOTIFICATION_WARNING));
++					directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 				}
+ 			} catch (Exception e) {
+-				System.out.println(&quot;*** ApplicationService.initTypeTopics(): &quot; +
+-					e + &quot; -- &quot; + typeTopic + &quot; not properly inited&quot;);
++				System.out.println(&quot;*** ApplicationService.initTypeTopics(): &quot; + e + &quot; -- &quot; + typeTopic + &quot; not properly inited&quot;);
+ 				e.printStackTrace();
+ 			}
+ 		}
+@@ -4676,18 +4639,18 @@
+ 	 * @see		CorporateDirectives#showTopic
+ 	 */
+ 	void initTopicAppearance(PresentableTopic topic) throws DeepaMehtaException {
+-		LiveTopic proxyTopic = getLiveTopic(topic);					// may throw DME
+-		if (proxyTopic.getIndividualAppearanceMode() == APPEARANCE_CUSTOM_ICON) {
+-			topic.setIcon(proxyTopic.getIndividualAppearanceParam());
++		LiveTopic t = getLiveTopic(topic);					// may throw DME
++		if (t.getIndividualAppearanceMode() == APPEARANCE_CUSTOM_ICON) {
++			topic.setIcon(t.getIndividualAppearanceParam());
+ 		}
+ 	}
+ 
+ 	/**
+ 	 * @see		#initTypeTopic
+ 	 */
+-	private void initTypeAppearance(PresentableType typeTopic, TypeTopic typeProxy) {
+-		typeTopic.setTypeIconfile(typeProxy.getIconfile());		// throws DME
+-		typeTopic.setAssocTypeColor(typeProxy.getAssocTypeColor());
++	private void initTypeAppearance(PresentableType type, TypeTopic typeTopic) {
++		type.setTypeIconfile(typeTopic.getIconfile());		// throws DME
++		type.setAssocTypeColor(typeTopic.getAssocTypeColor());
+ 	}
+ 
+ 	// ---
+@@ -5053,7 +5016,6 @@
+ 	/**
+ 	 * ### just passed to corporate memory -- to be dropped
+ 	 *
+-	 * @see		#addTypeToView
+ 	 * @see		#personalizeTopics
+ 	 * @see		CorporateDirectives#createLiveTopic	createLiveTopic() performExistenceCheck=true
+ 	 * @see		de.deepamehta.topics.UserTopic#createPersonalWorkspace
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -956,7 +956,8 @@
+ 				System.out.println(&quot;&gt; (#) &quot; + topicmapID + &quot;:&quot; + topicmapVersion + &quot; &quot; + topicID + &quot;:&quot; + topicVersion +
+ 					&quot; (&quot; + x + &quot;, &quot; + y + &quot;)&quot;);
+ 			}
+-			update(&quot;INSERT INTO ViewTopic VALUES (?, ?, ?, ?, ?, ?)&quot;, new Object[]{topicmapID, i(topicmapVersion), topicID, i(topicVersion), i(x), i(y)});
++			update(&quot;INSERT INTO ViewTopic VALUES (?, ?, ?, ?, ?, ?)&quot;, new Object[]{topicmapID, i(topicmapVersion),
++				topicID, i(topicVersion), i(x), i(y)});
+ 		}
+ 	}
+ 
+@@ -1075,12 +1076,13 @@
+ 	}
+ 
+ 	/**
++	 * References checked: 24.6.2008 (2.0b8)
++	 *
+ 	 * @see		ApplicationService#moveTopic
+ 	 */
+ 	public void updateViewTopic(String topicmapID, int topicmapVersion, String topicID, int x, int y) {
+ 		update(&quot;UPDATE ViewTopic SET x = ?, y = ? WHERE ViewTopicID = ? AND ViewTopicVersion = ? AND TopicID = ?&quot;,
+-		       new Object[]{i(x), i(y), topicmapID, i(topicmapVersion), topicID}, IMPLIED_NO);
+-		// ### implied ? -- probably IMPLIED_1 ### topic version?
++		       new Object[]{i(x), i(y), topicmapID, i(topicmapVersion), topicID});
+ 	}
+ 
+ 	// ---
+@@ -1809,17 +1811,11 @@
+ 		return count;
+ 	}
+ 
+-	// --- update (2 forms) ---
++	// --- update (3 forms) ---
+ 
+ 	/**
+ 	 * Executes an INSERT, UPDATE or DELETE statement.
+ 	 */
+-//	private int update(String query) {
+-//		return update(query, IMPLIED_1);
+-//	}
+-	/**
+-	 * Executes an INSERT, UPDATE or DELETE statement.
+-	 */
+ 	private int update(String query, Object[] params) {
+ 		return update(query, params, IMPLIED_1);
+ 	}
+@@ -1827,12 +1823,6 @@
+ 	/**
+ 	 * Executes an INSERT, UPDATE or DELETE statement.
+ 	 */
+-//	private int update(String query, int implied) {
+-//		return update(query,new Object[0],implied);
+-//	}
+-	/**
+-	 * Executes an INSERT, UPDATE or DELETE statement.
+-	 */
+ 	private int update(String query, Object[] params, int implied) {
+ 		try {
+ 			return update(createPreparedStatement(query, params), implied);
+@@ -1850,7 +1840,7 @@
+ 			int rowCount = stmt.executeUpdate();
+ 			if (implied == IMPLIED_1 &amp;&amp; rowCount != 1) {
+ 				System.out.println(&quot;*** RelationalCorporateMemory.update(): &quot; +
+-					rowCount + &quot; rows updated:\n\&quot;&quot; + stmt + &quot;\&quot;&quot;);
++					rowCount + &quot; rows updated while 1 is expected&quot;);
+ 			}
+ 			return rowCount;
+ 		} catch (SQLException e) {
+@@ -1860,7 +1850,7 @@
+ 				System.out.println(stmt);
+ 			}
+ 			return 0;
+-		}finally{
++		} finally {
+ 			try {
+ 				stmt.close();
+ 			} catch (SQLException e) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -54,7 +54,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 17.4.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 25.6.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -182,12 +182,30 @@
+ 
+ 
+ 
++	// --- createTopic (2 forms) ---
++
+ 	/**
+ 	 * Utility method to create a topic directly from form data.
+ 	 */
+ 	protected final String createTopic(String typeID, RequestParameter params, Session session) {
+-		String topicID = as.getNewTopicID();
+-		processForm(typeID, topicID, params.getTable(), true, session);			// doCreate=true
++		return createTopic(typeID, params, session, null, null);
++	}
++
++	/**
++	 * Utility method to create a topic directly from form data.
++	 *
++	 * @param	topicmapID	may be null. Might be required by specific application logic, as triggered e.g.
++	 *						by the propertiesChanged() hook.
++	 * @param	topicID		the ID for the newly created topic. If &lt;code&gt;null&lt;/code&gt;, a new topic ID is created.
++	 *
++	 * @return	the ID of the created topic
++	 */
++	protected final String createTopic(String typeID, RequestParameter params, Session session,
++																					String topicmapID, String topicID) {
++		if (topicID == null) {
++			topicID = as.getNewTopicID();
++		}
++		processForm(typeID, topicID, params.getTable(), true, session, topicmapID, VIEWMODE_USE);		// doCreate=true
+ 		//
+ 		return topicID;
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/topics/AuthentificationSourceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AuthentificationSourceTopic.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/topics/AuthentificationSourceTopic.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -9,10 +9,10 @@
+ /**
+  * ### This is the entry point for authentification. There is only one topic of this type in
+  * the system which is associated to exactly one LoginTopic.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The actual authentification procedure will be managed by the LoginCheck object which
+  * is represented by the LoginTopic.
+- * &lt;P&gt;
++ * &lt;p&gt;
+  * The association is from the authentification source topic to the login topic (type
+  * {@link #SEMANTIC_AUTHENTIFICATION_SOURCE}).
+  */
+@@ -23,30 +23,16 @@
+ 	}
+ 
+ 	/**
+-	 * If the login check by the LoginCheck object succeeded, a lookup is performed to
+-	 * determine if the user is already represented by a user object. ### If the user is
+-	 * logged in for the first time, a new user object with associated personal map
+-	 * will be created.
++	 * ### If the login check by the LoginCheck object succeeded, a lookup is performed to
++	 * determine if the user is already represented by a user object.
+ 	 *
+ 	 * @see		de.deepamehta.service.InteractionConnection#login
+ 	 */
+ 	public BaseTopic loginCheck(String username, String password, Session session) {
+ 		try {
++			// Check if the user is a registered DeepaMehta user
+ 			if (loginCheck(username, password)) {
+-				// Check if the user is a registered DeepaMehta user already
+-				// ### possibly the check isn't sufficient. Must the user exist in the
+-				// &quot;Users and Groups&quot; view?
+ 				BaseTopic user = cm.getTopic(TOPICTYPE_USER, username, 1);
+-				/* ### if (user == null) {
+-					System.out.println(&quot;&gt;&gt;&gt; AuthentificationSourceTopic: register new &quot; +
+-						&quot;DeepaMehta user \&quot;&quot; + username + &quot;\&quot;&quot;);
+-					// register new DeepaMehta user ### also if CM is used for authentification?
+-					// ### Note: programatically registered users will not appear in the
+-					// &quot;Users and Groups&quot; view
+-					user = new BaseTopic(as.getNewTopicID(), 1, TOPICTYPE_USER, 1, username);
+-					as.createLiveTopic(user, false, session);
+-					as.evokeLiveTopic(user, session, null, null);
+-				} */
+ 				return user;
+ 			}
+ 		} catch (Exception e) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -179,10 +179,8 @@
+ 	protected String getAppearance(String id, String name, Session session,
+ 													CorporateDirectives directives) {
+ 		// ### inidividual appearance of already evoked elements is not considered.
+-		// ### the version is set to 1
+ 		// &gt;&gt;&gt; compare to TopicContainerTopic.getAppearance()
+-		// ### as.checkLiveTopic(new BaseTopic(id, 1, getContentTypeID(), 1, name), session, directives);
+-		return as.getIconfile(getContentTypeID(), 1);	// ### was (id, 1)
++		return as.getIconfile(getContentTypeID(), 1);	// ### was (id, 1) ### version=1
+ 	}
+ 
+ 	/**
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-06-18 14:44:10 UTC (rev 329)
++++ trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-06-29 11:30:04 UTC (rev 330)
+@@ -151,10 +151,8 @@
+ 	}
+ 
+ 	protected String getAppearance(String id, String name, Session session, CorporateDirectives directives) {
+-		// ### the versions are set to 1
+ 		// &gt;&gt;&gt; compare to ElementContainerTopic.getAppearance()
+-		// ### as.checkLiveTopic(new BaseTopic(id, 1, getContentTypeID(), 1, name), session, directives);
+-		return as.getIconfile(id, 1);
++		return as.getIconfile(id, 1);	// ### version=1
+ 	}
+ 
+ 	/**
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000174.html">[deepamehta-svn] r329 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000176.html">[deepamehta-svn] r331 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

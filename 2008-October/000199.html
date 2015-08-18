@@ -1,0 +1,542 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r355 - in trunk/develop/src/de/deepamehta/service:	. web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r355%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C200810301521.m9UFLvS3011142%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r355 - in trunk/develop/src/de/deepamehta/service:	. web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r355%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C200810301521.m9UFLvS3011142%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r355 - in trunk/develop/src/de/deepamehta/service:	. web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Thu Oct 30 16:21:57 CET 2008</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2008-10-30 16:21:54 +0100 (Thu, 30 Oct 2008)
+New Revision: 355
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/TopicBeanField.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+TopicBeans and HTML Generator have the following new functionalities
+a) listTopicBeans() columns can be sortable through properties, supports the full hide semantic for TopicBeans like in info()
+b) info() renders Links into document or image repository if Visualization Mode of Property is &quot;File Chooser&quot;
+c) TopicBeans are now created with label and the visualization Mode. The labeling policy remains, relation name before TopicType Name (Plural or Singular Name)
+       	* attribute label: related topic label == name or plural name if the relation has no name assigned
+	* attribute visualMode: has also the Visualization Mode of a TopicBeanField.TYPE_SINGLE
+
+Notes: an additional action in listTopicBean is rendered always on the topic's name
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-29 19:44:57 UTC (rev 354)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-10-30 15:21:54 UTC (rev 355)
+@@ -68,9 +68,9 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+- * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ * Last change: 29.10.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public final class ApplicationService extends BaseTopicMap implements LoginCheck, DeepaMehtaConstants {
+ 
+@@ -3833,7 +3833,7 @@
+ 		bean.typeName = type.getName();
+ 		bean.icon = topic.getIconfile();
+ 		//
+-		addFieldsToTopicBean(type, topicID, version, &quot;&quot;, true, bean);
++		addFieldsToTopicBean(type, topicID, version, &quot;&quot;, &quot;&quot;, true, bean);
+ 		return bean;
+ 	}
+ 
+@@ -3842,8 +3842,10 @@
+ 	 *
+ 	 * @param	type		the type of the topic. Acts as &quot;template&quot;: all fields of this type definition are added.
+ 	 * @param	topicID		the ID of the topic. If null, the added fields are empty.
++	 * @param   fieldPrefix contains the type hierarchy as name of a TopicBeanField 
++	 * @param   labelPrefix contains the naming hierarchy as labelof a TopicBeanField 
+ 	 */
+-	private void addFieldsToTopicBean(TypeTopic type, String topicID, int version, String fieldPrefix, boolean deep, TopicBean bean) {
++	private void addFieldsToTopicBean(TypeTopic type, String topicID, int version, String fieldPrefix, String labelPrefix, boolean deep, TopicBean bean) {
+ 		// ### compare to HTMLGenerator.infoFields()
+ 		// ### compare to HTMLGenerator.formFields()
+ 		Enumeration items = type.getDefinition().elements();
+@@ -3852,9 +3854,10 @@
+ 			if (item instanceof PropertyDefinition) {
+ 				PropertyDefinition propDef = (PropertyDefinition) item;
+ 				String propName = propDef.getPropertyName();
++				String visualMode = propDef.getVisualization();
+ 				String propValue = topicID != null ? getTopicProperty(topicID, 1, propName) : &quot;&quot;;
+ 				// add TYPE_SINGLE bean field
+-				bean.fields.addElement(new TopicBeanField(fieldPrefix + propName, propValue));
++				bean.fields.addElement(new TopicBeanField(fieldPrefix + propName, labelPrefix + propName, visualMode, propValue));
+ 			} else if (item instanceof Relation) {
+ 				if (deep) {
+ 					Relation rel = (Relation) item;
+@@ -3863,7 +3866,7 @@
+ 						false, true) : new Vector();	// ordered=false, emptyAllowed=true ### relTopicPos=2 hardcoded
+ 					// add fields
+ 					if (rel.webInfo.equals(WEB_INFO_TOPIC_NAME)) {
+-						addRelationFieldToTopicBean(rel, relTopics, fieldPrefix, bean);
++						addRelationFieldToTopicBean(rel, relTopics, fieldPrefix, labelPrefix, bean);
+ 					} else if (rel.webInfo.equals(WEB_INFO) || rel.webInfo.equals(WEB_INFO_DEEP)) {
+ 						addRelationFieldsToTopicBean(rel, relTopics, fieldPrefix, bean);
+ 					} else {
+@@ -3877,21 +3880,25 @@
+ 	}
+ 
+ 	/**
+-	 * Adds only the name of related topics to a bean.
++	 * Adds the name and the label of related topics as TopicBeanFields to a TopicBean.
++	 * Hint: called when the Relation setting is WEB_INFO_TOPIC_NAME
+ 	 */
+-	private void addRelationFieldToTopicBean(Relation rel, Vector topics, String fieldPrefix, TopicBean bean) {
++	private void addRelationFieldToTopicBean(Relation rel, Vector topics, String fieldPrefix, String labelPrefix, TopicBean bean) {
+ 		// ### compare to HTMLGenerator.relationInfoField()
+ 		// ### compare to HTMLGenerator.relationFormField()
+ 		//
+ 		TypeTopic relTopicType = type(rel.relTopicTypeID, 1);
+ 		boolean many = rel.cardinality.equals(CARDINALITY_MANY);
+ 		String fieldLabel = !rel.name.equals(&quot;&quot;) ? rel.name : many ? relTopicType.getPluralNaming() : relTopicType.getName();
++		String fieldName = relTopicType.getName();
++		// ### System.out.println(&quot;&gt;&gt;&gt; addRelationFieldToTopicBean() label is: &quot; + labelPrefix + fieldLabel + &quot;, name is: &quot; + fieldPrefix + fieldName);
+ 		// add TYPE_MULTI bean field
+-		bean.fields.addElement(new TopicBeanField(fieldPrefix + fieldLabel, topics));
++		bean.fields.addElement(new TopicBeanField(fieldPrefix + fieldName, labelPrefix + fieldLabel, topics));
+ 	}
+ 
+ 	/**
+ 	 * Adds all fields of related topics to a bean.
++	 * Hint: called when the Relation setting is WEB_INFO || WEB_INFO_DEEP
+ 	 */
+ 	private void addRelationFieldsToTopicBean(Relation rel, Vector topics, String fieldPrefix, TopicBean bean) {
+ 		// ### compare to HTMLGenerator.relationInfoFields()
+@@ -3903,10 +3910,13 @@
+ 			relTopicID = ((BaseTopic) topics.firstElement()).getID();
+ 		}
+ 		TypeTopic relTopicType = type(rel.relTopicTypeID, 1);
++		boolean many = rel.cardinality.equals(CARDINALITY_MANY);
++		String labelPrefix = !rel.name.equals(&quot;&quot;) ? rel.name + TopicBean.FIELD_SEPARATOR : many ? relTopicType.getPluralNaming() + 
++			TopicBean.FIELD_SEPARATOR : relTopicType.getName() + TopicBean.FIELD_SEPARATOR;
+ 		fieldPrefix = fieldPrefix + relTopicType.getName() + TopicBean.FIELD_SEPARATOR;
+ 		boolean deep = rel.webInfo.equals(WEB_INFO_DEEP);
+ 		// recursive call
+-		addFieldsToTopicBean(relTopicType, relTopicID, 1, fieldPrefix, deep, bean);		// ### version=1
++		addFieldsToTopicBean(relTopicType, relTopicID, 1, fieldPrefix, labelPrefix, deep, bean);		// ### version=1
+ 	}
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/TopicBeanField.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/TopicBeanField.java	2008-09-29 19:44:57 UTC (rev 354)
++++ trunk/develop/src/de/deepamehta/service/TopicBeanField.java	2008-10-30 15:21:54 UTC (rev 355)
+@@ -7,10 +7,10 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 20.10.2007 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 29.10.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 14.10.2007 (2.0b8)&lt;br&gt;
+- * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public class TopicBeanField {
+ 
+@@ -18,19 +18,22 @@
+ 	public static final int TYPE_MULTI = 1;
+ 
+ 	public int type;
+-	public String name;
++	public String label, name, visualMode;
+ 	public String value;	// used for TYPE_SINGLE. Must not be null.
+ 	public Vector values;	// used for TYPE_MULTI. Must not be null.
+ 
+-	TopicBeanField(String name, String value) {
++	TopicBeanField(String name, String label, String visualMode, String value) {
+ 		type = TYPE_SINGLE;
+ 		this.name = name;
+ 		this.value = value;
++		this.visualMode = visualMode;
++		this.label = label;
+ 	}
+ 
+-	TopicBeanField(String name, Vector values) {
++	TopicBeanField(String name, String label, Vector values) {
+ 		type = TYPE_MULTI;
+ 		this.name = name;
+ 		this.values = values;
++		this.label = label;
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-09-29 19:44:57 UTC (rev 354)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-10-30 15:21:54 UTC (rev 355)
+@@ -32,7 +32,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 9.8.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.10.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+@@ -239,16 +239,46 @@
+ 		//
+ 		return html.toString();
+ 	}
+-	
+-	public String listTopicBeans(Vector topicBeans) {
++	/**
++	 * Renders a list of topics as a table, one row per topic, one column per property. 
++	 * * sortable if TopicBeanField.TYPE_SINGLE
++	 * * sortable per default
++	 * sortBy Action uses the given TopicBeanField Identifier as sortField, see listBeanHeadings()
++	 * renders editAction into Name of Topic (1 Column) (can be passed within the action)
++	 * propSel and hideSel is the same like in former list methods,
++	 * 
++	 * @param topicBeans
++	 * @param selectedID
++	 * @param propSel
++	 * @param hideSel
++	 * @param action
++	 * @param doZebraStriping
++	 * @return HTML List of all TopicBeans
++	 */
++	public String listTopicBeans(Vector topicBeans, String selectedID, String[] propSel, String[] propContaining, boolean hideSel,
++									String nameAction, String sortAction, boolean doZebraStriping, String highlightColumnHeader) {
++		if (topicBeans.size() == 0) {
++			return &quot;&quot;;
++		}
++		hideBeanFields(topicBeans, propSel, propContaining, hideSel);
++		StringBuffer html = new StringBuffer();
++		html.append(&quot;&lt;table&gt;\r&quot;);
++		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
++		TopicBean firstBean = (TopicBean) topicBeans.get(0);
++		// ### Note: The firstBean entered into listBeanHeadings provides the name and number of the rendered columnHeaders
++		listBeanHeadings(html, firstBean, highlightColumnHeader, sortAction);
++		html.append(&quot;&lt;/tr&gt;&quot;);
+ 		//
+-		StringBuffer html = new StringBuffer();
+-		html.append(&quot;&lt;/br&gt;&quot;);
+ 		for (int i = 0; i &lt; topicBeans.size(); i++) {
+ 			TopicBean topic = (TopicBean) topicBeans.elementAt(i);
+-			html.append(topic.getValue(&quot;Name&quot;));
+-			html.append(&quot;&lt;/br&gt;&quot;);
++			String classAttr = topic.id.equals(selectedID) ? &quot; class=\&quot;list-highlight\&quot;&quot; : doZebraStriping ?
++				i % 2 == 0 ? &quot; class=\&quot;list-evenrow\&quot;&quot; : &quot; class=\&quot;list-oddrow\&quot;&quot; : &quot;&quot;;
++   			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&quot; + classAttr + &quot;&gt;&quot;);
++			listBeanFields(html, topic, nameAction);
++			html.append(&quot;&lt;/tr&gt;\r&quot;);
+ 		}
++		html.append(&quot;&lt;/table&gt;&quot;);
++  		//
+ 		return html.toString();
+ 	}
+ 
+@@ -341,67 +371,6 @@
+ 		}
+ 	}
+ 
+-	// ---
+-	
+-	/**
+-	 * Renders a TopicBean Field according to &quot;2-column&quot; layout style ({@link LAYOUT_STYLE_2COLUMN}).
+-	 */
+-	private void infoField2ColumnLayout(TopicBeanField field, StringBuffer html) {
+-		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot; +
+-			&quot;&lt;td width=150&gt;&lt;span class=\&quot;info-label\&quot;&gt;&quot; + field.name + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
+-			&quot;&lt;td&gt;&quot;);
+-		switch (field.type) {
+-		case TopicBeanField.TYPE_SINGLE:
+-			if (field.value != null) {
+-				String text = DeepaMehtaUtils.transformToHTML(field.value);
+-				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot; + text + &quot;&lt;br&gt;&lt;/span&gt;&quot;);
+-			}
+-			break;
+-		case TopicBeanField.TYPE_MULTI:
+-			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
+-			while (e.hasMoreElements()) {
+-				BaseTopic topic = (BaseTopic) e.nextElement();
+-				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
+-				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
+-			}
+-			html.append(&quot;&lt;/span&gt;&quot;);
+-			break;
+-		default:
+-			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+-		}
+-		html.append(&quot;&lt;/td&gt;&lt;/tr&gt;\r&quot;);
+-	}
+-
+-	/**
+-	 * Renders a TopicBean Field according to &quot;flow&quot; layout style ({@link LAYOUT_STYLE_FLOW}).
+-	 */
+-	private void infoFieldFlowLayout(TopicBeanField field, StringBuffer html) {
+-		html.append(&quot;&lt;p class=\&quot;info\&quot;&gt;&quot;);
+-		html.append(&quot;&lt;span class=\&quot;info-label\&quot;&gt;&quot; + field.name + &quot;: &lt;/span&gt;&quot;);
+-		switch (field.type) {
+-		case TopicBeanField.TYPE_SINGLE:
+-			if (field.value != null) {
+-				String text = DeepaMehtaUtils.transformToHTML(field.value);
+-				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot; + text + &quot;&lt;/span&gt;&quot;);
+-			}
+-			break;
+-		case TopicBeanField.TYPE_MULTI:
+-			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
+-			while (e.hasMoreElements()) {
+-				BaseTopic topic = (BaseTopic) e.nextElement();
+-				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
+-				html.append(&quot;&lt;br&gt;&quot; + imageTag(topic) + &quot; &quot; + text);
+-			}
+-			html.append(&quot;&lt;/span&gt;&quot;);
+-			break;
+-		default:
+-			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+-		}
+-		html.append(&quot;&lt;/p&gt;\r&quot;);
+-	}
+-
+ 	// --- form (8 forms) ---
+ 
+ 	public String form(String typeID, String action) {
+@@ -871,8 +840,106 @@
+ 		//
+ 		return containsFileField;
+ 	}
++	
++	// ---
++	
++	/**
++	 * Renders a TopicBean Field according to &quot;2-column&quot; layout style ({@link LAYOUT_STYLE_2COLUMN}).
++	 * If some fields of TopcBeanField.TYPE_SINGLE has the Visualization Mode &quot;FileChoose&quot;, there is a link rendered 
++	 * pointing into the documents/resp. images/ repository.
++	 */
++	private void infoField2ColumnLayout(TopicBeanField field, StringBuffer html) {
++		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot; +
++			&quot;&lt;td width=150&gt;&lt;span class=\&quot;info-label\&quot;&gt;&quot; + field.label + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
++			&quot;&lt;td&gt;&quot;);
++		switch (field.type) {
++		case TopicBeanField.TYPE_SINGLE:
++			if (field.value != null) {
++				String text = DeepaMehtaUtils.transformToHTML(field.value);
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;); 
++				if (field.visualMode.equals(VISUAL_FILE_CHOOSER)) {
++					String repositoryPath = as.getCorporateWebBaseURL();
++					repositoryPath += isPngGifJpg(field.value) ? FILESERVER_IMAGES_PATH : FILESERVER_DOCUMENTS_PATH;
++					html.append(&quot;&lt;a href=\&quot;&quot; + repositoryPath + text + &quot;\&quot;&gt;&quot; + text + &quot;&lt;/a&gt;&quot;);
++				} else {
++					html.append(text);
++				}
++				html.append(&quot;&lt;br&gt;&lt;/span&gt;&quot;);
++			}
++			break;
++		case TopicBeanField.TYPE_MULTI:
++			Enumeration e = field.values.elements();
++			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
++			while (e.hasMoreElements()) {
++				BaseTopic topic = (BaseTopic) e.nextElement();
++				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
++				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
++			}
++			html.append(&quot;&lt;/span&gt;&quot;);
++			break;
++		default:
++			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
++		}
++		html.append(&quot;&lt;/td&gt;&lt;/tr&gt;\r&quot;);
++	}
+ 
+ 	/**
++	 * Renders a TopicBean Field according to &quot;flow&quot; layout style ({@link LAYOUT_STYLE_FLOW}).
++	 */
++	private void infoFieldFlowLayout(TopicBeanField field, StringBuffer html) {
++		html.append(&quot;&lt;p class=\&quot;info\&quot;&gt;&quot;);
++		html.append(&quot;&lt;span class=\&quot;info-label\&quot;&gt;&quot; + field.label + &quot;: &lt;/span&gt;&quot;);
++		switch (field.type) {
++		case TopicBeanField.TYPE_SINGLE:
++			if (field.value != null) {
++				String text = DeepaMehtaUtils.transformToHTML(field.value);
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;); 
++				if (field.visualMode.equals(VISUAL_FILE_CHOOSER)) {
++					String repositoryPath = as.getCorporateWebBaseURL();
++					repositoryPath += isPngGifJpg(field.value) ? FILESERVER_IMAGES_PATH : FILESERVER_DOCUMENTS_PATH;
++					html.append(&quot;&lt;a href=\&quot;&quot; + repositoryPath + text + &quot;\&quot;&gt;&quot; + text + &quot;&lt;/a&gt;&quot;);
++				} else {
++					html.append(text);
++				}
++				html.append(&quot;&lt;br&gt;&lt;/span&gt;&quot;);
++			}
++			break;
++		case TopicBeanField.TYPE_MULTI:
++			Enumeration e = field.values.elements();
++			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
++			while (e.hasMoreElements()) {
++				BaseTopic topic = (BaseTopic) e.nextElement();
++				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
++				html.append(&quot;&lt;br&gt;&quot; + imageTag(topic) + &quot; &quot; + text);
++			}
++			html.append(&quot;&lt;/span&gt;&quot;);
++			break;
++		default:
++			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
++		}
++		html.append(&quot;&lt;/p&gt;\r&quot;);
++	}
++	
++	/**
++	 * Checks CaseInsensitive if filename contains png, gif, or jpg
++	 * Used for either linking in the documents/ or images/ repos
++	 * 
++	 * #infoFieldFlowLayout for TopicBeanFields
++	 * #infoField2ColumnLayout for TopicBeanFields
++	 * 
++	 * @param filename
++	 * @return 
++	 */
++	private boolean isPngGifJpg(String filename) {
++		filename = filename.toLowerCase();
++		if ( filename.indexOf(&quot;png&quot;) != -1 || filename.indexOf(&quot;gif&quot;) != -1 || filename.indexOf(&quot;jpg&quot;) != -1) {
++			return true;
++		} else {
++			return false;
++		}
++	}
++	
++	/**
+ 	 * Renders the fields of a single topic.
+ 	 *
+ 	 * @param	type		the type of the topic. Acts as &quot;template&quot;: all fields of this type definition are rendered.
+@@ -1098,6 +1165,75 @@
+ 		html.append(&quot;&lt;td&quot; + width(propName, colWidths) + &quot;&gt;&lt;small&gt;&quot; + propLabel + &quot;&lt;/small&gt;&lt;/td&gt;&quot;);
+ 	}
+ 
++	// --- remove all fields by full name in all given beans
++	
++	private void hideBeanFields(Vector beans, String[] propSel, String[] propContaining, boolean hideSel) {
++		for (int i = 0; i &lt; beans.size(); i++) {
++			TopicBean topic = (TopicBean) beans.get(i);
++			for (int j = 0; j &lt; propSel.length; j++) {
++				topic.removeField(propSel[j]);
++			}
++			for (int k = 0; k &lt; propContaining.length; k++) {
++				topic.removeFieldsContaining(propContaining[k]);
++			}
++		}
++	}
++	
++	/**
++	 * Render columns in a TableData HTML Tag. Bootstrap columns by given bean and it's fields. 
++	 * One Column can be highlighted if the given column name matches the TopicBeanField name attribute
++	 * The given sortAction is passed to your controller and has it's value stored in the sortField parameter
++	 * 
++	 * @param html
++	 * @param topic
++	 * @param highlightColumnHeader
++	 * @param sortAction
++	 */
++	private void listBeanHeadings(StringBuffer html, TopicBean topic, String highlightColumnHeader, String sortAction) {
++		Vector allFields = topic.fields;
++		for (int j = 0; j &lt; allFields.size(); j++) {
++			TopicBeanField propField = (TopicBeanField) allFields.get(j); 
++			// Single Type
++			if (propField.type == TopicBeanField.TYPE_SINGLE)  {
++				// sortable, make active column visible
++				if (highlightColumnHeader != null &amp;&amp; highlightColumnHeader.equals(propField.name)){
++					html.append(&quot;&lt;td class=\&quot;list-highlightcolumnheader\&quot;&gt;&quot;);
++				} else {
++					html.append(&quot;&lt;td class=\&quot;small\&quot;&gt;&quot;);
++				}
++				html.append(&quot;&lt;a href=\&quot;controller?action=&quot;+sortAction+&quot;&amp;sortField=&quot;+propField.name+&quot;\&quot;&gt;&quot;+ propField.label + &quot;&lt;/a&gt;&quot;);
++			// Multi  Type
++			} else {
++				html.append(&quot;&lt;td class=\&quot;small\&quot;&gt;&quot;);
++				html.append(propField.label);
++			}
++			html.append(&quot;&lt;/td&gt;&quot;);
++		}
++	}
++	
++	// --- list all fields of a given bean
++	
++	private void listBeanFields(StringBuffer html, TopicBean topic, String action) {
++		for (int i = 0; i &lt; topic.fields.size(); i++) {
++			TopicBeanField field = (TopicBeanField) topic.fields.get(i);
++			html.append(&quot;&lt;td&gt;&quot;);
++				if (field.type == TopicBeanField.TYPE_MULTI ) {
++					Vector values = topic.getValues(field.name);
++					for (int j = 0; j &lt; values.size(); j ++) {
++						BaseTopic value = (BaseTopic) values.get(j);
++						html.append(imageTag(value) + &quot; &quot; +value.getName() + &quot;&lt;br/&gt;&quot;);
++					}
++				} else if(field.type == TopicBeanField.TYPE_SINGLE) {
++					if (field.name.equals(&quot;Name&quot;)) {
++						html.append(&quot;&lt;a href=\&quot;controller?action=&quot;+action+&quot;&amp;id=&quot;+topic.id +&quot;\&quot;&gt;&quot; + field.value + &quot;&lt;/a&gt;&quot;);
++					} else {
++						html.append(field.value);
++					}
++				}
++			html.append(&quot;&lt;/td&gt;&quot;);
++		}
++	}
++	
+ 	// ---
+ 
+ 	/**
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

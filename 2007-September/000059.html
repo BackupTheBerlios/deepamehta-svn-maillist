@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r214 - in branches/eschnepel: .settings	develop/src/de/deepamehta/service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r214%20-%20in%20branches/eschnepel%3A%20.settings%0A%09develop/src/de/deepamehta/service&In-Reply-To=%3C200709181949.l8IJnno2000644%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000058.html">
+   <LINK REL="Next"  HREF="000060.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r214 - in branches/eschnepel: .settings	develop/src/de/deepamehta/service</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r214%20-%20in%20branches/eschnepel%3A%20.settings%0A%09develop/src/de/deepamehta/service&In-Reply-To=%3C200709181949.l8IJnno2000644%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r214 - in branches/eschnepel: .settings	develop/src/de/deepamehta/service">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 18 21:49:49 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000058.html">[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000060.html">[deepamehta-svn] r215 - in trunk/install: client client/icons	examples/artfacts examples/artfacts/icons	examples/kompetenzstern examples/kompetenzstern/icons	examples/ldap examples/ldap/icons examples/movies	examples/movies/icons
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-18 21:49:48 +0200 (Tue, 18 Sep 2007)
+New Revision: 214
+
+Modified:
+   branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+Log:
+minor style guide changes
+
+Modified: branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-18 19:07:33 UTC (rev 213)
++++ branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-18 19:49:48 UTC (rev 214)
+@@ -1,4 +1,4 @@
+-#Tue Sep 18 20:13:30 CEST 2007
++#Tue Sep 18 21:00:01 CEST 2007
+ eclipse.preferences.version=1
+ org.eclipse.jdt.core.codeComplete.argumentPrefixes=
+ org.eclipse.jdt.core.codeComplete.argumentSuffixes=
+@@ -310,7 +310,7 @@
+ org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line=false
+ org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false
+ org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line=false
+-org.eclipse.jdt.core.formatter.lineSplit=80
++org.eclipse.jdt.core.formatter.lineSplit=132
+ org.eclipse.jdt.core.formatter.number_of_blank_lines_at_beginning_of_method_body=0
+ org.eclipse.jdt.core.formatter.number_of_empty_lines_to_preserve=3
+ org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-18 19:07:33 UTC (rev 213)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-09-18 19:49:48 UTC (rev 214)
+@@ -183,8 +183,6 @@
+ 		System.out.println(&quot;&gt;    service name: \&quot;&quot; + instance.name + &quot;\&quot;&quot;);
+ 		System.out.println(&quot;&gt; Corporate Memory&quot;);
+ 		System.out.println(&quot;&gt;    implementation: \&quot;&quot; + instance.cmClass + &quot;\&quot;&quot;);
+-//		System.out.println(&quot;&gt;    URL: \&quot;&quot; + instance.dbURL + &quot;\&quot;&quot;);
+-//		System.out.println(&quot;&gt;    driver: \&quot;&quot; + instance.dbDriverClass + &quot;\&quot;&quot;);
+ 		// establish access to corporate memory
+ 		CorporateMemory cm = instance.createCorporateMemory();	// throws DME
+ 		// create application service
+@@ -3573,7 +3571,7 @@
+ 			out.write(buffer, 0, num);
+ 		}
+ 		in.close();
+-		String html = new String(out.toCharArray());		// hibyte=0 ### deprecated, compare to DeepaMehtaUtils.readFile()
++		String html = new String(out.toCharArray());
+ 		System.out.println(&quot;  &gt; \&quot;&quot; + url + &quot;\&quot; -- (&quot; + html.length() + &quot; bytes read)&quot;);
+ 		//
+ 		return html;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-09-18 19:07:33 UTC (rev 213)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-09-18 19:49:48 UTC (rev 214)
+@@ -69,7 +69,7 @@
+ 			}
+ 		} catch (NumberFormatException e) {
+ 			throw new DeepaMehtaException(&quot;Service \&quot;&quot; + name + &quot;\&quot; has &quot; +
+-				&quot;invalid port \&quot;&quot; + port + &quot;\&quot;&quot;);
++				&quot;invalid port \&quot;&quot; + port + &quot;\&quot;&quot;, e);
+ 		}
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-09-18 19:07:33 UTC (rev 213)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-09-18 19:49:48 UTC (rev 214)
+@@ -45,7 +45,6 @@
+ 
+ 
+ 	/**
+-	 * @param libs 
+ 	 * @see		de.deepamehta.topics.DataSourceTopic#openCorporateDatasource
+ 	 */
+ 	public CorporateSQLSource(String url, String dbtype) throws Exception {
+@@ -160,7 +159,7 @@
+ 	public int getElementCount(String type) throws SQLException {
+ 		String query = &quot;SELECT COUNT(*) AS Cnt FROM &quot; + type;
+ 		//
+-		// System.out.println(&quot;&gt; 1 CorporateSQLSource.getElementCount(): \&quot;&quot; + query + &quot;\&quot;&quot;);
++		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + query + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(query);
+ 		int count = queryCount(result);
+@@ -172,7 +171,7 @@
+ 	public int getElementCount(String elementType, Hashtable attributes, boolean caseSensitiv) throws Exception {
+ 		String queryStr = buildQuery(elementType, attributes, caseSensitiv, &quot;*&quot;, true);		// ### onlyCount=true
+ 		//
+-		// System.out.println(&quot;&gt; 2 CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
++		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+@@ -184,7 +183,7 @@
+ 	public int getElementCount(String elementType, String id, String relatedElementType, String helperElementType) throws Exception {
+ 		String queryStr = buildQuery(elementType, id, relatedElementType, helperElementType, true);		// ### onlyCount=true
+ 		//
+-		// System.out.println(&quot;&gt; 3 CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
++		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000058.html">[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000060.html">[deepamehta-svn] r215 - in trunk/install: client client/icons	examples/artfacts examples/artfacts/icons	examples/kompetenzstern examples/kompetenzstern/icons	examples/ldap examples/ldap/icons examples/movies	examples/movies/icons
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

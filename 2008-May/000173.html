@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r328 - in trunk: . install/config	install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-May/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r328%20-%20in%20trunk%3A%20.%20install/config%0A%09install/examples/movies&In-Reply-To=%3C200805281910.m4SJA7MU002665%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000172.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r328 - in trunk: . install/config	install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r328%20-%20in%20trunk%3A%20.%20install/config%0A%09install/examples/movies&In-Reply-To=%3C200805281910.m4SJA7MU002665%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r328 - in trunk: . install/config	install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed May 28 21:10:07 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000172.html">[deepamehta-svn] r327 - in trunk/develop/src/de/deepamehta/service:	. web
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-05-28 21:10:05 +0200 (Wed, 28 May 2008)
+New Revision: 328
+
+Modified:
+   trunk/build-development.xml
+   trunk/build.xml
+   trunk/install/config/db-derby.properties
+   trunk/install/config/db-hsqldb.properties
+   trunk/install/config/db-mysql4.properties
+   trunk/install/config/db-mysql5.properties
+   trunk/install/examples/movies/build.xml
+   trunk/run.sh
+   trunk/setup.xml
+Log:
+linuxtag issues (needed escaping/quotation for the installation path) and some 'old' changes
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/build-development.xml	2008-05-28 19:10:05 UTC (rev 328)
+@@ -116,7 +116,7 @@
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
++	&lt;target name=&quot;sign&quot; description=&quot;sign client&quot;&gt;
+ 		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot; storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/build.xml	2008-05-28 19:10:05 UTC (rev 328)
+@@ -99,11 +99,32 @@
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;dropdb&quot; description=&quot;drops all databases&quot;&gt;
+-		&lt;echo message=&quot;Uninstalling the DeepaMehta instance '${dm.instance}' now...&quot; /&gt;
++		&lt;echo message=&quot;Uninstalling the DeepaMehta database '${dm.instance}' now...&quot; /&gt;
+ 		&lt;antcall target=&quot;-dropdb&quot; /&gt;
+ 		&lt;!-- example applications --&gt;
+ 		&lt;antcall target=&quot;-uninstallexamples&quot; /&gt;
+ 	&lt;/target&gt;
++	&lt;target name=&quot;dropinstance&quot;&gt;
++		&lt;input2 message=&quot;Do you want to drop the instance '${dm.instance}' now?&quot; addproperty=&quot;do.drop.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;n&quot; /&gt;
++		&lt;if&gt;
++			&lt;equals arg1=&quot;${do.drop.now}&quot; arg2=&quot;y&quot; /&gt;
++			&lt;then&gt;
++				&lt;property name=&quot;dont.db.ask&quot; value=&quot;true&quot; /&gt;
++				&lt;echo message=&quot;Uninstalling the DeepaMehta instance '${dm.instance}' now...&quot; /&gt;
++				&lt;antcall target=&quot;dropdb&quot; /&gt;
++				&lt;if&gt;
++					&lt;not&gt;
++						&lt;equals arg1=&quot;${do.db.abort}&quot; arg2=&quot;true&quot; /&gt;
++					&lt;/not&gt;
++					&lt;then&gt;
++						&lt;delete&gt;
++							&lt;fileset dir=&quot;${config}&quot; includes=&quot;config-${dm.instance}.properties&quot; /&gt;
++						&lt;/delete&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
+ 	&lt;target name=&quot;uninstall&quot; description=&quot;drops all databases&quot;&gt;
+ 		&lt;echo message=&quot;Deleting all DeepaMehta related stuff from your hard disk.&quot; /&gt;
+ 		&lt;echo message=&quot;This instances will be deleted:&quot; /&gt;
+@@ -171,20 +192,25 @@
+ 				&lt;fail message=&quot;Configuration does not exist!&quot; /&gt;
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+-		&lt;input message=&quot;Please enter the new instance name:&quot; addproperty=&quot;new.instance.name&quot; defaultvalue=&quot;${instance.name}2&quot; /&gt;
++		&lt;input message=&quot;Please enter the new instance name:&quot; addproperty=&quot;return.instance&quot; defaultvalue=&quot;${instance.name}2&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;resourcecount when=&quot;eq&quot; count=&quot;0&quot;&gt;
+ 				&lt;fileset dir=&quot;${config}&quot;&gt;
+-					&lt;include name=&quot;build-${new.instance.name}.properties&quot; /&gt;
+-					&lt;include name=&quot;dm-${new.instance.name}.properties&quot; /&gt;
++					&lt;include name=&quot;build-${return.instance}.properties&quot; /&gt;
++					&lt;include name=&quot;dm-${return.instance}.properties&quot; /&gt;
+ 				&lt;/fileset&gt;
+ 			&lt;/resourcecount&gt;
+ 			&lt;then&gt;
+-				&lt;copy file=&quot;${config}/build-${instance.name}.properties&quot; tofile=&quot;${config}/build-${new.instance.name}.properties&quot; /&gt;
+-				&lt;copy file=&quot;${config}/dm-${instance.name}.properties&quot; tofile=&quot;${config}/dm-${new.instance.name}.properties&quot; /&gt;
+-				&lt;ant target=&quot;install&quot;&gt;
+-					&lt;property name=&quot;dm.instance&quot; value=&quot;${new.instance.name}&quot; /&gt;
+-				&lt;/ant&gt;
++				&lt;copy file=&quot;${config}/build-${instance.name}.properties&quot; tofile=&quot;${config}/build-${return.instance}.properties&quot; /&gt;
++				&lt;copy file=&quot;${config}/dm-${instance.name}.properties&quot; tofile=&quot;${config}/dm-${return.instance}.properties&quot; /&gt;
++
++				&lt;property file=&quot;${config}/build-${return.instance}.properties&quot; prefix=&quot;temporary&quot; /&gt;
++				&lt;input message=&quot;Please enter the description:&quot; addproperty=&quot;new.config.name&quot; defaultvalue=&quot;${temporary.config.name}&quot; /&gt;
++				&lt;propertyfile file=&quot;${config}/build-${returnn.instance}.properties&quot;&gt;
++					&lt;entry key=&quot;config.name&quot; value=&quot;${new.config.name}&quot; /&gt;
++				&lt;/propertyfile&gt;
++				&lt;antcall target=&quot;-config-setup-default-instance&quot;&gt;
++				&lt;/antcall&gt;
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
+ 				&lt;fail message=&quot;Configuration does exist already!&quot; /&gt;
+@@ -293,9 +319,10 @@
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 		&lt;property name=&quot;abs-client&quot; location=&quot;${client}&quot; /&gt;
+-		&lt;propertyregex property=&quot;abs-client-slash&quot; defaultvalue=&quot;${abs-client}&quot; input=&quot;${abs-client}&quot; regexp=&quot;\\&quot; replace=&quot;/&quot;/&gt;
++		&lt;propertyregex property=&quot;abs-client-slash&quot; defaultvalue=&quot;${abs-client}&quot; input=&quot;${abs-client}&quot; regexp=&quot;\\&quot; replace=&quot;/&quot; /&gt;
++		&lt;propertyregex property=&quot;abs-client-abs&quot; defaultvalue=&quot;${abs-client-slash}&quot; input=&quot;${abs-client-slash}&quot; regexp=&quot;'&quot; replace=&quot;${db.single-quote-replacement}&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			INSERT INTO TopicProp VALUES ('t-corpwebadm', 1, 'Base URL', '<A HREF="file://${abs-client-slash">file://${abs-client-slash</A>}/');
++			INSERT INTO TopicProp VALUES ('t-corpwebadm', 1, 'Base URL', '<A HREF="file://${abs-client-abs">file://${abs-client-abs</A>}/');
+ 		&lt;/sql&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+
+Modified: trunk/install/config/db-derby.properties
+===================================================================
+--- trunk/install/config/db-derby.properties	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/install/config/db-derby.properties	2008-05-28 19:10:05 UTC (rev 328)
+@@ -3,3 +3,6 @@
+ 
+ db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+ db.libs				=${libpath}/derby/*.jar
++
++# ???
++db.single-quote-replacement='+char(39)+'
+
+Modified: trunk/install/config/db-hsqldb.properties
+===================================================================
+--- trunk/install/config/db-hsqldb.properties	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/install/config/db-hsqldb.properties	2008-05-28 19:10:05 UTC (rev 328)
+@@ -3,3 +3,4 @@
+ 
+ db.driver			=org.hsqldb.jdbcDriver
+ db.libs				=${libpath}/hsqldb.jar
++db.single-quote-replacement='+char(39)+'
+
+Modified: trunk/install/config/db-mysql4.properties
+===================================================================
+--- trunk/install/config/db-mysql4.properties	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/install/config/db-mysql4.properties	2008-05-28 19:10:05 UTC (rev 328)
+@@ -3,3 +3,4 @@
+ 
+ db.driver			=org.gjt.mm.mysql.Driver
+ db.libs				=${libpath}/mysql-3.1.7.jar
++db.single-quote-replacement='+char(39)+'
+
+Modified: trunk/install/config/db-mysql5.properties
+===================================================================
+--- trunk/install/config/db-mysql5.properties	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/install/config/db-mysql5.properties	2008-05-28 19:10:05 UTC (rev 328)
+@@ -3,3 +3,4 @@
+ 
+ db.driver			=org.gjt.mm.mysql.Driver
+ db.libs				=${libpath}/mysql-3.1.7.jar
++db.single-quote-replacement='+char(39)+'
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/install/examples/movies/build.xml	2008-05-28 19:10:05 UTC (rev 328)
+@@ -167,8 +167,8 @@
+ 		&lt;/condition&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-dropmoviesdb&quot; depends=&quot;-testmoviessyspass&quot;&gt;
+-		&lt;ant antfile=&quot;${db-specific}/${movies.db.drop-db}&quot; target=&quot;-dropdb&quot; inheritrefs=&quot;true&quot;&gt;
++	&lt;target name=&quot;-dropmoviesdb&quot; depends=&quot;-testmoviessyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;ant antfile=&quot;${db-specific}/${movies.db.drop-db}&quot; target=&quot;-dropdb-do&quot; inheritrefs=&quot;true&quot;&gt;
+ 			&lt;property name=&quot;db.libs&quot; value=&quot;${movies.db.libs}&quot; /&gt;
+ 			&lt;property name=&quot;db.driver&quot; value=&quot;${movies.db.driver}&quot; /&gt;
+ 			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
+
+Modified: trunk/run.sh
+===================================================================
+--- trunk/run.sh	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/run.sh	2008-05-28 19:10:05 UTC (rev 328)
+@@ -4,4 +4,4 @@
+ 
+ export ANT_HOME=&quot;$(pwd)/ant&quot;
+ 
+-${ANT_HOME}/bin/ant $*
++&quot;${ANT_HOME}/bin/ant&quot; $*
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-05-28 02:16:01 UTC (rev 327)
++++ trunk/setup.xml	2008-05-28 19:10:05 UTC (rev 328)
+@@ -349,19 +349,28 @@
+ 				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;${list.dm-instance}&quot; regexp=&quot;${prefix}-(.*)&quot; select=&quot;\1&quot; /&gt;
+ 				&lt;var name=&quot;temporary.config.web.compatible&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;var name=&quot;temporary.config.name&quot; unset=&quot;true&quot; /&gt;
++				&lt;property file=&quot;${path}/config-${list.instance}.properties&quot; prefix=&quot;temporary&quot; /&gt;
+ 				&lt;property file=&quot;${path}/build-${list.instance}.properties&quot; prefix=&quot;temporary&quot; /&gt;
+ 				&lt;if&gt;
+-					&lt;or&gt;
+-						&lt;not&gt;
+-							&lt;isset property=&quot;do.web.deploy&quot; /&gt;
+-						&lt;/not&gt;
+-						&lt;not&gt;
+-							&lt;isfalse value=&quot;${temporary.config.web.compatible}&quot; /&gt;
+-						&lt;/not&gt;
+-						&lt;not&gt;
+-							&lt;isset property=&quot;temporary.config.web.compatible&quot; /&gt;
+-						&lt;/not&gt;
+-					&lt;/or&gt;
++					&lt;and&gt;
++						&lt;or&gt;
++							&lt;not&gt;
++								&lt;isset property=&quot;do.web.deploy&quot; /&gt;
++							&lt;/not&gt;
++							&lt;not&gt;
++								&lt;isfalse value=&quot;${temporary.config.web.compatible}&quot; /&gt;
++							&lt;/not&gt;
++							&lt;not&gt;
++								&lt;isset property=&quot;temporary.config.web.compatible&quot; /&gt;
++							&lt;/not&gt;
++						&lt;/or&gt;
++						&lt;or&gt;
++							&lt;not&gt;
++								&lt;istrue value=&quot;${installed}&quot;/&gt;
++							&lt;/not&gt;
++							&lt;istrue value=&quot;${temporary.dm.instance.installed}&quot;/&gt;
++						&lt;/or&gt;
++					&lt;/and&gt;
+ 					&lt;then&gt;
+ 						&lt;if&gt;
+ 							&lt;not&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000172.html">[deepamehta-svn] r327 - in trunk/develop/src/de/deepamehta/service:	. web
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

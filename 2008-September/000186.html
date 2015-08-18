@@ -1,0 +1,669 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r342 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics/helper libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r342%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics/helper%20libs&In-Reply-To=%3C200809040204.m8424aXY015187%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000185.html">
+   <LINK REL="Next"  HREF="000187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r342 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics/helper libs</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r342%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/topics/helper%20libs&In-Reply-To=%3C200809040204.m8424aXY015187%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r342 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics/helper libs">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 04:04:36 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000185.html">[deepamehta-svn] r341 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/client/icons	install/config install/db install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000187.html">[deepamehta-svn] r343 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-04 04:04:25 +0200 (Thu, 04 Sep 2008)
+New Revision: 342
+
+Removed:
+   trunk/libs/spring-core.jar
+Modified:
+   trunk/build.xml
+   trunk/config.xml
+   trunk/develop/src/de/deepamehta/ConfigurationConstants.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+   trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+   trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+Log:
+Spring framework dependency removed
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/build.xml	2008-09-04 02:04:25 UTC (rev 342)
+@@ -263,8 +263,6 @@
+ 		&lt;/copy&gt;
+ 		&lt;copy file=&quot;${libpath}/avalon-framework.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+-		&lt;copy file=&quot;${libpath}/commons-logging.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+-		&lt;copy file=&quot;${libpath}/spring-core.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;!-- deploy web applications --&gt;
+ 		&lt;ant target=&quot;-call-examples-web&quot;&gt;
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/config.xml	2008-09-04 02:04:25 UTC (rev 342)
+@@ -40,7 +40,6 @@
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/avalon-framework.jar&quot; /&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/commons-fileupload-1.0.jar&quot; /&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/googleapi.jar&quot; /&gt;
+-		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/spring-core.jar&quot; /&gt;
+ 		&lt;pathelement location=&quot;${dm.base-dir}/${libpath}/commons-logging.jar&quot; /&gt;
+ 	&lt;/path&gt;
+ 	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+
+Modified: trunk/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/ConfigurationConstants.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/ConfigurationConstants.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -1,35 +1,26 @@
+ package de.deepamehta;
+ 
++
++
+ public final class ConfigurationConstants {
++
+ 	public final class Instance {
+ 		public final static String DM_INSTANCE = &quot;dm.instance&quot;;
+-
+ 		public final static String DM_INSTANCE_PROPERTY_FILE = &quot;dm.instance.property-file&quot;;
+-
+ 		public final static String DM_INSTANCE_CONFIG_PROPERTY_FILE = &quot;dm.instance.config-property-file&quot;;
+-
+ 		public final static String DM_HOST = &quot;dm.host&quot;;
+-
+ 		public final static String DM_PORT = &quot;dm.port&quot;;
+-
+ 		public final static String DM_COPRORATE_MEMORY_CLASS = &quot;dm.comporate-memory.class&quot;;
+-
+ 		public static final String DM_CONFIG_PROPERTY_FILE = &quot;dm.config.property-file&quot;;
+ 	}
+ 
+ 	public final class Database {
+ 		public final static String DB_USER = &quot;db.user&quot;;
+-
+ 		public final static String DB_PASSWORD = &quot;db.password&quot;;
+-
+ 		public final static String DB_DRIVER = &quot;db.driver&quot;;
+-
+ 		public final static String DB_URL = &quot;db.url&quot;;
+-
+ 		public static final String DB_LIBS = &quot;db.libs&quot;;
+-
+ 		public static final String DB_TYPE_PROPERTY_FILE = &quot;db.type.property-file&quot;;
+-
+ 		public static final String DB_TYPE = &quot;db.type&quot;;
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -10,7 +10,6 @@
+ import de.deepamehta.assocs.LiveAssociation;
+ import de.deepamehta.service.db.DatabaseProvider;
+ import de.deepamehta.service.db.OracleDatabaseProvider;
+-import de.deepamehta.service.db.DatabaseProvider.DbmsHint;
+ import de.deepamehta.topics.LiveTopic;
+ import de.deepamehta.util.CaseInsensitveHashtable;
+ import de.deepamehta.util.DeepaMehtaUtils;
+@@ -33,7 +32,7 @@
+  * A RDBMS implementation of {@link CorporateMemory}.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 9.8.2008 (2.0b8)&lt;br&gt;
++ * Last change: 4.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -64,7 +63,7 @@
+ 	 */
+ 	private DatabaseProvider provider;
+ 
+-	private DbmsHint dbmsHint;
++	private String dbmsHint;
+ 
+ 
+ 
+@@ -83,7 +82,7 @@
+ 		provider.getDatabaseOptimizer().optimize();
+ 
+ 		this.dbmsHint = dbProvider.getDbmsHint();
+-		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint.getName() + &quot;\&quot;&quot;);
++		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint + &quot;\&quot;&quot;);
+ 	}
+ 
+ 	
+
+Modified: trunk/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -5,28 +5,21 @@
+ import java.sql.SQLException;
+ import java.sql.Statement;
+ 
+-public interface DatabaseProvider {
+-	public static class DbmsHint extends org.apache.avalon.framework.Enum{
+-		protected DbmsHint(String name) {
+-			super(name);
+-		}
+-	}
+ 
+-	void release();
++
++public interface DatabaseProvider {
+ 	
++	String getDbmsHint();
++	//
+ 	Connection getConnection() throws SQLException;
+-
+-	DbmsHint getDbmsHint();
+-
+ 	void freeConnection(Connection con) throws SQLException;
+-
++	//
+ 	Statement getStatement() throws SQLException;
+-
++	PreparedStatement getPreparedStatement(String sql) throws SQLException;
++	public void logStatement(String sql);
++	//
+ 	void checkPointNeeded();
+-
+ 	DatabaseOptimizer getDatabaseOptimizer();
+-
+-	public void logStatement(String arg0);
+-
+-	PreparedStatement getPreparedStatement(String sql) throws SQLException;
++	//
++	void release();
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -4,9 +4,6 @@
+ import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaException;
+ 
+-import org.springframework.core.io.Resource;
+-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+-
+ import java.io.File;
+ import java.io.FileNotFoundException;
+ import java.io.FileOutputStream;
+@@ -23,6 +20,7 @@
+ import java.util.LinkedList;
+ import java.util.Properties;
+ import java.util.logging.Logger;
++import java.util.logging.Level;
+ 
+ 
+ 
+@@ -35,7 +33,7 @@
+ 	}
+ 
+ 	/** SQL92 DBMS Hint */
+-	public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
++	public static final String DBMS_HINT_SQL92 = &quot;SQL92&quot;;
+ 
+ 	private static final String DEFAULT_DB_TYPE = &quot;mysql&quot;;
+ 
+@@ -85,8 +83,7 @@
+ 			&quot;    URL: &quot; + jdbcURL + &quot;\n&quot; +
+ 			&quot;    Driver: &quot; + driverClazz);
+ 		//
+-		// ### loadClassFromLibs(libs, driverClazz);
+-		driverClass = Class.forName(driverClazz);		// ###
++		driverClass = Class.forName(driverClazz);
+ 		driver = (Driver) driverClass.newInstance();
+ 		if (!driver.acceptsURL(jdbcURL)) {
+ 			throw new DeepaMehtaException(&quot;JDBC-Driver and JDBC-Url does not match!&quot;);
+@@ -99,52 +96,6 @@
+ 		}
+ 	}
+ 
+-	/* ###
+-	private void loadClassFromLibs(String libs, String driverClazz) throws ClassNotFoundException {
+-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+-		Resource[] resources;
+-		try {
+-			resources = resolver.getResources(&quot;file:&quot; + libs);
+-		} catch (IOException e) {
+-			throw new ClassNotFoundException(e.getMessage(), e);
+-		}
+-		loadClassFromLibs(resources, driverClazz);
+-	} */
+-
+-	/* ###
+-	private void loadClassFromLibs(Resource[] resources, String clazz) throws ClassNotFoundException {
+-		URL[] urls = new URL[resources.length];
+-		try {
+-			for (int i = 0; i &lt; resources.length; i++) {
+-				Resource res = resources[i];
+-				File file = res.getFile();
+-				String path = file.getCanonicalPath();
+-				String urlString;
+-				if (file.isDirectory()) {
+-					urlString = &quot;file:&quot; + path + &quot;/&quot;;
+-				} else {
+-					urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
+-				}
+-				urls[i] = new URL(urlString);
+-			}
+-		} catch (MalformedURLException e) {
+-			throw new ClassNotFoundException(e.getMessage(), e);
+-		} catch (IOException e) {
+-			throw new ClassNotFoundException(e.getMessage(), e);
+-		}
+-		loadClassFromLibs(urls, clazz);
+-	} */
+-
+-	/* ###
+-	private void loadClassFromLibs(URL[] urls, String clazz) throws ClassNotFoundException {
+-		logger.info(&quot;Using separate Classloader for:&quot;);
+-		for (int i = 0; i &lt; urls.length; i++) {
+-			logger.info(&quot;  &quot; + urls[i].toExternalForm());
+-		}
+-		URLClassLoader classLoader = new URLClassLoader(urls);
+-		driverClass = classLoader.loadClass(clazz);
+-	} */
+-
+ 	public synchronized Connection getConnection() throws SQLException {
+ 		if (0 == freeCons.size()) {
+ 			return newConnection();
+@@ -152,7 +103,7 @@
+ 		return (Connection) freeCons.removeFirst();
+ 	}
+ 
+-	public DbmsHint getDbmsHint() {
++	public String getDbmsHint() {
+ 		return DBMS_HINT_SQL92;
+ 	}
+ 
+@@ -168,7 +119,7 @@
+ 		Connection con = driver.connect(jdbcURL, conProps);
+ 		con.setAutoCommit(true);
+ 		allCons.add(con);
+-		logger.info(&quot;DB-Connections: ALL:&quot; + allCons.size() + &quot; FREE:&quot; + freeCons.size());
++		logger.info(&quot;Number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
+ 		return con;
+ 	}
+ 
+@@ -197,31 +148,16 @@
+ 
+ 	public void release() {
+ 		try {
+-			logger.info(&quot;all / free connections : &quot; + allCons.size() + &quot; / &quot; + freeCons.size());
++			logger.info(&quot;Number of database connections: &quot; + allCons.size() + &quot; total, &quot; + freeCons.size() + &quot; free&quot;);
+ 			closeAllCons();
+ 		} catch (SQLException e) {
+-			e.printStackTrace();
++			logger.log(Level.SEVERE, &quot;Error releasing database provider ...&quot;, e);
+ 		}
+ 	}
+ 
+ 	public void checkPointNeeded() {
+ 	}
+ 
+-	private static PrintStream dblog = null;
+-	static {
+-		/* DEBUG ### */
+-		if (false) {
+-			try {
+-				dblog = new PrintStream(new FileOutputStream(&quot;db.log&quot;));
+-			} catch (FileNotFoundException e) {
+-				dblog = System.err;
+-			}
+-		}
+-	}
+-
+ 	public void logStatement(String arg0) {
+-		if (null != dblog) {
+-			dblog.println(arg0);
+-		}
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -16,8 +16,9 @@
+ 	private class CheckpointThread extends TimerTask {
+ 		public void run() {
+ 			try {
+-				if (doNextCheckPoint)
++				if (doNextCheckPoint) {
+ 					checkpoint();
++				}
+ 			} catch (SQLException e) {
+ 				e.printStackTrace();
+ 			}
+@@ -25,7 +26,7 @@
+ 	}
+ 
+ 	/** HSQLDB DBMS Hint */
+-	public static final DbmsHint DBMS_HINT_HSQLDB = new DbmsHint(&quot;HSQLDB&quot;);
++	public static final String DBMS_HINT_HSQLDB = &quot;HSQLDB&quot;;
+ 
+ 	/** String for detecting HSQLDB in the jdbc-driver-name */
+ 	private static final String DBMS_HINT_HSQLDB_STR = &quot;hsqldb&quot;;
+@@ -42,12 +43,12 @@
+ 		new Timer().scheduleAtFixedRate(new CheckpointThread(), rate, rate);
+ 	}
+ 
+-	public DbmsHint getDbmsHint() {
++	public String getDbmsHint() {
+ 		return DBMS_HINT_HSQLDB;
+ 	}
+ 
+ 	public void freeConnection(Connection con) throws SQLException {
+-		//checkpoint(con);
++		// ### checkpoint(con);
+ 		super.freeConnection(con);
+ 	}
+ 
+@@ -77,42 +78,4 @@
+ 		super.checkPointNeeded();
+ 		doNextCheckPoint = true;
+ 	}
+-
+-	public void logStatement(String stmt) {
+-		super.logStatement(stmt);
+-		/* DEBUG */
+-		if (false) {
+-			// do not use the AutoFreeConnectionStatement
+-			// as it would result in an endless loop
+-			try {
+-				Connection connection = getConnection();
+-				try {
+-					Statement statement = connection.createStatement();
+-					ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot; + stmt);
+-					ResultSetMetaData md = rs.getMetaData();
+-					int cc = md.getColumnCount();
+-					StringBuffer buf = new StringBuffer();
+-					for (int i = 1; i &lt;= cc; i++) {
+-						buf.append(md.getColumnName(i) + &quot;;&quot;);
+-					}
+-					super.logStatement(buf.toString());
+-					buf = new StringBuffer();
+-					while (rs.next()) {
+-						for (int i = 1; i &lt;= cc; i++) {
+-							buf.append(rs.getString(i) + &quot;;&quot;);
+-						}
+-						super.logStatement(buf.toString());
+-					}
+-					super.logStatement(&quot;&quot;);
+-					statement.close();
+-				} catch (SQLException e) {
+-					e.printStackTrace();
+-				} finally {
+-					freeConnection(connection);
+-				}
+-			} catch (SQLException e) {
+-				e.printStackTrace();
+-			}
+-		}
+-	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -3,25 +3,26 @@
+ import java.sql.SQLException;
+ import java.util.Properties;
+ 
++
++
+ public class OracleDatabaseProvider extends DefaultDatabaseProvider {
+ 
+ 	/** Oracle DBMS Hint */
+-	public static final DbmsHint DBMS_HINT_ORACLE = new DbmsHint(&quot;ORACLE&quot;);
++	public static final String DBMS_HINT_ORACLE = &quot;ORACLE&quot;;
+ 
+ 	/** String for detecting Oracle in the jdbc-driver-name */
+ 	private static final String DBMS_HINT_ORACLE_STR = &quot;oracle&quot;;
+ 
+-	public OracleDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
++	public OracleDatabaseProvider(Properties conf) throws ClassNotFoundException,
++						SQLException, InstantiationException, IllegalAccessException {
+ 		super(conf);
+ 	}
+ 
+-
+-	public DbmsHint getDbmsHint() {
++	public String getDbmsHint() {
+ 		return DBMS_HINT_ORACLE;
+ 	}
+ 
+ 	public static boolean isResponsibleFor(String url) {
+ 		return url.indexOf(DBMS_HINT_ORACLE_STR) &gt;= 0;
+ 	}
+-
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2008-09-03 22:27:44 UTC (rev 341)
++++ trunk/develop/src/de/deepamehta/topics/helper/TopicMapExporter.java	2008-09-04 02:04:25 UTC (rev 342)
+@@ -46,15 +46,14 @@
+ 
+ /**
+  * Export utilities for the following purposes:
+- * &lt;UL&gt;
+- * &lt;LI&gt;A topicmap can be exported to XML, SVG or PDF.
+- * &lt;LI&gt;
+- * &lt;/UL&gt;
+- * &lt;HR&gt;
+- * Last functional change: 1.5.2004 (2.0b3-pre2)&lt;BR&gt;
+- * Last documentation update: 12.4.2002 (2.0a14-post1)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;ul&gt;
++ * &lt;li&gt;A topicmap can be exported to XML, SVG or PDF.
++ * &lt;li&gt;
++ * &lt;/ul&gt;
++ * &lt;hr&gt;
++ * Last change: 1.5.2004 (2.0b3-pre2)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class TopicMapExporter implements DeepaMehtaConstants {
+ 
+@@ -63,12 +62,6 @@
+ 	 */
+ 	private static SAXParser parser = new SAXParser();
+ 
+-	/* ### private static SAXParserFactory parserFactory;
+-	static {
+-		parserFactory = SAXParserFactory.newInstance();
+-		parserFactory.setFeature(&quot;<A HREF="http://apache.org/xml/features/continue-after-fatal-error">http://apache.org/xml/features/continue-after-fatal-error</A>&quot;, true);
+-	} */
+-
+ 	/**
+ 	 * The topicmap to be exported.
+ 	 *
+@@ -87,7 +80,7 @@
+ 
+ 	/**
+ 	 * Constructor.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 9.11.2004 (2.0b3)
+ 	 *
+ 	 * @param   topicmap	the topicmap to be exported.
+@@ -109,7 +102,7 @@
+ 	/**
+ 	 * Exports the topicmap to a ZIP archive file, containing XML files for use mode,
+ 	 * build mode, and all necessary documents and icon files.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 12.4.2002 (2.0a14-post1)
+ 	 *
+ 	 * @param   fileBasename the name of the exported file, without suffix
+@@ -204,7 +197,7 @@
+ 	 *
+ 	 * @param   out			the OutputStream into the ZIP archive
+ 	 * @param   filename	the filename of the generated XML file
+-	 * @param   collector	collects document and icon files for export, may be &lt;CODE&gt;null&lt;/CODE&gt;.
++	 * @param   collector	collects document and icon files for export, may be &lt;code&gt;null&lt;/code&gt;.
+ 	 *
+ 	 * @see		#createTopicmapArchive
+ 	 */
+@@ -230,7 +223,7 @@
+ 	/**
+ 	 * Transforms the specified topicmap by using the specified XSL stylesheet.
+ 	 * ### The resulting SAX events are handled by the specified handler.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 18.10.2003 (2.0b2)
+ 	 *
+ 	 * @param   topicmap        topicmap to transform
+@@ -268,14 +261,14 @@
+ 
+ 	/**
+ 	 * ### Creates XML representation for the specified topics.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 21.1.2003 (2.0a17-pre7)
+ 	 *
+ 	 * @param   topics		the topics to be exported, enumeration of BaseTopics
+ 	 * @param   handler		SAX event handler
+-	 * @param   visible		&lt;CODE&gt;true&lt;/CODE&gt; means that the association will be visible in the exported map
++	 * @param   visible		&lt;code&gt;true&lt;/code&gt; means that the association will be visible in the exported map
+ 	 * @param   as			the ApplicationService that provides the BaseAssociations
+-	 * @param   collector	collects document and icon files for export ###, may be &lt;CODE&gt;null&lt;/CODE&gt;.
++	 * @param   collector	collects document and icon files for export ###, may be &lt;code&gt;null&lt;/code&gt;.
+ 	 *
+ 	 * @see     de.deepamehta.topics.TopicMapTopic#exportTopicmap
+ 	 * @see     de.deepamehta.topics.CMImportExportTopic#exportCM
+@@ -290,12 +283,12 @@
+ 
+ 	/**
+ 	 * ### Creates XML representation for the specified associations.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 13.4.2002 (2.0a14-post1)
+ 	 *
+ 	 * @param   assocs		the BaseAssociations to be exported
+ 	 * @param   handler		SAX event handler
+-	 * @param   visible		&lt;CODE&gt;true&lt;/CODE&gt; means that the association will be visible in the exported map
++	 * @param   visible		&lt;code&gt;true&lt;/code&gt; means that the association will be visible in the exported map
+ 	 * @param   as			the ApplicationService that provides the BaseAssociations
+ 	 *
+ 	 * @see     de.deepamehta.topics.TopicMapTopic#exportTopicmap
+@@ -316,9 +309,9 @@
+ 	 *
+ 	 * @param   topic   	the topic to be exported
+ 	 * @param   handler		SAX event handler
+-	 * @param   visible 	&lt;CODE&gt;true&lt;/CODE&gt; means that geometry will be saved
++	 * @param   visible 	&lt;code&gt;true&lt;/code&gt; means that geometry will be saved
+ 	 * @param   as			the ApplicationService that provides the BaseAssociations
+-	 * @param   collector   collects document and icon files for export, may be &lt;CODE&gt;null&lt;/CODE&gt;
++	 * @param   collector   collects document and icon files for export, may be &lt;code&gt;null&lt;/code&gt;
+ 	 *
+ 	 * @see		#exportTopics
+ 	 */
+@@ -363,7 +356,7 @@
+ 	 *
+ 	 * @param   assoc		the association to be exported to XML
+ 	 * @param   handler		SAX event handler
+-	 * @param   visible		&lt;CODE&gt;true&lt;/CODE&gt; means that the association will be visible in the exported map
++	 * @param   visible		&lt;code&gt;true&lt;/code&gt; means that the association will be visible in the exported map
+ 	 * @param   as			the ApplicationService that provides the BaseAssociations
+ 	 *
+ 	 * @see		#exportAssociations
+@@ -396,10 +389,10 @@
+ 
+ 	/**
+ 	 * Exports the type definitons of the specified types.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 17.1.2003 (2.0a17-pre6)
+ 	 *
+-	 * @param   types		the types to be exported (enumeration of &lt;CODE&gt;Type&lt;/CODE&gt;)
++	 * @param   types		the types to be exported (enumeration of &lt;code&gt;Type&lt;/code&gt;)
+ 	 * @param   handler     SAX event handler
+ 	 * @param   collector   collects document and icon files for export
+ 	 *
+@@ -420,7 +413,7 @@
+ 	 * &lt;p&gt;
+ 	 * References checked: 1.5.2004 (2.0b3-pre2)
+ 	 *
+-	 * @param   properties  input properties &lt;CODE&gt;Hashtable&lt;/CODE&gt;
++	 * @param   properties  input properties &lt;code&gt;Hashtable&lt;/code&gt;
+ 	 * @param   id			id of the origin topic/association, for debugging only
+ 	 * @param   handler		SAX event handler
+ 	 * @param   exportCData specifies if styled properties should be exported as CDATA
+@@ -466,7 +459,7 @@
+ 	 * @param   handler     SAX event handler
+ 	 * @param   tagName     the name of the tag
+ 	 * @param   attributes  the attributes of this tag as a map of key-value pairs,
+-	 * 						may be &lt;CODE&gt;null&lt;/CODE&gt;.
++	 * 						may be &lt;code&gt;null&lt;/code&gt;.
+ 	 */
+ 	public static void startElement(ContentHandler handler, String tagName,
+ 									Hashtable attributes) throws SAXException {
+
+Deleted: trunk/libs/spring-core.jar
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000185.html">[deepamehta-svn] r341 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/client/icons	install/config install/db install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000187.html">[deepamehta-svn] r343 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

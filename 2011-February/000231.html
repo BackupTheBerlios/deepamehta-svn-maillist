@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r386 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r386%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web&In-Reply-To=%3C20110209110637.DB83648138D%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r386 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r386%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web&In-Reply-To=%3C20110209110637.DB83648138D%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r386 - in trunk: .	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Wed Feb  9 12:06:37 CET 2011</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#231">[ date ]</a>
+              <a href="thread.html#231">[ thread ]</a>
+              <a href="subject.html#231">[ subject ]</a>
+              <a href="author.html#231">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2011-02-09 12:06:37 +0100 (Wed, 09 Feb 2011)
+New Revision: 386
+
+Added:
+   trunk/develop/src/de/deepamehta/service/PojoApplicationServiceProvider.java
+Modified:
+   trunk/build.properties
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+Log:
+FEATURE: 
+- Introduced PojoApplicationServiceProvider-Class to simplify retrieval of an ApplicationServiceInstance
+
+BUGFIX: 
+- HTTP-Requests to the JSONRPCServlet timed out with a Java-URLConnection cause the size of the ResponseHeader was wrongly calculated and set
+
+Modified: trunk/build.properties
+===================================================================
+--- trunk/build.properties	2010-03-29 15:52:02 UTC (rev 385)
++++ trunk/build.properties	2011-02-09 11:06:37 UTC (rev 386)
+@@ -5,22 +5,22 @@
+ config				=${install}/config
+ client				=${install}/client
+ server				=${install}/server
+-db					=${install}/db
++db				=${install}/db
+ db-specific			=${db}/db-specific
+ examples			=${install}/examples
+ #libpath must be set without ${dm.base-dir}
+ libpath				=libs
+-endorsedpath		=${libpath}/endorsed
++endorsedpath			=${libpath}/endorsed
+ 
+ # Servlet Engine
+-tomcat.root			=/usr/local/tomcat
+-web.deploy.dir		=${tomcat.root}/webapps
++tomcat.root			=/home/malted/tools/katwalk/
++web.deploy.dir			=${tomcat.root}/webapps
+ web.lib.dir			=${tomcat.root}/shared/lib
+-web.classes.dir		=${tomcat.root}/shared/classes
+-web.servlet.lib		=${tomcat.root}/common/lib/servlet-api.jar
++web.classes.dir			=${tomcat.root}/shared/classes
++web.servlet.lib			=${tomcat.root}/common/lib/servlet-api.jar
+ 
+ # Build Support
+-build.archive.dir	=/Users/jri/Archive/DeepaMehta
++build.archive.dir		=/home/malted/tools/dm2Trunk/
+ build.name			=deepamehta-2.0b7.zip
+ 
+ # DeepaMehta Applications
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2010-03-29 15:52:02 UTC (rev 385)
++++ trunk/build.xml	2011-02-09 11:06:37 UTC (rev 386)
+@@ -23,7 +23,7 @@
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot; /&gt;
++		&lt;pathelement location=&quot;/home/malted/source/kieztruck/kiezatlas.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+
+Added: trunk/develop/src/de/deepamehta/service/PojoApplicationServiceProvider.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/PojoApplicationServiceProvider.java	                        (rev 0)
++++ trunk/develop/src/de/deepamehta/service/PojoApplicationServiceProvider.java	2011-02-09 11:06:37 UTC (rev 386)
+@@ -0,0 +1,161 @@
++package de.deepamehta.service;
++
++import de.deepamehta.DeepaMehtaException;
++
++/**
++ * A class to simplify the retrieval of a DeepaMehta instance - {@link ApplicationService} and
++ * {@link CorporateMemory}.
++ * 
++ * @author Malte Rei&#223;ig (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>)
++ * @see ApplicationService
++ * @see CorporateMemory
++ *
++ */
++public class PojoApplicationServiceProvider implements ApplicationServiceHost {
++
++	/** The &lt;code&gt;ApplicationService&lt;/code&gt; instance. */
++	private ApplicationService as;
++	/** The &lt;code&gt;CorporateMemory&lt;/code&gt; instance. */
++	private CorporateMemory cm;
++
++	/** The home location - installation directory - of DeepaMehta. */
++	private String home;
++	/** The service name identifying the DeepaMehta instance. */
++	private String serviceName;
++
++	/** Whether we already have a service instance or not. */
++	private boolean running = false;
++
++	/**
++	 * Looks up - respectively creates - the requested &lt;code&gt;ApplicationService&lt;/code&gt;.
++	 *
++	 * @throws DeepaMehtaException If instantiating the service fails
++	 *
++	 * @see PojoApplicationServiceProvider#shutdown()
++	 */
++	public synchronized void startup() {
++		try {
++			if (serviceName == null || serviceName.trim().equals(&quot;&quot;)) {
++				throw new DeepaMehtaException(&quot;Startup failed: No or empty service name given.&quot;);
++			}
++			ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(
++			        serviceName, home != null ? home + &quot;/install/config/dm.properties&quot; : &quot;../config/dm.properties&quot;);
++			as = ApplicationService.create(this, instance);
++			cm = as.cm;
++			running = true;
++		} catch (Exception e) {
++			throw new DeepaMehtaException(&quot;Startup failed due to nested errors: &quot; + e);
++		}
++	}
++
++	/**
++	 * Shuts down the previously initialized &lt;code&gt;ApplicationService&lt;/code&gt;.
++	 *
++	 * If there is no instance, the method will simply return.
++	 *
++	 * @throws DeepaMehtaException If shutting down the service fails
++	 *
++	 * @see PojoApplicationServiceProvider#startup()
++	 */
++	public synchronized void shutdown() {
++		if (!running) {
++			return;
++		}
++		try {
++			as.shutdown();
++			running = false;
++		} catch (Exception e) {
++			throw new DeepaMehtaException(&quot;Shutdown failed due to nested errors: &quot; + e);
++		}
++	}
++
++	public void broadcastChangeNotification(String topicID) {
++		// TODO Auto-generated method stub
++	}
++
++	public String getCommInfo() {
++		// TODO Auto-generated method stub
++		return null;
++	}
++
++	public void sendDirectives(Session session, CorporateDirectives directives, ApplicationService as, String topicmapID,
++			String viewmode) {
++		// TODO Auto-generated method stub
++	}
++
++	/**
++	 * Returns the home location - installation directory - of DeepaMehta.
++	 *
++	 * @return The home location od DeepaMehta
++	 */
++	public String getHome() {
++		return home;
++	}
++
++	/**
++	 * Sets the home location - installation directory - of DeepaMehta.
++	 *
++	 * @param home The home location of DeepaMehta
++	 */
++	public void setHome(String home) {
++		this.home = home;
++	}
++
++	/**
++	 * Returns the service name - the name of the DeepaMetha instance.
++	 *
++	 * @return The service name
++	 */
++	public String getServiceName() {
++		return serviceName;
++	}
++
++	/**
++	 * Sets the service name - the name of the DeepaMetha instance.
++	 *
++	 * This will decide which instance of DeepaMehta will be looked up.
++	 *
++	 * @param serviceName The service name
++	 *
++	 * @see ApplicationServiceInstance#lookup(String, String)
++	 */
++	public void setServiceName(String service) {
++		this.serviceName = service;
++	}
++
++	/**
++	 * Returns the instantiated &lt;code&gt;ApplicationService&lt;/code&gt; or throws an Exception.
++	 *
++	 * If the service hasn't been instantiated properly a DeepaMehtaException will be thrown.
++	 *
++	 * @return The application service instance
++	 *
++	 * @throws DeepaMehtaException If th service hasn't been instantiated properly
++	 *
++	 * @see ApplicationService
++	 */
++	public ApplicationService getApplicationService() {
++		if (!running) {
++			throw new DeepaMehtaException(&quot;The application service is not running!&quot;);
++		}
++		return as;
++	}
++
++	/**
++	 * Returns the instantiated &lt;code&gt;CorporateMemory&lt;/code&gt; or throws an Exception.
++	 *
++	 * If the service, and so the corporate memory hasn't been instantiated properly
++	 * a DeepaMehtaException will be thrown.
++	 *
++	 * @return The corporate memory instance
++	 *
++	 * @see CorporateMemory
++	 */
++	public CorporateMemory getCorporateMemory() {
++		if (!running) {
++			throw new DeepaMehtaException(&quot;The application service is not running!&quot;);
++		}
++		return cm;
++	}
++
++}
+\ No newline at end of file
+
+Modified: trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2010-03-29 15:52:02 UTC (rev 385)
++++ trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2011-02-09 11:06:37 UTC (rev 386)
+@@ -148,7 +148,7 @@
+         throw new DeepaMehtaException(&quot; unexpected method requested !&quot;);
+ 	}
+ 
+-    protected String performPostRequest(String remoteMethod, String params, Session session, CorporateDirectives directives)
++  protected String performPostRequest(String remoteMethod, String params, Session session, CorporateDirectives directives)
+ 																										throws ServletException, DeepaMehtaException {
+ 		 // delegate to implementing subclass ?
+         throw new DeepaMehtaException(&quot; unexpected method requested !&quot;);
+@@ -218,7 +218,7 @@
+ 															throws IOException, ServletException {
+ 		RequestParameter params = new RequestParameter(request);
+ 		String method = request.getMethod();
+-        Session session = getSession(request);
++    Session session = getSession(request);
+ 		CorporateDirectives directives = new CorporateDirectives();
+         if (method.equals(&quot;GET&quot;)) {
+             System.out.println(&quot;&gt; JSONRPCServlet got delegates a GET request to ImplementingClass.performAction() hook&quot;);
+@@ -249,45 +249,38 @@
+             preparePage(page, params, session, directives);
+             redirectToPage(page, request, response);
+         } else {
+-            // if POST / PUT / DELETE
+-            String remoteMethodCall = &quot;&quot;;
+-            String remoteParams = &quot;&quot;;
+-            // analyze body
+-            BufferedReader in = new BufferedReader(
+-                                new InputStreamReader(
+-                                request.getInputStream()));
+-            String requestBody;
+-            while ((requestBody = in.readLine()) != null) {
+-                int methodStart = requestBody.indexOf(&quot;\&quot;method\&quot;: &quot;);
+-                int paramStart = requestBody.indexOf(&quot;\&quot;params\&quot;: &quot;);
+-                // single method name
+-                remoteMethodCall = requestBody.substring(methodStart + 11, paramStart - 3);
+-                // rest is json parameter array
+-                remoteParams = requestBody.substring(paramStart + 10, requestBody.length() - 1);
+-                System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
+-                //System.out.println(&quot;&gt;&gt;&gt; REQUEST BODY: \n&quot; +
+-                  //      &quot;       method: &quot; + remoteMethodCall + &quot;,\n&quot; +
+-                    //    &quot;       params: &quot; + remoteParams);
+-            }
+-            in.close();
+-            // --- trigger performPostrequest() hook
+-            String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
+-            if(result.equals(&quot;&quot;)) {
+-                // response.setStatus(response.SC_INTERNAL_SERVER_ERROR);
+-                System.out.println(&quot; === JSONRPC === *** unexpected result *** &quot; + result + &quot; setting response to continue...&quot;);
+-                response.sendError(response.SC_INTERNAL_SERVER_ERROR); // 500
+-            } else {
+-                response.setStatus(response.SC_OK);
+-                response.setContentType(&quot;applicaton/json&quot;);
+-                response.setContentLength(result.getBytes().length);
+-                System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: &quot;+response.getCharacterEncoding()+&quot; written &quot;+result.length() +&quot; character\n&quot;);
+-                // LOG System.out.println(&quot;INFO: &quot;+result + &quot;\n&quot;);
+-                // write back
+-                PrintWriter writer = response.getWriter();
+-                writer.print(result);
+-                writer.checkError();
+-                writer.close();
+-            }
++          // if POST / PUT / DELETE
++          String remoteMethodCall = &quot;&quot;;
++          String remoteParams = &quot;&quot;;
++          // analyze body
++          BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream()));
++          String requestBody;
++          while ((requestBody = in.readLine()) != null) {
++            int methodStart = requestBody.indexOf(&quot;\&quot;method\&quot;: &quot;);
++            int paramStart = requestBody.indexOf(&quot;\&quot;params\&quot;: &quot;);
++            // single method name
++            remoteMethodCall = requestBody.substring(methodStart + 11, paramStart - 3);
++            // rest is json parameter array
++            remoteParams = requestBody.substring(paramStart + 10, requestBody.length() - 1);
++            System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
++          }
++          in.close();
++          // --- trigger performPostrequest() hook
++          String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
++          if(result.equals(&quot;&quot;)) {
++            // response.setStatus(response.SC_INTERNAL_SERVER_ERROR);
++            System.out.println(&quot; === JSONRPC === *** unexpected result *** &quot; + result + &quot; setting response to continue...&quot;);
++            response.sendError(response.SC_INTERNAL_SERVER_ERROR); // 500
++          } else {
++            response.setStatus(response.SC_OK);
++            response.setContentType(&quot;application/json&quot;);
++            System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: written in &quot;+response.getCharacterEncoding()+&quot;\r&quot;);
++            // write back
++            PrintWriter writer = response.getWriter();
++            writer.write(result);
++            writer.checkError();
++            writer.close();
++          }
+         }
+         // process directives
+ 		directives.updateCorporateMemory(as, session, null, null);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#231">[ date ]</a>
+              <a href="thread.html#231">[ thread ]</a>
+              <a href="subject.html#231">[ subject ]</a>
+              <a href="author.html#231">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

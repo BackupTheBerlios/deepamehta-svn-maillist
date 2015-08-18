@@ -1,0 +1,871 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r354 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r354%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images%0A%09install/db/patches&In-Reply-To=%3C200809291945.m8TJj7xb005068%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000197.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r354 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r354%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images%0A%09install/db/patches&In-Reply-To=%3C200809291945.m8TJj7xb005068%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r354 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images	install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 29 21:45:07 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000197.html">[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-29 21:44:57 +0200 (Mon, 29 Sep 2008)
+New Revision: 354
+
+Added:
+   trunk/develop/src/de/deepamehta/topics/InstitutionSearchTopic.java
+   trunk/develop/src/de/deepamehta/topics/InstitutionTopic.java
+   trunk/install/client/images/checkbox-disabled-selected.png
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+   trunk/install/db/patches/cm-2.18.sql
+   trunk/install/db/patches/cm-2.19.sql
+Log:
+1) Feature Request #4289 completed, &quot;Email feature: multiple addressing schemas (DONATED)&quot;
+1a) Also Institutions have a &quot;Compose Email&quot; command
+1b) Also Institution search results (tons) have an &quot;Create Recipient List&quot; command
+1c) A manually created association from an Email to a Document is automatically typed to &quot;Attachment&quot;
+1d) Minor change: Recipient Lists can contain items that are both, disabled and selected. This can happen if a Recipient List is created from a search result.
+1e) Minor change: the Person's and Institution's &quot;Compose Email&quot; command is enabled only if the respective Email Address is known
+2) Feature Request #4299 completed, &quot;Better handling of result sets (DONATED feature)&quot;
+2a) The ton's &quot;Show Result&quot; command has been dropped
+3) For developers: Minor framework changes in ApplicationService:
+3a) further form of createLiveAssociation() with a BaseAssociation parameter
+3b) 2 new setAssocProperty() methods for direct CM access
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 15.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -62,9 +62,9 @@
+ 	static final String CLIENT_VERSION = &quot;2.0b8&quot;;
+ 	static final String SERVER_VERSION = &quot;2.0b8&quot;;
+ 	static final String REQUIRED_SERVER_VERSION = &quot;2.0b8&quot;;
+-	static final int REQUIRED_STANDARD_TOPICS = 17;
++	static final int REQUIRED_STANDARD_TOPICS = 19;
+ 	static final int REQUIRED_DB_MODEL = 2;
+-	static final int REQUIRED_DB_CONTENT = 17;
++	static final int REQUIRED_DB_CONTENT = 19;
+ 	// --- application server ---
+ 	static final int DEFAULT_PORT = 7557;			// used by DeepaMehtaClient
+ 	static final int MAX_CLIENTS = 150;
+@@ -302,6 +302,7 @@
+ 		{&quot;Build&quot;, &quot;Struktur&quot;},
+ 		{&quot;Messages&quot;, &quot;Mitteilungen&quot;},
+ 		{&quot;Choose ...&quot;, &quot;Ausw&#228;hlen ...&quot;},
++		{&quot;Choose ...&quot;, &quot;Ausw&#228;hlen ...&quot;},
+ 		// --- &quot;Workspace&quot; commands ---
+ 		{&quot;Join&quot;, &quot;Beitreten&quot;},
+ 		{&quot;Leave&quot;, &quot;Austreten&quot;},
+@@ -309,7 +310,8 @@
+ 		{&quot;Assign Association Type&quot;, &quot;Assoziationstyp zuordnen&quot;},
+ 		// --- &quot;User&quot; commands ---
+ 		{&quot;Set Standard Workspace&quot;, &quot;Standard Workspace setzen&quot;},
+-		{&quot;Choose ...&quot;, &quot;Ausw&#228;hlen ...&quot;},
++		// --- &quot;Email&quot; commands ---
++		{&quot;Compose Email&quot;, &quot;Email verfassen&quot;}
+ 	};
+ 
+ 	static final int ITEM_NEW_TOPIC    = 0;
+@@ -344,7 +346,7 @@
+ 	static final int ITEM_ASSIGN_TOPIC = 29;
+ 	static final int ITEM_ASSIGN_NEW_TOPIC = 30;
+ 	static final int ITEM_SHOW_HELP = 31;
+-	static final int ITEM_SHOW_CONTENT = 32;
++	// ### static final int ITEM_SHOW_CONTENT = 32;		// ### not used anymore
+ 	static final int ITEM_GROUP_BY = 33;
+ 	static final int ITEM_IMPORT_CM = 34;
+ 	static final int ITEM_EXPORT_CM = 35;
+@@ -358,14 +360,16 @@
+ 	static final int VIEWMODE_BUILD_LABEL = 42;
+ 	static final int MESSAGE_LABEL = 43;
+ 	static final int BUTTON_ASSIGN_FILE = 44;
+-	static final int BUTTON_CHOOSE_COLOR = 50;
++	static final int BUTTON_CHOOSE_COLOR = 45;
+ 	// --- &quot;Workspace&quot; commands ---
+-	static final int ITEM_JOIN_WORKSPACE = 45;
+-	static final int ITEM_LEAVE_WORKSPACE = 46;
+-	static final int ITEM_ASSIGN_TOPIC_TYPE = 47;
+-	static final int ITEM_ASSIGN_ASSOC_TYPE = 48;
++	static final int ITEM_JOIN_WORKSPACE = 46;
++	static final int ITEM_LEAVE_WORKSPACE = 47;
++	static final int ITEM_ASSIGN_TOPIC_TYPE = 48;
++	static final int ITEM_ASSIGN_ASSOC_TYPE = 49;
+ 	// --- &quot;User&quot; commands ---
+-	static final int ITEM_SET_WORKSPACE = 49;
++	static final int ITEM_SET_WORKSPACE = 50;
++	// --- &quot;Email&quot; commands ---
++	static final int ITEM_COMPOSE_EMAIL = 51;
+ 	//
+ 	static final String ICON_CHANGE_ASSOC_TYPE = &quot;changing.gif&quot;;
+ 	static final String ICON_NEW_ASSOC_TYPE = &quot;create.gif&quot;;
+@@ -388,8 +392,8 @@
+ 	static final String ICON_DELETE_TOPIC = &quot;trash.gif&quot;;
+ 	static final String ICON_SHOW_HELP = &quot;viewhilfe.gif&quot;;
+ 	static final String ICON_SEARCH_INTERNET = &quot;google.gif&quot;;
+-	static final String ICON_SHOW_RESULT = &quot;eye-grey.gif&quot;;
+ 	static final String ICON_GROUP_BY = &quot;eye-grey.gif&quot;;
++	static final String ICON_COMPOSE_EMAIL = &quot;composeEmail.gif&quot;;
+ 
+ 	// --- commands ---
+ 	static final String CMD_NAVIGATION_BY_TOPIC = &quot;navByTopic&quot;;
+@@ -409,7 +413,6 @@
+ 	static final String CMD_ASSIGN_TOPIC = &quot;assignTopic&quot;;
+ 	static final String CMD_ASSIGN_NEW_TOPIC = &quot;assignNewTopic&quot;;
+ 	static final String CMD_SHOW_HELP = &quot;showHelp&quot;;						// changes model
+-	static final String CMD_SHOW_CONTENT = &quot;showResult&quot;;
+ 	static final String CMD_GROUP_BY = &quot;groupByProperty&quot;;
+ 	static final String CMD_IMPORT_CM = &quot;importCM&quot;;
+ 	static final String CMD_EXPORT_CM = &quot;exportCM&quot;;
+@@ -439,6 +442,7 @@
+ 	static final String CMD_PROCESS_STRING = &quot;processDroppedString&quot;;
+ 	static final String CMD_CHOOSE_COLOR = &quot;chooseColor&quot;;
+ 	static final String CMD_FOLLOW_HYPERLINK = &quot;followHyperlink&quot;;
++	static final String CMD_COMPOSE_EMAIL = &quot;composeEmail&quot;;
+ 
+ 	// hyperlink actions
+ 	static final String ACTION_REVEAL_TOPIC = &quot;revealTopic&quot;;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -68,7 +68,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 23.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -359,32 +359,17 @@
+ 		}
+ 	}
+ 
+-	// --- checkLiveAssociation (2 forms) ---
++	// ---
+ 
+ 	/**
+-	 * ### should be private
+-	 *
+-	 * @see		#deleteAssociation(BaseAssociation assoc)
+-	 */
+-	public LiveAssociation checkLiveAssociation(BaseAssociation assoc, Session session, CorporateDirectives directives) {
+-		if (!liveAssociationExists(assoc)) {
+-			createLiveAssociation(assoc, false, false, session, directives);
+-		}
+-		return getLiveAssociation(assoc);
+-	}
+-
+-	/**
+-	 * ### should be private
+-	 *
+ 	 * @see		#deleteAssociation(String assocID, int version)
+ 	 */
+-	public LiveAssociation checkLiveAssociation(String assocID, int version, Session session, CorporateDirectives directives) {
++	private LiveAssociation checkLiveAssociation(String assocID, int version, Session session, CorporateDirectives directives) {
+ 		if (!liveAssociationExists(assocID, version)) {
+ 			BaseAssociation assoc = cm.getAssociation(assocID, version);
+ 			// error check
+ 			if (assoc == null) {
+-				throw new DeepaMehtaException(&quot;association \&quot;&quot; + assocID + &quot;:&quot; +
+-					version + &quot;\&quot; not in corporate memory&quot;);
++				throw new DeepaMehtaException(&quot;association \&quot;&quot; + assocID + &quot;:&quot; + version + &quot;\&quot; not in corporate memory&quot;);
+ 			}
+ 			//
+ 			createLiveAssociation(assoc, false, false, session, directives);
+@@ -696,7 +681,7 @@
+ 		}
+ 	}
+ 
+-	// --- createLiveAssociation (3 forms) ---
++	// --- createLiveAssociation (4 forms) ---
+ 
+ 	/**
+ 	 * Instantiates a {@link de.deepamehta.assocs.LiveAssociation} based on the specified {@link de.deepamehta.BaseAssociation},
+@@ -713,12 +698,12 @@
+ 	 * @see 	CorporateDirectives#showAssociation																									false	variable
+ 	 * @see 	CorporateDirectives#changeAssociationType																							true	true
+ 	 */
+-	void createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke, Session session,
++	LiveAssociation createLiveAssociation(BaseAssociation assoc, boolean override, boolean evoke, Session session,
+ 																								CorporateDirectives directives) {
+ 		// ### compare to createLiveTopic(), topicmapID, viewmode, session, directives parameters?
+ 		if (!override &amp;&amp; liveAssociationExists(assoc.getID(), assoc.getVersion())) {
+ 			// association exists and is not supposed to be overridden
+-			return;
++			return null;
+ 		}
+ 		// --- instantiate live association ---
+ 		String implementingClass = type(assoc).getImplementingClass();
+@@ -735,9 +720,11 @@
+ 			getLiveTopic(topicID1, 1).associated(assoc.getType(), topicID2, session, directives);
+ 			getLiveTopic(topicID2, 1).associated(assoc.getType(), topicID1, session, directives);
+ 		}
++		//
++		return newAssoc;
+ 	}
+ 
+-	// 2 utility wrapper for createLiveAssociation() above.
++	// 3 utility wrapper for createLiveAssociation() above.
+ 
+ 	/**
+ 	 * Creates a new association. All hooks are triggered.
+@@ -758,13 +745,15 @@
+ 	public LiveAssociation createLiveAssociation(String assocID, String typeID, String name, String topicID1, String topicID2,
+ 																				Session session, CorporateDirectives directives) {
+ 		BaseAssociation assoc = new BaseAssociation(assocID, 1, typeID, 1, name, topicID1, 1, topicID2, 1);
+-		createLiveAssociation(assoc, false, true, session, directives);		// override=false, evoke=true
+-		LiveAssociation newAssoc = getLiveAssociation(assoc);
+-		return newAssoc;
++		return createLiveAssociation(assoc, session, directives);
+ 	}
+ 
++	public LiveAssociation createLiveAssociation(BaseAssociation assoc, Session session, CorporateDirectives directives) {
++		return createLiveAssociation(assoc, false, true, session, directives);		// override=false, evoke=true
++	}
+ 
+ 
++
+ 	// --------------------------------------
+ 	// --- Navigating in Corporate Memory ---
+ 	// --------------------------------------
+@@ -1344,6 +1333,18 @@
+ 	// Note: there is another method who set properties at application service level
+ 	// - setAssocProperties()
+ 
++	// --- setAssocProperty (2 forms) ---
++
++	public void setAssocProperty(BaseAssociation assoc, String propName, String propValue) {
++		setAssocProperty(assoc.getID(), assoc.getVersion(), propName, propValue);
++	}
++
++	public void setAssocProperty(String assocID, int version, String propName, String propValue) {
++		cm.setAssociationData(assocID, version, propName, propValue);
++	}
++
++	// ---
++
+ 	/**
+ 	 * Sets multiple association property values directly in corporate memory.
+ 	 * &lt;p&gt;
+
+Modified: trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -89,7 +89,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -219,27 +219,16 @@
+ 														Session session, CorporateDirectives directives) {
+ 		// Note: super.contextCommands() isn't called here because a container has no standard commands
+ 		CorporateCommands commands = new CorporateCommands(as);
+-		// &quot;Show Result&quot; ### to be dropped
+-		Commands cmdGroup = commands.addCommandGroup(as.string(ITEM_SHOW_CONTENT), FILESERVER_IMAGES_PATH, ICON_SHOW_RESULT);
+-		if (getContentSize() &lt;= MAX_LISTING) {
+-			Enumeration e = getContent().elements();
+-			while (e.hasMoreElements()) {
+-				String[] topic = (String[]) e.nextElement();
+-				cmdGroup.addCommand(topic[1], CMD_SHOW_CONTENT + COMMAND_SEPARATOR + topic[0],
+-					FILESERVER_ICONS_PATH, getAppearance(topic[0], topic[1], session, directives));
+-			}
+-		}
+ 		// &quot;Group by&quot;
+ 		String[] groupingProps = getGroupingProperties();
+ 		if (groupingProps != null) {
+-			cmdGroup = commands.addCommandGroup(as.string(ITEM_GROUP_BY), FILESERVER_IMAGES_PATH, ICON_GROUP_BY);
++			Commands cmdGroup = commands.addCommandGroup(as.string(ITEM_GROUP_BY), FILESERVER_IMAGES_PATH, ICON_GROUP_BY);
+ 			for (int i = 0; i &lt; groupingProps.length; i++) {
+ 				cmdGroup.addCommand(groupingProps[i], CMD_GROUP_BY + COMMAND_SEPARATOR + groupingProps[i]);
+ 			}
+ 		}
+ 		// &quot;Remove&quot;
+ 		String cmd = as.isContainedInPublishedTopicmap(getID()) ? CMD_HIDE_TOPIC : CMD_DELETE_TOPIC;
+-		commands.addSeparator();
+ 		commands.addCommand(as.string(ITEM_REMOVE_TOPIC), cmd, FILESERVER_IMAGES_PATH, ICON_HIDE_TOPIC);
+ 		//
+ 		return commands;
+@@ -288,12 +277,6 @@
+ 				throw new DeepaMehtaException(&quot;hyperlink action \&quot;&quot; + action + &quot;\&quot; not recognized&quot;);
+ 			}
+ 			return directives;
+-		} else if (cmd.equals(CMD_SHOW_CONTENT)) {	// ### to be dropped
+-			// reveal one topic
+-			CorporateDirectives directives = new CorporateDirectives();
+-			String id = st.nextToken();
+-			revealResultTopic(id, topicmapID, true, directives);	// doSelectTopic=true
+-			return directives;
+ 		} else if (cmd.equals(CMD_GROUP_BY)) {
+ 			// grouping
+ 			String groupingProp = st.nextToken();
+
+Modified: trunk/develop/src/de/deepamehta/topics/EmailTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/EmailTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -36,7 +36,7 @@
+  * An email.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 15.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -186,6 +186,8 @@
+ 		if ((relTypeID.equals(TOPICTYPE_PERSON) || relTypeID.equals(TOPICTYPE_INSTITUTION) ||
+ 												   relTypeID.equals(TOPICTYPE_RECIPIENT_LIST)) &amp;&amp; relTopicPos == 2) {
+ 			return SEMANTIC_EMAIL_RECIPIENT;
++		} else if (relTypeID.equals(TOPICTYPE_DOCUMENT) &amp;&amp; relTopicPos == 2) {
++			return SEMANTIC_EMAIL_ATTACHMENT;
+ 		}
+ 		return super.associationAllowed(assocTypeID, relTopicID, relTopicPos, directives);
+ 	}
+
+Added: trunk/develop/src/de/deepamehta/topics/InstitutionSearchTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/InstitutionSearchTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/InstitutionSearchTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -0,0 +1,117 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateCommands;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Vector;
++
++
++
++// ### copy of PersonSearchTopic
++
++/**
++ * An institution search.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class InstitutionSearchTopic extends TopicContainerTopic {
++
++
++
++	// *************
++	// *** Field ***
++	// *************
++
++
++
++	// commands
++	private static final String ITEM_CREATE_RECIPIENT_LIST = &quot;Create Recipient List&quot;;
++	private static final String CMD_CREATE_RECIPIENT_LIST = &quot;createRecipientList&quot;;
++	private static final String ICON_CREATE_RECIPIENT_LIST = &quot;authentificationsource.gif&quot;;
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	public InstitutionSearchTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++
++
++	// **********************
++	// *** Defining Hooks ***
++	// **********************
++
++
++
++	// --------------------------
++	// --- Providing Commands ---
++	// --------------------------
++
++
++
++	public CorporateCommands contextCommands(String topicmapID, String viewmode,
++									Session session, CorporateDirectives directives) {
++		CorporateCommands commands = new CorporateCommands(as);
++		//
++		commands.addCommand(ITEM_CREATE_RECIPIENT_LIST, CMD_CREATE_RECIPIENT_LIST,
++			FILESERVER_ICONS_PATH, ICON_CREATE_RECIPIENT_LIST);
++		commands.addSeparator();
++		commands.add(super.contextCommands(topicmapID, viewmode, session, directives));
++		//
++		return commands;
++	}
++
++
++
++	// --------------------------
++	// --- Executing Commands ---
++	// --------------------------
++
++
++
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = new CorporateDirectives();
++		if (command.equals(CMD_CREATE_RECIPIENT_LIST)) {
++			createRecipientList(session, directives);
++		} else {
++			return super.executeCommand(command, session, topicmapID, viewmode);
++		}
++		return directives;
++	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	private void createRecipientList(Session session, CorporateDirectives directives) {
++		RecipientListTopic recipientList = (RecipientListTopic) createChildTopic(TOPICTYPE_RECIPIENT_LIST,
++			SEMANTIC_CONTAINER_HIERARCHY, session, directives);
++		//
++		Enumeration e = getContent().elements();
++		while (e.hasMoreElements()) {
++			String institutionID = ((String[]) e.nextElement())[0];
++			recipientList.selectRecipient(institutionID, directives, false);		// doUpdateView=false
++		}
++		//
++		recipientList.updateRendering(directives, true);	// doUpdateView=true
++	}
++}
+
+Added: trunk/develop/src/de/deepamehta/topics/InstitutionTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/InstitutionTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/InstitutionTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -0,0 +1,91 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateCommands;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++import java.util.Hashtable;
++
++
++
++/**
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class InstitutionTopic extends LiveTopic {
++
++
++
++	// *******************
++	// *** Constructor ***
++	// *******************
++
++
++
++	public InstitutionTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++
++
++	// **********************
++	// *** Defining Hooks ***
++	// **********************
++
++
++
++	// --------------------------
++	// --- Providing Commands ---
++	// --------------------------
++
++
++
++	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session, CorporateDirectives directives) {
++		CorporateCommands commands = new CorporateCommands(as);
++		//
++		// --- navigation commands ---
++		int editorContext = as.editorContext(topicmapID);
++		commands.addNavigationCommands(this, editorContext, session);
++		//
++		// --- custom commands ---
++		commands.addSeparator();
++		// &quot;Compose Email&quot; ### copy in PersonTopic
++		String emailAddress = as.getEmailAddress(getID());
++		int cmdState = emailAddress != null &amp;&amp; emailAddress.length() &gt; 0 ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++		commands.addCommand(as.string(ITEM_COMPOSE_EMAIL), CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL, cmdState);
++		//
++		// --- standard commands ---
++		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
++		//
++		return commands;
++	}
++
++
++
++	// --------------------------
++	// --- Executing Commands ---
++	// --------------------------
++
++
++
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
++		if (command.equals(CMD_COMPOSE_EMAIL)) {
++			// ### copy in PersonTopic
++			CorporateDirectives directives = new CorporateDirectives();
++			LiveTopic email = createChildTopic(TOPICTYPE_EMAIL, SEMANTIC_EMAIL_RECIPIENT, true, session, directives);	// reverseAssocDir=true
++			// set recipient address
++			String emailAddress = as.getEmailAddress(getID());
++			if (emailAddress != null &amp;&amp; emailAddress.length() &gt; 0) {
++				Hashtable props = new Hashtable();
++				props.put(PROPERTY_TO, emailAddress);
++				directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, email.getID(), props, new Integer(1));
++			}
++			return directives;
++		} else {
++			return super.executeCommand(command, session, topicmapID, viewmode);
++		}
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -50,7 +50,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 19.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -64,7 +64,7 @@
+ 
+ 
+ 
+-	public static final int kernelTopicsVersion = 17;
++	public static final int kernelTopicsVersion = 19;
+ 
+ 	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
+ 
+@@ -1351,8 +1351,16 @@
+ 		PresentableTopic child = new PresentableTopic(childID, 1, typeID, 1, &quot;&quot;, getID(), &quot;&quot;);
+ 		PresentableAssociation assoc = as.createPresentableAssociation(semantic, topicID1, getVersion(), topicID2, 1, false);
+ 		// Note: the association must be created directly in corporate memory, to let childs evoke() logic operate on it
++		// ### this way the association's evoke() hook is not triggered and thus the association's default property values are
++		// not set. This is an OPEN PROBLEM which affects e.g. the &quot;Email&quot; application: when a &quot;Recipient&quot; association is
++		// created programatically via the &quot;Compose Email&quot; command, its &quot;Recipient Type&quot; property is not initialized (&quot;To&quot;).
+ 		cm.createAssociation(assoc.getID(), 1, semantic, 1, topicID1, 1, topicID2, 1);
+ 		cm.setAssociationData(assoc.getID(), 1, PROPERTY_OWNER_ID, session.getUserID());
++		// ### Note: creating a LiveAssociation doesn't work here because the topic's associated() hooks will be triggered
++		// but the topics are not yet created
++		// ### as.createLiveAssociation(assoc, session, directives);
++		// ### as.setAssocProperty(assoc, PROPERTY_OWNER_ID, session.getUserID());
++		//
+ 		// Note: the child topic must be created now, to let the caller operate on it
+ 		LiveTopic topic = as.createLiveTopic(child, session, directives);
+ 		as.setTopicProperty(child, PROPERTY_OWNER_ID, session.getUserID());
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -13,6 +13,8 @@
+ 
+ 
+ 
++// ### copy of InstitutionSearchTopic
++
+ /**
+  * A person search.
+  * &lt;p&gt;
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -1,8 +1,6 @@
+ package de.deepamehta.topics;
+ 
+ import de.deepamehta.BaseTopic;
+-import de.deepamehta.PresentableAssociation;
+-import de.deepamehta.PresentableTopic;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+@@ -15,7 +13,7 @@
+ 
+ 
+ /**
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -29,11 +27,6 @@
+ 
+ 
+ 
+-	// commands ### copy in RecipientListTopic
+-	private static final String ITEM_COMPOSE_EMAIL = &quot;Compose Email&quot;;
+-	private static final String ICON_COMPOSE_EMAIL = &quot;composeEmail.gif&quot;;
+-	private static final String CMD_COMPOSE_EMAIL = &quot;composeEmail&quot;;
+-
+ 	private static final String ITEM_MAKE_APPOINTMENT = &quot;Make Appointment&quot;;
+ 	private static final String ICON_MAKE_APPOINTMENT = &quot;make-appointment.gif&quot;;
+ 	private static final String CMD_MAKE_APPOINTMENT = &quot;makeAppointment&quot;;
+@@ -66,16 +59,21 @@
+ 
+ 	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session, CorporateDirectives directives) {
+ 		CorporateCommands commands = new CorporateCommands(as);
+-		// navigation commands
++		//
++		// --- navigation commands ---
+ 		int editorContext = as.editorContext(topicmapID);
+ 		commands.addNavigationCommands(this, editorContext, session);
+ 		//
+-		// custom commands
++		// --- custom commands ---
+ 		commands.addSeparator();
+-		commands.addCommand(ITEM_COMPOSE_EMAIL, CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL);
++		// &quot;Compose Email&quot; ### copy in InstitutionTopic
++		String emailAddress = as.getEmailAddress(getID());
++		int cmdState = emailAddress != null &amp;&amp; emailAddress.length() &gt; 0 ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++		commands.addCommand(as.string(ITEM_COMPOSE_EMAIL), CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL, cmdState);
++		// &quot;Make Appointment&quot;
+ 		commands.addCommand(ITEM_MAKE_APPOINTMENT, CMD_MAKE_APPOINTMENT, FILESERVER_IMAGES_PATH, ICON_MAKE_APPOINTMENT);
+ 		//
+-		// standard commands
++		// --- standard commands ---
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+ 		//
+ 		return commands;
+@@ -91,11 +89,12 @@
+ 
+ 	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+ 		if (command.equals(CMD_COMPOSE_EMAIL)) {
++			// ### copy in InstitutionTopic
+ 			CorporateDirectives directives = new CorporateDirectives();
+ 			LiveTopic email = createChildTopic(TOPICTYPE_EMAIL, SEMANTIC_EMAIL_RECIPIENT, true, session, directives);	// reverseAssocDir=true
+ 			// set recipient address
+ 			String emailAddress = as.getEmailAddress(getID());
+-			if (emailAddress != null) {
++			if (emailAddress != null &amp;&amp; emailAddress.length() &gt; 0) {
+ 				Hashtable props = new Hashtable();
+ 				props.put(PROPERTY_TO, emailAddress);
+ 				directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, email.getID(), props, new Integer(1));
+
+Modified: trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-29 19:44:57 UTC (rev 354)
+@@ -18,7 +18,7 @@
+  * A list of email recipients.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 19.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 29.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -38,12 +38,8 @@
+ 	private static final String IMAGE_CHECKBOX = &quot;checkbox.png&quot;;
+ 	private static final String IMAGE_CHECKBOX_SELECTED = &quot;checkbox-selected.png&quot;;
+ 	private static final String IMAGE_CHECKBOX_DISABLED = &quot;checkbox-disabled.png&quot;;
++	private static final String IMAGE_CHECKBOX_DISABLED_SELECTED = &quot;checkbox-disabled-selected.png&quot;;
+ 
+-	// commands ### copy in PersonTopic
+-	private static final String ITEM_COMPOSE_EMAIL = &quot;Compose Email&quot;;
+-	private static final String ICON_COMPOSE_EMAIL = &quot;composeEmail.gif&quot;;
+-	private static final String CMD_COMPOSE_EMAIL = &quot;composeEmail&quot;;
+-
+ 	// actions
+ 	private static final String ACTION_SELECT_RECIPIENT = &quot;selectRecipient&quot;;
+ 
+@@ -104,15 +100,17 @@
+ 
+ 	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session, CorporateDirectives directives) {
+ 		CorporateCommands commands = new CorporateCommands(as);
+-		// navigation commands
++		//
++		// --- navigation commands ---
+ 		int editorContext = as.editorContext(topicmapID);
+ 		commands.addNavigationCommands(this, editorContext, session);
+ 		//
+-		// custom commands
++		// --- custom commands ---
+ 		commands.addSeparator();
+-		commands.addCommand(ITEM_COMPOSE_EMAIL, CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL);
++		// &quot;Compose Email&quot;
++		commands.addCommand(as.string(ITEM_COMPOSE_EMAIL), CMD_COMPOSE_EMAIL, FILESERVER_IMAGES_PATH, ICON_COMPOSE_EMAIL);
+ 		//
+-		// standard commands
++		// --- standard commands ---
+ 		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+ 		//
+ 		return commands;
+@@ -258,8 +256,8 @@
+ 		String emailAddress = as.getEmailAddress(recipient.getID());
+ 		boolean isEnabled = emailAddress != null &amp;&amp; emailAddress.length() &gt; 0;
+ 		boolean isSelected = selectedRecipients.contains(recipient);
+-		String checkboxImage = FILESERVER_IMAGES_PATH + (isEnabled ? isSelected ?
+-			IMAGE_CHECKBOX_SELECTED : IMAGE_CHECKBOX : IMAGE_CHECKBOX_DISABLED);
++		String checkboxImage = FILESERVER_IMAGES_PATH + (isEnabled ? isSelected ? IMAGE_CHECKBOX_SELECTED : IMAGE_CHECKBOX :
++			isSelected ? IMAGE_CHECKBOX_DISABLED_SELECTED : IMAGE_CHECKBOX_DISABLED);
+ 		// render checkbox
+ 		html.append(isEnabled ? &quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_RECIPIENT + &quot;/&quot; + recipient.getID() + &quot;\&quot;&gt;&quot; : &quot;&quot;);
+ 		html.append(&quot;&lt;img src=\&quot;&quot; + checkboxImage + &quot;\&quot; border=\&quot;0\&quot;&gt;&quot;);
+
+Added: trunk/install/client/images/checkbox-disabled-selected.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/checkbox-disabled-selected.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: trunk/install/db/patches/cm-2.18.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.18.sql	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/install/db/patches/cm-2.18.sql	2008-09-29 19:44:57 UTC (rev 354)
+@@ -76,3 +76,18 @@
+ DELETE FROM TopicProp WHERE TopicID='at-emailaddressee';
+ DELETE FROM ViewTopic WHERE TopicID='at-emailaddressee';
+ DELETE FROM Association WHERE TypeID='at-emailaddressee';
++
++
++
++-----------------------
++--- Version Control ---
++-----------------------
++
++
++
++-- change version labels
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
++
++-- update DB content version
++UPDATE KeyGenerator SET NextKey=18 WHERE Relation='DB-Content Version';
+
+Modified: trunk/install/db/patches/cm-2.19.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.19.sql	2008-09-23 01:05:36 UTC (rev 353)
++++ trunk/install/db/patches/cm-2.19.sql	2008-09-29 19:44:57 UTC (rev 354)
+@@ -43,5 +43,23 @@
+ INSERT INTO AssociationProp VALUES ('a-345', 1, 'Ordinal Number', '2');
+ INSERT INTO AssociationProp VALUES ('a-346', 1, 'Ordinal Number', '3');
+ 
+---- set custom implementation for &quot;Person Search&quot; ---
++
++--- set custom implementation for &quot;Person Search&quot;, &quot;Institution&quot;, and &quot;Institution Search&quot; ---
+ INSERT INTO TopicProp VALUES ('tt-personcontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.PersonSearchTopic');
++INSERT INTO TopicProp VALUES ('tt-institution', 1, 'Custom Implementation', 'de.deepamehta.topics.InstitutionTopic');
++INSERT INTO TopicProp VALUES ('tt-institutioncontainer', 1, 'Custom Implementation', 'de.deepamehta.topics.InstitutionSearchTopic');
++
++
++
++-----------------------
++--- Version Control ---
++-----------------------
++
++
++
++-- change version labels
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
++
++-- update DB content version
++UPDATE KeyGenerator SET NextKey=19 WHERE Relation='DB-Content Version';
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000197.html">[deepamehta-svn] r353 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

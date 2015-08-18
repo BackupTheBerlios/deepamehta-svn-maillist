@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r201 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r201%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200709171843.l8HIhKpo028133%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000045.html">
+   <LINK REL="Next"  HREF="000047.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r201 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r201%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%20install/db/patches&In-Reply-To=%3C200709171843.l8HIhKpo028133%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r201 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics install/db/patches">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 17 20:43:20 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000045.html">[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs
+</A></li>
+        <LI>Next message: <A HREF="000047.html">[deepamehta-svn] r202 - in branches/eschnepel: . ant ant/bin	ant/etc ant/etc/checkstyle ant/lib	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web install/config	install/db/db-specific install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#46">[ date ]</a>
+              <a href="thread.html#46">[ thread ]</a>
+              <a href="subject.html#46">[ subject ]</a>
+              <a href="author.html#46">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-09-17 20:43:08 +0200 (Mon, 17 Sep 2007)
+New Revision: 201
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+   trunk/install/db/patches/cm-2.17.sql
+Log:
+Calendar application updated: group calendars. To a calendar persons can be assigned, and the calendar shows all the events the persons are attendees of. Thus, a calendar can be regarded as virtual view of the events of a group of persons. One event possibly appears in more than one calendars. To an event the attending persons can be assigned. An (non-personal) event can still be assigned directly to an calendar and appears only in that calendar.
+
+Installation instructions: please note the cm-2.17.sql patch has been extended. If you already have applied this patch please check for the diff and apply the new INSERT statements manually.
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-16 19:56:33 UTC (rev 200)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-09-17 18:43:08 UTC (rev 201)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -664,8 +664,14 @@
+ 	// direction is from calendar to event
+ 	static final String SEMANTIC_CALENDAR_EVENT = ASSOCTYPE_ASSOCIATION;
+ 
++	// direction is from calendar to person
++	static final String SEMANTIC_CALENDAR_PERSON = ASSOCTYPE_ASSOCIATION;
+ 
++	// direction is from event to person
++	static final String SEMANTIC_EVENT_ATTENDEE = ASSOCTYPE_ASSOCIATION;
+ 
++
++
+ 	// ----------------
+ 	// --- Requests ---
+ 	// ----------------
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-16 19:56:33 UTC (rev 200)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-09-17 18:43:08 UTC (rev 201)
+@@ -17,7 +17,7 @@
+ 
+ 
+ /**
+- * Last functional change: 14.9.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -220,9 +220,9 @@
+ 
+ 
+ 
+-	// *****************
+-	// *** Utilities ***
+-	// *****************
++	// **********************
++	// *** Custom Methods ***
++	// **********************
+ 
+ 
+ 
+@@ -427,16 +427,44 @@
+ 	// ---
+ 
+ 	private Vector getEvents() {
++		Vector events;
++		// 1) add events directly connected to this calendar
++		// ### sorting not needed anymore
+ 		String[] sortProps = {PROPERTY_BEGIN_DATE, PROPERTY_BEGIN_TIME};
+-		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
++		events = cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_EVENT, 2, sortProps, true);	// descending=true
++		// 2) add events of the persons connected to this calendar
++		Enumeration e = getCalendarPersons().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic person = (BaseTopic) e.nextElement();
++			Vector personEvents = ((PersonTopic) as.getLiveTopic(person)).getCalendarEvents();
++			events.addAll(personEvents);
++		}
++		return events;
+ 	}
+ 
++	private Vector getCalendarPersons() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_PERSON, 2);
++	}
++
++	// ---
++
+ 	private void revealEvent(String eventID, CorporateDirectives directives) {
+ 		PresentableTopic event = new PresentableTopic(as.getLiveTopic(eventID, 1), getID());
+-		BaseAssociation a = cm.getAssociation(ASSOCTYPE_ASSOCIATION, getID(), eventID);
++		BaseAssociation a = cm.getAssociation(SEMANTIC_CALENDAR_EVENT, getID(), eventID);
++		Boolean evoke = Boolean.FALSE;
++		if (a == null) {
++			// create a &quot;virtual&quot; association of type &quot;Search Result&quot; if not yet exist
++			a = cm.getAssociation(SEMANTIC_CONTAINER_HIERARCHY, getID(), eventID);
++			if (a == null) {
++				String assocID = as.getNewAssociationID();
++				a = new BaseAssociation(assocID, 1, SEMANTIC_CONTAINER_HIERARCHY, 1, &quot;&quot;, getID(), 1, eventID, 1);
++				evoke = Boolean.TRUE;
++			}
++		}
++		//
+ 		PresentableAssociation assoc = new PresentableAssociation(a);
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, event);
+-		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc);
++		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, evoke);
+ 		directives.add(DIRECTIVE_SELECT_TOPIC, eventID);
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-16 19:56:33 UTC (rev 200)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-09-17 18:43:08 UTC (rev 201)
+@@ -11,7 +11,7 @@
+ 
+ 
+ /**
+- * Last functional change: 6.7.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 17.7.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -48,20 +48,40 @@
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+ 			topicmapID, viewmode, session);
+-		getCalendar().updateView(directives);
++		// 1) update the calendar directly connected to this event
++		BaseTopic calendar = getCalendar();
++		if (calendar != null) {
++			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++		}
++		// 2) update the calendars of the attendees of this event
++		// ### Note: this way most calendars are updated more than once. Possible optimization: collect the
++		// calendars first, remove the doublettes, and update only the remaining calendars
++		Enumeration e = getAttendees().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic person = (BaseTopic) e.nextElement();
++			Vector calendars = ((PersonTopic) as.getLiveTopic(person)).getCalendars();
++			Enumeration e2 = calendars.elements();
++			while (e2.hasMoreElements()) {
++				calendar = (BaseTopic) e2.nextElement();
++				((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
++			}
++		}
+ 		return directives;
+ 	}
+ 
+ 
+ 
+-	// *****************
+-	// *** Utilities ***
+-	// *****************
++	// **********************
++	// *** Custom Methods ***
++	// **********************
+ 
+ 
+ 
+-	private CalendarTopic getCalendar() {
+-		BaseTopic calendar = as.getRelatedTopic(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_CALENDAR, 1, false);	// emptyAllowed=false
+-		return (CalendarTopic) as.getLiveTopic(calendar);
++	private BaseTopic getCalendar() {
++		return as.getRelatedTopic(getID(), SEMANTIC_CALENDAR_EVENT, TOPICTYPE_CALENDAR, 1, true);	// emptyAllowed=true
+ 	}
++
++	public Vector getAttendees() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_EVENT_ATTENDEE, TOPICTYPE_PERSON, 2);
++	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2007-09-16 19:56:33 UTC (rev 200)
++++ trunk/develop/src/de/deepamehta/topics/PersonTopic.java	2007-09-17 18:43:08 UTC (rev 201)
+@@ -14,7 +14,7 @@
+ 
+ 
+ /**
+- * Last functional change: 25.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 17.9.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.3.2004 (2.0b3-pre1)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -149,4 +149,20 @@
+ 			propertyDef.setPropertyLabel(&quot;Last Name&quot;);
+ 		}
+ 	}
++
++
++
++	// **********************
++	// *** Custom Methods ***
++	// **********************
++
++
++
++	public Vector getCalendars() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_PERSON, TOPICTYPE_CALENDAR, 1);
++	}
++
++	public Vector getCalendarEvents() {
++		return cm.getRelatedTopics(getID(), SEMANTIC_EVENT_ATTENDEE, TOPICTYPE_EVENT, 1);
++	}
+ }
+
+Modified: trunk/install/db/patches/cm-2.17.sql
+===================================================================
+--- trunk/install/db/patches/cm-2.17.sql	2007-09-16 19:56:33 UTC (rev 200)
++++ trunk/install/db/patches/cm-2.17.sql	2007-09-17 18:43:08 UTC (rev 201)
+@@ -26,7 +26,9 @@
+ --- New Feature: Calendar ---
+ -----------------------------
+ 
++---
+ --- create topic type &quot;Calendar&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Name', 'Calendar');
+ INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Plural Name', 'Calendars');
+@@ -72,8 +74,17 @@
+ INSERT INTO AssociationProp VALUES ('a-141', 1, 'Ordinal Number', '220');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-148', '', 'tt-calendar', 1, 'pp-displaymode', 1);
+ INSERT INTO AssociationProp VALUES ('a-148', 1, 'Ordinal Number', '210');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-190', '', 'tt-calendar', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-190', 1, 'Ordinal Number', '150');
+ 
++---
+ --- create topic type &quot;Event&quot; ---
++---
+ INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Event');
+ INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Events');
+@@ -106,7 +117,7 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-endtime', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Name', 'End Time');
+ INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Visualization', 'Time Chooser');
+--- assign properties
++-- assign properties to topic type
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-110', '', 'tt-event', 1, 'pp-begindate', 1);
+ INSERT INTO AssociationProp VALUES ('a-110', 1, 'Ordinal Number', '110');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-111', '', 'tt-event', 1, 'pp-begintime', 1);
+@@ -115,16 +126,28 @@
+ INSERT INTO AssociationProp VALUES ('a-112', 1, 'Ordinal Number', '130');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
+ INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
++-- create relation to &quot;Person&quot;
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'a-246', 'Attendee', 'tt-event', 1, 'tt-person', 1);
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Name', 'Attendee');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Association Type ID', 'at-association');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Web Form', 'Related Topic Selector');
++INSERT INTO AssociationProp VALUES ('a-246', 1, 'Ordinal Number', '150');
+ 
++---
+ --- assign topic types to workspace &quot;DeepaMehta&quot;
++---
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
+-INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'view');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
+ 
++---
+ --- delete &quot;City&quot; and &quot;Country&quot; assignments from workspace &quot;DeepaMehta&quot;
++---
+ DELETE FROM Association WHERE ID='a-324';
+ DELETE FROM AssociationProp WHERE AssociationID='a-324';
+ DELETE FROM ViewAssociation WHERE AssociationID='a-324';
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000045.html">[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs
+</A></li>
+	<LI>Next message: <A HREF="000047.html">[deepamehta-svn] r202 - in branches/eschnepel: . ant ant/bin	ant/etc ant/etc/checkstyle ant/lib	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web install/config	install/db/db-specific install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/knoppixforum install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/musicforum
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#46">[ date ]</a>
+              <a href="thread.html#46">[ thread ]</a>
+              <a href="subject.html#46">[ subject ]</a>
+              <a href="author.html#46">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

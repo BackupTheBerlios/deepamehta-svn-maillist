@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r350%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809191251.m8JCpqIm019671%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000193.html">
+   <LINK REL="Next"  HREF="000195.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r350%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09topics&In-Reply-To=%3C200809191251.m8JCpqIm019671%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 19 14:51:52 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000193.html">[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+        <LI>Next message: <A HREF="000195.html">[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#194">[ date ]</a>
+              <a href="thread.html#194">[ thread ]</a>
+              <a href="subject.html#194">[ subject ]</a>
+              <a href="author.html#194">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-19 14:51:49 +0200 (Fri, 19 Sep 2008)
+New Revision: 350
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+   trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+Log:
+1) Bug #14522 fixed (&quot;Recipient List rendering not up-to-date&quot;)
+2) Development framework extension: a new topic hook &quot;clicked()&quot; has been introduced. The default implementation selects the topic and displays its property panel. Custom implementations can e.g. update topic properties before displaying.
+
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-17 13:13:04 UTC (rev 349)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-09-19 12:51:49 UTC (rev 350)
+@@ -25,7 +25,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 7.8.2008 (2.0b8)&lt;br&gt;
++ * Last change: 19.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -308,7 +308,7 @@
+ 					break;
+ 				case DIRECTIVE_SHOW_TOPIC_PROPERTIES:
+ 					topicID = (String) param1;
+-					setTopicProperties(topicID, ((Integer) param3).intValue(), (Hashtable) param2, as, session, topicMapID, viewMode);
++					setTopicProperties(topicID, ((Integer) param3).intValue(), (Hashtable) param2, as, session, topicMapID);
+ 					// Note: param4 is set programatically
+ 					directive.param4 = as.getTopicPropertyBaseURLs(topicID, 1);
+                     // ### was null, null but &quot;topicMapID&quot;, &quot;viewMode&quot; is required
+@@ -333,8 +333,7 @@
+ 					addToSyncList(syncList, topicID);
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_LABEL:
+-					setTopicProperties((String) param1, ((Integer) param3).intValue(),
+-						(Hashtable) param4, as, session, topicMapID, viewMode);
++					setTopicProperties((String) param1, ((Integer) param3).intValue(), (Hashtable) param4, as, session, topicMapID);
+ 					break;
+ 				case DIRECTIVE_SET_TOPIC_ICON:
+ 					topicID = (String) param1;
+@@ -837,8 +836,8 @@
+ 	 *
+ 	 * @see		#updateCorporateMemory
+ 	 */
+-	private void setTopicProperties(String topicID, int version, Hashtable props, ApplicationService as,
+-                                        			Session session, String topicmapID, String viewmode) {
++	private void setTopicProperties(String topicID, int version, Hashtable props, ApplicationService as, Session session,
++																										String topicmapID) {
+ 		if (props != null) {
+ 			// ### triggerPropertiesChangedHook? is obsolete. Implicitely set to true.
+ 			// ### true required while changing e.g. &quot;Icon&quot; property
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-17 13:13:04 UTC (rev 349)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-19 12:51:49 UTC (rev 350)
+@@ -50,7 +50,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 19.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -289,6 +289,10 @@
+ 		return directives;
+ 	}
+ 
++	public void clicked(String topicmapID, Session session, CorporateDirectives directives) {
++		directives.add(DIRECTIVE_SELECT_TOPIC, getID());
++	}
++
+ 	/**
+ 	 * @see		de.deepamehta.service.ApplicationService#moveTopic
+ 	 */
+@@ -490,7 +494,7 @@
+ 			int y = Integer.parseInt(st.nextToken());
+ 			directives.add(as.showViewMenu(topicmapID, viewmode, x, y, session));
+ 		} else if (cmd.equals(CMD_SELECT_TOPIC)) {
+-			directives.add(DIRECTIVE_SELECT_TOPIC, getID());
++			clicked(topicmapID, session, directives);
+ 		} else if (cmd.equals(CMD_SELECT_TOPICMAP)) {
+ 			directives.add(DIRECTIVE_SELECT_TOPICMAP);
+ 		} else if (cmd.equals(CMD_ASSIGN_ICON)) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-17 13:13:04 UTC (rev 349)
++++ trunk/develop/src/de/deepamehta/topics/PersonSearchTopic.java	2008-09-19 12:51:49 UTC (rev 350)
+@@ -107,9 +107,9 @@
+ 		Enumeration e = getContent().elements();
+ 		while (e.hasMoreElements()) {
+ 			String personID = ((String[]) e.nextElement())[0];
+-			recipientList.selectRecipient(personID, directives, false);		// updateView=false
++			recipientList.selectRecipient(personID, directives, false);		// doUpdateView=false
+ 		}
+ 		//
+-		recipientList.updateView(directives);
++		recipientList.updateRendering(directives, true);	// doUpdateView=true
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-17 13:13:04 UTC (rev 349)
++++ trunk/develop/src/de/deepamehta/topics/RecipientListTopic.java	2008-09-19 12:51:49 UTC (rev 350)
+@@ -18,7 +18,7 @@
+  * A list of email recipients.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 19.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -76,13 +76,26 @@
+ 	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
+ 		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
+ 		// initial rendering
+-		updateView(directives);
++		updateRendering(directives, true);	// doUpdateView=true
+ 		//
+ 		return directives;
+ 	}
+ 
+ 
+ 
++	// ------------------------------------------
++	// --- Reacting upon dedicated situations ---
++	// ------------------------------------------
++
++
++
++	public void clicked(String topicmapID, Session session, CorporateDirectives directives) {
++		updateRendering(directives, false);	// doUpdateView=false
++		super.clicked(topicmapID, session, directives);
++	}
++
++
++
+ 	// --------------------------
+ 	// --- Providing Commands ---
+ 	// --------------------------
+@@ -131,7 +144,7 @@
+ 			String action = url.substring(urlPrefix.length());
+ 			if (action.startsWith(ACTION_SELECT_RECIPIENT)) {
+ 				String topicID = action.substring(ACTION_SELECT_RECIPIENT.length() + 1);	// +1 to skip /
+-				selectRecipient(topicID, directives, true);		// updateView=true
++				selectRecipient(topicID, directives, true);		// doUpdateView=true
+ 			} else {
+ 				// delegate to super class to handle ACTION_REVEAL_TOPIC
+ 				return super.executeCommand(command, session, topicmapID, viewmode);
+@@ -183,26 +196,36 @@
+ 	 * @see		#executeCommand
+ 	 * @see		PersonSearchTopic#createRecipientList
+ 	 */
+-	void selectRecipient(String recipientID, CorporateDirectives directives, boolean updateView) {
++	void selectRecipient(String recipientID, CorporateDirectives directives, boolean doUpdateView) {
+ 		as.toggleAssociation(getID(), recipientID, SEMANTIC_SELECTED_RECIPIENT);
+-		if (updateView) {
+-			updateView(directives);
++		if (doUpdateView) {
++			updateRendering(directives, true);	// doUpdateView=true
+ 		}
+ 	}
+ 
+ 	/**
+-	 * References checked: 13.9.2008 (2.0b8)
++	 * Renders the result list into the &quot;Description&quot; property.
++	 * &lt;p&gt;
++	 * References checked: 19.9.2008 (2.0b8)
+ 	 *
++	 * @param	doUpdateView	if &lt;code&gt;true&lt;/code&gt;, a &lt;code&gt;DIRECTIVE_SHOW_TOPIC_PROPERTIES&lt;/code&gt; is build.
++	 *							if &lt;code&gt;false&lt;/code&gt;, the property is written directly to corporate memory.
++	 *
+ 	 * @see		#evoke
++	 * @see		#clicked
+ 	 * @see		#selectRecipient
+ 	 * @see		PersonSearchTopic#createRecipientList
+ 	 */
+-	void updateView(CorporateDirectives directives) {
++	void updateRendering(CorporateDirectives directives, boolean doUpdateView) {
+ 		String html = renderRecipientList();
+ 		//
+-		Hashtable props = new Hashtable();
+-		props.put(PROPERTY_DESCRIPTION, html);
+-		directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++		if (doUpdateView) {
++			Hashtable props = new Hashtable();
++			props.put(PROPERTY_DESCRIPTION, html);
++			directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
++		} else {
++			cm.setTopicData(getID(), 1, PROPERTY_DESCRIPTION, html);
++		}
+ 	}
+ 
+ 	// ---
+@@ -216,14 +239,14 @@
+ 		// persons
+ 		Enumeration e = persons.elements();
+ 		while (e.hasMoreElements()) {
+-			BaseTopic recipient = (BaseTopic) e.nextElement();
+-			renderRecipient(recipient, selectedRecipients, html);
++			BaseTopic person = (BaseTopic) e.nextElement();
++			renderRecipient(person, selectedRecipients, html);
+ 		}
+ 		// institutions
+ 		e = institutions.elements();
+ 		while (e.hasMoreElements()) {
+-			BaseTopic recipient = (BaseTopic) e.nextElement();
+-			renderRecipient(recipient, selectedRecipients, html);
++			BaseTopic institution = (BaseTopic) e.nextElement();
++			renderRecipient(institution, selectedRecipients, html);
+ 		}
+ 		//
+ 		html.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000193.html">[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+</A></li>
+	<LI>Next message: <A HREF="000195.html">[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#194">[ date ]</a>
+              <a href="thread.html#194">[ thread ]</a>
+              <a href="subject.html#194">[ subject ]</a>
+              <a href="author.html#194">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

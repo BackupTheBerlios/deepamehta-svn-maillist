@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r302 - in trunk: . install/db/db-specific
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r302%20-%20in%20trunk%3A%20.%20install/db/db-specific&In-Reply-To=%3C200803101707.m2AH7Z24015910%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000146.html">
+   <LINK REL="Next"  HREF="000148.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r302 - in trunk: . install/db/db-specific</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r302%20-%20in%20trunk%3A%20.%20install/db/db-specific&In-Reply-To=%3C200803101707.m2AH7Z24015910%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r302 - in trunk: . install/db/db-specific">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 10 18:07:35 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000146.html">[deepamehta-svn] r301 - in trunk: . install/client
+</A></li>
+        <LI>Next message: <A HREF="000148.html">[deepamehta-svn] r303 - in trunk: .	develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#147">[ date ]</a>
+              <a href="thread.html#147">[ thread ]</a>
+              <a href="subject.html#147">[ subject ]</a>
+              <a href="author.html#147">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-10 18:07:34 +0100 (Mon, 10 Mar 2008)
+New Revision: 302
+
+Modified:
+   trunk/build.xml
+   trunk/install/db/db-specific/dropdb-derby.xml
+   trunk/install/db/db-specific/dropdb-hsqldb.xml
+   trunk/install/db/db-specific/dropdb-sql92.xml
+Log:
+dropdb performed drop db after rejecting the confirmation
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-10 14:16:11 UTC (rev 301)
++++ trunk/build.xml	2008-03-10 17:07:34 UTC (rev 302)
+@@ -93,7 +93,7 @@
+ 			&lt;/else&gt;
+ 		&lt;/if&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;-dropdb&quot; depends=&quot;-dropdb-do&quot;&gt;
++	&lt;target name=&quot;-dropdb&quot; depends=&quot;-dropdb-do&quot; unless=&quot;do.db.abort&quot;&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;dm.instance.installed&quot; value=&quot;false&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-derby.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-derby.xml	2008-03-10 14:16:11 UTC (rev 301)
++++ trunk/install/db/db-specific/dropdb-derby.xml	2008-03-10 17:07:34 UTC (rev 302)
+@@ -1,6 +1,7 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-derby&quot;&gt;
+-	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;import file=&quot;dropdb-ask.xml&quot; /&gt;
++	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;echo message=&quot;Deleting now the ${db.type} database '${db.name}'!&quot; /&gt;
+ 		&lt;delete dir=&quot;${db.derby.path}&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-hsqldb.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-hsqldb.xml	2008-03-10 14:16:11 UTC (rev 301)
++++ trunk/install/db/db-specific/dropdb-hsqldb.xml	2008-03-10 17:07:34 UTC (rev 302)
+@@ -1,6 +1,7 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-hsqldb&quot;&gt;
+-	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;import file=&quot;dropdb-ask.xml&quot; /&gt;
++	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;echo message=&quot;Deleting now the ${db.type} database '${db.name}'!&quot; /&gt;
+ 		&lt;delete failonerror=&quot;false&quot;&gt;
+ 			&lt;fileset dir=&quot;${db.hsqldb.base-path}&quot;&gt;
+ 				&lt;include name=&quot;${db.name}.*&quot; /&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-sql92.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-sql92.xml	2008-03-10 14:16:11 UTC (rev 301)
++++ trunk/install/db/db-specific/dropdb-sql92.xml	2008-03-10 17:07:34 UTC (rev 302)
+@@ -1,13 +1,14 @@
+-&lt;project name=&quot;DeepaMehta-db-dropdb-sql92&quot; &gt;
+-	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;import file=&quot;asksyspass.xml&quot;/&gt;
++&lt;project name=&quot;DeepaMehta-db-dropdb-sql92&quot;&gt;
++	&lt;import file=&quot;dropdb-ask.xml&quot; /&gt;
++	&lt;import file=&quot;asksyspass.xml&quot; /&gt;
+ 	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb,-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++		&lt;echo message=&quot;Deleting now the ${db.type} database '${db.name}'!&quot; /&gt;
+ 		&lt;path id=&quot;dblibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 				&lt;include name=&quot;${db.libs}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/path&gt;
+-		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot;/&gt;
++		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot;&gt;
+ 			DROP DATABASE ${db.name};
+ 			DELETE FROM user where User='${db.user}';
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000146.html">[deepamehta-svn] r301 - in trunk: . install/client
+</A></li>
+	<LI>Next message: <A HREF="000148.html">[deepamehta-svn] r303 - in trunk: .	develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#147">[ date ]</a>
+              <a href="thread.html#147">[ thread ]</a>
+              <a href="subject.html#147">[ subject ]</a>
+              <a href="author.html#147">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,678 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r219 - in branches/eschnepel: . .settings ant/lib	install/db install/db/db-specific install/db/patches
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r219%20-%20in%20branches/eschnepel%3A%20.%20.settings%20ant/lib%0A%09install/db%20install/db/db-specific%20install/db/patches&In-Reply-To=%3C200709211425.l8LEPmxa018270%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000063.html">
+   <LINK REL="Next"  HREF="000065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r219 - in branches/eschnepel: . .settings ant/lib	install/db install/db/db-specific install/db/patches</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r219%20-%20in%20branches/eschnepel%3A%20.%20.settings%20ant/lib%0A%09install/db%20install/db/db-specific%20install/db/patches&In-Reply-To=%3C200709211425.l8LEPmxa018270%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r219 - in branches/eschnepel: . .settings ant/lib	install/db install/db/db-specific install/db/patches">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 21 16:25:48 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000063.html">[deepamehta-svn] r218 - in branches/eschnepel: . ant ant/contrib	ant/lib install/examples/movies install/examples/movies/config
+</A></li>
+        <LI>Next message: <A HREF="000065.html">[deepamehta-svn] r220 - in trunk: . .settings ant ant/contrib	ant/lib develop develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb install/client	install/config install/db install/db/db-specific	install/db/patches install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/knoppixforum	install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db install/examples/musicforum
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-21 16:25:22 +0200 (Fri, 21 Sep 2007)
+New Revision: 219
+
+Added:
+   branches/eschnepel/.checkstyle
+   branches/eschnepel/ant/lib/antinput.jar
+   branches/eschnepel/ant/lib/checkstyle-all-4.3.jar
+   branches/eschnepel/checkstyle_config.xml
+   branches/eschnepel/install/db/db-specific/list-db-hsqldb.xml
+   branches/eschnepel/install/db/db-specific/list-db-mysql.xml
+Modified:
+   branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+   branches/eschnepel/build-development.xml
+   branches/eschnepel/build.xml
+   branches/eschnepel/config.xml
+   branches/eschnepel/install/db/db-specific/asksyspass.xml
+   branches/eschnepel/install/db/db-specific/db_tables_derby.sql
+   branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+   branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+   branches/eschnepel/install/db/db-specific/db_tables_oracle.sql
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+   branches/eschnepel/install/db/whois.sql
+   branches/eschnepel/setup.xml
+Log:
+added an additional typo fixture in whois.sql to the cm-2.17 patch;
+extended ant config to display existing databases before asking for a database name
+checkstyle integration (ant and eclipse)
+
+Added: branches/eschnepel/.checkstyle
+===================================================================
+--- branches/eschnepel/.checkstyle	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/.checkstyle	2007-09-21 14:25:22 UTC (rev 219)
+@@ -0,0 +1,10 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++&lt;fileset-config file-format-version=&quot;1.2.0&quot; simple-config=&quot;true&quot;&gt;
++    &lt;local-check-config name=&quot;Checkstyle-Config (DeepaMehta)&quot; location=&quot;checkstyle_config.xml&quot; type=&quot;project&quot; description=&quot;&quot;&gt;
++        &lt;additional-data name=&quot;protect-config-file&quot; value=&quot;false&quot;/&gt;
++    &lt;/local-check-config&gt;
++    &lt;fileset name=&quot;Alle&quot; enabled=&quot;true&quot; check-config-name=&quot;Checkstyle-Config (DeepaMehta)&quot; local=&quot;true&quot;&gt;
++        &lt;file-match-pattern match-pattern=&quot;.&quot; include-pattern=&quot;true&quot;/&gt;
++    &lt;/fileset&gt;
++    &lt;filter name=&quot;NonSrcDirs&quot; enabled=&quot;true&quot;/&gt;
++&lt;/fileset-config&gt;
+
+Modified: branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-09-21 14:25:22 UTC (rev 219)
+@@ -1,4 +1,4 @@
+-#Tue Sep 18 21:00:01 CEST 2007
++#Fri Sep 21 15:43:17 CEST 2007
+ eclipse.preferences.version=1
+ org.eclipse.jdt.core.codeComplete.argumentPrefixes=
+ org.eclipse.jdt.core.codeComplete.argumentSuffixes=
+@@ -71,26 +71,26 @@
+ org.eclipse.jdt.core.compiler.taskCaseSensitive=enabled
+ org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL,NORMAL
+ org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX,\#\#\#
+-org.eclipse.jdt.core.formatter.align_type_members_on_columns=true
++org.eclipse.jdt.core.formatter.align_type_members_on_columns=false
+ org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression=16
+-org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=48
+ org.eclipse.jdt.core.formatter.alignment_for_arguments_in_explicit_constructor_call=16
+-org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation=16
++org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation=18
+ org.eclipse.jdt.core.formatter.alignment_for_arguments_in_qualified_allocation_expression=16
+ org.eclipse.jdt.core.formatter.alignment_for_assignment=0
+ org.eclipse.jdt.core.formatter.alignment_for_binary_expression=16
+ org.eclipse.jdt.core.formatter.alignment_for_compact_if=16
+-org.eclipse.jdt.core.formatter.alignment_for_conditional_expression=80
+-org.eclipse.jdt.core.formatter.alignment_for_enum_constants=0
++org.eclipse.jdt.core.formatter.alignment_for_conditional_expression=16
++org.eclipse.jdt.core.formatter.alignment_for_enum_constants=49
+ org.eclipse.jdt.core.formatter.alignment_for_expressions_in_array_initializer=16
+ org.eclipse.jdt.core.formatter.alignment_for_multiple_fields=16
+-org.eclipse.jdt.core.formatter.alignment_for_parameters_in_constructor_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_parameters_in_constructor_declaration=18
+ org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration=16
+-org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation=16
++org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation=0
+ org.eclipse.jdt.core.formatter.alignment_for_superclass_in_type_declaration=16
+-org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_enum_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_enum_declaration=48
+ org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_type_declaration=16
+-org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_constructor_declaration=16
++org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_constructor_declaration=18
+ org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_method_declaration=16
+ org.eclipse.jdt.core.formatter.blank_lines_after_imports=3
+ org.eclipse.jdt.core.formatter.blank_lines_after_package=1
+@@ -121,7 +121,7 @@
+ org.eclipse.jdt.core.formatter.comment.indent_parameter_description=true
+ org.eclipse.jdt.core.formatter.comment.indent_root_tags=true
+ org.eclipse.jdt.core.formatter.comment.insert_new_line_before_root_tags=insert
+-org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter=insert
++org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter=do not insert
+ org.eclipse.jdt.core.formatter.comment.line_length=80
+ org.eclipse.jdt.core.formatter.compact_else_if=true
+ org.eclipse.jdt.core.formatter.continuation_indentation=2
+@@ -190,7 +190,7 @@
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_parameterized_type_reference=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_type_arguments=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_angle_bracket_in_type_parameters=do not insert
+-org.eclipse.jdt.core.formatter.insert_space_after_opening_brace_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_after_opening_brace_in_array_initializer=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_bracket_in_array_allocation_expression=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_bracket_in_array_reference=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_annotation=do not insert
+@@ -219,7 +219,7 @@
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_parameterized_type_reference=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_type_arguments=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_angle_bracket_in_type_parameters=do not insert
+-org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer=insert
++org.eclipse.jdt.core.formatter.insert_space_before_closing_brace_in_array_initializer=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_allocation_expression=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_reference=do not insert
+ org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_annotation=do not insert
+@@ -316,4 +316,4 @@
+ org.eclipse.jdt.core.formatter.put_empty_statement_on_new_line=true
+ org.eclipse.jdt.core.formatter.tabulation.char=tab
+ org.eclipse.jdt.core.formatter.tabulation.size=4
+-org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=true
++org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations=false
+
+Added: branches/eschnepel/ant/lib/antinput.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/ant/lib/antinput.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/eschnepel/ant/lib/checkstyle-all-4.3.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/eschnepel/ant/lib/checkstyle-all-4.3.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: branches/eschnepel/build-development.xml
+===================================================================
+--- branches/eschnepel/build-development.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/build-development.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -78,6 +78,8 @@
+ 		&lt;jdepend outputfile=&quot;jdepend-report.xml&quot; format=&quot;xml&quot;&gt;
+ 			&lt;exclude name=&quot;java.*&quot; /&gt;
+ 			&lt;exclude name=&quot;javax.*&quot; /&gt;
++			&lt;exclude name=&quot;com.*&quot; /&gt;
++			&lt;exclude name=&quot;org.*&quot; /&gt;
+ 			&lt;classespath location=&quot;${build}&quot; /&gt;
+ 			&lt;classpath location=&quot;${build}&quot; /&gt;
+ 		&lt;/jdepend&gt;
+@@ -90,6 +92,14 @@
+ 		&lt;echo&gt;Image file is dependencies.png.&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;checkstyle&quot;&gt;
++		&lt;checkstyle config=&quot;checkstyle_config.xml&quot;&gt;
++			&lt;fileset dir=&quot;${sources}&quot; includes=&quot;**/*.java&quot; /&gt;
++			&lt;formatter type=&quot;plain&quot; /&gt;
++			&lt;formatter type=&quot;xml&quot; toFile=&quot;checkstyle_errors.xml&quot; /&gt;
++		&lt;/checkstyle&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;build&quot; depends=&quot;-build-self&quot; description=&quot;build jar files&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;build&quot; /&gt;
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/build.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -182,7 +182,7 @@
+ 			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot; /&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot; onerror=&quot;continue&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${patch}&quot; /&gt;
+ 			&lt;/fileset&gt;
+
+Added: branches/eschnepel/checkstyle_config.xml
+===================================================================
+--- branches/eschnepel/checkstyle_config.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/checkstyle_config.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -0,0 +1,78 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++&lt;!--
++    This configuration file was written by the eclipse-cs plugin configuration editor
++--&gt;
++&lt;!--
++    Checkstyle-Configuration: Checkstyle-Config (DeepaMehta)
++    Description: none
++--&gt;
++&lt;!DOCTYPE module PUBLIC &quot;-//Puppy Crawl//DTD Check Configuration 1.2//EN&quot; &quot;<A HREF="http://www.puppycrawl.com/dtds/configuration_1_2.dtd">http://www.puppycrawl.com/dtds/configuration_1_2.dtd</A>&quot;&gt;
++&lt;module name=&quot;Checker&quot;&gt;
++    &lt;property name=&quot;severity&quot; value=&quot;warning&quot;/&gt;
++    &lt;module name=&quot;TreeWalker&quot;&gt;
++        &lt;module name=&quot;ConstantName&quot;/&gt;
++        &lt;module name=&quot;LocalFinalVariableName&quot;/&gt;
++        &lt;module name=&quot;LocalVariableName&quot;/&gt;
++        &lt;module name=&quot;MemberName&quot;/&gt;
++        &lt;module name=&quot;MethodName&quot;/&gt;
++        &lt;module name=&quot;PackageName&quot;/&gt;
++        &lt;module name=&quot;ParameterName&quot;/&gt;
++        &lt;module name=&quot;StaticVariableName&quot;/&gt;
++        &lt;module name=&quot;TypeName&quot;/&gt;
++        &lt;module name=&quot;AvoidStarImport&quot;/&gt;
++        &lt;module name=&quot;IllegalImport&quot;/&gt;
++        &lt;module name=&quot;RedundantImport&quot;/&gt;
++        &lt;module name=&quot;UnusedImports&quot;/&gt;
++        &lt;module name=&quot;FileLength&quot;/&gt;
++        &lt;module name=&quot;LineLength&quot;&gt;
++            &lt;property name=&quot;max&quot; value=&quot;132&quot;/&gt;
++        &lt;/module&gt;
++        &lt;module name=&quot;MethodLength&quot;/&gt;
++        &lt;module name=&quot;ParameterNumber&quot;/&gt;
++        &lt;module name=&quot;EmptyForIteratorPad&quot;/&gt;
++        &lt;module name=&quot;MethodParamPad&quot;/&gt;
++        &lt;module name=&quot;NoWhitespaceAfter&quot;/&gt;
++        &lt;module name=&quot;NoWhitespaceBefore&quot;/&gt;
++        &lt;module name=&quot;OperatorWrap&quot;/&gt;
++        &lt;module name=&quot;ParenPad&quot;/&gt;
++        &lt;module name=&quot;TypecastParenPad&quot;/&gt;
++        &lt;module name=&quot;WhitespaceAfter&quot;/&gt;
++        &lt;module name=&quot;WhitespaceAround&quot;/&gt;
++        &lt;module name=&quot;ModifierOrder&quot;/&gt;
++        &lt;module name=&quot;RedundantModifier&quot;/&gt;
++        &lt;module name=&quot;AvoidNestedBlocks&quot;/&gt;
++        &lt;module name=&quot;EmptyBlock&quot;/&gt;
++        &lt;module name=&quot;LeftCurly&quot;/&gt;
++        &lt;module name=&quot;NeedBraces&quot;/&gt;
++        &lt;module name=&quot;RightCurly&quot;/&gt;
++        &lt;module name=&quot;AvoidInlineConditionals&quot;/&gt;
++        &lt;module name=&quot;DoubleCheckedLocking&quot;/&gt;
++        &lt;module name=&quot;EmptyStatement&quot;/&gt;
++        &lt;module name=&quot;EqualsHashCode&quot;/&gt;
++        &lt;module name=&quot;HiddenField&quot;/&gt;
++        &lt;module name=&quot;IllegalInstantiation&quot;/&gt;
++        &lt;module name=&quot;InnerAssignment&quot;/&gt;
++        &lt;module name=&quot;MissingSwitchDefault&quot;/&gt;
++        &lt;module name=&quot;RedundantThrows&quot;/&gt;
++        &lt;module name=&quot;SimplifyBooleanExpression&quot;/&gt;
++        &lt;module name=&quot;SimplifyBooleanReturn&quot;/&gt;
++        &lt;module name=&quot;DesignForExtension&quot;/&gt;
++        &lt;module name=&quot;FinalClass&quot;/&gt;
++        &lt;module name=&quot;HideUtilityClassConstructor&quot;/&gt;
++        &lt;module name=&quot;InterfaceIsType&quot;/&gt;
++        &lt;module name=&quot;VisibilityModifier&quot;/&gt;
++        &lt;module name=&quot;ArrayTypeStyle&quot;/&gt;
++        &lt;module name=&quot;GenericIllegalRegexp&quot;&gt;
++            &lt;property name=&quot;format&quot; value=&quot;\s+$&quot;/&gt;
++            &lt;property name=&quot;message&quot; value=&quot;Line has trailing spaces.&quot;/&gt;
++        &lt;/module&gt;
++        &lt;module name=&quot;TodoComment&quot;/&gt;
++        &lt;module name=&quot;UpperEll&quot;/&gt;
++        &lt;module name=&quot;StringLiteralEquality&quot;/&gt;
++    &lt;/module&gt;
++    &lt;module name=&quot;PackageHtml&quot;&gt;
++        &lt;property name=&quot;severity&quot; value=&quot;ignore&quot;/&gt;
++    &lt;/module&gt;
++    &lt;module name=&quot;NewlineAtEndOfFile&quot;/&gt;
++    &lt;module name=&quot;Translation&quot;/&gt;
++&lt;/module&gt;
+
+Modified: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/config.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -53,6 +53,8 @@
+ 		&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 	&lt;/condition&gt;
+ 
++	&lt;taskdef resource=&quot;org/apache/tools/ant/taskdefs/antinput.properties&quot; /&gt;
+ 	&lt;taskdef resource=&quot;net/sf/antcontrib/antcontrib.properties&quot; /&gt;
++	&lt;taskdef resource=&quot;checkstyletask.properties&quot; /&gt;
+ 	&lt;taskdef name=&quot;for&quot; classname=&quot;net.sf.antcontrib.logic.ForTask&quot; /&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/asksyspass.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/asksyspass.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -1,6 +1,9 @@
+ &lt;project name=&quot;DeepaMehta-db-asksyspass&quot;&gt;
+ 	&lt;target name=&quot;-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
+-		&lt;var name=&quot;return.syspass&quot; unset=&quot;true&quot;/&gt;
++		&lt;var name=&quot;return.syspass&quot; unset=&quot;true&quot; /&gt;
++		&lt;!--		&lt;extendedinput message=&quot;Please enter the database ${db.sysuser} password:&quot;
++		        addproperty=&quot;return.syspass&quot;
++		        inputhandler=&quot;org.apache.tools.ant.input.PasswordInputHandler&quot;/&gt;--&gt;
+ 		&lt;input message=&quot;Please enter the database ${db.sysuser} password: &quot; addproperty=&quot;return.syspass&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_derby.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/db_tables_derby.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -67,8 +67,8 @@
+     PropName VARCHAR(255) NOT NULL,
+     PropValue VARCHAR(4096)
+ );
+-CREATE INDEX IDX_TopicProp ON TopicProp (
+-    TopicID, TopicVersion, PropName
++ALTER TABLE TopicProp ADD PRIMARY KEY (
++	TopicID, TopicVersion, PropName
+ );
+ 
+ CREATE TABLE AssociationProp (
+@@ -77,8 +77,8 @@
+     PropName VARCHAR(255) NOT NULL,
+     PropValue VARCHAR(4096)
+ );
+-CREATE INDEX IDX_AssociationProp ON AssociationProp (
+-    AssociationID, AssociationVersion, PropName
++ALTER TABLE AssociationProp ADD PRIMARY KEY (
++	AssociationID, AssociationVersion, PropName
+ );
+ 
+ CREATE TABLE KeyGenerator (
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -69,8 +69,8 @@
+     PropName CHAR(255) NOT NULL,
+     PropValue VARCHAR_IGNORECASE
+ );
+-CREATE INDEX IDX_TopicProp ON TopicProp (
+-    TopicID, TopicVersion, PropName
++ALTER TABLE TopicProp ADD PRIMARY KEY (
++	TopicID , TopicVersion , PropName
+ );
+ 
+ CREATE CACHED TABLE AssociationProp (
+@@ -79,8 +79,8 @@
+     PropName CHAR(255) NOT NULL,
+     PropValue VARCHAR_IGNORECASE
+ );
+-CREATE INDEX IDX_AssociationProp ON AssociationProp (
+-    AssociationID, AssociationVersion, PropName
++ALTER TABLE AssociationProp ADD PRIMARY KEY (
++	AssociationID, AssociationVersion, PropName
+ );
+ 
+ CREATE TABLE KeyGenerator (
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -51,7 +51,7 @@
+     TopicVersion INT NOT NULL,
+     PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    INDEX (TopicID, TopicVersion, PropName)
++    PRIMARY KEY (TopicID, TopicVersion, PropName)
+ );
+ 
+ CREATE TABLE AssociationProp (
+@@ -59,7 +59,7 @@
+     AssociationVersion INT NOT NULL,
+     PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+-    INDEX (AssociationID, AssociationVersion, PropName)
++    PRIMARY KEY (AssociationID, AssociationVersion, PropName)
+ );
+ 
+ CREATE TABLE KeyGenerator (
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_oracle.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_oracle.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/db_tables_oracle.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -60,7 +60,9 @@
+     propname    VARCHAR2(255) NOT NULL,
+     propvalue   VARCHAR2(4000)
+ );
+-CREATE INDEX i_topicprop ON topicprop (topicid, topicversion, propname);
++ALTER TABLE TopicProp ADD PRIMARY KEY (
++	TopicID, TopicVersion, PropName
++);
+ 
+ -- ----------------------------------------------------------------------------
+ 
+@@ -70,7 +72,9 @@
+     propname          VARCHAR2(255) NOT NULL,
+     propvalue         VARCHAR2(4000)
+ );
+-CREATE INDEX i_associationprop ON associationprop (associationid, associationversion, propname);
++ALTER TABLE AssociationProp ADD PRIMARY KEY (
++	AssociationID, AssociationVersion, PropName
++);
+     
+ -- ----------------------------------------------------------------------------
+ 
+
+Added: branches/eschnepel/install/db/db-specific/list-db-hsqldb.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-hsqldb.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/list-db-hsqldb.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -0,0 +1,30 @@
++&lt;project name=&quot;DeepaMehta-db-listdb-hsqldb&quot;&gt;
++	&lt;target name=&quot;-listdb&quot;&gt;
++		&lt;for param=&quot;dir&quot;&gt;
++			&lt;path&gt;
++				&lt;fileset dir=&quot;${db.hsqldb.base-path}&quot; includes=&quot;*.properties&quot; /&gt;
++			&lt;/path&gt;
++			&lt;sequential&gt;
++				&lt;var name=&quot;name&quot; unset=&quot;true&quot; /&gt;
++				&lt;basename file=&quot;@{dir}&quot; property=&quot;name&quot; suffix=&quot;.properties&quot; /&gt;
++				&lt;if&gt;
++					&lt;not&gt;
++						&lt;isset property=&quot;header-printed&quot; /&gt;
++					&lt;/not&gt;
++					&lt;then&gt;
++						&lt;echo&gt;Existing databases:&lt;/echo&gt;
++						&lt;echo /&gt;
++						&lt;property name=&quot;header-printed&quot; value=&quot;true&quot; /&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++				&lt;echo&gt;* ${name}&lt;/echo&gt;
++			&lt;/sequential&gt;
++		&lt;/for&gt;
++		&lt;if&gt;
++			&lt;isset property=&quot;header-printed&quot; /&gt;
++			&lt;then&gt;
++				&lt;echo /&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Added: branches/eschnepel/install/db/db-specific/list-db-mysql.xml
+===================================================================
+--- branches/eschnepel/install/db/db-specific/list-db-mysql.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/db-specific/list-db-mysql.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -0,0 +1,59 @@
++&lt;project name=&quot;DeepaMehta-db-listdb-mysql&quot;&gt;
++	&lt;import file=&quot;asksyspass.xml&quot; /&gt;
++	&lt;target name=&quot;-listdb&quot; depends=&quot;-asksyspass&quot;&gt;
++		&lt;path id=&quot;dblibs&quot;&gt;
++			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
++				&lt;include name=&quot;${db.libs}&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/path&gt;
++		&lt;var name=&quot;db.syspass&quot; value=&quot;${return.syspass}&quot; /&gt;
++		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
++			&lt;try&gt;
++				&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.syspass}&quot; classpathref=&quot;dblibs&quot; print=&quot;true&quot; output=&quot;tmp-databases.txt&quot; showheaders=&quot;false&quot; onerror=&quot;continue&quot;&gt;
++					SELECT
++						CONCAT(schema_name, ';')
++					FROM
++						information_schema.schemata
++					WHERE	LOWER(schema_name) != 'mysql'
++					AND		LOWER(schema_name) != 'information_schema';
++				&lt;/sql&gt;
++				&lt;loadfile srcFile=&quot;tmp-databases.txt&quot; property=&quot;list&quot; /&gt;
++				&lt;var name=&quot;elem&quot; unset=&quot;true&quot; /&gt;
++				&lt;for param=&quot;listElem&quot; list=&quot;${list}&quot; delimiter=&quot;;&quot; trim=&quot;true&quot;&gt;
++					&lt;sequential&gt;
++						&lt;!--
++							this construct removes the last row which shows
++							only statistics about the sql statement!
++						--&gt;
++						&lt;if&gt;
++							&lt;isset property=&quot;elem&quot; /&gt;
++							&lt;then&gt;
++								&lt;if&gt;
++									&lt;not&gt;
++										&lt;isset property=&quot;header-printed&quot; /&gt;
++									&lt;/not&gt;
++									&lt;then&gt;
++										&lt;echo&gt;Existing databases:&lt;/echo&gt;
++										&lt;echo /&gt;
++										&lt;property name=&quot;header-printed&quot; value=&quot;true&quot; /&gt;
++									&lt;/then&gt;
++								&lt;/if&gt;
++								&lt;echo&gt;* ${elem}&lt;/echo&gt;
++							&lt;/then&gt;
++						&lt;/if&gt;
++						&lt;var name=&quot;elem&quot; value=&quot;@{listElem}&quot; /&gt;
++					&lt;/sequential&gt;
++				&lt;/for&gt;
++				&lt;if&gt;
++					&lt;isset property=&quot;header-printed&quot; /&gt;
++					&lt;then&gt;
++						&lt;echo /&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
++			&lt;/try&gt;
++			&lt;catch&gt;
++				&lt;echo message=&quot;${exceptionProp}&quot; /&gt;
++			&lt;/catch&gt;
++		&lt;/trycatch&gt;
++	&lt;/target&gt;
++&lt;/project&gt;
+
+Modified: branches/eschnepel/install/db/patches/cm-2.17.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -155,20 +155,60 @@
+ DELETE FROM AssociationProp WHERE AssociationID='a-325';
+ DELETE FROM ViewAssociation WHERE AssociationID='a-325';
+ 
+--- fixing a Typo in whois.sql
++--- fixing some Typos in whois.sql
+ UPDATE Association SET TopicID1='tt-whoistopic' WHERE TopicID1='tt-whoisTopic';
++delete from TopicProp where topicid='tt-whois6';
++INSERT INTO TopicProp VALUES ('tt-whois6', 1, 'Server', 'whois.nic.as');
++INSERT INTO TopicProp VALUES ('tt-whois6', 1, 'Domains', 'as');
++INSERT INTO TopicProp VALUES ('tt-whois18', 1, 'Server', 'whois.nic.fr');
++INSERT INTO TopicProp VALUES ('tt-whois18', 1, 'Domains', 'fr');
+ 
+ 
++
++--- *** UPDATE DATA DEFINITION *** ---
++ALTER TABLE				TopicProp
++     CHANGE				PropName PropName CHAR(255) NOT NULL
++     DROP	INDEX		TopicID,
++     ADD	PRIMARY KEY ( TopicID, TopicVersion, PropName )
++;
++ALTER TABLE				AssociationProp
++     CHANGE				PropName PropName CHAR(255) NOT NULL
++     DROP	INDEX		AssociationID,
++     ADD	PRIMARY KEY ( AssociationID, AssociationVersion, PropName )
++;
++
+ ---
+ --- Update standard installation
+ ---
+-UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
+-UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
+ DELETE FROM TopicProp                                     WHERE TopicID='t-deepamehtainstallation' AND PropName='Corporate Icon';
+ INSERT INTO TopicProp VALUES ('t-deepamehtainstallation', 1, 'Customer Icon', 'deepamehta-logo-tiny.png');
+ 
++--- Version Change
++UPDATE TopicProp SET PropValue='DeepaMehta 2.0b8'         WHERE TopicID='t-deepamehtainstallation' AND PropName='Client Name';
++UPDATE TopicProp SET PropValue='DeepaMehtaServer 2.0b8'   WHERE TopicID='t-deepamehtainstallation' AND PropName='Server Name';
+ 
++---
++--- Update DB content version
++---
++UPDATE KeyGenerator SET NextKey=17 WHERE Relation='DB-Content Version';
+ 
+---- *** UPDATE DATA DEFINITION *** ---
+-ALTER TABLE       TopicProp CHANGE PropName PropName CHAR(255) NOT NULL;
+-ALTER TABLE AssociationProp CHANGE PropName PropName CHAR(255) NOT NULL;
++
++
++
++SELECT *
++FROM TopicProp
++JOIN (
++	SELECT TopicID, TopicVersion, PropName
++	FROM TopicProp GROUP BY TopicID, TopicVersion, PropName
++	HAVING COUNT( * ) &gt; 1 ) tp
++USING ( TopicID, TopicVersion, PropName );
++
++SELECT *
++FROM AssociationProp
++JOIN (
++	SELECT AssociationID, AssociationVersion, PropName
++	FROM AssociationProp GROUP BY AssociationID, AssociationVersion, PropName
++	HAVING COUNT( * ) &gt; 1 ) ap
++USING ( AssociationID, AssociationVersion, PropName );
++
++
+
+Modified: branches/eschnepel/install/db/whois.sql
+===================================================================
+--- branches/eschnepel/install/db/whois.sql	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/install/db/whois.sql	2007-09-21 14:25:22 UTC (rev 219)
+@@ -115,8 +115,8 @@
+ 
+ INSERT INTO Topic VALUES
+  ('tt-whoistopic', 1, 1, 'tt-whois18','Whois Server 18');
+-INSERT INTO TopicProp VALUES ('tt-whois6', 1, 'Server', 'whois.nic.fr');
+-INSERT INTO TopicProp VALUES ('tt-whois6', 1, 'Domains', 'fr');
++INSERT INTO TopicProp VALUES ('tt-whois18', 1, 'Server', 'whois.nic.fr');
++INSERT INTO TopicProp VALUES ('tt-whois18', 1, 'Domains', 'fr');
+ 
+ INSERT INTO Topic VALUES
+  ('tt-whoistopic', 1, 1, 'tt-whois19','Whois Server 19');
+
+Modified: branches/eschnepel/setup.xml
+===================================================================
+--- branches/eschnepel/setup.xml	2007-09-20 06:11:26 UTC (rev 218)
++++ branches/eschnepel/setup.xml	2007-09-21 14:25:22 UTC (rev 219)
+@@ -92,6 +92,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot;&gt;
++		&lt;ant antfile=&quot;${db-specific}/list-db-${db.type}.xml&quot; target=&quot;-listdb&quot; /&gt;
+ 		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot; /&gt;
+@@ -179,7 +180,7 @@
+ 				&lt;var name=&quot;list.dm-instance&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;basename file=&quot;@{list.instance.config.file}&quot; property=&quot;list.dm-instance&quot; suffix=&quot;.properties&quot; /&gt;
+ 				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;${list.dm-instance}&quot; regexp=&quot;${prefix}-(.*)&quot; select=&quot;\1&quot; /&gt;
+-				&lt;echo&gt;${list.instance}&lt;/echo&gt;
++				&lt;echo&gt;* ${list.instance}&lt;/echo&gt;
+ 			&lt;/sequential&gt;
+ 		&lt;/for&gt;
+ 		&lt;echo /&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000063.html">[deepamehta-svn] r218 - in branches/eschnepel: . ant ant/contrib	ant/lib install/examples/movies install/examples/movies/config
+</A></li>
+	<LI>Next message: <A HREF="000065.html">[deepamehta-svn] r220 - in trunk: . .settings ant ant/contrib	ant/lib develop develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb install/client	install/config install/db install/db/db-specific	install/db/patches install/examples/dm-browser	install/examples/dm-search install/examples/dm-topicmapviewer	install/examples/dm-web install/examples/knoppixforum	install/examples/kompetenzstern	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/ldap install/examples/messageboard	install/examples/movies install/examples/movies/config	install/examples/movies/db install/examples/musicforum
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

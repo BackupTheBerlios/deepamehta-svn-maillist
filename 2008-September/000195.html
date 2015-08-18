@@ -1,0 +1,456 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r351%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09service&In-Reply-To=%3C200809212225.m8LMPjVZ020371%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000194.html">
+   <LINK REL="Next"  HREF="000196.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r351%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%0A%09service&In-Reply-To=%3C200809212225.m8LMPjVZ020371%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r351 - in trunk/develop/src/de/deepamehta: .	service">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 22 00:25:45 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000194.html">[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+        <LI>Next message: <A HREF="000196.html">[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#195">[ date ]</a>
+              <a href="thread.html#195">[ thread ]</a>
+              <a href="subject.html#195">[ subject ]</a>
+              <a href="author.html#195">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-22 00:25:42 +0200 (Mon, 22 Sep 2008)
+New Revision: 351
+
+Modified:
+   trunk/develop/src/de/deepamehta/PresentableTopic.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+Log:
+1) Bug #14516 addressed (Several bugs in feature #4299 (handling of result sets)): Issues b) and c) fixed:
+b) The topic icons do not always appear in the result list (broken image). This is the case for tons obtained by a &quot;What's related?&quot; command.
+c) The topic icons should also be clickable and reveal the respective topic (as the hyperlinks do). This is particularily an issue for topics with no name (which are not selectable for the moment).
+
+
+Modified: trunk/develop/src/de/deepamehta/PresentableTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/PresentableTopic.java	2008-09-19 12:51:49 UTC (rev 350)
++++ trunk/develop/src/de/deepamehta/PresentableTopic.java	2008-09-21 22:25:42 UTC (rev 351)
+@@ -38,7 +38,7 @@
+  * &lt;/UL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last change: 7.8.2008 (2.0b8)&lt;BR&gt;
++ * Last change: 21.9.2008 (2.0b8)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -193,26 +193,18 @@
+ 	 * @see		de.deepamehta.topics.ElementContainerTopic#createNewContainer
+ 	 * @see		de.deepamehta.topics.ElementContainerTopic#createTopicFromElement
+ 	 */
+-	public PresentableTopic(String id, int version, String type, int typeVersion,
+-													String name, Point geometry) {
+-		super(id, version, type, typeVersion, name);
+-		this.geomMode = GEOM_MODE_ABSOLUTE;
+-		this.geometry = geometry;
+-		this.appMode = APPEARANCE_DEFAULT;
+-		this.topicLabel = &quot;&quot;;
++	public PresentableTopic(String id, int version, String type, int typeVersion, String name,
++																		Point geometry) {
++		this(id, version, type, typeVersion, name, geometry, &quot;&quot;);		// topicLabel=&quot;&quot;
+ 	}
+ 
+-	public PresentableTopic(String id, int version, String type, int typeVersion,
+-													String name, String nearTopicID) {
+-		super(id, version, type, typeVersion, name);
+-		this.geomMode = GEOM_MODE_NEAR;
+-		this.nearTopicID = nearTopicID;
+-		this.appMode = APPEARANCE_DEFAULT;
+-		this.topicLabel = &quot;&quot;;
++	public PresentableTopic(String id, int version, String type, int typeVersion, String name,
++																		String nearTopicID) {
++		this(id, version, type, typeVersion, name, nearTopicID, &quot;&quot;);	// topicLabel=&quot;&quot;
+ 	}
+ 
+-	public PresentableTopic(String id, int version, String type, int typeVersion,
+-													String name, String nearTopicID, Point offset) {
++	public PresentableTopic(String id, int version, String type, int typeVersion, String name,
++																		String nearTopicID, Point offset) {
+ 		super(id, version, type, typeVersion, name);
+ 		this.geomMode = GEOM_MODE_RELATIVE;
+ 		this.nearTopicID = nearTopicID;
+@@ -224,8 +216,8 @@
+ 	/**
+ 	 * @see		de.deepamehta.service.ApplicationService#createNewContainer
+ 	 */
+-	public PresentableTopic(String id, int version, String type, int typeVersion,
+-							String name, Point geometry, String topicLabel) {
++	public PresentableTopic(String id, int version, String type, int typeVersion, String name,
++																		Point geometry, String topicLabel) {
+ 		super(id, version, type, typeVersion, name);
+ 		this.geomMode = GEOM_MODE_ABSOLUTE;
+ 		this.geometry = geometry;
+@@ -237,8 +229,8 @@
+ 	 * @see		de.deepamehta.service.ApplicationService#getRelatedTopics
+ 	 * @see		de.deepamehta.topics.ContainerTopic#createPresentableTopic
+ 	 */
+-	public PresentableTopic(String id, int version, String type, int typeVersion,
+-							String name, String nearTopicID, String topicLabel) {
++	public PresentableTopic(String id, int version, String type, int typeVersion, String name,
++																		String nearTopicID, String topicLabel) {
+ 		super(id, version, type, typeVersion, name);
+ 		this.geomMode = GEOM_MODE_NEAR;
+ 		this.nearTopicID = nearTopicID;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-19 12:51:49 UTC (rev 350)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-21 22:25:42 UTC (rev 351)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 14.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 21.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -1060,14 +1060,16 @@
+ 			Enumeration e = topics.elements();
+ 			while (e.hasMoreElements()) {
+ 				PresentableTopic topic = (PresentableTopic) e.nextElement();
+-				int appMode = topic.getAppearanceMode();
++				/* ### int appMode = topic.getAppearanceMode();
+ 				if (appMode != APPEARANCE_CUSTOM_ICON) {
+ 					System.out.println(&quot;*** appMode=&quot; + appMode + &quot; -- &quot; + topic);
+ 				}
+-				String iconfile = topic.getAppearanceParam();
++				String iconfile = topic.getAppearanceParam(); */
++				String iconfile = getIconfile(topic);
+ 				String id = topic.fromDatasource() ? topic.getOriginalID() : topic.getID();
+-				html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + id + &quot;\&quot;&gt;&quot; +
+-					&quot;&lt;img src=\&quot;&quot; + FILESERVER_ICONS_PATH + iconfile + &quot;\&quot; border=\&quot;0\&quot;&gt; &quot; + topic.getName() + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
++				String link = &quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + id + &quot;\&quot;&gt;&quot;;
++				html.append(link + &quot;&lt;img src=\&quot;&quot; + FILESERVER_ICONS_PATH + iconfile + &quot;\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt; &quot;);
++				html.append(link + topic.getName() + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
+ 				// Note: style=&quot;border-style: none&quot; instead of border=&quot;0&quot; doesn't work
+ 			}
+ 			html.append(&quot;&lt;br&gt;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_ALL + &quot;\&quot;&gt;&quot; +
+@@ -4529,10 +4531,14 @@
+ 
+ 
+ 	/**
+-	 * Creates a vector of {@link de.deepamehta.PresentableTopic}s corresponding to
+-	 * the {@link de.deepamehta.BaseTopic}s in the specified vector.
++	 * Creates {@link de.deepamehta.PresentableTopic}s from a set of {@link de.deepamehta.BaseTopic}s.
++	 * The geometry is set to be &quot;near&quot; (&lt;code&gt;GEOM_MODE_NEAR&lt;/code&gt;) to a reference topic.
++	 * The appearance is set to &quot;individual&quot; (&lt;code&gt;APPEARANCE_CUSTOM_ICON&lt;/code&gt;).
++	 * ### The appearance must not be set this way. If a PresentableTopic with APPEARANCE_DEFAULT is about to
++	 * ### be displayed inside a topicmap it would loose its icon-change behavoir if the type-icon changes.
++	 * ### APPEARANCE_DEFAULT must not be overridden with APPEARANCE_CUSTOM_ICON.
+ 	 * &lt;p&gt;
+-	 * References checked: 7.8.2008 (2.0b8)
++	 * References checked: 21.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	Vector of {@link de.deepamehta.PresentableTopic}
+ 	 *
+@@ -4545,7 +4551,9 @@
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic t = (BaseTopic) e.nextElement();
+ 			PresentableTopic topic = createPresentableTopic(t, nearTopicID, topicmapID);
+-			topic.setIcon(getIconfile(t));
++			// ### init appearance ###
++			// ### topic.setIcon(getIconfile(t));
++			//
+ 			topics.addElement(topic);
+ 		}
+ 		return topics;
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-19 12:51:49 UTC (rev 350)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-09-21 22:25:42 UTC (rev 351)
+@@ -205,8 +205,9 @@
+ 	 *							&lt;code&gt;typeID&lt;/code&gt; parameter is ignored
+ 	 */
+ 	private Vector getTopics(String typeID, Vector typeIDs, String nameFilter, Hashtable propertyFilter, String relatedTopicID,
+-														String assocTypeID, String topicmapID, boolean caseSensitiv) {
+-		PreparedStatement query = topicQuery(typeID, typeIDs, nameFilter, propertyFilter, relatedTopicID, assocTypeID, topicmapID, caseSensitiv);
++																	String assocTypeID, String topicmapID, boolean caseSensitiv) {
++		PreparedStatement query = topicQuery(typeID, typeIDs, nameFilter, propertyFilter, relatedTopicID, assocTypeID,
++																									topicmapID, caseSensitiv);
+ 		if (LOG_CM_QUERIES) {
+ 			System.out.println(&quot;&gt; RelationalCorporateMemory.getTopics(): typeID=\&quot;&quot; + typeID + &quot;\&quot; name filter=\&quot;&quot; +
+ 				nameFilter + &quot;\&quot; property filter=&quot; + propertyFilter + &quot;\n\&quot;&quot; + query + &quot;\&quot;&quot;);
+@@ -1305,7 +1306,7 @@
+ 
+ 	// --- ID generator ---
+ 
+-	//TODO common procedure with transaction
++	// TODO common procedure with transaction
+ 	public synchronized String getNewTopicID() {
+ 		int newID = queryNewID(&quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Topic'&quot;);	// throws DME
+ 		update(&quot;UPDATE KeyGenerator SET NextKey = ? WHERE Relation = 'Topic'&quot;, new Object[]{i(newID + 1)});
+@@ -1313,7 +1314,7 @@
+ 		return &quot;t-&quot; + newID;
+ 	}
+ 
+-	//TODO common procedure with transaction
++	// TODO common procedure with transaction
+ 	public synchronized String getNewAssociationID() {
+ 		int newID = queryNewID(&quot;SELECT NextKey FROM KeyGenerator WHERE Relation = 'Association'&quot;);	// throws DME
+ 		update(&quot;UPDATE KeyGenerator SET NextKey = ? WHERE Relation = 'Association'&quot;, new Object[]{i(newID + 1)});
+@@ -1581,7 +1582,7 @@
+ 	/**
+ 	 * The presentable topics have geometry mode GEOM_MODE_NEAR.
+ 	 * &lt;p&gt;
+-	 * References checked: 10.8.2001 (2.0a11)
++	 * References checked: 21.9.2008 (2.0b8)
+ 	 *
+ 	 * @return	array of 2 vectors:&lt;br&gt;
+ 	 *				vector 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+@@ -1590,14 +1591,14 @@
+ 	 * @see		#getRelatedViewTopicsByTopictype
+ 	 * @see		#getRelatedViewTopicsByAssoctype
+ 	 */
+-	private Vector[] queryPresentableTopics(String query, String queryTopicID) {
++	private Vector[] queryPresentableTopics(String query, String nearTopicID) {
+ 		Vector result[] = {new Vector(), new Vector()};
+ 		ResultSet resultSet = null;
+ 		try {
+ 			Statement stmt = createStatement();
+ 			resultSet = stmt.executeQuery(query);			
+ 			while (resultSet.next()) {
+-				result[0].addElement(createPresentableTopic(resultSet, queryTopicID));
++				result[0].addElement(createPresentableTopic(resultSet, nearTopicID));
+ 				result[1].addElement(createPresentableAssociation(resultSet));
+ 			}
+ 			stmt.close();
+@@ -1934,9 +1935,9 @@
+ 	 * (see {@link #getRelatedViewTopicsByTopictype},
+ 	 * {@link #getRelatedViewTopicsByAssoctype}).
+ 	 * &lt;p&gt;
+-	 * References checked: 10.8.2001 (2.0a11)
++	 * References checked: 21.9.2008 (2.0b8)
+ 	 *
+-	 * @see		#queryPresentableTopics(String query, String queryTopicID)
++	 * @see		#queryPresentableTopics(String query, String nearTopicID)
+ 	 */
+ 	private PresentableTopic createPresentableTopic(ResultSet resultSet, String nearTopicID) throws SQLException {
+ 		String topicID  = resultSet.getString(&quot;TopicID&quot;);
+@@ -1944,16 +1945,12 @@
+ 		String type = resultSet.getString(&quot;TopicTypeID&quot;);
+ 		int typeVersion = resultSet.getInt(&quot;TopicTypeVersion&quot;);
+ 		String name = resultSet.getString(&quot;TopicName&quot;);
+-		// ### String topicIcon = getTopicData(topicID, version, PROPERTY_ICON);
+ 		// Oracle workaround
+ 		if (name == null) {
+ 			name = &quot;&quot;;
+ 		}
+ 		//
+-		PresentableTopic topic = new PresentableTopic(topicID, version, type, typeVersion, name, nearTopicID, &quot;&quot;);
+-		/* ### if (!topicIcon.equals(&quot;&quot;)) {
+-			topic.setIcon(topicIcon);
+-		} */
++		PresentableTopic topic = new PresentableTopic(topicID, version, type, typeVersion, name, nearTopicID);
+ 		return topic;
+ 	}
+ 
+@@ -1961,8 +1958,7 @@
+ 	 * @see		#queryPresentableTopics
+ 	 * @see		#queryPresentableAssociations
+ 	 */
+-	private PresentableAssociation createPresentableAssociation(ResultSet resultSet)
+-																throws SQLException {
++	private PresentableAssociation createPresentableAssociation(ResultSet resultSet) throws SQLException {
+ 		return new PresentableAssociation(
+ 			resultSet.getString(&quot;ID&quot;),
+ 			resultSet.getInt(&quot;Version&quot;),
+@@ -1978,10 +1974,6 @@
+ 
+ 	// --- topicQuery (6 forms) ---
+ 
+-	/* ### private String topicQuery(String topicmapID, int version) {
+-		return topicQuery(topicmapID, version, null);
+-	} */
+-
+ 	/**
+ 	 * @see		#getTopics(String typeID)
+ 	 * @see		#getTopicTypes()
+@@ -2075,9 +2067,9 @@
+         StringBuffer query = new StringBuffer(&quot;SELECT Topic.*&quot;);
+ 		StringBuffer fromClause = new StringBuffer(&quot; FROM Topic&quot;);
+ 		StringBuffer whereClause = new StringBuffer(&quot; WHERE &quot;);
+-		List whereParams=new ArrayList();
++		List whereParams = new ArrayList();
+ 		if (typeIDs != null) {
+-			applyTopicTypeFilter(typeIDs,whereClause,whereParams);
++			applyTopicTypeFilter(typeIDs, whereClause, whereParams);
+ 		} else {
+ 			whereClause.append(&quot;Topic.TypeID = ?&quot;);
+ 			whereParams.add(typeID);
+@@ -2114,9 +2106,9 @@
+ 			whereParams.add(topicmapID);
+ 		}
+ 		//
+-		query.append(fromClause.toString());
+-		query.append(whereClause.toString());
+-
++		query.append(fromClause);
++		query.append(whereClause);
++		//
+ 		try {
+ 			return createPreparedStatement(query.toString(), whereParams.toArray());
+ 		} catch (SQLException e) {
+@@ -2125,8 +2117,6 @@
+ 		return null;
+ 	}
+ 
+-
+-
+ 	// ---
+ 
+ 	/**
+@@ -2143,15 +2133,12 @@
+ 	// ---
+ 
+ 	private void appendPropertyFilter(Hashtable propertyFilter, StringBuffer fromClause, StringBuffer whereClause,
+-			List whereParams, boolean caseSensitiv) {
+-		//
++																				List whereParams, boolean caseSensitiv) {
+ 		Enumeration e = propertyFilter.keys();
+ 		int nIndex = 0;
+-		String propName;
+-		String propValue;
+ 		while (e.hasMoreElements()) {
+-			propName = (String) e.nextElement();
+-			propValue = (String) propertyFilter.get(propName);
++			String propName = (String) e.nextElement();
++			String propValue = (String) propertyFilter.get(propName);
+ 			if (!propValue.equals(&quot;&quot;)) {
+ 				fromClause.append(&quot;, TopicProp td&quot; + nIndex);
+ 				whereClause.append(&quot; AND Topic.ID=td&quot; + nIndex + &quot;.TopicID&quot;);
+@@ -2168,7 +2155,6 @@
+ 				nIndex++;
+ 			}
+ 		}
+-		//
+ 	}
+ 
+ 	// ---
+@@ -2179,7 +2165,7 @@
+ 		whereClause.append(&quot;)&quot;);
+ 	}
+ 
+-	//TODO 
++	// TODO prepared statement 
+ 	private String topicIdFilter(Vector topicIDs) {
+ 		return &quot;Topic.ID IN (&quot; + idList(topicIDs) + &quot;)&quot;;
+ 	}
+@@ -2190,7 +2176,7 @@
+ 		whereClause.append(&quot;)&quot;);
+ 	}
+ 
+-	//TODO 
++	// TODO prepared statement 
+ 	private String topicTypeFilter(Vector typeIDs) {
+ 		return &quot;Topic.TypeID IN (&quot; + idList(typeIDs) + &quot;)&quot;;
+ 	}
+@@ -2201,12 +2187,12 @@
+ 		whereClause.append(&quot;)&quot;);
+ 	}
+ 
+-	//TODO 
++	// TODO prepared statement 
+ 	private String associationTypeFilter(Vector typeIDs) {
+ 		return &quot;Association.TypeID IN (&quot; + idList(typeIDs) + &quot;)&quot;;
+ 	}
+ 
+-	//TODO 
++	// TODO prepared statement 
+ 	private String idList(Vector typeIDs) {
+ 		StringBuffer b = new StringBuffer();
+ 		//
+@@ -2299,17 +2285,6 @@
+ 
+ 	// ---
+ 
+-	/* ### private String orderBy(String[] sortProps) {
+-		StringBuffer buf = new StringBuffer(&quot;ORDER BY &quot;);
+-		for (int i = 0; i &lt; sortProps.length; i++) {
+-			if (i &gt; 0) {
+-				buf.append(&quot;, &quot;);
+-			}
+-			buf.append(sortProps[i]);
+-		}
+-		return buf.toString();
+-	} */
+-
+ 	// ### sortTopicProps, may be null, but not empty
+ 	private String sortClause(String[] sortTopicProps, boolean descending) {
+ 		if (sortTopicProps == null) {
+@@ -2332,15 +2307,6 @@
+ 		}
+ 		buf.append(order.toString());
+ 		return buf.toString();
+-		/* ### return &quot; LEFT OUTER JOIN TopicData TD1 ON &quot; +
+-			&quot;TD1.TopicID=Topic.ID AND &quot; +
+-			&quot;TD1.FieldName='&quot; + sortTopicProps[0] + &quot;'&quot; +
+-
+-			&quot; LEFT OUTER JOIN TopicData TD2 ON &quot; +
+-			&quot;TD2.TopicID=Topic.ID AND &quot; +
+-			&quot;TD2.FieldName='&quot; + sortTopicProps[1] + &quot;'&quot; +
+-
+-			&quot; ORDER BY TD1.FieldValue, TD2.FieldValue&quot;; */
+ 	}
+ 
+ 	// ---
+@@ -2348,5 +2314,4 @@
+ 	public void release() {
+ 		provider.release();
+ 	}
+-
+ }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000194.html">[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+	<LI>Next message: <A HREF="000196.html">[deepamehta-svn] r352 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#195">[ date ]</a>
+              <a href="thread.html#195">[ thread ]</a>
+              <a href="subject.html#195">[ subject ]</a>
+              <a href="author.html#195">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

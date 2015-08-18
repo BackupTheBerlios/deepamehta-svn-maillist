@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r375 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r375%20-%0A%09branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta&In-Reply-To=%3C200909211036.n8LAacrY002922%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000218.html">
+   <LINK REL="Next"  HREF="000220.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r375 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r375%20-%0A%09branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta&In-Reply-To=%3C200909211036.n8LAacrY002922%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r375 -	branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta">maltito at mail.berlios.de
+       </A><BR>
+    <I>Mon Sep 21 12:36:38 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000218.html">[deepamehta-svn] r374 - in branches/apps/install/apps: . dmrpc	dmrpc/src dmrpc/src/de dmrpc/src/de/rpc dmrpc/src/de/rpc/deepamehta
+</A></li>
+        <LI>Next message: <A HREF="000220.html">[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#219">[ date ]</a>
+              <a href="thread.html#219">[ thread ]</a>
+              <a href="subject.html#219">[ subject ]</a>
+              <a href="author.html#219">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-09-21 12:36:29 +0200 (Mon, 21 Sep 2009)
+New Revision: 375
+
+Removed:
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/Comment.java
+Modified:
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java
+   branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+Log:
+cleaned up the DeepMehta JSON RPC App
+
+Deleted: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/Comment.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/Comment.java	2009-09-21 10:24:07 UTC (rev 374)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/Comment.java	2009-09-21 10:36:29 UTC (rev 375)
+@@ -1,34 +0,0 @@
+-package de.rpc.deepamehta;
+-
+-import de.deepamehta.service.ApplicationService;
+-import de.deepamehta.util.DeepaMehtaUtils;
+-//
+-import java.io.Serializable;
+-
+-
+-
+-/**
+- * A bean-like data container for passing data from the front-controller (servlet)
+- * to the presentation layer (JSP engine).
+- * &lt;p&gt;
+- * Kiezatlas 1.4&lt;br&gt;
+- * Requires DeepaMehta 2.0b7-post1
+- * &lt;p&gt;
+- * Last change: 9.10.2007&lt;br&gt;
+- * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+- */
+-public class Comment implements WebService, Serializable {
+-
+-	public String id, text, author, email, date, time;
+-
+-	public Comment(String commentID, ApplicationService as) {
+-		id = commentID;
+-		text = as.getTopicProperty(commentID, 1, PROPERTY_TEXT);
+-		text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
+-		author = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_AUTHOR);
+-		email = as.getTopicProperty(commentID, 1, PROPERTY_EMAIL_ADDRESS);
+-		date = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_DATE);
+-		time = as.getTopicProperty(commentID, 1, PROPERTY_COMMENT_TIME);
+-	}
+-}
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java	2009-09-21 10:24:07 UTC (rev 374)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebService.java	2009-09-21 10:36:29 UTC (rev 375)
+@@ -5,301 +5,14 @@
+ 
+ 
+ /**
+- * Kiezatlas 1.6.2&lt;br&gt;
+- * Requires DeepaMehta 2.0b8.
++ * DeepaMehta JSON RPC Web Service &lt;br&gt;
++ * Requires DeepaMehta rev. 371 at branches /apps.
+  * &lt;p&gt;
+- * Last change: 11.8.2008&lt;br&gt;
+- * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ * Last change: 21.9.2009&lt;br&gt;
++ * Malte Rei&amp;szlig&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public interface WebService extends DeepaMehtaConstants {
+ 
+ 
+-
+-	// *****************
+-	// *** Constants ***
+-	// *****************
+-
+-
+-
+-	// -------------------
+-	// --- Preferences ---
+-	// -------------------
+-
+-
+-
+-	static final int SHAPE_ALPHA = 128;			// 0-transparent ... 255-opaque
+-	static final int SHAPE_LEGEND_HEIGHT = 17;	// in pixel
+-
+-
+-
+-	// -----------------
+-	// --- Workspace ---
+-	// -----------------
+-
+-
+-
+-	static final String WORKSPACE_KIEZATLAS = &quot;t-ka-workspace&quot;;
+-
+-
+-
+-	// -------------------
+-	// --- Topic Types ---
+-	// -------------------
+-
+-
+-
+-    static final String TOPICTYPE_CITY = &quot;tt-city&quot;;
+-	static final String TOPICTYPE_CITYMAP = &quot;tt-ka-stadtplan&quot;;
+-	static final String TOPICTYPE_KIEZ_GEO = &quot;tt-ka-geoobject&quot;;
+-	static final String TOPICTYPE_KIEZ_GEO_SEARCH = &quot;tt-ka-geoobject-search&quot;;
+-	static final String TOPICTYPE_AGENCY = &quot;tt-ka-traeger&quot;;
+-	static final String TOPICTYPE_CRITERIA = &quot;tt-ka-kriterium&quot;;
+-	static final String TOPICTYPE_YADE_POINT = &quot;tt-ka-yadepoint&quot;;
+-	static final String TOPICTYPE_GPS_CONVERTER = &quot;tt-ka-gpsconverter&quot;;
+-	static final String TOPICTYPE_FORUM = &quot;tt-ka-forum&quot;;
+-	static final String TOPICTYPE_COMMENT = &quot;tt-ka-kommentar&quot;;
+-	static final String TOPICTYPE_OUTLINE_POINT = &quot;tt-ka-outlinepoint&quot;;
+-	static final String TOPICTYPE_SHAPE = &quot;tt-ka-shape&quot;;
+-	static final String TOPICTYPE_STYLESHEET = &quot;tt-ka-stylesheet&quot;;
+-
+-
+-
+-	// -------------------------
+-	// --- Association Types ---
+-	// -------------------------
+-
+-
+-
+-	static final String ASSOCTYPE_OUTLINE = &quot;at-ka-outline&quot;;
+-    static final String ASSOCTYPE_AFFILIATED = &quot;at-ka-affiliated&quot;;
+-	static final String ASSOCTYPE_HOMEPAGE_LINK = &quot;at-ka-homepage-link&quot;;
+-	static final String ASSOCTYPE_IMPRESSUM_LINK = &quot;at-ka-impressum-link&quot;;
+-
+-
+-
+-	// -------------------------------------
+-	// --- Semantic of Association Types ---
+-	// -------------------------------------
+-
+-
+-
+-	// direction is from workspace to sub-workspace
+-	static final String SEMANTIC_SUB_WORKSPACE = ASSOCTYPE_COMPOSITION;
+-
+-	// direction is from institution to forum
+-	static final String SEMANTIC_INSTITUTION_FORUM = ASSOCTYPE_ASSOCIATION;
+-
+-	// direction is from forum to comment
+-	static final String SEMANTIC_FORUM_COMMENTS = ASSOCTYPE_ASSOCIATION;
+-
+-	// direction is from workspace to shape-subtype
+-	static final String SEMANTIC_WORKSPACE_SHAPETYPE = ASSOCTYPE_ASSOCIATION;
+-
+-	// direction is from workspace to stylesheet
+-	static final String SEMANTIC_WORKSPACE_STYLESHEET = ASSOCTYPE_ASSOCIATION;
+-
+-	// direction is from workspace to image
+-	static final String SEMANTIC_WORKSPACE_SITELOGO = ASSOCTYPE_ASSOCIATION;
+-
+-	// direction is from workspace to webpage
+-	static final String SEMANTIC_WORKSPACE_HOMEPAGELINK = ASSOCTYPE_HOMEPAGE_LINK;
+-
+-	// direction is from workspace to webpage
+-	static final String SEMANTIC_WORKSPACE_IMPRESSUMLINK = ASSOCTYPE_IMPRESSUM_LINK;
+-
+-    // direction is from user to workspac
+-	static final String SEMANTIC_AFFILIATED_MEMBERSHIP = ASSOCTYPE_AFFILIATED;
+-
+-	// direction is arbitrary
+-	static final String SEMANTIC_SHAPE_OUTLINE = ASSOCTYPE_OUTLINE;
+-
+-
+-
+-
+-
+-	// ------------------
+-	// --- Properties ---
+-	// ------------------
+-
+-
+-
+-	static final String PROPERTY_CITY = &quot;Stadt&quot;;
+-	static final String PROPERTY_OEFFNUNGSZEITEN = &quot;&#214;ffnungszeiten&quot;;
+-	static final String PROPERTY_SONSTIGES = &quot;Sonstiges&quot;;
+-	static final String PROPERTY_ADMINISTRATION_INFO = &quot;Administrator Infos&quot;;
+-	static final String PROPERTY_AGENCY_KIND = &quot;Art&quot;;
+-	static final String PROPERTY_YADE_X = &quot;YADE x&quot;;
+-	static final String PROPERTY_YADE_Y = &quot;YADE y&quot;;
+-    static final String PROPERTY_GPS_LONG = &quot;LONG&quot;;
+-    static final String PROPERTY_GPS_LAT = &quot;LAT&quot;;
+-	static final String PROPERTY_LAST_MODIFIED = &quot;Zuletzt ge&#228;ndert&quot;;
+-	//
+-	static final String PROPERTY_FORUM_ACTIVITION = &quot;Aktivierung&quot;;
+-	static final String PROPERTY_COMMENT_AUTHOR = &quot;Autor&quot;;
+-	static final String PROPERTY_COMMENT_DATE = &quot;Datum&quot;;
+-	static final String PROPERTY_COMMENT_TIME = &quot;Uhrzeit&quot;;
+-	//
+-	static final String PROPERTY_TARGET_WEBALIAS = &quot;Target Web Alias&quot;;
+-	//
+-	static final String PROPERTY_CSS = &quot;CSS&quot;;
+-
+-
+-
+-	// -----------------------
+-	// --- Property Values ---
+-	// -----------------------
+-
+-
+-
+-	static final String AGENCY_KIND_KOMMUNAL = &quot;kommunal&quot;;
+-	static final String AGENCY_KIND_FREI = &quot;frei&quot;;
+-
+-
+-
+-	// ----------------
+-	// --- Commands ---
+-	// ----------------
+-
+-
+-    static final String ITEM_LOAD_COORDINATES = &quot;Load GPS Coordinates&quot;;
+-    static final String  CMD_START_GEOCODING = &quot;loadGeoCodes&quot;;
+-
+-    static final String ITEM_LOCK_GEOMETRY = &quot;Lock&quot;;
+-    static final String  CMD_LOCK_GEOMETRY = &quot;lockGeometry&quot;;
+-	//
+-    static final String ITEM_UNLOCK_GEOMETRY = &quot;Unlock&quot;;
+-    static final String  CMD_UNLOCK_GEOMETRY = &quot;unlockGeometry&quot;;
+-	//
+-    static final String ITEM_REPOSITION_ALL = &quot;Reposition all&quot;;
+-    static final String  CMD_REPOSITION_ALL = &quot;repositionAll&quot;;
+-    static final String ICON_REPOSITION_ALL = &quot;location.png&quot;;
+-	//
+-    static final String ITEM_MAKE_SHAPE = &quot;Make Shape&quot;;
+-    static final String  CMD_MAKE_SHAPE = &quot;makeShape&quot;;
+-
+-
+-
+-	// *********************
+-	// *** Web Constants ***
+-	// *********************
+-
+-
+-
+-	// ----------------
+-	// --- Servlets ---
+-	// ----------------
+-
+-
+-
+-	public static final int SERVLET_BROWSE = 1;
+-	public static final int SERVLET_EDIT = 2;
+-	public static final int SERVLET_LIST = 3;
+-	public static final int SERVLET_UPLOAD = 4;
+-
+-
+-
+-	// -------------
+-	// --- Icons ---
+-	// -------------
+-
+-
+-
+-	public static final String ICON_HOTSPOT = &quot;redball-middle.gif&quot;;
+-	public static final String ICON_CLUSTER = &quot;redball-bigger.gif&quot;;
+-
+-
+-
+-	// ---------------
+-	// --- Actions ---
+-	// ---------------
+-
+-
+-
+-	// browse servlet
+-	public static final String ACTION_INIT_FRAME = &quot;initFrame&quot;;
+-	public static final String ACTION_SHOW_CATEGORIES = &quot;showCategories&quot;;
+-	public static final String ACTION_SHOW_INFO_EXTERNAL = &quot;showInfo&quot;;
+-	public static final String ACTION_SHOW_GEO_INFO = &quot;showGeoObjectInfo&quot;;
+-	public static final String ACTION_SEARCH = &quot;search&quot;;		
+-	public static final String ACTION_SEARCH_BY_CATEGORY = &quot;searchByCategory&quot;;
+-	public static final String ACTION_SELECT_CATEGORY = &quot;selectCategory&quot;;
+-	public static final String ACTION_SHOW_GEO_FORUM = &quot;showGeoObjectForum&quot;;
+-	public static final String ACTION_SHOW_COMMENT_FORM = &quot;showCommentForm&quot;;
+-	public static final String ACTION_CREATE_COMMENT = &quot;createComment&quot;;
+-	public static final String ACTION_TOGGLE_SHAPE_DISPLAY = &quot;toggleShapeDisplay&quot;;
+-	// edit servlet
+-	public static final String ACTION_TRY_LOGIN = &quot;tryLogin&quot;;				// also used for list servlet
+-	public static final String ACTION_SHOW_GEO_FORM = &quot;showGeoObjectForm&quot;;	// also used for list servlet
+-	public static final String ACTION_UPDATE_GEO = &quot;updateGeo&quot;;				// also used for list servlet
+-	public static final String ACTION_GO_HOME = &quot;goHome&quot;;					// also used for list servlet
+-	public static final String ACTION_SHOW_FORUM_ADMINISTRATION = &quot;showForumAdmin&quot;;
+-	public static final String ACTION_ACTIVATE_FORUM = &quot;activateForum&quot;;
+-	public static final String ACTION_DEACTIVATE_FORUM = &quot;deactivateForum&quot;;
+-	public static final String ACTION_DELETE_COMMENT = &quot;deleteComment&quot;;
+-	// list servlet
+-	public static final String ACTION_SHOW_INSTITUTIONS = &quot;showInstitutions&quot;;
+-	public static final String ACTION_SHOW_EMPTY_GEO_FORM = &quot;showEmptyGeoObjectForm&quot;;
+-	public static final String ACTION_CREATE_GEO = &quot;createGeo&quot;;
+-	public static final String ACTION_SORT_BY =&quot;sort&quot;;
+-	public static final String ACTION_FILTER =&quot;filter&quot;;
+-	public static final String ACTION_CLEAR_FILTER =&quot;clearFilter&quot;;
+-	public static final String ACTION_CREATE_FORM_LETTER =&quot;createFormLetter&quot;;
+-	public static final String ACTION_DELETE_ENTRY =&quot;deleteEntry&quot;;
+-	
+-	
+-
+-
+-
+-	// --------------------
+-	// --- Search Modes ---
+-	// --------------------
+-
+-
+-
+-    static final String SEARCHMODE_BY_NAME = &quot;byName&quot;;
+-    // Note: other search modes are generated dynamically: &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, ....
+-
+-
+-
+-	// --------------
+-	// --- Frames ---
+-	// --------------
+-
+-
+-
+-    static final String FRAME_LEFT = &quot;left&quot;;
+-    static final String FRAME_RIGHT = &quot;right&quot;;
+-
+-
+-
+-	// -------------
+-	// --- Pages ---
+-	// -------------
+-
+-
+-
+-	// browse
+-    static final String PAGE_FRAMESET = &quot;frameset&quot;;
+-    static final String PAGE_CITY_MAP = &quot;CityMap&quot;;
+-    static final String PAGE_CATEGORY_LIST = &quot;CategoryList&quot;;
+-    static final String PAGE_GEO_LIST = &quot;GeoObjectList&quot;;
+-    static final String PAGE_GEO_INFO = &quot;GeoObjectInfo&quot;;
+-    static final String PAGE_GEO_FORUM = &quot;GeoObjectForum&quot;;
+-    static final String PAGE_COMMENT_FORM = &quot;CommentForm&quot;;
+-    // edit
+-    static final String PAGE_GEO_LOGIN = &quot;GeoObjectLogin&quot;;
+-    static final String PAGE_GEO_HOME = &quot;GeoObjectHome&quot;;
+-    static final String PAGE_GEO_FORM = &quot;GeoObjectForm&quot;;
+-    static final String PAGE_FORUM_ADMINISTRATION = &quot;ForumAdministration&quot;;
+-    // list
+-    static final String PAGE_LIST_LOGIN = &quot;ListLogin&quot;;
+-    static final String PAGE_LIST_HOME = &quot;ListHome&quot;;
+-    static final String PAGE_LIST = &quot;List&quot;;
+-    static final String PAGE_SERVE = &quot;Serve&quot;;
+-    static final String PAGE_GEO_ADMIN_FORM = &quot;GeoObjectAdminForm&quot;;
+-    static final String PAGE_GEO_EMPTY_FORM = &quot;GeoObjectEmptyForm&quot;;
+-	static final String PAGE_LINK_PAGE = &quot;Print&quot;;
+-	// error
+-    static final String PAGE_ERROR = &quot;error&quot;;
+ }
+
+Modified: branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java
+===================================================================
+--- branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-09-21 10:24:07 UTC (rev 374)
++++ branches/apps/install/apps/dmrpc/src/de/rpc/deepamehta/WebServlet.java	2009-09-21 10:36:29 UTC (rev 375)
+@@ -16,6 +16,11 @@
+ 
+ 
+ public class WebServlet extends JSONRPCServlet implements WebService {
++
++    static final String VERSION = &quot; 0.8b&quot;;
++	static {
++		System.out.println(&quot;&gt;&gt;&gt; DeepaMehta JSON RPC &quot; + VERSION);
++	}
+     
+     protected String performPostRequest(String remoteMethod, String params, Session session, CorporateDirectives directives)
+     {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000218.html">[deepamehta-svn] r374 - in branches/apps/install/apps: . dmrpc	dmrpc/src dmrpc/src/de dmrpc/src/de/rpc dmrpc/src/de/rpc/deepamehta
+</A></li>
+	<LI>Next message: <A HREF="000220.html">[deepamehta-svn] r376 - in branches/apps/install/apps/dmrpc: .	build build/de build/de/rpc libs pages src/de/rpc/deepamehta
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#219">[ date ]</a>
+              <a href="thread.html#219">[ thread ]</a>
+              <a href="subject.html#219">[ subject ]</a>
+              <a href="author.html#219">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

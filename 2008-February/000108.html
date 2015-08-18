@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r263 - trunk/develop/src/de/deepamehta/service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r263%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200802121335.m1CDZsBq030620%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000107.html">
+   <LINK REL="Next"  HREF="000109.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r263 - trunk/develop/src/de/deepamehta/service</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r263%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200802121335.m1CDZsBq030620%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r263 - trunk/develop/src/de/deepamehta/service">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb 12 14:35:54 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000107.html">[deepamehta-svn] r262 -	trunk/install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+        <LI>Next message: <A HREF="000109.html">[deepamehta-svn] r264 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-02-12 14:35:50 +0100 (Tue, 12 Feb 2008)
+New Revision: 263
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+Log:
+Bug #11940 fixed (Administrators should have an implicit publish permission)
+
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-02-12 12:56:15 UTC (rev 262)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-02-12 13:35:50 UTC (rev 263)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 31.1.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 12.2.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1197,6 +1197,12 @@
+ 		return isAssocOwner(assoc.getID(), session) || isAdministrator(userID);
+ 	}
+ 
++	// ---
++
++	boolean publishIsAllowed(String userID, String workspaceID) {
++		return hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) || isAdministrator(userID);
++	}
++
+ 	// --- setTopicProperty (2 forms) ---
+ 
+ 	// Note: there 2 other methods who are changing the properties NOT &quot;blindly&quot;
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateCommands.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-02-12 12:56:15 UTC (rev 262)
++++ trunk/develop/src/de/deepamehta/service/CorporateCommands.java	2008-02-12 13:35:50 UTC (rev 263)
+@@ -24,7 +24,7 @@
+  * Utility class for building {@link de.deepamehta.Commands topic commands / association commands}.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 1.2.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 12.2.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 9.10.2001 (2.0a12)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -146,8 +146,7 @@
+ 			if (defaultWorkspace != null) {
+ 				String workspaceID = defaultWorkspace.getID();
+ 				defaultWorkspaceID = workspaceID;
+-				int cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+-					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				int cmdState = as.publishIsAllowed(userID, workspaceID) ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+ 				commandGroup.addCommand(defaultWorkspace.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 					FILESERVER_ICONS_PATH, as.getIconfile(defaultWorkspace), cmdState);
+ 			}
+@@ -170,8 +169,7 @@
+ 					isFirst = false;
+ 				}
+ 				//
+-				int cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+-					COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++				int cmdState = as.publishIsAllowed(userID, workspaceID) ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+ 				commandGroup.addCommand(workspaceTopic.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 					FILESERVER_ICONS_PATH, as.getIconfile(workspaceTopic), cmdState);
+ 			}
+@@ -179,8 +177,7 @@
+ 			// this topicmap is a personalized view originating from a shared workspace -- it can be published
+ 			// &quot;back&quot; to its original workspace.
+ 			String workspaceID = workspace.getID();
+-			int cmdState = as.hasRole(userID, workspaceID, PROPERTY_ROLE_PUBLISHER) ?
+-				COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
++			int cmdState = as.publishIsAllowed(userID, workspaceID) ? COMMAND_STATE_DEFAULT : COMMAND_STATE_DISABLED;
+ 			commandGroup.addCommand(workspace.getName(), CMD_PUBLISH + COMMAND_SEPARATOR + workspaceID,
+ 				FILESERVER_ICONS_PATH, as.getIconfile(workspace), cmdState);
+ 		}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000107.html">[deepamehta-svn] r262 -	trunk/install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+	<LI>Next message: <A HREF="000109.html">[deepamehta-svn] r264 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r292 - in trunk: . install/examples/kompetenzstern
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r292%20-%20in%20trunk%3A%20.%20install/examples/kompetenzstern&In-Reply-To=%3C200803092130.m29LUkJ6001210%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000136.html">
+   <LINK REL="Next"  HREF="000138.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r292 - in trunk: . install/examples/kompetenzstern</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r292%20-%20in%20trunk%3A%20.%20install/examples/kompetenzstern&In-Reply-To=%3C200803092130.m29LUkJ6001210%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r292 - in trunk: . install/examples/kompetenzstern">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar  9 22:30:46 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000136.html">[deepamehta-svn] r291 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000138.html">[deepamehta-svn] r293 - in trunk: . develop	install/client/stylesheets install/examples/artfacts	install/examples/dm-web install/examples/kompetenzstern	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#137">[ date ]</a>
+              <a href="thread.html#137">[ thread ]</a>
+              <a href="subject.html#137">[ subject ]</a>
+              <a href="author.html#137">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-09 22:30:37 +0100 (Sun, 09 Mar 2008)
+New Revision: 292
+
+Modified:
+   trunk/build-development.xml
+   trunk/build.xml
+   trunk/config.xml
+   trunk/install/examples/kompetenzstern/build.xml
+   trunk/setup.xml
+Log:
+fixed install bug for examples
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-03-07 16:56:53 UTC (rev 291)
++++ trunk/build-development.xml	2008-03-09 21:30:37 UTC (rev 292)
+@@ -4,6 +4,8 @@
+ 		DeepaMehta development build file
+ 	&lt;/description&gt;
+ 
++	&lt;property name=&quot;exceptions.log&quot; value=&quot;true&quot; /&gt;
++
+ 	&lt;import file=&quot;build.xml&quot; /&gt;
+ 
+ 	&lt;!-- Build --&gt;
+@@ -205,7 +207,7 @@
+ 			&lt;property name=&quot;target&quot; value=&quot;cleanup&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+-	
++
+ 	&lt;target name=&quot;strip&quot; depends=&quot;cleanup&quot; description=&quot;strip for deploy&quot;&gt;
+ 		&lt;echo&gt;
+ ,-----------------------------------------------------.
+@@ -227,40 +229,40 @@
+ |                                           |
+ `-------------------------------------------'
+ 				&lt;/echo&gt;
+-				
+-				&lt;defaultexcludes remove=&quot;**/.svn&quot;/&gt;
+-				&lt;defaultexcludes remove=&quot;**/.svn/**&quot;/&gt;
+-				
+-				&lt;echo message=&quot;calling the examples&quot;/&gt;
++
++				&lt;defaultexcludes remove=&quot;**/.svn&quot; /&gt;
++				&lt;defaultexcludes remove=&quot;**/.svn/**&quot; /&gt;
++
++				&lt;echo message=&quot;calling the examples&quot; /&gt;
+ 				&lt;ant target=&quot;-call-examples&quot;&gt;
+ 					&lt;property name=&quot;example.executeall&quot; value=&quot;true&quot; /&gt;
+ 					&lt;property name=&quot;target&quot; value=&quot;-strip&quot; /&gt;
+ 				&lt;/ant&gt;
+-				
+-				&lt;echo message=&quot;removing SVN repository-files&quot;/&gt;
++
++				&lt;echo message=&quot;removing SVN repository-files&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;.&quot; includes=&quot;**/.svn/**&quot; defaultexcludes=&quot;false&quot; /&gt;
+ 				&lt;/delete&gt;
+-					
+-				&lt;echo message=&quot;removing the sources and build files&quot;/&gt;
++
++				&lt;echo message=&quot;removing the sources and build files&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;develop&quot; /&gt;
+ 					&lt;fileset dir=&quot;.settings&quot; /&gt;
+ 					&lt;fileset file=&quot;.classpath&quot; /&gt;
+ 					&lt;fileset file=&quot;.project&quot; /&gt;
+ 				&lt;/delete&gt;
+-	
+-				&lt;echo message=&quot;removing default-overriding property-files&quot;/&gt;
++
++				&lt;echo message=&quot;removing default-overriding property-files&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;.&quot; includes=&quot;**/config*.properties&quot; /&gt;
+ 				&lt;/delete&gt;
+-	
+-				&lt;echo message=&quot;removing existing hsql/derby database&quot;/&gt;
++
++				&lt;echo message=&quot;removing existing hsql/derby database&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;${client}/db&quot; /&gt;
+ 				&lt;/delete&gt;
+-	
+-				&lt;echo message=&quot;removing development libs&quot;/&gt;
++
++				&lt;echo message=&quot;removing development libs&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset file=&quot;.checkstyle&quot; /&gt;
+ 					&lt;fileset file=&quot;checkstyle_config.xml&quot; /&gt;
+@@ -268,20 +270,20 @@
+ 					&lt;fileset file=&quot;ant/lib/checkstyle-all-4.3.jar&quot; /&gt;
+ 					&lt;fileset file=&quot;ant/lib/jdepend-2.9.jar&quot; /&gt;
+ 				&lt;/delete&gt;
+-	
+-				&lt;echo message=&quot;derby is currently unsupported&quot;/&gt;
++
++				&lt;echo message=&quot;derby is currently unsupported&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;libs/derby&quot; /&gt;
+ 					&lt;fileset dir=&quot;${config}&quot; includes=&quot;*derby*.properties&quot; /&gt;
+ 					&lt;fileset dir=&quot;install/examples/movies/config&quot; includes=&quot;*derby*.properties&quot; /&gt;
+ 				&lt;/delete&gt;
+ 
+-				&lt;echo message=&quot;who is artfacts?&quot;/&gt;
++				&lt;echo message=&quot;who is artfacts?&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset dir=&quot;install/examples/artfacts&quot; /&gt;
+ 				&lt;/delete&gt;
+ 
+-				&lt;echo message=&quot;self destruction&quot;/&gt;
++				&lt;echo message=&quot;self destruction&quot; /&gt;
+ 				&lt;delete includeemptydirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+ 					&lt;fileset file=&quot;build-development.xml&quot; /&gt;
+ 				&lt;/delete&gt;
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-07 16:56:53 UTC (rev 291)
++++ trunk/build.xml	2008-03-09 21:30:37 UTC (rev 292)
+@@ -192,7 +192,7 @@
+ 			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to activate:&quot; /&gt;
+ 		&lt;/antcallback&gt;
+ 		&lt;antcall target=&quot;-config-setup-default-instance&quot;&gt;
+-			&lt;param name=&quot;dont.ask&quot; value=&quot;true&quot;/&gt;
++			&lt;param name=&quot;dont.ask&quot; value=&quot;true&quot; /&gt;
+ 		&lt;/antcall&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-installexamples&quot; depends=&quot;-testsyspass&quot;&gt;
+@@ -474,9 +474,12 @@
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
+-				&lt;!--
+-				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
+-				--&gt;
++				&lt;if&gt;
++					&lt;isset property=&quot;exceptions.log&quot; /&gt;
++					&lt;then&gt;
++						&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
+ 			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in example &quot;${example}&quot;&lt;/echo&gt;
+@@ -496,9 +499,12 @@
+ 				&lt;/ant&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
+-				&lt;!--
+-				&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
+-				--&gt;
++				&lt;if&gt;
++					&lt;isset property=&quot;exceptions.log&quot; /&gt;
++					&lt;then&gt;
++						&lt;echo&gt;${exceptionProp}&lt;/echo&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
+ 			&lt;/catch&gt;
+ 		&lt;/trycatch&gt;
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in external application &quot;${app-dir}&quot;&lt;/echo&gt;
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2008-03-07 16:56:53 UTC (rev 291)
++++ trunk/config.xml	2008-03-09 21:30:37 UTC (rev 292)
+@@ -19,7 +19,7 @@
+ 
+ 	&lt;property file=&quot;${db.type.property-file}&quot; /&gt;
+ 
+-	&lt;property name=&quot;main-targets&quot; value=&quot;config&quot; /&gt;
++	&lt;property name=&quot;main-targets&quot; value=&quot;install&quot; /&gt;
+ 
+ 	&lt;path id=&quot;dblibs&quot;&gt;
+ 		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+@@ -54,11 +54,11 @@
+ 	&lt;condition property=&quot;do.web.deploy&quot; value=&quot;true&quot;&gt;
+ 		&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 	&lt;/condition&gt;
+-	
++
+ 	&lt;condition property=&quot;dont.db.ask&quot; value=&quot;true&quot;&gt;
+ 		&lt;istrue value=&quot;${db.ask.dont}&quot; /&gt;
+ 	&lt;/condition&gt;
+-	
++
+ 	&lt;taskdef resource=&quot;org/apache/tools/ant/taskdefs/antinput.properties&quot; /&gt;
+ 	&lt;taskdef resource=&quot;net/sf/antcontrib/antcontrib.properties&quot; /&gt;
+ 	&lt;taskdef name=&quot;for&quot; classname=&quot;net.sf.antcontrib.logic.ForTask&quot; /&gt;
+
+Modified: trunk/install/examples/kompetenzstern/build.xml
+===================================================================
+--- trunk/install/examples/kompetenzstern/build.xml	2008-03-07 16:56:53 UTC (rev 291)
++++ trunk/install/examples/kompetenzstern/build.xml	2008-03-09 21:30:37 UTC (rev 292)
+@@ -1,4 +1,5 @@
+ &lt;project name=&quot;Kompetenzstern&quot; default=&quot;build&quot; basedir=&quot;.&quot;&gt;
++	&lt;echoproperties prefix=&quot;dm.&quot; /&gt;
+ 
+ 	&lt;description&gt;
+ 		Kompetenzstern
+@@ -16,7 +17,7 @@
+ 	&lt;target name=&quot;-init&quot;&gt;
+ 		&lt;mkdir dir=&quot;${build}&quot; /&gt;
+ 	&lt;/target&gt;
+-
++	&lt;echoproperties prefix=&quot;dm.&quot; /&gt;
+ 	&lt;target name=&quot;-compile&quot; depends=&quot;-init&quot;&gt;
+ 		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
+ 			&lt;classpath&gt;
+@@ -58,7 +59,7 @@
+ 			&lt;/fileset&gt;
+ 		&lt;/copy&gt;
+ 	&lt;/target&gt;
+-	
++
+ 	&lt;target name=&quot;-copy-deploy&quot;&gt;
+ 		&lt;copy todir=&quot;${client}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+@@ -74,13 +75,13 @@
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;${build}&quot;/&gt;
++			&lt;fileset dir=&quot;${build}&quot; /&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-strip&quot;&gt;
+ 		&lt;delete includeEmptyDirs=&quot;true&quot; failonerror=&quot;false&quot;&gt;
+-			&lt;fileset dir=&quot;src&quot;/&gt;
++			&lt;fileset dir=&quot;src&quot; /&gt;
+ 		&lt;/delete&gt;
+ 	&lt;/target&gt;
+ 
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-03-07 16:56:53 UTC (rev 291)
++++ trunk/setup.xml	2008-03-09 21:30:37 UTC (rev 292)
+@@ -88,10 +88,16 @@
+ 		&lt;/antcallback&gt;
+ 		&lt;antcall target=&quot;-config-setup-default-instance&quot; /&gt;
+ 		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
+-		&lt;var name=&quot;dm.instance.property-file&quot; value=&quot;${config}/dm-${dm.instance}.properties&quot; /&gt;
+-		&lt;var name=&quot;dm.instance.build-property-file&quot; value=&quot;${config}/build-${dm.instance}.properties&quot; /&gt;
+-		&lt;var name=&quot;dm.instance.config-property-file&quot; value=&quot;${config}/config-${dm.instance}.properties&quot; /&gt;
++
++		&lt;!-- ugly hack for &lt;var name=&quot;...&quot; value=&quot;...&quot; /&gt; --&gt;
++		&lt;var name=&quot;dm.instance.property-file&quot; unset=&quot;true&quot; /&gt;
++		&lt;var name=&quot;dm.instance.build-property-file&quot; unset=&quot;true&quot; /&gt;
++		&lt;var name=&quot;dm.instance.config-property-file&quot; unset=&quot;true&quot; /&gt;
++		&lt;property name=&quot;dm.instance.property-file&quot; value=&quot;${config}/dm-${dm.instance}.properties&quot; /&gt;
++		&lt;property name=&quot;dm.instance.build-property-file&quot; value=&quot;${config}/build-${dm.instance}.properties&quot; /&gt;
++		&lt;property name=&quot;dm.instance.config-property-file&quot; value=&quot;${config}/config-${dm.instance}.properties&quot; /&gt;
+ 	&lt;/target&gt;
++
+ 	&lt;target name=&quot;-config-setup-default-instance&quot;&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000136.html">[deepamehta-svn] r291 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000138.html">[deepamehta-svn] r293 - in trunk: . develop	install/client/stylesheets install/examples/artfacts	install/examples/dm-web install/examples/kompetenzstern	install/examples/messageboard install/examples/movies
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#137">[ date ]</a>
+              <a href="thread.html#137">[ thread ]</a>
+              <a href="subject.html#137">[ subject ]</a>
+              <a href="author.html#137">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

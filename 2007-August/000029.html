@@ -1,0 +1,465 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r184%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%20install/config%0A%09install/examples/movies%20install/examples/movies/config%0A%09install/examples/movies/db&In-Reply-To=%3C200708282103.l7SL3qCs010529%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000028.html">
+   <LINK REL="Next"  HREF="000030.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r184%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%20install/config%0A%09install/examples/movies%20install/examples/movies/config%0A%09install/examples/movies/db&In-Reply-To=%3C200708282103.l7SL3qCs010529%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r184 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service install/config	install/examples/movies install/examples/movies/config	install/examples/movies/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Tue Aug 28 23:03:52 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000028.html">[deepamehta-svn] r183 - in branches/eschnepel: . install/config
+</A></li>
+        <LI>Next message: <A HREF="000030.html">[deepamehta-svn] r185 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/config install/db	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-08-28 23:03:50 +0200 (Tue, 28 Aug 2007)
+New Revision: 184
+
+Added:
+   branches/eschnepel/install/config/db-derby.properties
+   branches/eschnepel/install/config/db-hsqldb.properties
+   branches/eschnepel/install/config/db-mysql.properties
+   branches/eschnepel/install/examples/movies/db/db_tables_derby.sql
+Removed:
+   branches/eschnepel/install/examples/movies/db/createdb.sql
+Modified:
+   branches/eschnepel/build.properties
+   branches/eschnepel/config.xml
+   branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+   branches/eschnepel/install/config/dm-derby-intern.properties
+   branches/eschnepel/install/config/dm-hsqldb-intern.properties
+   branches/eschnepel/install/config/dm-mysql.properties
+   branches/eschnepel/install/config/dm.properties
+   branches/eschnepel/install/examples/movies/build.xml
+   branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+   branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+Log:
+second step to introduce database-config files, moviesdb with derby does work now
+
+Modified: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/build.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -30,5 +30,5 @@
+ #dm.instance			=hsqldb-intern
+ #dm.instance			=mysql
+ 
+-dm.instance.property-file=${config}/dm-${dm.instance}.properties
+-dm.instance.build-property-file=${config}/build-${dm.instance}.properties
++dm.instance.property-file		=${config}/dm-${dm.instance}.properties
++dm.instance.build-property-file	=${config}/build-${dm.instance}.properties
+
+Modified: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/config.xml	2007-08-28 21:03:50 UTC (rev 184)
+@@ -9,6 +9,10 @@
+ 	&lt;property file=&quot;${dm.instance.property-file}&quot; /&gt;
+ 	&lt;property file=&quot;${dm.instance.build-property-file}&quot; /&gt;
+ 
++	&lt;property name=&quot;db.type.property-file&quot; value=&quot;${config}/db-${db.type}.properties&quot;/&gt;
++
++	&lt;property file=&quot;${db.type.property-file}&quot; /&gt;
++
+ 	&lt;path id=&quot;javalibs&quot;&gt;
+ 		&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 			&lt;include name=&quot;${db.libs}&quot; /&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-08-28 21:03:50 UTC (rev 184)
+@@ -26,6 +26,8 @@
+ 			resolveReferences();
+ 			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
+ 			resolveReferences();
++			loadProperties(getProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE));
++			resolveReferences();
+ 		} catch (FileNotFoundException e) {
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-08-28 21:03:50 UTC (rev 184)
+@@ -23,5 +23,7 @@
+ 		public final static String DB_URL = &quot;db.url&quot;;
+ 
+ 		public static final String DB_LIBS = &quot;db.libs&quot;;
++
++		public static final String DB_TYPE_PROPERTY_FILE = &quot;db.type.property-file&quot;;
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/develop/src/de/deepamehta/client/ComboBoxRenderer.java	2007-08-28 21:03:50 UTC (rev 184)
+@@ -3,23 +3,29 @@
+ import javax.swing.*;
+ import java.awt.*;
+ 
+-
+-
+ class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+ 
+ 	ComboBoxRenderer() {
+-		setOpaque(true);	// otherwise the background isn't painted
++		setOpaque(true); // otherwise the background isn't painted
+ 	}
+ 
+-	public Component getListCellRendererComponent(JList list, Object value, int index,
+-										boolean isSelected, boolean cellHasFocus) {
++	public Component getListCellRendererComponent(JList list, Object value,
++			int index, boolean isSelected, boolean cellHasFocus) {
+ 		ComboBoxItem item = (ComboBoxItem) value;
+-		/* ### System.out.println(&quot;&gt;&gt;&gt; menu item \&quot;&quot; + icon.getDescription() + &quot;\&quot; is &quot; +
+-			&quot;rendered, selected: &quot; + isSelected + &quot;, background: &quot; + (isSelected ? list.getSelectionBackground() :
+-			list.getBackground())); */
+-		setText(item.text);
+-		setIcon(item.icon);
+-		setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
++		/*
++		 * ### System.out.println(&quot;&gt;&gt;&gt; menu item \&quot;&quot; + icon.getDescription() +
++		 * &quot;\&quot; is &quot; + &quot;rendered, selected: &quot; + isSelected + &quot;, background: &quot; +
++		 * (isSelected ? list.getSelectionBackground() : list.getBackground()));
++		 */
++		if (item == null) {
++			setText(&quot;null ?!?!&quot;);
++			setIcon(null);
++		} else {
++			setText(item.text);
++			setIcon(item.icon);
++		}
++		setBackground(isSelected ? list.getSelectionBackground() : list
++				.getBackground());
+ 		return this;
+ 	}
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateSQLSource.java	2007-08-28 21:03:50 UTC (rev 184)
+@@ -159,9 +159,9 @@
+ 	// ---
+ 
+ 	public int getElementCount(String type) throws SQLException {
+-		String query = &quot;SELECT COUNT(*) AS Count FROM &quot; + type;
++		String query = &quot;SELECT COUNT(*) AS Cnt FROM &quot; + type;
+ 		//
+-		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + query + &quot;\&quot;&quot;);
++		// System.out.println(&quot;&gt; 1 CorporateSQLSource.getElementCount(): \&quot;&quot; + query + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(query);
+ 		int count = queryCount(result);
+@@ -173,7 +173,7 @@
+ 	public int getElementCount(String elementType, Hashtable attributes, boolean caseSensitiv) throws Exception {
+ 		String queryStr = buildQuery(elementType, attributes, caseSensitiv, &quot;*&quot;, true);		// ### onlyCount=true
+ 		//
+-		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
++		// System.out.println(&quot;&gt; 2 CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+@@ -185,7 +185,7 @@
+ 	public int getElementCount(String elementType, String id, String relatedElementType, String helperElementType) throws Exception {
+ 		String queryStr = buildQuery(elementType, id, relatedElementType, helperElementType, true);		// ### onlyCount=true
+ 		//
+-		// ### System.out.println(&quot;&gt; CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
++		// System.out.println(&quot;&gt; 3 CorporateSQLSource.getElementCount(): \&quot;&quot; + queryStr + &quot;\&quot;&quot;);
+ 		Statement stmt = provider.getStatement();
+ 		ResultSet result = stmt.executeQuery(queryStr);
+ 		int count = queryCount(result);
+@@ -227,7 +227,7 @@
+ 	 */
+ 	private String buildQuery(String elementType, Hashtable attributes, boolean caseSensitiv, String fieldsToSelect,
+ 																								boolean onlyCount) {
+-		String select = onlyCount ? &quot;COUNT(&quot; + fieldsToSelect + &quot;) AS Count&quot; : fieldsToSelect;
++		String select = onlyCount ? &quot;COUNT(&quot; + fieldsToSelect + &quot;) AS Cnt&quot; : fieldsToSelect;
+ 		StringBuffer query = new StringBuffer(&quot;SELECT &quot; + select + &quot; FROM &quot; + elementType);
+ 		boolean firstCond = true;
+ 		Enumeration e = attributes.keys();
+@@ -237,7 +237,7 @@
+ 			if (!value.equals(&quot;&quot;)) {
+ 				query.append(firstCond ? &quot; WHERE &quot; : &quot; AND &quot;);
+ 				if (caseSensitiv) {
+-					query.append(fieldName + &quot;='&quot; + value + &quot;'&quot;);
++					query.append(fieldName + &quot;='&quot; + value.replaceAll(&quot;'&quot;, &quot;\\'&quot;) + &quot;'&quot;);
+ 				} else {
+ 					query.append(&quot;LOWER(&quot; + fieldName + &quot;) LIKE '%&quot; + value.toLowerCase() + &quot;%'&quot;);
+ 				}
+@@ -259,7 +259,7 @@
+ 	 */
+ 	private String buildQuery(String elementType, String id, String relatedElementType, String helperElementType,
+ 																								boolean onlyCount) {
+-		String select = onlyCount ? &quot;COUNT(*) AS Count&quot; : relatedElementType + &quot;.*&quot;;
++		String select = onlyCount ? &quot;COUNT(*) AS Cnt&quot; : relatedElementType + &quot;.*&quot;;
+ 		return &quot;SELECT &quot; + select + &quot; FROM &quot; + relatedElementType + &quot;, &quot; + helperElementType + &quot; WHERE &quot; +
+ 			helperElementType + &quot;.&quot; + relatedElementType + &quot;ID=&quot; + relatedElementType + &quot;.ID AND &quot; +
+ 			helperElementType + &quot;.&quot; + elementType + &quot;ID='&quot; + id + &quot;'&quot;;
+@@ -337,6 +337,6 @@
+ 	
+ 	private int queryCount(ResultSet result) throws SQLException {
+ 		result.next();
+-		return result.getInt(&quot;Count&quot;);
++		return result.getInt(&quot;Cnt&quot;);
+ 	}
+ }
+
+Added: branches/eschnepel/install/config/db-derby.properties
+===================================================================
+--- branches/eschnepel/install/config/db-derby.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/db-derby.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -0,0 +1,5 @@
++# DeepaMehta Service
++# db.type			=derby
++
++db.driver			=org.apache.derby.jdbc.EmbeddedDriver
++db.libs				=${libpath}/derby/*.jar
+
+Added: branches/eschnepel/install/config/db-hsqldb.properties
+===================================================================
+--- branches/eschnepel/install/config/db-hsqldb.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/db-hsqldb.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -0,0 +1,5 @@
++# DeepaMehta Service
++# db.type			=hsqldb
++
++db.driver			=org.hsqldb.jdbcDriver
++db.libs				=${libpath}/hsqldb.jar
+
+Added: branches/eschnepel/install/config/db-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/db-mysql.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/db-mysql.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -0,0 +1,5 @@
++# DeepaMehta Service
++# db.type			=mysql
++
++db.driver			=org.gjt.mm.mysql.Driver
++db.libs				=${libpath}/mysql-3.1.7.jar
+
+Modified: branches/eschnepel/install/config/dm-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/dm-derby-intern.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/dm-derby-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -6,8 +6,7 @@
+ db.name				=DeepaMehta
+ db.user				=${db.name}
+ db.password			=dm
+-db.driver			=org.apache.derby.jdbc.EmbeddedDriver
+-db.libs				=${libpath}/derby/*.jar
++db.type				=derby
+ 
+ db.derby.base-path	=${client}/db/${dm.instance}
+ db.derby.path		=${db.derby.base-path}/${db.name}
+
+Modified: branches/eschnepel/install/config/dm-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/dm-hsqldb-intern.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/dm-hsqldb-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -6,8 +6,7 @@
+ db.name				=DeepaMehta
+ db.user				=sa
+ db.password			=
+-db.driver			=org.hsqldb.jdbcDriver
+-db.libs				=${libpath}/hsqldb.jar
++db.type				=hsqldb
+ 
+ db.hsqldb.path		=${client}/db/${dm.instance}/${db.name}
+ 
+
+Modified: branches/eschnepel/install/config/dm-mysql.properties
+===================================================================
+--- branches/eschnepel/install/config/dm-mysql.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/dm-mysql.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -6,8 +6,7 @@
+ db.name				=DeepaMehta2
+ db.user				=dm2
+ db.password			=dm
+-db.driver			=org.gjt.mm.mysql.Driver
+-db.libs				=${libpath}/mysql-3.1.7.jar
++db.type				=mysql
+ 
+ db.host				=127.0.0.1
+ 
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/config/dm.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -9,4 +9,5 @@
+ client				=../client
+ libpath				=../../libs
+ 
+-dm.instance.property-file=${config}/dm-${dm.instance}.properties
++dm.instance.property-file	=${config}/dm-${dm.instance}.properties
++db.type.property-file		=${config}/db-${db.type}.properties
+
+Modified: branches/eschnepel/install/examples/movies/build.xml
+===================================================================
+--- branches/eschnepel/install/examples/movies/build.xml	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/examples/movies/build.xml	2007-08-28 21:03:50 UTC (rev 184)
+@@ -42,10 +42,9 @@
+ 
+ 	&lt;target name=&quot;install&quot; depends=&quot;initdb&quot; /&gt;
+ 
+-	&lt;import file=&quot;${db}/${db.create-db}&quot; /&gt;
+-
+ 	&lt;target name=&quot;createmoviesdb&quot;&gt;
+-		&lt;ant antfile=&quot;${db}/${db.create-db}&quot; target=&quot;createdb&quot; inheritrefs=&quot;true&quot;&gt;
++		&lt;ant antfile=&quot;${movies.db.create-db}&quot; target=&quot;createdb&quot; inheritrefs=&quot;true&quot;&gt;
++			&lt;property name=&quot;db.sysurl&quot; value=&quot;${movies.db.sysurl}&quot; /&gt;
+ 			&lt;property name=&quot;db.name&quot; value=&quot;${movies.db.name}&quot; /&gt;
+ 			&lt;property name=&quot;db.user&quot; value=&quot;${movies.db.user}&quot; /&gt;
+ 			&lt;property name=&quot;db.password&quot; value=&quot;${movies.db.password}&quot; /&gt;
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/examples/movies/config/movies-derby-intern.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -1,7 +1,14 @@
+ movies.db.name		=Movies
+-movies.db.user		=movies
++movies.db.user		=${movies.db.name}
+ movies.db.password	=movies
+-movies.db.tables	=db/db_tables_mysql.sql
+-movies.db.content	=db/db_inserts.sql
++
+ movies.db.derby.path=${db.derby.base-path}/${movies.db.name}
+ movies.db.url		=jdbc:derby:${movies.db.derby.path}
++
++movies.db.sysuser	=${movies.db.user}
++movies.db.syspass	=${movies.db.password}
++movies.db.sysurl	=${movies.db.url};create=true
++
++movies.db.tables	=db/db_tables_derby.sql
++movies.db.content	=db/db_inserts.sql
++movies.db.create-db	=${db}/createdb-CONNECT.xml
+
+Modified: branches/eschnepel/install/examples/movies/config/movies-mysql.properties
+===================================================================
+--- branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/examples/movies/config/movies-mysql.properties	2007-08-28 21:03:50 UTC (rev 184)
+@@ -1,6 +1,12 @@
+ movies.db.name		=Movies
+ movies.db.user		=movies
+ movies.db.password	=movies
++
++movies.db.url		=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
++
++movies.db.sysuser	=${db.sysuser}
++movies.db.sysurl	=${db.sysurl}
++
+ movies.db.tables	=db/db_tables_mysql.sql
+ movies.db.content	=db/db_inserts.sql
+-movies.db.url		=jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${movies.db.name}?useUnicode=true
++movies.db.create-db	=${db}/createdb-sql92.xml
+
+Deleted: branches/eschnepel/install/examples/movies/db/createdb.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/createdb.sql	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/examples/movies/db/createdb.sql	2007-08-28 21:03:50 UTC (rev 184)
+@@ -1,7 +0,0 @@
+-# DeepaMehta's &quot;Movies &amp; Actors&quot; example database creation script for use with MySQL.
+-# must run as MySQL root user.
+-
+-
+-CREATE DATABASE Movies;
+-GRANT ALL PRIVILEGES ON Movies.* TO <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">movies at localhost</A> IDENTIFIED BY 'movies' WITH GRANT OPTION;
+-GRANT ALL PRIVILEGES ON Movies.* TO movies@&quot;%&quot; IDENTIFIED BY 'movies' WITH GRANT OPTION;
+
+Added: branches/eschnepel/install/examples/movies/db/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/db_tables_derby.sql	2007-08-28 19:01:40 UTC (rev 183)
++++ branches/eschnepel/install/examples/movies/db/db_tables_derby.sql	2007-08-28 21:03:50 UTC (rev 184)
+@@ -0,0 +1,29 @@
++
++CREATE TABLE Movie (
++    ID INT PRIMARY KEY NOT NULL,
++    Title VARCHAR(100),
++    Originaltitle VARCHAR(100),
++    GattungID INT,
++    Country VARCHAR(20),
++    &quot;Year&quot; VARCHAR(10),
++    Duration CHAR(4)
++);
++
++CREATE TABLE ACTOR (
++    ID INT PRIMARY KEY NOT NULL,
++    Name VARCHAR(40)
++);
++
++CREATE TABLE Mitwirkung (
++    MovieID INT NOT NULL,
++    ActorID INT NOT NULL
++);
++
++CREATE INDEX IDX_Mitwirkung_MovieID ON Mitwirkung(MovieID);
++CREATE INDEX IDX_Mitwirkung_ActorID ON Mitwirkung(ActorID);
++
++CREATE TABLE Gattung (
++    ID INT PRIMARY KEY NOT NULL,
++    Name VARCHAR(40)
++);
++
+
+
+Property changes on: branches/eschnepel/install/examples/movies/db/db_tables_derby.sql
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000028.html">[deepamehta-svn] r183 - in branches/eschnepel: . install/config
+</A></li>
+	<LI>Next message: <A HREF="000030.html">[deepamehta-svn] r185 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/config install/db	install/db/db-specific install/examples/movies	install/examples/movies/config install/examples/movies/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

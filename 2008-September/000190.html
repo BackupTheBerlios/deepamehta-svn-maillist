@@ -1,0 +1,791 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r346%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics&In-Reply-To=%3C200809101844.m8AIir72013675%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000189.html">
+   <LINK REL="Next"  HREF="000191.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r346%20-%20in%20trunk%3A%20.%0A%09develop/src/de/deepamehta/service%20develop/src/de/deepamehta/topics&In-Reply-To=%3C200809101844.m8AIir72013675%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r346 - in trunk: .	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 10 20:44:53 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000189.html">[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client
+</A></li>
+        <LI>Next message: <A HREF="000191.html">[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#190">[ date ]</a>
+              <a href="thread.html#190">[ thread ]</a>
+              <a href="subject.html#190">[ subject ]</a>
+              <a href="author.html#190">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-10 20:44:48 +0200 (Wed, 10 Sep 2008)
+New Revision: 346
+
+Modified:
+   trunk/build.xml
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java
+   trunk/develop/src/de/deepamehta/topics/ApplicationTopic.java
+   trunk/develop/src/de/deepamehta/topics/DocumentTopic.java
+   trunk/develop/src/de/deepamehta/topics/FileTopic.java
+   trunk/develop/src/de/deepamehta/topics/ImageTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+Log:
+1) Bug #14445 fixed (&quot;Email feature: attachments doesn't work&quot;)
+To create an attachment choose &quot;Attach a document&quot; from the email's context menu. A &quot;Document&quot; topic is created. Click its &quot;Choose ...&quot; button (in the property panel) and choose a local file via the fileselect dialog. Note: when using DeepaMehta online, you must login via the signed applet.
+2) Fixed a bug in the installer script (build.xml) regarding the &quot;newinstance&quot; target for creating DeepaMehta instances.
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/build.xml	2008-09-10 18:44:48 UTC (rev 346)
+@@ -206,7 +206,7 @@
+ 
+ 				&lt;property file=&quot;${config}/build-${return.instance}.properties&quot; prefix=&quot;temporary&quot; /&gt;
+ 				&lt;input message=&quot;Please enter the description:&quot; addproperty=&quot;new.config.name&quot; defaultvalue=&quot;${temporary.config.name}&quot; /&gt;
+-				&lt;propertyfile file=&quot;${config}/build-${returnn.instance}.properties&quot;&gt;
++				&lt;propertyfile file=&quot;${config}/build-${return.instance}.properties&quot;&gt;
+ 					&lt;entry key=&quot;config.name&quot; value=&quot;${new.config.name}&quot; /&gt;
+ 				&lt;/propertyfile&gt;
+ 				&lt;antcall target=&quot;-config-setup-default-instance&quot;&gt;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 5.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -2315,10 +2315,17 @@
+ 	}
+ 
+ 	/**
++	 * References checked: 10.9.2008 (2.0b8)
++	 *
+ 	 * @see		CorporateTopicMap#addPublishDirectives
+ 	 */
+-	void addPublishDirectives(BaseTopicMap topicmap, CorporateDirectives directives) {
+-		addPublishDirectives(topicmap.getTopics().elements(), directives);
++	void addPublishDirectives(BaseTopicMap topicmap, Session session, CorporateDirectives directives) {
++		Enumeration e = topicmap.getTopics().elements();
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			// --- trigger published() hook ---
++			getLiveTopic(topic).published(session, directives);
++		}
+ 	}
+ 
+ 
+@@ -5424,25 +5431,6 @@
+ 
+ 	// ---
+ 
+-	/**
+-	 * @see		#addPublishDirectives(PresentableTopicMap topicmap, CorporateDirectives directives)
+-	 */
+-	private void addPublishDirectives(Enumeration topics, CorporateDirectives directives) {
+-		PresentableTopic topic;
+-		while (topics.hasMoreElements()) {
+-			topic = (PresentableTopic) topics.nextElement();
+-			addPublishAction(topic, directives);
+-		}
+-	}
+-
+-	/**
+-	 * @see		#addPublishDirectives
+-	 */
+-	private void addPublishAction(BaseTopic topic, CorporateDirectives directives) {
+-		// --- trigger published() hook ---
+-		directives.add(getLiveTopic(topic).published());
+-	}
+-
+ 	public String getConfigurationProperty(String property) {
+ 		return applicationServiceInstance.getConfigurationProperty(property);
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -21,10 +21,9 @@
+  * from corporate memory.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 29.10.2004 (2.0b3)&lt;br&gt;
+- * Last documentation update: 5.4.2007 (2.0b8)&lt;br&gt;
++ * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class CorporateTopicMap implements DeepaMehtaConstants {
+ 
+@@ -190,10 +189,12 @@
+ 	}
+ 
+ 	/**
+-	 * @see		de.deepamehta.topics.TopicMapTopic#publish
++	 * References checked: 10.9.2008 (2.0b8)
++	 *
++	 * @see		de.deepamehta.topics.TopicMapTopic#addPublishDirectives
+ 	 */
+-	public void addPublishDirectives(CorporateDirectives directives) {
+-		as.addPublishDirectives(topicmap, directives);
++	public void addPublishDirectives(Session session, CorporateDirectives directives) {
++		as.addPublishDirectives(topicmap, session, directives);
+ 	}
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/ApplicationTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ApplicationTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/ApplicationTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -12,15 +12,14 @@
+ 
+ 
+ /**
+- * An &lt;CODE&gt;ApplicationTopic&lt;/CODE&gt; represents an application that is installed at client side.
+- * &lt;P&gt;
+- * The default behavoir of an &lt;CODE&gt;ApplicationTopic&lt;/CODE&gt; causes the client to launch it.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 7.11.2000 (2.0a7-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * An &lt;code&gt;ApplicationTopic&lt;/code&gt; represents an application that is installed at client side.
++ * &lt;p&gt;
++ * The default behavoir of an &lt;code&gt;ApplicationTopic&lt;/code&gt; causes the client to launch it.
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 11.9.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class ApplicationTopic extends FileTopic {
+ 
+@@ -51,7 +50,7 @@
+ 
+ 
+ 	/**
+-	 * The default behavoir of a &lt;CODE&gt;ApplicationTopic&lt;/CODE&gt; causes the client to
++	 * The default behavoir of a &lt;code&gt;ApplicationTopic&lt;/code&gt; causes the client to
+ 	 * launch it locally.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performTopicAction
+@@ -76,25 +75,20 @@
+ 		}
+ 	}
+ 
+-	public CorporateDirectives executeChainedCommand(String command,
+-								String result, String topicmapID, String viewmode,
+-								Session session) {
++	public CorporateDirectives executeChainedCommand(String command, String result, String topicmapID, String viewmode,
++																										Session session) {
+ 		// ### compare to DocumentTopic
+-		CorporateDirectives directives = new CorporateDirectives();
+-		//
++		// ### compare to ImageTopic
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {
+-			// the chained directive is only performed if the filechoosing has
+-			// performed at client side
++			CorporateDirectives directives = new CorporateDirectives();
++			// the chained directive is only performed if the filechoosing has performed at client side
+ 			if (!result.equals(&quot;&quot;)) {
+-				// --- build changed topic properties ---
+-				// Note: the result of a CMD_ASSIGN_FILE contains the
+-				// absolute path of the (client side) selected file
++				// --- show new property value ---
++				// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute path of the (client side) selected file
+ 				Hashtable props = new Hashtable();
+ 				props.put(PROPERTY_FILE, result);
+-				// ---
+-				// cause the client to display the changed topic property
+ 				directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
+ 			}
+ 			return directives;
+
+Modified: trunk/develop/src/de/deepamehta/topics/DocumentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/DocumentTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/DocumentTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -7,19 +7,17 @@
+ import de.deepamehta.service.Session;
+ 
+ import java.io.File;
+-import java.util.Date;
+ import java.util.Hashtable;
+ import java.util.StringTokenizer;
+ 
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 7.11.2000 (2.0a7-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class DocumentTopic extends FileTopic {
+ 
+@@ -44,16 +42,15 @@
+ 
+ 
+ 	/**
+-	 * The default action of a &lt;CODE&gt;DocumentTopic&lt;/CODE&gt; causes the client to open it by
++	 * The default action of a &lt;code&gt;DocumentTopic&lt;/code&gt; causes the client to open it by
+ 	 * use of a locally installed application.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * If the local copy of the document differs from the corporate document the client is
+ 	 * caused to download the document from corporate repository to its local repository.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#performTopicAction
+ 	 */
+-	public CorporateDirectives executeCommand(String command, Session session,
+-													String topicmapID, String viewmode) {
++	public CorporateDirectives executeCommand(String command, Session session, String topicmapID, String viewmode) {
+ 		if (command.equals(CMD_DEFAULT) || command.equals(CMD_SUBMIT_FORM)) {
+ 			// create directives
+ 			CorporateDirectives directives = new CorporateDirectives();
+@@ -62,13 +59,10 @@
+ 				// access file in corporate document repository
+ 				File file = new File(FILESERVER_DOCUMENTS_PATH + filename);
+ 				Long lastModified = new Long(file.lastModified());
+-				// Note: if the file is missing in corporate document repository
+-				// lastModified is 0 and the DIRECTIVE_DOWNLOAD_FILE is added
+-				// anyway, thus the client can detect the file is missing and can
+-				// report this condition to the user (and can avoid to queue a
+-				// download request)
+-				directives.add(DIRECTIVE_DOWNLOAD_FILE, filename, lastModified,
+-					new Integer(FILE_DOCUMENT));
++				// Note: if the file is missing in corporate document repository lastModified is 0 and the
++				// DIRECTIVE_DOWNLOAD_FILE is added anyway, thus the client can detect the file is missing
++				// and can report this condition to the user (and can avoid to queue a download request)
++				directives.add(DIRECTIVE_DOWNLOAD_FILE, filename, lastModified, new Integer(FILE_DOCUMENT));
+ 				// build the directives to be queued for opening this document
+ 				CorporateDirectives openDirective = new CorporateDirectives();
+ 				String openCommand = as.openCommand(session.getUserID(), filename);
+@@ -76,74 +70,35 @@
+ 				//
+ 				directives.add(DIRECTIVE_QUEUE_DIRECTIVES, openDirective);
+ 			} catch (DeepaMehtaException e) {
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-					new Integer(NOTIFICATION_WARNING));
++				directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			}
+ 			return directives;
+ 		}
+ 		return super.executeCommand(command, session, topicmapID, viewmode);
+ 	}
+ 
+-	public CorporateDirectives executeChainedCommand(String command,
+-								String result, String topicmapID, String viewmode,
+-								Session session) {
++	public CorporateDirectives executeChainedCommand(String command, String result, String topicmapID, String viewmode,
++																										Session session) {
++		// ### compare to ImageTopic
+ 		// ### compare to ApplicationTopic
+-		CorporateDirectives directives = new CorporateDirectives();
+-		//
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+-		if (cmd.equals(CMD_ASSIGN_FILE)) {	// ### to be dropped
+-			// the chained action is only performed if the filechoosing has performed at
+-			// client side
+-			if (!result.equals(&quot;&quot;)) {
+-				// --- build changed topic properties ---
+-				// Note: the result of a CMD_ASSIGN_FILE contains the absolute
+-				// path of the (client side) selected file
+-				String path = result;
+-				String filename = new File(path).getName();
+-				Hashtable props = new Hashtable();
+-				props.put(PROPERTY_FILE, filename);
+-				// cause the client to copy the selected file into its document repository
+-				directives.add(DIRECTIVE_COPY_FILE, path, new Integer(FILE_DOCUMENT));
+-				// cause the client to display the changed topic property
+-				directives.add(DIRECTIVE_SHOW_TOPIC_PROPERTIES, getID(), props, new Integer(1));
+-			}
++		//
++		if (cmd.equals(CMD_ASSIGN_FILE)) {
++			CorporateDirectives directives = new CorporateDirectives();
++			// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute path of the (client side) selected file
++			copyAndUpload(result, FILE_DOCUMENT, PROPERTY_FILE, session, directives);
++			return directives;
+ 		} else {
+ 			return super.executeChainedCommand(command, result, topicmapID, viewmode, session);
+ 		}
+-		//
+-		return directives;
+ 	}
+ 
+ 	/**
+ 	 * @see		de.deepamehta.service.ApplicationService#addPublishAction
+ 	 */
+-	public CorporateDirectives published() {
+-		CorporateDirectives directives = super.published();
+-		// access file in corporate document repository
+-		String filename = getProperty(PROPERTY_FILE);
+-		if (filename.equals(&quot;&quot;)) {
+-			return directives;
+-		}
+-		File file = new File(FILESERVER_DOCUMENTS_PATH + filename);
+-		long lastModified = file.lastModified();
+-		// reporting
+-		if (LOG_FILESERVER) {
+-			// check if document already exists in corporate document repository
+-			if (lastModified != 0) {
+-				System.out.println(&quot;&gt; DocumentTopic.published(): file \&quot;&quot; + filename +
+-					&quot;\&quot; already in corporate document repository -- upload required &quot; +
+-					&quot;only if client-side version is newer than &quot; +
+-					new Date(lastModified) + &quot; (&quot; + lastModified + &quot;)&quot;);
+-			} else {
+-				System.out.println(&quot;&gt; DocumentTopic.published(): file \&quot;&quot; + filename +
+-					&quot;\&quot; not yet in corporate document repository -- upload required&quot;);
+-			}
+-		}
+-		// add directive
+-		directives.add(DIRECTIVE_UPLOAD_FILE, filename, new Long(lastModified),
+-			new Integer(FILE_DOCUMENT));
+-		//
+-		return directives;
++	public void published(Session session, CorporateDirectives directives) {
++		// upload the file to the server
++		upload(getProperty(PROPERTY_FILE), FILE_DOCUMENT, session, directives);
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/topics/FileTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/FileTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/FileTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -12,20 +12,19 @@
+ 
+ /**
+  * A file.
+- * &lt;P&gt;
+- * The data definition of a &lt;CODE&gt;FileTopic&lt;/CODE&gt; comprises one &lt;CODE&gt;File&lt;/CODE&gt; field
++ * &lt;p&gt;
++ * The data definition of a &lt;code&gt;FileTopic&lt;/code&gt; comprises one &lt;code&gt;File&lt;/code&gt; field
+  * to hold the filename resp. path of the file. As GUI extension to this field a
+- * &lt;CODE&gt;FileTopic&lt;/CODE&gt; adds a button (labeled &quot;Choose...&quot;) to bring up the filechooser
++ * &lt;code&gt;FileTopic&lt;/code&gt; adds a button (labeled &quot;Choose...&quot;) to bring up the filechooser
+  * dialog (see {@link #buttonCommand}). The command fired by that button (&lt;code&gt;CMD_ASSIGN_FILE&lt;/code&gt;)
+  * is handled by this class (see {@link #executeCommand}). The chained command is handled by the
+- * &lt;CODE&gt;FileTopic&lt;/CODE&gt;'s subclasses -- a generic &lt;CODE&gt;FileTopic&lt;/CODE&gt; doesn't know
++ * &lt;code&gt;FileTopic&lt;/code&gt;'s subclasses -- a generic &lt;code&gt;FileTopic&lt;/code&gt; doesn't know
+  * what to to with the selected file.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 24.4.2001 (2.0a7-pre6)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 11.9.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public abstract class FileTopic extends LiveTopic {
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/ImageTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ImageTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/ImageTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -47,16 +47,16 @@
+ 
+ 
+ 
+-	public CorporateDirectives executeChainedCommand(String command, String result,
+-								String topicmapID, String viewmode, Session session)
+-								throws DeepaMehtaException {
++	public CorporateDirectives executeChainedCommand(String command, String result, String topicmapID, String viewmode,
++																										Session session) {
++		// ### compare to DocumentTopic
++		// ### compare to ApplicationTopic
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+ 		if (cmd.equals(CMD_ASSIGN_FILE)) {
+ 			CorporateDirectives directives = new CorporateDirectives();
+-			// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute
+-			// path of the (client side) selected file
++			// Note: the result of a DIRECTIVE_CHOOSE_FILE contains the absolute path of the (client side) selected file
+ 			copyAndUpload(result, FILE_IMAGE, PROPERTY_FILE, session, directives);
+ 			return directives;
+ 		} else {
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -23,10 +23,13 @@
+ import org.xml.sax.SAXException;
+ 
+ import java.io.File;
++import java.util.Date;
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
++import java.util.logging.Logger;
++import java.util.logging.Level;
+ 
+ 
+ 
+@@ -47,7 +50,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 6.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -63,6 +66,8 @@
+ 
+ 	public static final int kernelTopicsVersion = 17;
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	public ApplicationService as;	// ### should be protected (WebBuilderLogin accesses it)
+ 	protected CorporateMemory cm;	// as.cm
+ 
+@@ -239,13 +244,12 @@
+ 	/**
+ 	 * Subclasses can override this method to react upon publishing this topic.
+ 	 * &lt;p&gt;
+-	 * The default implementation returns empty &lt;code&gt;CorporateDirectives&lt;/code&gt;.
++	 * The default implementation returns performs nothing.
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#addPublishAction
+ 	 * @see		DocumentTopic#published
+ 	 */
+-	public CorporateDirectives published() {
+-		return new CorporateDirectives();
++	public void published(Session session, CorporateDirectives directives) {
+ 	}
+ 
+ 	/**
+@@ -541,8 +545,7 @@
+ 			String urlPrefix = &quot;<A HREF="http://">http://</A>&quot;;
+ 			// error check
+ 			if (!url.startsWith(urlPrefix)) {
+-				System.out.println(&quot;*** CalendarTopic.executeCommand(): URL \&quot;&quot; + url + &quot;\&quot; not recognized by &quot; +
+-					&quot;CMD_FOLLOW_HYPERLINK&quot;);
++				logger.warning(&quot;URL \&quot;&quot; + url + &quot;\&quot; not recognized by CMD_FOLLOW_HYPERLINK&quot;);
+ 				return directives;
+ 			}
+ 			//
+@@ -641,8 +644,8 @@
+ 		// --- &quot;Icon&quot; ---
+ 		String prop = (String) newProps.get(PROPERTY_ICON);
+ 		if (prop != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_ICON + &quot;\&quot; property has changed &quot; +
+-			&quot;-- send DIRECTIVE_SET_TOPIC_ICON (queued), topicmapID=\&quot;&quot; + topicmapID + &quot;\&quot;&quot;);
++			logger.info(&quot;\&quot;&quot; + PROPERTY_ICON + &quot;\&quot; property has changed -- sending DIRECTIVE_SET_TOPIC_ICON (queued), &quot; +
++				&quot;topicmapID=\&quot;&quot; + topicmapID + &quot;\&quot;&quot;);
+ 			// reset appearance
+ 			as.initTopic(getID(), 1);
+ 			// Note: the DIRECTIVE_SET_TOPIC_ICON must be queued, because
+@@ -654,8 +657,8 @@
+ 		// --- &quot;Locked Geometry&quot; ---
+ 		String locked = (String) newProps.get(PROPERTY_LOCKED_GEOMETRY);
+ 		if (locked != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; \&quot;&quot; + PROPERTY_LOCKED_GEOMETRY + &quot;\&quot; property has changed to \&quot;&quot; + locked +
+-				&quot;\&quot; -- send DIRECTIVE_SET_TOPIC_LOCK&quot;);
++			logger.info(&quot;\&quot;&quot; + PROPERTY_LOCKED_GEOMETRY + &quot;\&quot; property has changed to \&quot;&quot; + locked +
++				&quot;\&quot; -- sending DIRECTIVE_SET_TOPIC_LOCK&quot;);
+ 			directives.add(DIRECTIVE_SET_TOPIC_LOCK, getID(), new Boolean(locked.equals(SWITCH_ON)), topicmapID);
+ 		}
+ 		return directives;
+@@ -1488,47 +1491,60 @@
+ 		// ### compare to TopicMapTopic.doImport()
+ 		// ### compare to CMImportExportTopic.executeChainedCommand()
+ 		if (path.equals(&quot;&quot;)) {
+-			System.out.println(&quot;&gt;&gt;&gt; file operation has been canceled by user&quot;);
++			logger.info(&quot;file operation has been canceled by user&quot;);
+ 			return null;
+ 		}
+ 		//
+ 		String filename = new File(path).getName();
+-		Integer ft = new Integer(filetype);
+ 		//
+-		// Note 1: the first directive (copy) is ignored at client side if the
+-		// selected file originates from the clients document repository.
++		// Note 1: the first directive (copy) is ignored at client side if the selected file originates from the clients
++		// document repository.
+ 		//
+-		// ### Note 2: the second directive (upload) is ignored at client side if
+-		// the same file is already in corporate document repository (check is
+-		// based on the files last modification date).
++		// ### Note 2: the second directive (upload) is ignored at client side if the same file is already in corporate
++		// document repository (check is based on the files last modification date).
+ 		//
+-		// --- copy the selected file ---
+-		directives.add(DIRECTIVE_COPY_FILE, path, ft);
++		directives.add(DIRECTIVE_COPY_FILE, path, new Integer(filetype));
++		upload(filename, filetype, session, directives);
++		//
++		return filename;
++	}
++
++	/**
++	 * Builds the directives to upload a file to the server.
++	 */
++	protected final void upload(String filename, int filetype, Session session, CorporateDirectives directives) {
++		if (filename.equals(&quot;&quot;) || as.runsAtServerHost(session)) {
++			return;
++		}
+ 		// --- upload the file ---
+-		if (!as.runsAtServerHost(session)) {
+-			// ### for queued upload requests the time stamp might be not correct.
+-			// it is 0 in the following situation: client and server are running
+-			// at the same machine, sharing the document repository, the file to import
+-			// was choosen from outside document repository and no version of the file is
+-			// in document repository -- thus the client will performs the upload request
+-			// and corrupts the archive file (0 bytes).
+-			//
+-			// ### compare to PresentationService.uploadFile()
+-			//
+-			File file = new File(FileServer.repositoryPath(filetype) + filename);
+-			long lastModified = file.lastModified();
+-			//
+-			// ### Queueing is not necessary because COPY and UPLOAD directives are queued at client side anyway.
+-			// Queueing is even not working when importing a topic map from a remote host (UPLOAD is queued double and the actual
+-			// upload is performed _after_ sending the import message)
+-			/* ### CorporateDirectives uploadDirective = new CorporateDirectives();
+-			uploadDirective.add(DIRECTIVE_UPLOAD_FILE, filename, new Long(lastModified), ft);
+-			directives.add(DIRECTIVE_QUEUE_DIRECTIVES, uploadDirective); */
+-			//
+-			directives.add(DIRECTIVE_UPLOAD_FILE, filename, new Long(lastModified), ft);
++		// ### for queued upload requests the time stamp might be not correct. it is 0 in the following situation:
++		// client and server are running at the same machine, sharing the document repository, the file to import
++		// was choosen from outside document repository and no version of the file is in document repository -- thus
++		// the client will performs the upload request and corrupts the archive file (0 bytes).
++		//
++		// ### compare to PresentationService.uploadFile()
++		//
++		File file = new File(FileServer.repositoryPath(filetype) + filename);
++		long lastModified = file.lastModified();
++		// reporting
++		if (LOG_FILESERVER) {
++			// check if document already exists in corporate document repository
++			if (lastModified != 0) {
++				logger.info(&quot;file \&quot;&quot; + filename + &quot;\&quot; already in corporate document repository -- upload required &quot; +
++					&quot;only if client-side version is newer than &quot; + new Date(lastModified) + &quot; (&quot; + lastModified + &quot;)&quot;);
++			} else {
++				logger.info(&quot;file \&quot;&quot; + filename + &quot;\&quot; not yet in corporate document repository -- upload required&quot;);
++			}
+ 		}
+ 		//
+-		return filename;
++		// ### Queueing is not necessary because COPY and UPLOAD directives are queued at client side anyway.
++		// Queueing is even not working when importing a topic map from a remote host (UPLOAD is queued double and the actual
++		// upload is performed _after_ sending the import message)
++		/* ### CorporateDirectives uploadDirective = new CorporateDirectives();
++		uploadDirective.add(DIRECTIVE_UPLOAD_FILE, filename, new Long(lastModified), new Integer(filetype));
++		directives.add(DIRECTIVE_QUEUE_DIRECTIVES, uploadDirective); */
++		//
++		directives.add(DIRECTIVE_UPLOAD_FILE, filename, new Long(lastModified), new Integer(filetype));
+ 	}
+ 
+ 	// ---
+@@ -1548,8 +1564,7 @@
+ 	protected String topicName(Hashtable elementData, String fieldname) {
+ 		String name = (String) elementData.get(fieldname);
+ 		if (name == null) {
+-			System.out.println(&quot;*** LiveTopic.topicName(): no name property (\&quot;&quot; +
+-				   fieldname + &quot;\&quot;) in &quot; + elementData + &quot; -- new topic has no name&quot;);
++			logger.warning(&quot;no name property (\&quot;&quot; + fieldname + &quot;\&quot;) in &quot; + elementData + &quot; -- new topic has no name&quot;);
+ 			return &quot;&quot;;
+ 		}
+ 		int pos = name.indexOf('\n');
+@@ -1713,7 +1728,7 @@
+ 		}
+ 		// error check 2
+ 		if (!new File(FILESERVER_ICONS_PATH + iconfile).exists()) {
+-			System.out.println(&quot;*** LiveTopic.setIconfile(): &quot; + this + &quot;: &quot; + iconfile + &quot; doesn't exist&quot;);
++			logger.warning(this + &quot;: &quot; + iconfile + &quot; doesn't exist&quot;);
+ 		}
+ 	}
+ 
+@@ -1731,22 +1746,14 @@
+ 	/**
+ 	 * @see		#executeCommand
+ 	 */
+-	private void handleWorkspaceCommand(String command, String topicmapID,
+-					String viewmode, Session session, CorporateDirectives directives) {
++	private void handleWorkspaceCommand(String command, String topicmapID, String viewmode, Session session,
++																						CorporateDirectives directives) {
+ 		String userID = session.getUserID();
+-		// ### Note: not required to handle commands of default workspace first
+-		/* ### BaseTopic corpGroup = as.getDefaultWorkspace(directives);
+-		// --- handle corporate types ---
+-		Vector types = as.getTopicTypes(corpGroup.getID(), PERMISSION_CREATE_IN_WORKSPACE);
+-		directives.add(handleWorkspaceCommand(command, types, session, topicmapID, viewmode)); */
+-		// --- handle workgroup types ---
++		// --- handle workspace types ---
+ 		Enumeration e = as.getWorkspaces(userID).elements();
+ 		while (e.hasMoreElements()) {
+-			String workgroupID = ((BaseTopic) e.nextElement()).getID();
+-			/* ### if (workgroupID.equals(corpGroup.getID())) {
+-				continue;
+-			} */
+-			Vector types = as.getTopicTypes(workgroupID, PERMISSION_CREATE_IN_WORKSPACE);
++			String workspaceID = ((BaseTopic) e.nextElement()).getID();
++			Vector types = as.getTopicTypes(workspaceID, PERMISSION_CREATE_IN_WORKSPACE);
+ 			directives.add(handleWorkspaceCommand(command, types, session, topicmapID, viewmode));
+ 		}
+ 		// --- handle user types ---
+@@ -1754,20 +1761,16 @@
+ 		directives.add(handleWorkspaceCommand(command, types, session, topicmapID, viewmode));
+ 	}
+ 
+-	private CorporateDirectives handleWorkspaceCommand(String command, Vector types,
+-							Session session, String topicmapID, String viewmode) {
++	private CorporateDirectives handleWorkspaceCommand(String command, Vector types, Session session, String topicmapID,
++																										String viewmode) {
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		//
+ 		Enumeration e = types.elements();
+-		String typeID;
+-		TypeTopic type;
+ 		while (e.hasMoreElements()) {
+-			typeID = ((BaseTopic) e.nextElement()).getID();
+-			type = as.type(typeID, 1);	// ### typeVersion=1
+-			// ### System.out.println(&quot;&gt;&gt;&gt; handle workspace command for type \&quot;&quot; + typeID + &quot;\&quot;&quot;);
++			String typeID = ((BaseTopic) e.nextElement()).getID();
++			TypeTopic type = as.type(typeID, 1);	// ### typeVersion=1
+ 			// --- trigger executeWorkspaceCommand() hook ---
+-			Class[] paramTypes = {String.class, Session.class, ApplicationService.class,
+-				String.class, String.class};
++			Class[] paramTypes = {String.class, Session.class, ApplicationService.class, String.class, String.class};
+ 			Object[] paramValues = {command, session, as, topicmapID, viewmode};
+ 			CorporateDirectives directives2 = (CorporateDirectives) as.triggerStaticHook(
+ 				type.getImplementingClass(), &quot;executeWorkspaceCommand&quot;, paramTypes, paramValues, false);
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-09-09 15:25:35 UTC (rev 345)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2008-09-10 18:44:48 UTC (rev 346)
+@@ -85,10 +85,9 @@
+  *     ({@link #importFromFile})&lt;/li&gt;
+  * &lt;/ol&gt;
+  * &lt;hr&gt;
+- * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;br&gt;
++ * Last change: 10.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class TopicMapTopic extends LiveTopic {
+ 
+@@ -401,7 +400,7 @@
+ 				x = 100;
+ 				y = 100;
+ 			}
+-			doExport(directives, topicmapID, viewmode, x, y);
++			doExport(topicmapID, viewmode, x, y, session, directives);
+ 		// --- set export format ---
+ 		} else if (cmd.equals(CMD_SET_EXPORT_FORMAT)) {
+ 			String userID = session.getUserID();
+@@ -860,11 +859,13 @@
+ 	}
+ 
+ 	/**
+-	 * @see		#executeCommandChained	(export)
++	 * References checked: 10.9.2008 (2.0b8)
++	 *
+ 	 * @see		#publish
++	 * @see		#doExport
+ 	 */
+-	private void addPublishDirectives(CorporateDirectives directives) {
+-		new CorporateTopicMap(as, getID(), 1).addPublishDirectives(directives);
++	private void addPublishDirectives(Session session, CorporateDirectives directives) {
++		new CorporateTopicMap(as, getID(), 1).addPublishDirectives(session, directives);
+ 	}
+ 
+ 	/**
+@@ -1020,7 +1021,7 @@
+ 		// The die-flag should set to TRUE. But the associations are not removed this way.
+ 		// Think again about the die() hook.
+ 		// --- upload documents ---
+-		addPublishDirectives(directives);
++		addPublishDirectives(session, directives);
+ 		// --- publish this map ---
+ 		CorporateDirectives notify = new CorporateDirectives();		// this directives are broadcasted to every workspace member
+ 		publishTo(workspaceID, isFirstPublishing, notify);
+@@ -1147,8 +1148,8 @@
+ 	/**
+ 	 * @see		#executeCommand
+ 	 */
+-	private void doExport(CorporateDirectives directives, String topicmapID, String viewmode, int x, int y) {
+-		addPublishDirectives(directives);
++	private void doExport(String topicmapID, String viewmode, int x, int y, Session session, CorporateDirectives directives) {
++		addPublishDirectives(session, directives);
+ 		directives.add(DIRECTIVE_QUEUE_MESSAGE, &quot;export:&quot; + getID() + &quot;:&quot; + topicmapID + &quot;:&quot; + viewmode + &quot;:&quot; + x + &quot;:&quot; + y);
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000189.html">[deepamehta-svn] r345 - trunk/develop/src/de/deepamehta/client
+</A></li>
+	<LI>Next message: <A HREF="000191.html">[deepamehta-svn] r347 - in trunk: develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#190">[ date ]</a>
+              <a href="thread.html#190">[ thread ]</a>
+              <a href="subject.html#190">[ subject ]</a>
+              <a href="author.html#190">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

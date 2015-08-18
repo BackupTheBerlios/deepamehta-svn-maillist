@@ -1,0 +1,1312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r333 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web develop/src/de/deepamehta/util	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-search/src/de/deepamehta/webfront	install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer	install/examples/dm-web/src/de/deepamehta/webfrontend	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/messageboard/src/de/deepamehta/messageboard
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r333%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%20develop/src/de/deepamehta/util%0A%09install/examples/dm-browser/src/de/deepamehta/browser%0A%09install/examples/dm-search/src/de/deepamehta/webfront%0A%09install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern%0A%09install/examples/messageboard/src/de/deepamehta/messageboard&In-Reply-To=%3C200807061837.m66Ibr13017609%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000177.html">
+   <LINK REL="Next"  HREF="000179.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r333 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web develop/src/de/deepamehta/util	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-search/src/de/deepamehta/webfront	install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer	install/examples/dm-web/src/de/deepamehta/webfrontend	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/messageboard/src/de/deepamehta/messageboard</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r333%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%20develop/src/de/deepamehta/util%0A%09install/examples/dm-browser/src/de/deepamehta/browser%0A%09install/examples/dm-search/src/de/deepamehta/webfront%0A%09install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer%0A%09install/examples/dm-web/src/de/deepamehta/webfrontend%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern%0A%09install/examples/messageboard/src/de/deepamehta/messageboard&In-Reply-To=%3C200807061837.m66Ibr13017609%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r333 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web develop/src/de/deepamehta/util	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-search/src/de/deepamehta/webfront	install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer	install/examples/dm-web/src/de/deepamehta/webfrontend	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/messageboard/src/de/deepamehta/messageboard">jri at mail.berlios.de
+       </A><BR>
+    <I>Sun Jul  6 20:37:53 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000177.html">[deepamehta-svn] r332 - in trunk/develop/src/de/deepamehta: service	service/web topics
+</A></li>
+        <LI>Next message: <A HREF="000179.html">[deepamehta-svn] r334 - trunk/develop/src/de/deepamehta/util
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-07-06 20:37:42 +0200 (Sun, 06 Jul 2008)
+New Revision: 333
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+   trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java
+   trunk/install/examples/dm-search/src/de/deepamehta/webfront/SearchServlet.java
+   trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java
+   trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/KSServlet.java
+   trunk/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java
+   trunk/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java
+Log:
+1) Bug fixes
+1a) Bug #14132 fixed (HTML form generator: quot charachter (&quot;) corrupts &lt;input&gt;)
+1b) Bug #14137 fixed (HTML info generator: &quot;&lt;&quot; charachter swallows text)
+2) Adapted example applications to API changed introduced in rev 332
+3) Minor Changes
+3a) new utility methods in DeepaMehtaUtils:
+	transformToHTML()
+	encodeHTMLEntities()
+3b) renamed utility method in DeepaMehtaUtils:
+	quoteHTML() -&gt; encodeHTMLTags()
+	emailToHtml() -&gt; emailToHTML()
+	weblinksToHtml() -&gt; weblinksToHTML()
+3c) renamed constants for selecting the layout style of the Topicbean-based info generator:
+	BEAN_LAYOUT_2COLUMN -&gt; LAYOUT_STYLE_2COLUMN
+	BEAN_LAYOUT_FLOW -&gt; LAYOUT_STYLE_FLOW
+	BEAN_LAYOUT_BOX -&gt; LAYOUT_STYLE_BOX
+3d) renamed CSS classes for layout customization of the Topicbean-based info generator:
+	infoContainer -&gt; info-container
+	label -&gt; info-label
+	content -&gt; info-content
+	multiBox -&gt; info-multibox
+
+This DeepaMehta revision is REQUIRED by Kiezatlas revision 48 and later
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -26,10 +26,9 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 30.3.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;br&gt;
++ * Last change: 4.7.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public interface DeepaMehtaConstants {
+ 
+@@ -459,9 +458,9 @@
+     static final int LAYOUT_COLS = 2;
+     
+     // --- Layout Styles ---
+-    static final int BEAN_LAYOUT_2COLUMN = 0;
+-    static final int BEAN_LAYOUT_FLOW = 1;
+-    static final int BEAN_LAYOUT_BOX = 2;
++    static final int LAYOUT_STYLE_2COLUMN = 0;
++    static final int LAYOUT_STYLE_FLOW = 1;
++    static final int LAYOUT_STYLE_BOX = 2;
+ 
+ 	// --- Form Layout Settings ---
+     static final int INPUTFIELD_WIDTH = 50;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -435,7 +435,7 @@
+ 	 * &lt;p&gt;
+ 	 * ### should return a LiveTopic and have &quot;directives&quot; as a parameter&lt;br&gt;
+ 	 * &lt;p&gt;
+-	 * References checked: 27.9.2007 (2.0b8)
++	 * References checked: 3.7.2008 (2.0b8)
+ 	 *
+ 	 * @param	session		passed to init() hook (init level 1)
+ 	 *
+@@ -448,8 +448,7 @@
+ 	 * @see		#createLiveTopic
+ 	 * @see		#createLiveTopics
+ 	 */
+-	private CorporateDirectives createLiveTopic(BaseTopic topic, boolean override, Session session)
+-																		throws TopicInitException {
++	private CorporateDirectives createLiveTopic(BaseTopic topic, boolean override, Session session) throws TopicInitException {
+ 		// ### error check
+ 		if (topic == null) {
+ 			throw new DeepaMehtaException(&quot;null is passed instead a BaseTopic&quot;);
+@@ -504,8 +503,9 @@
+ 	}
+ 
+ 	/**
+-	 * The topic is created, loaded, evoked and fully inited.
+-	 * No existence check is performed. All Exceptions are catched.
++	 * Creates a topic in corporate memory and loads it into memory.
++	 * The topic is fully inited (evoke() and init() hooks are triggered).
++	 * All Exceptions are catched.
+ 	 * &lt;p&gt;
+ 	 * References checked: 6.7.2002 (2.0a15-pre9)
+ 	 *
+@@ -526,12 +526,11 @@
+ 			//
+ 			newTopic = getLiveTopic(topic);
+ 			// --- evoke ---
+-			// ### Note: a topic is evoked also if init(1) fails. Consider this case:
+-			// interactively created datasource topics have no URL and driver set, thus the
+-			// datasource can't be opened and init(1) will fail. However he datasource must
++			// ### Note: a topic is evoked also if init(1) fails. Consider this case: interactively created datasource topics
++			// have no URL and driver set, thus the datasource can't be opened and init(1) will fail. However he datasource must
+ 			// be evoked() to get stored in corporate memory.
+-			// ### Note 2: consider this case: reveal a topic from an ElementContainer
+-			// will trigger evoke, but the topic could already be in CM if revealed before
++			// ### Note 2: consider this case: reveal a topic from an ElementContainer will trigger evoke, but the topic could
++			// already be in CM if revealed before
+ 			if (evoke) {
+ 				try {
+ 					directives.add(newTopic.evoke(session, topicmapID, viewmode));	// DME, ASE
+@@ -1671,7 +1670,7 @@
+ 			LiveTopic topic = getLiveTopic(topicID, version);	// may throw DME
+ 			// only consider changed properties
+ 			props = removeUnchangedProperties(props, oldProps);
+-			// ask application weather property change is allowed
++			// ask application weather property change is allowed (trigger propertyChangeAllowed() hook)
+ 			removeProhibitedProperties(props, topic, session, directives);
+ 			// write changed properties to database (corporate memory)
+ 			cm.setTopicData(topicID, version, props);
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -54,7 +54,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 29.6.2008 (2.0b8)&lt;br&gt;
++ * Last change: 4.7.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -118,15 +118,13 @@
+ 		System.out.println(&quot;&gt;&gt;&gt; HTML generator method: \&quot;&quot; + generatorMethod + &quot;\&quot;&quot;);
+ 	}
+ 
+-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+-    														throws IOException, ServletException {
+-    	performRequest(request, response);
+-    }
++	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
++		performRequest(request, response);
++	}
+ 
+-    public void doPost(HttpServletRequest request, HttpServletResponse response)
+-    														throws IOException, ServletException {
+-    	performRequest(request, response);	// ###
+-    }
++	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
++		performRequest(request, response);	// ###
++	}
+ 
+ 	public void destroy() {
+ 		System.out.println(&quot;--- DeepaMehtaServlet destroyed (&quot; + getClass() + &quot;) ---&quot;);
+@@ -401,7 +399,14 @@
+ 			&quot;\&quot; typeID=\&quot;&quot; + typeID + &quot;\&quot; topicID=\&quot;&quot; + topicID + &quot;\&quot;&quot;);
+ 		//
+ 		if (doCreate) {
+-			as.createLiveTopic(topicID, typeID, &quot;&quot;, topicmapID, viewmode, session, directives);
++			// ### Note: the topic name is not yet set (&quot;&quot;) but only through topic naming behavoir as triggered by
++			// setTopicProperties(). As a consequence the topic name is not known inside the propertyChangeAllowed() hook
++			// and can't be used for reporting -- bad ### not true anymore, 4.7.2008
++			// Note: the topic name is temprarily set to the value of the &quot;Name&quot; field.
++			String[] val = (String[]) params.get(PROPERTY_NAME);
++			String name = val != null ? val[0] : &quot;&quot;;
++			//
++			as.createLiveTopic(topicID, typeID, name /* &quot;&quot; */, topicmapID, viewmode, session, directives);
+ 		}
+ 		// properties
+ 		Hashtable props = getProperties(params, typeID);
+@@ -455,35 +460,35 @@
+ 		CorporateDirectives directives = new CorporateDirectives();
+ 		String action = params.getValue(&quot;action&quot;);
+ 		String method = request.getMethod();
+-    	System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet: &quot; + method + (!method.equals(&quot;GET&quot;) ? &quot; (content type=\&quot;&quot; +
+-    		request.getContentType() + &quot;\&quot;)&quot; : &quot;&quot;) + &quot; action=\&quot;&quot; + action + &quot;\&quot;&quot;);
+-    	//
+-    	// --- trigger performAction() hook ---
+-    	String page = performAction(action, params, session, directives);
+-    	//
+-    	// --- trigger preparePage() hook ---
+-    	preparePage(page, params, session, directives);
+-    	//
+-    	// process directives
++		System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet: &quot; + method + (!method.equals(&quot;GET&quot;) ? &quot; (content type=\&quot;&quot; +
++			request.getContentType() + &quot;\&quot;)&quot; : &quot;&quot;) + &quot; action=\&quot;&quot; + action + &quot;\&quot;&quot;);
++		//
++		// --- trigger performAction() hook ---
++		String page = performAction(action, params, session, directives);
++		//
++		// --- trigger preparePage() hook ---
++		preparePage(page, params, session, directives);
++		//
++		// process directives
+ 		directives.updateCorporateMemory(as, session, null, null);
+ 		// Note: topicmapID=null, viewmode=null ### should be OK because in web interface there is no &quot;default topicmap&quot;
+ 		//
+-    	if (generatorMethod.equals(HTML_GENERATOR_JSP)) {
+-	    	redirectToPage(page, request, response);
+-    	} else if (generatorMethod.equals(HTML_GENERATOR_XSLT)) {
+-    		buildPage(page, session, request, response);
+-    	} else {
+-    		// ### never happens
+-    		throw new DeepaMehtaException(&quot;unexpected HTML generator method: &quot; + generatorMethod);
+-    	}
++		if (generatorMethod.equals(HTML_GENERATOR_JSP)) {
++			redirectToPage(page, request, response);
++		} else if (generatorMethod.equals(HTML_GENERATOR_XSLT)) {
++			buildPage(page, session, request, response);
++		} else {
++			// ### never happens
++			throw new DeepaMehtaException(&quot;unexpected HTML generator method: &quot; + generatorMethod);
++		}
+ 	}
+ 
+ 	// ---
+ 
+ 	private void redirectToPage(String page, HttpServletRequest request, HttpServletResponse response)
+ 																throws IOException, ServletException {
+-	   	sc.getRequestDispatcher(&quot;/pages/&quot; + page + &quot;.jsp&quot;).forward(request, response);
+-	   	// ### should the extension be part of the &quot;page&quot; parameter? Consider static .html files
++		sc.getRequestDispatcher(&quot;/pages/&quot; + page + &quot;.jsp&quot;).forward(request, response);
++		// ### should the extension be part of the &quot;page&quot; parameter? Consider static .html files
+ 	}
+ 
+ 	private void buildPage(String page, Session session, HttpServletRequest request, HttpServletResponse response) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -32,10 +32,9 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 30.6.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+- * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
++ * Last change: 4.7.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public class HTMLGenerator implements DeepaMehtaConstants {
+ 
+@@ -310,164 +309,136 @@
+ 		//
+ 		return html.toString();
+ 	}
+-	// ---
++
++	// --- info (2 forms) ---
+ 	
+ 	public String info(TopicBean topicBean) {
+-		return info(topicBean, DeepaMehtaConstants.BEAN_LAYOUT_2COLUMN);
++		return info(topicBean, DeepaMehtaConstants.LAYOUT_STYLE_2COLUMN);
+ 	}
+ 	
+ 	public String info(TopicBean topicBean, int layoutStyle) {
+ 		StringBuffer html = new StringBuffer(&quot;&quot;);
+-		// don't want to touch the original info method, resulting in more redundancy
+-		if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_BOX) {
+-			// render Modern Box Layout
+-			html.append(&quot;&lt;div class=\&quot;infoContainer\&quot; id=\&quot;container\&quot;&gt;\r&quot;);
++		if (layoutStyle == DeepaMehtaConstants.LAYOUT_STYLE_2COLUMN){
++			html.append(&quot;&lt;table border=\&quot;0\&quot; class=\&quot;info-container\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+-				// specific field render method
+-				infoBoxField(field, html);
++				infoField2ColumnLayout(field, html);
+ 			}
+-			html.append(&quot;&lt;/div&gt;&lt;br/&gt; \r&quot;);
++			html.append(&quot;&lt;/table&gt;\r&quot;);
+ 			return html.toString();
+-		} else if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_FLOW) {
+-			// render Classic KiezAtlas Flow Layout
+-			html.append(&quot;&lt;div class=\&quot;infoContainer\&quot; id=\&quot;container\&quot; align=\&quot;left\&quot;&gt;\r&quot;);
++		} else if (layoutStyle == DeepaMehtaConstants.LAYOUT_STYLE_FLOW) {
++			html.append(&quot;&lt;div class=\&quot;info-container\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+-				// specific field render method
+-				infoFlowField(field, html);
++				infoFieldFlowLayout(field, html);
+ 			}
+-			html.append(&quot;&lt;/div&gt;&lt;br/&gt; \r&quot;);
++			html.append(&quot;&lt;/div&gt;\r&quot;);
+ 			return html.toString();
+-		} else if (layoutStyle == DeepaMehtaConstants.BEAN_LAYOUT_2COLUMN){
+-			// render 2 Column Table Layout
+-			html.append(&quot;&lt;table border=\&quot;0\&quot; class=\&quot;infoContainer\&quot;&gt;\r&quot;);
++		} else if (layoutStyle == DeepaMehtaConstants.LAYOUT_STYLE_BOX) {
++			html.append(&quot;&lt;div class=\&quot;info-container\&quot;&gt;\r&quot;);
+ 			Enumeration e = topicBean.fields.elements();
+ 			while (e.hasMoreElements()) {
+ 				TopicBeanField field = (TopicBeanField) e.nextElement();
+-				// specific field render method
+-				info2ColumnField(field, html);
++				infoFieldBoxLayout(field, html);
+ 			}
+-			html.append(&quot;&lt;/table&gt;\r&quot;);
++			html.append(&quot;&lt;/div&gt;\r&quot;);
+ 			return html.toString();
+ 		} else {
+ 			throw new DeepaMehtaException(&quot;unxepected Bean Layout: &quot; + layoutStyle);
+ 		}
+ 	}
++
++	// ---
+ 	
+-	private void infoFlowField(TopicBeanField field, StringBuffer html) {
+-		// special field render method for Classic Flow Layout
+-		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;\r&quot;);
++	/**
++	 * Renders a TopicBean Field according to &quot;2-column&quot; layout style ({@link LAYOUT_STYLE_2COLUMN}).
++	 */
++	private void infoField2ColumnLayout(TopicBeanField field, StringBuffer html) {
++		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot; +
++			&quot;&lt;td width=150&gt;&lt;span class=\&quot;info-label\&quot;&gt;&quot; + field.name + &quot;&lt;/span&gt;&lt;/td&gt;&quot; +
++			&quot;&lt;td&gt;&quot;);
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+-				String text = field.value;
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				text = DeepaMehtaUtils.replaceLF(text);
+-				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;
+-		            			+ text + &quot;&lt;br&gt;&quot; +
+-							&quot;&lt;/span&gt;\r&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(field.value);
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot; + text + &quot;&lt;br&gt;&lt;/span&gt;&quot;);
+ 			}
+ 			break;
+ 		case TopicBeanField.TYPE_MULTI:
+ 			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
++			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
+ 			while (e.hasMoreElements()) {
+ 				BaseTopic topic = (BaseTopic) e.nextElement();
+-				//parse for links
+-				String text = topic.getName();
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);			
+-				html.append(&quot;&quot; + imageTag(topic) + &quot; &quot; + text + &quot;&lt;/br&gt;&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
++				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
+ 			}
+-			html.append(&quot;&lt;/span&gt;\r&quot;);
++			html.append(&quot;&lt;/span&gt;&quot;);
+ 			break;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+-		html.append(&quot;&lt;br/&gt;\r&quot;);
+-	}	
+-	
+-	private void infoBoxField(TopicBeanField field, StringBuffer html) {
+-		// special field render method for Modern Box Layout
+-		html.append(&quot;&lt;span class=\&quot;label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
+-		String color = &quot;transparent&quot;;
+-		String content = &quot;value&quot;;
++		html.append(&quot;&lt;/td&gt;&lt;/tr&gt;\r&quot;);
++	}
++
++	/**
++	 * Renders a TopicBean Field according to &quot;flow&quot; layout style ({@link LAYOUT_STYLE_FLOW}).
++	 */
++	private void infoFieldFlowLayout(TopicBeanField field, StringBuffer html) {
++		html.append(&quot;&lt;p&gt;&quot;);
++		html.append(&quot;&lt;span class=\&quot;info-label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+-				content = field.value; 
+-				content = DeepaMehtaUtils.emailToHtml(content);
+-				content = DeepaMehtaUtils.weblinksToHtml(content);
+-				content = DeepaMehtaUtils.replaceLF(content);
+-				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;
+-				            	+ content + &quot;&lt;br&gt;&quot; +
+-							&quot;&lt;/span&gt;&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(field.value);
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot; + text + &quot;&lt;/span&gt;&quot;);
+ 			}
+ 			break;
+ 		case TopicBeanField.TYPE_MULTI:
+ 			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;div class=\&quot;multiBox\&quot; id=\&quot;containerBox\&quot;&gt;&quot;);
++			html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
+ 			while (e.hasMoreElements()) {
+ 				BaseTopic topic = (BaseTopic) e.nextElement();
+-				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
+-				//parse for links
+-				String text = topic.getName();
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
+-				html.append(&quot;&lt;/span&gt;&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
++				html.append(&quot;&lt;br&gt;&quot; + imageTag(topic) + &quot; &quot; + text);
+ 			}
+-			html.append(&quot;&lt;/div&gt;&quot;);
++			html.append(&quot;&lt;/span&gt;&quot;);
+ 			break;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+-		html.append(&quot;&lt;br/&gt;\r&quot;);
+-	}
+-
+-	private void info2ColumnField(TopicBeanField field, StringBuffer html) {
+-		// special field render method for Table 2 Column Layout
+-		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot; +
+-		            	&quot;&lt;td width=150&gt;&quot; +
+-							&quot;&lt;span class=\&quot;label\&quot;&gt;&quot; 
+-								+ field.name + 
+-							&quot;&lt;/span&gt;&quot; +
+-						&quot;&lt;/td&gt;&quot; +
+-						&quot;&lt;td&gt;&quot;);
++		html.append(&quot;&lt;/p&gt;\r&quot;);
++	}	
++	
++	/**
++	 * Renders a TopicBean Field according to &quot;box&quot; layout style ({@link LAYOUT_STYLE_BOX}).
++	 */
++	private void infoFieldBoxLayout(TopicBeanField field, StringBuffer html) {
++		html.append(&quot;&lt;span class=\&quot;info-label\&quot;&gt; &quot; + field.name + &quot;: &lt;/span&gt;&quot;);
+ 		switch (field.type) {
+ 		case TopicBeanField.TYPE_SINGLE:
+ 			if (field.value != null) {
+-				String text = field.value;
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				text = DeepaMehtaUtils.replaceLF(text);
+-				html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;
+-			            		+ text + &quot;&lt;br&gt;&quot; +
+-							&quot;&lt;/span&gt;&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(field.value); 
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot; + text + &quot;&lt;br&gt;&lt;/span&gt;&quot;);
+ 			}
+ 			break;
+ 		case TopicBeanField.TYPE_MULTI:
+ 			Enumeration e = field.values.elements();
+-			html.append(&quot;&lt;span class=\&quot;content\&quot;&gt;&quot;);
++			html.append(&quot;&lt;div class=\&quot;info-multibox\&quot;&gt;&quot;);
+ 			while (e.hasMoreElements()) {
+ 				BaseTopic topic = (BaseTopic) e.nextElement();
+-				//parse for links
+-				String text = topic.getName();
+-				text = DeepaMehtaUtils.emailToHtml(text);
+-				text = DeepaMehtaUtils.weblinksToHtml(text);
+-				text = DeepaMehtaUtils.replaceLF(text);
++				html.append(&quot;&lt;span class=\&quot;info-content\&quot;&gt;&quot;);
++				String text = DeepaMehtaUtils.transformToHTML(topic.getName());
+ 				html.append(imageTag(topic) + &quot; &quot; + text + &quot;&lt;br&gt;&quot;);
++				html.append(&quot;&lt;/span&gt;&quot;);
+ 			}
+-			html.append(&quot;&lt;/span&gt;&quot;);break;
++			html.append(&quot;&lt;/div&gt;&quot;);
++			break;
+ 		default:
+ 			throw new DeepaMehtaException(&quot;unexpected topic bean field type: &quot; + field.type);
+ 		}
+-		html.append(	&quot;&lt;/td&gt;&quot; +
+-					&quot;&lt;/tr&gt;\r&quot;);
++		html.append(&quot;&lt;br&gt;\r&quot;);
+ 	}
+ 
+ 	// --- form (8 forms) ---
+@@ -693,7 +664,7 @@
+ 	}
+ 
+ 	public String imageTag(BaseTopic topic, boolean withTooltip) {
+-		//alt=\&quot;&quot; + topic.getName() + &quot;\&quot; removed for kiezatlas, list servlet excel updates
++		// ### alt=\&quot;&quot; + topic.getName() + &quot;\&quot; removed for kiezatlas, list servlet excel updates
+ 		String iconfile = as.getLiveTopic(topic).getIconfile();
+ 		return &quot;&lt;img src=\&quot;&quot; + as.getCorporateWebBaseURL() + FILESERVER_ICONS_PATH + iconfile + &quot;\&quot;&quot; +
+ 			&quot; border=\&quot;0\&quot;&quot; + 
+@@ -1077,7 +1048,8 @@
+ 			if (s[0].equals(&quot;rows&quot;)) {
+ 				rows = Integer.parseInt(s[1]);
+ 			} else {
+-				System.out.println(&quot;*** HTMLGenerator.formField(): unexpected hint for property \&quot;&quot; + propName + &quot;\&quot;: \&quot;&quot; + s[0] + &quot;\&quot;&quot;);
++				System.out.println(&quot;*** HTMLGenerator.formField(): unexpected hint for property \&quot;&quot; +
++					propName + &quot;\&quot;: \&quot;&quot; + s[0] + &quot;\&quot;&quot;);
+ 				rows = TEXTAREA_HEIGHT;
+ 			}
+ 		} else {
+@@ -1088,7 +1060,7 @@
+ 		//
+ 		if (visual.equals(VISUAL_FIELD) || visual.equals(VISUAL_PASSWORD_FIELD) || visual.equals(VISUAL_COLOR_CHOOSER)) {
+ 			html.append(&quot;&lt;input type=\&quot;text\&quot; name=\&quot;&quot; + prefix + propName + &quot;\&quot; value=\&quot;&quot; +
+-				(propValue != null ? propValue : &quot;&quot;) + &quot;\&quot; size=&quot; + INPUTFIELD_WIDTH + &quot;&gt;&quot;);
++				(propValue != null ? DeepaMehtaUtils.encodeHTMLEntities(propValue) : &quot;&quot;) + &quot;\&quot; size=&quot; + INPUTFIELD_WIDTH + &quot;&gt;&quot;);
+ 		} else if (visual.equals(VISUAL_AREA) || visual.equals(VISUAL_TEXT_EDITOR)) {
+ 			html.append(&quot;&lt;textarea name=\&quot;&quot; + prefix + propName + &quot;\&quot; rows=&quot; + rows +
+ 				&quot; cols=&quot; + TEXTAREA_WIDTH + &quot;&gt;&quot; + (propValue != null ? propValue : &quot;&quot;) + &quot;&lt;/textarea&gt;&quot;);
+@@ -1312,7 +1284,7 @@
+ 		}
+ 		if (text != null) {
+ 			if (quoteHTML) {
+-				text = DeepaMehtaUtils.quoteHTML(text);
++				text = DeepaMehtaUtils.encodeHTMLTags(text);
+ 				text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
+ 			}
+ 			html.append((bold ? &quot;&lt;b&gt;&quot; : &quot;&quot;) + text + (bold ? &quot;&lt;/b&gt;&quot; : &quot;&quot;));
+
+Modified: trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/develop/src/de/deepamehta/util/DeepaMehtaUtils.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -34,10 +34,9 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 19.1.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 28.7.2001 (2.0a11)&lt;br&gt;
+- * Malte Rei&szlig;ig&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
++ * Last change: 4.7.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+  */
+ public class DeepaMehtaUtils implements DeepaMehtaConstants {
+ 
+@@ -313,8 +312,6 @@
+ 
+ 
+ 
+-	// ---
+-
+ 	public static Rectangle getBounds(PresentableTopicMap topicmap) {
+ 		return initBounds(topicmap, null);
+ 	}
+@@ -375,21 +372,21 @@
+ 
+ 
+ 
+-	// ---------------------------
+-	// --- String Manipulation ---
+-	// ---------------------------
++	// ----------------------
++	// --- HTML Utilities ---
++	// ----------------------
+ 
+ 
+ 
+ 	/**
+-	 * Useful when PropertyData (particularly HTML data)
+-	 * are written directly to property fields.
++	 * Encodes certain characters into HTML entities.
++	 * For the time being only one encoding is performed: &quot; -&gt; &quot;
++	 * &lt;p&gt;
++	 * Useful when text appears in HTML &lt;input&gt; element.
+ 	 */
+-	/* ### public static String encodeSpecialCharacters(String in) {
+-		int len = in.length();
+-		StringBuffer out = new StringBuffer();
+-		for (int i = 0; i &lt; len; i++) {
+-			char c = in.charAt(i);
++	public static String encodeHTMLEntities(String text) {
++		return replace(text, '&quot;', &quot;&quot;&quot;);
++		/* ###
+ 			if (c == '&lt;') {
+ 				out.append(&quot;&lt;&quot;);
+ 			} else if (c == '&gt;') {
+@@ -398,12 +395,8 @@
+ 				out.append(&quot;&amp;&quot;);
+ 			} else if (c == '\&quot;') {
+ 				out.append(&quot;&quot;&quot;);
+-			} else {
+-				out.append(c);
+-			}
+-		}
+-		return out.toString();
+-	} */
++		*/
++	}
+ 
+ 	/**
+ 	 * decodes one special character from HTML text
+@@ -430,63 +423,46 @@
+ 		return specChar;
+ 	} */
+ 
+-	// ---
++	// --- encodeHTMLTags (2 forms) ---
+ 
+-	/**
+-	 * ### to be dropped, use a StringTokenizer or split() instead
+-	 * &lt;p&gt;
+-	 * Convenience method to split a string that contains a &lt;code&gt;:&lt;/code&gt; into 2
+-	 * substrings.
+-	 * &lt;p&gt;
+-	 * Used here to split a refresh request into topicmap ID and viewmode.
+-	 */
+-	static public String[] explode(String str) {
+-		String[] result = new String[2];
+-		int pos = str.indexOf(&quot;:&quot;);
+-		if (pos != -1) {
+-			result[0] = str.substring(0, pos);
+-			result[1] = str.substring(pos + 1);
+-		} else {
+-			result[0] = str;
+-			// result[1] = null;
++	static public String encodeHTMLTags(String text) {
++		return encodeHTMLTags(text, false);
++	}
++
++	static public String encodeHTMLTags(String text, boolean allowSomeTags) {
++		StringBuffer quotedText = new StringBuffer(text);
++		int i = 0;
++		while ((i = quotedText.indexOf(&quot;&lt;&quot;, i)) != -1) {
++			boolean quote;
++			// check weather to quote
++			if (allowSomeTags) {
++				int wordStart = i + 1 &lt; quotedText.length() &amp;&amp; quotedText.charAt(i + 1) == '/' ? i + 2 : i + 1;
++				String tag = getWord(quotedText, wordStart);
++				quote = !ALLOWED_TAGS.contains(tag);
++			} else {
++				quote = true;
++			}
++			// perform quoting
++			if (quote) {
++				quotedText.replace(i, i + 1, &quot;&lt;&quot;);
++			}
++			//
++			i ++;
+ 		}
+-		return result;
++		return quotedText.toString();
+ 	}
+ 
+-	static public String replace(String str, char oldChar, String newStr) {
+-		// ### return str.replaceAll(&quot;&quot;+oldChar, newStr);
+-		// ###
+-		// ### replaceAll() works with regexps and ist NOT compatible with the following regexp-less solution
+-		// ### The difference regards Quoting: a backslash in a Java string must be quoted: \\
+-		// ### BUT within regexps each backslash must be quoted again: \\\\
+-		int pos = str.indexOf(oldChar);
+-		if (pos == -1) {
+-			return str;
++	static private String getWord(StringBuffer str, int fromIndex) {
++		int i = fromIndex;
++		while (i &lt; str.length() &amp;&amp; Character.isLetter(str.charAt(i))) {
++			i++;
+ 		}
+-		//
+-		StringBuffer result = new StringBuffer();
+-		int pos0 = 0;
+-		while (pos != -1) {
+-			result.append(str.substring(pos0, pos));
+-			result.append(newStr);
+-			pos0 = pos + 1;
+-			pos = str.indexOf(oldChar, pos0);
+-		}
+-		result.append(str.substring(pos0));
+-		return result.toString();
++		return str.substring(fromIndex, i);
+ 	}
+ 
+-	static public String replaceLF(String text) {
+-		text = text.replaceAll(&quot;\r\n&quot;, &quot;&lt;br&gt;&quot;);
+-		text = text.replaceAll(&quot;\r&quot;, &quot;&lt;br&gt;&quot;);		// originates from web
+-		text = text.replaceAll(&quot;\n&quot;, &quot;&lt;br&gt;&quot;);		// originates from graphical client
+-		// ### text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// originates from web
+-		// ### text = DeepaMehtaUtils.replace(text, '\n', &quot;&lt;br&gt;&quot;);		// originates from graphical client
+-		return text;
+-	}
+-	
+-	static public String emailToHtml(String text) {
+-		// Compile and get a reference to a Pattern object.
++	// ---
++
++	static public String emailToHTML(String text) {
+ 		String emailRegex = &quot;[\\w\\d-_/\\.]*@+[\\w\\d-_/\\.]*&quot;;
+ 	    Pattern pattern = Pattern.compile(emailRegex);
+ 	    Matcher matcher = pattern.matcher(text);
+@@ -508,7 +484,7 @@
+ 		
+ 	}
+ 	
+-	static public String weblinksToHtml(String text) {
++	static public String weblinksToHTML(String text) {
+ 		// not conform to rfc uri; regex not for java found under <A HREF="http://www.faqs.org/rfcs/rfc2396.html,">http://www.faqs.org/rfcs/rfc2396.html,</A> sufficient until now
+ 		String test = &quot;<A HREF="http://[\\w\\d-_/\\.\\?\\%\\@\\$\\;\\&amp;\\=\\\">http://[\\w\\d-_/\\.\\?\\%\\@\\$\\;\\&amp;\\=\\\</A>&quot;\\#]*&quot;;
+ 		Pattern pattern = Pattern.compile(test);
+@@ -532,23 +508,34 @@
+ 
+ 	// ---
+ 
+-	static public String align(String str) {
+-		return (str.length() == 1 ? &quot;0&quot; : &quot;&quot;) + str;
++	static public String replaceLF(String text) {
++		text = text.replaceAll(&quot;\r\n&quot;, &quot;&lt;br&gt;&quot;);
++		text = text.replaceAll(&quot;\r&quot;, &quot;&lt;br&gt;&quot;);		// originates from web
++		text = text.replaceAll(&quot;\n&quot;, &quot;&lt;br&gt;&quot;);		// originates from graphical client
++		// ### text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// originates from web
++		// ### text = DeepaMehtaUtils.replace(text, '\n', &quot;&lt;br&gt;&quot;);		// originates from graphical client
++		return text;
+ 	}
+ 
+-	static public String unalign(String str) {
+-		return (str.startsWith(&quot;0&quot;) ? str.substring(1) : str);
+-	}
+-
+ 	// ---
+ 
+-	static public String nTimes(String str, int n) {
+-		StringBuffer result = new StringBuffer();
+-		for (int i = 0; i &lt; n; i++) {
+-			result.append(str);
+-		}
+-		return result.toString();
+-	}
++	/**
++	 * Transforms plain text for being displayed in an HTML page.
++	 * Four transformations are performed:
++	 * &lt;ul&gt;
++	 * &lt;li&gt;Angle brackets into &amp;lt; entity&lt;/li&gt;
++	 * &lt;li&gt;Line breaks into &lt;br&gt; tag&lt;/li&gt;
++	 * &lt;li&gt;Email addresses (containing an &lt;code&gt;@&lt;/code&gt;) into &lt;a&gt; tag (&lt;code&gt;mailto:&lt;/code&gt;)&lt;/li&gt;
++	 * &lt;li&gt;Web addresses (beginning with &lt;code&gt;http:&lt;/code&gt;) into &lt;a&gt; tag&lt;/li&gt;
++	 * &lt;/ul&gt;
++	 */
++	static public String transformToHTML(String text) {
++		text = encodeHTMLTags(text);
++		text = emailToHTML(text);
++		text = weblinksToHTML(text);
++		text = replaceLF(text);
++		return text;
++	}	
+ 
+ 	// ---
+ 
+@@ -586,43 +573,76 @@
+ 		return xml.toString();
+ 	}
+ 
+-	// --- quoteHTML (2 forms) ---
+ 
+-	static public String quoteHTML(String text) {
+-		return quoteHTML(text, false);
++
++	// ---------------------------
++	// --- String Manipulation ---
++	// ---------------------------
++
++
++
++	/**
++	 * ### to be dropped, use a StringTokenizer or split() instead
++	 * &lt;p&gt;
++	 * Convenience method to split a string that contains a &lt;code&gt;:&lt;/code&gt; into 2
++	 * substrings.
++	 * &lt;p&gt;
++	 * Used here to split a refresh request into topicmap ID and viewmode.
++	 */
++	static public String[] explode(String str) {
++		String[] result = new String[2];
++		int pos = str.indexOf(&quot;:&quot;);
++		if (pos != -1) {
++			result[0] = str.substring(0, pos);
++			result[1] = str.substring(pos + 1);
++		} else {
++			result[0] = str;
++			// result[1] = null;
++		}
++		return result;
+ 	}
+ 
+-	static public String quoteHTML(String text, boolean allowSomeTags) {
+-		StringBuffer quotedText = new StringBuffer(text);
+-		int i = 0;
+-		while ((i = quotedText.indexOf(&quot;&lt;&quot;, i)) != -1) {
+-			boolean quote;
+-			// check weather to quote
+-			if (allowSomeTags) {
+-				int wordStart = i + 1 &lt; quotedText.length() &amp;&amp; quotedText.charAt(i + 1) == '/' ? i + 2 : i + 1;
+-				String tag = getWord(quotedText, wordStart);
+-				quote = !ALLOWED_TAGS.contains(tag);
+-			} else {
+-				quote = true;
+-			}
+-			// perform quoting
+-			if (quote) {
+-				quotedText.replace(i, i + 1, &quot;&lt;&quot;);
+-			}
+-			//
+-			i ++;
++	static public String replace(String str, char oldChar, String newStr) {
++		// ### return str.replaceAll(&quot;&quot;+oldChar, newStr);
++		// ###
++		// ### replaceAll() works with regexps and ist NOT compatible with the following regexp-less solution
++		// ### The difference regards Quoting: a backslash in a Java string must be quoted: \\
++		// ### BUT within regexps each backslash must be quoted again: \\\\
++		int pos = str.indexOf(oldChar);
++		if (pos == -1) {
++			return str;
+ 		}
+-		return quotedText.toString();
++		//
++		StringBuffer result = new StringBuffer();
++		int pos0 = 0;
++		while (pos != -1) {
++			result.append(str.substring(pos0, pos));
++			result.append(newStr);
++			pos0 = pos + 1;
++			pos = str.indexOf(oldChar, pos0);
++		}
++		result.append(str.substring(pos0));
++		return result.toString();
+ 	}
+ 
+ 	// ---
+ 
+-	static private String getWord(StringBuffer str, int fromIndex) {
+-		int i = fromIndex;
+-		while (i &lt; str.length() &amp;&amp; Character.isLetter(str.charAt(i))) {
+-			i++;
++	static public String align(String str) {
++		return (str.length() == 1 ? &quot;0&quot; : &quot;&quot;) + str;
++	}
++
++	static public String unalign(String str) {
++		return (str.startsWith(&quot;0&quot;) ? str.substring(1) : str);
++	}
++
++	// ---
++
++	static public String nTimes(String str, int n) {
++		StringBuffer result = new StringBuffer();
++		for (int i = 0; i &lt; n; i++) {
++			result.append(str);
+ 		}
+-		return str.substring(fromIndex, i);
++		return result.toString();
+ 	}
+ 
+ 
+@@ -840,7 +860,7 @@
+ 		return mBytes + &quot;M&quot;;
+ 	}
+ 
+-/*
++/* ###
+ 	public static boolean isCompatible(String version, String requiredVersion) {
+ 		if (version.equals(requiredVersion)) {
+ 			return true;
+@@ -881,22 +901,25 @@
+ 
+ 
+ 
+-	// -----------------
+-	// --- Mics      ---
+-	// -----------------
++	// ------------
++	// --- Misc ---
++	// ------------
+ 
+ 
+ 
++	// ###
+ 	static public void printStackTrace() {
+-		printStackTrace(10,1);
++		printStackTrace(10, 1);
+ 	}
+ 
++	// ###
+ 	static public void printStackTrace(int depth) {
+-		printStackTrace(depth,1);
++		printStackTrace(depth, 1);
+ 	}
+ 
++	// ###
+ 	static public void printStackTrace(int depth, int skip) {
+-		if (false){
++		if (false) {
+ 			skip++;
+ 			System.err.println(&quot;----&quot;);
+ 			Exception e = new Exception();
+
+Modified: trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java
+===================================================================
+--- trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/dm-browser/src/de/deepamehta/browser/BrowserServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -2,6 +2,7 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+@@ -12,8 +13,8 @@
+ 
+ public class BrowserServlet extends DeepaMehtaServlet implements Browser {
+ 
+-	protected String performAction(String action, RequestParameter params, Session session)
+-																		throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			return PAGE_LOGIN;
+ 		} else if (action.equals(ACTION_TRY_LOGIN)) {
+@@ -46,22 +47,22 @@
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_CREATE_TOPIC)) {
+ 			String typeID = params.getValue(&quot;typeID&quot;);
+-			createTopic(typeID, params, session);
++			createTopic(typeID, params, session, directives);
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_UPDATE_TOPIC)) {
+ 			String typeID = params.getValue(&quot;typeID&quot;);
+-			updateTopic(typeID, params, session);
++			updateTopic(typeID, params, session, directives);
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_DELETE_TOPIC)) {
+ 			String topicID = params.getValue(&quot;topicID&quot;);
+ 			deleteTopic(topicID);
+ 			return PAGE_TOPIC_LIST;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 		if (page.equals(PAGE_HOME)) {
+ 			session.setAttribute(&quot;workspaces&quot;, as.getWorkspaces(getUserID(session)));
+ 		} else if (page.equals(PAGE_TOPIC_LIST)) {
+
+Modified: trunk/install/examples/dm-search/src/de/deepamehta/webfront/SearchServlet.java
+===================================================================
+--- trunk/install/examples/dm-search/src/de/deepamehta/webfront/SearchServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/dm-search/src/de/deepamehta/webfront/SearchServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -2,6 +2,7 @@
+ 
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.PresentableTopic;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.HTMLGenerator;
+@@ -18,8 +19,8 @@
+ 
+ public class SearchServlet extends DeepaMehtaServlet implements Search {
+ 
+-	protected String performAction(String action, RequestParameter params, Session session)
+-																			throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			return PAGE_SEARCH_FORM;
+ 		} else if (action.equals(ACTION_SEARCH)) {
+@@ -33,11 +34,11 @@
+ 			session.setAttribute(&quot;topic&quot;, topic);
+ 			return PAGE_TOPIC_INFO;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 	}
+ 
+ 	protected void addResources(HTMLGenerator html) {
+
+Modified: trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -1,6 +1,7 @@
+ package de.deepamehta.topicmapviewer;
+ 
+ import de.deepamehta.BaseTopic;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+@@ -16,8 +17,8 @@
+ 
+ public class TopicmapViewerServlet extends DeepaMehtaServlet implements TopicmapViewer {
+ 
+-	protected String performAction(String action, RequestParameter params, Session session)
+-																		throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			return PAGE_TOPICMAP_LIST;
+ 		} else if (action.equals(ACTION_SHOW_TOPICMAP)) {
+@@ -32,11 +33,11 @@
+ 			session.setAttribute(&quot;geometryData&quot;, geometryData);
+ 			return PAGE_TOPICMAP;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 		if (page.equals(PAGE_TOPICMAP_LIST)) {
+ 			Vector workspaces = cm.getTopics(TOPICTYPE_WORKSPACE);
+ 			Hashtable topicmaps = getTopicmaps(workspaces);
+
+Modified: trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java
+===================================================================
+--- trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/dm-web/src/de/deepamehta/webfrontend/WebFrontendServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -3,6 +3,7 @@
+ import de.deepamehta.BaseAssociation;
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.TopicBean;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+@@ -17,8 +18,8 @@
+ 
+ public class WebFrontendServlet extends DeepaMehtaServlet implements WebFrontend {
+ 
+-	protected String performAction(String action, RequestParameter params, Session session)
+-																		throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			return PAGE_LOGIN;
+ 		} else if (action.equals(ACTION_TRY_LOGIN)) {
+@@ -50,22 +51,22 @@
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_CREATE_TOPIC)) {
+ 			String typeID = getTypeID(session);
+-			createTopic(typeID, params, session);
++			createTopic(typeID, params, session, directives);
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_UPDATE_TOPIC)) {
+ 			String typeID = getTypeID(session);
+-			updateTopic(typeID, params, session);
++			updateTopic(typeID, params, session, directives);
+ 			return PAGE_TOPIC_LIST;
+ 		} else if (action.equals(ACTION_DELETE_TOPIC)) {
+ 			String topicID = params.getValue(&quot;topicID&quot;);
+ 			deleteTopic(topicID);
+ 			return PAGE_TOPIC_LIST;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 		if (page.equals(PAGE_HOME)) {
+ 			session.setAttribute(&quot;baseURL&quot;, as.getCorporateWebBaseURL());
+ 			//
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/KSServlet.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/KSServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/KSServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -3,6 +3,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.kompetenzstern.topics.KompetenzsternTopic;
+ import de.deepamehta.kompetenzstern.topics.KriteriumTopic;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+@@ -14,16 +15,16 @@
+ 
+ 
+ /**
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last sourcecode change: 29.10.2004 (2.0b3)&lt;BR&gt;
+- * Last documentation update: 15.1.2003 (2.0a17-pre6)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 5.7.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class KSServlet extends DeepaMehtaServlet implements KS {
+ 
+-	protected String performAction(String action, RequestParameter params, Session session) throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			return PAGE_HOME;
+ 		} else if (action.equals(ACTION_GO_HOME)) {
+@@ -32,7 +33,7 @@
+ 		} else if (action.equals(ACTION_SHOW_KS_FORM)) {
+ 			return PAGE_KS_FORM;
+ 		} else if (action.equals(ACTION_CREATE_KS)) {
+-			String ksID = createTopic(TOPICTYPE_KOMPETENZSTERN, params, session);
++			String ksID = createTopic(TOPICTYPE_KOMPETENZSTERN, params, session, directives);
+ 			setKS(ksID, session);
+ 			return PAGE_HOME;
+ 		} else if (action.equals(ACTION_EDIT_KS)) {
+@@ -40,7 +41,7 @@
+ 			setKS(ksID, session);
+ 			return PAGE_KS_FORM;
+ 		} else if (action.equals(ACTION_UPDATE_KS)) {
+-			updateTopic(TOPICTYPE_KOMPETENZSTERN, params, session);
++			updateTopic(TOPICTYPE_KOMPETENZSTERN, params, session, directives);
+ 			return PAGE_HOME;
+ 		} else if (action.equals(ACTION_DELETE_KS)) {
+ 			String ksID = params.getValue(&quot;id&quot;);
+@@ -53,14 +54,14 @@
+ 			return PAGE_CRITERIA_FORM;
+ 		} else if (action.equals(ACTION_UPDATE_CRITERIA)) {
+ 			String ksID = getKSID(session);
+-			updateTopic(getKSCritTypeID(session), params, session, ksID, VIEWMODE_USE);
++			updateTopic(getKSCritTypeID(session), params, session, directives, ksID, VIEWMODE_USE);
+ 			return PAGE_KS_FORM;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 		if (page.equals(PAGE_HOME)) {
+ 	   		// get all kompetenzsterne
+ 			Vector ksList = cm.getTopics(TOPICTYPE_KOMPETENZSTERN);
+
+Modified: trunk/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java
+===================================================================
+--- trunk/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/messageboard/src/de/deepamehta/messageboard/Message.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -9,9 +9,9 @@
+  * A bean-like container for passing data from the front-controler (servlet)
+  * to the presentation layer (JSP engine).
+  * &lt;p&gt;
+- * Last change: 13.6.2006&lt;br&gt;
++ * Last change: 5.7.2008&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class Message implements MessageBoard {
+ 
+@@ -19,10 +19,10 @@
+ 
+ 	Message(String id, ApplicationService as) {
+ 		this.id = id;
+-		this.subject = DeepaMehtaUtils.quoteHTML(as.getTopicProperty(id, 1, PROPERTY_NAME));
++		this.subject = DeepaMehtaUtils.encodeHTMLTags(as.getTopicProperty(id, 1, PROPERTY_NAME));
+ 		// Note: the message text is an HTML property and is stored in quoted form already
+ 		this.text = as.getTopicProperty(id, 1, PROPERTY_DESCRIPTION);
+-		this.from = DeepaMehtaUtils.quoteHTML(as.getTopicProperty(id, 1, PROPERTY_FROM));
++		this.from = DeepaMehtaUtils.encodeHTMLTags(as.getTopicProperty(id, 1, PROPERTY_FROM));
+ 		this.date = as.getTopicProperty(id, 1, PROPERTY_DATE);
+ 	}
+ }
+
+Modified: trunk/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java
+===================================================================
+--- trunk/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java	2008-07-02 16:23:51 UTC (rev 332)
++++ trunk/install/examples/messageboard/src/de/deepamehta/messageboard/MessageBoardServlet.java	2008-07-06 18:37:42 UTC (rev 333)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.DeepaMehtaException;
+ import de.deepamehta.messageboard.topics.MessageBoardTopic;
+ import de.deepamehta.messageboard.topics.MessageTopic;
++import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.service.web.DeepaMehtaServlet;
+ import de.deepamehta.service.web.RequestParameter;
+@@ -19,10 +20,9 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 12.2.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 10.1.2003 (2.0a17-pre5)&lt;br&gt;
++ * Last change: 5.7.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class MessageBoardServlet extends DeepaMehtaServlet implements MessageBoard {
+ 
+@@ -39,7 +39,8 @@
+ 
+ 
+ 
+-	protected String performAction(String action, RequestParameter params, Session session) throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																									throws ServletException {
+ 		if (action == null) {
+ 			// store in session
+ 			setMode(MODE_SHOW_MESSAGE, session);
+@@ -69,7 +70,7 @@
+ 				if (params.getParameter(&quot;button&quot;).equals(&quot;OK&quot;)) {
+ 					// create message
+ 					prepareMessage(params);
+-					String messageID = createTopic(TOPICTYPE_MESSAGE, params, session);
++					String messageID = createTopic(TOPICTYPE_MESSAGE, params, session, directives);
+ 					finalizeMessage(messageID, session);
+ 					// store in session
+ 					setMessage(messageID, session);
+@@ -121,11 +122,11 @@
+     		setPageNr(pageNr - 1, session);
+ 			return PAGE_MESSAGE_BOARD;
+ 		} else {
+-			return super.performAction(action, params, session);
++			return super.performAction(action, params, session, directives);
+ 		}
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives) {
+ 		if (page.equals(PAGE_MESSAGE_BOARD)) {
+     		// --- update session attributes ---
+     		setExtendedNodes(session);
+@@ -183,7 +184,7 @@
+ 			params.setParameter(PROPERTY_NAME, &quot;&lt;no subject&gt;&quot;);
+ 		}
+ 		// qutoe HTML and XML tags
+-		String message = DeepaMehtaUtils.quoteHTML(params.getParameter(PROPERTY_DESCRIPTION), true);	// allowSomeTags=true
++		String message = DeepaMehtaUtils.encodeHTMLTags(params.getParameter(PROPERTY_DESCRIPTION), true);	// allowSomeTags=true
+ 		params.setParameter(PROPERTY_DESCRIPTION, message);
+ 	}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000177.html">[deepamehta-svn] r332 - in trunk/develop/src/de/deepamehta: service	service/web topics
+</A></li>
+	<LI>Next message: <A HREF="000179.html">[deepamehta-svn] r334 - trunk/develop/src/de/deepamehta/util
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

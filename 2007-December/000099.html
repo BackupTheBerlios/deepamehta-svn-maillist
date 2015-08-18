@@ -1,0 +1,498 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r254 - in trunk/develop/src/de/deepamehta: . topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r254%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%20topics&In-Reply-To=%3C200712201357.lBKDvG04018496%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000098.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r254 - in trunk/develop/src/de/deepamehta: . topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r254%20-%20in%20trunk/develop/src/de/deepamehta%3A%20.%20topics&In-Reply-To=%3C200712201357.lBKDvG04018496%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r254 - in trunk/develop/src/de/deepamehta: . topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Dec 20 14:57:16 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000098.html">[deepamehta-svn] r253 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-12-20 14:57:06 +0100 (Thu, 20 Dec 2007)
+New Revision: 254
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+   trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+   trunk/develop/src/de/deepamehta/topics/EventTopic.java
+Log:
+Calendar application updated:
+- Bug fix: events exceeding week boundaries are displayed correctly in week view
+- Bug fix: events exceeding month boundaries are displayed correctly in month view
+- Bug fix: calendars are immediately updated once an event is deleted
+- Functionality change: there are no appointments associated directly to a calendar anymore. A calendar is a pure virtual view to calendar-independant appointments and events. Consequently a calendar has no &quot;Create Appointment&quot; command anymore.
+- Usability improvement: the begin date of appointments and events is initialized with current data
+- Day-view button removed (day view is not yet implemented)
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-12-17 01:11:35 UTC (rev 253)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-12-20 13:57:06 UTC (rev 254)
+@@ -26,7 +26,7 @@
+  * &lt;/OL&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 15.12.2007 (2.0b8)&lt;BR&gt;
++ * Last functional change: 20.12.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -176,7 +176,7 @@
+ 											&quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;};
+ 	static final String[] dayNames = {&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;};
+ 	static final int YEAR_MIN = 1850;
+-	static final int YEAR_MAX = 2010;
++	static final int YEAR_MAX = 2014;
+ 	static final String PARAM_SEPARATOR = &quot;_&quot;;		// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
+ 	static final String LEVEL_SEPARATOR = &quot;:&quot;;
+ 	static final String PARAM_RELATION = &quot;Rel&quot;;
+@@ -672,9 +672,6 @@
+ 
+ 	// *** Calendar ***
+ 
+-	// direction is from calendar to appointment ### to be dropped
+-	static final String SEMANTIC_CALENDAR_APPOINTMENT = ASSOCTYPE_ASSOCIATION;
+-
+ 	// direction is from calendar to person
+ 	static final String SEMANTIC_CALENDAR_PERSON = ASSOCTYPE_ASSOCIATION;
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2007-12-17 01:11:35 UTC (rev 253)
++++ trunk/develop/src/de/deepamehta/topics/AppointmentTopic.java	2007-12-20 13:57:06 UTC (rev 254)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+@@ -12,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 15.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -33,12 +34,30 @@
+ 
+ 
+ 
+-	// **********************
+-	// *** Defining Hooks ***
+-	// **********************
++	// ************************
++	// *** Overriding Hooks ***
++	// ************************
+ 
+ 
+ 
++	// ------------------
++	// --- Life Cycle ---
++	// ------------------
++
++
++
++	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
++		// initialize begin date with today
++		setTopicData(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
++		// ###
++		// createChildTopic(TOPICTYPE_APPOINTMENT, SEMANTIC_CALENDAR_APPOINTMENT, session, directives);
++		//
++		return directives;
++	}
++
++
++
+ 	// ---------------------------
+ 	// --- Handling Properties ---
+ 	// ---------------------------
+@@ -49,12 +68,7 @@
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+ 			topicmapID, viewmode, session);
+-		// 1) update the calendar directly connected to this appointment
+-		BaseTopic calendar = getCalendar();
+-		if (calendar != null) {
+-			((CalendarTopic) as.getLiveTopic(calendar)).updateView(directives);
+-		}
+-		// 2) update the calendars of the attendees of this appointment
++		// update the calendars of the attendees of this appointment
+ 		updateCalendars(directives);
+ 		//
+ 		return directives;
+@@ -94,10 +108,6 @@
+ 
+ 
+ 
+-	private BaseTopic getCalendar() {
+-		return as.getRelatedTopic(getID(), SEMANTIC_CALENDAR_APPOINTMENT, TOPICTYPE_CALENDAR, 1, true);	// emptyAllowed=true
+-	}
+-
+ 	public BaseTopic getLocation() {
+ 		return as.getRelatedTopic(getID(), SEMANTIC_APPOINTMENT_LOCATION, TOPICTYPE_LOCATION, 2, true);	// emptyAllowed=true
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-17 01:11:35 UTC (rev 253)
++++ trunk/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-12-20 13:57:06 UTC (rev 254)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 16.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -44,11 +44,6 @@
+ 	private static final int CALENDAR_SEGMENT_SIZE = 60 / CALENDAR_HOUR_SEGMENTS;
+ 	private static final int CALENDAR_DAY_SEGMENTS = CALENDAR_HOUR_SEGMENTS * (CALENDAR_DAY_END_HOUR - CALENDAR_DAY_START_HOUR);
+ 
+-	// commands
+-	private static final String ITEM_CREATE_APPOINTMENT = &quot;Create Appointment&quot;;
+-	private static final String  CMD_CREATE_APPOINTMENT = &quot;createAppointment&quot;;
+-	private static final String ICON_CREATE_APPOINTMENT = &quot;appointment.gif&quot;;
+-
+ 	// actions
+ 	private static final String ACTION_SELECT_DAY_MODE = &quot;selectDayMode&quot;;
+ 	private static final String ACTION_SELECT_WEEK_MODE = &quot;selectWeekMode&quot;;
+@@ -80,9 +75,9 @@
+ 
+ 
+ 
+-	// **********************
+-	// *** Defining Hooks ***
+-	// **********************
++	// ************************
++	// *** Overriding Hooks ***
++	// ************************
+ 
+ 
+ 
+@@ -106,31 +101,6 @@
+ 
+ 
+ 	// --------------------------
+-	// --- Providing Commands ---
+-	// --------------------------
+-
+-
+-
+-	public CorporateCommands contextCommands(String topicmapID, String viewmode, Session session,
+-																	CorporateDirectives directives) {
+-		CorporateCommands commands = new CorporateCommands(as);
+-		int editorContext = as.editorContext(topicmapID);
+-		//
+-		commands.addNavigationCommands(this, editorContext, session);
+-		// --- &quot;Create Appointment&quot; command ---
+-		commands.addSeparator();
+-		int cmdState = session.isDemo() ? COMMAND_STATE_DISABLED : COMMAND_STATE_DEFAULT;
+-		commands.addCommand(ITEM_CREATE_APPOINTMENT, CMD_CREATE_APPOINTMENT,
+-			FILESERVER_ICONS_PATH, ICON_CREATE_APPOINTMENT, cmdState);
+-		//
+-		commands.addStandardCommands(this, editorContext, viewmode, session, directives);
+-		//
+-		return commands;
+-	}
+-
+-
+-
+-	// --------------------------
+ 	// --- Executing Commands ---
+ 	// --------------------------
+ 
+@@ -142,10 +112,7 @@
+ 		StringTokenizer st = new StringTokenizer(command, COMMAND_SEPARATOR);
+ 		String cmd = st.nextToken();
+ 		//
+-		if (cmd.equals(CMD_CREATE_APPOINTMENT)) {
+-			createChildTopic(TOPICTYPE_APPOINTMENT, SEMANTIC_CALENDAR_APPOINTMENT, session, directives);
+-			return directives;
+-		} else if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
++		if (cmd.equals(CMD_FOLLOW_HYPERLINK)) {
+ 			String url = st.nextToken();
+ 			String urlPrefix = &quot;<A HREF="http://">http://</A>&quot;;
+ 			if (!url.startsWith(urlPrefix)) {
+@@ -293,12 +260,6 @@
+ 
+ 	private String renderWeekView(Vector appointments, Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
+-		// error check ### to be droppped
+-		if (!isSet(displayDateString)) {
+-			System.out.println(&quot;  &gt; \&quot;Display Date\&quot; not set completely -- rendering not yet possible&quot;);
+-			return &quot;&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
+-		}
+-		//
+ 		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
+ 		// display range: begin date
+ 		int delta = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+@@ -419,14 +380,14 @@
+ 	private String renderMonthView(Vector appointments, Vector events) {
+ 		String displayDateString = getProperty(PROPERTY_DISPLAY_DATE);
+ 		Calendar displayDate = DeepaMehtaUtils.getCalendar(displayDateString);
++		// display range: begin date
++		displayDate.set(Calendar.DAY_OF_MONTH, 1);
++		// display range: end date
++		Calendar lastDisplayDate = (Calendar) displayDate.clone();
++		lastDisplayDate.set(Calendar.DAY_OF_MONTH, lastDisplayDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+ 		// --- make model ---
+ 		Vector[] monthAppointmentModel = makeMonthAppointmentModel(appointments, displayDate);
+-		//
+-		displayDate.set(Calendar.DAY_OF_MONTH, 1);
+-		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+-		int weekCount = (monthAppointmentModel.length + dayOfWeek + 6) / 7;	// number of weeks to render
+-		//
+-		Vector[] monthEventModel = makeMonthEventModel(events, displayDate, dayOfWeek, weekCount);
++		Vector[] monthEventModel = makeMonthEventModel(events, displayDate, lastDisplayDate);
+ 		// --- rendering ---
+ 		StringBuffer html = new StringBuffer(&quot;&lt;html&gt;&lt;head&gt;&lt;link href=\&quot;stylesheets/calendar.css\&quot; rel=\&quot;stylesheet\&quot; &quot; +
+ 											 &quot;type=\&quot;text/css\&quot;&gt;&lt;/head&gt;&lt;body&gt;&quot;);
+@@ -441,6 +402,8 @@
+ 		}
+ 		html.append(&quot;&lt;/tr&gt;&quot;);
+ 		// - body -
++		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// weekday of 1st day of month, Mon=0 ... Sun=6
++		int weekCount = (lastDisplayDate.get(Calendar.DAY_OF_MONTH) + dayOfWeek + 6) / 7;	// number of weeks to render
+ 		int i = -dayOfWeek;
+ 		for (int week = 0; week &lt; weekCount; week++) {
+ 			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
+@@ -518,7 +481,7 @@
+ 		String displayMode = getProperty(PROPERTY_DISPLAY_MODE);
+ 		StringBuffer html = new StringBuffer();
+ 		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_GO_BACK + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-arrow-left.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+-		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_DAY_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-day&quot; + (displayMode.equals(DISPLAY_MODE_DAY) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
++		// ### html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_DAY_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-day&quot; + (displayMode.equals(DISPLAY_MODE_DAY) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+ 		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_WEEK_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-week&quot; + (displayMode.equals(DISPLAY_MODE_WEEK) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+ 		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_SELECT_MONTH_MODE + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-month&quot; + (displayMode.equals(DISPLAY_MODE_MONTH) ? &quot;-activated&quot; : &quot;&quot;) + &quot;.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+ 		html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_GO_FORWARD + &quot;\&quot;&gt;&lt;img src=\&quot;images/button-arrow-right.png\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+@@ -622,18 +585,30 @@
+ 			if (!isSet(beginDate) || !isSet(endDate)) {
+ 				continue;
+ 			}
+-			// ignore events outside display range
+-			int c1 = beginDate.compareTo(displayDateString);
+-			int c2 = endDate.compareTo(lastDisplayDateString);
+-			if (c1 &lt; 0 || c2 &gt; 0) {
++			// ignore events completely outside display range
++			int c1 = beginDate.compareTo(lastDisplayDateString);
++			int c2 = endDate.compareTo(displayDateString);
++			if (c1 &gt; 0 || c2 &lt; 0) {
+ 				continue;
+ 			}
+ 			// --- add event to model ---
+ 			eventsDisplayed++;
++			// adjust event begin date
++			c1 = beginDate.compareTo(displayDateString);
++			if (c1 &lt; 0) {
++				beginDate = displayDateString;
++			}
++			// adjust event end date
++			c2 = endDate.compareTo(lastDisplayDateString);
++			if (c2 &gt; 0) {
++				endDate = lastDisplayDateString;
++			}
++			//
+ 			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
+ 			Calendar eventEnd   = DeepaMehtaUtils.getCalendar(endDate);
+ 			int beginDay = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+ 			int endDay   =   (eventEnd.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
++			//
+ 			addEventToModel(event, beginDay, endDay, weekEventModel);
+ 		}
+ 		System.out.println(&quot;=&gt; displayed events:                               &quot; + eventsDisplayed);
+@@ -758,13 +733,16 @@
+ 	}
+ 
+ 	/**
+-	 * @param	displayDate	the date to display. Only year and month are relevant.
+-	 * @param	dayOfWeek	weekday of the 1st day of display month, Mon=0 ... Sun=6
++	 * @param	displayDate		the date to display. Set to 1st day of month.
++	 * @param	lastDisplayDate	the date to display. Set to last day of month.
+ 	 */
+-	private Vector[] makeMonthEventModel(Vector events, Calendar displayDate, int dayOfWeek, int weekCount) {
++	private Vector[] makeMonthEventModel(Vector events, Calendar displayDate, Calendar lastDisplayDate) {
++		int dayOfWeek = (displayDate.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// weekday of 1st day of month, Mon=0 ... Sun=6
++		int weekCount = (lastDisplayDate.get(Calendar.DAY_OF_MONTH) + dayOfWeek + 6) / 7;	// number of weeks to render
+ 		Vector[] monthEventModel = initMonthEventModel(weekCount);
+ 		//
+-		String displayDateString = DeepaMehtaUtils.getDate(displayDate);
++		String displayDateString     = DeepaMehtaUtils.getDate(displayDate);
++		String lastDisplayDateString = DeepaMehtaUtils.getDate(lastDisplayDate);
+ 		//
+ 		int eventsDisplayed = 0;	// for diagnostics only
+ 		//
+@@ -777,13 +755,25 @@
+ 			if (!isSet(beginDate) || !isSet(endDate)) {
+ 				continue;
+ 			}
+-			// ignore events outside current month
+-			if (!beginDate.substring(0, 7).equals(displayDateString.substring(0, 7)) ||
+-				  !endDate.substring(0, 7).equals(displayDateString.substring(0, 7))) {
++			// ignore events completely outside current month
++			int c1 = beginDate.compareTo(lastDisplayDateString);
++			int c2 = endDate.compareTo(displayDateString);
++			if (c1 &gt; 0 || c2 &lt; 0) {
+ 				continue;
+ 			}
+ 			// --- add event to model ---
+ 			eventsDisplayed++;
++			// adjust event begin date
++			c1 = beginDate.compareTo(displayDateString);
++			if (c1 &lt; 0) {
++				beginDate = displayDateString;
++			}
++			// adjust event end date
++			c2 = endDate.compareTo(lastDisplayDateString);
++			if (c2 &gt; 0) {
++				endDate = lastDisplayDateString;
++			}
++			//
+ 			Calendar eventBegin = DeepaMehtaUtils.getCalendar(beginDate);
+ 			Calendar eventEnd   = DeepaMehtaUtils.getCalendar(endDate);
+ 			int beginDay = (eventBegin.get(Calendar.DAY_OF_WEEK) + 5) % 7;	// Mon=0 ... Sun=6
+@@ -794,7 +784,7 @@
+ 			for (int week = beginWeek; week &lt;= endWeek; week++) {
+ 				int weekBeginDay = week == beginWeek ? beginDay : 0;
+ 				int weekEndDay   =   week == endWeek ? endDay : 6;
+-				// find free event slot (a row)
++				//
+ 				addEventToModel(event, weekBeginDay, weekEndDay, monthEventModel[week]);
+ 			}
+ 		}
+@@ -824,12 +814,8 @@
+ 	// ---
+ 
+ 	private Vector getAppointments() {
+-		Vector appointments;
+-		// 1) add appointments directly connected to this calendar
+-		// ### sorting not needed anymore
+-		String[] sortProps = {PROPERTY_BEGIN_DATE, PROPERTY_BEGIN_TIME};
+-		appointments = cm.getRelatedTopics(getID(), SEMANTIC_CALENDAR_APPOINTMENT, TOPICTYPE_APPOINTMENT, 2, sortProps, false);	// descending=false
+-		// 2) add appointments of the persons connected to this calendar
++		Vector appointments = new Vector();
++		// add appointments of the persons connected to this calendar
+ 		Enumeration e = getCalendarPersons().elements();
+ 		while (e.hasMoreElements()) {
+ 			BaseTopic person = (BaseTopic) e.nextElement();
+
+Modified: trunk/develop/src/de/deepamehta/topics/EventTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-12-17 01:11:35 UTC (rev 253)
++++ trunk/develop/src/de/deepamehta/topics/EventTopic.java	2007-12-20 13:57:06 UTC (rev 254)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.Session;
++import de.deepamehta.util.DeepaMehtaUtils;
+ 
+ import java.util.Enumeration;
+ import java.util.Hashtable;
+@@ -12,7 +13,7 @@
+ 
+ 
+ /**
+- * Last functional change: 14.12.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 20.12.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 14.12.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -33,12 +34,36 @@
+ 
+ 
+ 
+-	// **********************
+-	// *** Defining Hooks ***
+-	// **********************
++	// ************************
++	// *** Overriding Hooks ***
++	// ************************
+ 
+ 
+ 
++	// ------------------
++	// --- Life Cycle ---
++	// ------------------
++
++
++
++	public CorporateDirectives evoke(Session session, String topicmapID, String viewmode) {
++		CorporateDirectives directives = super.evoke(session, topicmapID, viewmode);
++		// initialize begin date with today
++		setTopicData(PROPERTY_BEGIN_DATE, DeepaMehtaUtils.getDate());
++		//
++		return directives;
++	}
++
++	public CorporateDirectives die() {
++		CorporateDirectives directives = super.die();
++		//
++		updateCalendars(getCalendars(), directives);
++		//
++		return directives;
++	}
++
++
++
+ 	// ---------------------------
+ 	// --- Handling Properties ---
+ 	// ---------------------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000098.html">[deepamehta-svn] r253 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

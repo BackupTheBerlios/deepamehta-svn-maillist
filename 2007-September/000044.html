@@ -1,0 +1,1679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r199 - in branches/ldap: . install/examples	install/examples/mailman install/examples/mailman/src	install/examples/mailman/src/de	install/examples/mailman/src/de/deepamehta	install/examples/mailman/src/de/deepamehta/topics	install/examples/mailman/test install/examples/mailman/test/de	install/examples/mailman/test/de/deepamehta	install/examples/mailman/test/de/deepamehta/test libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r199%20-%20in%20branches/ldap%3A%20.%20install/examples%0A%09install/examples/mailman%20install/examples/mailman/src%0A%09install/examples/mailman/src/de%0A%09install/examples/mailman/src/de/deepamehta%0A%09install/examples/mailman/src/de/deepamehta/topics%0A%09install/examples/mailman/test%20install/examples/mailman/test/de%0A%09install/examples/mailman/test/de/deepamehta%0A%09install/examples/mailman/test/de/deepamehta/test%20libs&In-Reply-To=%3C200709152140.l8FLe8Ji009377%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000043.html">
+   <LINK REL="Next"  HREF="000045.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r199 - in branches/ldap: . install/examples	install/examples/mailman install/examples/mailman/src	install/examples/mailman/src/de	install/examples/mailman/src/de/deepamehta	install/examples/mailman/src/de/deepamehta/topics	install/examples/mailman/test install/examples/mailman/test/de	install/examples/mailman/test/de/deepamehta	install/examples/mailman/test/de/deepamehta/test libs</H1>
+    <B>danny at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r199%20-%20in%20branches/ldap%3A%20.%20install/examples%0A%09install/examples/mailman%20install/examples/mailman/src%0A%09install/examples/mailman/src/de%0A%09install/examples/mailman/src/de/deepamehta%0A%09install/examples/mailman/src/de/deepamehta/topics%0A%09install/examples/mailman/test%20install/examples/mailman/test/de%0A%09install/examples/mailman/test/de/deepamehta%0A%09install/examples/mailman/test/de/deepamehta/test%20libs&In-Reply-To=%3C200709152140.l8FLe8Ji009377%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r199 - in branches/ldap: . install/examples	install/examples/mailman install/examples/mailman/src	install/examples/mailman/src/de	install/examples/mailman/src/de/deepamehta	install/examples/mailman/src/de/deepamehta/topics	install/examples/mailman/test install/examples/mailman/test/de	install/examples/mailman/test/de/deepamehta	install/examples/mailman/test/de/deepamehta/test libs">danny at mail.berlios.de
+       </A><BR>
+    <I>Sat Sep 15 23:40:08 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000043.html">[deepamehta-svn] r198 - branches/ldap/install/examples/ldap
+</A></li>
+        <LI>Next message: <A HREF="000045.html">[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: danny
+Date: 2007-09-15 23:39:31 +0200 (Sat, 15 Sep 2007)
+New Revision: 199
+
+Added:
+   branches/ldap/install/examples/mailman/
+   branches/ldap/install/examples/mailman/build.xml
+   branches/ldap/install/examples/mailman/mailman.sql
+   branches/ldap/install/examples/mailman/readme.txt
+   branches/ldap/install/examples/mailman/src/
+   branches/ldap/install/examples/mailman/src/de/
+   branches/ldap/install/examples/mailman/src/de/deepamehta/
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasySSLProtocolSocketFactory.java
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasyX509TrustManager.java
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanArchiveFetcher.java
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanContainerTopic.java
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+   branches/ldap/install/examples/mailman/test/
+   branches/ldap/install/examples/mailman/test/de/
+   branches/ldap/install/examples/mailman/test/de/deepamehta/
+   branches/ldap/install/examples/mailman/test/de/deepamehta/test/
+   branches/ldap/install/examples/mailman/test/de/deepamehta/test/IgnoreCertPathVerifier.java
+   branches/ldap/install/examples/mailman/test/de/deepamehta/test/MailmanArchiveFetcherTest.java
+   branches/ldap/install/examples/mailman/test/de/deepamehta/test/QBrowser.java
+   branches/ldap/libs/commons-httpclient-3.0.1.jar
+   branches/ldap/libs/commons-logging-1.1.jar
+   branches/ldap/libs/junit-4.4.jar
+Modified:
+   branches/ldap/config.xml
+Log:
+alpha prototype of mailman integration added
+
+Modified: branches/ldap/config.xml
+===================================================================
+--- branches/ldap/config.xml	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/config.xml	2007-09-15 21:39:31 UTC (rev 199)
+@@ -11,17 +11,17 @@
+ &lt;property name=&quot;endorsedpath&quot; location=&quot;libs/endorsed&quot;/&gt;
+ 
+ &lt;!-- Servlet Engine --&gt;
+-&lt;property name=&quot;web.deploy.dir&quot;  value=&quot;/usr/local/tomcat/webapps&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.lib.dir&quot;     value=&quot;/usr/local/tomcat/shared/lib&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.classes.dir&quot; value=&quot;/usr/local/tomcat/shared/classes&quot;/&gt;				&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.servlet.lib&quot; value=&quot;/usr/local/tomcat/common/lib/servlet-api.jar&quot;/&gt;	&lt;!-- configure this --&gt;
++&lt;property name=&quot;web.deploy.dir&quot;  value=&quot;/usr/share/tomcat5.5/webapps&quot;/&gt;
++&lt;property name=&quot;web.lib.dir&quot;     value=&quot;/usr/share/tomcat5.5/shared/lib&quot;/&gt;
++&lt;property name=&quot;web.classes.dir&quot; value=&quot;/usr/share/tomcat5.5/shared/classes&quot;/&gt;
++&lt;property name=&quot;web.servlet.lib&quot; value=&quot;/usr/share/tomcat5.5/common/lib/servlet-api.jar&quot;/&gt;
+ 
+ &lt;!-- Build Support --&gt;
+-&lt;property name=&quot;build.archive.dir&quot; value=&quot;/Users/jri/Archive/DeepaMehta&quot;/&gt;	&lt;!-- configure this --&gt;
+-&lt;property name=&quot;build.name&quot; value=&quot;deepamehta-2.0b7.zip&quot;/&gt;					&lt;!-- configure this --&gt;
++&lt;property name=&quot;build.archive.dir&quot; value=&quot;${install}&quot;/&gt;
++&lt;property name=&quot;build.name&quot; value=&quot;deepamehta-2.0b7.zip&quot;/&gt;
+ 
+ &lt;!-- 3rd Party Libraries --&gt;
+-&lt;path id=&quot;javalibs&quot;&gt;
++&lt;path id=&quot;javalibs&quot;&gt;	
+ 	&lt;pathelement location=&quot;${libpath}/mysql-3.1.7.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
+@@ -35,7 +35,10 @@
+ 	&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/endorsed/xerces_2_3_0.jar&quot;/&gt;
++	&lt;pathelement location=&quot;${libpath}/commons-logging-1.1.jar&quot;/&gt;
++	&lt;pathelement location=&quot;${libpath}/commons-httpclient-3.0.1.jar&quot;/&gt;
+ &lt;/path&gt;
++
+ &lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+ 	&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+ 	     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
+@@ -50,7 +53,7 @@
+ &lt;property name=&quot;dm.port&quot; value=&quot;7557&quot;/&gt;								&lt;!-- configure this --&gt;
+ 
+ &lt;!-- DeepaMehta Applications --&gt;
+-&lt;property name=&quot;appspath&quot; location=&quot;/Users/jri/Projects&quot;/&gt;			&lt;!-- configure this --&gt;
++&lt;property name=&quot;appspath&quot; location=&quot;Projects&quot;/&gt;			&lt;!-- configure this --&gt;
+ &lt;path id=&quot;dmapps&quot;&gt;
+ 	&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+@@ -63,6 +66,7 @@
+ 	&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot;/&gt;		&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${examples}/mailman/MailmanArchiveTopics.jar&quot;/&gt;
+ &lt;/path&gt;
+ 
+ &lt;!-- Database --&gt;
+
+
+Property changes on: branches/ldap/install/examples/mailman
+___________________________________________________________________
+Name: svn:ignore
+   + build
+
+MailmanArchiveTopics.jar
+
+
+Added: branches/ldap/install/examples/mailman/build.xml
+===================================================================
+--- branches/ldap/install/examples/mailman/build.xml	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/build.xml	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,40 @@
++&lt;project name=&quot;LDAP&quot; default=&quot;jar&quot; basedir=&quot;.&quot;&gt;
++
++	&lt;description&gt;
++		mailman archiv import
++	&lt;/description&gt;
++
++	&lt;property name=&quot;jar&quot; value=&quot;MailmanArchiveTopics.jar&quot; /&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot; /&gt;
++	&lt;property name=&quot;server&quot; location=&quot;../../server&quot; /&gt;
++
++
++	&lt;import file=&quot;../../../config.xml&quot; /&gt;
++
++	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot; /&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
++			&lt;classpath&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot; /&gt;
++				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot; /&gt;
++				&lt;pathelement location=&quot;../../../libs/commons-httpclient-3.0.1.jar&quot; /&gt;
++				&lt;pathelement location=&quot;../../../libs/commons-logging-1.1.jar&quot; /&gt;
++				&lt;pathelement location=&quot;../../../libs/commons-httpclient-3.0.1.jar&quot; /&gt;
++			&lt;/classpath&gt;
++		&lt;/javac&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
++		&lt;jar jarfile=&quot;${jar}&quot; basedir=&quot;${build}&quot;&gt;
++			&lt;include name=&quot;de/deepamehta/topics/*.class&quot; /&gt;
++		&lt;/jar&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
++		&lt;delete dir=&quot;${build}&quot; /&gt;
++	&lt;/target&gt;
++
++&lt;/project&gt;
+
+Added: branches/ldap/install/examples/mailman/mailman.sql
+===================================================================
+--- branches/ldap/install/examples/mailman/mailman.sql	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/mailman.sql	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,111 @@
++-------------------------
++--- Mailman workspace ---
++-------------------------
++INSERT INTO Topic VALUES ('tt-workspace', 1, 1, 't-mailmanworkspace', 'Mailman');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Name', 'Mailman');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Public', 'on');
++INSERT INTO TopicProp VALUES ('t-ldapworkspace', 1, 'Default', 'off');
++INSERT INTO Association VALUES ('at-membership', 1, 1, 'a-mailman-rootusermailmanworkspace', '', 't-rootuser', 1, 't-mailmanworkspace', 1);
++
++-- TODO was ist die &quot;workgroupmap&quot;? bzw. wozu wird der Workspace dieser hinzugef&#252;gt?
++INSERT INTO ViewTopic VALUES ('t-workgroupmap', 1, 't-mailmanworkspace', 1, 200, 200);
++
++-- workspace topicmap
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-mailmantopicmap', 'Mailman');
++INSERT INTO TopicProp VALUES ('t-mailmantopicmap', 1, 'Name', 'Mailman');
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-mailman-workspacetopicmap', '', 't-mailmanworkspace', 1, 't-mailmantopicmap', 1);
++
++-- chat
++INSERT INTO Topic VALUES ('tt-chatboard', 1, 1, 't-mailmanchat', 'Mailman Chats');
++INSERT INTO TopicProp VALUES ('t-mailmanchat', 1, 'Name', 'Mailman Chats');
++INSERT INTO ViewTopic VALUES ('t-mailmantopicmap', 1, 't-mailmanchat', 1, 400, 50);
++
++-- forum
++INSERT INTO Topic VALUES ('tt-messageboard', 1, 1, 't-mailmanforum', 'Mailman Forum');
++INSERT INTO TopicProp VALUES ('t-mailmanforum', 1, 'Name', 'Mailman Forum');
++INSERT INTO ViewTopic VALUES ('t-mailmantopicmap', 1, 't-mailmanforum', 1, 400, 100);
++
++-------------------
++--- Topic Types ---
++-------------------
++-- Mailman List Topic
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-mailmanlist', 'Mailman List');
++INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Name', 'Mailman List');
++INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Plural Name', 'Mailman Lists');
++INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Icon', 'category.gif');
++INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-mailmanlist', 1, 'Custom Implementation', 'de.deepamehta.topics.MailmanTopic');
++-- ListMessage Topic
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-listmessage', 'List Message');
++INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Name', 'List Message');
++INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Plural Name', 'List Messages');
++INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Icon', 'message.gif');
++INSERT INTO TopicProp VALUES ('tt-listmessage', 1, 'Unique Topic Names', 'on');
++-- ListMessage Association
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-listmessageassoc', 'inlist');
++INSERT INTO TopicProp VALUES ('at-listmessageassoc', 1, 'Name', 'In List');
++INSERT INTO TopicProp VALUES ('at-listmessageassoc', 1, 'Color', '#0000FF');
++
++------------------
++--- Properties ---
++------------------
++-- Mailman List Topic Properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-mailmanurl', 'url');
++INSERT INTO TopicProp VALUES ('pp-mailmanurl', 1, 'Name', 'URL');
++INSERT INTO TopicProp VALUES ('pp-mailmanurl', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-mailmanlisturl', '', 'tt-mailmanlist', 1, 'pp-mailmanurl', 1);
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-mailmanusername', 'username');
++INSERT INTO TopicProp VALUES ('pp-mailmanusername', 1, 'Name', 'Username');
++INSERT INTO TopicProp VALUES ('pp-mailmanusername', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-mailmanlistusername', '', 'tt-mailmanlist', 1, 'pp-mailmanusername', 1);
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-mailmanpassword', 'password');
++INSERT INTO TopicProp VALUES ('pp-mailmanpassword', 1, 'Name', 'Password');
++INSERT INTO TopicProp VALUES ('pp-mailmanpassword', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-mailmanlistpassword', '', 'tt-mailmanlist', 1, 'pp-mailmanpassword', 1);
++-- Message Topic Properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessagecontent', 'content');
++INSERT INTO TopicProp VALUES ('pp-listmessagecontent', 1, 'Name', 'Content');
++INSERT INTO TopicProp VALUES ('pp-listmessagecontent', 1, 'Visualization', 'Text Editor');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessagecontent', '', 'tt-listmessage', 1, 'pp-listmessagecontent', 1);
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessagesubject', 'subject');
++INSERT INTO TopicProp VALUES ('pp-listmessagesubject', 1, 'Name', 'Subject');
++INSERT INTO TopicProp VALUES ('pp-listmessagesubject', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessagesubject', '', 'tt-listmessage', 1, 'pp-listmessagesubject', 1);
++
++--INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessage', '');
++--INSERT INTO TopicProp VALUES ('pp-listmessage', 1, 'Name', '');
++--INSERT INTO TopicProp VALUES ('pp-listmessage', 1, 'Visualization', 'Input Field');
++--INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessage', '', 'tt-listmessage', 1, 'pp-listmessage', 1);
++
++---------------------
++--- Example Topic ---
++---------------------
++INSERT INTO Topic VALUES ('tt-mailmanlist', 1, 1, 't-deepamehtadevelopermailmanlist', 'DeepaMehta Developer List');
++INSERT INTO TopicProp VALUES ('t-deepamehtadevelopermailmanlist', 1, 'Name', 'DeepaMehta Developer List');
++INSERT INTO TopicProp VALUES ('t-deepamehtadevelopermailmanlist', 1, 'url', '<A HREF="https://lists.berlios.de/pipermail/deepamehta-devel/">https://lists.berlios.de/pipermail/deepamehta-devel/</A>');
++
++--------------------
++--- Workpad View ---
++--------------------
++INSERT INTO Topic VALUES ('tt-topicmap', 1, 1, 't-mailmanmap', 'Mailman Map');
++INSERT INTO TopicProp VALUES ('t-mailmanmap', 1, 'Name', 'Mailman Map');
++INSERT INTO ViewTopic VALUES ('t-mailmantopicmap', 1, 't-mailmanmap', 1, 100, 100);
++-- Mailman List Topic
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'tt-mailmanlist', 1, 550, 100);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanusername', 1, 500, 50);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlistusername', 1);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanurl', 1, 550, 50);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlisturl', 1);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-mailmanpassword', 1, 600, 50);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-mailmanlistpassword', 1);
++-- Message Topic
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'tt-listmessage', 1, 400, 100);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-listmessagecontent', 1, 400, 50);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-listmessagecontent', 1);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'pp-listmessagesubject', 1, 350, 50);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'a-mailman-listmessagesubject', 1);
++-- ListMessage Association
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessageassoc', 1, 500, 100);
++-- Example List
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 't-deepamehtadevelopermailmanlist', 1, 100, 100);
++
+
+Added: branches/ldap/install/examples/mailman/readme.txt
+===================================================================
+--- branches/ldap/install/examples/mailman/readme.txt	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/readme.txt	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,46 @@
++Mailman Integration
++
++Ein Mailman List Topic (de.deepamehta.topics.MailmanTopic) in der Mailman Map erm&#246;glicht die
++Angabe eine &#220;bersichtsseite wie <A HREF="https://lists.berlios.de/pipermail/deepamehta-devel/">https://lists.berlios.de/pipermail/deepamehta-devel/</A>
++Mit der Aktion Get Messages wird die von dem Mailman Webinterface erzeugte Seite nach Archiven 
++durchsucht, die tempor&#228;r als Datei gespeichtert und dann f&#252;r den Import verarbeitet werden.
++F&#252;r jede Message in einem Archiv wird ein Message Topic angelegt. In diesem
++werden die Daten wie Name, Betreff und Inhalt der Mailman Message gespeichert.
++
++Bugs:
++ * die Assoziationen sind noch ein wenig eigenartig, &quot;What's related?&quot; funktioniert 
++   leider nicht wirklich
++ * es werden alle importierten Messages direkt angezeigt (leider habe ich keine
++   Directive bzw. Methode gefunden, die &quot;nur speichert&quot;)
++ * der Message Inhalt muss noch in HTML &lt;pre&gt; oder &#228;hnliches
++ * Prozess nicht von GUI entkoppelt (steht w&#228;hrend des Importes)
++
++Features:
++ * die Relation zwischen den Nachrichten &#252;ber die referenceIds fehlt leider noch,
++   f&#252;r die messageId muss ein eigenes Attribut oder eine Hash-Methode genutzt werden
++ * die Email-Adressen und Namen verwenden, um Personen und Emails zuzuordnen
++ 
++Anmerkungen bzw. was ist noch zu machen:
++ * derzeitig ist noch keine Authentifizierung implementiert
++ * Achtung, die Messages werden jedesmal komplett geladen, Updates 
++   werden noch nicht unterst&#252;tzt
++ * die Anzahl der Archive kann nur fest angegeben werden (derzeitig 1)
++
++
++
++Installation der Mailman Beispiele:
++
++1. Datenbank-Patch einspielen
++
++# ant patchdb -Dpatch=install/examples/mailman/mailman.sql
++
++2. Bibliothek mit den Custom-Implementierungen erstellen
++
++Archiv erzeugen (install/examples/mailman/MailmanArchiveTopics.jar):
++# ant -f install/examples/mailman/build.xml
++
++3. Das Archive mu&#223; in den Classpath aufgenommen werden, daf&#252;r in der Datei
++config.xml den Abschnitt &quot;DeepaMehta Applications Include&quot; pr&#252;fen, z.B.:
++&lt;pathelement location=&quot;${examples}/mailman/MailmanArchiveTopics.jar&quot;/&gt;
++Weiterhin werden folgende Bibliotheken ben&#246;tigt:
++&lt;pathelement location=&quot;${libpath}/commons-httpclient-3.0.1.jar&quot;/&gt;
+\ No newline at end of file
+
+Added: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasySSLProtocolSocketFactory.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasySSLProtocolSocketFactory.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasySSLProtocolSocketFactory.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,227 @@
++package de.deepamehta.topics;
++
++/*
++ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//httpclient/src/contrib/org/apache/commons/httpclient/contrib/ssl/EasySSLProtocolSocketFactory.java,v 1.7 2004/06/11 19:26:27 olegk Exp $
++ * $Revision$
++ * $Date$
++ * 
++ * ====================================================================
++ *
++ *  Licensed to the Apache Software Foundation (ASF) under one or more
++ *  contributor license agreements.  See the NOTICE file distributed with
++ *  this work for additional information regarding copyright ownership.
++ *  The ASF licenses this file to You under the Apache License, Version 2.0
++ *  (the &quot;License&quot;); you may not use this file except in compliance with
++ *  the License.  You may obtain a copy of the License at
++ *
++ *      <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
++ *
++ *  Unless required by applicable law or agreed to in writing, software
++ *  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
++ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ *  See the License for the specific language governing permissions and
++ *  limitations under the License.
++ * ====================================================================
++ *
++ * This software consists of voluntary contributions made by many
++ * individuals on behalf of the Apache Software Foundation.  For more
++ * information on the Apache Software Foundation, please see
++ * &lt;<A HREF="http://www.apache.org/">http://www.apache.org/</A>&gt;.
++ *
++ */
++
++import java.io.IOException;
++import java.net.InetAddress;
++import java.net.InetSocketAddress;
++import java.net.Socket;
++import java.net.SocketAddress;
++import java.net.UnknownHostException;
++
++import javax.net.SocketFactory;
++import javax.net.ssl.SSLContext;
++import javax.net.ssl.TrustManager;
++
++import org.apache.commons.httpclient.ConnectTimeoutException;
++import org.apache.commons.httpclient.HttpClientError;
++import org.apache.commons.httpclient.params.HttpConnectionParams;
++import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
++import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
++import org.apache.commons.logging.Log;
++import org.apache.commons.logging.LogFactory;
++
++
++
++/**
++ * &lt;p&gt;
++ * EasySSLProtocolSocketFactory can be used to creats SSL {@link Socket}s that
++ * accept self-signed certificates.
++ * &lt;/p&gt;
++ * &lt;p&gt;
++ * This socket factory SHOULD NOT be used for productive systems due to security
++ * reasons, unless it is a concious decision and you are perfectly aware of
++ * security implications of accepting self-signed certificates
++ * &lt;/p&gt;
++ * 
++ * &lt;p&gt;
++ * Example of using custom protocol socket factory for a specific host:
++ * 
++ * &lt;pre&gt;
++ * Protocol easyhttps = new Protocol(&quot;https&quot;, new EasySSLProtocolSocketFactory(),
++ * 		443);
++ * 
++ * HttpClient client = new HttpClient();
++ * client.getHostConfiguration().setHost(&quot;localhost&quot;, 443, easyhttps);
++ * // use relative url only
++ * GetMethod httpget = new GetMethod(&quot;/&quot;);
++ * client.executeMethod(httpget);
++ * &lt;/pre&gt;
++ * 
++ * &lt;/p&gt;
++ * &lt;p&gt;
++ * Example of using custom protocol socket factory per default instead of the
++ * standard one:
++ * 
++ * &lt;pre&gt;
++ * Protocol easyhttps = new Protocol(&quot;https&quot;, new EasySSLProtocolSocketFactory(),
++ * 		443);
++ * Protocol.registerProtocol(&quot;https&quot;, easyhttps);
++ * 
++ * HttpClient client = new HttpClient();
++ * GetMethod httpget = new GetMethod(&quot;<A HREF="https://localhost/&amp;quot;">https://localhost/&quot;</A>);
++ * client.executeMethod(httpget);
++ * &lt;/pre&gt;
++ * 
++ * &lt;/p&gt;
++ * 
++ * @author &lt;a href=&quot;mailto:oleg -at- ural.ru&quot;&gt;Oleg Kalnichevski&lt;/a&gt;
++ * 
++ * &lt;p&gt;
++ * DISCLAIMER: HttpClient developers DO NOT actively support this component. The
++ * component is provided as a reference material, which may be inappropriate for
++ * use without additional customization.
++ * &lt;/p&gt;
++ */
++
++public class EasySSLProtocolSocketFactory implements ProtocolSocketFactory {
++
++	/** Log object for this class. */
++	private static final Log LOG = LogFactory
++			.getLog(EasySSLProtocolSocketFactory.class);
++
++	private SSLContext sslcontext = null;
++
++	/**
++	 * Constructor for EasySSLProtocolSocketFactory.
++	 */
++	public EasySSLProtocolSocketFactory() {
++		super();
++	}
++
++	private static SSLContext createEasySSLContext() {
++		try {
++			SSLContext context = SSLContext.getInstance(&quot;SSL&quot;);
++			context.init(null, new TrustManager[] { new EasyX509TrustManager(
++					null) }, null);
++			return context;
++		} catch (Exception e) {
++			LOG.error(e.getMessage(), e);
++			throw new HttpClientError(e.toString());
++		}
++	}
++
++	private SSLContext getSSLContext() {
++		if (this.sslcontext == null) {
++			this.sslcontext = createEasySSLContext();
++		}
++		return this.sslcontext;
++	}
++
++	/**
++	 * @see SecureProtocolSocketFactory#createSocket(java.lang.String,int,java.net.InetAddress,int)
++	 */
++	public Socket createSocket(String host, int port, InetAddress clientHost,
++			int clientPort) throws IOException, UnknownHostException {
++
++		return getSSLContext().getSocketFactory().createSocket(host, port,
++				clientHost, clientPort);
++	}
++
++	/**
++	 * Attempts to get a new socket connection to the given host within the
++	 * given time limit.
++	 * &lt;p&gt;
++	 * To circumvent the limitations of older JREs that do not support connect
++	 * timeout a controller thread is executed. The controller thread attempts
++	 * to create a new socket within the given limit of time. If socket
++	 * constructor does not return until the timeout expires, the controller
++	 * terminates and throws an {@link ConnectTimeoutException}
++	 * &lt;/p&gt;
++	 * 
++	 * @param host
++	 *            the host name/IP
++	 * @param port
++	 *            the port on the host
++	 * @param clientHost
++	 *            the local host name/IP to bind the socket to
++	 * @param clientPort
++	 *            the port on the local machine
++	 * @param params
++	 *            {@link HttpConnectionParams Http connection parameters}
++	 * 
++	 * @return Socket a new socket
++	 * 
++	 * @throws IOException
++	 *             if an I/O error occurs while creating the socket
++	 * @throws UnknownHostException
++	 *             if the IP address of the host cannot be determined
++	 */
++	public Socket createSocket(final String host, final int port,
++			final InetAddress localAddress, final int localPort,
++			final HttpConnectionParams params) throws IOException,
++			UnknownHostException, ConnectTimeoutException {
++		if (params == null) {
++			throw new IllegalArgumentException(&quot;Parameters may not be null&quot;);
++		}
++		int timeout = params.getConnectionTimeout();
++		SocketFactory socketfactory = getSSLContext().getSocketFactory();
++		if (timeout == 0) {
++			return socketfactory.createSocket(host, port, localAddress,
++					localPort);
++		} else {
++			Socket socket = socketfactory.createSocket();
++			SocketAddress localaddr = new InetSocketAddress(localAddress,
++					localPort);
++			SocketAddress remoteaddr = new InetSocketAddress(host, port);
++			socket.bind(localaddr);
++			socket.connect(remoteaddr, timeout);
++			return socket;
++		}
++	}
++
++	/**
++	 * @see SecureProtocolSocketFactory#createSocket(java.lang.String,int)
++	 */
++	public Socket createSocket(String host, int port) throws IOException,
++			UnknownHostException {
++		return getSSLContext().getSocketFactory().createSocket(host, port);
++	}
++
++	/**
++	 * @see SecureProtocolSocketFactory#createSocket(java.net.Socket,java.lang.String,int,boolean)
++	 */
++	public Socket createSocket(Socket socket, String host, int port,
++			boolean autoClose) throws IOException, UnknownHostException {
++		return getSSLContext().getSocketFactory().createSocket(socket, host,
++				port, autoClose);
++	}
++
++	public boolean equals(Object obj) {
++		return ((obj != null) &amp;&amp; obj.getClass().equals(
++				EasySSLProtocolSocketFactory.class));
++	}
++
++	public int hashCode() {
++		return EasySSLProtocolSocketFactory.class.hashCode();
++	}
++
++}
+
+Added: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasyX509TrustManager.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasyX509TrustManager.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/EasyX509TrustManager.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,119 @@
++package de.deepamehta.topics;
++
++/*
++ * ====================================================================
++ *
++ *  Licensed to the Apache Software Foundation (ASF) under one or more
++ *  contributor license agreements.  See the NOTICE file distributed with
++ *  this work for additional information regarding copyright ownership.
++ *  The ASF licenses this file to You under the Apache License, Version 2.0
++ *  (the &quot;License&quot;); you may not use this file except in compliance with
++ *  the License.  You may obtain a copy of the License at
++ *
++ *      <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
++ *
++ *  Unless required by applicable law or agreed to in writing, software
++ *  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
++ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ *  See the License for the specific language governing permissions and
++ *  limitations under the License.
++ * ====================================================================
++ *
++ * This software consists of voluntary contributions made by many
++ * individuals on behalf of the Apache Software Foundation.  For more
++ * information on the Apache Software Foundation, please see
++ * &lt;<A HREF="http://www.apache.org/">http://www.apache.org/</A>&gt;.
++ *
++ */
++
++import java.security.KeyStore;
++import java.security.KeyStoreException;
++import java.security.NoSuchAlgorithmException;
++import java.security.cert.CertificateException;
++import java.security.cert.X509Certificate;
++
++import javax.net.ssl.TrustManagerFactory;
++import javax.net.ssl.TrustManager;
++import javax.net.ssl.X509TrustManager;
++import org.apache.commons.logging.Log;
++import org.apache.commons.logging.LogFactory;
++
++/**
++ * &lt;p&gt;
++ * EasyX509TrustManager unlike default {@link X509TrustManager} accepts
++ * self-signed certificates.
++ * &lt;/p&gt;
++ * &lt;p&gt;
++ * This trust manager SHOULD NOT be used for productive systems due to security
++ * reasons, unless it is a concious decision and you are perfectly aware of
++ * security implications of accepting self-signed certificates
++ * &lt;/p&gt;
++ * 
++ * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">adrian.sutton at ephox.com</A>&quot;&gt;Adrian Sutton&lt;/a&gt;
++ * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">oleg at ural.ru</A>&quot;&gt;Oleg Kalnichevski&lt;/a&gt;
++ * 
++ * &lt;p&gt;
++ * DISCLAIMER: HttpClient developers DO NOT actively support this component. The
++ * component is provided as a reference material, which may be inappropriate for
++ * use without additional customization.
++ * &lt;/p&gt;
++ */
++
++public class EasyX509TrustManager implements X509TrustManager {
++	private X509TrustManager standardTrustManager = null;
++
++	/** Log object for this class. */
++	private static final Log LOG = LogFactory
++			.getLog(EasyX509TrustManager.class);
++
++	/**
++	 * Constructor for EasyX509TrustManager.
++	 */
++	public EasyX509TrustManager(KeyStore keystore)
++			throws NoSuchAlgorithmException, KeyStoreException {
++		super();
++		TrustManagerFactory factory = TrustManagerFactory
++				.getInstance(TrustManagerFactory.getDefaultAlgorithm());
++		factory.init(keystore);
++		TrustManager[] trustmanagers = factory.getTrustManagers();
++		if (trustmanagers.length == 0) {
++			throw new NoSuchAlgorithmException(&quot;no trust manager found&quot;);
++		}
++		this.standardTrustManager = (X509TrustManager) trustmanagers[0];
++	}
++
++	/**
++	 * @see javax.net.ssl.X509TrustManager#checkClientTrusted(X509Certificate[],String
++	 *      authType)
++	 */
++	public void checkClientTrusted(X509Certificate[] certificates,
++			String authType) throws CertificateException {
++		standardTrustManager.checkClientTrusted(certificates, authType);
++	}
++
++	/**
++	 * @see javax.net.ssl.X509TrustManager#checkServerTrusted(X509Certificate[],String
++	 *      authType)
++	 */
++	public void checkServerTrusted(X509Certificate[] certificates,
++			String authType) throws CertificateException {
++		if ((certificates != null) &amp;&amp; LOG.isDebugEnabled()) {
++			LOG.debug(&quot;Server certificate chain:&quot;);
++			for (int i = 0; i &lt; certificates.length; i++) {
++				LOG.debug(&quot;X509Certificate[&quot; + i + &quot;]=&quot; + certificates[i]);
++			}
++		}
++		if ((certificates != null) &amp;&amp; (certificates.length == 1)) {
++			certificates[0].checkValidity();
++		} else {
++			standardTrustManager.checkServerTrusted(certificates, authType);
++		}
++	}
++
++	/**
++	 * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
++	 */
++	public X509Certificate[] getAcceptedIssuers() {
++		return this.standardTrustManager.getAcceptedIssuers();
++	}
++}
+
+Added: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanArchiveFetcher.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanArchiveFetcher.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanArchiveFetcher.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,218 @@
++package de.deepamehta.topics;
++
++import java.io.File;
++import java.io.FileOutputStream;
++import java.io.IOException;
++import java.io.InputStream;
++import java.net.URISyntaxException;
++import java.net.URL;
++import java.nio.ByteBuffer;
++import java.nio.channels.Channels;
++import java.nio.channels.FileChannel;
++import java.nio.channels.ReadableByteChannel;
++import java.nio.channels.WritableByteChannel;
++import java.util.ArrayList;
++import java.util.regex.Pattern;
++import java.util.zip.GZIPInputStream;
++
++import javax.swing.text.BadLocationException;
++import javax.swing.text.EditorKit;
++import javax.swing.text.SimpleAttributeSet;
++import javax.swing.text.html.HTML;
++import javax.swing.text.html.HTMLDocument;
++import javax.swing.text.html.HTMLEditorKit;
++
++import org.apache.commons.httpclient.HttpClient;
++import org.apache.commons.httpclient.HttpException;
++import org.apache.commons.httpclient.HttpHost;
++import org.apache.commons.httpclient.methods.GetMethod;
++import org.apache.commons.httpclient.protocol.Protocol;
++
++
++
++public class MailmanArchiveFetcher {
++
++	
++
++	/**
++	 * Returns a file with the uncommpressed archive from a HTTP request to the
++	 * URL.
++	 * 
++	 * @param url
++	 * @return file
++	 * @throws HttpException
++	 * @throws IOException
++	 * @throws BadLocationException
++	 * @throws URISyntaxException
++	 */
++	public static File getArchive(final URL url) throws HttpException,
++			IOException, BadLocationException, URISyntaxException {
++
++		File file = null;
++		FileChannel out = null;
++		HttpClient client = new HttpClient();
++		GetMethod get = new GetMethod(getHttpMethod(url, client));
++
++		// do request
++		try {
++			int status = client.executeMethod(get);
++			// TODO better status code handling
++			if (status == 200) {
++				InputStream gz = get.getResponseBodyAsStream();
++				GZIPInputStream stream = new GZIPInputStream(gz);
++				ReadableByteChannel in = Channels.newChannel(stream);
++				file = File.createTempFile(&quot;archive&quot;, &quot;.txt&quot;);
++				out = new FileOutputStream(file).getChannel();
++				copy(in, out);
++			} else {
++				throw new HttpException(&quot;wrong HTTP code (&quot; + status + &quot;)&quot;);
++			}
++
++		} finally {
++			// close get and file output
++			get.releaseConnection();
++			if (out != null) {
++				out.close();
++			}
++		}
++		return file;
++	}
++
++	/**
++	 * Returns all &lt;i&gt;Mailman&lt;/i&gt; archive paths from a HTTP request to the URL.
++	 * 
++	 * @param url
++	 * @return archiveUrls
++	 * @throws HttpException
++	 * @throws IOException
++	 * @throws BadLocationException
++	 * @throws URISyntaxException
++	 */
++	public static ArrayList&lt;String&gt; getArchivePaths(final URL url)
++			throws HttpException, IOException, BadLocationException,
++			URISyntaxException {
++
++		ArrayList&lt;String&gt; archiveUrls = new ArrayList&lt;String&gt;();
++		HttpClient client = new HttpClient();
++		GetMethod get = new GetMethod(getHttpMethod(url, client));
++
++		// do request
++		try {
++			int status = client.executeMethod(get);
++			// TODO better status code handling
++			if (status == 200) {
++				archiveUrls = getArchiveAnchors(get.getResponseBodyAsStream());
++			} else {
++				throw new HttpException(&quot;wrong HTTP code (&quot; + status + &quot;)&quot;);
++			}
++
++		} finally {
++			get.releaseConnection();
++		}
++		return archiveUrls;
++	}
++
++	/**
++	 * Gets default port or explicit declared port from URL
++	 * 
++	 * @param url
++	 * @return port
++	 */
++	public static int getPort(final URL url) {
++		int port = 0;
++		if (url.getPort() == -1) {
++			port = url.getDefaultPort();
++		} else {
++			port = url.getPort();
++		}
++		return port;
++	}
++
++	/**
++	 * This method copies data from the src channel and writes it to the dest
++	 * channel until EOF on src. This implementation makes use of compact() on
++	 * the temp buffer to pack down the data if the buffer wasn't fully drained.
++	 * This may result in data copying, but minimizes system calls. It also
++	 * requires a cleanup loop to make sure all the data gets sent.
++	 */
++	private static void copy(ReadableByteChannel src, WritableByteChannel dest)
++			throws IOException {
++		ByteBuffer buffer = ByteBuffer.allocateDirect(16 * 1024);
++		while (src.read(buffer) != -1) {
++			// prepare the buffer to be drained
++			buffer.flip();
++			// write to the channel, may block
++			dest.write(buffer);
++			// If partial transfer, shift remainder down
++			// If buffer is empty, same as doing clear()
++			buffer.compact();
++		}
++		// EOF will leave buffer in fill state
++		buffer.flip();
++		// make sure the buffer is fully drained.
++		while (buffer.hasRemaining()) {
++			dest.write(buffer);
++		}
++	}
++
++	/**
++	 * Parses the html stream an returns a string for all URLs like
++	 * &lt;code&gt;*.txt.gz&lt;/code&gt;.
++	 * 
++	 * @param htmlStream
++	 * @return urls
++	 * @throws IOException
++	 * @throws BadLocationException
++	 * @throws URISyntaxException
++	 */
++	private static ArrayList&lt;String&gt; getArchiveAnchors(InputStream htmlStream)
++			throws IOException, BadLocationException, URISyntaxException {
++
++		ArrayList&lt;String&gt; urls = new ArrayList&lt;String&gt;();
++		Pattern p = Pattern.compile(&quot;^.*\\.txt\\.gz$&quot;);
++
++		// parse the HTML
++		EditorKit kit = new HTMLEditorKit();
++		HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
++		doc.putProperty(&quot;IgnoreCharsetDirective&quot;, true);
++		kit.read(htmlStream, doc, 0);
++
++		// get all link elements
++		HTMLDocument.Iterator anchors = doc.getIterator(HTML.Tag.A);
++		while (anchors.isValid()) {
++			SimpleAttributeSet s = (SimpleAttributeSet) anchors.getAttributes();
++			String link = (String) s.getAttribute(HTML.Attribute.HREF);
++			// add archive links to url list
++			if (link != null &amp;&amp; p.matcher(link).matches()) {
++				urls.add(link);
++			}
++			anchors.next();
++		}
++
++		return urls;
++	}
++
++	/**
++	 * Returns the HTTP &lt;code&gt;GetMethod&lt;/code&gt; object depending on protocol.
++	 * 
++	 * @param url
++	 * @param client
++	 * @return path
++	 */
++	private static String getHttpMethod(final URL url, HttpClient client) {
++		String path = null;
++		// TODO interact wtith user if host verifivation fails (like browser?)!
++		// use of factory which ignores host verification!
++		if (url.getProtocol().equals(&quot;https&quot;)) {
++			int port = getPort(url);
++			EasySSLProtocolSocketFactory ssl = new EasySSLProtocolSocketFactory();
++			Protocol protocol = new Protocol(url.getProtocol(), ssl, port);
++			HttpHost server = new HttpHost(url.getHost(), port, protocol);
++			client.getHostConfiguration().setHost(server);
++			path = url.getPath();
++		} else {
++			path = url.toString();
++		}
++		return path;
++	}
++}
+
+Added: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanContainerTopic.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanContainerTopic.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanContainerTopic.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,32 @@
++package de.deepamehta.topics;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.service.ApplicationService;
++
++/**
++ * 
++ */
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
++public class MailmanContainerTopic extends ElementContainerTopic {
++
++	public MailmanContainerTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++	protected String getContentType() {
++		return &quot;mailman&quot;;
++	}
++
++	protected String getContentTypeID() {
++		return &quot;tt-mailman&quot;;
++	}
++
++	// ***************************************************************
++	// *** Implementation of abstract ElementContainerTopic method ***
++	// ***************************************************************
++
++	public String getNameAttribute() { // ### was getNameProperty()
++		return &quot;mailmanName&quot;;
++	}
++	
++}
+
+
+Property changes on: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanContainerTopic.java
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,350 @@
++package de.deepamehta.topics;
++
++import java.io.BufferedReader;
++import java.io.File;
++import java.io.FileNotFoundException;
++import java.io.FileReader;
++import java.io.IOException;
++import java.net.MalformedURLException;
++import java.net.URISyntaxException;
++import java.net.URL;
++import java.nio.charset.CharacterCodingException;
++import java.text.ParseException;
++import java.text.SimpleDateFormat;
++import java.util.ArrayList;
++import java.util.Date;
++import java.util.Enumeration;
++import java.util.Hashtable;
++import java.util.Iterator;
++import java.util.Locale;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
++
++import javax.swing.text.BadLocationException;
++
++import org.apache.commons.httpclient.HttpException;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.PresentableAssociation;
++import de.deepamehta.PresentableTopic;
++import de.deepamehta.PropertyDefinition;
++import de.deepamehta.service.ApplicationService;
++import de.deepamehta.service.CorporateCommands;
++import de.deepamehta.service.CorporateDirectives;
++import de.deepamehta.service.Session;
++
++/**
++ * 
++ */
+<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">+ at SuppressWarnings</A>(&quot;serial&quot;)
++public class MailmanTopic extends LiveTopic {
++
++	/* actions */
++	private static final String ITEM_GET_LIST = &quot;Get Messages&quot;;
++
++	private static final String ICON_GET_LIST = &quot;subscribe.gif&quot;;
++
++	private static final String CMD_GET_LIST = &quot;getList&quot;;
++
++	/* types and properties */
++	private static final String PROPERTY_MAILMAN_LIST = &quot;Mailman List&quot;;
++
++	private static final String TOPICTYPE_LISTMESSAGE = &quot;tt-listmessage&quot;;
++
++	private static final String PROPERTY_CONTENT = &quot;content&quot;;
++
++	private static final String PROPERTY_SUBJECT = &quot;subject&quot;;
++
++	private static final String PROPERTY_URL = &quot;url&quot;;
++
++	private static final String ASSOCTYPE_INLIST = &quot;at-listmessageassoc&quot;;
++
++	/**
++	 * count of archives to process in get action
++	 */
++	private static final int ARCHIVE_COUNT = 1;
++
++	public MailmanTopic(BaseTopic topic, ApplicationService as) {
++		super(topic, as);
++	}
++
++	public String getNameProperty() {
++		return PROPERTY_MAILMAN_LIST;
++	}
++
++	public static void propertyLabel(PropertyDefinition propertyDef,
++			ApplicationService as, Session session) {
++		String propName = propertyDef.getPropertyName();
++		if (propName.equals(PROPERTY_NAME)) {
++			propertyDef.setPropertyLabel(PROPERTY_MAILMAN_LIST);
++		}
++	}
++
++	public CorporateCommands contextCommands(String topicmapID,
++			String viewmode, Session session, CorporateDirectives directives) {
++		CorporateCommands commands = new CorporateCommands(as);
++		// add standard commands
++		int editorContext = as.editorContext(topicmapID);
++		commands.addNavigationCommands(this, editorContext, session);
++		//
++		// custom commands
++		commands.addSeparator();
++		commands.addCommand(ITEM_GET_LIST, CMD_GET_LIST,
++				FILESERVER_IMAGES_PATH, ICON_GET_LIST);
++		//
++		// add standard commands
++		commands.addStandardCommands(this, editorContext, viewmode, session,
++				directives);
++		//
++		return commands;
++	}
++
++	@SuppressWarnings(&quot;unchecked&quot;)
++	public CorporateDirectives executeCommand(String command, Session session,
++			String topicmapID, String viewmode) {
++		if (command.equals(CMD_GET_LIST)) {
++			CorporateDirectives directives = new CorporateDirectives();
++
++			// download archives
++			try {
++				Hashtable data = getProperties();
++				URL url = null;
++				ArrayList&lt;String&gt; archiveUrls = null;
++				url = new URL((String) data.get(PROPERTY_URL));
++				archiveUrls = MailmanArchiveFetcher.getArchivePaths(url);
++
++				if (archiveUrls.size() &gt; 0) {
++					String archive = null;
++					URL fileUrl = null;
++					File file = null;
++					// for each archive (String archive : archivUrls)
++					for (int i = 0; i &lt; ARCHIVE_COUNT &amp;&amp; i &lt; archiveUrls.size(); i++) {
++						archive = archiveUrls.get(12);
++						fileUrl = new URL(url.toString() + archive);
++						file = MailmanArchiveFetcher.getArchive(fileUrl);
++						importArchive(file, directives);
++					}
++				}
++			} catch (BadLocationException e) {
++				e.printStackTrace();
++			} catch (MalformedURLException e) {
++				e.printStackTrace();
++			} catch (ParseException e) {
++				e.printStackTrace();
++			} catch (URISyntaxException e) {
++				e.printStackTrace();
++			} catch (HttpException e) {
++				e.printStackTrace();
++			} catch (IOException e) {
++				e.printStackTrace();
++			}
++
++			// TODO add a message with import statistic
++
++			return directives;
++		} else {
++			return super.executeCommand(command, session, topicmapID, viewmode);
++		}
++
++	}
++
++	/**
++	 * Imports a message topic.
++	 * 
++	 * @param date
++	 * @param content
++	 * @param inReplyToId
++	 * @param mail
++	 * @param messageId
++	 * @param name
++	 * @param referenceIds
++	 * @param subject
++	 */
++	@SuppressWarnings(&quot;unchecked&quot;)
++	private void importMessage(Date date, String content, String inReplyToId,
++			String mail, String messageId, String name,
++			ArrayList&lt;String&gt; referenceIds, String subject,
++			CorporateDirectives directives) {
++
++		// TODO use hash or seperate field for complete messageId
++		messageId = messageId.substring(0, messageId.indexOf('@'));
++
++		// create message topic
++		PresentableTopic message = new PresentableTopic(messageId, 1,
++				TOPICTYPE_LISTMESSAGE, 1, subject);
++
++		Hashtable props = new Hashtable();
++		props.put(PROPERTY_CONTENT, content);
++		props.put(PROPERTY_SUBJECT, subject);
++		message.setProperties(props);
++
++		// create list association
++		String assocID = as.getNewAssociationID();
++		PresentableAssociation assoc = new PresentableAssociation(assocID, 1,
++				ASSOCTYPE_INLIST, 1, &quot;&quot;, messageId, 1, getID(), 1);
++
++		directives.add(DIRECTIVE_SHOW_TOPIC, message, Boolean.TRUE);
++		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
++		directives.add(DIRECTIVE_SELECT_TOPIC, messageId);
++
++		// TODO create message references (reply, reference)
++
++	}
++
++	/**
++	 * Imports an uncompressed mailman list archive file.
++	 * 
++	 * @param file
++	 * @throws CharacterCodingException
++	 * @throws FileNotFoundException
++	 * @throws IOException
++	 * @throws ParseException
++	 */
++	private void importArchive(final File file, CorporateDirectives directives)
++			throws CharacterCodingException, FileNotFoundException,
++			IOException, ParseException {
++
++		BufferedReader in = null;
++		SimpleDateFormat formatter = new SimpleDateFormat(
++				&quot;EEE, d MMM yyyy HH:mm:ss Z&quot;, new Locale(&quot;en&quot;, &quot;US&quot;));
++
++		// pattern
++		Matcher matcher = null;
++		Pattern pDate = Pattern.compile(&quot;^Date: (.*)$&quot;);
++		Pattern pFrom = Pattern.compile(&quot;^From: (.*) at (.*) \\((.*)\\)$&quot;);
++		Pattern pMessageId = Pattern.compile(&quot;Message-ID: &lt;(.*)&gt;&quot;);
++		Pattern pInReplyToId = Pattern.compile(&quot;In-Reply-To: &lt;(.*)&gt;&quot;);
++		Pattern pReferencesId = Pattern.compile(&quot;References: &lt;(.*)&gt;&quot;);
++		Pattern pSubject = Pattern.compile(&quot;Subject: \\[[^\\]]*\\] (.*)&quot;);
++		Pattern pTabReferencesId = Pattern.compile(&quot;\t&lt;(.*)&gt;&quot;);
++		Pattern pTabSubject = Pattern.compile(&quot;\t(.*)&quot;);
++		// messages readed until this ignore line or EOF
++		Pattern pFromIgnore = Pattern.compile(&quot;^From .* at .*$&quot;);
++
++		// message attributes
++		Date date = null;
++		String content = null;
++		String inReplyToId = null;
++		String line = null;
++		String mail = null;
++		String messageId = null;
++		String name = null;
++		ArrayList&lt;String&gt; referenceIds = null;
++		String subject = null;
++
++		try {
++			// TODO read ISO-8859-1 like (=?ISO-8859-1?Q?J=F6rg_Richter?=)
++			in = new BufferedReader(new FileReader(file));
++
++			while ((line = in.readLine()) != null) {
++
++				// read from line
++				if (mail == null) {
++					matcher = pFrom.matcher(line);
++					if (matcher.matches()) {
++						mail = matcher.group(1) + &quot;@&quot; + matcher.group(2);
++						name = matcher.group(3);
++						continue;
++					}
++				}
++
++				// read date line
++				if (mail != null &amp;&amp; date == null) {
++					matcher = pDate.matcher(line);
++					if (matcher.matches()) {
++						date = formatter.parse(matcher.group(1));
++						continue;
++					}
++				}
++
++				// read first subject line
++				if (date != null &amp;&amp; subject == null) {
++					matcher = pSubject.matcher(line);
++					if (matcher.matches()) {
++						subject = matcher.group(1);
++						continue;
++					}
++				}
++
++				// read in reply to
++				if (subject != null &amp;&amp; messageId == null &amp;&amp; inReplyToId == null) {
++					matcher = pInReplyToId.matcher(line);
++					if (matcher.matches()) {
++						inReplyToId = matcher.group(1);
++						continue;
++					}
++				}
++
++				// read first reference
++				if (subject != null &amp;&amp; messageId == null
++						&amp;&amp; referenceIds == null) {
++					matcher = pReferencesId.matcher(line);
++					if (matcher.matches()) {
++						referenceIds = new ArrayList&lt;String&gt;(1);
++						referenceIds.add(matcher.group(1));
++						continue;
++					}
++				}
++
++				// read messageId
++				if (subject != null &amp;&amp; messageId == null) {
++					matcher = pMessageId.matcher(line);
++					if (matcher.matches()) {
++						messageId = matcher.group(1);
++						continue;
++					} else {
++						if (referenceIds != null) {
++							// read next referencesId
++							matcher = pTabReferencesId.matcher(line);
++							if (matcher.matches()) {
++								referenceIds.add(matcher.group(1));
++							}
++						} else {
++							// read additional subject lines before messageId
++							matcher = pTabSubject.matcher(line);
++							if (matcher.matches()) {
++								subject += &quot; &quot; + matcher.group(1);
++							}
++						}
++						continue;
++					}
++				}
++
++				// read content
++				if (messageId != null) {
++					// actual (first) line at this point is empty =&gt; read next
++					content = new String();
++					while ((line = in.readLine()) != null) {
++						matcher = pFromIgnore.matcher(line);
++						if (matcher.matches()) { // message readed
++							importMessage(date, content, inReplyToId, mail,
++									messageId, name, referenceIds, subject,
++									directives);
++							mail = null;
++							name = null;
++							date = null;
++							subject = null;
++							inReplyToId = null;
++							referenceIds = null;
++							messageId = null;
++							content = null;
++							break;
++						} else { // add content line
++							content += line + &quot;\n&quot;;
++						}
++					}
++				}
++			}
++		} finally {
++			if (in != null) {
++				in.close();
++			}
++		}
++		// import last message after loops
++		if (content != null) {
++			importMessage(date, content, inReplyToId, mail, messageId, name,
++					referenceIds, subject, directives);
++		}
++	}
++
++}
+
+
+Property changes on: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: branches/ldap/install/examples/mailman/test/de/deepamehta/test/IgnoreCertPathVerifier.java
+===================================================================
+--- branches/ldap/install/examples/mailman/test/de/deepamehta/test/IgnoreCertPathVerifier.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/test/de/deepamehta/test/IgnoreCertPathVerifier.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,23 @@
++/**
++ * 
++ */
++package de.deepamehta.test;
++
++import javax.net.ssl.HostnameVerifier;
++import javax.net.ssl.SSLSession;
++
++/**
++ * @author danny
++ *
++ */
++public class IgnoreCertPathVerifier implements HostnameVerifier {
++
++	/* (non-Javadoc)
++	 * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String, javax.net.ssl.SSLSession)
++	 */
++	public boolean verify(String hostname, SSLSession session) {
++		System.out.println(&quot;IgnoreCertPathVerifier asked :D&quot;);
++		return true;
++	}
++
++}
+
+Added: branches/ldap/install/examples/mailman/test/de/deepamehta/test/MailmanArchiveFetcherTest.java
+===================================================================
+--- branches/ldap/install/examples/mailman/test/de/deepamehta/test/MailmanArchiveFetcherTest.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/test/de/deepamehta/test/MailmanArchiveFetcherTest.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,102 @@
++package de.deepamehta.test;
++
++import static org.junit.Assert.assertEquals;
++
++import java.io.File;
++import java.io.IOException;
++import java.net.ConnectException;
++import java.net.MalformedURLException;
++import java.net.URISyntaxException;
++import java.net.URL;
++import java.text.ParseException;
++import java.util.ArrayList;
++
++import javax.swing.text.BadLocationException;
++
++import org.apache.commons.httpclient.HttpException;
++import org.junit.After;
++import org.junit.Before;
++import org.junit.BeforeClass;
++import org.junit.Test;
++
++import de.deepamehta.topics.MailmanArchiveFetcher;
++
++
++public class MailmanArchiveFetcherTest {
++
++	@BeforeClass
++	public static void setUpBeforeClass() throws Exception {
++	}
++
++	@Before
++	public void setUp() throws Exception {
++	}
++
++	@After
++	public void tearDown() throws Exception {
++	}
++
++	@Test
++	public void testInformationsAboutUrl() {
++		try {
++
++			// use default port
++			URL url = new URL(&quot;<A HREF="https://localhost/path">https://localhost/path</A>&quot;);
++			assertEquals(443, url.getDefaultPort());
++			assertEquals(&quot;localhost&quot;, url.getHost());
++			assertEquals(&quot;/path&quot;, url.getPath());
++			assertEquals(-1, url.getPort());
++			assertEquals(&quot;https&quot;, url.getProtocol());
++			assertEquals(443, MailmanArchiveFetcher.getPort(url));
++
++			// use explicit port declaration
++			url = new URL(&quot;<A HREF="https://localhost:10443/path">https://localhost:10443/path</A>&quot;);
++			assertEquals(443, url.getDefaultPort());
++			assertEquals(&quot;localhost&quot;, url.getHost());
++			assertEquals(&quot;/path&quot;, url.getPath());
++			assertEquals(10443, url.getPort());
++			assertEquals(&quot;https&quot;, url.getProtocol());
++			assertEquals(10443, MailmanArchiveFetcher.getPort(url));
++
++		} catch (MalformedURLException e) {
++			e.printStackTrace();
++		}
++	}
++
++	@Test
++	public void testFetchDeepamehtaDevelMailmanArchives() {
++		try {
++			URL url = null;
++
++			// get over https (the ending slash is required for https!)
++			url = new URL(
++					&quot;<A HREF="https://lists.berlios.de/pipermail/deepamehta-devel/">https://lists.berlios.de/pipermail/deepamehta-devel/</A>&quot;);
++			ArrayList&lt;String&gt; archiveUrls = MailmanArchiveFetcher
++					.getArchivePaths(url);
++
++			// for (String archive : archivUrls) {
++			String archive = archiveUrls.get(12);
++			URL fileUrl = new URL(url.toString() + archive);
++			File file = MailmanArchiveFetcher.getArchive(fileUrl);
++			// }
++
++			// and over http
++			// url = new
++			// URL(&quot;<A HREF="http://lists.berlios.de/pipermail/deepamehta-devel">http://lists.berlios.de/pipermail/deepamehta-devel</A>&quot;);
++			// body = MailmanArchivFetcher.getHttpBody(url);
++
++		} catch (BadLocationException e) {
++			e.printStackTrace();
++		} catch (ConnectException e) {
++			e.printStackTrace();
++		} catch (MalformedURLException e) {
++			e.printStackTrace();
++		} catch (HttpException e) {
++			e.printStackTrace();
++		} catch (IOException e) {
++			e.printStackTrace();
++		} catch (URISyntaxException e) {
++			e.printStackTrace();
++		}
++	}
++}
+
+Added: branches/ldap/install/examples/mailman/test/de/deepamehta/test/QBrowser.java
+===================================================================
+--- branches/ldap/install/examples/mailman/test/de/deepamehta/test/QBrowser.java	2007-09-15 21:35:17 UTC (rev 198)
++++ branches/ldap/install/examples/mailman/test/de/deepamehta/test/QBrowser.java	2007-09-15 21:39:31 UTC (rev 199)
+@@ -0,0 +1,141 @@
++package de.deepamehta.test;
++
++import java.awt.BorderLayout;
++import java.awt.FlowLayout;
++import java.awt.event.ActionEvent;
++import java.awt.event.ActionListener;
++import java.io.BufferedReader;
++import java.io.IOException;
++import java.io.InputStreamReader;
++import java.io.PrintWriter;
++import java.io.StringWriter;
++import java.net.URL;
++import java.net.URLConnection;
++
++import javax.net.ssl.HttpsURLConnection;
++import javax.swing.JButton;
++import javax.swing.JEditorPane;
++import javax.swing.JFrame;
++import javax.swing.JLabel;
++import javax.swing.JPanel;
++import javax.swing.JScrollPane;
++import javax.swing.JTextField;
++
++
++public class QBrowser implements ActionListener, Runnable {
++	private JFrame frame;
++
++	private JButton go;
++
++	private JEditorPane content;
++
++	private JTextField url;
++
++	private JLabel statusLine;
++
++	// default constructor
++	public QBrowser() {
++		buildBrowserInterface();
++	}
++
++	private void buildBrowserInterface() {
++		frame = new JFrame(&quot;Q's Browser&quot;);
++		// on close, exit the application using System.exit(0);
++		frame.setDefaultCloseOperation(3);
++
++		url = new JTextField(&quot;&quot;, 25);
++		go = new JButton(&quot;Go Get It&quot;);
++		go.addActionListener(this);
++
++		JPanel controls = new JPanel(new FlowLayout());
++		controls.add(new JLabel(&quot;URL:&quot;));
++		controls.add(url);
++		controls.add(go);
++		content = new JEditorPane();
++		content.setEditable(false);
++		// HTML text. Use the kit in the class
++		// javax.swing.text.html.HTMLEditorKit, which
++		// provides support for HTML 3.2
++		content.setContentType(&quot;text/html&quot;);
++		content
++				.setText(&quot;&lt;center&gt;&lt;h1&gt;Q's Browser&lt;/h1&gt;&lt;p&gt; Copyright (c) 2002 Qusay H. Mahmoud&lt;/center&gt;&quot;);
++
++		statusLine = new JLabel(&quot;Initialization Complete&quot;);
++
++		JPanel panel = new JPanel(new BorderLayout(0, 2));
++		frame.setContentPane(panel);
++
++		panel.add(controls, &quot;North&quot;);
++		panel.add(new JScrollPane(content), &quot;Center&quot;);
++		panel.add(statusLine, &quot;South&quot;);
++		frame.pack();
++		frame.setVisible(true);
++	}
++
++	/**
++	 * You cannot stop a download with QBrowser The thread allows multiple
++	 * downloads to start concurrently in case a download freezes
++	 */
++	public void actionPerformed(ActionEvent event) {
++		Thread thread = new Thread(this);
++		thread.start();
++	}
++
++	// this is the Thread's run method
++	public void run() {
++		try {
++			String str = url.getText();
++			URL url = new URL(str);
++			readURL(url);
++		} catch (IOException ioe) {
++			statusLine.setText(&quot;Error: &quot; + ioe.getMessage());
++			showException(ioe);
++		}
++	}
++
++	private void showException(Exception ex) {
++		StringWriter trace = new StringWriter();
++		ex.printStackTrace(new PrintWriter(trace));
++		content.setContentType(&quot;text/html&quot;);
++		content.setText(&quot;&lt;h1&gt;&quot; + ex + &quot;&lt;/h1&gt;&lt;pre&gt;&quot; + trace + &quot;&lt;/pre&gt;&quot;);
++	}
++
++	/**
++	 * The URL class is capable of handling <A HREF="http://">http://</A> and <A HREF="https://">https://</A> URLs
++	 */
++	private void readURL(URL url) throws IOException {
++		statusLine.setText(&quot;Opening &quot; + url.toExternalForm());
++		URLConnection uc = url.openConnection();
++		HttpsURLConnection connection = null;
++		if (uc instanceof HttpsURLConnection) {
++			connection = (HttpsURLConnection) uc;
++		}
++		connection.setHostnameVerifier(new IgnoreCertPathVerifier());
++
++		StringBuffer buffer = new StringBuffer();
++		BufferedReader in = null;
++		try {
++			in = new BufferedReader(new InputStreamReader(connection
++					.getInputStream()));
++			String line;
++			while ((line = in.readLine()) != null) {
++				buffer.append(line).append('\n');
++				statusLine.setText(&quot;Read &quot; + buffer.length() + &quot; bytes...&quot;);
++			}
++		} finally {
++			if (in != null)
++				in.close();
++		}
++		String type = connection.getContentType();
++		if (type == null)
++			type = &quot;text/plain&quot;;
++		statusLine.setText(&quot;Content type &quot; + type);
++		content.setContentType(type);
++		content.setText(buffer.toString());
++		statusLine.setText(&quot;Done&quot;);
++	}
++
++	public static void main(String[] args) {
++		QBrowser browser = new QBrowser();
++	}
++}
+
+Added: branches/ldap/libs/commons-httpclient-3.0.1.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/ldap/libs/commons-httpclient-3.0.1.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/ldap/libs/commons-logging-1.1.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/ldap/libs/commons-logging-1.1.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: branches/ldap/libs/junit-4.4.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: branches/ldap/libs/junit-4.4.jar
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000043.html">[deepamehta-svn] r198 - branches/ldap/install/examples/ldap
+</A></li>
+	<LI>Next message: <A HREF="000045.html">[deepamehta-svn] r200 - in branches/ldap: . install/examples/mailman	install/examples/mailman/src/de/deepamehta/topics libs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

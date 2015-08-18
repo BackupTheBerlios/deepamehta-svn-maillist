@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r232 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r232%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/config&In-Reply-To=%3C200710041719.l94HJ2xU025465%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000076.html">
+   <LINK REL="Next"  HREF="000078.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r232 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r232%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%20install/config&In-Reply-To=%3C200710041719.l94HJ2xU025465%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r232 - in branches/eschnepel: .	develop/src/de/deepamehta develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Thu Oct  4 19:19:02 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000076.html">[deepamehta-svn] r231 - in trunk: .	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config
+</A></li>
+        <LI>Next message: <A HREF="000078.html">[deepamehta-svn] r233 - in trunk: . .settings ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-browser/config install/examples/dm-search install/examples/dm-search/config install/examples/dm-topicmapviewer install/examples/dm-topicmapviewer/config install/examples/dm-web install/examples/dm-web/build install/examples/dm-web/config install/examples/kompetenzstern install/examples/kompetenzstern/config install/examples/kompetenzstern/pages i! nstall/examples/ldap install/examples/ldap/src/de/deepamehta/topics install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies install/examples/movies/bin install/examples/movies/build install/examples/movies/config install/examples/movies/db install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#77">[ date ]</a>
+              <a href="thread.html#77">[ thread ]</a>
+              <a href="subject.html#77">[ subject ]</a>
+              <a href="author.html#77">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-10-04 19:19:01 +0200 (Thu, 04 Oct 2007)
+New Revision: 232
+
+Modified:
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+   branches/eschnepel/install/config/dm.properties
+Log:
+merge from <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">trunk at 231</A>
+corrected loading of propertiy files, namly config.properties which must exist is the same directory as dm.properties now
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-10-04 15:00:19 UTC (rev 231)
++++ branches/eschnepel/build.xml	2007-10-04 17:19:01 UTC (rev 232)
+@@ -19,7 +19,7 @@
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+-		&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot; /&gt;
++		&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+ 		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot; /&gt;
+ 		&lt;!-- configure this --&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-10-04 15:00:19 UTC (rev 231)
++++ branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-10-04 17:19:01 UTC (rev 232)
+@@ -1,11 +1,14 @@
+ package de.deepamehta;
+ 
++import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileNotFoundException;
+ import java.io.IOException;
+ import java.util.Enumeration;
+ import java.util.Properties;
+ 
++
++
+ public class Configuration extends Properties {
+ 
+ 	private static final long serialVersionUID = 1L;
+@@ -35,19 +38,19 @@
+ 			}
+ 			resolveReferences();
+ 			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
+-			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_CONFIG_PROPERTY_FILE));
+-			resolveReferences();
++			loadProperties(new File(configFile).getAbsoluteFile().getParentFile().getAbsolutePath() + &quot;/config.properties&quot;);
++			// loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_CONFIG_PROPERTY_FILE));
+ 		} catch (FileNotFoundException e) {
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		}
++		resolveReferences();
+ 	}
+ 
+-	public static Configuration getDbConfig(String dbType){
++	public static Configuration getDbConfig(String dbType) {
+ 		Configuration c = (Configuration) globalInstance.clone();
+-		c.setProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE,
+-				globalInstance.dbTypePropertyFile);
++		c.setProperty(ConfigurationConstants.Database.DB_TYPE_PROPERTY_FILE, globalInstance.dbTypePropertyFile);
+ 		c.setProperty(ConfigurationConstants.Database.DB_TYPE, dbType);
+ 		c.resolveReferences();
+ 		try {
+@@ -64,9 +67,8 @@
+ 		return globalInstance;
+ 	}
+ 
+-	private void loadProperties(String configFile) throws IOException,
+-			FileNotFoundException {
+-		System.out.println(&quot;Loading Configuration properties &quot;+configFile);
++	private void loadProperties(String configFile) throws IOException, FileNotFoundException {
++		System.out.println(&quot;Loading Configuration properties &quot; + configFile);
+ 		Properties p = new Properties();
+ 		p.load(new FileInputStream(configFile));
+ 		putAll(p);
+@@ -88,8 +90,7 @@
+ 						String var = val.substring(from + 2, to);
+ 						String rep = (String) get(var);
+ 						if (null == rep) {
+-							System.out.println(&quot;unable to resolve &quot; + var
+-									+ &quot;! maybe later...&quot;);
++							System.out.println(&quot;unable to resolve &quot; + var + &quot;! maybe later...&quot;);
+ 							break;
+ 						}
+ 						val.replace(from, to + 1, rep);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-10-04 15:00:19 UTC (rev 231)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-10-04 17:19:01 UTC (rev 232)
+@@ -106,7 +106,7 @@
+ 		String service = sc.getInitParameter(&quot;service&quot;);
+ 		// Note: the current working directory is the directory from where tomcat was started
+ 		ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(
+-			service, home != null ? home + &quot;/install/config/dm.properties&quot; : &quot;dm.properties&quot;);
++			service, home != null ? home + &quot;/install/config/dm.properties&quot; : &quot;../config/dm.properties&quot;);
+ 		as = ApplicationService.create(this, instance);		// throws DME ### servlet is not properly inited
+ 		cm = as.cm;
+ 		// --- create external connection ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-10-04 15:00:19 UTC (rev 231)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/CalendarTopic.java	2007-10-04 17:19:01 UTC (rev 232)
+@@ -21,7 +21,7 @@
+ 
+ 
+ /**
+- * Last functional change: 26.9.2007 (2.0b8)&lt;br&gt;
++ * Last functional change: 30.9.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 6.7.2007 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -185,7 +185,6 @@
+ 
+ 
+ 
+-	// ### to be dropped
+ 	public CorporateDirectives propertiesChanged(Hashtable newProps, Hashtable oldProps,
+ 											String topicmapID, String viewmode, Session session) {
+ 		CorporateDirectives directives = super.propertiesChanged(newProps, oldProps,
+@@ -224,6 +223,32 @@
+ 
+ 
+ 
++	// -----------------------------
++	// --- Handling Associations ---
++	// -----------------------------
++
++
++
++	public void associated(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		LiveTopic topic = as.getLiveTopic(relTopicID, 1);
++		if (assocTypeID.equals(SEMANTIC_CALENDAR_PERSON) &amp;&amp; (topic.getType().equals(TOPICTYPE_PERSON) ||
++															 topic.getType().equals(TOPICTYPE_EVENT))) {
++			System.out.println(&quot;&gt;&gt;&gt; CalendarTopic.associated(): &quot; + this + &quot; associated with &quot; + topic + &quot; -- update this calendar&quot;);
++			updateView(directives);
++		}
++	}
++
++	public void associationRemoved(String assocTypeID, String relTopicID, Session session, CorporateDirectives directives) {
++		LiveTopic topic = as.getLiveTopic(relTopicID, 1);
++		if (assocTypeID.equals(SEMANTIC_CALENDAR_PERSON) &amp;&amp; (topic.getType().equals(TOPICTYPE_PERSON) ||
++															 topic.getType().equals(TOPICTYPE_EVENT))) {
++			System.out.println(&quot;&gt;&gt;&gt; CalendarTopic.associationRemoved(): &quot; + this + &quot; disassociated from &quot; + topic + &quot; -- update this calendar&quot;);
++			updateView(directives);
++		}
++	}
++
++
++
+ 	// **********************
+ 	// *** Custom Methods ***
+ 	// **********************
+
+Modified: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-10-04 15:00:19 UTC (rev 231)
++++ branches/eschnepel/install/config/dm.properties	2007-10-04 17:19:01 UTC (rev 232)
+@@ -1,7 +1,7 @@
+ # DeepaMehta Service
+ #dm.instance			=mysql
+ #dm.instance			=hsqldb-intern
+-dm.instance			=derby-intern
++dm.instance			=mysql5
+ dm.host				=localhost
+ dm.port				=7557
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000076.html">[deepamehta-svn] r231 - in trunk: .	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics install/config
+</A></li>
+	<LI>Next message: <A HREF="000078.html">[deepamehta-svn] r233 - in trunk: . .settings ant/lib develop develop/build develop/src/de/deepamehta develop/src/de/deepamehta/client develop/src/de/deepamehta/service develop/src/de/deepamehta/service/web develop/src/de/deepamehta/topics develop/src/de/deepamehta/topics/helper develop/src/de/deepamehta/topics/personalweb develop/src/de/deepamehta/util install/client install/client/backgrounds install/client/documents install/client/icons install/client/images install/config install/db install/db/db-specific install/examples/artfacts install/examples/artfacts/src/de/deepamehta/artfacts/topics install/examples/dm-browser install/examples/dm-browser/config install/examples/dm-search install/examples/dm-search/config install/examples/dm-topicmapviewer install/examples/dm-topicmapviewer/config install/examples/dm-web install/examples/dm-web/build install/examples/dm-web/config install/examples/kompetenzstern install/examples/kompetenzstern/config install/examples/kompetenzstern/pages i! nstall/examples/ldap install/examples/ldap/src/de/deepamehta/topics install/examples/messageboard install/examples/messageboard/build install/examples/messageboard/src/de/deepamehta/messageboard install/examples/messageboard/src/de/deepamehta/messageboard/topics install/examples/movies install/examples/movies/bin install/examples/movies/build install/examples/movies/config install/examples/movies/db install/examples/movies/src/de/deepamehta/movies/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#77">[ date ]</a>
+              <a href="thread.html#77">[ thread ]</a>
+              <a href="subject.html#77">[ subject ]</a>
+              <a href="author.html#77">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

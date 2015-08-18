@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r176%20-%20in%20trunk/develop/src/de/deepamehta%3A%20client%0A%09service%20service/web&In-Reply-To=%3C200708161245.l7GCjX7g019929%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000020.html">
+   <LINK REL="Next"  HREF="000022.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r176%20-%20in%20trunk/develop/src/de/deepamehta%3A%20client%0A%09service%20service/web&In-Reply-To=%3C200708161245.l7GCjX7g019929%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Aug 16 14:45:33 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000020.html">[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000022.html">[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-08-16 14:45:26 +0200 (Thu, 16 Aug 2007)
+New Revision: 176
+
+Modified:
+   trunk/develop/src/de/deepamehta/client/FileserverConnection.java
+   trunk/develop/src/de/deepamehta/client/InteractionConnection.java
+   trunk/develop/src/de/deepamehta/client/MessagingConnection.java
+   trunk/develop/src/de/deepamehta/client/PresentationService.java
+   trunk/develop/src/de/deepamehta/client/TypeConnection.java
+   trunk/develop/src/de/deepamehta/service/DeepaMehtaServer.java
+   trunk/develop/src/de/deepamehta/service/web/ExternalConnection.java
+Log:
+Bug #9493 addressed: Socket connections lost through timeout. Timeout is now disbaled for all sockets. Not tested on Windows and Linux (only Mac OS X). Does it help to avoid broken connections?
+
+Modified: trunk/develop/src/de/deepamehta/client/FileserverConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/FileserverConnection.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/client/FileserverConnection.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -24,7 +24,7 @@
+  * and the {@link MessagingConnection} (used for &lt;I&gt;asynchronous&lt;/I&gt; communication).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 27.2.2005 (2.0b6)&lt;BR&gt;
++ * Last functional change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -39,11 +39,6 @@
+ 
+ 
+ 
+-	// needed for
+-	// sending queued messages (ps.sendMessage()),
+-	// processing queued directives (ps.processDirectives()) and
+-	// sync modification of downloaded files (ps.setLastModifiedLocally())
+-	// ### private PresentationService ps;
+ 	private FileServer fileServer;
+ 
+ 	private DataInputStream in;
+@@ -62,7 +57,10 @@
+ 	 */
+ 	FileserverConnection(String host, int port, int sessionID, FileServer fileServer) throws IOException {
+ 		Socket sock = new Socket(host, port);
+-		// ### this.ps = ps;
++		//
++		System.out.println(&quot;&gt; client side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++		sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++		//
+ 		this.fileServer = fileServer;
+ 		this.in = new DataInputStream(sock.getInputStream());
+ 		this.out = new DataOutputStream(sock.getOutputStream());
+
+Modified: trunk/develop/src/de/deepamehta/client/InteractionConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/InteractionConnection.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/client/InteractionConnection.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -28,7 +28,7 @@
+  * transfers).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 14.11.2004 (2.0b3)&lt;BR&gt;
++ * Last functional change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -66,6 +66,10 @@
+ 												PresentationService ps)
+ 												throws DeepaMehtaException, IOException {
+ 		Socket sock = new Socket(host, port);	// may throw java.net.ConnectException
++		//
++		System.out.println(&quot;&gt; client side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++		sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++		//
+ 		this.ps = ps;
+ 		this.in = new DataInputStream(sock.getInputStream());
+ 		this.out = new DataOutputStream(sock.getOutputStream());
+
+Modified: trunk/develop/src/de/deepamehta/client/MessagingConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/MessagingConnection.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/client/MessagingConnection.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -23,7 +23,7 @@
+  * and the {@link FileserverConnection} (used for background file transfers).
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 27.2.2005 (2.0b6)&lt;BR&gt;
++ * Last functional change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -54,9 +54,12 @@
+ 	/**
+ 	 * @see		DeepaMehtaClient#createLoginGUI
+ 	 */
+-	MessagingConnection(String host, int port, int sessionID, PresentationService ps)
+-																	throws IOException {
++	MessagingConnection(String host, int port, int sessionID, PresentationService ps) throws IOException {
+ 		Socket sock = new Socket(host, port);
++		//
++		System.out.println(&quot;&gt; client side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++		sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++		//
+ 		this.in = new DataInputStream(sock.getInputStream());
+ 		this.out = new DataOutputStream(sock.getOutputStream());
+ 		this.ps = ps;
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationService.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/client/PresentationService.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -2949,7 +2949,7 @@
+ 			if (host != null &amp;&amp; e instanceof IOException) {
+ 				// Note: host=&quot;&quot; happens if the applets HTML page is loaded via filesystem (file:)
+ 				addTextToPanel(&quot;The DeepaMehta server at &quot; + (host.equals(&quot;&quot;) ? &quot;port &quot; : host + &quot;:&quot;) + port +
+-					&quot; isn't running (&quot; + e + &quot;)&quot;, p, 39);	// ### width is 39 chars
++					&quot; can't be connected (&quot; + e + &quot;)&quot;, p, 39);	// ### width is 39 chars
+ 			} else {
+ 				addTextToPanel(e.toString(), p, 39);		// ### width is 39 chars
+ 			}
+
+Modified: trunk/develop/src/de/deepamehta/client/TypeConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TypeConnection.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/client/TypeConnection.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -11,7 +11,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 27.10.2002 (2.0a17-pre1)&lt;BR&gt;
++ * Last functional change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -44,6 +44,10 @@
+ 	TypeConnection(String host, int port, int sessionID, PresentationService ps)
+ 																throws IOException {
+ 		Socket sock = new Socket(host, port);
++		//
++		System.out.println(&quot;&gt; client side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++		sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++		//
+ 		this.in = new DataInputStream(sock.getInputStream());
+ 		this.out = new DataOutputStream(sock.getOutputStream());
+ 		this.ps = ps;
+
+Modified: trunk/develop/src/de/deepamehta/service/DeepaMehtaServer.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/DeepaMehtaServer.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/service/DeepaMehtaServer.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -21,7 +21,7 @@
+  * by closing its console window.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 13.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -286,6 +286,9 @@
+ 		String clientAddress;
+ 	
+ 		Connection(Socket sock) throws IOException {
++			System.out.println(&quot;&gt; server side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++			sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++			//
+ 			InetAddress clientAddress = sock.getInetAddress();
+ 			this.in = new DataInputStream(sock.getInputStream());
+ 			this.out = new DataOutputStream(sock.getOutputStream());
+
+Modified: trunk/develop/src/de/deepamehta/service/web/ExternalConnection.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/ExternalConnection.java	2007-08-13 15:27:59 UTC (rev 175)
++++ trunk/develop/src/de/deepamehta/service/web/ExternalConnection.java	2007-08-16 12:45:26 UTC (rev 176)
+@@ -18,7 +18,7 @@
+  * served by a DeepaMehta server.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.3.2005 (2.0b6)&lt;BR&gt;
++ * Last functional change: 16.8.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 22.9.2004 (2.0b3)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -53,6 +53,10 @@
+ 	 */
+ 	ExternalConnection(String host, int port, ApplicationService as) throws IOException {
+ 		Socket sock = new Socket(host, port);
++		//
++		System.out.println(&quot;&gt; server side socket timeout was &quot; + sock.getSoTimeout() + &quot; ms -- timeout is now disabled&quot;);
++		sock.setSoTimeout(0);	// disable timeout ### does it help to avoid broken connections?
++		//
+ 		this.as = as;
+ 		this.in = new DataInputStream(sock.getInputStream());
+ 		this.out = new DataOutputStream(sock.getOutputStream());
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000020.html">[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000022.html">[deepamehta-svn] r177 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r362 - trunk/develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r362%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200903171445.n2HEjFqg018951%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r362 - trunk/develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r362%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200903171445.n2HEjFqg018951%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r362 - trunk/develop/src/de/deepamehta/service/web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar 17 15:45:15 CET 2009</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#206">[ date ]</a>
+              <a href="thread.html#206">[ thread ]</a>
+              <a href="subject.html#206">[ subject ]</a>
+              <a href="author.html#206">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-03-17 15:45:13 +0100 (Tue, 17 Mar 2009)
+New Revision: 362
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+2 minor changes in HTML Generator
+* fixed  the label for the &quot;Additional Functions&quot; column in listTopicBeans()
+* an empty nameAction param given to listTopicBeans() prevents the actionlink  to be rendered
+
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-01-26 03:51:57 UTC (rev 361)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-03-17 14:45:13 UTC (rev 362)
+@@ -1217,7 +1217,7 @@
+ 			html.append(&quot;&lt;/td&gt;&quot;);
+ 		}
+ 		if (!deleteAction.equals(&quot;&quot;)) {
+-			html.append(&quot;&lt;td&gt;Zus&#172;auml;liche Aktion&lt;/td&gt;&quot;);
++			html.append(&quot;&lt;td&gt;Zusatzfunktion&lt;/td&gt;&quot;);
+ 		}
+ 	}
+ 	
+@@ -1245,7 +1245,7 @@
+ 						html.append(imageTag(value) + &quot; &quot; +value.getName() + &quot;&lt;br/&gt;&quot;);
+ 					}
+ 				} else if(field.type == TopicBeanField.TYPE_SINGLE) {
+-					if (field.name.equals(&quot;Name&quot;)) {
++					if (field.name.equals(&quot;Name&quot;) &amp;&amp; (!action.equals(&quot;&quot;))) {
+ 						html.append(&quot;&lt;a href=\&quot;controller?action=&quot;+action+&quot;&amp;id=&quot;+topic.id +&quot;\&quot;&gt;&quot; + field.value + &quot;&lt;/a&gt;&quot;);
+ 					} else {
+ 						html.append(field.value);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#206">[ date ]</a>
+              <a href="thread.html#206">[ thread ]</a>
+              <a href="subject.html#206">[ subject ]</a>
+              <a href="author.html#206">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

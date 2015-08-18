@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r276 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r276%20-%20trunk&In-Reply-To=%3C200802261219.m1QCJBhJ003652%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000120.html">
+   <LINK REL="Next"  HREF="000122.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r276 - trunk</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r276%20-%20trunk&In-Reply-To=%3C200802261219.m1QCJBhJ003652%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r276 - trunk">jri at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb 26 13:19:11 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000120.html">[deepamehta-svn] r275 - in trunk: . install/db/db-specific
+</A></li>
+        <LI>Next message: <A HREF="000122.html">[deepamehta-svn] r277 - trunk/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#121">[ date ]</a>
+              <a href="thread.html#121">[ thread ]</a>
+              <a href="subject.html#121">[ subject ]</a>
+              <a href="author.html#121">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-02-26 13:19:08 +0100 (Tue, 26 Feb 2008)
+New Revision: 276
+
+Added:
+   trunk/log_tomcat.sh
+   trunk/start_tomcat.sh
+   trunk/stop_tomcat.sh
+Log:
+Added Tomcat start, stop, and log scripts
+
+Added: trunk/log_tomcat.sh
+===================================================================
+--- trunk/log_tomcat.sh	2008-02-26 12:00:33 UTC (rev 275)
++++ trunk/log_tomcat.sh	2008-02-26 12:19:08 UTC (rev 276)
+@@ -0,0 +1,4 @@
++#!/bin/sh
++export CATALINA_HOME=/usr/local/tomcat
++
++tail -f $CATALINA_HOME/logs/catalina.out
+
+
+Property changes on: trunk/log_tomcat.sh
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: trunk/start_tomcat.sh
+===================================================================
+--- trunk/start_tomcat.sh	2008-02-26 12:00:33 UTC (rev 275)
++++ trunk/start_tomcat.sh	2008-02-26 12:19:08 UTC (rev 276)
+@@ -0,0 +1,6 @@
++#!/bin/sh
++export CATALINA_HOME=/usr/local/tomcat
++export JAVA_HOME=/usr
++
++cd install/client
++$CATALINA_HOME/bin/startup.sh
+
+
+Property changes on: trunk/start_tomcat.sh
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Added: trunk/stop_tomcat.sh
+===================================================================
+--- trunk/stop_tomcat.sh	2008-02-26 12:00:33 UTC (rev 275)
++++ trunk/stop_tomcat.sh	2008-02-26 12:19:08 UTC (rev 276)
+@@ -0,0 +1,5 @@
++#!/bin/sh
++export CATALINA_HOME=/usr/local/tomcat
++export JAVA_HOME=/usr
++
++$CATALINA_HOME/bin/shutdown.sh
+
+
+Property changes on: trunk/stop_tomcat.sh
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000120.html">[deepamehta-svn] r275 - in trunk: . install/db/db-specific
+</A></li>
+	<LI>Next message: <A HREF="000122.html">[deepamehta-svn] r277 - trunk/install/db
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#121">[ date ]</a>
+              <a href="thread.html#121">[ thread ]</a>
+              <a href="subject.html#121">[ subject ]</a>
+              <a href="author.html#121">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

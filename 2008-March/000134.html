@@ -1,0 +1,715 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r289 - in trunk: . install/config	install/db/db-specific install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r289%20-%20in%20trunk%3A%20.%20install/config%0A%09install/db/db-specific%20install/examples/movies&In-Reply-To=%3C200803051806.m25I6VG0014808%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000133.html">
+   <LINK REL="Next"  HREF="000135.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r289 - in trunk: . install/config	install/db/db-specific install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r289%20-%20in%20trunk%3A%20.%20install/config%0A%09install/db/db-specific%20install/examples/movies&In-Reply-To=%3C200803051806.m25I6VG0014808%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r289 - in trunk: . install/config	install/db/db-specific install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Mar  5 19:06:31 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000133.html">[deepamehta-svn] r288 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000135.html">[deepamehta-svn] r290 - in trunk: . develop/src/de/deepamehta	install/client/icons install/client/images install/config	install/db install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-05 19:06:21 +0100 (Wed, 05 Mar 2008)
+New Revision: 289
+
+Modified:
+   trunk/.classpath
+   trunk/build.xml
+   trunk/install/config/build-hsqldb-intern.properties
+   trunk/install/db/db-specific/createdb-ask.xml
+   trunk/install/db/db-specific/dropdb-derby.xml
+   trunk/install/db/db-specific/dropdb-hsqldb.xml
+   trunk/install/db/db-specific/dropdb-sql92.xml
+   trunk/install/examples/movies/build.xml
+   trunk/setup.xml
+Log:
+Development-Treffen
+
+Modified: trunk/.classpath
+===================================================================
+--- trunk/.classpath	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/.classpath	2008-03-05 18:06:21 UTC (rev 289)
+@@ -1,15 +1,15 @@
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;classpath&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;develop/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/artfacts/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-browser/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-search/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-topicmapviewer/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/dm-web/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/kompetenzstern/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/ldap/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/messageboard/src&quot;/&gt;
+-	&lt;classpathentry kind=&quot;src&quot; path=&quot;install/examples/movies/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;develop/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/artfacts/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-browser/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-search/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-topicmapviewer/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/dm-web/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/kompetenzstern/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/ldap/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/messageboard/src&quot;/&gt;
++	&lt;classpathentry excluding=&quot;**/.svn/&quot; kind=&quot;src&quot; path=&quot;install/examples/movies/src&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/activation.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/avalon-framework.jar&quot;/&gt;
+ 	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/batik.jar&quot;/&gt;
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/build.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -45,26 +45,156 @@
+ 
+ 	&lt;!-- Install --&gt;
+ 
+-	&lt;target name=&quot;install&quot; description=&quot;initialises the database&quot;&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;config&quot;&gt;
++		&lt;input message=&quot;Do you want to initialize now?&quot; addproperty=&quot;do.install.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;y&quot; /&gt;
+ 		&lt;if&gt;
+-			&lt;istrue value=&quot;${config.finished}&quot;/&gt;
++			&lt;equals arg1=&quot;${do.install.now}&quot; arg2=&quot;y&quot; /&gt;
+ 			&lt;then&gt;
+-				&lt;echo message=&quot;Installing the DeepaMehta instance '${dm.instance}' now...&quot;/&gt;
++				&lt;ant target=&quot;initialize&quot; inheritall=&quot;false&quot;&gt;
++					&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
++				&lt;/ant&gt;
++			&lt;/then&gt;
++			&lt;else&gt;
++				&lt;echo message=&quot;If you want to initialize the DeepaMehta instance later&quot; /&gt;
++				&lt;echo message=&quot;please execute 'run initialize'.&quot; /&gt;
++			&lt;/else&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;initialize&quot; description=&quot;initialises the database&quot;&gt;
++		&lt;if&gt;
++			&lt;istrue value=&quot;${config.finished}&quot; /&gt;
++			&lt;then&gt;
++				&lt;echo message=&quot;Initialize the DeepaMehta instance '${dm.instance}' now...&quot; /&gt;
+ 				&lt;antcallback target=&quot;-initdb&quot; return=&quot;do.db.abort&quot; /&gt;
+ 				&lt;!-- example applications --&gt;
+ 				&lt;antcall target=&quot;-installexamples&quot; /&gt;
++				&lt;if&gt;
++					&lt;not&gt;
++						&lt;equals arg1=&quot;${do.db.abort}&quot; arg2=&quot;true&quot; /&gt;
++					&lt;/not&gt;
++					&lt;then&gt;
++						&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++							&lt;entry key=&quot;dm.instance.installed&quot; value=&quot;true&quot; /&gt;
++						&lt;/propertyfile&gt;
++					&lt;/then&gt;
++				&lt;/if&gt;
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
+-				&lt;echo message=&quot;DeepaMehta has not been configured yet.&quot;/&gt;
+-				&lt;ant target=&quot;config&quot; inheritall=&quot;false&quot;/&gt;
++				&lt;echo message=&quot;DeepaMehta has not been configured yet.&quot; /&gt;
++				&lt;ant target=&quot;install&quot; inheritall=&quot;false&quot; /&gt;
+ 			&lt;/else&gt;
+ 		&lt;/if&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;uninstall&quot; description=&quot;drops all databases&quot;&gt;
++	&lt;target name=&quot;-dropdb&quot; depends=&quot;-dropdb-do&quot;&gt;
++		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++			&lt;entry key=&quot;dm.instance.installed&quot; value=&quot;false&quot; /&gt;
++		&lt;/propertyfile&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;dropdb&quot; description=&quot;drops all databases&quot;&gt;
++		&lt;echo message=&quot;Uninstalling the DeepaMehta instance '${dm.instance}' now...&quot; /&gt;
+ 		&lt;antcall target=&quot;-dropdb&quot; /&gt;
+ 		&lt;!-- example applications --&gt;
+ 		&lt;antcall target=&quot;-uninstallexamples&quot; /&gt;
+ 	&lt;/target&gt;
++	&lt;target name=&quot;uninstall&quot; description=&quot;drops all databases&quot;&gt;
++		&lt;echo message=&quot;Deleting all DeepaMehta related stuff from your hard disk.&quot; /&gt;
++		&lt;echo message=&quot;This instances will be deleted:&quot; /&gt;
++		&lt;echo /&gt;
++		&lt;for param=&quot;list.instance.config.file&quot;&gt;
++			&lt;path&gt;
++				&lt;fileset dir=&quot;${config}&quot; includes=&quot;config-*.properties&quot; /&gt;
++			&lt;/path&gt;
++			&lt;sequential&gt;
++				&lt;var name=&quot;list.instance&quot; unset=&quot;true&quot; /&gt;
++				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;@{list.instance.config.file}&quot; regexp=&quot;config-(.*).properties&quot; select=&quot;\1&quot; /&gt;
++				&lt;echo&gt;* ${list.instance}&lt;/echo&gt;
++			&lt;/sequential&gt;
++		&lt;/for&gt;
++		&lt;echo /&gt;
++		&lt;input message=&quot;Do you want to proceed?&quot; addproperty=&quot;do.uninstall.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;n&quot; /&gt;
++		&lt;if&gt;
++			&lt;equals arg1=&quot;${do.uninstall.now}&quot; arg2=&quot;y&quot; /&gt;
++			&lt;then&gt;
++				&lt;property name=&quot;dont.db.ask&quot; value=&quot;true&quot; /&gt;
++				&lt;for param=&quot;list.instance.config.file&quot;&gt;
++					&lt;path&gt;
++						&lt;fileset dir=&quot;${config}&quot; includes=&quot;config-*.properties&quot; /&gt;
++					&lt;/path&gt;
++					&lt;sequential&gt;
++						&lt;var name=&quot;list.instance&quot; unset=&quot;true&quot; /&gt;
++						&lt;var name=&quot;list.dm-instance&quot; unset=&quot;true&quot; /&gt;
++						&lt;propertyregex property=&quot;list.instance&quot; input=&quot;@{list.instance.config.file}&quot; regexp=&quot;config-(.*).properties&quot; select=&quot;\1&quot; /&gt;
++						&lt;ant target=&quot;dropdb&quot;&gt;
++							&lt;property name=&quot;dm.instance&quot; value=&quot;${list.instance}&quot; /&gt;
++						&lt;/ant&gt;
++					&lt;/sequential&gt;
++				&lt;/for&gt;
++				&lt;delete defaultexcludes=&quot;false&quot; includeemptydirs=&quot;true&quot;&gt;
++					&lt;fileset dir=&quot;.&quot; defaultexcludes=&quot;false&quot; followsymlinks=&quot;false&quot; /&gt;
++				&lt;/delete&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;newinstance&quot; description=&quot;Creates a new instance&quot;&gt;
++		&lt;echo message=&quot;Please select the instance configuration the new instance is based on:&quot; /&gt;
++		&lt;echo /&gt;
++		&lt;for param=&quot;list.instance.config.file&quot;&gt;
++			&lt;path&gt;
++				&lt;fileset dir=&quot;${config}&quot; includes=&quot;build-*.properties&quot; /&gt;
++			&lt;/path&gt;
++			&lt;sequential&gt;
++				&lt;var name=&quot;list.instance&quot; unset=&quot;true&quot; /&gt;
++				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;@{list.instance.config.file}&quot; regexp=&quot;build-(.*).properties&quot; select=&quot;\1&quot; /&gt;
++				&lt;echo&gt;* ${list.instance}&lt;/echo&gt;
++			&lt;/sequential&gt;
++		&lt;/for&gt;
++		&lt;echo /&gt;
++		&lt;input message=&quot;Instance name:&quot; addproperty=&quot;instance.name&quot; defaultvalue=&quot;${dm.instance}&quot; /&gt;
++		&lt;if&gt;
++			&lt;or&gt;
++				&lt;resourcecount when=&quot;ne&quot; count=&quot;1&quot;&gt;
++					&lt;fileset dir=&quot;${config}&quot; includes=&quot;build-${instance.name}.properties&quot; /&gt;
++				&lt;/resourcecount&gt;
++				&lt;resourcecount when=&quot;ne&quot; count=&quot;1&quot;&gt;
++					&lt;fileset dir=&quot;${config}&quot; includes=&quot;dm-${instance.name}.properties&quot; /&gt;
++				&lt;/resourcecount&gt;
++			&lt;/or&gt;
++			&lt;then&gt;
++				&lt;fail message=&quot;Configuration does not exist!&quot; /&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++		&lt;input message=&quot;Please enter the new instance name:&quot; addproperty=&quot;new.instance.name&quot; defaultvalue=&quot;${instance.name}2&quot; /&gt;
++		&lt;if&gt;
++			&lt;resourcecount when=&quot;eq&quot; count=&quot;0&quot;&gt;
++				&lt;fileset dir=&quot;${config}&quot;&gt;
++					&lt;include name=&quot;build-${new.instance.name}.properties&quot; /&gt;
++					&lt;include name=&quot;dm-${new.instance.name}.properties&quot; /&gt;
++				&lt;/fileset&gt;
++			&lt;/resourcecount&gt;
++			&lt;then&gt;
++				&lt;copy file=&quot;${config}/build-${instance.name}.properties&quot; tofile=&quot;${config}/build-${new.instance.name}.properties&quot; /&gt;
++				&lt;copy file=&quot;${config}/dm-${instance.name}.properties&quot; tofile=&quot;${config}/dm-${new.instance.name}.properties&quot; /&gt;
++				&lt;ant target=&quot;install&quot;&gt;
++					&lt;property name=&quot;dm.instance&quot; value=&quot;${new.instance.name}&quot; /&gt;
++				&lt;/ant&gt;
++			&lt;/then&gt;
++			&lt;else&gt;
++				&lt;fail message=&quot;Configuration does exist already!&quot; /&gt;
++			&lt;/else&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;switchinstance&quot; description=&quot;Switches the instance&quot;&gt;
++		&lt;var name=&quot;path&quot; value=&quot;${config}&quot; /&gt;
++		&lt;var name=&quot;prefix&quot; value=&quot;config&quot; /&gt;
++		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
++		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
++			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to activate:&quot; /&gt;
++		&lt;/antcallback&gt;
++		&lt;antcall target=&quot;-config-setup-default-instance&quot;&gt;
++			&lt;param name=&quot;dont.ask&quot; value=&quot;true&quot;/&gt;
++		&lt;/antcall&gt;
++	&lt;/target&gt;
+ 	&lt;target name=&quot;-installexamples&quot; depends=&quot;-testsyspass&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;install&quot; /&gt;
+@@ -154,7 +284,11 @@
+ 				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
++		&lt;property name=&quot;abs-client&quot; location=&quot;${client}&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++			INSERT INTO TopicProp VALUES ('t-corpwebadm', 1, 'Base URL', '<A HREF="file://${abs-client">file://${abs-client</A>}${file.separator}');
++		&lt;/sql&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+ 				&lt;include name=&quot;names.sql&quot; /&gt;
+ 				&lt;include name=&quot;help.sql&quot; /&gt;
+@@ -178,6 +312,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;reset&quot;&gt;
++		&lt;echo message=&quot;Resetting the DeepaMehta instance '${dm.instance}' now...&quot; /&gt;
+ 		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.user}', password '${db.password}').&quot; /&gt;
+ 		&lt;echo message=&quot;If you want reset another database, type 'n' and edit config.xml (section 'Database')&quot; /&gt;
+ 		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.user=... -Ddb.password=...&quot; /&gt;
+@@ -186,9 +321,9 @@
+ 			&lt;equals arg1=&quot;${do.reset}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] reset'&quot; /&gt;
+-		&lt;property name=&quot;dont.db.ask&quot; value=&quot;true&quot;/&gt;
+-		&lt;antcall target=&quot;uninstall&quot; /&gt;
+-		&lt;antcall target=&quot;install&quot; /&gt;
++		&lt;property name=&quot;dont.db.ask&quot; value=&quot;true&quot; /&gt;
++		&lt;antcall target=&quot;dropdb&quot; /&gt;
++		&lt;antcall target=&quot;initialize&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;patchdb&quot;&gt;
+@@ -284,8 +419,8 @@
+ 	&lt;target name=&quot;-call-examples-web-intern&quot;&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+-				&lt;isset property=&quot;do.web.deploy&quot;/&gt;
+-				&lt;istrue value=&quot;${example.executeall}&quot;/&gt;
++				&lt;isset property=&quot;do.web.deploy&quot; /&gt;
++				&lt;istrue value=&quot;${example.executeall}&quot; /&gt;
+ 			&lt;/or&gt;
+ 			&lt;then&gt;
+ 				&lt;ant target=&quot;-call-example&quot;&gt;
+@@ -371,20 +506,20 @@
+ 
+ 	&lt;target name=&quot;tomcat-start&quot; description=&quot;starts the configured config instance&quot;&gt;
+ 		&lt;exec executeable=&quot;${tomcat.root}/bin/startup.sh&quot; dir=&quot;${client}&quot;&gt;
+-			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
+-			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
++			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot; /&gt;
++			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot; /&gt;
+ 		&lt;/exec&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;tomcat-stop&quot; description=&quot;stops the configured config instance&quot;&gt;
+ 		&lt;exec executeable=&quot;${tomcat.root}/bin/shutdown.sh&quot; dir=&quot;${client}&quot;&gt;
+-			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
+-			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
++			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot; /&gt;
++			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot; /&gt;
+ 		&lt;/exec&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;tomcat-log&quot; description=&quot;continiuos logging output of the tomcat log&quot;&gt;
+ 		&lt;exec executeable=&quot;tail&quot;&gt;
+-			&lt;arg value=&quot;-f&quot;/&gt;
+-			&lt;arg value=&quot;${tomcat.root}/logs/catalina.out&quot;/&gt;
++			&lt;arg value=&quot;-f&quot; /&gt;
++			&lt;arg value=&quot;${tomcat.root}/logs/catalina.out&quot; /&gt;
+ 		&lt;/exec&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/config/build-hsqldb-intern.properties
+===================================================================
+--- trunk/install/config/build-hsqldb-intern.properties	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/config/build-hsqldb-intern.properties	2008-03-05 18:06:21 UTC (rev 289)
+@@ -20,6 +20,4 @@
+ config.db.host		=false
+ config.db.name		=true
+ config.db.user		=false
+-config.dm.port		=false
+-config.web.compatible=false
+ config.name			=\(Internal HSQL Database; Recommended\)
+
+Modified: trunk/install/db/db-specific/createdb-ask.xml
+===================================================================
+--- trunk/install/db/db-specific/createdb-ask.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/db/db-specific/createdb-ask.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -7,8 +7,17 @@
+ If you want change these settings, type 'n' and execute 'run config' again.
+ 		&lt;/echo&gt;
+ 		&lt;var name=&quot;input.createdb&quot; unset=&quot;true&quot; /&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;input.createdb&quot; defaultvalue=&quot;y&quot; /&gt;
+-		&lt;var name=&quot;do.db.abort&quot; unset=&quot;true&quot;/&gt;
++		&lt;if&gt;
++			&lt;istrue value=&quot;${dm.instance.installed}&quot; /&gt;
++			&lt;then&gt;
++				&lt;var name=&quot;input.createdb.default&quot; value=&quot;n&quot;/&gt;
++			&lt;/then&gt;
++			&lt;else&gt;
++				&lt;var name=&quot;input.createdb.default&quot; value=&quot;y&quot;/&gt;
++			&lt;/else&gt;
++		&lt;/if&gt;
++		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;input.createdb&quot; defaultvalue=&quot;${input.createdb.default}&quot; /&gt;
++		&lt;var name=&quot;do.db.abort&quot; unset=&quot;true&quot; /&gt;
+ 		&lt;condition property=&quot;do.db.abort&quot; value=&quot;true&quot;&gt;
+ 			&lt;equals arg1=&quot;${input.createdb}&quot; arg2=&quot;n&quot; /&gt;
+ 		&lt;/condition&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-derby.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-derby.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/db/db-specific/dropdb-derby.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -1,6 +1,6 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-derby&quot;&gt;
+ 	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
++	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
+ 		&lt;delete dir=&quot;${db.derby.path}&quot; /&gt;
+ 	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-hsqldb.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-hsqldb.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/db/db-specific/dropdb-hsqldb.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -1,7 +1,7 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-hsqldb&quot;&gt;
+ 	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
+-		&lt;delete&gt;
++	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb&quot; unless=&quot;do.abort&quot;&gt;
++		&lt;delete failonerror=&quot;false&quot;&gt;
+ 			&lt;fileset dir=&quot;${db.hsqldb.base-path}&quot;&gt;
+ 				&lt;include name=&quot;${db.name}.*&quot; /&gt;
+ 			&lt;/fileset&gt;
+
+Modified: trunk/install/db/db-specific/dropdb-sql92.xml
+===================================================================
+--- trunk/install/db/db-specific/dropdb-sql92.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/db/db-specific/dropdb-sql92.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -1,7 +1,7 @@
+ &lt;project name=&quot;DeepaMehta-db-dropdb-sql92&quot; &gt;
+ 	&lt;import file=&quot;dropdb-ask.xml&quot;/&gt;
+ 	&lt;import file=&quot;asksyspass.xml&quot;/&gt;
+-	&lt;target name=&quot;-dropdb&quot; depends=&quot;-askdropdb,-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
++	&lt;target name=&quot;-dropdb-do&quot; depends=&quot;-askdropdb,-asksyspass&quot; unless=&quot;do.db.abort&quot;&gt;
+ 		&lt;path id=&quot;dblibs&quot;&gt;
+ 			&lt;fileset dir=&quot;${dm.base-dir}&quot;&gt;
+ 				&lt;include name=&quot;${db.libs}&quot; /&gt;
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/install/examples/movies/build.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -104,18 +104,18 @@
+ 		&lt;ant target=&quot;-initmoviesdb&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-initdb&quot; unless=&quot;do.dmdb.abort&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset dir=&quot;.&quot;&gt;
+-				&lt;include name=&quot;db/dmdb-movies.sql&quot; /&gt;
+-				&lt;include name=&quot;db/dmdb-movies-${movies.dm.instance}.sql&quot; /&gt;
+-			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+-				&lt;include name=&quot;${db.close-session}&quot; /&gt;
+-			&lt;/fileset&gt;
+-		&lt;/sql&gt;
++	&lt;target name=&quot;-initdb&quot;&gt;
+ 		&lt;trycatch property=&quot;exceptionProp&quot;&gt;
+ 			&lt;try&gt;
++				&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;dblibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
++					&lt;fileset dir=&quot;.&quot;&gt;
++						&lt;include name=&quot;db/dmdb-movies.sql&quot; /&gt;
++						&lt;include name=&quot;db/dmdb-movies-${movies.dm.instance}.sql&quot; /&gt;
++					&lt;/fileset&gt;
++					&lt;fileset dir=&quot;${db-specific}&quot;&gt;
++						&lt;include name=&quot;${db.close-session}&quot; /&gt;
++					&lt;/fileset&gt;
++				&lt;/sql&gt;
+ 				&lt;ant antfile=&quot;${movies.dmdb.content}&quot; target=&quot;dmdb-movies&quot; /&gt;
+ 			&lt;/try&gt;
+ 			&lt;catch&gt;
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-03-04 11:49:06 UTC (rev 288)
++++ trunk/setup.xml	2008-03-05 18:06:21 UTC (rev 289)
+@@ -4,7 +4,7 @@
+ 		DeepaMehta setup build file
+ 	&lt;/description&gt;
+ 
+-	&lt;import file=&quot;build.xml&quot; optional=&quot;true&quot;/&gt;
++	&lt;import file=&quot;build.xml&quot; optional=&quot;true&quot; /&gt;
+ 	&lt;condition property=&quot;do.config.db.host&quot; value=&quot;true&quot;&gt;
+ 		&lt;istrue value=&quot;${config.db.host}&quot; /&gt;
+ 	&lt;/condition&gt;
+@@ -18,7 +18,7 @@
+ 		&lt;or&gt;
+ 			&lt;istrue value=&quot;${config.dm.port}&quot; /&gt;
+ 			&lt;not&gt;
+-				&lt;isset property=&quot;config.dm.port&quot;/&gt;
++				&lt;isset property=&quot;config.dm.port&quot; /&gt;
+ 			&lt;/not&gt;
+ 		&lt;/or&gt;
+ 	&lt;/condition&gt;
+@@ -34,7 +34,7 @@
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;config.finished&quot; value=&quot;true&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+-		&lt;var name=&quot;config.finished&quot; value=&quot;true&quot;/&gt;
++		&lt;var name=&quot;config.finished&quot; value=&quot;true&quot; /&gt;
+ 		&lt;echo&gt;
+ Your choices are stored in the files
+ 
+@@ -45,15 +45,6 @@
+ If you want to change the settings you have made please edit
+ these files or execute 'run config' again.
+ 		&lt;/echo&gt;
+-		&lt;input message=&quot;Do you want to install now?&quot; addproperty=&quot;do.install.now&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;y&quot; /&gt;
+-		&lt;if&gt;
+-			&lt;equals arg1=&quot;${do.install.now}&quot; arg2=&quot;y&quot; /&gt;
+-			&lt;then&gt;
+-				&lt;ant target=&quot;install&quot; inheritall=&quot;false&quot;&gt;
+-					&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot;/&gt;
+-				&lt;/ant&gt;
+-			&lt;/then&gt;
+-		&lt;/if&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-web&quot; depends=&quot;-config-init&quot;&gt;
+@@ -68,7 +59,8 @@
+ 			&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+ 			&lt;then&gt;
+ 				&lt;var name=&quot;web.deploy.do&quot; value=&quot;false&quot; /&gt;
+-				&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot; /&gt;&lt;!--unset--&gt;
++				&lt;var name=&quot;do.web.deploy&quot; unset=&quot;true&quot; /&gt;
++				&lt;!--unset--&gt;
+ 			&lt;/then&gt;
+ 			&lt;else&gt;
+ 				&lt;var name=&quot;web.deploy.do&quot; value=&quot;true&quot; /&gt;
+@@ -86,14 +78,21 @@
+ 			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+-	
++
+ 	&lt;target name=&quot;-config-which-dm-instance&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;var name=&quot;path&quot; value=&quot;${config}&quot; /&gt;
+ 		&lt;var name=&quot;prefix&quot; value=&quot;dm&quot; /&gt;
+ 		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
+-			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to be configured:&quot;/&gt;
++			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to be configured:&quot; /&gt;
+ 		&lt;/antcallback&gt;
++		&lt;antcall target=&quot;-config-setup-default-instance&quot; /&gt;
++		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
++		&lt;var name=&quot;dm.instance.property-file&quot; value=&quot;${config}/dm-${dm.instance}.properties&quot; /&gt;
++		&lt;var name=&quot;dm.instance.build-property-file&quot; value=&quot;${config}/build-${dm.instance}.properties&quot; /&gt;
++		&lt;var name=&quot;dm.instance.config-property-file&quot; value=&quot;${config}/config-${dm.instance}.properties&quot; /&gt;
++	&lt;/target&gt;
++	&lt;target name=&quot;-config-setup-default-instance&quot;&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+ 				&lt;not&gt;
+@@ -103,17 +102,22 @@
+ 					&lt;/or&gt;
+ 				&lt;/not&gt;
+ 				&lt;not&gt;
+-					&lt;available file=&quot;${config}/config.properties&quot;/&gt;
++					&lt;available file=&quot;${config}/config.properties&quot; /&gt;
+ 				&lt;/not&gt;
+ 			&lt;/or&gt;
+ 			&lt;then&gt;
+ 				&lt;if&gt;
+-					&lt;available file=&quot;${config}/config.properties&quot;/&gt;
++					&lt;and&gt;
++						&lt;available file=&quot;${config}/config.properties&quot; /&gt;
++						&lt;not&gt;
++							&lt;isset property=&quot;dont.ask&quot; /&gt;
++						&lt;/not&gt;
++					&lt;/and&gt;
+ 					&lt;then&gt;
+-						&lt;input message=&quot;Should '${return.instance}' be your default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot;/&gt;
++						&lt;input message=&quot;Should '${return.instance}' be your default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot; /&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+-						&lt;var name=&quot;setup.default-instance&quot; value=&quot;y&quot;/&gt;
++						&lt;var name=&quot;setup.default-instance&quot; value=&quot;y&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+ 				&lt;if&gt;
+@@ -126,16 +130,11 @@
+ 				&lt;/if&gt;
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+-		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
+-		&lt;var name=&quot;dm.instance.property-file&quot; value=&quot;${config}/dm-${dm.instance}.properties&quot;/&gt;
+-		&lt;var name=&quot;dm.instance.build-property-file&quot; value=&quot;${config}/build-${dm.instance}.properties&quot;/&gt;
+-		&lt;var name=&quot;dm.instance.config-property-file&quot; value=&quot;${config}/config-${dm.instance}.properties&quot;/&gt;
+ 	&lt;/target&gt;
+-
+ 	&lt;target name=&quot;-config-dm-instance&quot; depends=&quot;-config-which-dm-instance&quot;&gt;
+ 		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}&quot; ...&lt;/echo&gt;
+ 		&lt;antcallback target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; return=&quot;db.syspass&quot;&gt;
+-			&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot;/&gt;
++			&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;/antcallback&gt;
+ 	&lt;/target&gt;
+ 
+@@ -175,11 +174,11 @@
+ 			&lt;entry key=&quot;dm.port&quot; value=&quot;${new.dm.port}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+-	
++
+ 	&lt;target name=&quot;-config-examples&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;config&quot; /&gt;
+-			&lt;property name=&quot;example.ask.verb&quot; value=&quot;install&quot;/&gt;
++			&lt;property name=&quot;example.ask.verb&quot; value=&quot;install&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+@@ -208,19 +207,19 @@
+ 				&lt;/if&gt;
+ 				&lt;if&gt;
+ 					&lt;not&gt;
+-						&lt;isset property=&quot;example.ask.verb&quot;/&gt;
++						&lt;isset property=&quot;example.ask.verb&quot; /&gt;
+ 					&lt;/not&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;example.ask.verb&quot; value=&quot;go into&quot;/&gt;
++						&lt;var name=&quot;example.ask.verb&quot; value=&quot;go into&quot; /&gt;
+ 					&lt;/then&gt;
+ 				&lt;/if&gt;
+ 				&lt;if&gt;
+-					&lt;isset property=&quot;example.name&quot;/&gt;
++					&lt;isset property=&quot;example.name&quot; /&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}' (${example.name})&quot;/&gt;
++						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}' (${example.name})&quot; /&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+-						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}'&quot;/&gt;
++						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}'&quot; /&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+ 				&lt;var name=&quot;input&quot; unset=&quot;true&quot; /&gt;
+@@ -260,13 +259,13 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-which-generic-instance&quot;&gt;
+-		&lt;antcall target=&quot;-unset-temporary-properties&quot;/&gt;
++		&lt;antcall target=&quot;-unset-temporary-properties&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;not&gt;
+-				&lt;isset property=&quot;message&quot;/&gt;
++				&lt;isset property=&quot;message&quot; /&gt;
+ 			&lt;/not&gt;
+ 			&lt;then&gt;
+-				&lt;var name=&quot;message&quot; value=&quot;Please select one of the following instance configurations:&quot;/&gt;
++				&lt;var name=&quot;message&quot; value=&quot;Please select one of the following instance configurations:&quot; /&gt;
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+ 		&lt;echo&gt;${message}&lt;/echo&gt;
+@@ -280,32 +279,32 @@
+ 				&lt;var name=&quot;list.dm-instance&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;basename file=&quot;@{list.instance.config.file}&quot; property=&quot;list.dm-instance&quot; suffix=&quot;.properties&quot; /&gt;
+ 				&lt;propertyregex property=&quot;list.instance&quot; input=&quot;${list.dm-instance}&quot; regexp=&quot;${prefix}-(.*)&quot; select=&quot;\1&quot; /&gt;
+-				&lt;var name=&quot;temporary.config.web.compatible&quot; unset=&quot;true&quot;/&gt;
+-				&lt;var name=&quot;temporary.config.name&quot; unset=&quot;true&quot;/&gt;
+-				&lt;property file=&quot;${path}/build-${list.instance}.properties&quot; prefix=&quot;temporary&quot;/&gt;
++				&lt;var name=&quot;temporary.config.web.compatible&quot; unset=&quot;true&quot; /&gt;
++				&lt;var name=&quot;temporary.config.name&quot; unset=&quot;true&quot; /&gt;
++				&lt;property file=&quot;${path}/build-${list.instance}.properties&quot; prefix=&quot;temporary&quot; /&gt;
+ 				&lt;if&gt;
+ 					&lt;or&gt;
+ 						&lt;not&gt;
+-							&lt;isset property=&quot;do.web.deploy&quot;/&gt;
++							&lt;isset property=&quot;do.web.deploy&quot; /&gt;
+ 						&lt;/not&gt;
+ 						&lt;not&gt;
+-							&lt;isfalse value=&quot;${temporary.config.web.compatible}&quot;/&gt;
++							&lt;isfalse value=&quot;${temporary.config.web.compatible}&quot; /&gt;
+ 						&lt;/not&gt;
+ 						&lt;not&gt;
+-							&lt;isset property=&quot;temporary.config.web.compatible&quot;/&gt;
++							&lt;isset property=&quot;temporary.config.web.compatible&quot; /&gt;
+ 						&lt;/not&gt;
+ 					&lt;/or&gt;
+ 					&lt;then&gt;
+ 						&lt;if&gt;
+ 							&lt;not&gt;
+-								&lt;isset property=&quot;temporary.config.name&quot;/&gt;
++								&lt;isset property=&quot;temporary.config.name&quot; /&gt;
+ 							&lt;/not&gt;
+ 							&lt;then&gt;
+-								&lt;property name=&quot;temporary.config.name&quot; value=&quot;&quot;/&gt;
++								&lt;property name=&quot;temporary.config.name&quot; value=&quot;&quot; /&gt;
+ 							&lt;/then&gt;
+ 						&lt;/if&gt;
+ 						&lt;echo&gt;* ${list.instance} ${temporary.config.name}&lt;/echo&gt;
+-						&lt;var name=&quot;temporary.${list.instance}.config&quot; value=&quot;ok&quot;/&gt;
++						&lt;var name=&quot;temporary.${list.instance}.config&quot; value=&quot;ok&quot; /&gt;
+ 					&lt;/then&gt;
+ 				&lt;/if&gt;
+ 			&lt;/sequential&gt;
+@@ -319,7 +318,7 @@
+ 			&lt;then&gt;
+ 				&lt;echo&gt;The former selected configration '${default}' is currently not available.&lt;/echo&gt;
+ 				&lt;if&gt;
+-					&lt;isset property=&quot;temporary.hsqldb-intern.config&quot;/&gt;
++					&lt;isset property=&quot;temporary.hsqldb-intern.config&quot; /&gt;
+ 					&lt;then&gt;
+ 						&lt;var name=&quot;default&quot; value=&quot;hsqldb-intern&quot; /&gt;
+ 					&lt;/then&gt;
+@@ -340,16 +339,10 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-unset-temporary-properties&quot;&gt;
+-		&lt;propertyselector
+-				property=&quot;temporary.list&quot;
+-				delimiter=&quot;|&quot;
+-				match=&quot;temporary\..*&quot;/&gt;
+-		&lt;for
+-				list=&quot;${temporary.list}&quot;
+-				delimiter=&quot;|&quot;
+-				param=&quot;property.id&quot;&gt;
++		&lt;propertyselector property=&quot;temporary.list&quot; delimiter=&quot;|&quot; match=&quot;temporary\..*&quot; /&gt;
++		&lt;for list=&quot;${temporary.list}&quot; delimiter=&quot;|&quot; param=&quot;property.id&quot;&gt;
+ 			&lt;sequential&gt;
+-				&lt;var name=&quot;${property.id}&quot; unset=&quot;true&quot;/&gt;
++				&lt;var name=&quot;${property.id}&quot; unset=&quot;true&quot; /&gt;
+ 			&lt;/sequential&gt;
+ 		&lt;/for&gt;
+ 	&lt;/target&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000133.html">[deepamehta-svn] r288 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000135.html">[deepamehta-svn] r290 - in trunk: . develop/src/de/deepamehta	install/client/icons install/client/images install/config	install/db install/db/patches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

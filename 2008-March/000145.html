@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r300 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r300%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200803101350.m2ADo4S6025149%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000144.html">
+   <LINK REL="Next"  HREF="000146.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r300 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r300%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/messageboard/src/de/deepamehta/messageboard/topics&In-Reply-To=%3C200803101350.m2ADo4S6025149%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r300 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 10 14:50:04 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000144.html">[deepamehta-svn] r299 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000146.html">[deepamehta-svn] r301 - in trunk: . install/client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-03-10 14:50:00 +0100 (Mon, 10 Mar 2008)
+New Revision: 300
+
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/topics/ChatBoardTopic.java
+   trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java
+Log:
+the new eye icon is used at 3 another spots
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-03-10 13:35:34 UTC (rev 299)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-03-10 13:50:00 UTC (rev 300)
+@@ -26,7 +26,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 7.3.2008 (2.0b8)&lt;br&gt;
++ * Last functional change: 10.3.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 7.12.2000 (2.0a8-pre2)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -389,7 +389,7 @@
+ 	static final String ICON_SHOW_HELP = &quot;viewhilfe.gif&quot;;
+ 	static final String ICON_SEARCH_INTERNET = &quot;google.gif&quot;;
+ 	static final String ICON_SHOW_RESULT = &quot;eye-grey.gif&quot;;
+-	static final String ICON_GROUP_BY = &quot;show.gif&quot;;
++	static final String ICON_GROUP_BY = &quot;eye-grey.gif&quot;;
+ 
+ 	// --- commands ---
+ 	static final String CMD_NAVIGATION_BY_TOPIC = &quot;navByTopic&quot;;
+
+Modified: trunk/develop/src/de/deepamehta/topics/ChatBoardTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ChatBoardTopic.java	2008-03-10 13:35:34 UTC (rev 299)
++++ trunk/develop/src/de/deepamehta/topics/ChatBoardTopic.java	2008-03-10 13:50:00 UTC (rev 300)
+@@ -13,11 +13,11 @@
+ 
+ /**
+  * A chat board is a topic map that holds chats.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 11.4.2003 (2.0a18-pre9)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 10.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 11.4.2003 (2.0a18-pre9)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class ChatBoardTopic extends TopicMapTopic {
+@@ -34,7 +34,7 @@
+ 
+ 	static final String ITEM_SHOW_CHATS = &quot;Show Chats&quot;;
+ 	static final String CMD_SHOW_CHATS = &quot;showChats&quot;;
+-	static final String ICON_SHOW_CHATS = &quot;show.gif&quot;;
++	static final String ICON_SHOW_CHATS = &quot;eye-grey.gif&quot;;
+ 
+ 	static final String ITEM_CREATE_CHAT = &quot;Create Chat&quot;;
+ 	static final String CMD_CREATE_CHAT = &quot;createChat&quot;;
+
+Modified: trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java
+===================================================================
+--- trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java	2008-03-10 13:35:34 UTC (rev 299)
++++ trunk/install/examples/messageboard/src/de/deepamehta/messageboard/topics/MessageBoardTopic.java	2008-03-10 13:50:00 UTC (rev 300)
+@@ -15,11 +15,11 @@
+ 
+ /**
+  * A Message Board.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 17.9.2002 (2.0a16-pre3)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 10.3.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 17.9.2002 (2.0a16-pre3)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class MessageBoardTopic extends TopicMapTopic implements MessageBoard {
+@@ -36,7 +36,7 @@
+ 
+ 	static final String ITEM_SHOW_MESSAGES = &quot;Show Messages&quot;;
+ 	static final String CMD_SHOW_MESSAGES = &quot;showMessages&quot;;
+-	static final String ICON_SHOW_MESSAGES = &quot;show.gif&quot;;
++	static final String ICON_SHOW_MESSAGES = &quot;eye-grey.gif&quot;;
+ 
+ 	static final String ITEM_CREATE_MESSAGE = &quot;Create Message&quot;;
+ 	static final String CMD_CREATE_MESSAGE = &quot;createMessage&quot;;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000144.html">[deepamehta-svn] r299 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000146.html">[deepamehta-svn] r301 - in trunk: . install/client
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

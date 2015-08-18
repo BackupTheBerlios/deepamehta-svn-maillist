@@ -1,0 +1,628 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r155 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	install/examples/dm-web/config libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r155%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09install/examples/dm-web/config%20libs&In-Reply-To=%3C200702211242.l1LCgEt7026349%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r155 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	install/examples/dm-web/config libs</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r155%20-%20in%20trunk%3A%20.%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09install/examples/dm-web/config%20libs&In-Reply-To=%3C200702211242.l1LCgEt7026349%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r155 - in trunk: . develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	install/examples/dm-web/config libs">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Feb 21 13:42:14 CET 2007</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-02-21 13:40:32 +0100 (Wed, 21 Feb 2007)
+New Revision: 155
+
+Added:
+   trunk/libs/jimi-1.0.jar
+Modified:
+   trunk/config.xml
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+   trunk/develop/src/de/deepamehta/service/Session.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/service/web/WebSession.java
+   trunk/install/examples/dm-web/config/web.xml
+Log:
+Bug fix in web engine/form processor: arbitrarily deep nested forms are processed fully recursively. Library jimi-1.0.jar included again (required by batik).
+
+Modified: trunk/config.xml
+===================================================================
+--- trunk/config.xml	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/config.xml	2007-02-21 12:40:32 UTC (rev 155)
+@@ -29,6 +29,7 @@
+ 	&lt;pathelement location=&quot;${libpath}/jndi.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/batik.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/fop.jar&quot;/&gt;
++	&lt;pathelement location=&quot;${libpath}/jimi-1.0.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+ 	&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+@@ -54,7 +55,7 @@
+ 	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
++	&lt;pathelement location=&quot;${appspath}/Kiezatlas/trunk/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+ 	&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -165,7 +165,7 @@
+ 	static final String DATE_SEPARATOR = &quot;/&quot;;
+ 	static final String TIME_SEPARATOR = &quot;:&quot;;
+ 	static final String[] monthNames = {&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;};
+-	static final int YEAR_MIN = 1900;
++	static final int YEAR_MIN = 1850;
+ 	static final int YEAR_MAX = 2010;
+ 	static final String PARAM_SEPARATOR = &quot;_&quot;;	// ### was &quot;.&quot; clashed with &quot;Course No.&quot;
+ 	static final String LEVEL_SEPARATOR = &quot;:&quot;;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -3882,44 +3882,31 @@
+ 	 */
+ 	public void startSession(BaseTopic userTopic, Session session, CorporateDirectives directives) {
+ 		String userID = userTopic.getID();
+-		/* ### --- create user preferences ---
+-		BaseTopic userPrefs = getUserPreferences(userID, &quot;tt-preferences&quot;, directives);	// DME
+-		boolean splitScreen = getTopicProperty(userPrefs, PROPERTY_SPLIT_SCREEN).equals(SWITCH_ON);
+-		boolean showSidebar = getTopicProperty(userPrefs, PROPERTY_SHOW_SIDEBAR).equals(SWITCH_ON);
+-		boolean showBuildPanel = getTopicProperty(userPrefs, PROPERTY_SHOW_BUILD_PANEL).equals(SWITCH_ON);
+-		UserPreferences prefs = new UserPreferences(splitScreen, showSidebar, showBuildPanel); */
+ 		// --- initialize session ---
+ 		session.setDemo(false);
+ 		session.setLoggedIn(true);
+ 		session.setUserID(userID);
+ 		session.setUserName(userTopic.getName());
+-		// ### session.setUserPreferences(prefs);
+-		// ### session.setEmailChecker(new EmailChecker(userID, 1, this));	// ### threads are not stopped / creates to many threads on the server
++		// ### email checking is disabled. ### threads are not stopped / creates to many threads on the server
++		// ### session.setEmailChecker(new EmailChecker(userID, 1, this));
+ 		// --- report on server console ---
+ 		updateServerConsole();
+ 		// --- let client create the initial  GUI ---
+ 		addPersonalWorkspace(session, directives);	// adding workspaces
+ 		addGroupWorkspaces(session, directives);	// ### workspace order required
+-		// ### addCorporateSpace(session, directives);		// ### separate handling required?
+ 		addViewsInUse(session, directives);			// open views from previous session
+-		//
+-		// ### return prefs;
+ 	}
+ 
+ 	/**
+ 	 * @see		InteractionConnection#login
+ 	 */
+ 	public void startDemo(String demoMapID, Session session, CorporateDirectives directives) {
+-		// --- create user preferences ---
+-		// ### Note: the user preferences of a demo user are set to default values
+-		// ### UserPreferences prefs = new UserPreferences(false, true, true);		// splitScreen, showSidebar, showBuildPanel
+ 		// --- initialize session ---
+ 		String userName = &quot;Guest &quot; + session.getSessionID();
+ 		session.setDemo(true);
+ 		session.setLoggedIn(true);
+ 		// Note: a demo user has no ID (there is no tt-user topic for a demo user)
+ 		session.setUserName(userName);
+-		// ### session.setUserPreferences(prefs);
+ 		// --- report on server console ---
+ 		updateServerConsole();
+ 		//
+@@ -3936,8 +3923,6 @@
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;The demo is not available (&quot; + dme.getMessage() + &quot;)&quot;,
+ 				new Integer(NOTIFICATION_ERROR));
+ 		}
+-		//
+-		// ### return prefs;
+ 	}
+ 
+ 	// ---
+
+Modified: trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -86,11 +86,6 @@
+ 	 */
+ 	private String userName;
+ 
+-	/**
+-	 * Accessed by {@link #getUserPreferences}
+-	 */
+-	// ### private UserPreferences userPrefs;
+-
+ 	private EmailChecker emailChecker;
+ 
+ 	// ---
+@@ -194,10 +189,6 @@
+ 		return userName;
+ 	}
+ 
+-	/* ### public UserPreferences getUserPreferences() {
+-		return userPrefs;
+-	} */
+-
+ 	/**
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+@@ -259,13 +250,6 @@
+ 	}
+ 
+ 	/**
+-	 * @see		ApplicationService#startSession
+-	 */
+-	/* ### public void setUserPreferences(UserPreferences userPrefs) {
+-		this.userPrefs = userPrefs;
+-	} */
+-
+-	/**
+ 	 * @see		ApplicationService#addPersonalWorkspace
+ 	 */
+ 	public void setPersonalWorkspace(BaseTopic personalWorkspace) {
+
+Modified: trunk/develop/src/de/deepamehta/service/Session.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/Session.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/Session.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -33,7 +33,6 @@
+ 	boolean loggedIn();
+ 	String getUserID();
+ 	String getUserName();
+-	// ### UserPreferences getUserPreferences();
+ 	BaseTopic getPersonalWorkspace();
+ 	Object getCommunication();
+ 
+@@ -43,7 +42,6 @@
+ 	void setLoggedIn(boolean loggedIn);
+ 	void setUserID(String userID);
+ 	void setUserName(String userName);
+-	// ### void setUserPreferences(UserPreferences userPrefs);
+ 	void setPersonalWorkspace(BaseTopic personalWorkspace);
+ 	void setCommunication(Object comm);
+ 	void setEmailChecker(EmailChecker ec);
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -51,7 +51,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 13.6.2006 (2.0b7)&lt;BR&gt;
++ * Last functional change: 19.2.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -259,71 +259,6 @@
+ 		return getUser(session).getID();
+ 	}
+ 
+-	// ---
+-
+-	/**
+-	 * Converts the specified request parameters (originating from a topic/association form)
+-	 * into topic/association properties.
+-	 */
+-	protected final Hashtable getProperties(Hashtable params, String typeID) {
+-		Hashtable props = new Hashtable();
+-		Hashtable compProps = new Hashtable();
+-		//
+-		Enumeration e = params.keys();
+-		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			String propValue = ((String[]) params.get(propName))[0];
+-			// ### skip &quot;action&quot;, &quot;button&quot;, &quot;id&quot;, &quot;typeID&quot; properties
+-			// ### as well as properties with empty value
+-			if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;) ||
+-				propName.equals(&quot;id&quot;) || propName.equals(&quot;typeID&quot;)) {
+-				continue;
+-			}
+-			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1) {
+-				String propertyName = propName.substring(0, pos);
+-				if (propertyName.equals(PARAM_RELATION)) {
+-					// value is part of relation
+-					continue;
+-				}
+-				// value is part of composed date/time value
+-				int partNumber = Integer.parseInt(propName.substring(pos + 1));
+-				String[] compProp = (String[]) compProps.get(propertyName);
+-				if (compProp == null) {
+-					compProp = new String[3];
+-					compProps.put(propertyName, compProp);
+-				}
+-				compProp[partNumber] = propValue;
+-			} else {
+-				// value is simple property value
+-				PropertyDefinition propDef = as.type(typeID, 1).getPropertyDefinition(propName);
+-				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
+-				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
+-					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
+-					propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
+-				}
+-				props.put(propName, propValue);
+-			}
+-		}
+-		//
+-		e = compProps.keys();
+-		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			String[] compProp = (String[]) compProps.get(propName);
+-			String propValue;
+-			if (compProp[2] != null) {
+-				// date property
+-				propValue = compProp[0] + DATE_SEPARATOR + compProp[1] + DATE_SEPARATOR + compProp[2];
+-			} else {
+-				// time property
+-				propValue = compProp[0] + TIME_SEPARATOR + compProp[1];
+-			}
+-			props.put(propName, propValue);
+-		}		
+-		//
+-		return props;
+-	}
+-
+ 	// --- getTopicTree (5 forms) ---
+ 
+ 	protected final TopicTree getTopicTree(String topicID) {
+@@ -419,11 +354,12 @@
+ 	// --- processForm (2 forms) ---
+ 
+ 	/**
+-	 * Processes a topic form.
++	 * Processes a topic form. Called recusively to process embedded forms.
+ 	 * &lt;P&gt;
+ 	 * Used for both: &quot;create topic&quot; (&lt;CODE&gt;doCreate=true&lt;/CODE&gt;) and
+ 	 * &quot;update topic&quot; (&lt;CODE&gt;doCreate=false&lt;/CODE&gt;) actions.
+ 	 *
++	 * @param	typeID		the topic type of the form resp. embedded form
+ 	 * @param	topicID		the ID of the topic to be created resp. updated
+ 	 * @param	params		all request parameters as hashtable
+ 	 *
+@@ -449,7 +385,7 @@
+ 		directives.add(as.setTopicProperties(topicID, 1, props, topicmapID, true, session));	// triggerPropertiesChangedHook=true
+ 		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		// weak relations
+-		updateWeakRelations(topicID, typeID, getWeakRelationParameters(params));
++		updateWeakRelations(typeID, topicID, getWeakRelationParameters(params));
+ 		// strong relations
+ 		updateStrongRelations(typeID, topicID, getStrongRelationParameters(params), doCreate, session);
+ 	}
+@@ -705,17 +641,17 @@
+ 	/**
+ 	 * @see		#processForm
+ 	 */
+-	private void updateWeakRelations(String topicID, String typeID, Hashtable relParams) {
++	private void updateWeakRelations(String typeID, String topicID, Hashtable params) {
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; update relations of topic \&quot;&quot; + topicID + &quot;\&quot;&quot;);
+ 		TypeTopic type = as.type(typeID, 1);	// ### version=1
+-		Enumeration e = relParams.keys();
++		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+ 			String relID = (String) e.nextElement();
+ 			Relation rel = type.getRelation(relID);
+ 			// remove existing assignments
+ 			removeAssignments(topicID, rel);
+ 			// create new assignments
+-			String[] values = (String[]) relParams.get(relID);
++			String[] values = (String[]) params.get(relID);
+ 			createAssignments(topicID, rel, values);
+ 		}
+ 	}
+@@ -809,6 +745,85 @@
+ 	// ---
+ 
+ 	/**
++	 * ### Converts the specified request parameters (originating from a topic/association form)
++	 * into topic/association properties. Basically two conversions are performed:
++	 * &lt;ol&gt;
++	 *	&lt;li&gt;Composed properties are merged into one property. Composed properties are such that results from more than
++	 *		one form field, e.g. date and time selectors&lt;/li&gt;
++	 *	&lt;li&gt;Properties of related topics are filtered out.&lt;/li&gt;
++	 * &lt;/ol&gt;
++	 *
++	 * @see		#processForm
++	 */
++	private final Hashtable getProperties(Hashtable params, String typeID) {
++		Hashtable props = new Hashtable();		// return object
++		Hashtable compProps = new Hashtable();	// intermediate table to compile the single values of composed properties
++		//
++		Enumeration e = params.keys();
++		while (e.hasMoreElements()) {
++			String propName = (String) e.nextElement();
++			String propValue = ((String[]) params.get(propName))[0];
++			// ### skip &quot;action&quot;, &quot;button&quot;, &quot;id&quot;, &quot;typeID&quot; properties
++			// ### as well as properties with empty value
++			if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;) || propName.equals(&quot;button&quot;) ||
++				propName.equals(&quot;id&quot;) || propName.equals(&quot;typeID&quot;)) {
++				// Note: the internally used parameter &quot;action&quot; must be removed here to not confuse getWeakRelationParameters()
++				if (propValue.equals(&quot;&quot;) || propName.equals(&quot;action&quot;)) {
++					params.remove(propName);
++				}
++				//
++				continue;
++			}
++			int pos = propName.indexOf(PARAM_SEPARATOR);
++			if (pos != -1) {
++				String propertyName = propName.substring(0, pos);
++				if (propertyName.equals(PARAM_RELATION)) {
++					// value is part of relation
++					continue;
++				}
++				// value is part of composed date/time value
++				int partNumber = Integer.parseInt(propName.substring(pos + 1));
++				String[] compProp = (String[]) compProps.get(propertyName);
++				if (compProp == null) {
++					compProp = new String[3];
++					compProps.put(propertyName, compProp);
++				}
++				compProp[partNumber] = propValue;
++			} else {
++				// value is simple property value
++				PropertyDefinition propDef = as.type(typeID, 1).getPropertyDefinition(propName);
++				// ### System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet.getProperties(): typeID=\&quot;&quot; + typeID + &quot;\&quot; propName=\&quot;&quot; + propName + &quot;\&quot; propDef=&quot; + propDef);
++				if (propDef.getVisualization().equals(VISUAL_TEXT_EDITOR)) {
++					propValue = DeepaMehtaUtils.replace(propValue, '\r', &quot;&lt;br&gt;&quot;);		// ### was &lt;br/&gt;
++					propValue = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot; + propValue + &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;;	// ### &lt;html&gt;
++				}
++				props.put(propName, propValue);
++			}
++			// remove processed parameter
++			if (params.remove(propName) == null) {
++				throw new DeepaMehtaException(&quot;parameter \&quot;&quot; + propName + &quot;\&quot; not found&quot;);
++			}
++		}
++		// assemble composed properties from compiled single values
++		e = compProps.keys();
++		while (e.hasMoreElements()) {
++			String propName = (String) e.nextElement();
++			String[] compProp = (String[]) compProps.get(propName);
++			String propValue;
++			if (compProp[2] != null) {
++				// date property
++				propValue = compProp[0] + DATE_SEPARATOR + compProp[1] + DATE_SEPARATOR + compProp[2];
++			} else {
++				// time property
++				propValue = compProp[0] + TIME_SEPARATOR + compProp[1];
++			}
++			props.put(propName, propValue);
++		}		
++		//
++		return props;
++	}
++
++	/**
+ 	 * @param	params		### all request parameters as hashtable
+ 	 *
+ 	 * @return	the parameter values for weak relations (weak means: non-strong) as hashtable,&lt;BR&gt;
+@@ -823,13 +838,28 @@
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+ 			String propName = (String) e.nextElement();
++			// ### skip &quot;id&quot; parameter
++			if (propName.equals(&quot;id&quot;)) {
++				continue;
++			}
++			// only level 0 is processed here.
++			// deeper levels are processed via recursion.
++			if (propName.indexOf(LEVEL_SEPARATOR) &gt;= 0) {
++				continue;
++			}
+ 			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1 &amp;&amp; propName.substring(0, pos).equals(PARAM_RELATION) &amp;&amp;
+-							 propName.indexOf(LEVEL_SEPARATOR, pos + 1) == -1) {
+-				String relID = propName.substring(pos + 1);
+-				String[] values = (String[]) params.get(propName);
+-				relParams.put(relID, values);
++			// error check
++			if (pos == -1) {
++				throw new DeepaMehtaException(&quot;no PARAM_SEPARATOR \&quot;&quot; + PARAM_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + propName + &quot;\&quot;&quot;);
+ 			}
++			//
++			String relID = propName.substring(pos + 1);
++			String[] values = (String[]) params.get(propName);
++			relParams.put(relID, values);
++			// remove processed parameter
++			if (params.remove(propName) == null) {
++				throw new DeepaMehtaException(&quot;parameter \&quot;&quot; + propName + &quot;\&quot; not found&quot;);
++			}
+ 		}
+ 		//
+ 		return relParams;
+@@ -851,28 +881,37 @@
+ 		//
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+-			String propName = (String) e.nextElement();
+-			int pos = propName.indexOf(PARAM_SEPARATOR);
+-			if (pos != -1 &amp;&amp; propName.substring(0, pos).equals(PARAM_RELATION)) {
+-				int pos2 = propName.indexOf(LEVEL_SEPARATOR, pos + 1);
+-				if (pos2 != -1) {
+-					// error check
+-					if (propName.indexOf(LEVEL_SEPARATOR, pos2 + 1) != -1) {
+-						throw new DeepaMehtaException(&quot;too many relation levels -- property \&quot;&quot; +
+-							propName + &quot; will be omitted&quot;);
+-					}
+-					//
+-					String relID = propName.substring(pos + 1, pos2);
+-					Hashtable props = (Hashtable) relParams.get(relID);
+-					if (props == null) {
+-						props = new Hashtable();
+-						relParams.put(relID, props);
+-					}
+-					String name = propName.substring(pos2 + 1);
+-					String[] values = (String[]) params.get(propName);
+-					props.put(name, values);
+-				}
++			String paramName = (String) e.nextElement();
++			// ### skip &quot;id&quot; parameter
++			if (paramName.equals(&quot;id&quot;)) {
++				continue;
+ 			}
++			//
++			int pos = paramName.indexOf(PARAM_SEPARATOR);
++			// error check 1
++			if (pos == -1) {
++				throw new DeepaMehtaException(&quot;no PARAM_SEPARATOR \&quot;&quot; + PARAM_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			// error check 2
++			if (!paramName.substring(0, pos).equals(PARAM_RELATION)) {
++				throw new DeepaMehtaException(&quot;no PARAM_RELATION \&quot;&quot; + PARAM_RELATION + &quot;\&quot; found at beginning of \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			//
++			int pos2 = paramName.indexOf(LEVEL_SEPARATOR, pos + 1);
++			// error check 3
++			if (pos2 == -1) {
++				throw new DeepaMehtaException(&quot;no LEVEL_SEPARATOR \&quot;&quot; + LEVEL_SEPARATOR + &quot;\&quot; found in \&quot;&quot; + paramName + &quot;\&quot;&quot;);
++			}
++			//
++			String relID = paramName.substring(pos + 1, pos2);
++			Hashtable nextLevelParams = (Hashtable) relParams.get(relID);
++			if (nextLevelParams == null) {
++				nextLevelParams = new Hashtable();
++				relParams.put(relID, nextLevelParams);
++			}
++			String nextLevelParamName = paramName.substring(pos2 + 1);	// strip relation ID
++			String[] values = (String[]) params.get(paramName);
++			nextLevelParams.put(nextLevelParamName, values);
+ 		}
+ 		//
+ 		return relParams;
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -1085,7 +1085,8 @@
+ 		}
+ 		if (text != null) {
+ 			text = DeepaMehtaUtils.replace(text, '\r', &quot;&lt;br&gt;&quot;);		// needed for &quot;Multiline Input Field&quot;
+-			text = DeepaMehtaUtils.quoteHTML(text);
++			// text = DeepaMehtaUtils.quoteHTML(text);	// ### must be enabled for &quot;Messageboard&quot; (&quot;&lt;no subject&gt;&quot;)
++													// ### must be disabled for &quot;Stolpersteine&quot; (Description) ###
+ 			html.append((bold ? &quot;&lt;b&gt;&quot; : &quot;&quot;) + text + (bold ? &quot;&lt;/b&gt;&quot; : &quot;&quot;));
+ 		}
+ 		if (action != null) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/WebSession.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/WebSession.java	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/develop/src/de/deepamehta/service/web/WebSession.java	2007-02-21 12:40:32 UTC (rev 155)
+@@ -89,11 +89,6 @@
+ 	 */
+ 	// ### private String userName;
+ 
+-	/**
+-	 * Accessed by {@link #getUserPreferences}
+-	 */
+-	// ### private UserPreferences userPrefs;
+-
+ 	// ---
+ 
+ 	/**
+@@ -192,10 +187,6 @@
+ 		return null;	// ###
+ 	}
+ 
+-	/* ### public UserPreferences getUserPreferences() {
+-		return null;	// ###
+-	} */
+-
+ 	/**
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+@@ -253,13 +244,6 @@
+ 	}
+ 
+ 	/**
+-	 * @see		ApplicationService#startSession
+-	 */
+-	/* ### public void setUserPreferences(UserPreferences userPrefs) {
+-		// ### this.userPrefs = userPrefs;
+-	} */
+-
+-	/**
+ 	 * @see		ApplicationService#addPersonalWorkspace
+ 	 */
+ 	public void setPersonalWorkspace(BaseTopic personalWorkspace) {
+
+Modified: trunk/install/examples/dm-web/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-web/config/web.xml	2006-12-14 04:15:41 UTC (rev 154)
++++ trunk/install/examples/dm-web/config/web.xml	2007-02-21 12:40:32 UTC (rev 155)
+@@ -20,7 +20,7 @@
+ 
+     &lt;context-param&gt;
+       &lt;param-name&gt;service&lt;/param-name&gt;
+-      &lt;param-value&gt;stolpersteine&lt;/param-value&gt;
++      &lt;param-value&gt;default&lt;/param-value&gt;
+       &lt;description&gt;
+         Selects a DeepaMehta service.
+         If this parameter is not set the &quot;default&quot; service will be used.
+
+Added: trunk/libs/jimi-1.0.jar
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/libs/jimi-1.0.jar
+___________________________________________________________________
+Name: svn:executable
+   + *
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

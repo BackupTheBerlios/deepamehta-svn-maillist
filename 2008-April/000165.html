@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r320 - trunk/develop/src/de/deepamehta/service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-April/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r320%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200804211836.m3LIade0013428%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000164.html">
+   <LINK REL="Next"  HREF="000166.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r320 - trunk/develop/src/de/deepamehta/service</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r320%20-%20trunk/develop/src/de/deepamehta/service&In-Reply-To=%3C200804211836.m3LIade0013428%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r320 - trunk/develop/src/de/deepamehta/service">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Apr 21 20:36:39 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000164.html">[deepamehta-svn] r319 - trunk/develop/src/de/deepamehta/service
+</A></li>
+        <LI>Next message: <A HREF="000166.html">[deepamehta-svn] r321 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#165">[ date ]</a>
+              <a href="thread.html#165">[ thread ]</a>
+              <a href="subject.html#165">[ subject ]</a>
+              <a href="author.html#165">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-04-21 20:36:38 +0200 (Mon, 21 Apr 2008)
+New Revision: 320
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+Log:
+Prepared Statements Part 3
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-04-21 16:29:19 UTC (rev 319)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-04-21 18:36:38 UTC (rev 320)
+@@ -393,100 +393,59 @@
+ 									String[] sortTopicProps, boolean sortAssociations, boolean descending) {
+ 		StringBuffer queryBuffer = new StringBuffer();
+ 		List queryParams=new ArrayList();
++		queryBuffer.append(&quot;SELECT Topic.*&quot;);
++		queryBuffer.append(sortAssociations ? &quot;, AssociationProp2.PropValue&quot; : &quot;&quot;);
++		queryBuffer.append(&quot; FROM Topic INNER JOIN Association ON &quot;);
++		queryBuffer.append(&quot;Association.TopicID&quot;);
++		queryBuffer.append(3 - relTopicPos);
++		queryBuffer.append(&quot;= ?&quot;);
++		queryParams.add(topicID);
++		queryBuffer.append(&quot; AND &quot;);
+ 		// association type condition
+-		String assocTypeCond;
+ 		if (assocTypes != null) {
+-			assocTypeCond = associationTypeFilter(assocTypes);
+-		// ### Note: assocType is expected to be non-null
++			applyAssociationTypeFilter(assocTypes, queryBuffer, queryParams);
+ 		} else {
+-			assocTypeCond = &quot;Association.TypeID='&quot; + assocType + &quot;'&quot;;
++			queryBuffer.append(&quot;Association.TypeID = ?&quot;);
++			// ### Note: assocType is expected to be non-null
++			queryParams.add(assocType);
+ 		}
++		queryBuffer.append(&quot; AND &quot;);
++		queryBuffer.append(&quot;Association.TopicID&quot;);
++		queryBuffer.append(relTopicPos);
++		queryBuffer.append(&quot;=Topic.ID&quot;);
+ 		// topic type condition
+-		String topicTypeCond;
+ 		if (relTopicTypeIDs != null) {
+-			topicTypeCond = &quot; AND &quot; + topicTypeFilter(relTopicTypeIDs);
++			queryBuffer.append(&quot; AND &quot;);
++			applyTopicTypeFilter(relTopicTypeIDs, queryBuffer, queryParams);
+ 		} else if (relTopicType != null) {
+-			topicTypeCond = &quot; AND Topic.TypeID='&quot; + relTopicType + &quot;'&quot;;
+-		} else {
+-			topicTypeCond = &quot;&quot;;
++			queryBuffer.append(&quot; AND Topic.TypeID = ?&quot;);
++			queryParams.add(relTopicType);
+ 		}
+ 		// topic ID condition
+-		String topicIdCond;
+ 		if (relTopicIDs != null) {
+-			topicIdCond = &quot; AND &quot; + topicIdFilter(relTopicIDs);
+-		} else {
+-			topicIdCond = &quot;&quot;;
+-		}
+-		// --- build query ---
+-		// ### in case of set sortAssociations: sort property is not a parameter (&quot;Ordinal Number&quot; is used)
+-		// ### ORACLE: in case of set sortTopicProps: 2nd search criteria not yet respected
+-		// ### ORACLE: in case of set sortAssociations: PropValue not queried ==&gt; DOESN'T WORK!!!
+-		// ### ORACLE: relTopicTypeIDs not yet respected ==&gt; DOESN'T WORK!!!
+-		// ### ORACLE: relTopicIDs not yet respected ==&gt; DOESN'T WORK!!!
+-		// ### ORACLE: descending not yet respected
+-		if (OracleDatabaseProvider.DBMS_HINT_ORACLE == dbmsHint) {
+-			String query;
+-			query = &quot;SELECT Topic.* FROM Topic, Association&quot; +
+-			(topicmapID != null ? &quot;, ViewAssociation&quot; : &quot;&quot;) +
+-			(assocProp != null || sortAssociations ? &quot;, AssociationProp&quot; : &quot;&quot;) +
+-			(sortTopicProps != null ? &quot;, TopicProp&quot; : &quot;&quot;) + &quot; WHERE &quot; +
+-			&quot;Association.TopicID&quot; + (3 - relTopicPos) + &quot;='&quot; + topicID + &quot;' AND &quot; +
+-			assocTypeCond + &quot; AND &quot; +
+-			&quot;Association.TopicID&quot; + relTopicPos + &quot;=Topic.ID&quot; +
+-			(relTopicType != null ? &quot; AND Topic.TypeID='&quot; + relTopicType + &quot;'&quot; : &quot;&quot;) +
+-			(topicmapID != null ? &quot; AND &quot; +
+-			&quot;ViewAssociation.ViewTopicID='&quot; + topicmapID + &quot;' AND &quot; +
+-			&quot;ViewAssociation.AssociationID=Association.ID&quot; : &quot;&quot;) +
+-			(assocProp != null ? &quot; AND &quot; +
+-			&quot;AssociationProp.AssociationID=Association.ID AND &quot; +
+-			&quot;AssociationProp.PropName='&quot; + assocProp + &quot;' AND &quot; +
+-			&quot;AssociationProp.PropValue='&quot; + propValue + &quot;'&quot; : &quot;&quot;) +
+-			(sortTopicProps != null ? &quot; AND &quot; +
+-			&quot;TopicProp.TopicID(+)=Topic.ID AND &quot; +
+-			&quot;TopicProp.PropName(+)='&quot; + sortTopicProps[0] + &quot;' ORDER BY PropValue&quot; : &quot;&quot;) +
+-			(sortAssociations ? &quot; AND &quot; +
+-			&quot;AssociationProp.AssociationID(+)=Association.ID AND &quot; +
+-			&quot;AssociationProp.PropName(+)='Ordinal Number' ORDER BY PropValue&quot; : &quot;&quot;);
+-			queryBuffer.append(query);
+-		} else {
+-			queryBuffer.append(&quot;SELECT Topic.*&quot;);
+-			queryBuffer.append(sortAssociations ? &quot;, AssociationProp2.PropValue&quot; : &quot;&quot;);
+-			queryBuffer.append(&quot; FROM Topic INNER JOIN Association ON &quot;);
+-			queryBuffer.append(&quot;Association.TopicID&quot;);
+-			queryBuffer.append(3 - relTopicPos);
+-			queryBuffer.append(&quot;= ?&quot;);
+-			queryParams.add(topicID);
+ 			queryBuffer.append(&quot; AND &quot;);
+-			//TODO
+-			queryBuffer.append(assocTypeCond);
+-			queryBuffer.append(&quot; AND &quot;);
+-			queryBuffer.append(&quot;Association.TopicID&quot;);
+-			queryBuffer.append(relTopicPos);
+-			queryBuffer.append(&quot;=Topic.ID&quot;);
+-			//TODO
+-			queryBuffer.append(topicTypeCond);
+-			queryBuffer.append(topicIdCond);
+-			if (topicmapID != null) {
+-				queryBuffer.append(&quot; INNER JOIN ViewAssociation ON &quot;);
+-				queryBuffer.append(&quot;ViewAssociation.ViewTopicID = ? AND &quot;);
+-				queryParams.add(topicmapID);
+-				queryBuffer.append(&quot;ViewAssociation.AssociationID=Association.ID&quot;);
+-			}
+-			if (assocProp != null){
+-				queryBuffer.append(&quot; INNER JOIN AssociationProp AssociationProp1 ON &quot;);
+-                queryBuffer.append(&quot;AssociationProp1.AssociationID=Association.ID AND &quot;);
+-                queryBuffer.append(&quot;AssociationProp1.PropName = ? AND &quot;);
+-				queryParams.add(assocProp);
+-                queryBuffer.append(&quot;AssociationProp1.PropValue = ?&quot;);
+-				queryParams.add(propValue);
+-			}
+-			queryBuffer.append(sortClause(sortTopicProps, descending));
+-			if (sortAssociations){
+-				queryBuffer.append(&quot; LEFT OUTER JOIN AssociationProp AssociationProp2 ON &quot;);
+-				queryBuffer.append(&quot;AssociationProp2.AssociationID=Association.ID AND &quot;);
+-				queryBuffer.append(&quot;AssociationProp2.PropName='Ordinal Number' ORDER BY AssociationProp2.PropValue&quot;);
+-			}
++			applyTopicIdFilter(relTopicIDs, queryBuffer, queryParams);
+ 		}
++		if (topicmapID != null) {
++			queryBuffer.append(&quot; INNER JOIN ViewAssociation ON &quot;);
++			queryBuffer.append(&quot;ViewAssociation.ViewTopicID = ? AND &quot;);
++			queryParams.add(topicmapID);
++			queryBuffer.append(&quot;ViewAssociation.AssociationID=Association.ID&quot;);
++		}
++		if (assocProp != null){
++			queryBuffer.append(&quot; INNER JOIN AssociationProp AssociationProp1 ON &quot;);
++            queryBuffer.append(&quot;AssociationProp1.AssociationID=Association.ID AND &quot;);
++            queryBuffer.append(&quot;AssociationProp1.PropName = ? AND &quot;);
++			queryParams.add(assocProp);
++            queryBuffer.append(&quot;AssociationProp1.PropValue = ?&quot;);
++			queryParams.add(propValue);
++		}
++		queryBuffer.append(sortClause(sortTopicProps, descending));
++		if (sortAssociations){
++			queryBuffer.append(&quot; LEFT OUTER JOIN AssociationProp AssociationProp2 ON &quot;);
++			queryBuffer.append(&quot;AssociationProp2.AssociationID=Association.ID AND &quot;);
++			queryBuffer.append(&quot;AssociationProp2.PropName='Ordinal Number' ORDER BY AssociationProp2.PropValue&quot;);
++		}
+ 		// --- perform query ---
+ 		// ### System.out.println(&quot;&gt;&gt;&gt; &quot; + query);
+ 		return queryBaseTopics(queryBuffer.toString(),queryParams.toArray(), sortAssociations);
+@@ -2232,6 +2191,12 @@
+ 
+ 	// ---
+ 
++	private void applyTopicIdFilter(Vector IDs, StringBuffer whereClause, List whereParams) {
++		whereClause.append(&quot;Topic.ID IN (&quot;);
++		applyIdList(IDs, whereClause, whereParams);
++		whereClause.append(&quot;)&quot;);
++	}
++
+ 	//TODO 
+ 	private String topicIdFilter(Vector topicIDs) {
+ 		return &quot;Topic.ID IN (&quot; + idList(topicIDs) + &quot;)&quot;;
+@@ -2248,6 +2213,12 @@
+ 		return &quot;Topic.TypeID IN (&quot; + idList(typeIDs) + &quot;)&quot;;
+ 	}
+ 
++	private void applyAssociationTypeFilter(Vector typeIDs, StringBuffer whereClause, List whereParams) {
++		whereClause.append(&quot;Association.TypeID IN (&quot;);
++		applyIdList(typeIDs, whereClause, whereParams);
++		whereClause.append(&quot;)&quot;);
++	}
++
+ 	//TODO 
+ 	private String associationTypeFilter(Vector typeIDs) {
+ 		return &quot;Association.TypeID IN (&quot; + idList(typeIDs) + &quot;)&quot;;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000164.html">[deepamehta-svn] r319 - trunk/develop/src/de/deepamehta/service
+</A></li>
+	<LI>Next message: <A HREF="000166.html">[deepamehta-svn] r321 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#165">[ date ]</a>
+              <a href="thread.html#165">[ thread ]</a>
+              <a href="subject.html#165">[ subject ]</a>
+              <a href="author.html#165">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

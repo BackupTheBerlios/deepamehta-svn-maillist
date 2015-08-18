@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r385 - in trunk/develop/src/de/deepamehta/service:	. web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r385%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C201003291552.o2TFq45d025960%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r385 - in trunk/develop/src/de/deepamehta/service:	. web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r385%20-%20in%20trunk/develop/src/de/deepamehta/service%3A%0A%09.%20web&In-Reply-To=%3C201003291552.o2TFq45d025960%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r385 - in trunk/develop/src/de/deepamehta/service:	. web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 29 17:52:04 CEST 2010</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#229">[ date ]</a>
+              <a href="thread.html#229">[ thread ]</a>
+              <a href="subject.html#229">[ subject ]</a>
+              <a href="author.html#229">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2010-03-29 17:52:02 +0200 (Mon, 29 Mar 2010)
+New Revision: 385
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+Log:
+2 minor changes in trunk
+
+* cleaned up performMethod JSONRPCServlet 
+* suppressing warning for app developers &quot;die hook is not triggered cause topic is missing in corporate memory&quot;
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2009-12-15 11:39:59 UTC (rev 384)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2010-03-29 15:52:02 UTC (rev 385)
+@@ -1569,8 +1569,8 @@
+ 			topic2.associationRemoved(assoc.getType(), topic1.getID(), session, directives);
+ 		} catch (DeepaMehtaException e) {
+ 			// ### add to directives
+-			System.out.println(&quot;*** ApplicationService.deleteAssociation(): &quot; +
+-				e.getMessage() + &quot; -- die() hook not triggered&quot;);
++			// System.out.println(&quot;*** ApplicationService.deleteAssociation(): &quot; +
++				// e.getMessage() + &quot; -- die() hook not triggered&quot;);
+ 		}
+ 		return directives;
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2009-12-15 11:39:59 UTC (rev 384)
++++ trunk/develop/src/de/deepamehta/service/web/JSONRPCServlet.java	2010-03-29 15:52:02 UTC (rev 385)
+@@ -214,60 +214,82 @@
+ 	 * @see		#doGet
+ 	 * @see		#doPost
+ 	 */
+-	private void performRequest(HttpServletRequest request, HttpServletResponse response)
++	private void performRequest(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response)
+ 															throws IOException, ServletException {
+ 		RequestParameter params = new RequestParameter(request);
+-		Session session = getSession(request);
++		String method = request.getMethod();
++        Session session = getSession(request);
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		String method = request.getMethod();
+-		//
+-        String remoteMethodCall = &quot;&quot;;
+-        String remoteParams = &quot;&quot;;
+-        // analyze body
+-        BufferedReader in = new BufferedReader(
+-                            new InputStreamReader(
+-                            request.getInputStream()));
+-        String requestBody;
+-        while ((requestBody = in.readLine()) != null) {
+-            int methodStart = requestBody.indexOf(&quot;\&quot;method\&quot;: &quot;);
+-            int paramStart = requestBody.indexOf(&quot;\&quot;params\&quot;: &quot;);
+-            // single method name
+-            remoteMethodCall = requestBody.substring(methodStart + 11, paramStart - 3);
+-            // rest is json parameter array
+-            remoteParams = requestBody.substring(paramStart + 10, requestBody.length() - 1);
+-            System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
+-            //System.out.println(&quot;&gt;&gt;&gt; REQUEST BODY: \n&quot; +
+-              //      &quot;       method: &quot; + remoteMethodCall + &quot;,\n&quot; +
+-                //    &quot;       params: &quot; + remoteParams);
+-        }
+-        in.close();
+-        // --- trigger performPostrequest() hook
+-        String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
+-        if(result.equals(&quot;&quot;)) {
+-            response.setStatus(response.SC_INTERNAL_SERVER_ERROR);
+-            response.sendError(response.SC_INTERNAL_SERVER_ERROR);
+-            if (result.indexOf(&quot;\&quot;error\&quot;: null&quot;) != -1){
+-                System.out.println(&quot;*** ERROR: &quot; + result.substring(result.indexOf(&quot;\&quot;error\&quot;: null&quot;) + 13, result.length() - 3));
++        if (method.equals(&quot;GET&quot;)) {
++            System.out.println(&quot;&gt; JSONRPCServlet got delegates a GET request to ImplementingClass.performAction() hook&quot;);
++            String page = &quot;Print&quot;;
++            if (params.getPathInfo().length() &gt;= 3) {
++                String[] ps = params.getPathInfo().split(&quot;/&quot;);
++                String methodId = &quot;&quot;;
++                String topicId = &quot;&quot;;
++                for (int i = 0; i &lt; ps.length; i++) {
++                    if (i == 1) methodId = ps[i];
++                    if (i == 2) topicId = ps[i];
++                }
++                // take first param, remoteMethod and topicId
++                page = performAction(methodId, topicId, session, directives);
++                System.out.println(&quot;&gt; Method :&quot; + methodId + &quot; Topic: &quot; + topicId);
++            } else if (params.getPathInfo().length() &gt;= 2) {
++                String[] ps = params.getPathInfo().split(&quot;/&quot;);
++                String topicId = &quot;&quot;;
++                for (int i = 0; i &lt; ps.length; i++) {
++                    topicId = ps[i];
++                }
++                page = performAction(&quot;show&quot;, topicId, session, directives);
++                System.out.println(&quot;&gt; Method : Show Topic: + &quot; + topicId);
++            } else {
++                page = performAction(&quot;show&quot;, &quot;empty&quot;, session, directives);
++                System.out.println(&quot;&gt; Method : show Topic: empty .. default GET request&quot;);
+             }
++            preparePage(page, params, session, directives);
++            redirectToPage(page, request, response);
+         } else {
+-            response.setStatus(response.SC_OK);
+-            response.setContentType(&quot;applicaton/json&quot;);
+-            System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: &quot;+response.getCharacterEncoding()+&quot; written &quot;+result.length() +&quot; character\n&quot;);
+-            // LOG System.out.println(&quot;INFO: &quot;+result + &quot;\n&quot;);
+-            // write back
+-            PrintWriter writer = response.getWriter();
+-            writer.print(result);
+-            writer.checkError();
+-            writer.close();
++            // if POST / PUT / DELETE
++            String remoteMethodCall = &quot;&quot;;
++            String remoteParams = &quot;&quot;;
++            // analyze body
++            BufferedReader in = new BufferedReader(
++                                new InputStreamReader(
++                                request.getInputStream()));
++            String requestBody;
++            while ((requestBody = in.readLine()) != null) {
++                int methodStart = requestBody.indexOf(&quot;\&quot;method\&quot;: &quot;);
++                int paramStart = requestBody.indexOf(&quot;\&quot;params\&quot;: &quot;);
++                // single method name
++                remoteMethodCall = requestBody.substring(methodStart + 11, paramStart - 3);
++                // rest is json parameter array
++                remoteParams = requestBody.substring(paramStart + 10, requestBody.length() - 1);
++                System.out.println(&quot;&gt;&gt;&gt; JSONRPCServlet: &quot; + method + &quot; / &quot; +requestBody);
++                //System.out.println(&quot;&gt;&gt;&gt; REQUEST BODY: \n&quot; +
++                  //      &quot;       method: &quot; + remoteMethodCall + &quot;,\n&quot; +
++                    //    &quot;       params: &quot; + remoteParams);
++            }
++            in.close();
++            // --- trigger performPostrequest() hook
++            String result = performPostRequest(remoteMethodCall, remoteParams, session, directives);
++            if(result.equals(&quot;&quot;)) {
++                // response.setStatus(response.SC_INTERNAL_SERVER_ERROR);
++                System.out.println(&quot; === JSONRPC === *** unexpected result *** &quot; + result + &quot; setting response to continue...&quot;);
++                response.sendError(response.SC_INTERNAL_SERVER_ERROR); // 500
++            } else {
++                response.setStatus(response.SC_OK);
++                response.setContentType(&quot;applicaton/json&quot;);
++                response.setContentLength(result.getBytes().length);
++                System.out.println(&quot;&gt;&gt;&gt; RESPONSE BODY: &quot;+response.getCharacterEncoding()+&quot; written &quot;+result.length() +&quot; character\n&quot;);
++                // LOG System.out.println(&quot;INFO: &quot;+result + &quot;\n&quot;);
++                // write back
++                PrintWriter writer = response.getWriter();
++                writer.print(result);
++                writer.checkError();
++                writer.close();
++            }
+         }
+-        
+-//        String actionResult = performAction(remoteParams, remoteParams, session, directives);
+-//        // --- trigger preparePage() hook ---
+-//        preparePage(actionResult, params, session, directives);
+-//        //
+-//        redirectToPage(result, request, response);
+-		//
+-		// process directives
++        // process directives
+ 		directives.updateCorporateMemory(as, session, null, null);
+ 		// Note: topicmapID=null, viewmode=null ### should be OK because in web interface there is no &quot;default topicmap&quot;
+ 	}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#229">[ date ]</a>
+              <a href="thread.html#229">[ thread ]</a>
+              <a href="subject.html#229">[ subject ]</a>
+              <a href="author.html#229">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

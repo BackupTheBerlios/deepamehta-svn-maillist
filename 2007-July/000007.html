@@ -1,0 +1,549 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r162%20-%20in%20trunk/install/examples%3A%20.%0A%09dm-topicmapviewer%20dm-topicmapviewer/config%0A%09dm-topicmapviewer/css%20dm-topicmapviewer/docs%0A%09dm-topicmapviewer/images%20dm-topicmapviewer/pages%0A%09dm-topicmapviewer/src%20dm-topicmapviewer/src/de%0A%09dm-topicmapviewer/src/de/deepamehta%0A%09dm-topicmapviewer/src/de/deepamehta/topicmapviewer&In-Reply-To=%3C200707051244.l65CilXH013962%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   <LINK REL="Next"  HREF="000008.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r162%20-%20in%20trunk/install/examples%3A%20.%0A%09dm-topicmapviewer%20dm-topicmapviewer/config%0A%09dm-topicmapviewer/css%20dm-topicmapviewer/docs%0A%09dm-topicmapviewer/images%20dm-topicmapviewer/pages%0A%09dm-topicmapviewer/src%20dm-topicmapviewer/src/de%0A%09dm-topicmapviewer/src/de/deepamehta%0A%09dm-topicmapviewer/src/de/deepamehta/topicmapviewer&In-Reply-To=%3C200707051244.l65CilXH013962%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r162 - in trunk/install/examples: .	dm-topicmapviewer dm-topicmapviewer/config	dm-topicmapviewer/css dm-topicmapviewer/docs	dm-topicmapviewer/images dm-topicmapviewer/pages	dm-topicmapviewer/src dm-topicmapviewer/src/de	dm-topicmapviewer/src/de/deepamehta	dm-topicmapviewer/src/de/deepamehta/topicmapviewer">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Jul  5 14:44:47 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[deepamehta-svn] r161 - in trunk/develop/src/de/deepamehta: .	assocs client service
+</A></li>
+        <LI>Next message: <A HREF="000008.html">[deepamehta-svn] r163 - in trunk/install: db/patches examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-07-05 14:44:38 +0200 (Thu, 05 Jul 2007)
+New Revision: 162
+
+Added:
+   trunk/install/examples/dm-topicmapviewer/
+   trunk/install/examples/dm-topicmapviewer/build.xml
+   trunk/install/examples/dm-topicmapviewer/config/
+   trunk/install/examples/dm-topicmapviewer/config/web.xml
+   trunk/install/examples/dm-topicmapviewer/css/
+   trunk/install/examples/dm-topicmapviewer/css/default.css
+   trunk/install/examples/dm-topicmapviewer/docs/
+   trunk/install/examples/dm-topicmapviewer/docs/states.txt
+   trunk/install/examples/dm-topicmapviewer/images/
+   trunk/install/examples/dm-topicmapviewer/images/close.png
+   trunk/install/examples/dm-topicmapviewer/pages/
+   trunk/install/examples/dm-topicmapviewer/pages/Topicmap.jsp
+   trunk/install/examples/dm-topicmapviewer/pages/TopicmapList.jsp
+   trunk/install/examples/dm-topicmapviewer/pages/TopicmapViewer.jsp
+   trunk/install/examples/dm-topicmapviewer/src/
+   trunk/install/examples/dm-topicmapviewer/src/de/
+   trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/
+   trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/
+   trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewer.java
+   trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java
+Log:
+New web application added: install/examples/dm-topicmapviewer
+
+Added: trunk/install/examples/dm-topicmapviewer/build.xml
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/build.xml	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/build.xml	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,52 @@
++&lt;project name=&quot;DeepaMehta Topicmap Viewer&quot; default=&quot;build&quot; basedir=&quot;.&quot;&gt;
++
++	&lt;description&gt;
++		DeepaMehta Topicmap Viewer
++	&lt;/description&gt;
++
++	&lt;property name=&quot;project.name&quot; value=&quot;dm-topicmapviewer&quot;/&gt;
++	&lt;property name=&quot;war&quot; value=&quot;${project.name}.war&quot;/&gt;
++	&lt;property name=&quot;build&quot; location=&quot;build&quot;/&gt;
++
++	&lt;import file=&quot;../../../config.xml&quot;/&gt;
++
++	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
++		&lt;mkdir dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;compile&quot; depends=&quot;init&quot;&gt;
++		&lt;javac srcdir=&quot;src&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot;&gt;
++			&lt;classpath&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaService.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${web.lib.dir}/DeepaMehtaTopics.jar&quot;/&gt;
++				&lt;pathelement location=&quot;${web.servlet.lib}&quot;/&gt;
++			&lt;/classpath&gt;
++		&lt;/javac&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;war&quot; depends=&quot;compile&quot;&gt;
++   	    &lt;war warfile=&quot;${war}&quot; webxml=&quot;config/web.xml&quot;&gt;
++		    &lt;classes dir=&quot;${build}&quot;&gt;
++				&lt;include name=&quot;de/deepamehta/topicmapviewer/*.class&quot; /&gt;
++            &lt;/classes&gt;
++         	&lt;fileset dir=&quot;.&quot;&gt;
++            	&lt;include name=&quot;pages/*&quot;/&gt;
++            	&lt;include name=&quot;css/*&quot;/&gt;
++            	&lt;include name=&quot;images/*&quot;/&gt;
++         	&lt;/fileset&gt;
++		&lt;/war&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;build&quot; depends=&quot;war&quot;&gt;
++		&lt;antcall target=&quot;deploy&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;deploy&quot;&gt;
++        &lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot;/&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
++		&lt;delete dir=&quot;${build}&quot;/&gt;
++	&lt;/target&gt;
++
++&lt;/project&gt;
+
+Added: trunk/install/examples/dm-topicmapviewer/config/web.xml
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/config/web.xml	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/config/web.xml	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,77 @@
++&lt;!DOCTYPE web-app 
++    PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot; 
++    &quot;<A HREF="http://java.sun.com/dtd/web-app_2_3.dtd">http://java.sun.com/dtd/web-app_2_3.dtd</A>&quot;&gt;
++
++&lt;web-app&gt;
++
++    &lt;!-- General description of the web application --&gt;
++
++    &lt;display-name&gt;DeepaMehta Topicmap Viewer&lt;/display-name&gt;
++    &lt;description&gt;
++      Version 1.0b1.
++      Written by J\u0x9arg Richter (<A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>)
++    &lt;/description&gt;
++
++    &lt;!-- Context initialization parameters that define shared
++         String constants used within your application, which
++         can be customized by the system administrator who is
++         installing your application.
++    --&gt;
++
++    &lt;context-param&gt;
++      &lt;param-name&gt;service&lt;/param-name&gt;
++      &lt;param-value&gt;default&lt;/param-value&gt;
++      &lt;description&gt;
++        Selects a DeepaMehta service.
++        If this parameter is not set the &quot;default&quot; service will be used.
++        To configure DeepaMehta services see the file install/client/dms.rc
++      &lt;/description&gt;
++    &lt;/context-param&gt;
++
++    &lt;context-param&gt;
++      &lt;param-name&gt;generator&lt;/param-name&gt;
++      &lt;param-value&gt;jsp&lt;/param-value&gt;
++      &lt;description&gt;
++        Selects the HTML generator method.
++        Supported values are &quot;jsp&quot; (default) and &quot;xslt&quot; (experimental)
++      &lt;/description&gt;
++    &lt;/context-param&gt;
++
++    &lt;context-param&gt;
++      &lt;param-name&gt;stylesheet&lt;/param-name&gt;
++      &lt;param-value&gt;browser/browser.xsl&lt;/param-value&gt;
++      &lt;description&gt;
++        Sets the stylesheet for the XSL transformation.
++		This parameter is required if the XSLT generator method is used, see parameter &quot;generator&quot;
++      &lt;/description&gt;
++    &lt;/context-param&gt;
++
++    &lt;!-- Servlet definitions for the servlets that make up
++         the web application.
++    --&gt;
++
++    &lt;servlet&gt;
++      &lt;servlet-name&gt;DeepaMehta Topicmap Viewer&lt;/servlet-name&gt;
++      &lt;description&gt;DeepaMehta Topicmap Viewer Controller&lt;/description&gt;
++      &lt;servlet-class&gt;de.deepamehta.topicmapviewer.TopicmapViewerServlet&lt;/servlet-class&gt;
++    &lt;/servlet&gt;
++
++    &lt;!-- Define mappings that are used by the servlet container to
++         translate a particular request URI (context-relative) to a
++         particular servlet.
++    --&gt;
++
++    &lt;servlet-mapping&gt;
++      &lt;servlet-name&gt;DeepaMehta Topicmap Viewer&lt;/servlet-name&gt;
++      &lt;url-pattern&gt;/controller&lt;/url-pattern&gt;
++    &lt;/servlet-mapping&gt;
++
++    &lt;!-- Define the default session timeout for your application,
++         in minutes.
++    --&gt;
++
++    &lt;session-config&gt;
++      &lt;session-timeout&gt;240&lt;/session-timeout&gt;
++    &lt;/session-config&gt;
++
++&lt;/web-app&gt;
+
+Added: trunk/install/examples/dm-topicmapviewer/css/default.css
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/css/default.css	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/css/default.css	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,22 @@
++body, td {
++	font-family: Verdana, sans-serif;
++	line-height: 1.4em;
++}
++
++.topicinfo {
++	display: none;
++	background: #f0f0f0;
++	position: absolute;
++	top: 50px;
++	left: 200px;
++	padding: 8px;
++	border-width: 13px medium medium medium;
++	border-color: #e0e0e0;
++	border-style: solid;
++}
++
++.closebox {
++	position: absolute;
++	top: -15px;
++	left: -2px;
++}
+\ No newline at end of file
+
+Added: trunk/install/examples/dm-topicmapviewer/docs/states.txt
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/docs/states.txt	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/docs/states.txt	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,27 @@
++Topicmap Viewer Documentation
++=============================
++
++Web Session Attributes
++
++J&#154;rg Richter
++7.4.2007
++
++
++
++PAGE_TOPICMAP_LIST
++------------------
++
++workspaces		All workspaces (Vector of BaseTopic)
++topicmaps		All published topicmaps (Hashtable)
++					key: workspace ID (String)
++					value: topicmaps (Vector of BaseTopic)
++
++
++PAGE_TOPICMAP
++-------------
++
++topicmapName	Name of the topicmap to view (String)
++topicmapImage	URL of the topicmap image (String)
++geometryData	geometry data of all topics (Vector of TopicGeometry)
++
++
+
+Added: trunk/install/examples/dm-topicmapviewer/images/close.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/examples/dm-topicmapviewer/images/close.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: trunk/install/examples/dm-topicmapviewer/pages/Topicmap.jsp
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/pages/Topicmap.jsp	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/pages/Topicmap.jsp	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,51 @@
++&lt;%@ include file=&quot;TopicmapViewer.jsp&quot; %&gt;
++
++&lt;%
++	HTMLGenerator html = (HTMLGenerator) session.getAttribute(&quot;html&quot;);
++	String topicmapName = (String) session.getAttribute(&quot;topicmapName&quot;);
++	String topicmapImage = (String) session.getAttribute(&quot;topicmapImage&quot;);
++	Vector geometryData = (Vector) session.getAttribute(&quot;geometryData&quot;);
++%&gt;
++&lt;html&gt;
++&lt;head&gt;
++	&lt;title&gt;DeepaMehta Topicmap Viewer / &lt;%= topicmapName %&gt;&lt;/title&gt;
++	&lt;link href=&quot;css/default.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; /&gt;
++	&lt;script type=&quot;text/javascript&quot;&gt;
++		var currentTopicID;
++		function showTopicInfo(topicID) {
++			if (currentTopicID) {
++				document.getElementById(currentTopicID).style.display = &quot;none&quot;;
++			}
++			document.getElementById(topicID).style.display = &quot;block&quot;;
++			currentTopicID = topicID;
++		}
++		function closeTopicInfo() {
++			document.getElementById(currentTopicID).style.display = &quot;none&quot;;
++		}
++	&lt;/script&gt;
++&lt;/head&gt;
++&lt;body&gt;
++	&lt;h2&gt;&lt;%= topicmapName %&gt;&lt;/h2&gt;
++	&lt;img src=&quot;&lt;%= topicmapImage %&gt;&quot; usemap=&quot;#topicmap&quot;&gt;
++	&lt;map name=&quot;topicmap&quot;&gt;
++	&lt;%
++		Enumeration e = geometryData.elements();
++		while (e.hasMoreElements()) {
++			TopicGeometry tg = (TopicGeometry) e.nextElement();
++			out.println(&quot;&lt;area shape=\&quot;rect\&quot; coords=\&quot;&quot; + tg.x1 + &quot;, &quot; + tg.y1 + &quot;, &quot; + tg.x2 + &quot;, &quot; + tg.y2 +
++				&quot;\&quot; href=\&quot;javascript:showTopicInfo('&quot; + tg.topicID + &quot;')\&quot; alt=\&quot;alt text\&quot; title=\&quot;Show info of topic &quot; +
++				tg.topicID + &quot;\&quot; /&gt;&quot;);
++		}
++	%&gt;
++	&lt;/map&gt;
++	&lt;%
++		e = geometryData.elements();
++		while (e.hasMoreElements()) {
++			TopicGeometry tg = (TopicGeometry) e.nextElement();
++			out.println(&quot;&lt;div class=\&quot;topicinfo\&quot; id=\&quot;&quot; + tg.topicID + &quot;\&quot;&gt;&quot;);
++			out.println(&quot;&lt;a href=\&quot;javascript:closeTopicInfo()\&quot;&gt;&lt;img class=\&quot;closebox\&quot; src=\&quot;images/close.png\&quot;&gt;&lt;/a&gt;&quot;);
++			out.println(html.info(tg.topicID));
++			out.println(&quot;&lt;/div&gt;&quot;);
++		}
++	%&gt;
++&lt;% end(session, out); %&gt;
+
+Added: trunk/install/examples/dm-topicmapviewer/pages/TopicmapList.jsp
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/pages/TopicmapList.jsp	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/pages/TopicmapList.jsp	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,31 @@
++&lt;%@ include file=&quot;TopicmapViewer.jsp&quot; %&gt;
++
++&lt;%
++	HTMLGenerator html = (HTMLGenerator) session.getAttribute(&quot;html&quot;);
++	Vector workspaces = (Vector) session.getAttribute(&quot;workspaces&quot;);
++	Hashtable topicmaps = (Hashtable) session.getAttribute(&quot;topicmaps&quot;);
++%&gt;
++&lt;html&gt;
++&lt;head&gt;
++	&lt;title&gt;DeepaMehta Topicmap Viewer&lt;/title&gt;
++	&lt;link href=&quot;css/default.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; /&gt;
++&lt;/head&gt;
++&lt;body&gt;
++	&lt;h2&gt;DeepaMehta Topicmap Viewer&lt;/h2&gt;
++	&lt;dl&gt;
++	&lt;%
++		Enumeration e = workspaces.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic workspace = (BaseTopic) e.nextElement();
++			out.println(&quot;&lt;dt&gt;&quot; + workspace.getName() + &quot;&lt;/dt&gt;&quot;);
++			Enumeration e2 = ((Vector) topicmaps.get(workspace.getID())).elements();
++			while (e2.hasMoreElements()) {
++				BaseTopic topicmap = (BaseTopic) e2.nextElement();
++				out.println(&quot;&lt;dd&gt;&lt;a href=\&quot;?action=&quot; + TopicmapViewer.ACTION_SHOW_TOPICMAP +
++					&quot;&amp;topicmapID=&quot; + topicmap.getID() + &quot;\&quot;&gt;&quot; + topicmap.getName() + &quot;&lt;/a&gt;&lt;/dd&gt;&quot;);
++			}
++		}
++	%&gt;
++	&lt;/dl&gt;
++
++&lt;% end(session, out); %&gt;
+
+Added: trunk/install/examples/dm-topicmapviewer/pages/TopicmapViewer.jsp
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/pages/TopicmapViewer.jsp	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/pages/TopicmapViewer.jsp	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,22 @@
++&lt;%@ page import=&quot;de.deepamehta.BaseTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.PresentableTopic&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.TopicGeometry&quot; %&gt;
++&lt;%@ page import=&quot;de.deepamehta.service.web.HTMLGenerator&quot; %&gt;
++
++&lt;%@ page import=&quot;de.deepamehta.topicmapviewer.TopicmapViewer&quot; %&gt;
++
++&lt;%@ page import=&quot;java.io.IOException&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Date&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Enumeration&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Vector&quot; %&gt;
++&lt;%@ page import=&quot;java.util.Hashtable&quot; %&gt;
++
++&lt;%!
++	void begin(HttpSession session, JspWriter out) throws IOException {
++		out.println(&quot;&lt;html&gt;\r&lt;head&gt;\r&lt;title&gt;DeepaMehta&lt;/title&gt;\r&lt;/head&gt;\r&lt;body&gt;\r&quot;);
++	}
++
++	void end(HttpSession session, JspWriter out) throws IOException {
++		out.println(&quot;&lt;br&gt;&lt;p&gt;\r&lt;hr&gt;\r&lt;small&gt;Generated by DeepaMehta on &quot; + new Date() + &quot;&lt;/small&gt;\r&lt;/body&gt;\r&lt;/html&gt;&quot;);
++	}
++%&gt;
+
+Added: trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewer.java
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewer.java	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewer.java	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,38 @@
++package de.deepamehta.topicmapviewer;
++
++import de.deepamehta.DeepaMehtaConstants;
++
++
++
++/**
++ * Interface for the &quot;DeepaMehta Topicmap Viewer&quot; application.
++ */
++public interface TopicmapViewer extends DeepaMehtaConstants {
++
++
++
++	// *****************
++	// *** Constants ***
++	// *****************
++
++
++
++	// ---------------
++	// --- Actions ---
++	// ---------------
++
++
++
++    public static final String ACTION_SHOW_TOPICMAP = &quot;showTopicmap&quot;;
++
++
++
++	// -------------
++	// --- Pages ---
++	// -------------
++
++
++
++    static final String PAGE_TOPICMAP_LIST = &quot;TopicmapList&quot;;
++    static final String PAGE_TOPICMAP = &quot;Topicmap&quot;;
++}
+
+Added: trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java	2007-07-04 20:57:54 UTC (rev 161)
++++ trunk/install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer/TopicmapViewerServlet.java	2007-07-05 12:44:38 UTC (rev 162)
+@@ -0,0 +1,75 @@
++package de.deepamehta.topicmapviewer;
++
++import de.deepamehta.BaseTopic;
++import de.deepamehta.BaseAssociation;
++import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.Session;
++import de.deepamehta.service.web.DeepaMehtaServlet;
++import de.deepamehta.service.web.RequestParameter;
++import de.deepamehta.topics.TopicMapTopic;
++//
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
++//
++import java.util.*;
++
++
++
++public class TopicmapViewerServlet extends DeepaMehtaServlet implements TopicmapViewer {
++
++	protected String performAction(String action, RequestParameter params, Session session)
++																		throws ServletException {
++		if (action == null) {
++			return PAGE_TOPICMAP_LIST;
++		} else if (action.equals(ACTION_SHOW_TOPICMAP)) {
++			String topicmapID = params.getValue(&quot;topicmapID&quot;);
++			//
++			TopicMapTopic topicmap = (TopicMapTopic) as.getLiveTopic(topicmapID, 1);
++			String topicmapImage = FILESERVER_DOCUMENTS_PATH + &quot;topicmap-&quot; + topicmapID + &quot;.png&quot;;
++			Vector geometryData = topicmap.exportToPNG();
++			//
++			session.setAttribute(&quot;topicmapName&quot;, topicmap.getName());
++			session.setAttribute(&quot;topicmapImage&quot;, as.getCorporateWebBaseURL() + topicmapImage);
++			session.setAttribute(&quot;geometryData&quot;, geometryData);
++			return PAGE_TOPICMAP;
++		} else {
++			return super.performAction(action, params, session);
++		}
++	}
++
++	protected void preparePage(String page, RequestParameter params, Session session) {
++		if (page.equals(PAGE_TOPICMAP_LIST)) {
++			Vector workspaces = cm.getTopics(TOPICTYPE_WORKSPACE);
++			Hashtable topicmaps = getTopicmaps(workspaces);
++			session.setAttribute(&quot;workspaces&quot;, workspaces);
++			session.setAttribute(&quot;topicmaps&quot;, topicmaps);
++		}
++	}
++
++
++
++	// *****************
++	// *** Utilities ***
++	// *****************
++
++
++
++	private Hashtable getTopicmaps(Vector workspaces) {
++		Hashtable topicmaps = new Hashtable();
++		//
++		Enumeration e = workspaces.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic workspace = (BaseTopic) e.nextElement();
++			BaseTopic topicmap = as.getWorkspaceTopicmap(workspace.getID());
++			if (topicmap == null) {
++				System.out.println(&quot;*** &quot; + workspace + &quot; has no workspace topicmap&quot;);
++				topicmaps.put(workspace.getID(), new Vector());
++				continue;
++			}
++			Vector maps = cm.getTopics(TOPICTYPE_TOPICMAP, new Hashtable(), topicmap.getID());
++			topicmaps.put(workspace.getID(), maps);
++		}
++		//
++		return topicmaps;
++	}
++}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[deepamehta-svn] r161 - in trunk/develop/src/de/deepamehta: .	assocs client service
+</A></li>
+	<LI>Next message: <A HREF="000008.html">[deepamehta-svn] r163 - in trunk/install: db/patches examples/ldap
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,884 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r242 - branches/ape
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r242%20-%20branches/ape&In-Reply-To=%3C200711052147.lA5LlY5f002417%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000086.html">
+   <LINK REL="Next"  HREF="000088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r242 - branches/ape</H1>
+    <B>ape at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r242%20-%20branches/ape&In-Reply-To=%3C200711052147.lA5LlY5f002417%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r242 - branches/ape">ape at mail.berlios.de
+       </A><BR>
+    <I>Mon Nov  5 22:47:34 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000086.html">[deepamehta-svn] r241 - in trunk/develop/src/de/deepamehta: service	util
+</A></li>
+        <LI>Next message: <A HREF="000088.html">[deepamehta-svn] r243 - branches/ape
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: ape
+Date: 2007-11-05 22:47:03 +0100 (Mon, 05 Nov 2007)
+New Revision: 242
+
+Removed:
+   branches/ape/README.txt
+   branches/ape/build.xml
+   branches/ape/config.xml
+   branches/ape/develop/
+   branches/ape/install/
+   branches/ape/libs/
+Log:
+make way for a new beginning
+
+Deleted: branches/ape/README.txt
+===================================================================
+--- branches/ape/README.txt	2007-11-02 15:24:41 UTC (rev 241)
++++ branches/ape/README.txt	2007-11-05 21:47:03 UTC (rev 242)
+@@ -1,350 +0,0 @@
+-
+-DeepaMehta 2.0b7 
+-================
+-
+-README
+-
+-Joerg Richter
+-25.6.2006
+-
+-www.deepamehta.de
+-
+-
+-
+-
+- --- CONTENTS ---
+-
+-  Requirements
+-  Installation
+-    - Step 1: Unzip
+-    - Step 2: Configure
+-    - Step 3: Install
+-  Running
+-    - Single-Place
+-    - Networked
+-    - Web Frontends
+-  Administration
+-    - Set the root password
+-    - Configure instances
+-    - Control the servlet engine
+-    - Reset the database
+-    - Update
+-    - Deinstall
+-
+-
+-
+-
+-Requirements
+-============
+-
+-Software
+-
+-  * Java 1.4 Standard Edition
+-      <A HREF="http://java.sun.com/">http://java.sun.com/</A>
+-  * MySQL 4
+-      <A HREF="http://www.mysql.com/">http://www.mysql.com/</A>
+-  * Apache Ant 1.6
+-      <A HREF="http://ant.apache.org/">http://ant.apache.org/</A>
+-  * Optional: Apache Tomcat or another servlet engine
+-      <A HREF="http://tomcat.apache.org/">http://tomcat.apache.org/</A>
+-
+-Hardware
+-
+-  * CPU: 800 MHz / Memory: 256MB
+-  * Disk space: 12 MB + your data
+-
+-
+-
+-Installation
+-============
+-
+-The DeepaMehta distribution consists of the file deepamehta-2.0b7.zip
+-
+-Follow the instructions of this section if no older version of DeepaMehta is installed on
+-your machine. If an older version of DeepaMehta is already installed, follow the
+-instructions of the section &quot;Administration / Update&quot;.
+-
+-
+-Step 1: Unzip
+--------------
+-
+-1) Create the DeepaMehta home directory at a suitable location, e.g.
+-
+-   * Windows:     C:\Applications\DeepaMehta-2.0b7
+-   * Mac OS X:    /Macintosh HD/Applications/DeepaMehta-2.0b7
+-   * Linux:       /usr/local/deepamehta-2.0b7
+-
+-2) Unzip &quot;deepamehta-2.0b7.zip&quot; to a the just created directory.
+-   The structure of the DeepaMehta installation looks like this:
+-
+-   README.txt     this text
+-   install/       the software to run DeepaMehta
+-   develop/       you can delete this folder if you do no DeepaMehta development
+-   libs/          3rd party libraries
+-   build.xml      buildfile for ant
+-   config.xml     configurations read by the buildfile
+-
+-
+-Step 2: Configure 
+------------------
+-
+-1) At the very minimum configuration effort you must add the directory /&lt;Ant&gt;/bin to your
+-   environment, so you can start the ant tool from a console window.
+-
+-   * Windows:            set the PATH environment variable
+-   * Linux / Mac OS X:   create a symbolic link in /usr/bin
+-
+-   To test the ant installation type &quot;ant -version&quot;. A short message about the ant version
+-   should appear.
+-
+-2) Optional: change the default DeepaMehta configuration by editing the file &quot;config.xml&quot;
+-   with a text editor.
+-
+-   a) You are strongly advised to change the password for the DeepaMehta database user by
+-      setting the value of the &quot;db.password&quot; property (section &quot;Database&quot;).
+-      *** Retaining the default password is very insecure ***
+-
+-         &lt;!-- Database --&gt;
+-         &lt;property name=&quot;db.password&quot; value=&quot;dm&quot;/&gt;
+-
+-      If you change the password here, you must set it in install/client/dms.rc too.
+-      The password is part of the connection parameters of the &quot;default&quot; instance.
+-
+-   b) If you want use the example web applications you must set the four &quot;web.*&quot;
+-      properties to point to your servlet engine installation
+-
+-         &lt;!-- Servlet Engine --&gt;
+-         &lt;property name=&quot;web.deploy.dir&quot;  value=&quot;/usr/local/tomcat/webapps&quot;/&gt;
+-         &lt;property name=&quot;web.lib.dir&quot;     value=&quot;/usr/local/tomcat/shared/lib&quot;/&gt;
+-         &lt;property name=&quot;web.classes.dir&quot; value=&quot;/usr/local/tomcat/shared/classes&quot;/&gt;
+-         &lt;property name=&quot;web.servlet.lib&quot; value=&quot;/usr/local/tomcat/common/lib/servlet-api.jar&quot;/&gt;
+-
+-   c) If you want deploy 3rd party DeepaMehta applications, e.g. &quot;Kiezatlas&quot; add them to
+-      the &quot;dmapps&quot; path element.
+-
+-         &lt;!-- DeepaMehta Applications --&gt;
+-         &lt;property name=&quot;appspath&quot; location=&quot;/Users/fred/My DeepaMehta Applications&quot;/&gt;
+-         &lt;path id=&quot;dmapps&quot;&gt;
+-            ...
+-            &lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;
+-         &lt;/path&gt;
+-
+-
+-Step 3: Install
+----------------
+-
+-*** IMPORTANT ***
+-all ant calls must be performed from the DeepaMehta home directory.
+-
+-=&gt; Create the DeepaMehta database by executing the ant target &quot;install&quot;.
+-
+-    cd DeepaMehta
+-    ant install
+-
+-You will be asked for the MySQL root user password. The DeepaMehta database and the
+-database user are created. 
+-
+-Another database that is part of the &quot;Movies&quot; example application is also
+-created. Type your MySQL root user password again.
+-
+-Finally you're asked weather to install the DeepaMehta example web applications.
+-
+-
+-
+-Running
+-=======
+-
+-
+-Single-Place
+-------------
+-
+-The monolithic DeepaMehta application is suitable for single-place environments.
+-Client and server are integrated into a single application and communicating via direct
+-method calls. No TCP port is opened.
+-
+-=&gt; Start the monolithic DeepaMehta application by executing the &quot;dm&quot; target.
+-
+-    cd DeepaMehta
+-    ant dm
+-
+-Login as &quot;root&quot;, no password is required.
+-
+-You can access a specific DeepaMehta instance by setting the &quot;dm.instance&quot; property at the
+-command line
+-
+-    ant -Ddm.instance=test dm
+-
+-or you can set the &quot;dm.instance&quot; property permanently (in config.xml). If no instance is
+-specified the &quot;default&quot; instance will be accessed. DeepaMehta instances are declared in
+-dms.rc (see the section &quot;Administration / Configure instances&quot;).
+-
+-
+-Networked
+----------
+-
+-Client and server are communicating via TCP sockets.
+-The server opens one dedicated port (7557 by default).
+-
+-=&gt; Start the DeepaMehta server by executing the &quot;dms&quot; target.
+-
+-    cd DeepaMehta
+-    ant dms
+-
+-You can serve a specific DeepaMehta instance by setting the &quot;dm.instance&quot; property at the
+-command line
+-
+-    ant -Ddm.instance=test dms
+-
+-or you can set the &quot;dm.instance&quot; property permanently (in config.xml). If no instance is
+-specified the &quot;default&quot; instance will be served. DeepaMehta instances are declared in
+-dms.rc (see the section &quot;Administration / Configure instances&quot;).
+-
+-=&gt; Start the DeepaMehta client application by executing the &quot;dmc&quot; target.
+-
+-    cd DeepaMehta
+-    ant dmc
+-
+-Login as &quot;root&quot;, no password is required.
+-
+-You can connect to a specific DeepaMehta server by setting the &quot;dm.host&quot; and &quot;dm.port&quot;
+-properties at the command line
+-
+-    ant -Ddm.host=www.site.com -Ddm.port=7580 dmc
+-
+-or you can set the properties permanently (in config.xml). If no host is specified
+-&quot;localhost&quot; will be used. If no port is specified the default port (7557) will be used.
+-
+-=&gt; Start the DeepaMehta client applet resp. the signed client applet by browsing to
+-
+-    /&lt;DeepaMehta&gt;/install/client/index.html
+-    /&lt;DeepaMehta&gt;/install/client/plugin.html
+-
+-In any case the client applet expects the DeepaMehta server to run at the host the applet
+-originates from. The port can be specified inside the HTML pages by the applet parameter
+-&quot;PORT&quot;. If no port is specified the default port (7557) will be used.
+-
+-
+-Web Frontends
+--------------
+-
+-DeepaMehta includes 5 example web applications.
+-
+-=&gt; Start an example web application by browsing to the respective URL:
+-
+-    <A HREF="http://localhost:8080/dm-browser/controller">http://localhost:8080/dm-browser/controller</A>
+-    <A HREF="http://localhost:8080/dm-search/controller">http://localhost:8080/dm-search/controller</A>
+-    <A HREF="http://localhost:8080/messageboard/controller">http://localhost:8080/messageboard/controller</A>
+-    <A HREF="http://localhost:8080/musicforum/controller">http://localhost:8080/musicforum/controller</A>
+-    <A HREF="http://localhost:8080/kompetenzstern/controller">http://localhost:8080/kompetenzstern/controller</A>
+-
+-Note: the web applications are installed while the standard DeepaMehta installation
+-(see section &quot;Installation&quot; above).
+-
+-If your servlet engine is already running it must be restarted. The servlet engine must
+-be running. (see section &quot;Administration / Control the servlet engine&quot; below)
+-
+-
+-
+-Administration
+-==============
+-
+-
+-Set the root password
+----------------------
+-
+-1) Start the DeepaMehta client and login as &quot;root&quot;, no password is required.
+-2) Select the &quot;Administration&quot; workspace
+-3) Open the &quot;Users and Groups&quot; view by double-clicking it
+-4) Select the &quot;root&quot; user
+-5) Type in the password in the appropriate field
+-
+-
+-Configure instances
+--------------------
+-
+-For different purposes you can define several DeepaMehta instances (e.g. one for &quot;real&quot;
+-content, another for testing while development). Every DeepaMehta instance is associated
+-with a specific corporate memory. Every corporate memory can be realized by a specific
+-DBMS. To configure DeepaMehta instances edit the file /&lt;DeepaMehta&gt;/install/client/dms.rc
+-with a text editor and restart the DeepaMehta server resp. the monolithic DeepaMehta
+-application resp. the servlet engine.
+-
+-If no instance is specified the &quot;default&quot; is used. The default instance represents the
+-MySQL database as installed in section &quot;Installation&quot;.
+-
+-
+-Control the servlet engine
+---------------------------
+-
+-* Linux / Mac OS X / Tomcat:
+-
+-  The following commands are located in /&lt;DeepaMehta&gt;/install/server/bin/
+-  - start_tomcat    starts the Tomcat servlet engine
+-  - stop_tomcat     stops the Tomcat servlet engine
+-  - log_tomcat      starts Tomcat logging,
+-                    do this in a separate window and leave this window open all the time
+-* Windows:
+-
+-  There are no scripts to control a servlet engine provided so far.
+-
+-*** IMPORTANT ***
+-the servlet engine must be started from the directory /&lt;DeepaMehta&gt;/install/client/
+-otherwise the DeepaMehta servlet can't find the required files.
+-
+-
+-Reset the database
+-------------------
+-
+-The &quot;reset&quot; target resets the DeepaMehta database to its initial content.
+-
+-    cd DeepaMehta
+-    ant reset
+-
+-To reset a specific DeepaMehta instance you can set 3 properties at the command line
+-
+-    ant -Ddb.name=DeepaMehtaTest -Ddb.userid=dmtest -Ddb.password=dmtest reset
+-
+-or you can set the 3 properties permanently (in config.xml).
+-If no instance is specified the &quot;default&quot; instance will be reset.
+-
+-
+-Update
+-------
+-
+-1) Replace the DeepaMehta installation directory /&lt;DeepaMehta&gt;/
+-
+-2) Install all the patches, starting from the
+-   version of your current DeepaMehta installation.
+-
+-       Your version          install these patches to update to 2.0b7
+-       -------------------------------------------------------------------
+-       2.0a18                cm-2.8.sql, music-2.8.sql
+-       2.0b1                 cm-2.9.sql
+-       2.0b2                 cm-2.10.sql, movies-2.10.sql, ks-2.10.sql, artfacts-2.10.sql
+-       2.0b3-pre1            cm-2.11.sql
+-       2.0b3-pre2            cm-2.12.sql
+-       2.0b3                 cm-2.13.sql
+-       2.0b4                 cm-2.14.sql
+-       2.0b5                 cm-2.15.sql
+-       2.0b6                 cm-2.16.sql
+-
+-   A patch is installed by executing &quot;patchdb&quot; target and setting the &quot;patch&quot; property
+-   at the command line.
+-
+-       ant -Dpatch=install/db/patches/cm-2.16.sql patchdb
+-
+-   To patch a specific DeepaMehta instance you can set 3 properties at the command line
+-
+-       ant -Dpatch=install/db/patches/cm-2.16.sql -Ddb.name=DeepaMehtaTest -Ddb.userid=dmtest -Ddb.password=dmtest patchdb
+-
+-
+-Deinstall
+----------
+-
+-=&gt; Delete the DeepaMehta database and user by executing the &quot;dropdb&quot; target.
+-
+-    cd DeepaMehta
+-    ant dropdb
+-
+-The DeepaMehta installation directory and the deployed web applications must be removed
+-manually.
+
+Deleted: branches/ape/build.xml
+===================================================================
+--- branches/ape/build.xml	2007-11-02 15:24:41 UTC (rev 241)
++++ branches/ape/build.xml	2007-11-05 21:47:03 UTC (rev 242)
+@@ -1,365 +0,0 @@
+-&lt;project name=&quot;DeepaMehta&quot; default=&quot;deploy&quot; basedir=&quot;.&quot;&gt;
+-
+-	&lt;description&gt;
+-		DeepaMehta build file
+-	&lt;/description&gt;
+-
+-	&lt;import file=&quot;config.xml&quot;/&gt;
+-
+-	&lt;!-- Install --&gt;
+-
+-	&lt;target name=&quot;install&quot;&gt;
+-		&lt;echo message=&quot;--- DeepaMehta Installation ---&quot;/&gt;
+-		&lt;echo message=&quot;You are about to create a database '${db.name}' and an user '${db.userid}' (password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot;/&gt;
+-		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.install&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.install}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] install'&quot;/&gt;
+-		&lt;antcall target=&quot;createdb&quot;/&gt;
+-		&lt;antcall target=&quot;createtables&quot;/&gt;
+-		&lt;antcall target=&quot;initdb&quot;/&gt;
+-		&lt;!-- example applications --&gt;
+-		&lt;antcall target=&quot;installmovies&quot;/&gt;
+-		&lt;antcall target=&quot;installweb&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;installmovies&quot;&gt;
+-		&lt;ant antfile=&quot;${examples}/movies/build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;installweb&quot;&gt;
+-		&lt;echo message=&quot;You are about to install the example web applications to '${web.deploy.dir}'.&quot;/&gt;
+-		&lt;echo message=&quot;The directory for the servlet engines shared libraries is set to'${web.lib.dir}'.&quot;/&gt;
+-		&lt;echo message=&quot;If you want change these settings, type 'n' and edit config.xml (section 'Servlet Engine')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Dweb.deploy.dir=... -Dweb.lib.dir=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.installweb&quot;/&gt;
+-		&lt;condition property=&quot;do.abortweb&quot;&gt;
+-			&lt;equals arg1=&quot;${do.installweb}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abortweb&quot; message=&quot;==&gt; Installation aborted by user -- revisit with 'ant [options] installweb'&quot;/&gt;
+-		&lt;!-- copy shared libraries --&gt;
+-		&lt;antcall target=&quot;deploylibs&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/mysql-3.1.7.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/googleapi.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${libpath}/commons-fileupload-1.0.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-		&lt;!-- deploy web applications --&gt;
+-		&lt;ant antfile=&quot;${examples}/dm-browser/build.xml&quot; dir=&quot;${examples}/dm-browser&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/dm-search/build.xml&quot; dir=&quot;${examples}/dm-search&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/messageboard/build.xml&quot; dir=&quot;${examples}/messageboard&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/musicforum/build.xml&quot; dir=&quot;${examples}/musicforum&quot; target=&quot;deploy&quot;/&gt;
+-		&lt;ant antfile=&quot;${examples}/kompetenzstern/build.xml&quot; dir=&quot;${examples}/kompetenzstern&quot; target=&quot;deploy&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
+-		&lt;antcall target=&quot;deploylibs&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;deploylibs&quot;&gt;
+-        &lt;copy file=&quot;${server}/DeepaMehtaService.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-        &lt;copy file=&quot;${server}/DeepaMehtaTopics.jar&quot; todir=&quot;${web.lib.dir}&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;createdb&quot;&gt;
+-		&lt;input message=&quot;Enter MySQL root user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			CREATE DATABASE ${db.name};
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.userid}@localhost IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-			GRANT ALL PRIVILEGES ON ${db.name}.* TO ${db.userid}@&quot;%&quot;       IDENTIFIED BY '${db.password}' WITH GRANT OPTION;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;dropdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to drop the DeepaMehta database '${db.name}' and the user '${db.userid}'.&quot;/&gt;
+-		&lt;echo message=&quot;You will be asked for the MySQL root user password.&quot;/&gt;
+-		&lt;echo message=&quot;If you want drop another database and user, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.drop&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.drop}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] dropdb'&quot;/&gt;
+-		&lt;input message=&quot;Enter MySQL root user password: &quot; addproperty=&quot;db.rootpw&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.sysurl}&quot; userid=&quot;${db.sysuser}&quot; password=&quot;${db.rootpw}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			DROP DATABASE ${db.name};
+-			DELETE FROM user where User='${db.userid}';
+-			DELETE FROM db where Db='${db.name}';
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;createtables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; src=&quot;${db.tables}&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;initdb&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
+-			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;cm.sql&quot;/&gt;
+-				&lt;include name=&quot;email.sql&quot;/&gt;
+-				&lt;include name=&quot;auth.sql&quot;/&gt;
+-				&lt;include name=&quot;webcrawler.sql&quot;/&gt;
+-				&lt;include name=&quot;whois.sql&quot;/&gt;
+-			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${examples}&quot;&gt;
+-				&lt;include name=&quot;movies/movies.sql&quot;/&gt;
+-				&lt;include name=&quot;musicforum/music.sql&quot;/&gt;
+-				&lt;include name=&quot;artfacts/artfacts.sql&quot;/&gt;
+-				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot;/&gt;
+-				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot;/&gt;
+-			&lt;/fileset&gt;
+-			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+-				&lt;include name=&quot;names.sql&quot;/&gt;
+-				&lt;include name=&quot;help.sql&quot;/&gt;
+-			&lt;/fileset&gt;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;droptables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; src=&quot;${db}/db_drop.sql&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;reset&quot;&gt;
+-		&lt;echo message=&quot;You are about to reset the database ${db.name} (user '${db.userid}', password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;If you want reset another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.reset&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.reset}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] reset'&quot;/&gt;
+-		&lt;antcall target=&quot;droptables&quot;/&gt;
+-		&lt;antcall target=&quot;createtables&quot;/&gt;
+-		&lt;antcall target=&quot;initdb&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;patchdb&quot;&gt;
+-		&lt;echo message=&quot;You are about to apply the patch ${patch} the database ${db.name} (user '${db.userid}', password '${db.password}').&quot;/&gt;
+-		&lt;echo message=&quot;If you want patch another database, type 'n' and edit config.xml (section 'Database')&quot;/&gt;
+-		&lt;echo message=&quot;or use command line options -Ddb.name=... -Ddb.userid=... -Ddb.password=... -Dpatch=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.patch&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; src=&quot;${patch}&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
+-		&lt;/sql&gt;
+-	&lt;/target&gt;
+-
+-	&lt;!-- Run --&gt;
+-
+-	&lt;target name=&quot;dm&quot; description=&quot;runs the monolithic DeepaMehta application, default instance&quot;&gt;
+-		&lt;java classname=&quot;de.deepamehta.service.DeepaMehta&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+-			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${client}/DeepaMehta.jar&quot;/&gt;
+-				&lt;path refid=&quot;dmapps&quot;/&gt; 
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
+-			&lt;/classpath&gt;
+-			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot;/&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;dms&quot; description=&quot;runs the DeepaMehta server&quot;&gt;
+-		&lt;java classname=&quot;de.deepamehta.service.DeepaMehtaServer&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+-			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaTopics.jar&quot;/&gt;
+-				&lt;path refid=&quot;dmapps&quot;/&gt; 
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
+-			&lt;/classpath&gt;
+-			&lt;sysproperty key=&quot;java.endorsed.dirs&quot; path=&quot;${endorsedpath}&quot;/&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;dmc&quot; description=&quot;runs the DeepaMehta client, connects to local server&quot;&gt;
+-		&lt;java classname=&quot;de.deepamehta.client.DeepaMehtaClient&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+-			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${client}/DeepaMehtaClient.jar&quot;/&gt;
+-			&lt;/classpath&gt;
+-			&lt;arg value=&quot;${dm.host}:${dm.port}&quot;/&gt;
+-        &lt;/java&gt;
+-	&lt;/target&gt;
+-
+-	&lt;!-- Build --&gt;
+-
+-	&lt;target name=&quot;init&quot; description=&quot;create build directory&quot;&gt;
+-		&lt;mkdir dir=&quot;${build}&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;compile&quot; depends=&quot;init&quot; description=&quot;compile sources&quot;&gt;
+-		&lt;javac srcdir=&quot;${sources}&quot; destdir=&quot;${build}&quot; debug=&quot;on&quot; listfiles=&quot;yes&quot; encoding=&quot;MacRoman&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
+-		&lt;/javac&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;build&quot; depends=&quot;compile&quot; description=&quot;build jar files&quot;&gt;
+-		&lt;!-- monolith --&gt;
+-		&lt;jar jarfile=&quot;${client}/DeepaMehta.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/service/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/SocketService.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/InteractionConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/MessagingConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/TypeConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/client/FileserverConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/InteractionConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/MessagingConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/TypeConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/FileserverConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/ExternalConnection.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer.class&quot;/&gt;
+-			&lt;exclude name=&quot;de/deepamehta/service/DeepaMehtaServer$Connection.class&quot;/&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehta&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- client --&gt;
+-		&lt;jar jarfile=&quot;${client}/DeepaMehtaClient.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/client/*.class&quot;/&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.client.DeepaMehtaClient&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- server --&gt;
+-		&lt;jar jarfile=&quot;${server}/DeepaMehtaService.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/service/**/*.class&quot;/&gt;
+-			&lt;manifest&gt;
+-				&lt;attribute name=&quot;Main-Class&quot; value=&quot;de.deepamehta.service.DeepaMehtaServer&quot;/&gt;
+-				&lt;attribute name=&quot;Class-Path&quot; value=&quot;${jarclasspath}&quot;/&gt;
+-			&lt;/manifest&gt;
+-		&lt;/jar&gt;
+-		&lt;!-- topics --&gt;
+-		&lt;jar jarfile=&quot;${server}/DeepaMehtaTopics.jar&quot; basedir=&quot;${build}&quot;&gt;
+-			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+-			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
+-		&lt;/jar&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;sign&quot; depends=&quot;build&quot; description=&quot;sign client&quot;&gt;
+-		&lt;signjar jar=&quot;${client}/DeepaMehtaClient.jar&quot; alias=&quot;tomcat&quot;
+-			storepass=&quot;kspw01&quot; keypass=&quot;kspw01&quot; signedjar=&quot;${client}/sDeepaMehtaClient.jar&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;release&quot; depends=&quot;sign&quot;&gt;
+-		&lt;echo message=&quot;You are about to build the release file '${build.name}'.&quot;/&gt;
+-		&lt;echo message=&quot;If you want use another name, type 'n' and edit config.xml (section 'Build Support')&quot;/&gt;
+-		&lt;echo message=&quot;or use a command line option -Dbuild.name=...&quot;/&gt;
+-		&lt;input message=&quot;Continue? &quot; validargs=&quot;y,n&quot; addproperty=&quot;do.release&quot;/&gt;
+-		&lt;condition property=&quot;do.abort&quot;&gt;
+-			&lt;equals arg1=&quot;${do.release}&quot; arg2=&quot;n&quot;/&gt;
+-		&lt;/condition&gt;
+-		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Release building aborted by user -- revisit with 'ant release [option]'&quot;/&gt;
+-		&lt;zip destfile=&quot;${build.archive.dir}/${build.name}&quot; basedir=&quot;.&quot;&gt;
+-			&lt;exclude name=&quot;**/build/&quot;/&gt;
+-			&lt;exclude name=&quot;contrib/&quot;/&gt;
+-			&lt;exclude name=&quot;docs/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/*.pid&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/documents/*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/webpages/**&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/at-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/tt-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/ka-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/jah-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/108_*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/rote-kapelle.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/3539-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/16212*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/25984*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/ploetze.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/b17-2-harnack-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/icons/Sacred*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/javaxml/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/HCI/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/stats/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/acro.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/anika-7.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/axel-springer-40.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/badawi.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/BMFSFJ*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/comparison.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta-earth.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/deepa_mehta.jpg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/DeepaMobil.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/Driton*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/headregie.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/iso-9001.jpeg&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/jah-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/knoppix-logo.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/linkafn_*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/marlene-dietrich-11.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/scidoc.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/sparkasse.gif&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/images/schaukasten*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/browser/&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/stylesheets/vergleich*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/axel-springer-40.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/comparison.png&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/daily*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/kartepur*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/ks-*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Sacred*&quot;/&gt;
+-			&lt;exclude name=&quot;install/client/backgrounds/Scheitern*&quot;/&gt;
+-			&lt;exclude name=&quot;install/examples/knoppixforum/&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-1.7.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-beanutils-core-1.7.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-cli-1.0.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-collections-3.1.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-digester-1.7.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-1.0.4.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/commons-logging-api-1.0.4.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/jwf-1.0.1.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/log4j-1.2.13.jar&quot;/&gt;
+-			&lt;exclude name=&quot;libs/libraries.txt&quot;/&gt;
+-			&lt;exclude name=&quot;**/.FBC*&quot;/&gt;
+-			&lt;exclude name=&quot;**/.xvpics/&quot;/&gt;
+-		&lt;/zip&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;apidocs&quot; description=&quot;generates the API documentation&quot;&gt;
+-		&lt;javadoc 
+-		   destdir=&quot;docs/apidocs&quot;
+-		   stylesheetfile=&quot;docs/stylesheet.css&quot;
+-		   package=&quot;true&quot;
+-		   windowtitle=&quot;DeepaMehta -- API Documentation&quot;&gt;
+-			&lt;fileset dir=&quot;develop/src&quot;&gt;
+-			&lt;/fileset&gt;		
+-		&lt;/javadoc&gt;
+-        &lt;copy file=&quot;docs/overview-frame.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot;/&gt;
+-        &lt;copy file=&quot;docs/overview-summary.html&quot; todir=&quot;docs/apidocs&quot; overwrite=&quot;true&quot;/&gt;
+-        &lt;copy file=&quot;docs/apidocs-index.html&quot; tofile=&quot;docs/apidocs/index.html&quot; overwrite=&quot;true&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+-		&lt;delete dir=&quot;${build}&quot;/&gt;
+-	&lt;/target&gt;
+-
+-	&lt;!-- Fix --&gt;
+-
+-	&lt;target name=&quot;fixdb&quot; depends=&quot;build&quot; description=&quot;fixes invalid HTML&quot;&gt;
+-		&lt;java classname=&quot;de.deepamehta.service.DBFix&quot; dir=&quot;${client}&quot; fork=&quot;true&quot;&gt;
+-			&lt;classpath&gt;
+-				&lt;pathelement location=&quot;${server}/DeepaMehtaService.jar&quot;/&gt;
+-				&lt;path refid=&quot;javalibs&quot;/&gt; 
+-			&lt;/classpath&gt;
+-			&lt;arg value=&quot;${dm.instance}&quot;/&gt;
+-        &lt;/java&gt;
+-	&lt;/target&gt;
+-
+-&lt;/project&gt;
+
+Deleted: branches/ape/config.xml
+===================================================================
+--- branches/ape/config.xml	2007-11-02 15:24:41 UTC (rev 241)
++++ branches/ape/config.xml	2007-11-05 21:47:03 UTC (rev 242)
+@@ -1,76 +0,0 @@
+-&lt;project&gt;
+-&lt;!-- DeepaMehta Directories --&gt;
+-&lt;property name=&quot;build&quot;        location=&quot;develop/build&quot;/&gt;
+-&lt;property name=&quot;sources&quot;      location=&quot;develop/src&quot;/&gt;
+-&lt;property name=&quot;install&quot;      location=&quot;install&quot;/&gt;
+-&lt;property name=&quot;client&quot;       location=&quot;install/client&quot;/&gt;
+-&lt;property name=&quot;server&quot;       location=&quot;install/server&quot;/&gt;
+-&lt;property name=&quot;db&quot;           location=&quot;install/db&quot;/&gt;
+-&lt;property name=&quot;examples&quot;     location=&quot;install/examples&quot;/&gt;
+-&lt;property name=&quot;libpath&quot;      location=&quot;libs&quot;/&gt;
+-&lt;property name=&quot;endorsedpath&quot; location=&quot;libs/endorsed&quot;/&gt;
+-
+-&lt;!-- Servlet Engine --&gt;
+-&lt;property name=&quot;web.deploy.dir&quot;  value=&quot;/usr/local/tomcat/webapps&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.lib.dir&quot;     value=&quot;/usr/local/tomcat/shared/lib&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.classes.dir&quot; value=&quot;/usr/local/tomcat/shared/classes&quot;/&gt;				&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.servlet.lib&quot; value=&quot;/usr/local/tomcat/common/lib/servlet-api.jar&quot;/&gt;	&lt;!-- configure this --&gt;
+-
+-&lt;!-- Build Support --&gt;
+-&lt;property name=&quot;build.archive.dir&quot; value=&quot;/Users/jri/Archive/DeepaMehta&quot;/&gt;	&lt;!-- configure this --&gt;
+-&lt;property name=&quot;build.name&quot; value=&quot;deepamehta-2.0b7.zip&quot;/&gt;					&lt;!-- configure this --&gt;
+-
+-&lt;!-- 3rd Party Libraries --&gt;
+-&lt;path id=&quot;javalibs&quot;&gt;
+-	&lt;pathelement location=&quot;${libpath}/mysql-3.1.7.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/activation.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/jndi.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/batik.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/fop.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
+-&lt;/path&gt;
+-&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+-	&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+-	     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
+-	     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
+-	     takes care of this. --&gt;
+-	&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot;/&gt;
+-&lt;/pathconvert&gt;
+-
+-&lt;!-- DeepaMehta Service --&gt;
+-&lt;property name=&quot;dm.instance&quot; value=&quot;default&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;dm.host&quot; value=&quot;localhost&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;dm.port&quot; value=&quot;7557&quot;/&gt;								&lt;!-- configure this --&gt;
+-
+-&lt;!-- DeepaMehta Applications --&gt;
+-&lt;property name=&quot;appspath&quot; location=&quot;/Users/jri/Projects&quot;/&gt;			&lt;!-- configure this --&gt;
+-&lt;path id=&quot;dmapps&quot;&gt;
+-	&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot;/&gt;		&lt;!-- configure this --&gt;
+-&lt;/path&gt;
+-
+-&lt;!-- Database --&gt;
+-&lt;property name=&quot;db.name&quot; value=&quot;DeepaMehta&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.userid&quot; value=&quot;dm&quot;/&gt;								&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.password&quot; value=&quot;dm&quot;/&gt;							&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.driver&quot; value=&quot;org.gjt.mm.mysql.Driver&quot;/&gt;		&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.host&quot; value=&quot;127.0.0.1&quot;/&gt;						&lt;!-- configure this --&gt;
+-
+-&lt;property name=&quot;db.tables&quot; value=&quot;${db}/db_tables_mysql.sql&quot;/&gt;
+-&lt;property name=&quot;db.sysname&quot; value=&quot;mysql&quot;/&gt;
+-&lt;property name=&quot;db.sysuser&quot; value=&quot;root&quot;/&gt;
+-&lt;property name=&quot;db.url&quot;    value=&quot;jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.name}?useUnicode=true&amp;characterEncoding=latin1&quot;/&gt;
+-&lt;property name=&quot;db.sysurl&quot; value=&quot;jdbc:<A HREF="mysql://${db.host">mysql://${db.host</A>}/${db.sysname}&quot;/&gt;
+-&lt;/project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000086.html">[deepamehta-svn] r241 - in trunk/develop/src/de/deepamehta: service	util
+</A></li>
+	<LI>Next message: <A HREF="000088.html">[deepamehta-svn] r243 - branches/ape
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

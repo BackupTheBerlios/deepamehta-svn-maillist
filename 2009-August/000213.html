@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r369 - in trunk/develop/src/de/deepamehta:	service/web topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r369%20-%20in%20trunk/develop/src/de/deepamehta%3A%0A%09service/web%20topics&In-Reply-To=%3C200908031508.n73F8KCm009582%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000214.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r369 - in trunk/develop/src/de/deepamehta:	service/web topics</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r369%20-%20in%20trunk/develop/src/de/deepamehta%3A%0A%09service/web%20topics&In-Reply-To=%3C200908031508.n73F8KCm009582%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r369 - in trunk/develop/src/de/deepamehta:	service/web topics">maltito at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug  3 17:08:20 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000214.html">[deepamehta-svn] r370 - branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-08-03 17:08:19 +0200 (Mon, 03 Aug 2009)
+New Revision: 369
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+Log:
+Minor Web Package Extensions
+* a new version of listLink Method
+
+ Additionally the downloading of a webpage was commented as the default command of a WebpageTopic
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-07-02 21:15:47 UTC (rev 368)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-08-03 15:08:19 UTC (rev 369)
+@@ -579,6 +579,44 @@
+ 		return html.toString();
+ 	}
+ 
++     /**
++	 * Copy of the linkList function which renders an extra button with row styles in a table
++     * the former method call should be ### delegated to this implementations instead of doubled code
++	 *
++     * The extraButton triggers a javaScript function with the specific name confirmDelete()
++     * make sure that this method is available and
++     *
++     * @param topics
++     * @param action
++     * @param extraButton
++     * @return
++     */
++    public String linkList(Vector topics, String action, String buttonAction) {
++		StringBuffer html = new StringBuffer();
++		Enumeration e = topics.elements();
++		html.append(&quot;&lt;table width=\&quot;100%\&quot; border=\&quot;0\&quot; cellspacing=\&quot;0\&quot;&gt;&quot;);
++		int i = 0;
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			String classAttr = i % 2 == 0 ? &quot; class=\&quot;list-evenrow\&quot;&quot; : &quot; class=\&quot;list-oddrow\&quot;&quot;;
++   			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&quot; + classAttr + &quot;&gt;&quot;);
++				html.append(&quot;&lt;td&gt;&quot;);
++			link(action, null, topic.getID(), topic.getName(), false, false, html);	// params=null, quoteHTML=false, bold=true
++				html.append(&quot;&lt;/td&gt;&lt;td&gt;&quot;);
++            html.append(&quot;&lt;form name=\&quot;delete&quot;+topic.getID()+&quot;\&quot; method=\&quot;GET\&quot; action=\&quot;controller\&quot; &quot; +
++				&quot;onsubmit=\&quot;return confirmDelete()\&quot;&gt;&quot;);
++			html.append(&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;action\&quot; value=\&quot;&quot; + buttonAction + &quot;\&quot;&gt;\n&quot;);
++			html.append(&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;id\&quot; value=\&quot;&quot; + topic.getID() + &quot;\&quot;&gt;\n&quot;);
++			html.append(&quot;&lt;input type=\&quot;submit\&quot; value=\&quot;Eintrag l&ouml;schen\&quot; &gt;&lt;/form&gt;&quot;);
++			html.append(&quot;&lt;/tr&gt;&quot;);
++			i++;
++		}
++		html.append(&quot;&lt;/table&gt;&quot;);
++		//
++		return html.toString();
++	}
++
++
+ 	// ---
+ 
+ 	public String staticLink(String text, String link) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-07-02 21:15:47 UTC (rev 368)
++++ trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2009-08-03 15:08:19 UTC (rev 369)
+@@ -143,7 +143,7 @@
+ 			// ###	throw new DeepaMehtaException(&quot;URL is invalid: \&quot;&quot; + urlProperty + &quot;\&quot;&quot;);
+ 			// ### }
+ 		} else if (command.equals(CMD_DOWNLOAD_WEBPAGE)) {
+-			download(topicmapID, viewmode, session, directives);
++			// download(topicmapID, viewmode, session, directives);
+ 		} else {
+ 			return super.executeCommand(command, session, topicmapID, viewmode);
+ 		}
+@@ -198,9 +198,6 @@
+ 				String domain = DeepaMehtaServiceUtils.domain(host, as);
+ 				String domainID = as.createTopic(TOPICTYPE_INTERNET_DOMAIN, domain);
+ 				as.createAssociation(ASSOCTYPE_ASSOCIATION, websiteID, domainID);	// ### use semantic
+-                // copy the URL so the browser knows which website is next to load
+-                // as.setTopicProperty(this, VISUAL_BROWSER, url.toString());
+-                //
+ 				// download this webpage
+ 				// download(topicmapID, viewmode, session, directives);
+ 			} catch (MalformedURLException e) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000214.html">[deepamehta-svn] r370 - branches
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

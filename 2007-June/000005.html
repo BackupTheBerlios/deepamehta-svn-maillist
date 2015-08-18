@@ -1,0 +1,1705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r160 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r160%20-%20in%20branches/eschnepel%3A%20.%20.settings%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install%20install/config%20install/db&In-Reply-To=%3C200706301142.l5UBgEe8008179%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000004.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r160 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config install/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r160%20-%20in%20branches/eschnepel%3A%20.%20.settings%0A%09develop/src/de/deepamehta%20develop/src/de/deepamehta/client%0A%09develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/db%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09develop/src/de/deepamehta/util%20install%20install/config%20install/db&In-Reply-To=%3C200706301142.l5UBgEe8008179%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r160 - in branches/eschnepel: . .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/util install install/config install/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Sat Jun 30 13:42:14 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000004.html">[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-06-30 13:42:12 +0200 (Sat, 30 Jun 2007)
+New Revision: 160
+
+Added:
+   branches/eschnepel/.classpath
+   branches/eschnepel/.project
+   branches/eschnepel/.settings/
+   branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+   branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs
+   branches/eschnepel/build.properties
+   branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+   branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/util/
+   branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java
+   branches/eschnepel/install/config/
+   branches/eschnepel/install/config/build-hsqldb-intern.properties
+   branches/eschnepel/install/config/db-hsqldb-intern.properties
+   branches/eschnepel/install/config/dm.properties
+   branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql
+   branches/eschnepel/install/db/EMPTY.sql
+Removed:
+   branches/eschnepel/config.xml
+Modified:
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/Commands.java
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+   branches/eschnepel/develop/src/de/deepamehta/client/DeepaMehtaClientUtils.java
+   branches/eschnepel/develop/src/de/deepamehta/client/MenuScrollHelper.java
+   branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+   branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java
+   branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+   branches/eschnepel/develop/src/de/deepamehta/service/EmbeddedService.java
+   branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java
+   branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java
+   branches/eschnepel/install/
+Log:
+hsqldb integration
+
+Added: branches/eschnepel/.classpath
+===================================================================
+--- branches/eschnepel/.classpath	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/.classpath	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,23 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++&lt;classpath&gt;
++	&lt;classpathentry kind=&quot;src&quot; path=&quot;develop/src&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/activation.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/avalon-framework.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/batik.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/commons-fileupload-1.0.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/endorsed/xalan-2.1.0.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/endorsed/xerces_2_3_0.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/endorsed/xml-apis.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/fop.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/googleapi.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/jaas.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/jndi.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/ldap.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/ldapbp.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/mail.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/providerutil.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/servlet.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;lib&quot; path=&quot;libs/xml4j.jar&quot;/&gt;
++	&lt;classpathentry kind=&quot;con&quot; path=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot;/&gt;
++	&lt;classpathentry kind=&quot;output&quot; path=&quot;develop/build&quot;/&gt;
++&lt;/classpath&gt;
+
+Added: branches/eschnepel/.project
+===================================================================
+--- branches/eschnepel/.project	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/.project	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,17 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++&lt;projectDescription&gt;
++	&lt;name&gt;dm-hsqldb&lt;/name&gt;
++	&lt;comment&gt;&lt;/comment&gt;
++	&lt;projects&gt;
++	&lt;/projects&gt;
++	&lt;buildSpec&gt;
++		&lt;buildCommand&gt;
++			&lt;name&gt;org.eclipse.jdt.core.javabuilder&lt;/name&gt;
++			&lt;arguments&gt;
++			&lt;/arguments&gt;
++		&lt;/buildCommand&gt;
++	&lt;/buildSpec&gt;
++	&lt;natures&gt;
++		&lt;nature&gt;org.eclipse.jdt.core.javanature&lt;/nature&gt;
++	&lt;/natures&gt;
++&lt;/projectDescription&gt;
+
+Added: branches/eschnepel/.settings/org.eclipse.jdt.core.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/.settings/org.eclipse.jdt.core.prefs	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,62 @@
++#Sat Jun 30 11:00:13 CEST 2007
++eclipse.preferences.version=1
++org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=disabled
++org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.2
++org.eclipse.jdt.core.compiler.codegen.unusedLocal=preserve
++org.eclipse.jdt.core.compiler.compliance=1.4
++org.eclipse.jdt.core.compiler.debug.lineNumber=generate
++org.eclipse.jdt.core.compiler.debug.localVariable=generate
++org.eclipse.jdt.core.compiler.debug.sourceFile=generate
++org.eclipse.jdt.core.compiler.problem.annotationSuperInterface=warning
++org.eclipse.jdt.core.compiler.problem.assertIdentifier=warning
++org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
++org.eclipse.jdt.core.compiler.problem.deprecation=warning
++org.eclipse.jdt.core.compiler.problem.deprecationInDeprecatedCode=disabled
++org.eclipse.jdt.core.compiler.problem.deprecationWhenOverridingDeprecatedMethod=enabled
++org.eclipse.jdt.core.compiler.problem.discouragedReference=warning
++org.eclipse.jdt.core.compiler.problem.emptyStatement=ignore
++org.eclipse.jdt.core.compiler.problem.enumIdentifier=warning
++org.eclipse.jdt.core.compiler.problem.fallthroughCase=ignore
++org.eclipse.jdt.core.compiler.problem.fieldHiding=warning
++org.eclipse.jdt.core.compiler.problem.finalParameterBound=warning
++org.eclipse.jdt.core.compiler.problem.finallyBlockNotCompletingNormally=warning
++org.eclipse.jdt.core.compiler.problem.forbiddenReference=error
++org.eclipse.jdt.core.compiler.problem.hiddenCatchBlock=warning
++org.eclipse.jdt.core.compiler.problem.incompatibleNonInheritedInterfaceMethod=warning
++org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch=ignore
++org.eclipse.jdt.core.compiler.problem.indirectStaticAccess=ignore
++org.eclipse.jdt.core.compiler.problem.localVariableHiding=ignore
++org.eclipse.jdt.core.compiler.problem.methodWithConstructorName=warning
++org.eclipse.jdt.core.compiler.problem.missingDeprecatedAnnotation=warning
++org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotation=warning
++org.eclipse.jdt.core.compiler.problem.missingSerialVersion=ignore
++org.eclipse.jdt.core.compiler.problem.noEffectAssignment=warning
++org.eclipse.jdt.core.compiler.problem.noImplicitStringConversion=warning
++org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral=ignore
++org.eclipse.jdt.core.compiler.problem.nullReference=ignore
++org.eclipse.jdt.core.compiler.problem.overridingPackageDefaultMethod=warning
++org.eclipse.jdt.core.compiler.problem.parameterAssignment=ignore
++org.eclipse.jdt.core.compiler.problem.possibleAccidentalBooleanAssignment=warning
++org.eclipse.jdt.core.compiler.problem.rawTypeReference=warning
++org.eclipse.jdt.core.compiler.problem.specialParameterHidingField=disabled
++org.eclipse.jdt.core.compiler.problem.staticAccessReceiver=warning
++org.eclipse.jdt.core.compiler.problem.suppressWarnings=enabled
++org.eclipse.jdt.core.compiler.problem.syntheticAccessEmulation=ignore
++org.eclipse.jdt.core.compiler.problem.typeParameterHiding=ignore
++org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation=warning
++org.eclipse.jdt.core.compiler.problem.undocumentedEmptyBlock=ignore
++org.eclipse.jdt.core.compiler.problem.unhandledWarningToken=warning
++org.eclipse.jdt.core.compiler.problem.unnecessaryElse=ignore
++org.eclipse.jdt.core.compiler.problem.unnecessaryTypeCheck=ignore
++org.eclipse.jdt.core.compiler.problem.unqualifiedFieldAccess=ignore
++org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownException=ignore
++org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionWhenOverriding=disabled
++org.eclipse.jdt.core.compiler.problem.unusedImport=warning
++org.eclipse.jdt.core.compiler.problem.unusedLabel=warning
++org.eclipse.jdt.core.compiler.problem.unusedLocal=warning
++org.eclipse.jdt.core.compiler.problem.unusedParameter=ignore
++org.eclipse.jdt.core.compiler.problem.unusedParameterWhenImplementingAbstract=disabled
++org.eclipse.jdt.core.compiler.problem.unusedParameterWhenOverridingConcrete=disabled
++org.eclipse.jdt.core.compiler.problem.unusedPrivateMember=warning
++org.eclipse.jdt.core.compiler.problem.varargsArgumentNeedCast=warning
++org.eclipse.jdt.core.compiler.source=1.3
+
+Added: branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs
+===================================================================
+--- branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/.settings/org.eclipse.jdt.ui.prefs	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,3 @@
++#Sat Jun 30 10:52:28 CEST 2007
++eclipse.preferences.version=1
++internal.default.compliance=default
+
+Added: branches/eschnepel/build.properties
+===================================================================
+--- branches/eschnepel/build.properties	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/build.properties	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,31 @@
++# DeepaMehta Directories
++build				=develop/build
++sources				=develop/src
++install				=install
++config				=${install}/config
++client				=${install}/client
++server				=${install}/server
++db					=${install}/db
++examples			=${install}/examples
++libpath				=libs
++endorsedpath		=${libpath}/endorsed
++
++# Servlet Engine
++tomcat.root			=/usr/local/tomcat
++web.deploy.dir		=${tomcat.root}/webapps
++web.lib.dir			=${tomcat.root}/shared/lib
++web.classes.dir		=${tomcat.root}/shared/classes
++web.servlet.lib		=${tomcat.root}/common/lib/servlet-api.jar
++
++# Build Support
++build.archive.dir	=/Users/jri/Archive/DeepaMehta
++build.name			=deepamehta-2.0b7.zip
++
++# DeepaMehta Applications
++appspath			=/Users/jri/Projects
++
++# DeepaMehta Service
++dm.instance			=hsqldb-intern
++
++dm.instance.property-file=${config}/db-${dm.instance}.properties
++dm.instance.build-property-file=${config}/db-${dm.instance}.properties
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/build.xml	2007-06-30 11:42:12 UTC (rev 160)
+@@ -4,8 +4,44 @@
+ 		DeepaMehta build file
+ 	&lt;/description&gt;
+ 
+-	&lt;import file=&quot;config.xml&quot;/&gt;
++	&lt;property file=&quot;build.properties&quot;/&gt;
++	&lt;property file=&quot;${dm.instance.property-file}&quot;/&gt;
++	&lt;property file=&quot;${dm.instance.build-property-file}&quot;/&gt;
+ 
++	&lt;path id=&quot;javalibs&quot;&gt;
++		&lt;pathelement location=&quot;${db.lib}&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/activation.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/jndi.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/batik.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/fop.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
++		&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
++	&lt;/path&gt;
++
++	&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
++		&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
++		     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
++		     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
++		     takes care of this. --&gt;
++		&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot;/&gt;
++	&lt;/pathconvert&gt;
++
++	&lt;path id=&quot;dmapps&quot;&gt;
++		&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot;/&gt;								&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
++		&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot;/&gt;		&lt;!-- configure this --&gt;
++	&lt;/path&gt;
++
+ 	&lt;!-- Install --&gt;
+ 
+ 	&lt;target name=&quot;install&quot;&gt;
+@@ -28,7 +64,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;installmovies&quot;&gt;
+-		&lt;ant antfile=&quot;${examples}/movies/build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/&gt;
++		&lt;!--ant antfile=&quot;${examples}/movies/build.xml&quot; dir=&quot;${examples}/movies&quot; target=&quot;install&quot;/--&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;installweb&quot;&gt;
+@@ -55,7 +91,7 @@
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;deploy&quot; depends=&quot;build&quot;&gt;
+-		&lt;antcall target=&quot;deploylibs&quot;/&gt;
++		&lt;!--antcall target=&quot;deploylibs&quot;/--&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;deploylibs&quot;&gt;
+@@ -98,7 +134,7 @@
+ 				&lt;include name=&quot;${db.tables}&quot;/&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;COMMIT_SHUTDOWN.sql&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+@@ -112,6 +148,7 @@
+ 				&lt;include name=&quot;webcrawler.sql&quot;/&gt;
+ 				&lt;include name=&quot;whois.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
++		&lt;!--
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;movies/movies.sql&quot;/&gt;
+ 				&lt;include name=&quot;musicforum/music.sql&quot;/&gt;
+@@ -119,19 +156,25 @@
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot;/&gt;
+ 				&lt;include name=&quot;kompetenzstern/businesscheck.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
++		--&gt;
+ 			&lt;fileset dir=&quot;${db}/patches&quot;&gt;
+ 				&lt;include name=&quot;names.sql&quot;/&gt;
+ 				&lt;include name=&quot;help.sql&quot;/&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db}&quot;&gt;
+-				&lt;include name=&quot;COMMIT_SHUTDOWN.sql&quot;/&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;droptables&quot;&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; src=&quot;${db}/db_drop.sql&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.drop-tables}&quot;/&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+@@ -158,8 +201,13 @@
+ 			&lt;equals arg1=&quot;${do.patch}&quot; arg2=&quot;n&quot;/&gt;
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot;/&gt;
+-		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; src=&quot;${patch}&quot;&gt;
+-			&lt;classpath refid=&quot;javalibs&quot;/&gt;
++		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.userid}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot;&gt;
++			&lt;fileset&gt;
++				&lt;include name=&quot;${patch}&quot;/&gt;
++			&lt;/fileset&gt;
++			&lt;fileset dir=&quot;${db}&quot;&gt;
++				&lt;include name=&quot;${db.close-session}&quot;/&gt;
++			&lt;/fileset&gt;
+ 		&lt;/sql&gt;
+ 	&lt;/target&gt;
+ 
+@@ -218,6 +266,7 @@
+ 			&lt;include name=&quot;de/deepamehta/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/client/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/service/*.class&quot;/&gt;
++			&lt;include name=&quot;de/deepamehta/service/db/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/topics/**/*.class&quot;/&gt;
+ 			&lt;include name=&quot;de/deepamehta/assocs/**/*.class&quot;/&gt;
+ 			&lt;exclude name=&quot;de/deepamehta/client/DeepaMehtaClient.class&quot;/&gt;
+
+Deleted: branches/eschnepel/config.xml
+===================================================================
+--- branches/eschnepel/config.xml	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/config.xml	2007-06-30 11:42:12 UTC (rev 160)
+@@ -1,76 +0,0 @@
+-&lt;project&gt;
+-&lt;!-- DeepaMehta Directories --&gt;
+-&lt;property name=&quot;build&quot;        location=&quot;develop/build&quot;/&gt;
+-&lt;property name=&quot;sources&quot;      location=&quot;develop/src&quot;/&gt;
+-&lt;property name=&quot;install&quot;      location=&quot;install&quot;/&gt;
+-&lt;property name=&quot;client&quot;       location=&quot;install/client&quot;/&gt;
+-&lt;property name=&quot;server&quot;       location=&quot;install/server&quot;/&gt;
+-&lt;property name=&quot;db&quot;           location=&quot;install/db&quot;/&gt;
+-&lt;property name=&quot;examples&quot;     location=&quot;install/examples&quot;/&gt;
+-&lt;property name=&quot;libpath&quot;      location=&quot;libs&quot;/&gt;
+-&lt;property name=&quot;endorsedpath&quot; location=&quot;libs/endorsed&quot;/&gt;
+-
+-&lt;!-- Servlet Engine --&gt;
+-&lt;property name=&quot;web.deploy.dir&quot;  value=&quot;/usr/local/tomcat/webapps&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.lib.dir&quot;     value=&quot;/usr/local/tomcat/shared/lib&quot;/&gt;					&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.classes.dir&quot; value=&quot;/usr/local/tomcat/shared/classes&quot;/&gt;				&lt;!-- configure this --&gt;
+-&lt;property name=&quot;web.servlet.lib&quot; value=&quot;/usr/local/tomcat/common/lib/servlet-api.jar&quot;/&gt;	&lt;!-- configure this --&gt;
+-
+-&lt;!-- Build Support --&gt;
+-&lt;property name=&quot;build.archive.dir&quot; value=&quot;/Users/jri/Archive/DeepaMehta&quot;/&gt;	&lt;!-- configure this --&gt;
+-&lt;property name=&quot;build.name&quot; value=&quot;deepamehta-2.0b7.zip&quot;/&gt;					&lt;!-- configure this --&gt;
+-
+-&lt;!-- 3rd Party Libraries --&gt;
+-&lt;path id=&quot;javalibs&quot;&gt;
+-	&lt;pathelement location=&quot;${libpath}/hsqldb.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/servlet.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/mail.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/activation.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/jndi.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/batik.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/fop.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/xml4j.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/avalon-framework.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/commons-fileupload-1.0.jar&quot;/&gt;
+-	&lt;pathelement location=&quot;${libpath}/googleapi.jar&quot;/&gt;
+-&lt;/path&gt;
+-&lt;pathconvert property=&quot;jarclasspath&quot; pathsep=&quot; &quot; refid=&quot;javalibs&quot;&gt;
+-	&lt;!-- The classpath inside the .JAR archive is always interpreted relative to the location
+-	     of the archive itself. Thus, if the archive resides in install/client/somename.jar and
+-	     the libs reside in libs/, the JRE has to look in ../../libs/. The following option
+-	     takes care of this. --&gt;
+-	&lt;map from=&quot;${libpath}&quot; to=&quot;../../libs&quot;/&gt;
+-&lt;/pathconvert&gt;
+-
+-&lt;!-- DeepaMehta Service --&gt;
+-&lt;property name=&quot;dm.instance&quot; value=&quot;default&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;dm.host&quot; value=&quot;localhost&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;dm.port&quot; value=&quot;7557&quot;/&gt;								&lt;!-- configure this --&gt;
+-
+-&lt;!-- DeepaMehta Applications --&gt;
+-&lt;property name=&quot;appspath&quot; location=&quot;/Users/jri/Projects&quot;/&gt;			&lt;!-- configure this --&gt;
+-&lt;path id=&quot;dmapps&quot;&gt;
+-	&lt;pathelement location=&quot;${examples}/movies/MoviesTopics.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/artfacts/ArtfactsTopics.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/messageboard/messageboard.jar&quot;/&gt;							&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${examples}/kompetenzstern/kompetenzstern.jar&quot;/&gt;						&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Kiez-Atlas/kiezatlas.jar&quot;/&gt;								&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/TeenKom/teenkom.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/OLAP/olap.jar&quot;/&gt;											&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/Importer/importer.jar&quot;/&gt;									&lt;!-- configure this --&gt;
+-	&lt;pathelement location=&quot;${appspath}/DeepaMehta Coordination/coordination-platform.jar&quot;/&gt;		&lt;!-- configure this --&gt;
+-&lt;/path&gt;
+-
+-&lt;!-- Database --&gt;
+-&lt;property name=&quot;db.name&quot; value=&quot;DeepaMehta&quot;/&gt;						&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.userid&quot; value=&quot;sa&quot;/&gt;								&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.password&quot; value=&quot;&quot;/&gt;							&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.driver&quot; value=&quot;org.hsqldb.jdbcDriver&quot;/&gt;		&lt;!-- configure this --&gt;
+-&lt;property name=&quot;db.host&quot; value=&quot;127.0.0.1&quot;/&gt;						&lt;!-- configure this --&gt;
+-
+-&lt;property name=&quot;db.tables&quot; value=&quot;db_tables_hsqldb.sql&quot;/&gt;
+-&lt;property name=&quot;db.sysname&quot; value=&quot;sa&quot;/&gt;
+-&lt;property name=&quot;db.sysuser&quot; value=&quot;&quot;/&gt;
+-&lt;property name=&quot;db.url&quot;    value=&quot;jdbc:hsqldb:${db.name}&quot;/&gt;
+-&lt;property name=&quot;db.sysurl&quot; value=&quot;jdbc:hsqldb:${db.name}&quot;/&gt;
+-&lt;/project&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/Commands.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Commands.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/Commands.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -264,12 +264,7 @@
+ 				&quot;commands of type TYPE_COMMAND_GROUP&quot;);
+ 		}
+ 		//
+-		Enumeration e = commands.groupCommands.elements();
+-		Commands command;
+-		while (e.hasMoreElements()) {
+-			command = (Commands) e.nextElement();
+-			groupCommands.addElement(command);
+-		}
++		groupCommands.addAll(commands.groupCommands);
+ 	}
+ 
+ 	// ---
+
+Added: branches/eschnepel/develop/src/de/deepamehta/Configuration.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/Configuration.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,76 @@
++package de.deepamehta;
++
++import java.io.FileInputStream;
++import java.io.FileNotFoundException;
++import java.io.IOException;
++import java.util.Enumeration;
++import java.util.Properties;
++
++public class Configuration extends Properties {
++
++	private static final long serialVersionUID = 1L;
++
++	public Configuration(String configFile) {
++		this(null, configFile);
++	}
++
++	public Configuration(String name, String configFile) {
++		try {
++			loadProperties(configFile);
++			putAll(System.getProperties());
++			if (null != name) {
++				setProperty(ConfigurationConstants.Instance.DM_INSTANCE, name);
++			} else {
++				name = getProperty(ConfigurationConstants.Instance.DM_INSTANCE);
++			}
++			resolveReferences();
++			loadProperties(getProperty(ConfigurationConstants.Instance.DM_INSTANCE_PROPERTY_FILE));
++			resolveReferences();
++		} catch (FileNotFoundException e) {
++			e.printStackTrace();
++		} catch (IOException e) {
++			e.printStackTrace();
++		}
++	}
++
++	private void loadProperties(String configFile) throws IOException,
++			FileNotFoundException {
++		Properties p = new Properties();
++		p.load(new FileInputStream(configFile));
++		putAll(p);
++	}
++
++	private void resolveReferences() {
++		boolean allResolved;
++		do {
++			allResolved = true;
++			Enumeration ks = keys();
++			while (ks.hasMoreElements()) {
++				String key = (String) ks.nextElement();
++				StringBuffer val = new StringBuffer((String) get(key));
++				int from;
++				boolean replaced = false;
++				while ((from = val.indexOf(&quot;${&quot;)) &gt;= 0) {
++					int to = val.indexOf(&quot;}&quot;, from);
++					if (to &gt;= 0) {
++						String var = val.substring(from + 2, to);
++						String rep = (String) get(var);
++						if (null == rep) {
++							System.out.println(&quot;unable to resolve &quot; + var
++									+ &quot;! maybe later...&quot;);
++							break;
++						}
++						val.replace(from, to + 1, rep);
++						replaced = true;
++					} else {
++						throw new IllegalStateException();
++					}
++				}
++				if (replaced) {
++					setProperty(key, val.toString());
++					allResolved = false;
++				}
++			}
++		} while (!allResolved);
++	}
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/ConfigurationConstants.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,27 @@
++package de.deepamehta;
++
++public final class ConfigurationConstants {
++	public final class Instance {
++		public final static String DM_INSTANCE = &quot;dm.instance&quot;;
++
++		public final static String DM_INSTANCE_PROPERTY_FILE = &quot;dm.instance.property-file&quot;;
++
++		public final static String DM_HOST = &quot;dm.host&quot;;
++
++		public final static String DM_PORT = &quot;dm.port&quot;;
++
++		public final static String DM_COPRORATE_MEMORY_CLASS = &quot;dm.comporate-memory.class&quot;;
++	}
++
++	public final class Database {
++		public final static String DB_USERID = &quot;db.user&quot;;
++
++		public final static String DB_PASSWORD = &quot;db.password&quot;;
++
++		public final static String DB_DRIVER = &quot;db.driver&quot;;
++
++		public final static String DB_URL = &quot;db.url&quot;;
++
++		public static final String DB_LIB = &quot;db.lib&quot;;
++	}
++}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -250,15 +250,15 @@
+ 		{&quot;Create Topic Type ...&quot;, &quot;Topictyp erzeugen ...&quot;},
+ 		{&quot;Create Association Type ...&quot;, &quot;Assoziationstyp erzeugen ...&quot;},
+ 		{&quot;Create \\1&quot;, &quot;\\1 erzeugen&quot;},
+-		{&quot;Delete&quot;, &quot;L&#154;schen&quot;},
+-		{&quot;Delete&quot;, &quot;L&#154;schen&quot;},
++		{&quot;Delete&quot;, &quot;L&#239;&#191;&#189;schen&quot;},
++		{&quot;Delete&quot;, &quot;L&#239;&#191;&#189;schen&quot;},
+ 		{&quot;Remove&quot;, &quot;Entfernen&quot;},
+ 		{&quot;Remove&quot;, &quot;Entfernen&quot;},
+ 		{&quot;Hide&quot;, &quot;Ausblenden&quot;},
+ 		{&quot;Hide&quot;, &quot;Ausblenden&quot;},
+ 		{&quot;Hide all&quot;, &quot;Alle ausblenden&quot;},
+-		{&quot;Close&quot;, &quot;Schlie&#167;en&quot;},
+-		{&quot;Publish to&quot;, &quot;Freigeben f&#159;r&quot;},
++		{&quot;Close&quot;, &quot;Schlie&#239;&#191;&#189;en&quot;},
++		{&quot;Publish to&quot;, &quot;Freigeben f&#239;&#191;&#189;r&quot;},
+ 		{&quot;Import Topic Map ...&quot;, &quot;Topic Map importieren ...&quot;},
+ 		{&quot;Export&quot;, &quot;Exportieren&quot;},
+ 		{&quot;Export Format&quot;, &quot;Export-Format&quot;},
+@@ -274,7 +274,7 @@
+ 		{&quot;Set \\1&quot;, &quot;\\1 setzen&quot;},
+ 		{&quot;Edit \\1&quot;, &quot;\\1 bearbeiten&quot;},
+ 		{&quot;Show \\1&quot;, &quot;\\1 anzeigen&quot;},
+-		{&quot;Choose \\1&quot;, &quot;\\1 ausw&#138;hlen&quot;},
++		{&quot;Choose \\1&quot;, &quot;\\1 ausw&#239;&#191;&#189;hlen&quot;},
+ 		{&quot;Assign \\1&quot;, &quot;\\1 zuordnen&quot;},
+ 		{&quot;Create \\1&quot;, &quot;\\1 erzeugen&quot;},
+ 		{&quot;What is a \&quot;\\1\&quot;?&quot;, &quot;Hilfe zu \&quot;\\1\&quot;&quot;},
+@@ -291,7 +291,7 @@
+ 		{&quot;Use&quot;, &quot;Inhalt&quot;},
+ 		{&quot;Build&quot;, &quot;Struktur&quot;},
+ 		{&quot;Messages&quot;, &quot;Mitteilungen&quot;},
+-		{&quot;Choose ...&quot;, &quot;Ausw&#138;hlen ...&quot;},
++		{&quot;Choose ...&quot;, &quot;Ausw&#239;&#191;&#189;hlen ...&quot;},
+ 		// --- &quot;Workspace&quot; commands ---
+ 		{&quot;Join&quot;, &quot;Beitreten&quot;},
+ 		{&quot;Leave&quot;, &quot;Austreten&quot;},
+@@ -299,7 +299,7 @@
+ 		{&quot;Assign Association Type&quot;, &quot;Assoziationstyp zuordnen&quot;},
+ 		// --- &quot;User&quot; commands ---
+ 		{&quot;Set Standard Workspace&quot;, &quot;Standard Workspace setzen&quot;},
+-		{&quot;Choose ...&quot;, &quot;Ausw&#138;hlen ...&quot;},
++		{&quot;Choose ...&quot;, &quot;Ausw&#239;&#191;&#189;hlen ...&quot;},
+ 	};
+ 
+ 	static final int ITEM_NEW_TOPIC    = 0;
+@@ -1092,17 +1092,6 @@
+ 
+ 
+ 
+-	// ----------------------
+-	// --- Database Hints ---
+-	// ----------------------
+-
+-
+-
+-	public static final String DBMS_HINT_ORACLE = &quot;oracle&quot;;
+-	public static final String DBMS_HINT_SQL92 = &quot;sql92&quot;;
+-
+-
+-
+ 	// -------------------------
+ 	// --- GUI Configuration ---
+ 	// -------------------------
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -35,11 +35,11 @@
+ 	 */
+ 	public static String readFile(File file) throws IOException {
+ 		int len = (int) file.length();
+-		byte buffer[] = new byte[len];
+-		FileInputStream in = new FileInputStream(file);
+-		int num = in.read(buffer);
++		char buffer[] = new char[len];
++		FileReader in = new FileReader(file);
++		in.read(buffer);
+ 		in.close();
+-		return new String(buffer, 0);	// ### deprecated -- use a reader instead
++		return new String(buffer);
+ 	}
+ 
+ 	/* ### public static void copyFile(File srcFile, File dstFile) throws IOException {
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/DeepaMehtaClientUtils.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/DeepaMehtaClientUtils.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/client/DeepaMehtaClientUtils.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -57,7 +57,6 @@
+ 		// read number of associations
+ 		int assocCount = in.readInt();
+ 		// read associations
+-		PresentationAssociation assoc;
+ 		for (int i = 0; i &lt; assocCount; i++) {
+ 			associations.addElement(new PresentationAssociation(in));
+ 		}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/MenuScrollHelper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/MenuScrollHelper.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/client/MenuScrollHelper.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -46,7 +46,6 @@
+     public MenuScrollHelper(JPopupMenu jMenu, List elements) {
+         this.jMenu = jMenu;
+         this.elements = elements;
+-        this.max = max;
+         init();
+     }
+ 
+@@ -109,7 +108,7 @@
+ 
+     public void mouseEntered(java.awt.event.MouseEvent me)  {
+         // set scroll direction
+-        if (me.getComponent().getName().equals(this.UID)){
++        if (me.getComponent().getName().equals(MenuScrollHelper.UID)){
+             direction = UP;
+         } else {
+             direction = DOWN;
+@@ -206,7 +205,7 @@
+             while (direction != NEUTRAL){
+                 try {
+                     msh.scroll();
+-                    this.sleep(MenuScrollHelper.SCROLL_DELAY);
++                    Thread.sleep(MenuScrollHelper.SCROLL_DELAY);
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/client/PresentationService.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -2467,8 +2467,7 @@
+ 		} catch (Exception e) {
+ 			current = Color.white;
+ 		}
+-		JColorChooser chooser = new JColorChooser();
+-		col = chooser.showDialog(mainWindow, &quot;Choose color&quot;, current);
++		col = JColorChooser.showDialog(mainWindow, &quot;Choose color&quot;, current);
+ 		if (col != null)
+ 		{
+ 			int r = col.getRed();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -55,7 +55,7 @@
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+-public final class ApplicationService extends BaseTopicMap implements Runnable, LoginCheck, DeepaMehtaConstants {
++public final class ApplicationService extends BaseTopicMap implements LoginCheck, DeepaMehtaConstants {
+ 
+ 
+ 
+@@ -119,7 +119,7 @@
+ 
+ 	private ServerConsole serverConsole;	// only initialized if running as server
+ 
+-	private Thread statisticsThread;
++	private TimerTask statisticsThread;
+ 
+ 
+ 
+@@ -151,32 +151,22 @@
+ 		System.out.println(&quot;&gt;    active installation: \&quot;&quot; + installation.getName() + &quot;\&quot;&quot;);
+ 	}
+ 
+-
+-
+-	// ******************************************************
+-	// *** Implementation of interface java.lang.Runnable ***
+-	// ******************************************************
+-
+-
+-
+-	/**
+-	 * The body of the statistics thread.
+-	 */
+-	public void run() {
+-		while (true) {
+-			try {
+-				Thread.sleep(5 * 60 * 1000);	// interval is 5 min.
+-				cm.checkPoint();
+-				System.out.println(DeepaMehtaUtils.getDate() + &quot; &quot; + DeepaMehtaUtils.getTime() + &quot; statistics: &quot; +
+-					cm.getTopicCount() + &quot; topics, &quot; + cm.getAssociationCount() + &quot; associations&quot;);
+-			} catch (InterruptedException e) {
+-				System.out.println(&quot;*** ApplicationService.run(): &quot; + e);
+-			}
++	private class StatisticsThread extends TimerTask{
++	
++		// ******************************************************
++		// *** Implementation of interface java.util.TimerTask ***
++		// ******************************************************
++	
++	
++		/**
++		 * The body of the statistics thread.
++		 */
++		public void run() {
++			System.out.println(DeepaMehtaUtils.getDate() + &quot; &quot; + DeepaMehtaUtils.getTime() + &quot; statistics: &quot; +
++				cm.getTopicCount() + &quot; topics, &quot; + cm.getAssociationCount() + &quot; associations&quot;);
+ 		}
+ 	}
+ 
+-
+-
+ 	// ***************
+ 	// *** Methods ***
+ 	// ***************
+@@ -204,8 +194,8 @@
+ 		System.out.println(&quot;&gt;    service name: \&quot;&quot; + instance.name + &quot;\&quot;&quot;);
+ 		System.out.println(&quot;&gt; Corporate Memory&quot;);
+ 		System.out.println(&quot;&gt;    implementation: \&quot;&quot; + instance.cmClass + &quot;\&quot;&quot;);
+-		System.out.println(&quot;&gt;    URL: \&quot;&quot; + instance.cmURL + &quot;\&quot;&quot;);
+-		System.out.println(&quot;&gt;    driver: \&quot;&quot; + instance.cmDriverClass + &quot;\&quot;&quot;);
++//		System.out.println(&quot;&gt;    URL: \&quot;&quot; + instance.dbURL + &quot;\&quot;&quot;);
++//		System.out.println(&quot;&gt;    driver: \&quot;&quot; + instance.dbDriverClass + &quot;\&quot;&quot;);
+ 		// establish access to corporate memory
+ 		CorporateMemory cm = instance.createCorporateMemory();	// throws DME
+ 		// create application service
+@@ -214,8 +204,9 @@
+ 		as.setAuthentificationSourceTopic();
+ 		// start statictics thread, basically to keep the CM connection alive,
+ 		// compare to DataSourceTopic.startIdleThread()
+-		as.statisticsThread = new Thread(as);
+-		as.statisticsThread.start();
++		as.statisticsThread = as.new StatisticsThread();
++		int rate = 5 * 60 * 1000;	// interval is 5 min.
++		new Timer().scheduleAtFixedRate(as.statisticsThread, rate, rate);
+ 		//
+ 		return as;
+ 	}
+@@ -240,7 +231,7 @@
+ 	}
+ 
+ 	public void shutdown() {
+-		statisticsThread.stop();
++		cm.release();
+ 	}
+ 
+ 	// ---
+@@ -3564,15 +3555,15 @@
+ 	public String downloadFile(URL url) throws IOException {
+ 		System.out.println(&quot;  &gt; \&quot;&quot; + url + &quot;\&quot; -- begin download&quot;);
+ 		//
+-		InputStream in = new BufferedInputStream(url.openStream(), 1024);
+-		ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+-		byte buffer[] = new byte[1024];
++		Reader in = new InputStreamReader(url.openStream());
++		CharArrayWriter out = new CharArrayWriter(1024);
++		char buffer[] = new char[1024];
+ 		int num;
+ 		while ((num = in.read(buffer)) != -1) {
+ 			out.write(buffer, 0, num);
+ 		}
+ 		in.close();
+-		String html = out.toString(0);		// hibyte=0 ### deprecated, compare to DeepaMehtaUtils.readFile()
++		String html = new String(out.toCharArray());		// hibyte=0 ### deprecated, compare to DeepaMehtaUtils.readFile()
+ 		System.out.println(&quot;  &gt; \&quot;&quot; + url + &quot;\&quot; -- (&quot; + html.length() + &quot; bytes read)&quot;);
+ 		//
+ 		return html;
+@@ -5183,4 +5174,5 @@
+ 		// --- trigger published() hook ---
+ 		directives.add(getLiveTopic(topic).published());
+ 	}
++
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/ApplicationServiceInstance.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -1,7 +1,10 @@
+ package de.deepamehta.service;
+ 
++import de.deepamehta.Configuration;
++import de.deepamehta.ConfigurationConstants;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.service.db.DatabaseProviderFactory;
+ import de.deepamehta.topics.LiveTopic;
+ //
+ import java.sql.SQLException;
+@@ -32,8 +35,7 @@
+ 	public String name;
+ 	public int port;
+ 	public String cmClass;
+-	public String cmDriverClass;
+-	public String cmURL;
++	private Properties conf;
+ 
+ 
+ 
+@@ -44,7 +46,7 @@
+ 
+ 
+ 	private ApplicationServiceInstance(String name) throws DeepaMehtaException {
+-		this(name, &quot;dms.rc&quot;);
++		this(name, &quot;../config/dm.properties&quot;);
+ 	}
+ 
+ 	/**
+@@ -54,35 +56,12 @@
+ 	private ApplicationServiceInstance(String name, String configFile) throws DeepaMehtaException {
+ 		String port = null;
+ 		try {
+-			BufferedReader reader = new BufferedReader(new FileReader(configFile));
+-			String line;
+-			// loop through comments
+-			while (!reader.readLine().startsWith(&quot;-----&quot;)) {
+-			}
+-			//
+-			boolean found = false;
+-			StringTokenizer st = null;
+-			String token;
+-			// loop throuh listed server instances
+-			while ((line = reader.readLine()) != null) {
+-				st = new StringTokenizer(line);
+-				token = st.nextToken();
+-				if (token.equals(name)) {
+-					found = true;
+-					break;
+-				}
+-			}
+-			// error check 1
+-			if (!found) {
+-				throw new DeepaMehtaException(&quot;Service \&quot;&quot; + name + &quot;\&quot; not listed in dms.rc&quot;);
+-			}
+-			// parse the found service
+-			port = st.nextToken();
+-			this.name = name;
++			conf = new Configuration(name,configFile);
++
++			this.name = conf.getProperty(ConfigurationConstants.Instance.DM_INSTANCE);
++			port = conf.getProperty(ConfigurationConstants.Instance.DM_PORT);
+ 			this.port = Integer.parseInt(port);
+-			this.cmClass = st.nextToken();
+-			this.cmDriverClass = st.nextToken();
+-			this.cmURL = st.nextToken();
++			this.cmClass = conf.getProperty(ConfigurationConstants.Instance.DM_COPRORATE_MEMORY_CLASS);
+ 			// error check 2
+ 			if (!cmClass.equals(&quot;RelationalCorporateMemory&quot;)) {
+ 				throw new DeepaMehtaException(&quot;Corporate Memory implementation \&quot;&quot; +
+@@ -91,8 +70,6 @@
+ 		} catch (NumberFormatException e) {
+ 			throw new DeepaMehtaException(&quot;Service \&quot;&quot; + name + &quot;\&quot; has &quot; +
+ 				&quot;invalid port \&quot;&quot; + port + &quot;\&quot;&quot;);
+-		} catch (IOException e) {
+-			throw new DeepaMehtaException(&quot;error while reading &quot; + e.getMessage());
+ 		}
+ 	}
+ 
+@@ -114,7 +91,7 @@
+ 	 */
+ 	public static ApplicationServiceInstance lookup(String[] args) throws DeepaMehtaException {
+ 		if (args.length == 0) {
+-			return lookup(&quot;default&quot;);
++			return lookup((String)null);
+ 		} else if (args.length == 1) {
+ 			return lookup(args[0]);
+ 		} else {
+@@ -163,7 +140,7 @@
+ 		try {
+             // --- establish access to corporate memory ---
+ 			// ### implementing class is hardcoded for now (&quot;RelationalCorporateMemory&quot;)
+-			cm = new RelationalCorporateMemory(cmDriverClass, cmURL);
++			cm = new RelationalCorporateMemory(DatabaseProviderFactory.getProvider(conf));
+             // error check 1: standard topics compatibility ### move to LCM.create
+             int kernelVersion = LiveTopic.kernelTopicsVersion;
+             if (kernelVersion != REQUIRED_STANDARD_TOPICS) {
+@@ -185,10 +162,10 @@
+             }
+ 		} catch (SQLException e) {	// ### not tested
+ 			String hint = e.getMessage().indexOf(&quot;Bad Handshake&quot;) != -1 ?
+-				&quot; -- Probably the driver is too old&quot; +
+-				(cmDriverClass.equals(&quot;org.gjt.mm.mysql.Driver&quot;) ?
+-				&quot;.\n*** Get a new driver from www.gjt.org/download/. &quot; +
+-				&quot;Look for \&quot;MM MySQL - JDBC Compliant Driver For MySQL\&quot;.&quot; : &quot;&quot;) : &quot;&quot;;
++				&quot; -- Probably the driver is too old&quot;:&quot;&quot;;
++			//	(dbDriverClass.equals(&quot;org.gjt.mm.mysql.Driver&quot;) ?
++				//&quot;.\n*** Get a new driver from www.gjt.org/download/. &quot; +
++				//&quot;Look for \&quot;MM MySQL - JDBC Compliant Driver For MySQL\&quot;.&quot; : &quot;&quot;) : &quot;&quot;;
+ 			throw new DeepaMehtaException(errText + &quot; (&quot; + e + &quot;)&quot; + hint);
+ 		} catch (ClassNotFoundException e) {
+ 			throw new DeepaMehtaException(errText + &quot;: &quot; + &quot;the driver class can't be found (&quot; +
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateDirectives.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -180,10 +180,9 @@
+ 		Enumeration e = directives.elements();
+ 		Directive directive = null;
+ 		int dirType = 0;
+-		Object param1, param2, param3, param4, param5;
++		Object param1, param2, param3, param4;//, param5;
+ 		// directive parameters
+ 		String topicmapID;
+-		String viewmode;
+ 		boolean evoke;
+ 		PresentableTopic viewMetadata;
+ 		//
+@@ -198,7 +197,9 @@
+ 				param2 = directive.param2;
+ 				param3 = directive.param3;
+ 				param4 = directive.param4;
+-				param5 = directive.param5;
++				// param5 is currently not needed
++				// param5 = directive.param5;
++				
+ 				// switch by directive type
+ 				switch (dirType) {
+ 				case DIRECTIVE_SHOW_TOPIC:
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/CorporateMemory.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -19,6 +19,7 @@
+  */
+ public interface CorporateMemory {
+ 
++	void release();
+ 
+ 
+ 	// -------------------------
+@@ -291,5 +292,4 @@
+ 
+ 	int getModelVersion();
+ 	int getContentVersion();
+-	void checkPoint();
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DBFix.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -54,6 +54,7 @@
+ 			System.out.println(&quot;&gt; &quot; + topics.size() + &quot; HTML properties found&quot;);
+ 			System.out.println(&quot;&gt; &quot; + invCount + &quot; invalid&quot;);
+ 			System.out.println(&quot;&gt; &quot; + fixCount + &quot; fixed&quot;);
++			cm.release();
+ 		} catch (DeepaMehtaException e) {
+ 			System.out.println(&quot;*** &quot; + e);
+ 			// ### e.printStackTrace();
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/DeepaMehta.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -47,7 +47,7 @@
+ 
+ 
+ 	private PresentationService ps;
+-	private ApplicationService as;
++	//private ApplicationService as;
+ 
+ 	private static final String commInfo = &quot;direct method calls (embedded service)&quot;;
+ 	private static final String errText = &quot;DeepaMehta can't run&quot;;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/EmbeddedService.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/EmbeddedService.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/EmbeddedService.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -101,7 +101,7 @@
+ 	}
+ 
+ 	public void logout() {
+-		as.cm.checkPoint();
++		as.shutdown();
+ 		// &gt;&gt;&gt; compare to service.InteractionConnection.logout()
+ 		if (LOG_REQUESTS) {
+ 			System.out.println(&quot;[&quot; + session.getUserName() + &quot;] REQUEST_LOGOUT&quot;);
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/InteractionConnection.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -250,7 +250,6 @@
+ 	// ---
+ 
+ 	private void logout() throws IOException {
+-		as.cm.checkPoint();
+ 		log(&quot;REQUEST_LOGOUT&quot;);
+ 	}
+ 
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -10,6 +10,9 @@
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableType;
+ import de.deepamehta.Topic;
++import de.deepamehta.service.db.DatabaseProvider;
++import de.deepamehta.service.db.OracleDatabaseProvider;
++import de.deepamehta.service.db.DatabaseProvider.DbmsHint;
+ //
+ import java.sql.*;
+ import java.util.*;
+@@ -51,9 +54,9 @@
+ 	/**
+ 	 * The connection to the database.
+ 	 */
+-	private Connection con;
++	private DatabaseProvider provider;
+ 
+-	private String dbmsHint;
++	private DbmsHint dbmsHint;
+ 
+ 
+ 
+@@ -66,16 +69,12 @@
+ 	/**
+ 	 * @see		ApplicationServiceInstance#createCorporateMemory
+ 	 */
+-	RelationalCorporateMemory(String jdbcDriverClass, String jdbcURL) throws Exception {
+-		Class.forName(jdbcDriverClass);
+-		this.con = DriverManager.getConnection(jdbcURL);
+-		this.dbmsHint = jdbcDriverClass.indexOf(DBMS_HINT_ORACLE) != -1 ?
+-			DBMS_HINT_ORACLE : DBMS_HINT_SQL92;
+-		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint + &quot;\&quot;&quot;);
++	RelationalCorporateMemory(DatabaseProvider dbProvider) throws Exception {
++		provider=dbProvider;
++		this.dbmsHint = dbProvider.getDbmsHint();
++		System.out.println(&quot;&gt;    DBMS hint: \&quot;&quot; + dbmsHint.getName() + &quot;\&quot;&quot;);
+ 	}
+ 
+-
+-
+ 	// *************************************************************************
+ 	// *** Implementation of Interface de.deepamehta.service.CorporateMemory ***
+ 	// *************************************************************************
+@@ -411,7 +410,7 @@
+ 		// ### ORACLE: relTopicIDs not yet respected ==&gt; DOESN'T WORK!!!
+ 		// ### ORACLE: descending not yet respected
+ 		String query;
+-		if (dbmsHint.equals(DBMS_HINT_ORACLE)) {
++		if (OracleDatabaseProvider.DBMS_HINT_ORACLE == dbmsHint) {
+ 			query = &quot;SELECT Topic.* FROM Topic, Association&quot; +
+ 			(topicmapID != null ? &quot;, ViewAssociation&quot; : &quot;&quot;) +
+ 			(assocProp != null || sortAssociations ? &quot;, AssociationProp&quot; : &quot;&quot;) +
+@@ -1879,7 +1878,7 @@
+ 		/* if (stmt != null) {
+ 			stmt.close();
+ 		} */
+-		return con.createStatement();
++		return provider.getStatement();
+ 	}
+ 
+ 	/**
+@@ -2249,19 +2248,8 @@
+ 		return DeepaMehtaUtils.replace(str, '\'', &quot;\\'&quot;);
+ 	}
+ 
+-
+-	public void checkPoint() {
+-		try {
+-			Statement stmt = con.createStatement();
+-			stmt.execute(&quot;COMMIT&quot;);
+-			stmt.close();
+-			stmt = con.createStatement();
+-			stmt.execute(&quot;CHECKPOINT&quot;);
+-			stmt.close();
+-		} catch (SQLException e) {
+-			e.printStackTrace();
+-		}
++	public void release() {
++		provider.release();
+ 	}
+ 
+-
+ }
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,23 @@
++package de.deepamehta.service.db;
++
++import java.sql.Connection;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++public interface DatabaseProvider {
++	public static class DbmsHint extends org.apache.avalon.framework.Enum{
++		protected DbmsHint(String name) {
++			super(name);
++		}
++	}
++
++	void release();
++	
++	Connection getConnection() throws SQLException;
++
++	DbmsHint getDbmsHint();
++
++	void freeConnection(Connection con) throws SQLException;
++
++	Statement getStatement() throws SQLException;
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProviderFactory.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,22 @@
++package de.deepamehta.service.db;
++
++import java.sql.SQLException;
++import java.util.Properties;
++
++import de.deepamehta.ConfigurationConstants;
++
++public abstract class DatabaseProviderFactory {
++
++	public static DatabaseProvider getProvider(Properties conf)
++			throws ClassNotFoundException, SQLException {
++		String dbUrl = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++		if (OracleDatabaseProvider.isResponsibleFor(dbUrl)) {
++			return new OracleDatabaseProvider(conf);
++		}
++		if (HsqlDatabaseProvider.isResponsibleFor(dbUrl)) {
++			return new HsqlDatabaseProvider(conf);
++		}
++		return new DefaultDatabaseProvider(conf);
++	}
++
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseSweeper.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,50 @@
++package de.deepamehta.service.db;
++
++import java.sql.Connection;
++import java.sql.SQLException;
++import java.sql.Statement;
++
++import de.deepamehta.util.Benchmark;
++
++public class DatabaseSweeper {
++	private final Connection con;
++
++	public DatabaseSweeper(Connection con) {
++		this.con = con;
++	}
++
++	public void sweep() throws SQLException {
++		try {
++			Benchmark.run(&quot;Sweeping Database&quot;, new Runnable() {
++				public void run() {
++					try {
++						final Statement statement = con
++								.createStatement();
++						sweep(
++								statement,
++								&quot;delete from association where not exists (select * from topic where topicid1 = topic.id);&quot;,
++								&quot;Deleted $$ Accosiations with stale target Topic!&quot;);
++						sweep(
++								statement,
++								&quot;delete from association where not exists (select * from topic where topicid2 = topic.id);&quot;,
++								&quot;Deleted $$ Accosiations with stale source Topic!&quot;);
++						statement.execute(&quot;commit&quot;);
++						statement.close();
++					} catch (SQLException e) {
++						throw new RuntimeException(e);
++					}
++				}
++			});
++		} catch (RuntimeException e) {
++			throw (SQLException) e.getCause();
++		}
++	}
++
++	private void sweep(Statement statement, String cmd, String message)
++			throws SQLException {
++		int cnt = statement.executeUpdate(cmd);
++		if (cnt &gt; 0) {
++			System.out.println(&quot;&gt;  &quot; + message.replace(&quot;$$&quot;, &quot;&quot; + cnt));
++		}
++	}
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,137 @@
++package de.deepamehta.service.db;
++
++import java.io.File;
++import java.net.MalformedURLException;
++import java.net.URL;
++import java.net.URLClassLoader;
++import java.sql.Connection;
++import java.sql.Driver;
++import java.sql.SQLException;
++import java.sql.Statement;
++import java.util.LinkedList;
++import java.util.Properties;
++
++import de.deepamehta.ConfigurationConstants;
++
++public class DefaultDatabaseProvider implements DatabaseProvider {
++
++	/** SQL92 DBMS Hint */
++	public static final DbmsHint DBMS_HINT_SQL92 = new DbmsHint(&quot;SQL92&quot;);
++
++	private final LinkedList freeCons = new LinkedList();
++
++	private final LinkedList allCons = new LinkedList();
++
++	private String jdbcURL;
++
++	private Class driverClass;
++
++	private Properties conProps = new Properties();;
++
++	public DefaultDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException {
++		setupDatabaseProvider(conf);
++	}
++
++	protected void setupDatabaseProvider(Properties conf)
++			throws ClassNotFoundException, SQLException {
++		this.jdbcURL = conf.getProperty(ConfigurationConstants.Database.DB_URL);
++		File libFile = new File(conf
++				.getProperty(ConfigurationConstants.Database.DB_LIB));
++		String urlString;
++		try {
++			urlString = &quot;jar:&quot; + libFile.toURL().toExternalForm() + &quot;!/&quot;;
++			ClassLoader classLoader = new URLClassLoader(new URL[] { new URL(
++					urlString) });
++			driverClass = classLoader.loadClass(conf
++					.getProperty(ConfigurationConstants.Database.DB_DRIVER));
++		} catch (MalformedURLException e) {
++			throw new ClassNotFoundException(e.getMessage());
++		}
++	}
++
++	public Connection getConnection() throws SQLException {
++		if (0 == freeCons.size()) {
++			return newConnection();
++		}
++		return (Connection) freeCons.poll();
++	}
++
++	public DbmsHint getDbmsHint() {
++		return DBMS_HINT_SQL92;
++	}
++
++	public void freeConnection(Connection con) throws SQLException {
++		freeCons.addLast(con);
++//		System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot; FREE:&quot;+freeCons.size());
++	}
++
++	protected void setConnectionProperties(String key, String value) {
++		conProps.setProperty(key, value);
++	}
++
++	protected Connection newConnection() throws SQLException {
++		try {
++			Driver driver = (Driver) driverClass.newInstance();
++			Connection con = driver.connect(jdbcURL, conProps);
++			con.setAutoCommit(true);
++			if (allCons.size() == 0) {
++				new DatabaseSweeper(con).sweep();
++			}
++			allCons.add(con);
++			System.out.println(&quot;DB-Connections: ALL:&quot;+allCons.size()+&quot; FREE:&quot;+freeCons.size());
++			return con;
++		} catch (Exception e) {
++			throw new RuntimeException(e);
++		}
++	}
++
++	protected void finalize() throws Throwable {
++		closeAllCons();
++		super.finalize();
++	}
++
++	protected void closeAllCons() throws SQLException {
++		Connection con;
++		while (null != (con = (Connection) allCons.poll())) {
++			con.close();
++		}
++	}
++
++	public Statement getStatement() throws SQLException {
++		Connection con;
++		// at least 5 free Connections for better
++		// Performance of parallel accesses
++		if (freeCons.size() &lt; 1) {
++			con = newConnection();
++		} else {
++			con = getConnection();
++		}
++		Statement stmt = con.createStatement();
++		freeConnection(con);
++		/*
++		try {
++			throw new Exception();
++		} catch (Exception e) {
++			StackTraceElement[] stes = e.getStackTrace();
++			int pos = 1;
++			StackTraceElement lste;
++			for (int i=0;i&lt;3;i++){
++				lste=stes[pos];
++				while (pos&lt;stes.length &amp;&amp; lste.getClassName().equals(stes[pos].getClassName())){
++					pos++;
++				}
++				System.out.println(stes[pos-1].toString());
++			}
++		}*/
++		return stmt;
++	}
++
++	public void release() {
++		try {
++			closeAllCons();
++		} catch (SQLException e) {
++			e.printStackTrace();
++		}
++	}
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/HsqlDatabaseProvider.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,70 @@
++package de.deepamehta.service.db;
++
++import java.sql.Connection;
++import java.sql.SQLException;
++import java.sql.Statement;
++import java.util.Properties;
++import java.util.Timer;
++import java.util.TimerTask;
++
++public class HsqlDatabaseProvider extends DefaultDatabaseProvider {
++
++	private class CheckpointThread extends TimerTask {
++		public void run() {
++			try {
++				checkpoint();
++			} catch (SQLException e) {
++				e.printStackTrace();
++			}
++		}
++	}
++
++	/** HSQLDB DBMS Hint */
++	public static final DbmsHint DBMS_HINT_HSQLDB = new DbmsHint(&quot;HSQLDB&quot;);
++
++	/** String for detecting HSQLDB in the jdbc-driver-name */
++	private static final String DBMS_HINT_HSQLDB_STR = &quot;hsqldb&quot;;
++
++	private static final String DEFAULT_DRIVER_CLASS = &quot;org.hsqldb.jdbcDriver&quot;;
++
++	public HsqlDatabaseProvider(Properties conf) throws ClassNotFoundException,
++			SQLException {
++		super(conf);
++		setConnectionProperties(&quot;shutdown&quot;, &quot;true&quot;);
++		int rate = 5 * 60 * 1000;
++		new Timer().scheduleAtFixedRate(new CheckpointThread(), rate,
++				rate);
++	}
++
++	public DbmsHint getDbmsHint() {
++		return DBMS_HINT_HSQLDB;
++	}
++
++	public void freeConnection(Connection con) throws SQLException {
++		//checkpoint(con);
++		super.freeConnection(con);
++	}
++
++	protected void closeAllCons() throws SQLException {
++		checkpoint();
++		super.closeAllCons();
++	}
++
++	private void checkpoint() throws SQLException {
++		Connection con = getConnection();
++		checkpoint(con);
++		freeConnection(con);
++	}
++
++	private void checkpoint(Connection con) throws SQLException {
++		System.out.println(&quot;HSQLDB:CHECKPIONT&quot;);
++		Statement stmt = con.createStatement();
++		stmt.execute(&quot;CHECKPOINT&quot;);
++		stmt.close();
++	}
++
++	public static boolean isResponsibleFor(String url) {
++		return url.contains(DBMS_HINT_HSQLDB_STR);
++	}
++
++}
+
+Added: branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/OracleDatabaseProvider.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,27 @@
++package de.deepamehta.service.db;
++
++import java.sql.SQLException;
++import java.util.Properties;
++
++public class OracleDatabaseProvider extends DefaultDatabaseProvider {
++
++	/** Oracle DBMS Hint */
++	public static final DbmsHint DBMS_HINT_ORACLE = new DbmsHint(&quot;ORACLE&quot;);
++
++	/** String for detecting Oracle in the jdbc-driver-name */
++	private static final String DBMS_HINT_ORACLE_STR = &quot;oracle&quot;;
++
++	public OracleDatabaseProvider(Properties conf) throws ClassNotFoundException, SQLException {
++		super(conf);
++	}
++
++
++	public DbmsHint getDbmsHint() {
++		return DBMS_HINT_ORACLE;
++	}
++
++	public static boolean isResponsibleFor(String url) {
++		return url.contains(DBMS_HINT_ORACLE_STR);
++	}
++
++}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -103,7 +103,7 @@
+ 		String service = sc.getInitParameter(&quot;service&quot;);
+ 		// Note: the current working directory is the directory from where tomcat was started
+ 		ApplicationServiceInstance instance = ApplicationServiceInstance.lookup(
+-			service != null ? service : &quot;default&quot;, home != null ? home + &quot;/install/client/dms.rc&quot; : &quot;dms.rc&quot;);
++			service, home != null ? home + &quot;/install/client/dms.rc&quot; : &quot;dms.rc&quot;);
+ 		as = ApplicationService.create(this, instance);		// throws DME ### servlet is not properly inited
+ 		cm = as.cm;
+ 		// --- create external connection ---
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/topics/WebpageTopic.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -168,7 +168,7 @@
+ 		String urlString = (String) newData.get(PROPERTY_URL);
+ 		if (urlString != null) {
+ 			try {
+-				URL url = new URL(urlString);
++				new URL(urlString);
+ 			} catch (MalformedURLException e) {
+ 				String errText = &quot;\&quot;&quot; + urlString + &quot;\&quot; is not a valid URL&quot;;
+ 				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+
+Added: branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/develop/src/de/deepamehta/util/Benchmark.java	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,16 @@
++package de.deepamehta.util;
++
++public class Benchmark {
++
++	public static void run(String taskName, Runnable test)
++			throws RuntimeException {
++		System.out.println(&quot;&gt; Start of &quot; + taskName);
++		long start = System.currentTimeMillis();
++		try {
++			test.run();
++		} finally {
++			System.out.println(&quot;&gt; Done with &quot; + taskName + &quot; in &quot;
++					+ (System.currentTimeMillis() - start) / 1000.0);
++		}
++	}
++}
+
+
+Property changes on: branches/eschnepel/install
+___________________________________________________________________
+Name: svn:ignore
+   + server
+client
+
+
+Added: branches/eschnepel/install/config/build-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/install/config/build-hsqldb-intern.properties	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,11 @@
++# DeepaMehta Service
++# dm.instance		=hsqldb-intern
++
++# Database
++db.tables			=db_tables_hsqldb.sql
++db.drop-tables		=db_drop.sql
++db.close-session	=COMMIT_SHUTDOWN.sql
++
++db.sysname			=sa
++db.sysuser			=
++db.sysurl			=${db.url}
+
+Added: branches/eschnepel/install/config/db-hsqldb-intern.properties
+===================================================================
+--- branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/install/config/db-hsqldb-intern.properties	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,14 @@
++# DeepaMehta Service
++# dm.instance		=hsqldb-intern
++dm.comporate-memory.class=RelationalCorporateMemory
++
++# Database
++db.name				=DeepaMehta
++db.userid			=sa
++db.password			=
++db.driver			=org.hsqldb.jdbcDriver
++db.lib				=${libpath}/hsqldb.jar
++db.host				=127.0.0.1
++
++db.hsqldb.path		=${client}/db/${db.name}
++db.url				=jdbc:hsqldb:${db.hsqldb.path}
+
+Added: branches/eschnepel/install/config/dm.properties
+===================================================================
+--- branches/eschnepel/install/config/dm.properties	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/install/config/dm.properties	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,11 @@
++# DeepaMehta Service
++dm.instance			=hsqldb-intern
++dm.host				=localhost
++dm.port				=7557
++
++config				=../config
++client				=../client
++libpath				=../../libs
++
++dm.instance.property-file=${config}/db-${dm.instance}.properties
++dm.instance.build-property-file=${config}/db-${dm.instance}.properties
+
+Added: branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql
+===================================================================
+--- branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql	2007-06-07 16:23:30 UTC (rev 159)
++++ branches/eschnepel/install/db/COMMIT_SHUTDOWN.sql	2007-06-30 11:42:12 UTC (rev 160)
+@@ -0,0 +1,2 @@
++COMMIT;
++SHUTDOWN;
+
+Added: branches/eschnepel/install/db/EMPTY.sql
+===================================================================
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000004.html">[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

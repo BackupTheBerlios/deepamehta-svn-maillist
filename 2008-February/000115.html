@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r270 - in trunk: . install/examples/dm-browser	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r270%20-%20in%20trunk%3A%20.%20install/examples/dm-browser%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/kompetenzstern%20install/examples/ldap%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200802251932.m1PJWhrk027516%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000114.html">
+   <LINK REL="Next"  HREF="000116.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r270 - in trunk: . install/examples/dm-browser	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r270%20-%20in%20trunk%3A%20.%20install/examples/dm-browser%0A%09install/examples/dm-topicmapviewer%20install/examples/dm-web%0A%09install/examples/kompetenzstern%20install/examples/ldap%0A%09install/examples/messageboard%20install/examples/movies&In-Reply-To=%3C200802251932.m1PJWhrk027516%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r270 - in trunk: . install/examples/dm-browser	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Feb 25 20:32:43 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000114.html">[deepamehta-svn] r269 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000116.html">[deepamehta-svn] r271 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#115">[ date ]</a>
+              <a href="thread.html#115">[ thread ]</a>
+              <a href="subject.html#115">[ subject ]</a>
+              <a href="author.html#115">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-02-25 20:32:41 +0100 (Mon, 25 Feb 2008)
+New Revision: 270
+
+Modified:
+   trunk/build-development.xml
+   trunk/install/examples/dm-browser/build.xml
+   trunk/install/examples/dm-topicmapviewer/build.xml
+   trunk/install/examples/dm-web/build.xml
+   trunk/install/examples/kompetenzstern/build.xml
+   trunk/install/examples/ldap/build.xml
+   trunk/install/examples/messageboard/build.xml
+   trunk/install/examples/movies/build.xml
+Log:
+fixed deploy and install targets for some examples; introduced new strip target as preparation of a client version
+
+Modified: trunk/build-development.xml
+===================================================================
+--- trunk/build-development.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/build-development.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -201,5 +201,46 @@
+ 			&lt;property name=&quot;target&quot; value=&quot;cleanup&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
++	
++	&lt;target name=&quot;strip&quot; description=&quot;strip for deploy&quot;&gt;
++		&lt;echo&gt;
++,-----------------------------------------------------.
++|                                                     |
++|   THIS WILL REMOVE ANY DEVELOPMENT RELATED STUFF!   |
++|                                                     |
++|-----------------------------------------------------|
++|     sources, build-dirs, version control, etc...    |
++`-----------------------------------------------------'
++		&lt;/echo&gt;
++		&lt;input message=&quot;Do you want to proceed?&quot; addproperty=&quot;do.strip&quot; defaultvalue=&quot;n&quot; validargs=&quot;y,n&quot; /&gt;
++		&lt;if&gt;
++			&lt;equals arg1=&quot;${do.strip}&quot; arg2=&quot;y&quot; /&gt;
++			&lt;then&gt;
++				&lt;echo&gt;
++,-------------------------------------------.
++|                                           |
++|   PROCESS OF SELF DESTRUCTION INITIATED   |
++|                                           |
++`-------------------------------------------'
++				&lt;/echo&gt;
++				&lt;ant target=&quot;-call-examples&quot;&gt;
++					&lt;property name=&quot;target&quot; value=&quot;-strip&quot; /&gt;
++				&lt;/ant&gt;
++				&lt;delete dir=&quot;.&quot; includes=&quot;**/.svn/&quot; /&gt;
++				&lt;delete dir=&quot;develop&quot; /&gt;
++				&lt;delete dir=&quot;.&quot; includes=&quot;**/config*.properties&quot; /&gt;
++				&lt;delete dir=&quot;${client}/db&quot; /&gt;
++				&lt;!-- self destruction --&gt;
++				&lt;delete file=&quot;build-development.xml&quot; /&gt;
++				&lt;echo&gt;
++,-------------------------------------------.
++|                                           |
++|   PROCESS OF SELF DESTRUCTION COMPLETED   |
++|                                           |
++`-------------------------------------------'
++				&lt;/echo&gt;
++			&lt;/then&gt;
++		&lt;/if&gt;
++	&lt;/target&gt;
+ 
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-browser/build.xml
+===================================================================
+--- trunk/install/examples/dm-browser/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/dm-browser/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -47,4 +47,8 @@
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
++	
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-topicmapviewer/build.xml
+===================================================================
+--- trunk/install/examples/dm-topicmapviewer/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/dm-topicmapviewer/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -49,4 +49,7 @@
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot;/&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/dm-web/build.xml
+===================================================================
+--- trunk/install/examples/dm-web/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/dm-web/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -47,4 +47,8 @@
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
++
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/kompetenzstern/build.xml
+===================================================================
+--- trunk/install/examples/kompetenzstern/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/kompetenzstern/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -47,30 +47,40 @@
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;-war,-copy-images&quot; description=&quot;Builds the whole application and copies images to the standalone dm-install-directory&quot; /&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-war&quot; description=&quot;Builds the whole application and copies images to the standalone dm-install-directory&quot; /&gt;
+ 
+-	&lt;target name=&quot;-copy-images&quot;&gt;
++	&lt;target name=&quot;-copy-install&quot;&gt;
++		&lt;copy file=&quot;vergleich2fo.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
++		&lt;copy file=&quot;vergleich2svg.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
+ 		&lt;copy todir=&quot;${client}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+-				&lt;include name=&quot;images/**&quot; /&gt;
+ 				&lt;include name=&quot;icons/**&quot; /&gt;
+-				&lt;include name=&quot;backgrounds/**&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/copy&gt;
+ 	&lt;/target&gt;
++	
++	&lt;target name=&quot;-copy-deploy&quot;&gt;
++		&lt;copy todir=&quot;${client}&quot;&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
++				&lt;include name=&quot;images/**&quot; /&gt;
++			&lt;/fileset&gt;
++		&lt;/copy&gt;
++	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot;&gt;
++	&lt;target name=&quot;deploy&quot; depends=&quot;-copy-deploy&quot; if=&quot;do.web.deploy&quot;&gt;
+ 		&lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot; /&gt;
+-		&lt;copy file=&quot;vergleich2fo.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
+-		&lt;copy file=&quot;vergleich2svg.xsl&quot; todir=&quot;../../client/stylesheets&quot; /&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;install&quot; description=&quot;initialisation for the dm-db&quot;&gt;
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
++
++	&lt;target name=&quot;install&quot; depends=&quot;-copy-install&quot; description=&quot;initialisation for the dm-db&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+ 				&lt;include name=&quot;kompetenzstern/kompetenzstern.sql&quot; /&gt;
+
+Modified: trunk/install/examples/ldap/build.xml
+===================================================================
+--- trunk/install/examples/ldap/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/ldap/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -36,6 +36,10 @@
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
++
+ 	&lt;target name=&quot;install&quot;&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+ 			&lt;fileset dir=&quot;${examples}&quot;&gt;
+
+Modified: trunk/install/examples/messageboard/build.xml
+===================================================================
+--- trunk/install/examples/messageboard/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/messageboard/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -48,19 +48,17 @@
+ 		&lt;/war&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-copy-images&quot;&gt;
++	&lt;target name=&quot;-copy-deploy&quot;&gt;
+ 		&lt;copy todir=&quot;${client}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;images/**&quot; /&gt;
+-				&lt;include name=&quot;icons/**&quot; /&gt;
+-				&lt;include name=&quot;backgrounds/**&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/copy&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;-war,-copy-images&quot; description=&quot;builds the application&quot; /&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-war&quot; description=&quot;builds the application&quot; /&gt;
+ 
+-	&lt;target name=&quot;deploy&quot; if=&quot;do.web.deploy&quot; description=&quot;deploys the application&quot;&gt;
++	&lt;target name=&quot;deploy&quot; depends=&quot;-copy-deploy&quot; if=&quot;do.web.deploy&quot; description=&quot;deploys the application&quot;&gt;
+ 		&lt;copy file=&quot;${jar}&quot; todir=&quot;${web.lib.dir}&quot; /&gt;
+ 		&lt;copy file=&quot;${war}&quot; todir=&quot;${web.deploy.dir}&quot; /&gt;
+ 	&lt;/target&gt;
+@@ -68,4 +66,8 @@
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
++
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
+ &lt;/project&gt;
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-02-25 05:36:44 UTC (rev 269)
++++ trunk/install/examples/movies/build.xml	2008-02-25 19:32:41 UTC (rev 270)
+@@ -73,27 +73,29 @@
+ 		&lt;/jar&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-copy-images&quot;&gt;
++	&lt;target name=&quot;-copy-install&quot;&gt;
+ 		&lt;copy todir=&quot;${client}&quot;&gt;
+ 			&lt;fileset dir=&quot;.&quot;&gt;
+-				&lt;include name=&quot;images/**&quot; /&gt;
+ 				&lt;include name=&quot;icons/**&quot; /&gt;
+-				&lt;include name=&quot;backgrounds/**&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 		&lt;/copy&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;build&quot; depends=&quot;-jar,-copy-images&quot; /&gt;
++	&lt;target name=&quot;build&quot; depends=&quot;-jar&quot; /&gt;
+ 
+ 	&lt;target name=&quot;cleanup&quot; description=&quot;remove build directory&quot;&gt;
+ 		&lt;delete dir=&quot;${build}&quot; includes=&quot;**&quot; /&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-strip&quot;&gt;
++		&lt;delete dir=&quot;src&quot; includes=&quot;**&quot; /&gt;
++	&lt;/target&gt;
++
+ 	&lt;!-- example database &quot;Movies&quot; --&gt;
+ 
+ 	&lt;target name=&quot;uninstall&quot; depends=&quot;-dropmoviesdb&quot; /&gt;
+ 
+-	&lt;target name=&quot;install&quot; depends=&quot;-initdb&quot;&gt;
++	&lt;target name=&quot;install&quot; depends=&quot;-initdb,-copy-install&quot;&gt;
+ 		&lt;!-- seperate call! --&gt;
+ 		&lt;ant target=&quot;-initmoviesdb&quot; /&gt;
+ 	&lt;/target&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000114.html">[deepamehta-svn] r269 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000116.html">[deepamehta-svn] r271 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#115">[ date ]</a>
+              <a href="thread.html#115">[ thread ]</a>
+              <a href="subject.html#115">[ subject ]</a>
+              <a href="author.html#115">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

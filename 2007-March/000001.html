@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r156 - branches/eschnepel/install/db
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r156%20-%20branches/eschnepel/install/db&In-Reply-To=%3C200703121448.l2CEm63s029195%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r156 - branches/eschnepel/install/db</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r156%20-%20branches/eschnepel/install/db&In-Reply-To=%3C200703121448.l2CEm63s029195%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r156 - branches/eschnepel/install/db">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar 12 15:48:06 CET 2007</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-03-12 15:48:05 +0100 (Mon, 12 Mar 2007)
+New Revision: 156
+
+Added:
+   branches/eschnepel/install/db/db_tables_hsqldb.sql
+Log:
+vergessen...
+
+
+Added: branches/eschnepel/install/db/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-02-21 12:40:32 UTC (rev 155)
++++ branches/eschnepel/install/db/db_tables_hsqldb.sql	2007-03-12 14:48:05 UTC (rev 156)
+@@ -0,0 +1,89 @@
++-- DeepaMehta database model for use with MySQL.
++-- This script just creates the tables.
++
++CREATE CACHED TABLE Topic (
++    TypeID CHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID CHAR(40) NOT NULL,
++    Name CHAR(255) NOT NULL,
++	PRIMARY KEY (ID, Version)
++);
++CREATE INDEX IDX_TopicType ON Topic (
++	TypeID, TypeVersion, Name
++);
++
++CREATE CACHED TABLE Association (
++    TypeID CHAR(40) NOT NULL,
++    TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
++    ID CHAR(40) NOT NULL,
++    Name CHAR(255) NOT NULL,
++    TopicID1 CHAR(40) NOT NULL,
++    TopicVersion1 INT NOT NULL,
++    TopicID2 CHAR(40) NOT NULL,
++    TopicVersion2 INT NOT NULL,
++	PRIMARY KEY (ID, Version)
++);
++CREATE INDEX IDX_AssociationType ON Association (
++	ID, Version, TypeID, TypeVersion
++);
++CREATE INDEX IDX_TopicAssociation1 ON Association (
++    TopicID1, TopicVersion1
++);
++CREATE INDEX IDX_TopicAssociation2 ON Association (
++    TopicID2, TopicVersion2
++);
++
++CREATE CACHED TABLE ViewTopic (
++    ViewTopicID CHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    TopicID CHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    x INT NOT NULL,
++    y INT NOT NULL
++);
++CREATE INDEX IDX_ViewTopic ON ViewTopic (
++    ViewTopicID, ViewTopicVersion
++);
++CREATE INDEX IDX_ViewTopicRef ON ViewTopic (
++	TopicID
++);
++
++CREATE CACHED TABLE ViewAssociation (
++    ViewTopicID CHAR(40) NOT NULL,
++	ViewTopicVersion INT NOT NULL,
++    AssociationID CHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL
++);
++CREATE INDEX IDX_ViewAssociation ON ViewAssociation (
++	ViewTopicID, ViewTopicVersion
++);
++
++CREATE CACHED TABLE TopicProp (
++    TopicID CHAR(40) NOT NULL,
++    TopicVersion INT NOT NULL,
++    PropName CHAR(40) NOT NULL,
++    PropValue VARCHAR_IGNORECASE
++);
++CREATE INDEX IDX_TopicProp ON TopicProp (
++    TopicID, TopicVersion, PropName
++);
++
++CREATE CACHED TABLE AssociationProp (
++    AssociationID CHAR(40) NOT NULL,
++    AssociationVersion INT NOT NULL,
++    PropName CHAR(40) NOT NULL,
++    PropValue VARCHAR_IGNORECASE
++);
++CREATE INDEX IDX_AssociationProp ON AssociationProp (
++    AssociationID, AssociationVersion, PropName
++);
++
++CREATE TABLE KeyGenerator (
++    Relation CHAR(24) NOT NULL PRIMARY KEY,
++    NextKey INT NOT NULL
++);
++
++SET WRITE_DELAY 0 MILLIS
++;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r284 - in trunk: . install/examples/movies
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r284%20-%20in%20trunk%3A%20.%20install/examples/movies&In-Reply-To=%3C200803030644.m236iNgT028070%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000128.html">
+   <LINK REL="Next"  HREF="000130.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r284 - in trunk: . install/examples/movies</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r284%20-%20in%20trunk%3A%20.%20install/examples/movies&In-Reply-To=%3C200803030644.m236iNgT028070%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r284 - in trunk: . install/examples/movies">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Mon Mar  3 07:44:23 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000128.html">[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+        <LI>Next message: <A HREF="000130.html">[deepamehta-svn] r285 - in trunk: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2008-03-03 07:44:22 +0100 (Mon, 03 Mar 2008)
+New Revision: 284
+
+Modified:
+   trunk/build.xml
+   trunk/install/examples/movies/build.xml
+   trunk/setup.xml
+Log:
+a lot of stuff part 3
+
+Modified: trunk/build.xml
+===================================================================
+--- trunk/build.xml	2008-03-02 14:28:41 UTC (rev 283)
++++ trunk/build.xml	2008-03-03 06:44:22 UTC (rev 284)
+@@ -49,6 +49,7 @@
+ 		&lt;if&gt;
+ 			&lt;istrue value=&quot;${config.finished}&quot;/&gt;
+ 			&lt;then&gt;
++				&lt;echo message=&quot;Installing the DeepaMehta instance '${dm.instance}' now...&quot;/&gt;
+ 				&lt;antcallback target=&quot;-initdb&quot; return=&quot;do.db.abort&quot; /&gt;
+ 				&lt;!-- example applications --&gt;
+ 				&lt;antcall target=&quot;-installexamples&quot; /&gt;
+@@ -273,11 +274,11 @@
+ 	&lt;target name=&quot;-call-examples-noweb-intern&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;ldap&quot; /&gt;
+-			&lt;property name=&quot;example.name&quot; value=&quot;LDAP-Client&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;LDAP-Client for browsing users and groups&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;movies&quot; /&gt;
+-			&lt;property name=&quot;example.name&quot; value=&quot;Movies database&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Demonstration of accessing external datasources&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-examples-web-intern&quot;&gt;
+@@ -289,19 +290,19 @@
+ 			&lt;then&gt;
+ 				&lt;ant target=&quot;-call-example&quot;&gt;
+ 					&lt;property name=&quot;example&quot; value=&quot;dm-browser&quot; /&gt;
+-					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend demo 1&quot; /&gt;
+ 				&lt;/ant&gt;
+ 				&lt;ant target=&quot;-call-example&quot;&gt;
+ 					&lt;property name=&quot;example&quot; value=&quot;dm-search&quot; /&gt;
+-					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend demo 2&quot; /&gt;
+ 				&lt;/ant&gt;
+ 				&lt;ant target=&quot;-call-example&quot;&gt;
+ 					&lt;property name=&quot;example&quot; value=&quot;dm-topicmapviewer&quot; /&gt;
+-					&lt;property name=&quot;example.name&quot; value=&quot;web based Topicmap-viewer&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web based topicmap viewer&quot; /&gt;
+ 				&lt;/ant&gt;
+ 				&lt;ant target=&quot;-call-example&quot;&gt;
+ 					&lt;property name=&quot;example&quot; value=&quot;dm-web&quot; /&gt;
+-					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend&quot; /&gt;
++					&lt;property name=&quot;example.name&quot; value=&quot;Generic web frontend demo 3, recommendend&quot; /&gt;
+ 				&lt;/ant&gt;
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+@@ -309,11 +310,11 @@
+ 	&lt;target name=&quot;-call-examples-both-intern&quot;&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;kompetenzstern&quot; /&gt;
+-			&lt;property name=&quot;example.name&quot; value=&quot;Kompetenzstern&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Balanced Scorecard editor and report generator&quot; /&gt;
+ 		&lt;/ant&gt;
+ 		&lt;ant target=&quot;-call-example&quot;&gt;
+ 			&lt;property name=&quot;example&quot; value=&quot;messageboard&quot; /&gt;
+-			&lt;property name=&quot;example.name&quot; value=&quot;Messageboard&quot; /&gt;
++			&lt;property name=&quot;example.name&quot; value=&quot;Graphical forum application and web frontend&quot; /&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 	&lt;target name=&quot;-call-external-apps&quot;&gt;
+@@ -366,19 +367,19 @@
+ 		&lt;echo&gt;finished target &quot;${target}&quot; in external application &quot;${app-dir}&quot;&lt;/echo&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;tomcat-start&quot;&gt;
++	&lt;target name=&quot;tomcat-start&quot; description=&quot;starts the configured config instance&quot;&gt;
+ 		&lt;exec executeable=&quot;${tomcat.root}/bin/startup.sh&quot; dir=&quot;${client}&quot;&gt;
+ 			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
+ 			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
+ 		&lt;/exec&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;tomcat-stop&quot;&gt;
++	&lt;target name=&quot;tomcat-stop&quot; description=&quot;stops the configured config instance&quot;&gt;
+ 		&lt;exec executeable=&quot;${tomcat.root}/bin/shutdown.sh&quot; dir=&quot;${client}&quot;&gt;
+ 			&lt;env key=&quot;JAVA_HOME&quot; value=&quot;${java.home}&quot;/&gt;
+ 			&lt;env key=&quot;CATALINA_HOME&quot; value=&quot;${tomcat.root}&quot;/&gt;
+ 		&lt;/exec&gt;
+ 	&lt;/target&gt;
+-	&lt;target name=&quot;tomcat-log&quot;&gt;
++	&lt;target name=&quot;tomcat-log&quot; description=&quot;continiuos logging output of the tomcat log&quot;&gt;
+ 		&lt;exec executeable=&quot;tail&quot;&gt;
+ 			&lt;arg value=&quot;-f&quot;/&gt;
+ 			&lt;arg value=&quot;${tomcat.root}/logs/catalina.out&quot;/&gt;
+
+Modified: trunk/install/examples/movies/build.xml
+===================================================================
+--- trunk/install/examples/movies/build.xml	2008-03-02 14:28:41 UTC (rev 283)
++++ trunk/install/examples/movies/build.xml	2008-03-03 06:44:22 UTC (rev 284)
+@@ -188,7 +188,9 @@
+ 		&lt;var name=&quot;path&quot; value=&quot;config&quot; /&gt;
+ 		&lt;var name=&quot;prefix&quot; value=&quot;movies&quot; /&gt;
+ 		&lt;var name=&quot;default&quot; value=&quot;${movies.dm.instance}&quot; /&gt;
+-		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot; /&gt;
++		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
++			&lt;property name=&quot;message&quot; value=&quot;Please select the datasource to be used for the 'movies' example:&quot;/&gt;
++		&lt;/antcallback&gt;
+ 		&lt;var name=&quot;movies.dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${config}/config-${dm.instance}.properties&quot;&gt;
+ 			&lt;entry key=&quot;movies.dm.instance&quot; value=&quot;${movies.dm.instance}&quot; /&gt;
+
+Modified: trunk/setup.xml
+===================================================================
+--- trunk/setup.xml	2008-03-02 14:28:41 UTC (rev 283)
++++ trunk/setup.xml	2008-03-03 06:44:22 UTC (rev 284)
+@@ -26,6 +26,7 @@
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;config.finished&quot; value=&quot;true&quot; /&gt;
+ 		&lt;/propertyfile&gt;
++		&lt;var name=&quot;config.finished&quot; value=&quot;true&quot;/&gt;
+ 		&lt;echo&gt;
+ Your choices are stored in the files
+ 
+@@ -54,7 +55,7 @@
+ 		&lt;condition property=&quot;old.do.installweb&quot; value=&quot;y&quot;&gt;
+ 			&lt;istrue value=&quot;${web.deploy.do}&quot; /&gt;
+ 		&lt;/condition&gt;
+-		&lt;input message=&quot;Do you want to install the example web applications (Tomcat must be installed already)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
++		&lt;input message=&quot;Do you want to install the example web applications (Tomcat must already be installed)?&quot; validargs=&quot;y,n&quot; addproperty=&quot;new.do.installweb&quot; defaultvalue=&quot;${old.do.installweb}&quot; /&gt;
+ 		&lt;if&gt;
+ 			&lt;equals arg1=&quot;${new.do.installweb}&quot; arg2=&quot;n&quot; /&gt;
+ 			&lt;then&gt;
+@@ -77,13 +78,13 @@
+ 			&lt;entry key=&quot;tomcat.root&quot; value=&quot;${new.tomcat.root}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+-
++	
+ 	&lt;target name=&quot;-config-which-dm-instance&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;var name=&quot;path&quot; value=&quot;${config}&quot; /&gt;
+ 		&lt;var name=&quot;prefix&quot; value=&quot;dm&quot; /&gt;
+ 		&lt;var name=&quot;default&quot; value=&quot;${dm.instance}&quot; /&gt;
+ 		&lt;antcallback target=&quot;-config-which-generic-instance&quot; return=&quot;return.instance&quot;&gt;
+-			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to configure&quot;/&gt;
++			&lt;property name=&quot;message&quot; value=&quot;Please select the DeepaMehta instance to be configured:&quot;/&gt;
+ 		&lt;/antcallback&gt;
+ 		&lt;if&gt;
+ 			&lt;or&gt;
+@@ -101,7 +102,7 @@
+ 				&lt;if&gt;
+ 					&lt;available file=&quot;${config}/config.properties&quot;/&gt;
+ 					&lt;then&gt;
+-						&lt;input message=&quot;Setup '${return.instance}' as default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot;/&gt;
++						&lt;input message=&quot;Should '${return.instance}' be your default instance?&quot; addproperty=&quot;setup.default-instance&quot; defaultvalue=&quot;y&quot; validargs=&quot;y,n&quot;/&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+ 						&lt;var name=&quot;setup.default-instance&quot; value=&quot;y&quot;/&gt;
+@@ -118,14 +119,19 @@
+ 			&lt;/then&gt;
+ 		&lt;/if&gt;
+ 		&lt;var name=&quot;dm.instance&quot; value=&quot;${return.instance}&quot; /&gt;
++		&lt;var name=&quot;dm.instance.property-file&quot; value=&quot;${config}/dm-${dm.instance}.properties&quot;/&gt;
++		&lt;var name=&quot;dm.instance.build-property-file&quot; value=&quot;${config}/build-${dm.instance}.properties&quot;/&gt;
++		&lt;var name=&quot;dm.instance.config-property-file&quot; value=&quot;${config}/config-${dm.instance}.properties&quot;/&gt;
+ 	&lt;/target&gt;
+ 
+ 	&lt;target name=&quot;-config-dm-instance&quot; depends=&quot;-config-which-dm-instance&quot;&gt;
+ 		&lt;echo&gt;configuring now the DeepaMehta instance &quot;${dm.instance}&quot; ...&lt;/echo&gt;
+-		&lt;antcallback target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; return=&quot;db.syspass&quot;/&gt;
++		&lt;antcallback target=&quot;-config-dm-instance2&quot; inheritall=&quot;false&quot; return=&quot;db.syspass&quot;&gt;
++			&lt;property name=&quot;dm.instance&quot; value=&quot;${dm.instance}&quot;/&gt;
++		&lt;/antcallback&gt;
+ 	&lt;/target&gt;
+ 
+-	&lt;target name=&quot;-config-dm-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user&quot;&gt;
++	&lt;target name=&quot;-config-dm-instance2&quot; depends=&quot;-config-instance-db.host,-config-instance-db.name,-config-instance-db.user,-config-instance-dm.port&quot;&gt;
+ 		&lt;echo&gt;completed configuring instance &quot;${dm.instance}&quot;&lt;/echo&gt;
+ 		&lt;echo&gt;Instance-related settings are stored in &quot;${dm.instance.config-property-file}.&lt;/echo&gt;
+ 	&lt;/target&gt;
+@@ -139,7 +145,7 @@
+ 
+ 	&lt;import file=&quot;${db-specific}/${db.list-names}&quot; /&gt;
+ 	&lt;target name=&quot;-config-instance-db.name&quot; if=&quot;do.config.db.name&quot; depends=&quot;-listdb&quot;&gt;
+-		&lt;input message=&quot;Please enter the name of your database:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
++		&lt;input message=&quot;Please enter the name of the database to be created:&quot; addproperty=&quot;new.db.name&quot; defaultvalue=&quot;${db.name}&quot; /&gt;
+ 		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
+ 			&lt;entry key=&quot;db.name&quot; value=&quot;${new.db.name}&quot; /&gt;
+ 		&lt;/propertyfile&gt;
+@@ -155,10 +161,17 @@
+ 		&lt;/propertyfile&gt;
+ 	&lt;/target&gt;
+ 
++	&lt;target name=&quot;-config-instance-dm.port&quot; if=&quot;do.web.deploy&quot;&gt;
++		&lt;input message=&quot;Network port for this instance (when served by the DeepaMehta server):&quot; addproperty=&quot;new.dm.port&quot; defaultvalue=&quot;${dm.port}&quot; /&gt;
++		&lt;propertyfile file=&quot;${dm.instance.config-property-file}&quot;&gt;
++			&lt;entry key=&quot;dm.port&quot; value=&quot;${new.dm.port}&quot; /&gt;
++		&lt;/propertyfile&gt;
++	&lt;/target&gt;
++	
+ 	&lt;target name=&quot;-config-examples&quot; depends=&quot;-config-init&quot;&gt;
+ 		&lt;ant target=&quot;-call-examples&quot;&gt;
+ 			&lt;property name=&quot;target&quot; value=&quot;config&quot; /&gt;
+-			&lt;property name=&quot;example.ask.verb&quot; value=&quot;installed&quot;/&gt;
++			&lt;property name=&quot;example.ask.verb&quot; value=&quot;install&quot;/&gt;
+ 		&lt;/ant&gt;
+ 	&lt;/target&gt;
+ 
+@@ -190,20 +203,20 @@
+ 						&lt;isset property=&quot;example.ask.verb&quot;/&gt;
+ 					&lt;/not&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;example.ask.verb&quot; value=&quot;processed&quot;/&gt;
++						&lt;var name=&quot;example.ask.verb&quot; value=&quot;go into&quot;/&gt;
+ 					&lt;/then&gt;
+ 				&lt;/if&gt;
+ 				&lt;if&gt;
+ 					&lt;isset property=&quot;example.name&quot;/&gt;
+ 					&lt;then&gt;
+-						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example.name}' (${example})&quot;/&gt;
++						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}' (${example.name})&quot;/&gt;
+ 					&lt;/then&gt;
+ 					&lt;else&gt;
+ 						&lt;var name=&quot;example.complete-name&quot; value=&quot;'${example}'&quot;/&gt;
+ 					&lt;/else&gt;
+ 				&lt;/if&gt;
+ 				&lt;var name=&quot;input&quot; unset=&quot;true&quot; /&gt;
+-				&lt;input message=&quot;Shall the example application ${example.complete-name} be ${example.ask.verb}?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
++				&lt;input message=&quot;Do you want to ${example.ask.verb} the example application ${example.complete-name}?&quot; validargs=&quot;y,n&quot; defaultvalue=&quot;${default}&quot; addproperty=&quot;input&quot; /&gt;
+ 				&lt;var name=&quot;default&quot; unset=&quot;true&quot; /&gt;
+ 				&lt;if&gt;
+ 					&lt;equals arg1=&quot;${input}&quot; arg2=&quot;y&quot; /&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000128.html">[deepamehta-svn] r283 - in trunk: . install/examples/artfacts	install/examples/dm-browser install/examples/dm-search	install/examples/dm-topicmapviewer install/examples/dm-web	install/examples/kompetenzstern install/examples/ldap	install/examples/messageboard install/examples/movies
+</A></li>
+	<LI>Next message: <A HREF="000130.html">[deepamehta-svn] r285 - in trunk: . install/config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r332 - in trunk/develop/src/de/deepamehta: service	service/web topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r332%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09service/web%20topics&In-Reply-To=%3C200807021623.m62GNwoq008397%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r332 - in trunk/develop/src/de/deepamehta: service	service/web topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r332%20-%20in%20trunk/develop/src/de/deepamehta%3A%20service%0A%09service/web%20topics&In-Reply-To=%3C200807021623.m62GNwoq008397%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r332 - in trunk/develop/src/de/deepamehta: service	service/web topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Jul  2 18:23:58 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000178.html">[deepamehta-svn] r333 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web develop/src/de/deepamehta/util	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-search/src/de/deepamehta/webfront	install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer	install/examples/dm-web/src/de/deepamehta/webfrontend	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#177">[ date ]</a>
+              <a href="thread.html#177">[ thread ]</a>
+              <a href="subject.html#177">[ subject ]</a>
+              <a href="author.html#177">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-07-02 18:23:51 +0200 (Wed, 02 Jul 2008)
+New Revision: 332
+
+Added:
+   trunk/develop/src/de/deepamehta/service/web/Notification.java
+Modified:
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+   trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+   trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+Log:
+1) DeepaMehta Web Application Framework extended
+
+1a) Automatic processing of directives:
+A &quot;directives&quot; object is attached to the whole request handling cycle. Web application logic is able to investigate and/or extend the directives object. The directives are automatically processed by the web framework. This results in API change in base class DeepaMehtaServlet: 2 hooks (performAction() and preparePage()) and two utility methods (createTopic() and updateTopic()) are extended by a &quot;directives&quot; parameter.
+=&gt; IMPORTANT: DeepaMehta Web Applications must be adapted to the new API
+
+1b) Support for notifications:
+New class in package de.deepamehta.service.web: Notification -- a model for a text notification
+New method in class CorporateDirectives: Vector getNotifications() -- returns all text notifications (DIRECTIVE_SHOW_MESSAGE)
+New method in class HTMLGenerator: String notification(Vector notifications) -- HTML rendering of notifications. Layout is customizable by 4 CSS classes: &quot;notification&quot;, &quot;notification-info&quot;, &quot;notification-warning&quot;, and &quot;notification-error&quot;.
+
+2) DeepaMehta Application Framework extended
+
+2a) New semantic of propertiesChangeAllowed() hook:
+Formerly, when a set of property values is about to change, this hook was triggered only once: if it returns &quot;false&quot; the whole property set was rejected. Now, this hook is triggered for every _single_ property. Thus, application logic can prohibit certain property changes while allowing others. This results in API change in base class LiveTopic: the hook is renamed and takes another set of paramters.
+old: boolean propertiesChangeAllowed(Hashtable oldProps, Hashtable newProps, CorporateDirectives directives)
+new: boolean propertyChangeAllowed(String propName, String propValue, Session session, CorporateDirectives directives)
+=&gt; IMPORTANT: DeepaMehta Applications must be adapted to the new API
+
+3) RelationalCorporateMemory: improved diagnosis logging
+
+This DeepaMehta revision is REQUIRED by Kiezatlas revision 47 and later
+
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -66,10 +66,9 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 24.6.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 25.3.2008 (2.0b8)&lt;br&gt;
++ * Last change: 1.7.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public final class ApplicationService extends BaseTopicMap implements LoginCheck, DeepaMehtaConstants {
+ 
+@@ -1493,30 +1492,6 @@
+ 	// ---
+ 
+ 	/**
+-	 * Updates the topic name at all 3 spots (memory, database, and client) and triggers the nameChanged() hook.
+-	 * &lt;p&gt;
+-	 * Note: this is not directly called by application developers but always as a reaction of changed topic properties.
+-	 * &lt;p&gt;
+-	 * References checked: 20.5.2008 (2.0b8)
+-	 *
+-	 * @see		#setTopicProperties
+-	 */
+-	private CorporateDirectives changeTopicName(String topicID, int version, String name, String topicmapID, Session session) {
+-		LiveTopic topic = getLiveTopic(topicID, version);
+-		// update memory
+-		topic.setName(name);
+-		// update corporate memory (database)
+-		cm.changeTopicName(topicID, version, name);
+-		// update client
+-		CorporateDirectives directives = new CorporateDirectives();
+-		directives.add(DIRECTIVE_SET_TOPIC_NAME, topicID, name, new Integer(version));
+-		// --- trigger nameChanged() hook ---
+-		directives.add(topic.nameChanged(name, topicmapID, session));
+-		//
+-		return directives;
+-	}
+-
+-	/**
+ 	 * @see		InteractionConnection#performChangeTopicName
+ 	 */
+ 	CorporateDirectives changeTopicNameChained(String topicID, int version, String name, Session session, String result) {
+@@ -1672,7 +1647,7 @@
+ 	/**
+ 	 * Sets topic properties at application service level.
+ 	 * &lt;p&gt;
+-	 * The 5 topic hooks &lt;code&gt;propertiesChangeAllowed()&lt;/code&gt;, &lt;code&gt;propertiesChanged()&lt;/code&gt;, &lt;code&gt;getNameProperty()&lt;/code&gt;,
++	 * The 5 topic hooks &lt;code&gt;propertyChangeAllowed()&lt;/code&gt;, &lt;code&gt;propertiesChanged()&lt;/code&gt;, &lt;code&gt;getNameProperty()&lt;/code&gt;,
+ 	 * &lt;code&gt;getTopicName()&lt;/code&gt;, and &lt;code&gt;nameChanged()&lt;/code&gt; are potentially triggered.
+ 	 * &lt;p&gt;
+ 	 * References checked: 17.4.2008 (2.0b8)
+@@ -1693,30 +1668,17 @@
+ 		//
+ 		try {
+ 			Hashtable oldProps = getTopicProperties(topicID, version);
++			LiveTopic topic = getLiveTopic(topicID, version);	// may throw DME
++			// only consider changed properties
+ 			props = removeUnchangedProperties(props, oldProps);
+-			LiveTopic topic = getLiveTopic(topicID, version);	// may throw DME
+-			// trigger propertiesChangeAllowed() hook
+-			if (topic.propertiesChangeAllowed(oldProps, props, directives)) {
+-				// update corporate memory (database)
+-				cm.setTopicData(topicID, version, props);
+-				// --- topic name behavoir ---
+-				String name;
+-				// trigger getNameProperty() hook
+-				String nameProp = topic.getNameProperty();
+-				if (nameProp != null) {
+-					name = (String) props.get(nameProp);
+-				} else {
+-					// trigger getTopicName() hook
+-					name = topic.getTopicName(props, oldProps);
+-				}
+-				if (name != null) {
+-					// trigger nameChanged() hook
+-					directives.add(changeTopicName(topicID, version, name, topicmapID, session));
+-				}
+-				// ---
+-				// trigger propertiesChanged() hook
+-				directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
+-			}
++			// ask application weather property change is allowed
++			removeProhibitedProperties(props, topic, session, directives);
++			// write changed properties to database (corporate memory)
++			cm.setTopicData(topicID, version, props);
++			// trigger topic naming behavoir
++			performTopicNamingBehavior(topic, props, oldProps, topicmapID, session, directives);
++			// inform application about changed properties (trigger propertiesChanged() hook)
++			directives.add(topic.propertiesChanged(props, oldProps, topicmapID, VIEWMODE_USE, session));
+ 		} catch (DeepaMehtaException e) {
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			System.out.println(&quot;*** ApplicationService.setTopicProperties(): &quot; + e);
+@@ -1725,6 +1687,60 @@
+ 		return directives;
+ 	}
+ 
++	private void removeProhibitedProperties(Hashtable props, LiveTopic topic, Session session, CorporateDirectives directives) {
++		Enumeration e = props.keys();
++		while (e.hasMoreElements()) {
++			String propName = (String) e.nextElement();
++			String propValue = (String) props.get(propName);
++			// --- trigger propertyChangeAllowed() hook ---
++			if (!topic.propertyChangeAllowed(propName, propValue, session, directives)) {
++				props.remove(propName);
++			}
++		}
++	}
++
++	private void performTopicNamingBehavior(LiveTopic topic, Hashtable props, Hashtable oldProps, String topicmapID,
++																			Session session, CorporateDirectives directives) {
++		String name;
++		// trigger getNameProperty() hook
++		String nameProp = topic.getNameProperty();
++		if (nameProp != null) {
++			name = (String) props.get(nameProp);
++		} else {
++			// trigger getTopicName() hook
++			name = topic.getTopicName(props, oldProps);
++		}
++		if (name != null) {
++			// trigger nameChanged() hook
++			directives.add(changeTopicName(topic, name, topicmapID, session));
++		}
++	}
++
++	/**
++	 * Updates the topic name at all 3 spots (memory, database, and client) and triggers the nameChanged() hook.
++	 * &lt;p&gt;
++	 * Note: this is not directly called by application developers but always as a reaction of changed topic properties.
++	 * &lt;p&gt;
++	 * References checked: 20.5.2008 (2.0b8)
++	 *
++	 * @see		#setTopicProperties
++	 */
++	private CorporateDirectives changeTopicName(LiveTopic topic, String name, String topicmapID, Session session) {
++		String topicID = topic.getID();
++		int version = topic.getVersion();
++		// update memory
++		topic.setName(name);
++		// update corporate memory (database)
++		cm.changeTopicName(topicID, version, name);
++		// update client
++		CorporateDirectives directives = new CorporateDirectives();
++		directives.add(DIRECTIVE_SET_TOPIC_NAME, topicID, name, new Integer(version));
++		// --- trigger nameChanged() hook ---
++		directives.add(topic.nameChanged(name, topicmapID, session));
++		//
++		return directives;
++	}
++
+ 	// ---
+ 
+ 	/**
+@@ -5102,20 +5118,16 @@
+ 	 * @see		#setTopicProperties(String topicID, int version, Hashtable props, String topicmapID, String viewmode, Session session)
+ 	 * @see		#setAssocProperties(String assocID, int version, Hashtable props, String topicmapID, String viewmode, Session session)
+ 	 */
+-	private Hashtable removeUnchangedProperties(Hashtable newData, Hashtable oldData) {
+-		Hashtable result = (Hashtable) newData.clone();
++	private Hashtable removeUnchangedProperties(Hashtable newProps, Hashtable oldProps) {
++		Hashtable result = (Hashtable) newProps.clone();
+ 		//
+ 		Enumeration e = result.keys();
+-		String prop;
+ 		while (e.hasMoreElements()) {
+-			prop = (String) e.nextElement();
+-			String oldValue = (String) oldData.get(prop);
+-			String newValue = (String) result.get(prop);
+-			if (newValue.equals(oldValue)) {
+-				result.remove(prop);
+-				// ### oldData.remove(prop);
+-			} else if (oldValue == null &amp;&amp; newValue.equals(&quot;&quot;)) {
+-				result.remove(prop);
++			String propName = (String) e.nextElement();
++			String oldValue = (String) oldProps.get(propName);
++			String newValue = (String) result.get(propName);
++			if (newValue.equals(oldValue) || oldValue == null &amp;&amp; newValue.equals(&quot;&quot;)) {
++				result.remove(propName);
+ 			}
+ 		}
+ 		//
+@@ -5293,26 +5305,21 @@
+ 	 *
+ 	 * @see		#createCustomLiveTopic
+ 	 */
+-	private void addErrorNotification(String errorText, String errorText2,
+-									CorporateDirectives directives, String className) {
++	private void addErrorNotification(String errorText, String errorText2, CorporateDirectives directives, String className) {
+ 		addErrorNotification(errorText, errorText2, directives);
+ 		//
+ 		if (className.startsWith(&quot;org/xml/&quot;)) {
+ 			if (directives != null) {
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;&gt;&gt;&gt; Make shure IBMs XML parser &quot; +
+-					&quot;(xml4j.jar) is installed correctly at server side&quot;,
+-					new Integer(NOTIFICATION_ERROR));
++				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;&gt;&gt;&gt; Make shure IBMs XML parser (xml4j.jar) &quot; +
++					&quot;is installed correctly at server side&quot;, new Integer(NOTIFICATION_ERROR));
+ 			}
+-			System.out.println(&quot;&gt;&gt;&gt; Make shure IBMs XML parser (xml4j.jar) is &quot; +
+-				&quot;installed correctly&quot;);
++			System.out.println(&quot;&gt;&gt;&gt; Make shure IBMs XML parser (xml4j.jar) is installed correctly&quot;);
+ 		} else if (className.startsWith(&quot;javax/activation/&quot;)) {
+ 			if (directives != null) {
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;&gt;&gt;&gt; Make shure Suns activation &quot; +
+-					&quot;framework (activation.jar) is installed correctly at server side&quot;,
+-					new Integer(NOTIFICATION_ERROR));
++				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;&gt;&gt;&gt; Make shure Suns activation framework (activation.jar) &quot; +
++					&quot;is installed correctly at server side&quot;, new Integer(NOTIFICATION_ERROR));
+ 			}
+-			System.out.println(&quot;&gt;&gt;&gt; Make shure Suns activation framework &quot; +
+-				&quot;(activation.jar) is installed correctly&quot;);
++			System.out.println(&quot;&gt;&gt;&gt; Make shure Suns activation framework (activation.jar) is installed correctly&quot;);
+ 		}
+ 	}
+ 
+@@ -5321,14 +5328,11 @@
+ 	 *
+ 	 * @see		#createCustomLiveTopic
+ 	 */
+-	private void addErrorNotification(String errorText, String errorText2,
+-														CorporateDirectives directives) {
++	private void addErrorNotification(String errorText, String errorText2, CorporateDirectives directives) {
+ 		if (directives != null) {
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, errorText2 + &quot; (&quot; + errorText + &quot;)&quot;,
+-				new Integer(NOTIFICATION_ERROR));
++			directives.add(DIRECTIVE_SHOW_MESSAGE, errorText2 + &quot; (&quot; + errorText + &quot;)&quot;, new Integer(NOTIFICATION_ERROR));
+ 		}
+-		System.out.println(&quot;*** ApplicationService.createCustomLiveTopic(): &quot; + errorText +
+-			&quot; -- &quot; + errorText2);
++		System.out.println(&quot;*** ApplicationService.createCustomLiveTopic(): &quot; + errorText + &quot; -- &quot; + errorText2);
+ 	}
+ 
+ 	// ---
+@@ -5352,19 +5356,19 @@
+ 		directives.add(getLiveTopic(topic).published());
+ 	}
+ 
+-	public String getConfigurationProperty(String property){
++	public String getConfigurationProperty(String property) {
+ 		return applicationServiceInstance.getConfigurationProperty(property);
+ 	}
+ 
+ 
+ 
+-	// ******************************************************
++	// *******************************************************
+ 	// *** Implementation of interface java.util.TimerTask ***
+-	// ******************************************************
++	// *******************************************************
+ 
+ 
+ 
+-	private class StatisticsThread extends TimerTask{
++	private class StatisticsThread extends TimerTask {
+ 
+ 		/**
+ 		 * The body of the statistics thread.
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateDirectives.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/CorporateDirectives.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -9,6 +9,7 @@
+ import de.deepamehta.PresentableType;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.assocs.LiveAssociation;
++import de.deepamehta.service.web.Notification;
+ import de.deepamehta.topics.LiveTopic;
+ import de.deepamehta.util.DeepaMehtaUtils;
+ 
+@@ -22,15 +23,11 @@
+ 
+ 
+ /**
+- * ### Note: other as the name suggests (&quot;Corporate&quot;) a &lt;code&gt;CorporateDirectives&lt;/code&gt;
+- * object isn't aware of the LCM (the application is not required to pass the LCM
+- * with every constructor call).
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 20.5.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 17.11.2000 (2.0a7-pre3)&lt;br&gt;
++ * Last change: 30.6.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class CorporateDirectives extends Directives {
+ 
+@@ -632,6 +629,29 @@
+ 
+ 
+ 
++	// **********************
++	// *** Utility Method ***
++	// **********************
++
++
++
++	public Vector getNotifications() {
++		Vector notifications = new Vector();
++		//
++		Enumeration e = directives.elements();
++		while (e.hasMoreElements()) {
++			Directive directive = (Directive) e.nextElement();
++			if (directive.type == DIRECTIVE_SHOW_MESSAGE) {
++				String message = (String) directive.param1;
++				int notificationType = ((Integer) directive.param2).intValue();
++				notifications.addElement(new Notification(message, notificationType));
++			}
++		}
++		return notifications;
++	}
++
++
++
+ 	// ***********************
+ 	// *** Private Methods ***
+ 	// ***********************
+
+Modified: trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/RelationalCorporateMemory.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -31,12 +31,11 @@
+ 
+ /**
+  * A RDBMS implementation of {@link CorporateMemory}.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 24.5.2006 (2.0b6-post3)&lt;BR&gt;
+- * Last documentation update: 26.7.2001 (2.0a11-pre11)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 30.6.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ class RelationalCorporateMemory implements CorporateMemory, DeepaMehtaConstants {
+ 
+@@ -198,13 +197,13 @@
+ 
+ 	/**
+ 	 * Private unified form of getTopics().
+-	 * &lt;P&gt;
+-	 * Note: either typeID or typeIDs must be set (to a non-&lt;CODE&gt;null&lt;/CODE&gt; value).
++	 * &lt;p&gt;
++	 * Note: either typeID or typeIDs must be set (to a non-&lt;code&gt;null&lt;/code&gt; value).
+ 	 *
+ 	 * @param	typeID			the ID of the topic type to match
+ 	 * @param	typeIDs			the IDs of the topic types to match, if a non-
+-	 *							&lt;CODE&gt;null&lt;/CODE&gt; value is passed the value of the
+-	 *							&lt;CODED&gt;typeID&lt;/CODE&gt; parameter is ignored
++	 *							&lt;code&gt;null&lt;/code&gt; value is passed the value of the
++	 *							&lt;code&gt;typeID&lt;/code&gt; parameter is ignored
+ 	 */
+ 	private Vector getTopics(String typeID, Vector typeIDs, String nameFilter, Hashtable propertyFilter, String relatedTopicID,
+ 														String assocTypeID, String topicmapID, boolean caseSensitiv) {
+@@ -228,7 +227,7 @@
+ 	 *
+ 	 * @param	searchString		specified substring (property filter)
+ 	 *
+-	 * @return	hashtable where:&lt;BR&gt;
++	 * @return	hashtable where:&lt;br&gt;
+ 	 * 				&lt;ul&gt;&lt;li&gt;key is BaseTopic 
+ 	 * 				&lt;li&gt;value is name of property, which contains given substring&lt;/ul&gt;
+ 	 *
+@@ -373,20 +372,20 @@
+ 
+ 	/**
+ 	 * Private unified form for 9 of latter 10 getRelatedTopics() forms.
+-	 * &lt;P&gt;
+-	 * Note: either assocType or assocTypes must be set (to a non-&lt;CODE&gt;null&lt;/CODE&gt; value).
++	 * &lt;p&gt;
++	 * Note: either assocType or assocTypes must be set (to a non-&lt;code&gt;null&lt;/code&gt; value).
+ 	 *
+ 	 * @param	assocType		the ID of the association type to match
+ 	 * @param	assocTypes		the IDs of the association types to match, if a non-
+-	 *							&lt;CODE&gt;null&lt;/CODE&gt; value is passed the value of the
+-	 *							&lt;CODED&gt;assocType&lt;/CODE&gt; parameter is ignored
+-	 * @param	relTopicType	the ID of the topic type to match, if &lt;CODE&gt;null&lt;/CODE&gt;
++	 *							&lt;code&gt;null&lt;/code&gt; value is passed the value of the
++	 *							&lt;code&gt;assocType&lt;/code&gt; parameter is ignored
++	 * @param	relTopicType	the ID of the topic type to match, if &lt;code&gt;null&lt;/code&gt;
+ 	 *							all topic types are matching
+ 	 * @param	relTopicTypeIDs	the IDs of topic types to match, if a non-
+-	 *							&lt;CODE&gt;null&lt;/CODE&gt; value is passed the value of the
+-	 *							&lt;CODED&gt;relTopicType&lt;/CODE&gt; parameter is ignored
+-	 * @param	relTopicPos		position nr of the related topic, must be &lt;CODE&gt;1&lt;/CODE&gt; or &lt;CODE&gt;2&lt;/CODE&gt;
+-	 * @param	relTopicIDs		ID filter. If &lt;CODE&gt;null&lt;/CODE&gt; no ID filter is applied.
++	 *							&lt;code&gt;null&lt;/code&gt; value is passed the value of the
++	 *							&lt;code&gt;relTopicType&lt;/code&gt; parameter is ignored
++	 * @param	relTopicPos		position nr of the related topic, must be &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt;
++	 * @param	relTopicIDs		ID filter. If &lt;code&gt;null&lt;/code&gt; no ID filter is applied.
+ 	 */
+ 	private Vector getRelatedTopics(String topicID, String assocType, Vector assocTypes, String relTopicType, Vector relTopicTypeIDs,
+ 									int relTopicPos, Vector relTopicIDs, String assocProp, String propValue, String topicmapID,
+@@ -836,8 +835,8 @@
+ 	/**
+ 	 * References checked: 8.11.2001 (2.0a13-pre5)
+ 	 *
+-	 * @return	2-element array:&lt;BR&gt;
+-	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;BR&gt;
++	 * @return	2-element array:&lt;br&gt;
++	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+ 	 *				element 2: vector of {@link de.deepamehta.PresentableAssociation}
+ 	 *
+ 	 * @see		LiveTopic#navigateByTopictype
+@@ -849,8 +848,8 @@
+ 	/**
+ 	 * References checked: 10.8.2001 (2.0a11)
+ 	 *
+-	 * @return	2-element array:&lt;BR&gt;
+-	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;BR&gt;
++	 * @return	2-element array:&lt;br&gt;
++	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+ 	 *				element 2: vector of {@link de.deepamehta.PresentableAssociation}
+ 	 *
+ 	 * @see		LiveTopic#navigateByTopictype
+@@ -881,8 +880,8 @@
+ 	/**
+ 	 * References checked: 10.8.2001 (2.0a11)
+ 	 *
+-	 * @return	2-element array:&lt;BR&gt;
+-	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;BR&gt;
++	 * @return	2-element array:&lt;br&gt;
++	 *				element 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+ 	 *				element 2: vector of {@link de.deepamehta.PresentableAssociation}
+ 	 *
+ 	 * @see		LiveTopic#navigateByAssoctype
+@@ -911,7 +910,7 @@
+ 	 * Returns all IDs of topics of the specified type who are contained in the
+ 	 * specified topicmap and viewmode.
+ 	 *
+-	 * @return	Vector of &lt;CODE&gt;String&lt;/CODE&gt;s.
++	 * @return	Vector of &lt;code&gt;String&lt;/code&gt;s.
+ 	 *
+ 	 * @see		ApplicationService#getAllTopics(String typeID, String topicmapID, String viemode)
+ 	 */
+@@ -926,7 +925,7 @@
+ 	// --- getAssociationIDs (2 forms) ---
+ 
+ 	/**
+-	 * @return	Vector of &lt;CODE&gt;String&lt;/CODE&gt;s.
++	 * @return	Vector of &lt;code&gt;String&lt;/code&gt;s.
+ 	 *
+ 	 * @see		ApplicationService#getAssociationIDs(String topicmapID, String viewMode, String userID, String topicID, int version, String assocType)
+ 	 */
+@@ -935,7 +934,7 @@
+ 	}
+ 
+ 	/**
+-	 * @return	Vector of &lt;CODE&gt;String&lt;/CODE&gt;s.
++	 * @return	Vector of &lt;code&gt;String&lt;/code&gt;s.
+ 	 *
+ 	 * @see		ApplicationService#getAssociationIDs(String topicmapID, String viewMode, String userID, String topicID, int version, String assocType)
+ 	 */
+@@ -1174,9 +1173,9 @@
+ 	// --- setTopicData (2 forms) ---
+ 
+ 	/**
+-	 * @param	topicData	Topic data to set&lt;BR&gt;
+-	 *						Key: field name (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
+-	 *						Value: value (&lt;CODE&gt;String&lt;/CODE&gt;)
++	 * @param	topicData	Topic data to set&lt;br&gt;
++	 *						Key: field name (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
++	 *						Value: value (&lt;code&gt;String&lt;/code&gt;)
+ 	 */
+ 	public void setTopicData(String topicID, int version, Hashtable topicData) {
+ 		Enumeration e = topicData.keys();
+@@ -1248,9 +1247,9 @@
+ 	// --- setAssociationData (2 forms) ---
+ 
+ 	/**
+-	 * @param	assocData	Association data to set&lt;BR&gt;
+-	 *						Key: field name (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
+-	 *						Value: value (&lt;CODE&gt;String&lt;/CODE&gt;)
++	 * @param	assocData	Association data to set&lt;br&gt;
++	 *						Key: field name (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
++	 *						Value: value (&lt;code&gt;String&lt;/code&gt;)
+ 	 */
+ 	public void setAssociationData(String assocID, int version, Hashtable assocData) {
+ 		Enumeration e = assocData.keys();
+@@ -1269,8 +1268,8 @@
+ 				field + &quot;\&quot; to \&quot;&quot; + value + &quot;\&quot;)&quot;);
+ 		}
+ 		//
+-		int rowCount = update(&quot;UPDATE AssociationProp SET PropValue = ? WHERE AssociationID = ? AND AssociationVersion = ? AND PropName = ?&quot;
+-		                      , new Object[]{value, assocID, i(version), field}, IMPLIED_NO);
++		int rowCount = update(&quot;UPDATE AssociationProp SET PropValue = ? WHERE AssociationID = ? AND &quot; +
++			&quot;AssociationVersion = ? AND PropName = ?&quot;, new Object[]{value, assocID, i(version), field}, IMPLIED_NO);
+ 		if (rowCount == 0) {
+ 			// the association has no association data yet -- insert
+ 			if (LOG_CM) {
+@@ -1364,7 +1363,7 @@
+ 
+ 
+ 	/**
+-	 * @return	Vector of &lt;CODE&gt;String&lt;/CODE&gt;s.
++	 * @return	Vector of &lt;code&gt;String&lt;/code&gt;s.
+ 	 *
+ 	 * @see		#getTopicIDs(String typeID, String topicmapID)
+ 	 * @see		#getAssociationIDs(String assocTypeID, String topicmapID, String viewMode,
+@@ -1612,8 +1611,8 @@
+ 	 * &lt;p&gt;
+ 	 * References checked: 10.8.2001 (2.0a11)
+ 	 *
+-	 * @return	array of 2 vectors:&lt;BR&gt;
+-	 *				vector 1: vector of {@link de.deepamehta.PresentableTopic}&lt;BR&gt;
++	 * @return	array of 2 vectors:&lt;br&gt;
++	 *				vector 1: vector of {@link de.deepamehta.PresentableTopic}&lt;br&gt;
+ 	 *				vector 2: vector of {@link de.deepamehta.PresentableAssociation}
+ 	 *
+ 	 * @see		#getRelatedViewTopicsByTopictype
+@@ -1708,7 +1707,7 @@
+ 	}
+ 
+ 	/**
+-	 * @return	Vector of {@link de.deepamehta.PresentableType}.&lt;BR&gt;
++	 * @return	Vector of {@link de.deepamehta.PresentableType}.&lt;br&gt;
+ 	 *			Note: the geometry mode of the topics is set to {@link #GEOM_MODE_FREE}.
+ 	 *
+ 	 * @see		#getTopicTypes
+@@ -1739,9 +1738,9 @@
+ 
+ 	/**
+ 	 * Executes the specified query and returns the property value (TopicData.FieldValue).
+-	 * If the property doesn't exists resp. is &lt;CODE&gt;null&lt;/CODE&gt; an empty string is
++	 * If the property doesn't exists resp. is &lt;code&gt;null&lt;/code&gt; an empty string is
+ 	 * returned.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 13.8.2001 (2.0a11)
+ 	 *
+ 	 * @see		#getTopicData(String topicID, int version, String fieldname)
+@@ -1825,7 +1824,7 @@
+ 	 */
+ 	private int update(String query, Object[] params, int implied) {
+ 		try {
+-			return update(createPreparedStatement(query, params), implied);
++			return update(createPreparedStatement(query, params), query, params, implied);
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+@@ -1834,20 +1833,26 @@
+ 
+ 	/**
+ 	 * Executes an INSERT, UPDATE or DELETE statement.
++	 *
++	 * @param	query	for diagnosis only
++	 * @param	params	for diagnosis only
+ 	 */
+-	private int update(PreparedStatement stmt, int implied) {
++	private int update(PreparedStatement stmt, String query, Object[] params, int implied) {
+ 		try {
+ 			int rowCount = stmt.executeUpdate();
+ 			if (implied == IMPLIED_1 &amp;&amp; rowCount != 1) {
+ 				System.out.println(&quot;*** RelationalCorporateMemory.update(): &quot; +
+-					rowCount + &quot; rows updated while 1 is expected&quot;);
++					rowCount + &quot; rows updated while 1 is expected, query and paramters:&quot;);
++				System.out.println(&quot;    &quot; + query);
++				printObjectArray(params);
+ 			}
+ 			return rowCount;
+ 		} catch (SQLException e) {
+ 			if (implied != IMPLIED_NO) {
+ 				System.out.println(&quot;*** RelationalCorporateMemory.update(): &quot; + e +
+-					&quot; -- INSERT, UPDATE or DELETE statement failed&quot;);
+-				System.out.println(stmt);
++					&quot; -- INSERT, UPDATE or DELETE statement failed, query and paramters:&quot;);
++				System.out.println(&quot;    &quot; + query);
++				printObjectArray(params);
+ 			}
+ 			return 0;
+ 		} finally {
+@@ -1899,7 +1904,7 @@
+ 
+ 
+ 	// ----------------------
+-	// --- helper methods ---
++	// --- Helper Methods ---
+ 	// ----------------------
+ 
+ 
+@@ -1934,15 +1939,24 @@
+ 		return new Integer(i);
+ 	}
+ 
++	private void printObjectArray(Object[] array) {
++		System.out.print(&quot;    [&quot;);
++		for (int i = 0; i &lt; array.length; i++) {
++			System.out.print(i &gt; 0 ? &quot;, &quot; : &quot;&quot;);
++			System.out.print(array[i]);
++		}
++		System.out.println(&quot;]&quot;);
++	}
++
+ 	// ---
+ 
+ 	/**
+-	 * The &lt;CODE&gt;resultSet&lt;/CODE&gt; is expected to contain the topic fields aliased as
+-	 * &lt;CODE&gt;TopicID&lt;/CODE&gt;, &lt;CODE&gt;TopicVersion&lt;/CODE&gt;, &lt;CODE&gt;TopicTypeID&lt;/CODE&gt;,
+-	 * &lt;CODE&gt;TopicTypeVersion&lt;/CODE&gt; and &lt;CODE&gt;TopicName&lt;/CODE&gt;
++	 * The &lt;code&gt;resultSet&lt;/code&gt; is expected to contain the topic fields aliased as
++	 * &lt;code&gt;TopicID&lt;/code&gt;, &lt;code&gt;TopicVersion&lt;/code&gt;, &lt;code&gt;TopicTypeID&lt;/code&gt;,
++	 * &lt;code&gt;TopicTypeVersion&lt;/code&gt; and &lt;code&gt;TopicName&lt;/code&gt;
+ 	 * (see {@link #getRelatedViewTopicsByTopictype},
+ 	 * {@link #getRelatedViewTopicsByAssoctype}).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 10.8.2001 (2.0a11)
+ 	 *
+ 	 * @see		#queryPresentableTopics(String query, String queryTopicID)
+
+Modified: trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/web/DeepaMehtaServlet.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -54,10 +54,9 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last functional change: 25.6.2008 (2.0b8)&lt;br&gt;
+- * Last documentation update: 28.9.2002 (2.0a16-pre4)&lt;br&gt;
++ * Last change: 29.6.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class DeepaMehtaServlet extends HttpServlet implements ApplicationServiceHost, DeepaMehtaConstants {
+ 
+@@ -163,11 +162,13 @@
+ 
+ 
+ 
+-	protected String performAction(String action, RequestParameter params, Session session) throws ServletException {
++	protected String performAction(String action, RequestParameter params, Session session, CorporateDirectives directives)
++																										throws ServletException {
+ 		throw new DeepaMehtaException(&quot;unexpected action: \&quot;&quot; + action + &quot;\&quot;&quot;);
+ 	}
+ 
+-	protected void preparePage(String page, RequestParameter params, Session session) throws ServletException {
++	protected void preparePage(String page, RequestParameter params, Session session, CorporateDirectives directives)
++																										throws ServletException {
+ 	}
+ 
+ 	protected void addResources(HTMLGenerator html) {
+@@ -187,8 +188,8 @@
+ 	/**
+ 	 * Utility method to create a topic directly from form data.
+ 	 */
+-	protected final String createTopic(String typeID, RequestParameter params, Session session) {
+-		return createTopic(typeID, params, session, null, null);
++	protected final String createTopic(String typeID, RequestParameter params, Session session, CorporateDirectives directives) {
++		return createTopic(typeID, params, session, directives, null, null);
+ 	}
+ 
+ 	/**
+@@ -200,26 +201,26 @@
+ 	 *
+ 	 * @return	the ID of the created topic
+ 	 */
+-	protected final String createTopic(String typeID, RequestParameter params, Session session,
++	protected final String createTopic(String typeID, RequestParameter params, Session session, CorporateDirectives directives,
+ 																					String topicmapID, String topicID) {
+ 		if (topicID == null) {
+ 			topicID = as.getNewTopicID();
+ 		}
+-		processForm(typeID, topicID, params.getTable(), true, session, topicmapID, VIEWMODE_USE);		// doCreate=true
++		processForm(typeID, topicID, params.getTable(), true, session, directives, topicmapID, VIEWMODE_USE);		// doCreate=true
+ 		//
+ 		return topicID;
+ 	}
+ 
+ 	// --- updateTopic (2 forms) ---
+ 
+-	protected final String updateTopic(String typeID, RequestParameter params, Session session) {
+-		return updateTopic(typeID, params, session, null, null);
++	protected final String updateTopic(String typeID, RequestParameter params, Session session, CorporateDirectives directives) {
++		return updateTopic(typeID, params, session, directives, null, null);
+ 	}
+ 
+-	protected final String updateTopic(String typeID, RequestParameter params, Session session,
++	protected final String updateTopic(String typeID, RequestParameter params, Session session, CorporateDirectives directives,
+ 																String topicmapID, String viewmode) {
+ 		String topicID = params.getValue(&quot;id&quot;);												// ### hardcoded
+-		processForm(typeID, topicID, params.getTable(), false, session, topicmapID, viewmode);			// doCreate=false
++		processForm(typeID, topicID, params.getTable(), false, session, directives, topicmapID, viewmode);			// doCreate=false
+ 		//
+ 		return topicID;
+ 	}
+@@ -389,14 +390,15 @@
+ 	 * @see		#updateStrongRelations
+ 	 * @see		de.deepamehta.messageboard.MessageBoardServlet#performAction
+ 	 */
+-	private void processForm(String typeID, String topicID, Hashtable params, boolean doCreate, Session session) {
+-		processForm(typeID, topicID, params, doCreate, session, null, null);
++	private void processForm(String typeID, String topicID, Hashtable params, boolean doCreate, Session session,
++																								CorporateDirectives directives) {
++		processForm(typeID, topicID, params, doCreate, session, directives, null, null);
+ 	}
+ 
+ 	private void processForm(String typeID, String topicID, Hashtable params, boolean doCreate, Session session,
+-																				String topicmapID, String viewmode) {
+-		System.out.println(&quot;&gt;&gt;&gt; processForm(): doCreate=\&quot;&quot; + doCreate + &quot;\&quot; typeID=\&quot;&quot; + typeID + &quot;\&quot; topicID=\&quot;&quot; + topicID + &quot;\&quot;&quot;);
+-		CorporateDirectives directives = new CorporateDirectives();
++															CorporateDirectives directives, String topicmapID, String viewmode) {
++		System.out.println(&quot;&gt;&gt;&gt; processForm(): doCreate=\&quot;&quot; + doCreate +
++			&quot;\&quot; typeID=\&quot;&quot; + typeID + &quot;\&quot; topicID=\&quot;&quot; + topicID + &quot;\&quot;&quot;);
+ 		//
+ 		if (doCreate) {
+ 			as.createLiveTopic(topicID, typeID, &quot;&quot;, topicmapID, viewmode, session, directives);
+@@ -404,11 +406,10 @@
+ 		// properties
+ 		Hashtable props = getProperties(params, typeID);
+ 		directives.add(as.setTopicProperties(topicID, 1, props, topicmapID, session));
+-		directives.updateCorporateMemory(as, session, topicmapID, viewmode);
+ 		// weak relations
+ 		updateWeakRelations(typeID, topicID, getWeakRelationParameters(params));
+ 		// strong relations
+-		updateStrongRelations(typeID, topicID, getStrongRelationParameters(params), doCreate, session);
++		updateStrongRelations(typeID, topicID, getStrongRelationParameters(params), doCreate, session, directives);
+ 	}
+ 
+ 	// ---
+@@ -451,17 +452,22 @@
+ 															throws IOException, ServletException {
+ 		RequestParameter params = new RequestParameter(request);
+ 		Session session = getSession(request);
++		CorporateDirectives directives = new CorporateDirectives();
+ 		String action = params.getValue(&quot;action&quot;);
+ 		String method = request.getMethod();
+     	System.out.println(&quot;&gt;&gt;&gt; DeepaMehtaServlet: &quot; + method + (!method.equals(&quot;GET&quot;) ? &quot; (content type=\&quot;&quot; +
+     		request.getContentType() + &quot;\&quot;)&quot; : &quot;&quot;) + &quot; action=\&quot;&quot; + action + &quot;\&quot;&quot;);
+     	//
+     	// --- trigger performAction() hook ---
+-    	String page = performAction(action, params, session);
++    	String page = performAction(action, params, session, directives);
+     	//
+     	// --- trigger preparePage() hook ---
+-    	preparePage(page, params, session);
++    	preparePage(page, params, session, directives);
+     	//
++    	// process directives
++		directives.updateCorporateMemory(as, session, null, null);
++		// Note: topicmapID=null, viewmode=null ### should be OK because in web interface there is no &quot;default topicmap&quot;
++		//
+     	if (generatorMethod.equals(HTML_GENERATOR_JSP)) {
+ 	    	redirectToPage(page, request, response);
+     	} else if (generatorMethod.equals(HTML_GENERATOR_XSLT)) {
+@@ -681,7 +687,8 @@
+ 	 *
+ 	 * @see		#processForm
+ 	 */
+-	private void updateStrongRelations(String typeID, String topicID, Hashtable params, boolean doCreate, Session session) {
++	private void updateStrongRelations(String typeID, String topicID, Hashtable params, boolean doCreate, Session session,
++																								CorporateDirectives directives) {
+ 		TypeTopic type = as.type(typeID, 1);	// ### version=1
+ 		Enumeration e = params.keys();
+ 		while (e.hasMoreElements()) {
+@@ -715,8 +722,8 @@
+ 				relTopicID = as.getNewTopicID();
+ 				cm.createAssociation(as.getNewAssociationID(), 1, rel.assocTypeID, 1, topicID, 1, relTopicID, 1);
+ 			}
+-			// recursive call (indirect)
+-			processForm(rel.relTopicTypeID, relTopicID, strongParams, newDoCreate, session);
++			// recursive call (indirect)	// ### topicmapID, viewmode?
++			processForm(rel.relTopicTypeID, relTopicID, strongParams, newDoCreate, session, directives);
+ 		}
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -4,6 +4,7 @@
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.DeepaMehtaConstants;
+ import de.deepamehta.DeepaMehtaException;
++import de.deepamehta.Directive;
+ import de.deepamehta.OrderedItem;
+ import de.deepamehta.PropertyDefinition;
+ import de.deepamehta.Relation;
+@@ -31,7 +32,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 27.5.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 30.6.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter / Malte Rei&szlig;ig&lt;br&gt;&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A> / <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">mre at deepamehta.de</A>
+@@ -50,8 +51,10 @@
+ 	Locale locale;
+ 	Vector resources = new Vector();	// base type is ResourceBundle
+ 
++	String[] notificationClass = {null, &quot;notification-info&quot;, &quot;notification-warning&quot;, &quot;notification-error&quot;};
+ 
+ 
++
+ 	// *******************
+ 	// *** Constructor ***
+ 	// *******************
+@@ -110,6 +113,28 @@
+ 		return message.format(args);
+ 	}
+ 
++	// ---
++
++	/**
++	 * Renders a list of notifications.
++	 *
++	 * @param	notifications	a vector of {@link de.deepamehta.service.web.Notification} objects
++	 *
++	 * @return	a nested &lt;code&gt;DIV&lt;/code&gt; element, or empty string if the vector contains no elements
++	 */
++	public String notification(Vector notifications) {
++		StringBuffer html = new StringBuffer(notifications.size() &gt; 0 ? &quot;&lt;div class=\&quot;notification\&quot;&gt;\r&quot;: &quot;&quot;);
++		//
++		Enumeration e = notifications.elements();
++		while (e.hasMoreElements()) {
++			Notification notification = (Notification) e.nextElement();
++			html.append(&quot;&lt;div class=\&quot;&quot; + notificationClass[notification.type] + &quot;\&quot;&gt;&quot; + notification.message + &quot;&lt;/div&gt;\r&quot;);
++		}
++		html.append(notifications.size() &gt; 0 ? &quot;&lt;/div&gt;\r&quot; : &quot;&quot;);
++		//
++		return html.toString();
++	}
++
+ 	// --- list (15 forms) ---
+ 
+ 	public String list(Vector topics) {
+
+Added: trunk/develop/src/de/deepamehta/service/web/Notification.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/Notification.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/service/web/Notification.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -0,0 +1,23 @@
++package de.deepamehta.service.web;
++
++import java.io.Serializable;
++
++
++
++/**
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 30.6.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
++ */
++public class Notification implements Serializable {
++
++	public int type;
++	public String message;
++
++	public Notification(String message, int type) {
++		this.type = type;
++		this.message = message;
++	}
++}
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -47,7 +47,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 20.5.2008 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 30.6.2008 (2.0b8)&lt;br&gt;
+  * Last documentation update: 3.2.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -604,7 +604,7 @@
+ 	 *
+ 	 * @see		de.deepamehta.service.ApplicationService#setTopicProperties
+ 	 */
+-	public boolean propertiesChangeAllowed(Hashtable oldData, Hashtable newData, CorporateDirectives directives) {
++	public boolean propertyChangeAllowed(String propName, String propValue, Session session, CorporateDirectives directives) {
+ 		return true;
+ 	}
+ 
+
+Modified: trunk/develop/src/de/deepamehta/topics/WebpageTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2008-06-30 12:34:44 UTC (rev 331)
++++ trunk/develop/src/de/deepamehta/topics/WebpageTopic.java	2008-07-02 16:23:51 UTC (rev 332)
+@@ -20,52 +20,51 @@
+ 
+ /**
+  * This active topic represents a webpage by means of a URL.
+- * &lt;P&gt;
+- * &lt;H4&gt;Active behavoir&lt;/H4&gt;
++ * &lt;p&gt;
++ * &lt;h4&gt;Active behavoir&lt;/h4&gt;
+  *
+- * ### The active &lt;I&gt;displaing in browser&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is 
++ * ### The active &lt;i&gt;displaing in browser&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is 
+  * loading the webpage in the clients browser once the user triggers the default action.
+- * &lt;P&gt;
+- * The active &lt;I&gt;downloading&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
++ * &lt;p&gt;
++ * The active &lt;i&gt;downloading&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
+  * downloading the webpage in the servers file system (### to client in future).
+- * &lt;P&gt;
+- * The active &lt;I&gt;notification enabling&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
+- * creating association of type &lt;CODE&gt;notification&lt;/CODE&gt; between &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt;
+- * and &lt;CODE&gt;UserTopic&lt;/CODE&gt; that means that user wants to be notified about existence
++ * &lt;p&gt;
++ * The active &lt;i&gt;notification enabling&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
++ * creating association of type &lt;code&gt;notification&lt;/code&gt; between &lt;code&gt;WorkspaceTopic&lt;/code&gt;
++ * and &lt;code&gt;UserTopic&lt;/code&gt; that means that user wants to be notified about existence
+  * and last changes of this webpage.
+- * &lt;P&gt;
+- * The active &lt;I&gt;notification disabling&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
+- * deleting association of type &lt;CODE&gt;notification&lt;/CODE&gt; between &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt;
+- * and &lt;CODE&gt;UserTopic&lt;/CODE&gt; that means that user does not want to be notified about 
++ * &lt;p&gt;
++ * The active &lt;i&gt;notification disabling&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
++ * deleting association of type &lt;code&gt;notification&lt;/code&gt; between &lt;code&gt;WorkspaceTopic&lt;/code&gt;
++ * and &lt;code&gt;UserTopic&lt;/code&gt; that means that user does not want to be notified about 
+  * existence and last changes of this webpage.
+- * &lt;P&gt;
+- * The active &lt;I&gt;properties change allowed&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
+- * checking of &lt;CODE&gt;URL&lt;/CODE&gt; and &lt;CODE&gt;Checking Interval&lt;/CODE&gt; properties. If the 
+- * &lt;CODE&gt;URL&lt;/CODE&gt; property is entered without prefix &lt;CODE&gt;<A HREF="http://&lt;/CODE">http://&lt;/CODE</A>&gt;, this prefix is
+- * automaticaly added. If some error is found in propeties, &lt;CODE&gt;DeepaMehtaException&lt;/CODE&gt;
++ * &lt;p&gt;
++ * The active &lt;i&gt;properties change allowed&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
++ * checking of &lt;code&gt;URL&lt;/code&gt; and &lt;code&gt;Checking Interval&lt;/code&gt; properties. If the 
++ * &lt;code&gt;URL&lt;/code&gt; property is entered without prefix &lt;code&gt;<A HREF="http://&lt;/code">http://&lt;/code</A>&gt;, this prefix is
++ * automaticaly added. If some error is found in propeties, &lt;code&gt;DeepaMehtaException&lt;/code&gt;
+  * with description of error is thrown and changes are rejected.
+- * &lt;P&gt;
+- * The active &lt;I&gt;properties changed&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
+- * reacting on changes in &lt;CODE&gt;URL&lt;/CODE&gt; and &lt;CODE&gt;Checking Interval&lt;/CODE&gt; properties. 
+- * If the notification thread is already running for this topic, &lt;CODE&gt;URL&lt;/CODE&gt; 
+- * and &lt;CODE&gt;Checking Interval&lt;/CODE&gt; properties are updated in this thread.
+- * &lt;P&gt;
+- * The active &lt;I&gt;property disabling&lt;/I&gt; behavoir of a &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is
+- * disabling the &lt;CODE&gt;Last Modified&lt;/CODE&gt; property.
+- * &lt;P&gt;
+- * The active &lt;I&gt;retrieve domain information&lt;/I&gt; behavoir gets the domain information from
++ * &lt;p&gt;
++ * The active &lt;i&gt;properties changed&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
++ * reacting on changes in &lt;code&gt;URL&lt;/code&gt; and &lt;code&gt;Checking Interval&lt;/code&gt; properties. 
++ * If the notification thread is already running for this topic, &lt;code&gt;URL&lt;/code&gt; 
++ * and &lt;code&gt;Checking Interval&lt;/code&gt; properties are updated in this thread.
++ * &lt;p&gt;
++ * The active &lt;i&gt;property disabling&lt;/i&gt; behavoir of a &lt;code&gt;WorkspaceTopic&lt;/code&gt; is
++ * disabling the &lt;code&gt;Last Modified&lt;/code&gt; property.
++ * &lt;p&gt;
++ * The active &lt;i&gt;retrieve domain information&lt;/i&gt; behavoir gets the domain information from
+  *  the appropriate whois server.
+- * &lt;P&gt; 
++ * &lt;p&gt; 
+  * The class contains two internal classes: {@link WebpageTopic.WebpageParserCallback 
+  * WebpageParserCallback} (parsing of HTML text) 
+  * and {@link WebpageTopic.WebpageChecker WebpageChecker} (thread used to check 
+  * changes on webpages).
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 14.12.2006 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 21.3.2001&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
+- * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last change: 30.6.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
++ * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+ public class WebpageTopic extends LiveTopic {
+ 
+@@ -159,19 +158,18 @@
+ 
+ 
+ 
+-	public boolean propertiesChangeAllowed(Hashtable oldData, Hashtable newData, CorporateDirectives directives) {
+-		String urlString = (String) newData.get(PROPERTY_URL);
+-		if (urlString != null) {
++	public boolean propertyChangeAllowed(String propName, String propValue, Session session, CorporateDirectives directives) {
++		if (propName.equals(PROPERTY_URL)) {
+ 			try {
+-				new URL(urlString);
++				new URL(propValue);
+ 			} catch (MalformedURLException e) {
+-				String errText = &quot;\&quot;&quot; + urlString + &quot;\&quot; is not a valid URL&quot;;
++				String errText = &quot;\&quot;&quot; + propValue + &quot;\&quot; is not a valid URL&quot;;
+ 				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+-				System.out.println(&quot;*** WebpageTopic.propertiesChangeAllowed(): &quot; + errText);
++				System.out.println(&quot;*** WebpageTopic.propertyChangeAllowed(): &quot; + errText);
+ 				return false;
+ 			}
+ 		}
+-		return super.propertiesChangeAllowed(oldData, newData, directives);
++		return super.propertyChangeAllowed(propName, propValue, session, directives);
+ 	}
+ 
+ 	/**
+@@ -204,7 +202,7 @@
+ 				// download this webpage
+ 				download(topicmapID, viewmode, session, directives);
+ 			} catch (MalformedURLException e) {
+-				// ### should never happen because prohibited by propertiesChangeAllowed()
++				// ### should never happen because prohibited by propertyChangeAllowed()
+ 				System.out.println(&quot;*** WebpageTopic.propertiesChanged(): &quot; + e);
+ 			}
+ 		}
+@@ -252,8 +250,8 @@
+ 
+ 
+ 	/**
+-	 * Returns the corresponding website (type &lt;CODE&gt;tt-website&lt;/CODE&gt;) of this webpage
+-	 * resp. &lt;CODE&gt;null&lt;/CODE&gt; if no website is associated.
++	 * Returns the corresponding website (type &lt;code&gt;tt-website&lt;/code&gt;) of this webpage
++	 * resp. &lt;code&gt;null&lt;/code&gt; if no website is associated.
+ 	 *
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#isGroupTopicmap
+ 	 */
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000178.html">[deepamehta-svn] r333 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web develop/src/de/deepamehta/util	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-search/src/de/deepamehta/webfront	install/examples/dm-topicmapviewer/src/de/deepamehta/topicmapviewer	install/examples/dm-web/src/de/deepamehta/webfrontend	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern	install/examples/messageboard/src/de/deepamehta/messageboard
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#177">[ date ]</a>
+              <a href="thread.html#177">[ thread ]</a>
+              <a href="subject.html#177">[ subject ]</a>
+              <a href="author.html#177">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

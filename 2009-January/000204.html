@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2009-January/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r360%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200901240112.n0O1CnKW020155%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000203.html">
+   <LINK REL="Next"  HREF="000205.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web</H1>
+    <B>maltito at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r360%20-%20trunk/develop/src/de/deepamehta/service/web&In-Reply-To=%3C200901240112.n0O1CnKW020155%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r360 - trunk/develop/src/de/deepamehta/service/web">maltito at mail.berlios.de
+       </A><BR>
+    <I>Sat Jan 24 02:12:49 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000203.html">[deepamehta-svn] r359 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000205.html">[deepamehta-svn] r361 - in trunk/develop/src/de/deepamehta: .	client service topics topics/helper
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#204">[ date ]</a>
+              <a href="thread.html#204">[ thread ]</a>
+              <a href="subject.html#204">[ subject ]</a>
+              <a href="author.html#204">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: maltito
+Date: 2009-01-24 02:12:47 +0100 (Sat, 24 Jan 2009)
+New Revision: 360
+
+Modified:
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+Log:
+Listing of TopcBeans extended for an optional action per entry (row)
+Use:
+The additional action form and it's column can be made invisible through passing an empty String to listTopicBeans
+If the additional action is used, the &lt;form&gt;calls an javaScript method (confirmDelete()) wich enables the user to decide wether to send or to cancel the requested action
+
+
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-01-19 14:25:52 UTC (rev 359)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2009-01-24 01:12:47 UTC (rev 360)
+@@ -239,6 +239,7 @@
+ 		//
+ 		return html.toString();
+ 	}
++	
+ 	/**
+ 	 * Renders a list of topics as a table, one row per topic, one column per property. 
+ 	 * * sortable if TopicBeanField.TYPE_SINGLE
+@@ -252,11 +253,15 @@
+ 	 * @param propSel
+ 	 * @param hideSel
+ 	 * @param action
+-	 * @param doZebraStriping
++	 * @param deleteAction - has to be not null! an empty String hides this 
++     * function and a given string is the action rendered on a submit button
++     * additionally this submit button calls a JavaScript function, namely
++     * confirmDelete() which wether sends the delete request or cancels it.
++     * @param doZebraStriping
+ 	 * @return HTML List of all TopicBeans
+ 	 */
+ 	public String listTopicBeans(Vector topicBeans, String selectedID, String[] propSel, String[] propContaining, boolean hideSel,
+-									String nameAction, String sortAction, boolean doZebraStriping, String highlightColumnHeader) {
++									String nameAction, String sortAction, String deleteAction, boolean doZebraStriping, String highlightColumnHeader) {
+ 		if (topicBeans.size() == 0) {
+ 			return &quot;&quot;;
+ 		}
+@@ -266,7 +271,7 @@
+ 		html.append(&quot;&lt;tr valign=\&quot;top\&quot;&gt;&quot;);
+ 		TopicBean firstBean = (TopicBean) topicBeans.get(0);
+ 		// ### Note: The firstBean entered into listBeanHeadings provides the name and number of the rendered columnHeaders
+-		listBeanHeadings(html, firstBean, highlightColumnHeader, sortAction);
++		listBeanHeadings(html, firstBean, highlightColumnHeader, sortAction, deleteAction);
+ 		html.append(&quot;&lt;/tr&gt;&quot;);
+ 		//
+ 		for (int i = 0; i &lt; topicBeans.size(); i++) {
+@@ -274,7 +279,7 @@
+ 			String classAttr = topic.id.equals(selectedID) ? &quot; class=\&quot;list-highlight\&quot;&quot; : doZebraStriping ?
+ 				i % 2 == 0 ? &quot; class=\&quot;list-evenrow\&quot;&quot; : &quot; class=\&quot;list-oddrow\&quot;&quot; : &quot;&quot;;
+    			html.append(&quot;&lt;tr valign=\&quot;top\&quot;&quot; + classAttr + &quot;&gt;&quot;);
+-			listBeanFields(html, topic, nameAction);
++			listBeanFields(html, topic, nameAction, deleteAction);
+ 			html.append(&quot;&lt;/tr&gt;\r&quot;);
+ 		}
+ 		html.append(&quot;&lt;/table&gt;&quot;);
+@@ -1188,8 +1193,10 @@
+ 	 * @param topic
+ 	 * @param highlightColumnHeader
+ 	 * @param sortAction
++	 * @param deleteAction has to be not null! controls if there is an additonal
++     * column renderd for a deletButton in a row of each topicbean
+ 	 */
+-	private void listBeanHeadings(StringBuffer html, TopicBean topic, String highlightColumnHeader, String sortAction) {
++	private void listBeanHeadings(StringBuffer html, TopicBean topic, String highlightColumnHeader, String sortAction, String deleteAction) {
+ 		Vector allFields = topic.fields;
+ 		for (int j = 0; j &lt; allFields.size(); j++) {
+ 			TopicBeanField propField = (TopicBeanField) allFields.get(j); 
+@@ -1209,11 +1216,25 @@
+ 			}
+ 			html.append(&quot;&lt;/td&gt;&quot;);
+ 		}
++		if (!deleteAction.equals(&quot;&quot;)) {
++			html.append(&quot;&lt;td&gt;Zus&#172;auml;liche Aktion&lt;/td&gt;&quot;);
++		}
+ 	}
+ 	
+-	// --- list all fields of a given bean
+-	
+-	private void listBeanFields(StringBuffer html, TopicBean topic, String action) {
++	/**
++     * list all fields of a given bean and can provide two actions for an entry
++     *
++     *
++     * @param html
++     * @param topic
++     * @param action
++     * the action string is rendered as an action onto the topic name
++     * as a url-form-encoded link to the controler servlet
++     * @param deleteAction - this string controls wether there is an action
++     * rendered onto the topic name as a url-form-encoded link to the controler
++     * servlet
++     */
++	private void listBeanFields(StringBuffer html, TopicBean topic, String action, String deleteAction) {
+ 		for (int i = 0; i &lt; topic.fields.size(); i++) {
+ 			TopicBeanField field = (TopicBeanField) topic.fields.get(i);
+ 			html.append(&quot;&lt;td&gt;&quot;);
+@@ -1232,6 +1253,17 @@
+ 				}
+ 			html.append(&quot;&lt;/td&gt;&quot;);
+ 		}
++		if (!deleteAction.equals(&quot;&quot;)) {
++			html.append(&quot;&lt;td&gt;&quot;);
++			html.append(&quot;&lt;form name=\&quot;delete&quot;+topic.id+&quot;\&quot; method=\&quot;GET\&quot; action=\&quot;controller\&quot; &quot; +
++				&quot;onsubmit=\&quot;return confirmDelete()\&quot;&gt;&quot;);
++			html.append(&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;action\&quot; value=\&quot;&quot; + deleteAction + &quot;\&quot;&gt;\n&quot;);
++			html.append(&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;id\&quot; value=\&quot;&quot; + topic.id + &quot;\&quot;&gt;\n&quot;);
++			html.append(&quot;&lt;input type=\&quot;submit\&quot; value=\&quot;Eintrag l&ouml;schen\&quot; &gt;&lt;/form&gt;&quot;);
++			html.append(&quot;&lt;/td&gt;&quot;);
++			// html.append(&quot;&lt;a href=\&quot;alert(\&quot;Do you really want to delete this entry!\&quot;)controller?action=&quot;+deleteAction+&quot;&amp;id=&quot;+topic.id + &quot;\&quot;&gt;Eintrag l&#246;schen&lt;/a&gt;&quot;) ;
++		}
++		
+ 	}
+ 	
+ 	// ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000203.html">[deepamehta-svn] r359 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000205.html">[deepamehta-svn] r361 - in trunk/develop/src/de/deepamehta: .	client service topics topics/helper
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#204">[ date ]</a>
+              <a href="thread.html#204">[ thread ]</a>
+              <a href="subject.html#204">[ subject ]</a>
+              <a href="author.html#204">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

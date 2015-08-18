@@ -1,0 +1,1372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r158 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r158%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs&In-Reply-To=%3C200706071114.l57BE8kE018159%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000004.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r158 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r158%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/service/web%0A%09develop/src/de/deepamehta/topics%0A%09install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs&In-Reply-To=%3C200706071114.l57BE8kE018159%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r158 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs">jri at mail.berlios.de
+       </A><BR>
+    <I>Thu Jun  7 13:14:08 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000004.html">[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-06-07 13:13:45 +0200 (Thu, 07 Jun 2007)
+New Revision: 158
+
+Modified:
+   trunk/develop/src/de/deepamehta/BaseAssociation.java
+   trunk/develop/src/de/deepamehta/BaseTopic.java
+   trunk/develop/src/de/deepamehta/BaseTopicMap.java
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/DeepaMehtaUtils.java
+   trunk/develop/src/de/deepamehta/client/GraphPanel.java
+   trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java
+   trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+   trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+   trunk/develop/src/de/deepamehta/service/web/WebSession.java
+   trunk/develop/src/de/deepamehta/topics/ChatTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+   trunk/develop/src/de/deepamehta/topics/UserTopic.java
+   trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+   trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java
+Log:
+Added funcionality required for the 'topicmapviewer' web application. Bug fix in web info generator: values of password fields are obscured.
+
+Modified: trunk/develop/src/de/deepamehta/BaseAssociation.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/BaseAssociation.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/BaseAssociation.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -40,8 +40,6 @@
+ 	protected String topicID2;
+ 	protected int topicVersion1;
+ 	protected int topicVersion2;
+-	// ### private String roletype1;
+-	// ### private String roletype2;
+ 
+ 
+ 
+@@ -86,8 +84,6 @@
+ 		this.topicVersion1 = in.readInt();
+ 		this.topicID2 = in.readUTF();
+ 		this.topicVersion2 = in.readInt();
+-		// ### this.roletype1 = in.readUTF();
+-		// ### this.roletype2 = in.readUTF();
+ 	}
+ 
+ 	/**
+@@ -154,8 +150,6 @@
+ 		out.writeInt(getTopicVersion1());
+ 		out.writeUTF(getTopicID2());
+ 		out.writeInt(getTopicVersion2());
+-		// ### out.writeUTF(getRoletype1());
+-		// ### out.writeUTF(getRoletype2());
+ 	}
+ 
+ 
+@@ -207,14 +201,4 @@
+ 	public void setTopicID2(String id){
+ 		this.topicID2 = id;
+ 	}
+-
+-	/* ### ---
+-
+-	public String getRoletype1() {
+-		return roletype1;
+-	}
+-
+-	public String getRoletype2() {
+-		return roletype2;
+-	} */
+ }
+
+Modified: trunk/develop/src/de/deepamehta/BaseTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/BaseTopic.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/BaseTopic.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -51,7 +51,7 @@
+ 	 * Standard constructor.
+ 	 *
+ 	 * @see		de.deepamehta.service.RelationalCorporateMemory#queryBaseTopics(String query)
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public BaseTopic(String id, int version, String type, int typeVersion, String name) {
+ 		this.id = id;
+
+Modified: trunk/develop/src/de/deepamehta/BaseTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/BaseTopicMap.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/BaseTopicMap.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -143,17 +143,9 @@
+ 	 * @see		de.deepamehta.service.ApplicationService#deleteLiveTopic
+ 	 */
+ 	public void deleteTopic(String topicID) {
+-		/* ### error check
+-		Topic topic = getTopic(topicID);
+-		if (topic instanceof PresentationTopic) {
+-			if (((PresentationTopic) topic).getEdges().hasMoreElements()) {
+-				System.out.println(&quot;*** WARNING: &quot; + topic + &quot; with registered edges is deleted&quot;);
+-			}
+-		} */
+ 		if (topics.remove(topicID) == null) {
+ 			System.out.println(&quot;*** BaseTopicMap.deleteTopic(): \&quot;&quot; + topicID + &quot;\&quot; not found -- topic not deleted&quot;);
+ 		}
+-		// ### System.out.println(&quot;&gt;&gt;&gt; topic \&quot;&quot; + topicID + &quot;\&quot; deleted from topicmap (&quot; + getClass() + &quot;)&quot;);
+ 	}
+ 	
+ 	/**
+@@ -163,7 +155,6 @@
+ 		if (associations.remove(assocID) == null) {
+ 			System.out.println(&quot;*** BaseTopicMap.deleteAssociation(): \&quot;&quot; + assocID + &quot;\&quot; not found -- association not deleted&quot;);
+ 		}
+-		// ### System.out.println(&quot;&gt;&gt;&gt; association \&quot;&quot; + assocID + &quot;\&quot; deleted from topicmap (&quot; + getClass() + &quot;)&quot;);
+ 	}
+ 
+ 	// ---
+@@ -247,9 +238,6 @@
+ 	 */
+ 	protected final void addTopic(String id, Topic topic) {
+ 		Object o = topics.put(id, topic);
+-		/* ### if (o != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + topic + &quot; added to topicmap (&quot; + getClass() + &quot;) OVERRIDDEN&quot;);
+-		} */
+ 	}
+ 
+ 	/**
+@@ -258,8 +246,5 @@
+ 	 */
+ 	protected final void addAssociation(String id, Association association) {
+ 		Object o = associations.put(id, association);
+-		/* ### if (o != null) {
+-			System.out.println(&quot;&gt;&gt;&gt; &quot; + association + &quot; added to topicmap (&quot; + getClass() + &quot;) OVERRIDDEN&quot;);
+-		} */
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -570,8 +570,8 @@
+ 	// direction is from authentification source to login topic
+ 	static final String SEMANTIC_AUTHENTIFICATION_SOURCE = ASSOCTYPE_ASSOCIATION;
+ 
+-	// direction is from user resp. workgroup to workspace
+-	static final String SEMANTIC_WORKSPACE = ASSOCTYPE_AGGREGATION;
++	// direction is from user resp. workspace to workspace topicmap
++	static final String SEMANTIC_WORKSPACE_TOPICMAP = ASSOCTYPE_AGGREGATION;
+ 
+ 	// *** Deployer (User resp. Workspace) --&gt; Workspace Topicmap ***
+ 
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaUtils.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaUtils.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -9,7 +9,7 @@
+ /**
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 11.12.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 28.7.2001 (2.0a11)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -293,6 +293,41 @@
+ 
+ 
+ 
++	// ---
++
++	public static Rectangle getBounds(PresentableTopicMap topicmap) {
++		return initBounds(topicmap, null);
++	}
++
++	public static Rectangle initBounds(PresentableTopicMap topicmap, Rectangle returnObject) {
++		int xMin = Integer.MAX_VALUE;
++		int yMin = Integer.MAX_VALUE;
++		int xMax = Integer.MIN_VALUE;
++		int yMax = Integer.MIN_VALUE;
++		//
++		Enumeration e = topicmap.getTopics().elements();
++		while (e.hasMoreElements()) {
++			PresentableTopic topic = (PresentableTopic) e.nextElement();
++			Point p = topic.getGeometry();
++			if (p.x &lt; xMin) xMin = p.x;
++			if (p.x &gt; xMax) xMax = p.x;
++			if (p.y &lt; yMin) yMin = p.y;
++			if (p.y &gt; yMax) yMax = p.y;
++		}
++		//
++		if (returnObject == null) {
++			returnObject = new Rectangle();
++		}
++		returnObject.x = xMin;
++		returnObject.y = yMin;
++		returnObject.width = xMax - xMin;
++		returnObject.height = yMax - yMin;
++		//
++		return returnObject;
++	}
++
++	// ---
++
+ 	/**
+ 	 * References checked: 4.9.2001 (2.0a12-pre1)
+ 	 *
+
+Modified: trunk/develop/src/de/deepamehta/client/GraphPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/GraphPanel.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/client/GraphPanel.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -186,29 +186,24 @@
+ 			private void paintNodes(Graphics g) {
+ 				Enumeration e = nodes.elements();
+ 				GraphNode node = null;
+-				// ### System.out.println(&quot;&gt;&gt;&gt; paintNodes():&quot;);
+ 				while (e.hasMoreElements()) {
+ 					try {
+ 						node = (GraphNode) e.nextElement();
+ 						paintNode(node, g);
+ 					} catch (DeepaMehtaException e2) {
+-						System.out.println(&quot;*** node &quot; + node + &quot; not painted (&quot; +
+-							e2.getMessage() + &quot;)&quot;);
+-						// ### e2.printStackTrace();
++						System.out.println(&quot;*** node &quot; + node + &quot; not painted (&quot; + e2.getMessage() + &quot;)&quot;);
+ 					}
+ 				}
+ 			}
+ 
+ 			private void paintEdges(Graphics g) {
+ 				Enumeration e = edges.elements();
+-				GraphEdge edge;
+-				Point p;
+ 				while (e.hasMoreElements()) {
+-					edge = (GraphEdge) e.nextElement();
++					GraphEdge edge = (GraphEdge) e.nextElement();
+ 					paintEdge(edge, g);
+ 				}
+ 				if (edgeInProgress) {
+-					p = selection.topic.getGeometry();
++					Point p = selection.topic.getGeometry();
+ 					g.setColor(EDGE_COLOR);
+ 					DeepaMehtaUtils.paintLine(g, p.x, p.y, ex - translation.x, ey - translation.y, true);
+ 				}
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -26,7 +26,7 @@
+  * {@link PresentationTopic}'s, {@link PresentationAssociation}'s and {@link PresentationType}'s.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 1.5.2003 (2.0a18-pre10)&lt;BR&gt;
++ * Last functional change: 7.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 17.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -103,7 +103,7 @@
+ 	/**
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+ 	 * &lt;P&gt;
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(Directives, PresentationService)
+ 	 */
+@@ -125,7 +125,7 @@
+ 	 * &lt;P&gt;
+ 	 * Part of reading DIRECTIVE_SHOW_WORKSPACE and DIRECTIVE_SHOW_VIEW.
+ 	 * &lt;P&gt;
+-	 * References checked: 27.12.2001 (2.0a14-pre5)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		PresentationDirectives#PresentationDirectives(DataInputStream, PresentationService)
+ 	 */
+@@ -312,7 +312,7 @@
+ 			this.bgImage = ps.getImage(FILESERVER_BACKGROUNDS_PATH + bgImagefile);
+ 		}
+ 		// background color
+-		String defaultColor = viewMode == VIEWMODE_USE ? DEFAULT_VIEW_BGCOLOR : DEFAULT_BGCOLOR_DESIGN;
++		String defaultColor = DEFAULT_VIEW_BGCOLOR;
+ 		this.bgColor = DeepaMehtaUtils.parseHexColor(bgColorcode, defaultColor);
+ 		// translation
+ 		this.translation = DeepaMehtaUtils.parsePoint(translationCoord);	// translationCoord is defined in superclass
+
+Modified: trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/client/TopicmapEditorModel.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -429,32 +429,14 @@
+ 	// ---
+ 
+ 	/**
+-	 * References checked: 29.4.2003 (2.0a18-pre10)
++	 * References checked: 7.4.2007 (2.0b8)
+ 	 *
+ 	 * @see		TopicmapEditorModel#TopicmapEditorModel
+ 	 * @see		PresentationService#updateBounds
+ 	 * @see		PresentationService#processDirectives	4x
+ 	 */
+ 	void setBounds() {
+-		int xMin = Integer.MAX_VALUE;
+-		int yMin = Integer.MAX_VALUE;
+-		int xMax = Integer.MIN_VALUE;
+-		int yMax = Integer.MIN_VALUE;
+-		//
+-		Enumeration e = topicMap.getTopics().elements();
+-		while (e.hasMoreElements()) {
+-			PresentationTopic topic = (PresentationTopic) e.nextElement();
+-			Point p = topic.getGeometry();
+-			if (p.x &lt; xMin) xMin = p.x;
+-			if (p.x &gt; xMax) xMax = p.x;
+-			if (p.y &lt; yMin) yMin = p.y;
+-			if (p.y &gt; yMax) yMax = p.y;
+-		}
+-		//
+-		bounds.x = xMin;
+-		bounds.y = yMin;
+-		bounds.width = xMax - xMin;
+-		bounds.height = yMax - yMin;
++		DeepaMehtaUtils.initBounds(topicMap, bounds);
+ 	}
+ 
+ 	void addDetailListeners(JInternalFrame detailWindow) {
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -50,7 +50,7 @@
+  * &lt;IMG SRC=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 30.12.2001 (2.0a14-pre5)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -1969,14 +1969,15 @@
+ 	/**
+ 	 * Retrieves the specified view from corporate memory and creates
+ 	 * a {@link de.deepamehta.PresentableTopicMap} object from it.
++	 * &lt;p&gt;
++	 * References checked: 5.4.2007 (2.0b8)
+ 	 *
+ 	 * @param	topicmapID	the view
+ 	 * @param	version		the version of the view
+-	 * @param	viewMode	the view mode ({@link #VIEWMODE_USE}, {@link #VIEWMODE_BUILD})
+ 	 *
+-	 * @see		CorporateTopicMap#CorporateTopicMap		2x
++	 * @see		CorporateTopicMap#CorporateTopicMap
+ 	 */
+-	PresentableTopicMap createUserView(String topicmapID, int version, String viewMode,
++	PresentableTopicMap createUserView(String topicmapID, int version,
+ 								String bgImage, String bgColor, String translation) {
+ 		// vector of PresentableTopic
+ 		// vector of PresentableAssociation
+@@ -1987,7 +1988,7 @@
+ 
+ 	/**
+ 	 * Duplicates the specified viewmode of the specified view in corporate memory.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 17.2.2003 (2.0a18-pre2)
+ 	 *
+ 	 * @param	topicmap		view to duplicate
+@@ -2652,186 +2653,191 @@
+ 		return cm.associationExists(topicID1, topicID2, subtypes);
+ 	}
+ 
+-	// --- getChat (2 forms) ---
++	// --- getChatboard (2 forms) ---
+ 
+ 	/**
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
++	 * Returns the chatboard (type &lt;CODE&gt;tt-chatboard&lt;/CODE&gt;) of the specified workspace.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
++	 *
++	 * @return	the chatboard or &lt;code&gt;null&lt;/code&gt; if there is no chatboard.
++	 *
++	 * @see		#getChatboard(BaseTopic, CorporateDirectives)
+ 	 */
+-	public BaseTopic getChat(String workgroupID) throws AmbiguousSemanticException {
+-		BaseTopic workspace = getWorkspace(workgroupID);
+-		Vector chatIDs = cm.getTopicIDs(TOPICTYPE_CHAT_BOARD, workspace.getID());
++	public BaseTopic getChatboard(String workspaceID) throws AmbiguousSemanticException {
++		BaseTopic topicmap = getWorkspaceTopicmap(workspaceID);
++		Vector chatboardIDs = cm.getTopicIDs(TOPICTYPE_CHAT_BOARD, topicmap.getID());
+ 		// error check 1
+-		if (chatIDs.size() == 0) {
++		if (chatboardIDs.size() == 0) {
+ 			return null;
+ 		}
+ 		//
+-		String chatID = (String) chatIDs.firstElement();
+-		BaseTopic chatTopic = cm.getTopic(chatID, 1);	// ### version is set to 1
++		String chatboardID = (String) chatboardIDs.firstElement();
++		BaseTopic chatboard = cm.getTopic(chatboardID, 1);	// ### version is set to 1
+ 		// error check 2
+-		if (chatIDs.size() &gt; 1) {
+-			throw new AmbiguousSemanticException(&quot;Workgroup \&quot;&quot; + workgroupID +
+-				&quot;\&quot; has &quot; + chatIDs.size() + &quot; chats (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + chatTopic, chatTopic);
++		if (chatboardIDs.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;Workspace \&quot;&quot; + workspaceID + &quot;\&quot; has &quot; + chatboardIDs.size() +
++				&quot; chatboards (expected is 1) -- considering only &quot; + chatboard, chatboard);
+ 		}
+ 		//
+-		return chatTopic;
++		return chatboard;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getChat(String workgroupID)} that
+-	 * handles the exceptional cases by adding corresponding DIRECTIVE_SHOW_MESSAGE
++	 * Convenience method as a wrapper for {@link #getChatboard(String workspaceID)} that
++	 * handles the exceptional cases by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt;
+ 	 * directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	workgroup	a workgroup topic
++	 * @param	workspace	a workspace topic
+ 	 *
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 */
+-	public BaseTopic getChat(BaseTopic workgroup, CorporateDirectives directives) {
++	public BaseTopic getChatboard(BaseTopic workspace, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic chat = getChat(workgroup.getID());
++			BaseTopic chatboard = getChatboard(workspace.getID());
+ 			// error check
+-			if (chat == null) {
+-				System.out.println(&quot;*** ApplicationService.getChat(2): &quot; + this +
+-					&quot; has no chat&quot;);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE,
+-					&quot;Workgroup \&quot;&quot; + workgroup.getName() + &quot;\&quot; has no chat&quot;,
+-					new Integer(NOTIFICATION_WARNING));
++			if (chatboard == null) {
++				String errText = &quot;Workspace \&quot;&quot; + workspace.getName() + &quot;\&quot; has no chatboard&quot;;
++				System.out.println(&quot;*** ApplicationService.getChatboard(2): &quot; + errText);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+-			return chat;
++			return chatboard;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getChat(2): &quot; + e);
+-			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(),
+-				new Integer(NOTIFICATION_WARNING));
++			System.out.println(&quot;*** ApplicationService.getChatboard(2): &quot; + e);
++			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+ 	}
+ 
+-	// --- getMessageBoard (2 forms) ---
++	// --- getMessageboard (2 forms) ---
+ 
+ 	/**
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
++	 * Returns the messageboard (type &lt;CODE&gt;tt-messageboard&lt;/CODE&gt;) of the specified workspace.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
++	 *
++	 * @return	the messageboard or &lt;code&gt;null&lt;/code&gt; if there is no messageboard.
++	 *
++	 * @see		#getMessageboard(BaseTopic, CorporateDirectives)
+ 	 */
+-	public BaseTopic getMessageBoard(String workgroupID) throws AmbiguousSemanticException {
+-		BaseTopic workspace = getWorkspace(workgroupID);
+-		Vector boardIDs = cm.getTopicIDs(TOPICTYPE_MESSAGE_BOARD, workspace.getID());
++	public BaseTopic getMessageboard(String workspaceID) throws AmbiguousSemanticException {
++		BaseTopic topicmap = getWorkspaceTopicmap(workspaceID);
++		Vector messageboardIDs = cm.getTopicIDs(TOPICTYPE_MESSAGE_BOARD, topicmap.getID());
+ 		// error check 1
+-		if (boardIDs.size() == 0) {
++		if (messageboardIDs.size() == 0) {
+ 			return null;
+ 		}
+ 		//
+-		String boardID = (String) boardIDs.firstElement();
+-		BaseTopic messageBoard = cm.getTopic(boardID, 1);	// ### version is set to 1
++		String messageboardID = (String) messageboardIDs.firstElement();
++		BaseTopic messageboard = cm.getTopic(messageboardID, 1);	// ### version is set to 1
+ 		// error check 2
+-		if (boardIDs.size() &gt; 1) {
+-			// ### should not be an error
+-			throw new AmbiguousSemanticException(&quot;Workgroup \&quot;&quot; + workgroupID +
+-				&quot;\&quot; has &quot; + boardIDs.size() + &quot; message boards (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + messageBoard, messageBoard);
++		if (messageboardIDs.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;Workspace \&quot;&quot; + workspaceID + &quot;\&quot; has &quot; + messageboardIDs.size() +
++				&quot; messageboards (expected is 1) -- considering only &quot; + messageboard, messageboard);
+ 		}
+ 		//
+-		return messageBoard;
++		return messageboard;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getMessageBoard(String workgroupID)} that
+-	 * handles the exceptional cases by adding corresponding DIRECTIVE_SHOW_MESSAGE
++	 * Convenience method as a wrapper for {@link #getMessageboard(String workspaceID)} that
++	 * handles the exceptional cases by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt;
+ 	 * directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	workgroup	a workgroup topic
++	 * @param	workspace	a workspace topic
+ 	 *
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#init
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 */
+-	public BaseTopic getMessageBoard(BaseTopic workgroup, CorporateDirectives directives) {
++	public BaseTopic getMessageboard(BaseTopic workspace, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic messageBoard = getMessageBoard(workgroup.getID());
++			BaseTopic messageboard = getMessageboard(workspace.getID());
+ 			// error check
+-			if (messageBoard == null) {
+-				System.out.println(&quot;*** ApplicationService.getMessageBoard(2): &quot; + this +
+-					&quot; has no message board&quot;);
+-				directives.add(DIRECTIVE_SHOW_MESSAGE, &quot;Workgroup \&quot;&quot; + workgroup.getName() +
+-					&quot;\&quot; has no message board&quot;, new Integer(NOTIFICATION_WARNING));
++			if (messageboard == null) {
++				String errText = &quot;Workspace \&quot;&quot; + workspace.getName() + &quot;\&quot; has no messageboard&quot;;
++				System.out.println(&quot;*** ApplicationService.getMessageboard(2): &quot; + errText);
++				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+-			return messageBoard;
++			return messageboard;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getMessageBoard(2): &quot; + e);
++			System.out.println(&quot;*** ApplicationService.getMessageboard(2): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+ 	}
+ 
+-	// --- getWorkspace (2 forms) ---
++	// --- getWorkspaceTopicmap (2 forms) ---
+ 
+ 	/**
+-	 * Returns the workspace (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;) of the specified user
+-	 * resp. group or &lt;CODE&gt;null&lt;/CODE&gt; if the specified user resp. group has no
+-	 * workspace.
++	 * Returns the workspace topicmap (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;) of the specified user
++	 * resp. workspace or &lt;CODE&gt;null&lt;/CODE&gt; if the specified user resp. workspace has no
++	 * workspace topicmap.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. group
+-	 *					(type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;) topic
++	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+ 	 *
+-	 * @return	the topic representing the workspace (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;)
++	 * @return	the workspace topicmap (type &lt;CODE&gt;tt-topicmap&lt;/CODE&gt;)
+ 	 *
+-	 * @throws	DeepaMehtaException		if the specified user resp. group topic is not in
+-	 *									ApplicationService resp. is not
+-	 *									properly initialized (iconfile is unknown)
+-	 * @see		#getChat
+-	 * @see		#getWorkspace(String id, CorporateDirectives directives)
+-	 * @see		#getCorporateSpace
+-	 * @see		InteractionConnection#addPersonalMap
+-	 * @see		InteractionConnection#addGroupMaps
+-	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.UserTopic#nameChanged
+-	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
++	 * @throws	DeepaMehtaException		if the specified user resp. workspace is not in ApplicationService resp.
++	 *									is not properly initialized (iconfile is unknown)
++	 * @see		#getChatboard
++	 * @see		#getMessageboard
++	 * @see		#getWorkspaceTopicmap(String id, CorporateDirectives directives)
++	 * @see		#addPersonalWorkspace
++	 * @see		#addGroupWorkspaces
++	 * @see		de.deepamehta.topics.TopicMapTopic#publishTo
++	 * @see		de.deepamehta.topics.UserTopic#propertiesChanged
++	 * @see		de.deepamehta.topics.UserTopic#createPersonalWorkspace
++	 * @see		de.deepamehta.topics.WorkspaceTopic#propertiesChanged
+ 	 */
+-	public PresentableTopic getWorkspace(String id) throws DeepaMehtaException,
+-															AmbiguousSemanticException {
+-		Vector workspaces = cm.getRelatedTopics(id, SEMANTIC_WORKSPACE, TOPICTYPE_TOPICMAP, 2);
+-		if (workspaces.size() == 0) {
+-			// Note: this is not an exceptional condition because getWorkspace() is
+-			// also used for workspace existence check
++	public PresentableTopic getWorkspaceTopicmap(String id) throws DeepaMehtaException, AmbiguousSemanticException {
++		Vector topicmaps = cm.getRelatedTopics(id, SEMANTIC_WORKSPACE_TOPICMAP, TOPICTYPE_TOPICMAP, 2);
++		if (topicmaps.size() == 0) {
++			// Note: this is not an exceptional condition because getWorkspaceTopicmap() is
++			// also used for workspace topicmap existence check
+ 			return null;
+ 		}
+ 		//
+-		BaseTopic wsp = (BaseTopic) workspaces.firstElement();
+-		PresentableTopic workspace = createPresentableTopic(wsp, id);	// may throw DME
++		PresentableTopic topicmap = createPresentableTopic((BaseTopic) topicmaps.firstElement(), id);	// may throw DME
+ 		// error check
+-		if (workspaces.size() &gt; 1) {
+-			throw new AmbiguousSemanticException(&quot;User resp. workgroup \&quot;&quot; + id +
+-				&quot;\&quot; has &quot; + workspaces.size() + &quot; workspaces (expected is 1) -- &quot; +
+-				&quot;considering only &quot; + workspace, workspace);
++		if (topicmaps.size() &gt; 1) {
++			throw new AmbiguousSemanticException(&quot;User resp. workspace \&quot;&quot; + id + &quot;\&quot; has &quot; + topicmaps.size() +
++				&quot; workspace topicmaps (expected is 1) -- considering only &quot; + topicmap, topicmap);
+ 		}
+ 		//
+-		return workspace;
++		return topicmap;
+ 	}
+ 
+ 	/**
+-	 * Convenience method as a wrapper for {@link #getWorkspace(String id)} that handles the exceptional cases by
+-	 * adding corresponding DIRECTIVE_SHOW_MESSAGE directives to the specified directives object.
+-	 * &lt;P&gt;
+-	 * References checked: 29.3.2003 (2.0a18-pre8)
++	 * Convenience method as a wrapper for {@link #getWorkspaceTopicmap(String id)} that handles the exceptional cases
++	 * by adding corresponding &lt;code&gt;DIRECTIVE_SHOW_MESSAGE&lt;/code&gt; directives to the specified directives object.
++	 * &lt;p&gt;
++	 * References checked: 8.4.2007 (2.0b8)
+ 	 *
+-	 * @param	id		ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;) topic
++	 * @param	id		The ID of a user (&lt;CODE&gt;type tt-user&lt;/CODE&gt;) resp. workspace (type &lt;CODE&gt;tt-workspace&lt;/CODE&gt;)
+ 	 *
+ 	 * @see		de.deepamehta.topics.UserTopic#nameChanged
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#nameChanged
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#joinUser
+ 	 * @see		de.deepamehta.topics.WorkspaceTopic#leaveUser
+ 	 */
+-	public BaseTopic getWorkspace(String id, CorporateDirectives directives) {
++	public BaseTopic getWorkspaceTopicmap(String id, CorporateDirectives directives) {
+ 		try {
+-			BaseTopic workspace = getWorkspace(id);	// may throw DME
++			BaseTopic topicmap = getWorkspaceTopicmap(id);	// may throw DME
+ 			// error check
+-			if (workspace == null) {
+-				String errText = &quot;User resp. workgroup \&quot;&quot; + id + &quot;\&quot; has no workspace&quot;;
+-				System.out.println(&quot;*** ApplicationService.getWorkspace(2): &quot; + errText);
++			if (topicmap == null) {
++				String errText = &quot;User resp. workspace \&quot;&quot; + id + &quot;\&quot; has no workspace topicmap&quot;;
++				System.out.println(&quot;*** ApplicationService.getWorkspaceTopicmap(2): &quot; + errText);
+ 				directives.add(DIRECTIVE_SHOW_MESSAGE, errText, new Integer(NOTIFICATION_WARNING));
+ 			}
+ 			//
+-			return workspace;
++			return topicmap;
+ 		} catch (AmbiguousSemanticException e) {
+-			System.out.println(&quot;*** ApplicationService.getWorkspace(2): &quot; + e);
++			System.out.println(&quot;*** ApplicationService.getWorkspaceTopicmap(2): &quot; + e);
+ 			directives.add(DIRECTIVE_SHOW_MESSAGE, e.getMessage(), new Integer(NOTIFICATION_WARNING));
+ 			return e.getDefaultTopic();
+ 		}
+@@ -3985,7 +3991,7 @@
+ 		PresentableTopic personalWorkspace;
+ 		try {
+ 			String userID = session.getUserID();
+-			personalWorkspace = getWorkspace(userID);
++			personalWorkspace = getWorkspaceTopicmap(userID);
+ 			// error check
+ 			if (personalWorkspace == null) {
+ 				System.out.println(&quot;*** InteractionConnection.addPersonalWorkspace(): &quot; +
+@@ -4023,7 +4029,7 @@
+ 			try {
+ 				BaseTopic workgroup = (BaseTopic) e.nextElement();
+ 				String workgroupID = workgroup.getID();
+-				groupWorkspace = getWorkspace(workgroupID);
++				groupWorkspace = getWorkspaceTopicmap(workgroupID);
+ 				if (groupWorkspace == null) {
+ 					System.out.println(&quot;*** InteractionConnection.addGroupWorkspaces():&quot; +
+ 						&quot; workgroup \&quot;&quot; + workgroupID + &quot;\&quot; has no workspace&quot;);
+@@ -4251,7 +4257,7 @@
+ 	 *									ApplicationService resp. is not
+ 	 *									properly initialized (iconfile is unknown)
+ 	 *
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalTopicmap
+ 	 */
+ 	public PresentableTopic createPresentableTopic(BaseTopic topic) throws DeepaMehtaException {
+ 		return createPresentableTopic(topic, topic.getID());
+@@ -4260,10 +4266,10 @@
+ 	/**
+ 	 * @throws	DeepaMehtaException		if the specified topic is not loaded resp. not
+ 	 *									properly initialized (iconfile is unknown)
+-	 * @see		#getWorkspace
++	 * @see		#getWorkspaceTopicmap
+ 	 * @see		#getCorporateSpace
+ 	 * @see		#createPresentableTopic(BaseTopic topic)	(above)
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public PresentableTopic createPresentableTopic(BaseTopic topic, String appTopicID)
+ 															throws DeepaMehtaException {
+
+Modified: trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/service/CorporateTopicMap.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -10,21 +10,19 @@
+ 
+ /**
+  * A short-living representation of a topicmap that is ready for presentation at client side.
+- * &lt;P
+- * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; is always (### optimization possible)
+- * composed of 2 {@link de.deepamehta.PresentableTopicMap}s -- the &quot;Use&quot; map and
+- * the &quot;Build&quot; map -- regardless weather the &quot;Build&quot; mode is displayed at client side.
++ * &lt;p&gt;
++ * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; holds a {@link de.deepamehta.PresentableTopicMap}.
+  * A &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; is created at server side and send to the client
+- * who builds 2 {@link de.deepamehta.client.PresentationTopicMap}s upon it.&lt;BR&gt;
+- * Note: Once a View is send to the client this server-side representation is forgotten.
+- * &lt;P&gt;
+- * While constructing a &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; the specified view is retrieved
++ * who builds a {@link de.deepamehta.client.PresentationTopicMap} upon it.&lt;BR&gt;
++ * Note: Once a topicmap is send to the client this server-side representation is forgotten.
++ * &lt;p&gt;
++ * While constructing a &lt;CODE&gt;CorporateTopicMap&lt;/CODE&gt; the specified topicmap is retrieved
+  * from corporate memory.
+- * &lt;P&gt;
+- * &lt;HR&gt;
+- * Last functional change: 29.10.2004 (2.0b3)&lt;BR&gt;
+- * Last documentation update: 27.10.2001 (2.0a13-pre2)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * &lt;p&gt;
++ * &lt;hr&gt;
++ * Last functional change: 29.10.2004 (2.0b3)&lt;br&gt;
++ * Last documentation update: 5.4.2007 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ public class CorporateTopicMap implements DeepaMehtaConstants {
+@@ -40,7 +38,7 @@
+ 	private ApplicationService as;
+ 	private String topicmapID;
+ 	//
+-	private PresentableTopicMap useMap;
++	private PresentableTopicMap topicmap;
+ 
+ 
+ 
+@@ -51,14 +49,16 @@
+ 
+ 
+ 	/**
+-	 * @see		InteractionConnection#addPersonalWorkspace
+-	 * @see		InteractionConnection#addGroupWorkspaces
+-	 * @see		InteractionConnection#addCorporateSpace
+-	 * @see		de.deepamehta.topics.TopicMapTopic#evoke
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalView
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
+-	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+-	 * @see		de.deepamehta.topics.TopicMapTopic#exportToFile
++	 * References checked: 5.4.2007 (2.0b8)
++	 *
++	 * @see		ApplicationService#addPersonalWorkspace
++	 * @see		ApplicationService#addGroupWorkspaces
++	 * @see		de.deepamehta.topics.TopicMapTopic#exportTopicmap
++	 * @see		de.deepamehta.topics.TopicMapTopic#addPublishDirectives
++	 * @see		de.deepamehta.topics.TopicMapTopic#openPersonalTopicmap
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
++	 * @see		de.deepamehta.topics.UserTopic#createConfigurationMap
++	 * @see		de.deepamehta.topics.WorkspaceTopic#joinUser
+ 	 */
+ 	public CorporateTopicMap(ApplicationService as, String topicmapID, int version) {
+ 		this.as = as;
+@@ -66,18 +66,18 @@
+ 		// --- backgroung image ---
+ 		String bgImage = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_IMAGE);
+ 		// --- background color ---
+-		String bgColorUse = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_COLOR);
+-		if (bgColorUse.equals(&quot;&quot;)) {
+-			bgColorUse = DEFAULT_VIEW_BGCOLOR;
++		String bgColor = as.getTopicProperty(topicmapID, version, PROPERTY_BACKGROUND_COLOR);
++		if (bgColor.equals(&quot;&quot;)) {
++			bgColor = DEFAULT_VIEW_BGCOLOR;
+ 		}
+ 		//
+ 		// --- translation ---
+-		String translationUse = as.getTopicProperty(topicmapID, version, PROPERTY_TRANSLATION_USE);
+-		if (translationUse.equals(&quot;&quot;)) {
+-			translationUse = &quot;0:0&quot;;
++		String translation = as.getTopicProperty(topicmapID, version, PROPERTY_TRANSLATION_USE);
++		if (translation.equals(&quot;&quot;)) {
++			translation = &quot;0:0&quot;;
+ 		}
+ 		// --- retrieve topicmaps ---
+-		useMap  = as.createUserView(topicmapID, version, VIEWMODE_USE, bgImage, bgColorUse, translationUse);
++		topicmap  = as.createUserView(topicmapID, version, bgImage, bgColor, translation);
+ 	}
+ 
+ 
+@@ -92,7 +92,7 @@
+ 	 * @see		de.deepamehta.topics.helper.TopicMapExporter#makeTopicmapXML
+ 	 */
+ 	public PresentableTopicMap getTopicMap() {
+-		return useMap;
++		return topicmap;
+ 	}
+ 
+ 	// ---
+@@ -114,14 +114,14 @@
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void createLiveTopics(CorporateDirectives directives, Session session) throws TopicInitException {
+-		as.createLiveTopics(useMap, directives, session);
++		as.createLiveTopics(topicmap, directives, session);
+ 	}
+ 
+ 	/**
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void createLiveAssociations(Session session, CorporateDirectives directives) {
+-		as.createLiveAssociations(useMap, session, directives);
++		as.createLiveAssociations(topicmap, session, directives);
+ 	}
+ 
+ 	/**
+@@ -138,14 +138,14 @@
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void setAppearance() {
+-		as.setAppearance(useMap);
++		as.setAppearance(topicmap);
+ 	}
+ 
+ 	/**
+ 	 * @see		#createLiveTopicmap
+ 	 */
+ 	private void setTopicLabels() {
+-		as.setTopicLabels(useMap);
++		as.setTopicLabels(topicmap);
+ 	}
+ 
+ 
+@@ -162,7 +162,7 @@
+ 	 */
+ 	public void write(DataOutputStream out) throws IOException {
+ 		// ### compare to client.PresentationTopicMap
+-		useMap.write(out);
++		topicmap.write(out);
+ 	}
+ 
+ 
+@@ -174,25 +174,25 @@
+ 
+ 
+ 	/**
+-	 * Duplicates this view in corporate memory (&lt;CODE&gt;ViewTopic&lt;/CODE&gt;,
++	 * Duplicates this topicmap in corporate memory (&lt;CODE&gt;ViewTopic&lt;/CODE&gt;,
+ 	 * &lt;CODE&gt;ViewAssociation&lt;/CODE&gt; and &lt;CODE&gt;ViewGeometry&lt;/CODE&gt; entries).
+ 	 * &lt;P&gt;
+ 	 * References checked: 2.4.2003 (2.0a18-pre8)
+ 	 *
+-	 * @param	destTopicmapID	the destination view ID
++	 * @param	destTopicmapID	the destination topicmap ID
+ 	 *
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+ 	 * @see		de.deepamehta.topics.UserTopic#createConfigurationMap
+ 	 */
+ 	public void personalize(String destTopicmapID) {
+-		as.personalizeView(useMap, topicmapID, VIEWMODE_USE, destTopicmapID);
++		as.personalizeView(topicmap, topicmapID, VIEWMODE_USE, destTopicmapID);
+ 	}
+ 
+ 	/**
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public void addPublishDirectives(CorporateDirectives directives) {
+-		as.addPublishDirectives(useMap, directives);
++		as.addPublishDirectives(topicmap, directives);
+ 	}
+ 
+ 
+@@ -209,6 +209,6 @@
+ 	private void initUserView(int initLevel, CorporateDirectives directives,
+ 																Session session) {
+ 		// init topics
+-		as.initTopics(useMap.getTopics().elements(), initLevel, directives, session);
++		as.initTopics(topicmap.getTopics().elements(), initLevel, directives, session);
+ 	}
+ }
+
+Modified: trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/service/DeepaMehtaSession.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -168,7 +168,7 @@
+ 
+ 	/**
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public boolean isDemo() {
+ 		return isDemo;
+@@ -193,7 +193,7 @@
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public BaseTopic getPersonalWorkspace() throws DeepaMehtaException {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/service/web/HTMLGenerator.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -25,7 +25,7 @@
+ /**
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last sourcecode change: 4.3.2007 (2.0b8)&lt;br&gt;
++ * Last sourcecode change: 9.5.2007 (2.0b8)&lt;br&gt;
+  * Last documentation update: 16.9.2002 (2.0a16-pre3)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -929,6 +929,8 @@
+ 		String propValue = (String) props.get(propName);
+ 		if (visual.equals(VISUAL_SWITCH)) {
+ 			propValue = SWITCH_ON.equals(propValue) ? SWITCH_ON : SWITCH_OFF;
++		} else if (visual.equals(VISUAL_PASSWORD_FIELD)) {
++			propValue = &quot;&bull;&bull;&bull;&quot;;
+ 		}
+ 		//
+ 		if (layout == LAYOUT_COLS) {
+@@ -1087,8 +1089,8 @@
+ 		if (text != null) {
+ 			if (quoteHTML) {
+ 				text = DeepaMehtaUtils.quoteHTML(text);
++				text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
+ 			}
+-			text = DeepaMehtaUtils.replaceLF(text);		// needed for &quot;Multiline Input Field&quot;
+ 			html.append((bold ? &quot;&lt;b&gt;&quot; : &quot;&quot;) + text + (bold ? &quot;&lt;/b&gt;&quot; : &quot;&quot;));
+ 		}
+ 		if (action != null) {
+
+Modified: trunk/develop/src/de/deepamehta/service/web/WebSession.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/web/WebSession.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/service/web/WebSession.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -166,7 +166,7 @@
+ 
+ 	/**
+ 	 * @see		CorporateDirectives#updateCorporateMemory
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 */
+ 	public boolean isDemo() {
+ 		return false;	// ###
+@@ -191,7 +191,7 @@
+ 	 * @see		ApplicationService#importTopicmap
+ 	 * @see		ApplicationService#importCM
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#executeChainedCommand
+-	 * @see		de.deepamehta.topics.TopicMapTopic#openGroupView
++	 * @see		de.deepamehta.topics.TopicMapTopic#openSharedTopicmap
+ 	 * @see		de.deepamehta.topics.TopicMapTopic#publish
+ 	 */
+ 	public BaseTopic getPersonalWorkspace() throws DeepaMehtaException {
+
+Modified: trunk/develop/src/de/deepamehta/topics/ChatTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ChatTopic.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/topics/ChatTopic.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -237,7 +237,7 @@
+ 		}
+ 		//
+ 		this.workspace = owner;
+-		// ### this.chatBoard = as.getWorkspace(workspace.getID(), directives);
++		// ### this.chatBoard = as.getWorkspaceTopicmap(workspace.getID(), directives);
+ 	}
+ 
+ 	private Vector activeSessions(Session session) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -10,12 +10,15 @@
+ import de.deepamehta.FileServer;
+ import de.deepamehta.PresentableAssociation;
+ import de.deepamehta.PresentableTopic;
++import de.deepamehta.PresentableTopicMap;
+ import de.deepamehta.PropertyDefinition;
++import de.deepamehta.TopicGeometry;
+ import de.deepamehta.TopicInitException;
+ import de.deepamehta.service.ApplicationService;
+ import de.deepamehta.service.CorporateCommands;
+ import de.deepamehta.service.CorporateDirectives;
+ import de.deepamehta.service.CorporateTopicMap;
++import de.deepamehta.service.DeepaMehtaServiceUtils;
+ import de.deepamehta.service.Session;
+ import de.deepamehta.topics.helper.ArchiveFileCollector;
+ import de.deepamehta.topics.helper.TopicMapExporter;
+@@ -23,7 +26,17 @@
+ import org.xml.sax.ContentHandler;
+ import org.xml.sax.SAXException;
+ //
++import javax.swing.ImageIcon;
++//
++import java.awt.Color;
++import java.awt.Graphics;
++import java.awt.Graphics2D;
++import java.awt.Image;
+ import java.awt.Point;
++import java.awt.Rectangle;
++import java.awt.RenderingHints;
++import java.awt.Toolkit;
++import java.awt.image.BufferedImage;
+ import java.util.*;
+ import java.io.*;
+ 
+@@ -72,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 24.8.2006 (2.0b8)&lt;BR&gt;
++ * Last functional change: 7.4.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -87,6 +100,12 @@
+ 
+ 
+ 
++	// padding for topicmap export as PNG
++	private final int PAD_TOP = 30;
++	private final int PAD_LEFT = 30;
++	private final int PAD_BOTTOM = 45;
++	private final int PAD_RIGHT = 120;
++
+ 	/**
+ 	 * ### If this topicmap is part of a shared workspace this variable holds the respective
+ 	 * workspace. May be null.
+@@ -518,9 +537,9 @@
+ 	public String openTopicmap(Session session, CorporateDirectives directives) throws DeepaMehtaException {
+ 		if (isShared()) {
+ 		 	// Note: this topicmap is about to be personalized
+-			return openGroupView(session, directives, owner);
++			return openSharedTopicmap(session, directives, owner);
+ 		} else {
+-			openPersonalView(session, directives);
++			openPersonalTopicmap(session, directives);
+ 			return getID();
+ 		}
+ 	}
+@@ -626,6 +645,95 @@
+ 
+ 
+ 
++	// **********************
++	// *** Public Methods ***
++	// **********************
++
++
++
++	/**
++	 * Exports a visible redition of this topicmap as PNG image file.
++	 *
++	 * @return	Geometry data of the topics of this topicmap. Vector of {@link de.deepamehta.TopicGeometry}.
++	 */
++	public Vector exportToPNG() {
++		Vector geometryData = new Vector();
++		// --- retrieve topics and associations from corporate memory ---
++		PresentableTopicMap topicmap = new CorporateTopicMap(as, getID(), getVersion()).getTopicMap();
++		// --- create image ---
++		Rectangle bounds = DeepaMehtaUtils.getBounds(topicmap);
++		final int imageWidth = bounds.width + PAD_LEFT + PAD_RIGHT;
++		final int imageHeight = bounds.height + PAD_TOP + PAD_BOTTOM;
++		BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
++		Graphics2D g = image.createGraphics();
++		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
++		//
++		// ### g.setColor(COLOR_VIEW_BGCOLOR);
++		g.setBackground(COLOR_VIEW_BGCOLOR);
++		g.clearRect(0, 0, imageWidth, imageHeight);	// ### Mac OS X, Java 1.4: fillRect() following drawing commands are ignored!
++		// ### g.setColor(DeepaMehtaUtils.parseHexColor(color));
++		// --- paint topicmap ---
++		g.translate(PAD_LEFT - bounds.x, PAD_TOP - bounds.y);
++		//
++		paintAssociations(topicmap.getAssociations().elements(), g, topicmap.getTopics());
++		paintTopics(topicmap.getTopics().elements(), g, geometryData, bounds);
++		// --- save image as PNG file ---
++		File file = new File(FILESERVER_DOCUMENTS_PATH + &quot;topicmap-&quot; + getID() + &quot;.png&quot;);
++		DeepaMehtaServiceUtils.createImageFile(image, file);
++		//
++		return geometryData;
++	}
++
++	private void paintTopics(Enumeration topics, Graphics g, Vector geometryData, Rectangle bounds) {
++		// ### compare to GraphPanel.paintNode()
++		while (topics.hasMoreElements()) {
++			PresentableTopic topic = (PresentableTopic) topics.nextElement();
++			Point p = topic.getGeometry();
++			// --- paint icon ---
++			String iconfile = as.getLiveTopic(topic).getIconfile();
++			// Note 1: Toolkit.getImage() is used here instead of createImage() in order to utilize
++			// the Toolkits caching mechanism
++			// Note 2: ImageIcon is a kluge to make sure the image is fully loaded before we proceed
++			Image icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(FILESERVER_ICONS_PATH + iconfile)).getImage();
++			int iconWidth = icon.getWidth(null);
++			int iconHeight = icon.getHeight(null);
++			int iw2 = iconWidth / 2;
++			int ih2 = iconHeight / 2;
++			int x1 = p.x - iw2;
++			int y1 = p.y - ih2;
++			g.drawImage(icon, x1, y1, null);
++			// --- paint name ---
++			int x2 = x1 + iconWidth;
++			int y2 = y1 + iconHeight;
++			// ### g.setFont(font);
++			g.setColor(TEXT_COLOR);
++			g.drawString(topic.getName(), x1, y2 + 12 /* ### font.getSize() */ + 2);
++			// --- add geometry data ---
++			geometryData.addElement(new TopicGeometry(topic.getID(), x1 + PAD_LEFT - bounds.x, y1 + PAD_TOP - bounds.y,
++				x2 + PAD_LEFT - bounds.x, y2 + PAD_TOP - bounds.y));
++		}
++	}
++
++	private void paintAssociations(Enumeration assocs, Graphics g, Hashtable topics) {
++		// ### compare to GraphPanel.paintEdge()
++		while (assocs.hasMoreElements()) {
++			PresentableAssociation assoc = (PresentableAssociation) assocs.nextElement();
++			Point p1 = ((PresentableTopic) topics.get(assoc.getTopicID1())).getGeometry();
++			Point p2 = ((PresentableTopic) topics.get(assoc.getTopicID2())).getGeometry();
++			//
++			String assocTypeID = assoc.getType();
++			TypeTopic type = as.type(assocTypeID, 1);
++			Color color = DeepaMehtaUtils.parseHexColor(type.getAssocTypeColor());
++			boolean directed = !assocTypeID.equals(&quot;at-generic&quot;) &amp;&amp;			
++				!assocTypeID.equals(&quot;at-kompetenzstern&quot;);		// ### application specific
++			//
++			g.setColor(color);
++			DeepaMehtaUtils.paintLine(g, p1.x, p1.y, p2.x, p2.y, directed);
++		}
++	}
++
++
++
+ 	// *************************
+ 	// *** Protected Methods ***
+ 	// *************************
+@@ -790,7 +898,7 @@
+ 	 *
+ 	 * @see		#openTopicmap
+ 	 */
+-	private void openPersonalView(Session session, CorporateDirectives directives) throws DeepaMehtaException {
++	private void openPersonalTopicmap(Session session, CorporateDirectives directives) throws DeepaMehtaException {
+ 		PresentableTopic metadata = as.createPresentableTopic(this);
+ 		CorporateTopicMap topicmap = new CorporateTopicMap(as, getID(), getVersion());
+ 		directives.add(DIRECTIVE_SHOW_VIEW, metadata, topicmap);
+@@ -805,7 +913,7 @@
+ 	 *
+ 	 * @see		#openTopicmap
+ 	 */
+-	private String openGroupView(Session session, CorporateDirectives directives, BaseTopic owner)
++	private String openSharedTopicmap(Session session, CorporateDirectives directives, BaseTopic owner)
+ 																				throws DeepaMehtaException {
+ 		System.out.println(&quot;&gt;&gt;&gt; topicmap &quot; + this + &quot; is about to be personalized&quot;);
+ 		// --- retrieve this topicmap from corporate memory ---
+@@ -917,7 +1025,7 @@
+ 				&quot;\&quot; (first publishing of this map into this group)&quot;);
+ 			// adding DIRECTIVE_SHOW_TOPIC causes the client to creating a new topicmap topic in the shared workspace
+ 			PresentableTopic topic = new PresentableTopic(this);
+-			directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.FALSE, as.getWorkspace(workspaceID).getID());
++			directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.FALSE, as.getWorkspaceTopicmap(workspaceID).getID());
+ 		} else {
+ 			BaseTopic originTopicmap = as.originTopicmap(getID());
+ 			String originTopicmapID = originTopicmap.getID();
+
+Modified: trunk/develop/src/de/deepamehta/topics/UserTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/UserTopic.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/topics/UserTopic.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -24,7 +24,7 @@
+  * is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 3.8.2004 (2.0b3)&lt;BR&gt;
++ * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.11.2000 (2.0a7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -98,7 +98,7 @@
+ 		// change name of this user
+ 		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
+ 		// change name of users personal workspace
+-		BaseTopic workspace = as.getWorkspace(getID(), directives);
++		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 		if (workspace != null) {
+ 			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
+ 		}
+@@ -171,7 +171,7 @@
+ 					// cause the client to show the changed icon
+ 					CorporateDirectives iconDirective = new CorporateDirectives();
+ 					iconDirective.add(DIRECTIVE_SET_EDITOR_ICON,
+-						as.getWorkspace(getID()).getID(), newIcon);
++						as.getWorkspaceTopicmap(getID()).getID(), newIcon);
+ 					// Note: the DIRECTIVE_SET_TOPIC_ICON must be _queued_, because the
+ 					// icon upload must be completed _before_ the icon can be shown
+ 					directives.add(DIRECTIVE_QUEUE_DIRECTIVES, iconDirective);
+@@ -214,7 +214,7 @@
+ 	private String createPersonalWorkspace() {
+ 		// Note: this user might already have a workspace, because this
+ 		// topic might been of type tt-user before through retyping
+-		if (as.getWorkspace(getID()) != null) {
++		if (as.getWorkspaceTopicmap(getID()) != null) {
+ 			System.out.println(&quot;&gt;&gt;&gt; User \&quot;&quot; + getName() + &quot;\&quot; has already a workspace&quot;);
+ 			return null;
+ 		}
+@@ -227,7 +227,7 @@
+ 		cm.createTopic(mapID, 1, TOPICTYPE_TOPICMAP, 1, getName());		// ### create live topic instead 
+ 		// --- associate user with its personal workspace ---
+ 		String assocID = cm.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE, 1, getID(), 1, mapID, 1);
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TOPICMAP, 1, getID(), 1, mapID, 1);
+ 		//
+ 		return mapID;
+ 	}
+
+Modified: trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/develop/src/de/deepamehta/topics/WorkspaceTopic.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -27,7 +27,7 @@
+  * this &lt;CODE&gt;WorkspaceTopic&lt;/CODE&gt; is renamed.
+  * &lt;P&gt;
+  * &lt;HR&gt;
+- * Last functional change: 29.5.2006 (2.0b6-post3)&lt;BR&gt;
++ * Last functional change: 8.4.2007 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 29.4.2001 (2.0a10-pre7)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -91,7 +91,7 @@
+ 		cm.createTopic(mapID, 1, TOPICTYPE_TOPICMAP, 1, &quot;&quot;);		// ### create live topic instead ### version=1
+ 		// --- associate workspace with its topicmap ---
+ 		String assocID = cm.getNewAssociationID();
+-		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE, 1, getID(), 1, mapID, 1);		// ### version=1
++		cm.createAssociation(assocID, 1, SEMANTIC_WORKSPACE_TOPICMAP, 1, getID(), 1, mapID, 1);		// ### version=1
+ 		// --- create chat board---
+ 		String chatId = cm.getNewTopicID();
+ 		cm.createTopic(chatId, 1, TOPICTYPE_CHAT_BOARD, 1, &quot;Chats&quot;);			// ### hardcoded
+@@ -123,17 +123,17 @@
+ 		// change name of this workspace
+ 		CorporateDirectives directives = super.nameChanged(name, topicmapID, viewmode);
+ 		// rename workspace topicmap
+-		BaseTopic workspace = as.getWorkspace(getID(), directives);
++		BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 		if (workspace != null) {
+ 			directives.add(as.getLiveTopic(workspace).nameChanged(name, topicmapID, viewmode));
+ 		}
+ 		// rename chat
+-		BaseTopic chat = as.getChat(this, directives);
++		BaseTopic chat = as.getChatboard(this, directives);
+ 		if (chat != null) {
+ 			directives.add(as.getLiveTopic(chat).nameChanged(name + &quot; Chats&quot;, topicmapID, viewmode));	// ### hardcoded
+ 		}
+ 		// rename message board
+-		BaseTopic board = as.getMessageBoard(this, directives);
++		BaseTopic board = as.getMessageboard(this, directives);
+ 		if (board != null) {
+ 			directives.add(as.getLiveTopic(board).nameChanged(name + &quot; Forum&quot;, topicmapID, viewmode));	// ### hardcoded
+ 		}
+@@ -291,7 +291,7 @@
+ 					// cause the client to show the changed icon
+ 					CorporateDirectives iconDirective = new CorporateDirectives();
+ 					iconDirective.add(DIRECTIVE_SET_EDITOR_ICON,
+-						as.getWorkspace(getID()).getID(), newIcon);	// ### consider as.getWorkspace(2)
++						as.getWorkspaceTopicmap(getID()).getID(), newIcon);	// ### consider as.getWorkspaceTopicmap(2)
+ 					// Note: the DIRECTIVE_SET_EDITOR_ICON must be _queued_, because the
+ 					// icon upload must be completed _before_ the icon can be shown
+ 					directives.add(DIRECTIVE_QUEUE_DIRECTIVES, iconDirective);
+@@ -346,7 +346,7 @@
+ 		// --- open workspace ---
+ 		boolean isCurrentUser = userID.equals(session.getUserID());
+ 		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspace(getID(), directives);
++			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 			if (workspace != null) {
+ 				CorporateTopicMap topicmap = new CorporateTopicMap(as, workspace.getID(), 1);
+ 				topicmap.createLiveTopicmap(session, directives);
+@@ -388,7 +388,7 @@
+ 		// --- close workspace ---
+ 		boolean isCurrentUser = userID.equals(session.getUserID());
+ 		if (isCurrentUser) {
+-			BaseTopic workspace = as.getWorkspace(getID(), directives);
++			BaseTopic workspace = as.getWorkspaceTopicmap(getID(), directives);
+ 			if (workspace != null) {
+ 				directives.add(DIRECTIVE_CLOSE_EDITOR, workspace.getID());
+ 			}
+
+Modified: trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java
+===================================================================
+--- trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java	2007-04-05 13:59:17 UTC (rev 157)
++++ trunk/install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/assocs/KompetenzsternMembership.java	2007-06-07 11:13:45 UTC (rev 158)
+@@ -70,7 +70,7 @@
+ 			}
+ 			// ### DOESN'T WORK FOR MORE THAN ONE TEMPLATE BUILDER
+ 			/* String memberID = getTopicID1();
+-			String workspaceID = as.getWorkspace(memberID, directives).getID();
++			String workspaceID = as.getWorkspaceTopicmap(memberID, directives).getID();
+ 			System.out.println(&quot;&gt;&gt;&gt; role of user \&quot;&quot; + memberID + &quot;\&quot; changed, personal workspace is \&quot;&quot; + workspaceID + &quot;\&quot;&quot;);
+ 			if (memberID.equals(session.getUserID())) {
+ 				if (prop.equals(SWITCH_ON)) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000004.html">[deepamehta-svn] r159 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/dm-browser/src/de/deepamehta/browser	install/examples/dm-web/src/de/deepamehta/webfrontend
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

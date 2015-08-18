@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r175%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708131528.l7DFS1DV025717%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r175%20-%20trunk/develop/src/de/deepamehta/topics&In-Reply-To=%3C200708131528.l7DFS1DV025717%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r175 - trunk/develop/src/de/deepamehta/topics">jri at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 13 17:28:01 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[deepamehta-svn] r174 - in branches/eschnepel: .	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/config	install/db libs libs/derby
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2007-08-13 17:27:59 +0200 (Mon, 13 Aug 2007)
+New Revision: 175
+
+Modified:
+   trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+Log:
+New Feature: Email notification. All workspace members are notified via email once someone has published a (new version of a) topic map.
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-08-10 19:46:50 UTC (rev 174)
++++ trunk/develop/src/de/deepamehta/topics/TopicMapTopic.java	2007-08-13 15:27:59 UTC (rev 175)
+@@ -85,7 +85,7 @@
+  *     ({@link #importFromFile})&lt;/LI&gt;
+  * &lt;/OL&gt;
+  * &lt;HR&gt;
+- * Last functional change: 7.4.2008 (2.0b8)&lt;BR&gt;
++ * Last functional change: 9.7.2008 (2.0b8)&lt;BR&gt;
+  * Last documentation update: 11.12.2001 (2.0a14-pre4)&lt;BR&gt;
+  * J&ouml;rg Richter&lt;BR&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+@@ -983,36 +983,41 @@
+ 	 * @see		#executeCommand
+ 	 */
+ 	private CorporateDirectives publish(String workspaceID, Session session) throws DeepaMehtaException {
++		String workspaceName = cm.getTopic(workspaceID, 1).getName();
++		Vector users = as.workgroupMembers(workspaceID);
++		boolean isFirstPublishing = as.getOriginWorkspace(getID()) == null;
++		String notifyText = isFirstPublishing ?
++			&quot;A new topicmap \&quot;&quot; + getName() + &quot;\&quot; has been published to workspace \&quot;&quot; +
++			workspaceName + &quot;\&quot; by user \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot; :
++			&quot;Topicmap \&quot;&quot; + getName() + &quot;\&quot; of workspace \&quot;&quot; + workspaceName + &quot;\&quot; has &quot; +
++			&quot;been updated by user \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot;;
++		// --- send notification emails ---
++		// Note: the notification emails are send before the publishing performs because the topic ID
++		// may change while publishing and the list of topics could not generated easily
++		String subject = isFirstPublishing ?
++			&quot;New topicmap \&quot;&quot; + getName() + &quot;\&quot; published by \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot; :
++			&quot;Topicmap \&quot;&quot; + getName() + &quot;\&quot; updated by \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot;;
++		sendNotificationEmails(users, workspaceName, subject, notifyText);
++		// --- remove topicmap from personal workspace ---
+ 		CorporateDirectives directives = new CorporateDirectives();
+-		// --- remove topicmap from personal workspace ---
+ 		directives.add(DIRECTIVE_HIDE_TOPIC, getID(), Boolean.FALSE, /* ### die=false */
+ 			session.getPersonalWorkspace().getID());
+ 		// --- upload documents ---
+ 		addPublishDirectives(directives);
+ 		// --- publish this map ---
+-		CorporateDirectives notify = new CorporateDirectives();
+-		boolean isFirstPublishing = as.getOriginWorkspace(getID()) == null;
++		CorporateDirectives notify = new CorporateDirectives();		// this directives are broadcasted to every workspace member
+ 		publishTo(workspaceID, isFirstPublishing, notify);
+ 		// --- close view ---
+ 		if (as.isViewOpen(getID(), session.getUserID())) {
+ 			close(session, directives);
+ 		}
+ 		// --- notify all workspace members ---
+-		String workspaceName = cm.getTopic(workspaceID, 1).getName();
+-		String notifyText = isFirstPublishing ?
+-			&quot;A new topicmap \&quot;&quot; + getName() + &quot;\&quot; has been published to workspace \&quot;&quot; +
+-			workspaceName + &quot;\&quot; by user \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot; :
+-			&quot;Topicmap \&quot;&quot; + getName() + &quot;\&quot; of workspace \&quot;&quot; + workspaceName + &quot;\&quot; has &quot; +
+-			&quot;been updated by user \&quot;&quot; + session.getUserName() + &quot;\&quot;&quot;;
+ 		notify.add(DIRECTIVE_SHOW_MESSAGE, notifyText, new Integer(NOTIFICATION_DEFAULT));
+-		Vector users = as.workgroupMembers(workspaceID);
+ 		as.broadcast(notify, users.elements(), true);
+ 		//
+ 		return directives;
+ 	}
+ 
+-	// ---
+-
+ 	/**
+ 	 * @param	directives	this directives are broadcasted to every workspace member
+ 	 *
+@@ -1042,8 +1047,73 @@
+ 		}
+ 	}
+ 
++	// ---
+ 
++	private void sendNotificationEmails(Vector users, String workspace, String subject, String notification) {
++		try {
++			System.out.println(&quot;&gt; send notification emails to &quot; + users.size() + &quot; workspace members:&quot;);
++			// &quot;from&quot;
++			String from = as.getEmailAddress(&quot;t-rootuser&quot;);		// ###
++			if (from == null || from.equals(&quot;&quot;)) {
++				throw new DeepaMehtaException(&quot;email address of root user is unknown&quot;);
++			}
++			// &quot;body&quot;
++			String body = &quot;\rDear DeepaMehta User,\r\r&quot; +
++				&quot;This automatic notification is send to you as a member of the DeepaMehta workspace \&quot;&quot; +
++				workspace + &quot;\&quot;.\r\r&quot; +
++				notification + &quot;.\r\r&quot; +
++				&quot;The topicmap contains the following topics:\r\r&quot; + topicList();
++			//
++			Enumeration e = users.elements();
++			while (e.hasMoreElements()) {
++				BaseTopic user = (BaseTopic) e.nextElement();
++				String emailAddress = as.getEmailAddress(user.getID());
++				System.out.println(&quot;    &quot; + user.getName() + &quot; (&quot; + emailAddress + &quot;)&quot;);
++				if (emailAddress != null &amp;&amp; !emailAddress.equals(&quot;&quot;) ) {
++					EmailTopic.sendMail(as.getSMTPServer(), from, emailAddress, &quot;DeepaMehta: &quot; + subject, body);		// EmailTopic.sendMail() throws DME
++				}
++			}
++		} catch (Exception e) {
++			System.out.println(&quot;*** notification emails not send (&quot; + e + &quot;)&quot;);
++		}
++	}
+ 
++	private String topicList() {
++		Hashtable groupedTopics = new Hashtable();
++		//
++		Vector topics = cm.getViewTopics(getID(), getVersion());
++		Enumeration e = topics.elements();
++		while (e.hasMoreElements()) {
++			BaseTopic topic = (BaseTopic) e.nextElement();
++			String typeID = topic.getType();
++			Vector topicGroup = (Vector) groupedTopics.get(typeID);
++			if (topicGroup == null) {
++				topicGroup = new Vector();
++				groupedTopics.put(typeID, topicGroup);
++			}
++			topicGroup.addElement(topic.getName());
++		}
++		//
++		StringBuffer topicList = new StringBuffer();
++		//
++		Enumeration keys = groupedTopics.keys();
++		while (keys.hasMoreElements()) {
++			String typeID = (String) keys.nextElement();
++			Vector topicGroup = (Vector) groupedTopics.get(typeID);
++			String typeName = as.type(typeID, 1).getPluralNaming();
++			topicList.append(topicGroup.size() + &quot; &quot; + typeName + &quot;:\r&quot;);
++			Enumeration e2 = topicGroup.elements();
++			while (e2.hasMoreElements()) {
++				String topicName = (String) e2.nextElement();
++				topicList.append(&quot;    &quot; + topicName + &quot;\r&quot;);
++			}
++		}
++		//
++		return topicList.toString();
++	}
++
++
++
+ 	// -----------------
+ 	// --- Exporting ---
+ 	// -----------------
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[deepamehta-svn] r174 - in branches/eschnepel: .	develop/src/de/deepamehta	develop/src/de/deepamehta/service/db install/config	install/db libs libs/derby
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[deepamehta-svn] r176 - in trunk/develop/src/de/deepamehta: client	service service/web
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

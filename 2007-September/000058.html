@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r213%20-%20in%20branches/ldap/install/examples/mailman%3A%0A%09.%20src/de/deepamehta/topics&In-Reply-To=%3C200709181907.l8IJ7qax024132%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000057.html">
+   <LINK REL="Next"  HREF="000059.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics</H1>
+    <B>danny at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r213%20-%20in%20branches/ldap/install/examples/mailman%3A%0A%09.%20src/de/deepamehta/topics&In-Reply-To=%3C200709181907.l8IJ7qax024132%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r213 - in branches/ldap/install/examples/mailman:	. src/de/deepamehta/topics">danny at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 18 21:07:52 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000057.html">[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+        <LI>Next message: <A HREF="000059.html">[deepamehta-svn] r214 - in branches/eschnepel: .settings	develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#58">[ date ]</a>
+              <a href="thread.html#58">[ thread ]</a>
+              <a href="subject.html#58">[ subject ]</a>
+              <a href="author.html#58">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: danny
+Date: 2007-09-18 21:07:33 +0200 (Tue, 18 Sep 2007)
+New Revision: 213
+
+Modified:
+   branches/ldap/install/examples/mailman/mailman.sql
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/ListMessageTopic.java
+   branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+Log:
+simple name and mail properties added
+
+Modified: branches/ldap/install/examples/mailman/mailman.sql
+===================================================================
+--- branches/ldap/install/examples/mailman/mailman.sql	2007-09-18 18:59:29 UTC (rev 212)
++++ branches/ldap/install/examples/mailman/mailman.sql	2007-09-18 19:07:33 UTC (rev 213)
+@@ -80,15 +80,15 @@
+ INSERT INTO AssociationProp VALUES ('at-listmessageinreplytorelation', 1, 'Ordinal Number', '1');
+ 
+ -- List Message inReplyTo List Message Association Topic and Relation
+-INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-listmessagereference', 'Reference');
+-INSERT INTO TopicProp VALUES ('at-listmessagereference', 1, 'Name', 'Reference');
+-INSERT INTO TopicProp VALUES ('at-listmessagereference', 1, 'Color', '#9F0000');
+-INSERT INTO Association VALUES ('at-relation', 1, 1, 'at-listmessagereferencerelation', '', 'tt-listmessage', 1, 'tt-listmessage', 1);
+-INSERT INTO AssociationProp VALUES ('at-listmessagereferencerelation', 1, 'Cardinality', 'many');
+-INSERT INTO AssociationProp VALUES ('at-listmessagereferencerelation', 1, 'Association Type ID', 'at-listmessagereference');
+-INSERT INTO AssociationProp VALUES ('at-listmessagereferencerelation', 1, 'Web Info', 'Related Topic Name');
+-INSERT INTO AssociationProp VALUES ('at-listmessagereferencerelation', 1, 'Web Form', 'Related Form');
+-INSERT INTO AssociationProp VALUES ('at-listmessagereferencerelation', 1, 'Ordinal Number', '2');
++INSERT INTO Topic VALUES ('tt-assoctype', 1, 1, 'at-listmessagethread', 'Thread');
++INSERT INTO TopicProp VALUES ('at-listmessagethread', 1, 'Name', 'Thread');
++INSERT INTO TopicProp VALUES ('at-listmessagethread', 1, 'Color', '#9F0000');
++INSERT INTO Association VALUES ('at-relation', 1, 1, 'at-listmessagethreadrelation', '', 'tt-listmessage', 1, 'tt-listmessage', 1);
++INSERT INTO AssociationProp VALUES ('at-listmessagethreadrelation', 1, 'Cardinality', 'many');
++INSERT INTO AssociationProp VALUES ('at-listmessagethreadrelation', 1, 'Association Type ID', 'at-listmessagethread');
++INSERT INTO AssociationProp VALUES ('at-listmessagethreadrelation', 1, 'Web Info', 'Related Topic Name');
++INSERT INTO AssociationProp VALUES ('at-listmessagethreadrelation', 1, 'Web Form', 'Related Form');
++INSERT INTO AssociationProp VALUES ('at-listmessagethreadrelation', 1, 'Ordinal Number', '2');
+ 
+ ------------------
+ --- Properties ---
+@@ -124,6 +124,16 @@
+ INSERT INTO TopicProp VALUES ('pp-listmessagesubject', 1, 'Visualization', 'Input Field');
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessagesubject', '', 'tt-listmessage', 1, 'pp-listmessagesubject', 1);
+ 
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessagefromname', 'From Name');
++INSERT INTO TopicProp VALUES ('pp-listmessagefromname', 1, 'Name', 'From Name');
++INSERT INTO TopicProp VALUES ('pp-listmessagefromname', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessagefromname', '', 'tt-listmessage', 1, 'pp-listmessagefromname', 1);
++
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessagefrommail', 'From Mail');
++INSERT INTO TopicProp VALUES ('pp-listmessagefrommail', 1, 'Mail', 'From Mail');
++INSERT INTO TopicProp VALUES ('pp-listmessagefrommail', 1, 'Visualization', 'Input Field');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-mailman-listmessagefrommail', '', 'tt-listmessage', 1, 'pp-listmessagefrommail', 1);
++
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-listmessagedate', 'Date');
+ INSERT INTO TopicProp VALUES ('pp-listmessagedate', 1, 'Name', 'Date');
+ INSERT INTO TopicProp VALUES ('pp-listmessagedate', 1, 'Visualization', 'Date Chooser');
+@@ -182,8 +192,8 @@
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'at-listmessagerelation', 1);
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessageinreplyto', 1, 300, 100);
+ INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'at-listmessageinreplytorelation', 1);
+-INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessagereference', 1, 300, 150);
+-INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'at-listmessageinreferencerelation', 1);
++INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'at-listmessagethread', 1, 300, 150);
++INSERT INTO ViewAssociation VALUES ('t-mailmanmap', 1, 'at-listmessageinthreadrelation', 1);
+ 
+ -- Container Associations
+ INSERT INTO ViewTopic VALUES ('t-mailmanmap', 1, 'tt-listmessagecontainer', 1, 400, 150);
+
+Modified: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/ListMessageTopic.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/ListMessageTopic.java	2007-09-18 18:59:29 UTC (rev 212)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/ListMessageTopic.java	2007-09-18 19:07:33 UTC (rev 213)
+@@ -1,5 +1,7 @@
+ package de.deepamehta.topics;
+ 
++import java.util.Hashtable;
++
+ import de.deepamehta.BaseTopic;
+ import de.deepamehta.service.ApplicationService;
+ 
+@@ -10,14 +12,51 @@
+ public class ListMessageTopic extends LiveTopic {
+ 
+ 	/* types and properties */
+-	private static final String PROPERTY_LISTMESSAGE_NAME = &quot;Subject&quot;;
++	private static final String PROPERTY_SUBJECT = &quot;Subject&quot;;
+ 
++	private static final String PROPERTY_FROMMAIL = &quot;From Mail&quot;;
++
+ 	public ListMessageTopic(BaseTopic topic, ApplicationService as) {
+ 		super(topic, as);
+ 	}
+ 
++	@Override
+ 	public String getNameProperty() {
+-		return PROPERTY_LISTMESSAGE_NAME;
++		return null;
+ 	}
+ 
++	@Override
++	public String getTopicName(Hashtable props, Hashtable oldProps) {
++		// ### Note: a non-null value is only returned if topic name actually
++		// changes
++		// ### probably the code tend to be too complicated and we should always
++		// return the name
++		String forename = (String) props.get(PROPERTY_FROMMAIL);
++		String surname = (String) props.get(PROPERTY_SUBJECT);
++		String oldfore = (String) oldProps.get(PROPERTY_FROMMAIL);
++		String oldsur = (String) oldProps.get(PROPERTY_SUBJECT);
++		System.out.println(&quot;RETURN NAME: &quot; + forename + &quot; &quot; + surname);
++		boolean f = forename != null;
++		boolean s = surname != null;
++		boolean of = oldfore != null;
++		boolean os = oldsur != null;
++		if (f &amp;&amp; s) {
++			System.out.println(&quot;RETURN NAME: &quot; + forename + &quot; &quot; + surname);
++			return forename + &quot; &quot; + surname;
++		} else if (f) {
++			System.out.println(&quot;RETURN NAME: &quot; + forename + (os ? &quot; &quot; + oldsur : &quot;&quot;));
++			return forename + (os ? &quot; &quot; + oldsur : &quot;&quot;);
++		} else if (s) {
++			System.out.println(&quot;RETURN NAME: &quot; + (of ? oldfore + &quot; &quot; : &quot;&quot;) + surname);
++			return (of ? oldfore + &quot; &quot; : &quot;&quot;) + surname;
++		} else {
++			System.out.println(&quot;RETURN NAME: NULL&quot;);
++			return null;
++		}
++	}
++
++	@Override
++	protected String topicName(Hashtable elementData, String fieldname) {
++		return super.topicName(elementData, fieldname);
++	}
+ }
+
+Modified: branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java
+===================================================================
+--- branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-18 18:59:29 UTC (rev 212)
++++ branches/ldap/install/examples/mailman/src/de/deepamehta/topics/MailmanTopic.java	2007-09-18 19:07:33 UTC (rev 213)
+@@ -55,17 +55,21 @@
+ 
+ 	private static final String PROPERTY_DATE = &quot;Date&quot;;
+ 
+-	private static final String PROPERTY_TIME = &quot;Time&quot;;
++	private static final String PROPERTY_FROMNAME = &quot;From Name&quot;;
+ 
++	private static final String PROPERTY_FROMMAIL = &quot;From Mail&quot;;
++
+ 	private static final String PROPERTY_SUBJECT = &quot;Subject&quot;;
+ 
++	private static final String PROPERTY_TIME = &quot;Time&quot;;
++
+ 	private static final String PROPERTY_URL = &quot;URL&quot;;
+ 
+ 	private static final String ASSOCTYPE_INLIST = &quot;at-listmessageassociation&quot;;
+ 
+ 	private static final String ASSOCTYPE_INREPLYTO = &quot;at-listmessageinreplyto&quot;;
+ 
+-	private static final String ASSOCTYPE_REFERENCE = &quot;at-listmessagereference&quot;;
++	private static final String ASSOCTYPE_REFERENCE = &quot;at-listmessagethread&quot;;
+ 
+ 	/**
+ 	 * count of archives to process in get action
+@@ -197,6 +201,8 @@
+ 		content = &quot;&lt;html&gt;&lt;body&gt;&lt;pre&gt;&quot; + content + &quot;&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
+ 		props.put(PROPERTY_CONTENT, content);
+ 		props.put(PROPERTY_SUBJECT, subject);
++		props.put(PROPERTY_FROMNAME, name);
++		props.put(PROPERTY_FROMMAIL, mail);
+ 		props.put(PROPERTY_DATE, formatSaveDate.format(date));
+ 		props.put(PROPERTY_TIME, formatSaveTime.format(date));
+ 		message.setProperties(props);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000057.html">[deepamehta-svn] r212 - in branches/eschnepel: .settings	develop/src/de/deepamehta develop/src/de/deepamehta/client	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/web	develop/src/de/deepamehta/topics	develop/src/de/deepamehta/topics/personalweb	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics
+</A></li>
+	<LI>Next message: <A HREF="000059.html">[deepamehta-svn] r214 - in branches/eschnepel: .settings	develop/src/de/deepamehta/service
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#58">[ date ]</a>
+              <a href="thread.html#58">[ thread ]</a>
+              <a href="subject.html#58">[ subject ]</a>
+              <a href="author.html#58">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

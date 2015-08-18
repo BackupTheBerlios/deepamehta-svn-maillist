@@ -1,0 +1,443 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r265 - trunk/develop/src/de/deepamehta/client
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r265%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200802131440.m1DEeYgl006775%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000109.html">
+   <LINK REL="Next"  HREF="000111.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r265 - trunk/develop/src/de/deepamehta/client</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r265%20-%20trunk/develop/src/de/deepamehta/client&In-Reply-To=%3C200802131440.m1DEeYgl006775%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r265 - trunk/develop/src/de/deepamehta/client">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Feb 13 15:40:34 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000109.html">[deepamehta-svn] r264 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+        <LI>Next message: <A HREF="000111.html">[deepamehta-svn] r266 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#110">[ date ]</a>
+              <a href="thread.html#110">[ thread ]</a>
+              <a href="subject.html#110">[ subject ]</a>
+              <a href="author.html#110">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-02-13 15:40:27 +0100 (Wed, 13 Feb 2008)
+New Revision: 265
+
+Modified:
+   trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+Log:
+Bug #8810 fixed (Checkboxes are not disabled)
+
+
+Modified: trunk/develop/src/de/deepamehta/client/PropertyPanel.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-02-12 14:23:06 UTC (rev 264)
++++ trunk/develop/src/de/deepamehta/client/PropertyPanel.java	2008-02-13 14:40:27 UTC (rev 265)
+@@ -40,17 +40,15 @@
+ 
+ 
+ /**
+- * Side panel view.
+- * &lt;P&gt;
+- * ### A &lt;CODE&gt;PropertyPanel&lt;/CODE&gt; consists of 2 parts: the upper part shows the
+- * topic/association characteristics of the selected topic/association, the lower
+- * part shows the topic/association property panel.
+- * &lt;P&gt;
+- * There is one instance created (singleton).
+- * &lt;HR&gt;
+- * Last functional change: 11.9.2007 (2.0b8)&lt;BR&gt;
+- * Last documentation update: 10.6.2001 (2.0a11-pre5)&lt;BR&gt;
+- * J&ouml;rg Richter&lt;BR&gt;
++ * The &lt;i&gt;view&lt;/i&gt; that is shown at the right side of the graphical DeepaMehta client.
++ * The property panel shows the properties of the selected topic/association/topicmap and allows the user to edit them.
++ * The &lt;i&gt;controller&lt;/i&gt; is passed to the &lt;code&gt;PropertyPanel&lt;/code&gt; {@link #PropertyPanel constructor}.
++ * &lt;p&gt;
++ * This is a singleton, there is only one instance created.
++ * &lt;hr&gt;
++ * Last functional change: 13.2.2008 (2.0b8)&lt;br&gt;
++ * Last documentation update: 13.2.2008 (2.0b8)&lt;br&gt;
++ * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at freenet.de</A>
+  */
+ class PropertyPanel extends JPanel implements ActionListener, ItemListener, DocumentListener,
+@@ -87,7 +85,7 @@
+ 	private PropertyPanelControler controler;
+ 
+ 	/**
+-	 * Key: &lt;topicmap ID&gt;:&lt;viewmode&gt;&lt;BR&gt;
++	 * Key: &lt;topicmap ID&gt;:&lt;viewmode&gt;&lt;br&gt;
+ 	 * Value: {@link PropertyPanel.Selection}
+ 	 */
+ 	private Hashtable selections = new Hashtable();
+@@ -98,8 +96,8 @@
+ 
+ 	/**
+ 	 * The key of the current selection (format is &lt;topicmap ID&gt;:&lt;viewmode&gt;) or
+-	 * &lt;CODE&gt;null&lt;/CODE&gt; if there is currently no selection.
+-	 * &lt;P&gt;
++	 * &lt;code&gt;null&lt;/code&gt; if there is currently no selection.
++	 * &lt;p&gt;
+ 	 * Updated in
+ 	 * {@link #setSelection}
+ 	 * {@link #restoreSelection}
+@@ -109,13 +107,13 @@
+ 
+ 	/**
+ 	 * Current selection mode. See the 4 {@link #SELECTED_NONE SELECTED_XXX constants}
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Note: there are 2 situations the property is empty (SELECTED_NONE)
+-	 * &lt;OL&gt;
+-	 * &lt;LI&gt;a view is opened
+-	 * &lt;LI&gt;the selected topic/association is removed
+-	 * &lt;/OL&gt;
+-	 * &lt;P&gt;
++	 * &lt;ol&gt;
++	 * &lt;li&gt;a view is opened
++	 * &lt;li&gt;the selected topic/association is removed
++	 * &lt;/ol&gt;
++	 * &lt;p&gt;
+ 	 * Updated in
+ 	 * {@link #setSelection}
+ 	 * {@link #restoreSelection}
+@@ -134,14 +132,14 @@
+ 	// ---
+ 	
+ 	/**
+-	 * Key: Topic Type ID (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * Key: Topic Type ID (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: PresentationType
+ 	 */
+ 	private Hashtable topicTypes;
+ 	private Vector topicTypesV;
+ 
+ 	/**
+-	 * Key: Association Type ID (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
++	 * Key: Association Type ID (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
+ 	 * Value: PresentationType
+ 	 */
+ 	private Hashtable assocTypes;
+@@ -153,18 +151,18 @@
+ 	 * A hashtable containing the property forms for every type.
+ 	 * A property form consists of single property fields (ordered).
+ 	 * Note: also hidden property fields are contained in the vector ### required?
+-	 * &lt;P&gt;
+-	 * Key: type ID (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
+-	 * Value: vector of &lt;CODE&gt;PropertyField&lt;/CODE&gt; objects
+-	 * &lt;P&gt;
+-	 * Building: {@link #buildPropertyFields}&lt;BR&gt;
++	 * &lt;p&gt;
++	 * Key: type ID (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
++	 * Value: vector of &lt;code&gt;PropertyField&lt;/code&gt; objects
++	 * &lt;p&gt;
++	 * Building: {@link #buildPropertyFields}&lt;br&gt;
+ 	 * Accessing: {@link #getPropertyFields}
+ 	 */
+ 	private Hashtable propertyForms = new Hashtable();
+ 
+ 	/**
+-	 * Key: type ID (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
+-	 * Value: &lt;CODE&gt;JPanel&lt;/CODE&gt;
++	 * Key: type ID (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
++	 * Value: &lt;code&gt;JPanel&lt;/code&gt;
+ 	 */
+ 	private Hashtable propertyPanels = new Hashtable();
+ 
+@@ -174,7 +172,7 @@
+ 	private JComboBox assocTypeChoice;
+ 
+ 	/**
+-	 * The &lt;CODE&gt;JPanel&lt;/CODE&gt; deployed for the topic characterstics resp. association
++	 * The &lt;code&gt;JPanel&lt;/code&gt; deployed for the topic characterstics resp. association
+ 	 * characterstics.
+ 	 * This panel uses the {@link #characteristicsCardLayout} object as its layout manager.
+ 	 */
+@@ -182,7 +180,7 @@
+ 	private CardLayout characteristicsCardLayout = new CardLayout();
+ 
+ 	/**
+-	 * The &lt;CODE&gt;JPanel&lt;/CODE&gt; deployed for the property panel.
++	 * The &lt;code&gt;JPanel&lt;/code&gt; deployed for the property panel.
+ 	 * This panel uses the {@link #dataCardLayout} object as its layout manager.
+ 	 */
+ 	private JPanel dataCardPanel = new JPanel();
+@@ -197,7 +195,9 @@
+ 
+ 
+ 	/**
+-	 * @see		PresentationService#createGUI
++	 * References checked: 13.2.2008 (2.0b8)
++	 *
++	 * @see		PresentationService#createMainGUI
+ 	 */
+ 	PropertyPanel(PropertyPanelControler controler) {
+ 		try {
+@@ -254,10 +254,10 @@
+ 
+ 	/**
+ 	 * Called when one of this events occurred:
+-	 * &lt;UL&gt;
+-	 * &lt;LI&gt;The value of a &quot;Options Menu&quot; / &quot;Option Button&quot; / &quot;Switch&quot; property has been changed
+-	 * &lt;LI&gt;Return has been pressed in an (single line) input field of the property panel
+-	 * &lt;/UL&gt;
++	 * &lt;ul&gt;
++	 * &lt;li&gt;The value of a &quot;Options Menu&quot; / &quot;Option Button&quot; / &quot;Switch&quot; property has been changed
++	 * &lt;li&gt;Return has been pressed in an (single line) input field of the property panel
++	 * &lt;/ul&gt;
+ 	 */
+ 	public void actionPerformed(ActionEvent e) {
+ 		String command = e.getActionCommand();
+@@ -288,7 +288,7 @@
+ 
+ 
+ 	/**
+-	 * ### should rely on action command&lt;BR&gt;
++	 * ### should rely on action command&lt;br&gt;
+ 	 */
+ 	public void itemStateChanged(ItemEvent e) {
+ 		Object src = e.getSource();
+@@ -524,7 +524,7 @@
+ 
+ 	/**
+ 	 * Convenience method to access current Selection.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Presumption: there is a selection.
+ 	 */
+ 	private Selection getSelection() {
+@@ -640,7 +640,7 @@
+ 
+ 	/**
+ 	 * Stores changed properties (actually the {@link #controler} is informed).
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The properties are stored only, if marked dirty (see {@link #propertiesAreDirty}).
+ 	 * After storing the resp. flag is cleared.
+ 	 *
+@@ -849,14 +849,14 @@
+ 
+ 	/**
+ 	 * Shows the specified properties.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * The property fields to fill are determined by the specified typeID.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Presumption: the topic the properties are bound to is currently selected
+ 	 * (otherwise there is no need to call this method because there will be no visual result ###).
+ 	 *
+-	 * @param	all		if not set, only the &lt;I&gt;passed&lt;/I&gt; properties are set, not
+-	 *					&lt;I&gt;every&lt;/I&gt; property according to the type definition, thus
++	 * @param	all		if not set, only the &lt;i&gt;passed&lt;/i&gt; properties are set, not
++	 *					&lt;i&gt;every&lt;/i&gt; property according to the type definition, thus
+ 	 *					the application programmers are not required to pass a full set
+ 	 *					of properties when using the DIRECTIVE_SHOW_PROPERTIES ###
+ 	 *
+@@ -937,7 +937,7 @@
+ 
+ 	/**
+ 	 * ### should be private
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 1.11.2001 (2.0a13-pre3)
+ 	 *
+ 	 * @see		#removeSelection
+@@ -1040,14 +1040,14 @@
+ 
+ 	/**
+ 	 * Returns the property values currently entered in the property panel.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Values of hidden properties are not returned.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 4.8.2001 (2.0a11)
+ 	 *
+-	 * @return	the property values as a hashtable.&lt;BR&gt;
+-	 *			Key: property name (&lt;CODE&gt;String&lt;/CODE&gt;)&lt;BR&gt;
+-	 *			Value: property value (&lt;CODE&gt;String&lt;/CODE&gt;)
++	 * @return	the property values as a hashtable.&lt;br&gt;
++	 *			Key: property name (&lt;code&gt;String&lt;/code&gt;)&lt;br&gt;
++	 *			Value: property value (&lt;code&gt;String&lt;/code&gt;)
+ 	 *
+ 	 * @see		#storeProperties
+ 	 */
+@@ -1235,7 +1235,7 @@
+ 
+ 	/**
+ 	 * Returns the property fields of the specified type.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * References checked: 3.8.2001 (2.0a11)
+ 	 *
+ 	 * @see		#showProperties
+@@ -1248,7 +1248,7 @@
+ 
+ 	/**
+ 	 * Checks weather the property form for the specified type does exist, if not it is build.
+-	 * &lt;P&gt;
++	 * &lt;p&gt;
+ 	 * Presumption: the type is known by the presentation service.
+ 	 *
+ 	 * @see		#showProperties
+@@ -1367,8 +1367,8 @@
+ 
+ 	/**
+ 	 * A single property field as deployed by a property form.
+-	 * &lt;P&gt;
+-	 * &lt;CODE&gt;PropertyField&lt;/CODE&gt; objects are created by {@link #createPropertyFields}
++	 * &lt;p&gt;
++	 * &lt;code&gt;PropertyField&lt;/code&gt; objects are created by {@link #createPropertyFields}
+ 	 * and stored in the {@link #propertyForms} hashtable.
+ 	 */
+ 	private class PropertyField {
+@@ -1384,17 +1384,17 @@
+ 		PresentationPropertyDefinition propertyDef;
+ 
+ 		/**
+-		 * The &lt;I&gt;View&lt;/I&gt; of the &lt;CODE&gt;PropertyField&lt;/CODE&gt;.
+-		 * &lt;P&gt;
+-		 * &lt;TABLE&gt;
+-		 * &lt;TR&gt;&lt;TH&gt;Initialized by&lt;TH&gt;Situation
+-		 * &lt;TR&gt;&lt;TD&gt;{@link PropertyPanel$PropertyField#PropertyField}&lt;TD&gt;The constructor
++		 * The &lt;i&gt;View&lt;/i&gt; of the &lt;code&gt;PropertyField&lt;/code&gt;.
++		 * &lt;p&gt;
++		 * &lt;table&gt;
++		 * &lt;tr&gt;&lt;th&gt;Initialized by&lt;th&gt;Situation
++		 * &lt;tr&gt;&lt;td&gt;{@link PropertyPanel$PropertyField#PropertyField}&lt;td&gt;The constructor
+ 		 *				calls {@link PresentationPropertyDefinition#createGUIComponent}
+ 		 *				and sets the view to element [0] of the result
+-		 * &lt;TR&gt;&lt;TH&gt;Accessed by&lt;TH&gt;Situation
+-		 * &lt;TR&gt;&lt;TD&gt;{@link #createPropertyForm}&lt;TD&gt;The view component is added to a
++		 * &lt;tr&gt;&lt;th&gt;Accessed by&lt;th&gt;Situation
++		 * &lt;tr&gt;&lt;td&gt;{@link #createPropertyForm}&lt;td&gt;The view component is added to a
+ 		 *				property form
+-		 * &lt;/TABLE&gt;
++		 * &lt;/table&gt;
+ 		 */
+ 		JComponent view;
+ 		private Object model;
+@@ -1410,7 +1410,7 @@
+ 		/**
+ 		 * Standard constructor.
+ 		 * &lt;p&gt;
+-		 * Creates the GUI component for this &lt;CODE&gt;PropertyField&lt;/CODE&gt; and stores
++		 * Creates the GUI component for this &lt;code&gt;PropertyField&lt;/code&gt; and stores
+ 		 * it in the {@link #view} and {@link #model} fields.
+ 		 * &lt;p&gt;
+ 		 * References checked: 10.9.2007 (2.0b8)
+@@ -1608,7 +1608,11 @@
+ 			} else if (visualization.equals(VISUAL_CHOICE)) {
+ 				((JComboBox) view).setEnabled(enabled);
+ 			} else if (visualization.equals(VISUAL_RADIOBUTTONS)) {
+-				// ### pending
++				Enumeration e = ((ButtonGroup) model).getElements();
++				while (e.hasMoreElements()) {
++					JRadioButton button = (JRadioButton) e.nextElement();
++					button.setEnabled(enabled);
++				}
+ 			} else if (visualization.equals(VISUAL_SWITCH)) {
+ 				((JCheckBox) view).setEnabled(enabled);
+ 			} else if (visualization.equals(VISUAL_DATE_CHOOSER)) {
+@@ -1668,11 +1672,16 @@
+ 
+ 		// --- getButton (2 forms) ---
+ 
++		/**
++		 * Returns the radio button with the specified label or &lt;code&gt;null&lt;/code&gt; if there is no such radio button.
++		 * Only used for &lt;code&gt;VISUAL_RADIOBUTTONS&lt;/code&gt; properties.
++		 *
++		 * @see		#setText
++		 */
+ 		JRadioButton getButton(String label) {
+-			JRadioButton button;
+ 			Enumeration e = ((ButtonGroup) model).getElements();
+ 			while (e.hasMoreElements()) {
+-				button = (JRadioButton) e.nextElement();
++				JRadioButton button = (JRadioButton) e.nextElement();
+ 				if (button.getText().equals(label)) {
+ 					return button;
+ 				}
+@@ -1680,11 +1689,16 @@
+ 			return null;
+ 		}
+ 
++		/**
++		 * Returns the selected radio button or &lt;code&gt;null&lt;/code&gt; if no radio button is selected.
++		 * Only used for &lt;code&gt;VISUAL_RADIOBUTTONS&lt;/code&gt; properties.
++		 *
++		 * @see		#getText
++		 */
+ 		JRadioButton getButton() {
+-			JRadioButton button;
+ 			Enumeration e = ((ButtonGroup) model).getElements();
+ 			while (e.hasMoreElements()) {
+-				button = (JRadioButton) e.nextElement();
++				JRadioButton button = (JRadioButton) e.nextElement();
+ 				if (button.isSelected()) {
+ 					return button;
+ 				}
+@@ -1697,10 +1711,9 @@
+ 		// ### doesn't work
+ 		void removeAllSelections() {
+ 			ButtonGroup group = (ButtonGroup) model;
+-			JRadioButton button;
+ 			Enumeration e = group.getElements();
+ 			while (e.hasMoreElements()) {
+-				button = (JRadioButton) e.nextElement();
++				JRadioButton button = (JRadioButton) e.nextElement();
+ 				// button.setSelected(false);
+ 				group.setSelected(button.getModel(), false);
+ 			}
+@@ -1711,8 +1724,8 @@
+ 
+ 	/**
+ 	 * Model of selected topic/association.
+-	 * &lt;P&gt;
+-	 * &lt;CODE&gt;Selection&lt;/CODE&gt; objects are stored in the {PropertyPanel#selections} hashtable.
++	 * &lt;p&gt;
++	 * &lt;code&gt;Selection&lt;/code&gt; objects are stored in the {PropertyPanel#selections} hashtable.
+ 	 */
+ 	private class Selection {
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000109.html">[deepamehta-svn] r264 - trunk/develop/src/de/deepamehta/topics
+</A></li>
+	<LI>Next message: <A HREF="000111.html">[deepamehta-svn] r266 - trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#110">[ date ]</a>
+              <a href="thread.html#110">[ thread ]</a>
+              <a href="subject.html#110">[ subject ]</a>
+              <a href="author.html#110">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

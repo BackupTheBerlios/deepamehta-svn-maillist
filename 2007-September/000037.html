@@ -1,0 +1,618 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r192 - in branches/eschnepel: .	develop/src/de/deepamehta/service/db install/db	install/db/db-specific install/db/patches	install/examples/movies/db libs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r192%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta/service/db%20install/db%0A%09install/db/db-specific%20install/db/patches%0A%09install/examples/movies/db%20libs&In-Reply-To=%3C200709120508.l8C58ITX030570%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000036.html">
+   <LINK REL="Next"  HREF="000038.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r192 - in branches/eschnepel: .	develop/src/de/deepamehta/service/db install/db	install/db/db-specific install/db/patches	install/examples/movies/db libs</H1>
+    <B>eschnepel at BerliOS</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r192%20-%20in%20branches/eschnepel%3A%20.%0A%09develop/src/de/deepamehta/service/db%20install/db%0A%09install/db/db-specific%20install/db/patches%0A%09install/examples/movies/db%20libs&In-Reply-To=%3C200709120508.l8C58ITX030570%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r192 - in branches/eschnepel: .	develop/src/de/deepamehta/service/db install/db	install/db/db-specific install/db/patches	install/examples/movies/db libs">eschnepel at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 12 07:08:18 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000036.html">[deepamehta-svn] r191 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+        <LI>Next message: <A HREF="000038.html">[deepamehta-svn] r193 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: eschnepel
+Date: 2007-09-12 07:08:02 +0200 (Wed, 12 Sep 2007)
+New Revision: 192
+
+Modified:
+   branches/eschnepel/build.xml
+   branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+   branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+   branches/eschnepel/install/db/cm.sql
+   branches/eschnepel/install/db/db-specific/db_tables_derby.sql
+   branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+   branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+   branches/eschnepel/install/db/db-specific/db_tables_oracle.sql
+   branches/eschnepel/install/db/patches/cm-2.17.sql
+   branches/eschnepel/install/db/patches/names.sql
+   branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+   branches/eschnepel/libs/hsqldb.jar
+Log:
+- syncronised cm-1.17-patch into cm.sql and others
+- added sql-statement logging facility
+- removed old property names from prom names.sql
+- the dynamic classloading in DefaultDatabaseProvider handles classfolders in addition to jars
+
+Modified: branches/eschnepel/build.xml
+===================================================================
+--- branches/eschnepel/build.xml	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/build.xml	2007-09-12 05:08:02 UTC (rev 192)
+@@ -217,7 +217,7 @@
+ 		&lt;/condition&gt;
+ 		&lt;fail if=&quot;do.abort&quot; message=&quot;==&gt; Aborted by user -- revisit with 'ant [options] patchdb'&quot; /&gt;
+ 		&lt;sql driver=&quot;${db.driver}&quot; url=&quot;${db.url}&quot; userid=&quot;${db.user}&quot; password=&quot;${db.password}&quot; classpathref=&quot;javalibs&quot; autocommit=&quot;${db.autocommit}&quot;&gt;
+-			&lt;fileset&gt;
++			&lt;fileset dir=&quot;.&quot;&gt;
+ 				&lt;include name=&quot;${patch}&quot; /&gt;
+ 			&lt;/fileset&gt;
+ 			&lt;fileset dir=&quot;${db-specific}&quot;&gt;
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/AutoFreeConnectionStatement.java	2007-09-12 05:08:02 UTC (rev 192)
+@@ -1,5 +1,10 @@
+ package de.deepamehta.service.db;
+ 
++import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
++import java.io.OutputStream;
++import java.io.PrintStream;
++import java.rmi.server.LogStream;
+ import java.sql.Connection;
+ import java.sql.ResultSet;
+ import java.sql.SQLException;
+@@ -55,22 +60,26 @@
+ 	}
+ 
+ 	final public boolean execute(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.execute(arg0, arg1);
+ 	}
+ 
+ 	final public boolean execute(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.execute(arg0, arg1);
+ 	}
+ 
+ 	final public boolean execute(String arg0, String[] arg1)
+ 			throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.execute(arg0, arg1);
+ 	}
+ 
+ 	final public boolean execute(String arg0) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.execute(arg0);
+ 	}
+@@ -81,26 +90,31 @@
+ 	}
+ 
+ 	final public ResultSet executeQuery(String arg0) throws SQLException {
++		provider.logStatement(arg0);
+ 		return statement.executeQuery(arg0);
+ 	}
+ 
+ 	final public int executeUpdate(String arg0, int arg1) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.executeUpdate(arg0, arg1);
+ 	}
+ 
+ 	final public int executeUpdate(String arg0, int[] arg1) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.executeUpdate(arg0, arg1);
+ 	}
+ 
+ 	final public int executeUpdate(String arg0, String[] arg1)
+ 			throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.executeUpdate(arg0, arg1);
+ 	}
+ 
+ 	final public int executeUpdate(String arg0) throws SQLException {
++		provider.logStatement(arg0);
+ 		provider.checkPointNeeded();
+ 		return statement.executeUpdate(arg0);
+ 	}
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DatabaseProvider.java	2007-09-12 05:08:02 UTC (rev 192)
+@@ -24,4 +24,6 @@
+ 	void checkPointNeeded();
+ 
+ 	DatabaseOptimizer getDatabaseOptimizer();
++
++	public void logStatement(String arg0);
+ }
+
+Modified: branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java
+===================================================================
+--- branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/develop/src/de/deepamehta/service/db/DefaultDatabaseProvider.java	2007-09-12 05:08:02 UTC (rev 192)
+@@ -2,12 +2,16 @@
+ 
+ import java.io.File;
+ import java.io.FileNotFoundException;
++import java.io.FileOutputStream;
+ import java.io.IOException;
++import java.io.PrintStream;
+ import java.net.MalformedURLException;
+ import java.net.URL;
+ import java.net.URLClassLoader;
+ import java.sql.Connection;
+ import java.sql.Driver;
++import java.sql.ResultSet;
++import java.sql.ResultSetMetaData;
+ import java.sql.SQLException;
+ import java.sql.Statement;
+ import java.util.LinkedList;
+@@ -114,7 +118,12 @@
+ 				Resource res = resources[i];
+ 				File file = res.getFile();
+ 				String path = file.getCanonicalPath();
+-				String urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
++				String urlString;
++				if (file.isDirectory()) {
++					urlString = &quot;file:&quot; + path + &quot;/&quot;;
++				} else {
++					urlString = &quot;jar:file:&quot; + path + &quot;!/&quot;;
++				}
+ 				urls[i] = new URL(urlString);
+ 			}
+ 		} catch (MalformedURLException e) {
+@@ -178,14 +187,7 @@
+ 	}
+ 
+ 	public Statement getStatement() throws SQLException {
+-		Connection con;
+-		// at least 2 free Connections for better
+-		// Performance of parallel accesses
+-		if (freeCons.size() &lt; 2) {
+-			con = newConnection();
+-		} else {
+-			con = getConnection();
+-		}
++		Connection con = getConnection();
+ 		Statement stmt = new AutoFreeConnectionStatement(this, con);
+ 		return stmt;
+ 	}
+@@ -202,4 +204,47 @@
+ 
+ 	public void checkPointNeeded() {
+ 	}
++
++	static PrintStream dblog;
++	static {
++		try {
++			dblog = new PrintStream(new FileOutputStream(&quot;db.log&quot;));
++		} catch (FileNotFoundException e) {
++			dblog = System.err;
++		}
++	}
++
++	public void logStatement(String arg0) {
++		dblog.println(arg0);
++		// do not use the AutoFreeConnectionStatement
++		try {
++			Connection connection = getConnection();
++			try {
++				Statement statement = connection.createStatement();
++				ResultSet rs = statement.executeQuery(&quot;EXPLAIN PLAN FOR &quot;
++						+ arg0);
++				ResultSetMetaData md = rs.getMetaData();
++				int cc = md.getColumnCount();
++				for (int i = 1; i &lt;= cc; i++) {
++					dblog.print(md.getColumnName(i) + &quot;;&quot;);
++				}
++				dblog.println();
++				while (rs.next()) {
++					for (int i = 1; i &lt;= cc; i++) {
++						dblog.print(rs.getString(i) + &quot;;&quot;);
++					}
++					dblog.println();
++				}
++				dblog.println();
++				statement.close();
++			} catch (SQLException e) {
++				e.printStackTrace();
++			} finally {
++				freeConnection(connection);
++			}
++		} catch (SQLException e) {
++			e.printStackTrace();
++		}
++	}
++
+ }
+
+Modified: branches/eschnepel/install/db/cm.sql
+===================================================================
+--- branches/eschnepel/install/db/cm.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/cm.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -897,8 +897,49 @@
+ -- super type
+ INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-142', '', 'tt-generic', 1, 'tt-cmimportexport', 1);
+ 
++--- create topic type &quot;Calendar&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar', 'Calendar');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Name', 'Calendar');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Plural Name', 'Calendars');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;A &lt;i&gt;Calendar&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Description Query', 'What is a &quot;Calendar&quot;?');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Icon', 'calendar.png');
++-- INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Creation Icon', 'createKompetenzstern.gif');
++-- INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-calendar', 1, 'Custom Implementation', 'de.deepamehta.topics.CalendarTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-95', '', 'tt-generic', 1, 'tt-calendar', 1);
++-- search type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-calendar-search', 'Calendar Search');
++INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Name', 'Calendar Search');
++-- INSERT INTO TopicProp VALUES ('tt-calendar-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++-- derive search type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-96', '', 'tt-topiccontainer', 1, 'tt-calendar-search', 1);
++-- assign search type to type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-97', '', 'tt-calendar-search', 1, 'tt-calendar', 1);
+ 
++--- create topic type &quot;Event&quot; ---
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event', 'Event');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Name', 'Event');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Plural Name', 'Events');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description', '&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;An &lt;i&gt;Event&lt;/i&gt; is ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Description Query', 'What is an &quot;Event&quot;?');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Icon', 'event.png');
++-- INSERT INTO TopicProp VALUES ('tt-event', 1, 'Creation Icon', 'createKompetenzstern.gif');
++-- INSERT INTO TopicProp VALUES ('tt-event', 1, 'Unique Topic Names', 'on');
++INSERT INTO TopicProp VALUES ('tt-event', 1, 'Custom Implementation', 'de.deepamehta.topics.EventTopic');
++-- super type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-98', '', 'tt-generic', 1, 'tt-event', 1);
++-- search type
++INSERT INTO Topic VALUES ('tt-topictype', 1, 1, 'tt-event-search', 'Event Search');
++INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Name', 'Event Search');
++-- INSERT INTO TopicProp VALUES ('tt-event-search', 1, 'Icon', 'KompetenzsternContainer.gif');
++-- derive search type
++INSERT INTO Association VALUES ('at-derivation', 1, 1, 'a-99', '', 'tt-topiccontainer', 1, 'tt-event-search', 1);
++-- assign search type to type
++INSERT INTO Association VALUES ('at-aggregation', 1, 1, 'a-109', '', 'tt-event-search', 1, 'tt-event', 1);
+ 
++
+ -------------------------
+ --- Association Types ---
+ -------------------------
+@@ -1183,6 +1224,7 @@
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-emailaddress', 'Email Address');
+ INSERT INTO TopicProp VALUES ('pp-emailaddress', 1, 'Name', 'Email Address');
+ INSERT INTO TopicProp VALUES ('pp-emailaddress', 1, 'Visualization', 'Input Field');
++
+ -- &quot;Mailbox URL&quot;
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-mailboxurl', 'Mailbox URL');
+ INSERT INTO TopicProp VALUES ('pp-mailboxurl', 1, 'Name', 'Mailbox URL');
+@@ -1370,6 +1412,18 @@
+ INSERT INTO TopicProp VALUES ('t-relatedinfo', 1, 'Name', 'Related Info');
+ INSERT INTO Topic VALUES ('tt-constant', 1, 1, 't-deeplyrelatedinfo', 'Deeply Related Info');
+ INSERT INTO TopicProp VALUES ('t-deeplyrelatedinfo', 1, 'Name', 'Deeply Related Info');
++
++---
++--- &quot;Membership&quot; Properties: &quot;Editor&quot; and &quot;Publisher&quot;
++---
++-- create properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-editor', 'Editor');
++INSERT INTO TopicProp VALUES ('pp-editor', 1, 'Name', 'Editor');
++INSERT INTO TopicProp VALUES ('pp-editor', 1, 'Visualization', 'Switch');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-publisher', 'Publisher');
++INSERT INTO TopicProp VALUES ('pp-publisher', 1, 'Name', 'Publisher');
++INSERT INTO TopicProp VALUES ('pp-publisher', 1, 'Visualization', 'Switch');
++
+ -- assign property values
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-408', '', 'pp-webinfo', 1, 't-relatedtopicname', 1);
+ INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-418', '', 'pp-webinfo', 1, 't-relatedinfo', 1);
+@@ -1377,7 +1431,54 @@
+ INSERT INTO AssociationProp VALUES ('a-408', 1, 'Ordinal Number', '1');
+ INSERT INTO AssociationProp VALUES ('a-418', 1, 'Ordinal Number', '2');
+ INSERT INTO AssociationProp VALUES ('a-409', 1, 'Ordinal Number', '3');
++-- assign properties to association type &quot;Membership&quot;
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-93', '', 'at-membership', 1, 'pp-editor', 1);
++INSERT INTO AssociationProp VALUES ('a-93', 1, 'Ordinal Number', '10');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-94', '', 'at-membership', 1, 'pp-publisher', 1);
++INSERT INTO AssociationProp VALUES ('a-94', 1, 'Ordinal Number', '20');
+ 
++--- Calendar
++-- create properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-displaydate', 'Display Date');
++INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Name', 'Display Date');
++INSERT INTO TopicProp VALUES ('pp-displaydate', 1, 'Visualization', 'Date Chooser');
++-- assign properties
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-141', '', 'tt-calendar', 1, 'pp-displaydate', 1);
++INSERT INTO AssociationProp VALUES ('a-141', 1, 'Ordinal Number', '220');
++
++--- Event
++-- create properties
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-begindate', 'Begin Date');
++INSERT INTO TopicProp VALUES ('pp-begindate', 1, 'Name', 'Begin Date');
++INSERT INTO TopicProp VALUES ('pp-begindate', 1, 'Visualization', 'Date Chooser');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-begintime', 'Begin Time');
++INSERT INTO TopicProp VALUES ('pp-begintime', 1, 'Name', 'Begin Time');
++INSERT INTO TopicProp VALUES ('pp-begintime', 1, 'Visualization', 'Time Chooser');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-enddate', 'End Date');
++INSERT INTO TopicProp VALUES ('pp-enddate', 1, 'Name', 'End Date');
++INSERT INTO TopicProp VALUES ('pp-enddate', 1, 'Visualization', 'Date Chooser');
++INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-endtime', 'End Time');
++INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Name', 'End Time');
++INSERT INTO TopicProp VALUES ('pp-endtime', 1, 'Visualization', 'Time Chooser');
++-- assign properties
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-110', '', 'tt-event', 1, 'pp-begindate', 1);
++INSERT INTO AssociationProp VALUES ('a-110', 1, 'Ordinal Number', '110');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-111', '', 'tt-event', 1, 'pp-begintime', 1);
++INSERT INTO AssociationProp VALUES ('a-111', 1, 'Ordinal Number', '120');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-112', '', 'tt-event', 1, 'pp-enddate', 1);
++INSERT INTO AssociationProp VALUES ('a-112', 1, 'Ordinal Number', '130');
++INSERT INTO Association VALUES ('at-composition', 1, 1, 'a-113', '', 'tt-event', 1, 'pp-endtime', 1);
++INSERT INTO AssociationProp VALUES ('a-113', 1, 'Ordinal Number', '140');
++
++--- assign topic types to workspace &quot;DeepaMehta&quot;
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-114', '', 't-corporategroup', 1, 'tt-calendar', 1);
++INSERT INTO AssociationProp VALUES ('a-114', 1, 'Access Permission', 'create');
++INSERT INTO AssociationProp VALUES ('a-114', 1, 'Ordinal Number', '50');
++INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-115', '', 't-corporategroup', 1, 'tt-event', 1);
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Access Permission', 'view');
++INSERT INTO AssociationProp VALUES ('a-115', 1, 'Ordinal Number', '55');
++
++
+ --- &quot;Web Form&quot; ---
+ INSERT INTO Topic VALUES ('tt-property', 1, 1, 'pp-webform', 'Web Form');
+ INSERT INTO TopicProp VALUES ('pp-webform', 1, 'Name', 'Web Form');
+@@ -1543,8 +1644,6 @@
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-181', '', 't-corporategroup', 1, 'tt-email', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-191', '', 't-corporategroup', 1, 'tt-webpage', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-326', '', 't-corporategroup', 1, 'tt-institution', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-324', '', 't-corporategroup', 1, 'tt-city', 1);
+-INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-325', '', 't-corporategroup', 1, 'tt-country', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-193', '', 't-corporategroup', 1, 'at-generic', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-194', '', 't-corporategroup', 1, 'at-association', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-195', '', 't-corporategroup', 1, 'at-aggregation', 1);
+@@ -1559,8 +1658,6 @@
+ INSERT INTO AssociationProp VALUES ('a-181', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-191', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-326', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-324', 1, 'Access Permission', 'create');
+-INSERT INTO AssociationProp VALUES ('a-325', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-193', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-194', 1, 'Access Permission', 'create');
+ INSERT INTO AssociationProp VALUES ('a-195', 1, 'Access Permission', 'create');
+@@ -1575,8 +1672,6 @@
+ INSERT INTO AssociationProp VALUES ('a-181', 1, 'Ordinal Number', '07');
+ INSERT INTO AssociationProp VALUES ('a-191', 1, 'Ordinal Number', '08');
+ INSERT INTO AssociationProp VALUES ('a-326', 1, 'Ordinal Number', '09');
+-INSERT INTO AssociationProp VALUES ('a-324', 1, 'Ordinal Number', '10');
+-INSERT INTO AssociationProp VALUES ('a-325', 1, 'Ordinal Number', '11');
+ -- &quot;Type Builder&quot;
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-263', '', 't-constructionworkspace', 1, 'tt-topictype', 1);
+ INSERT INTO Association VALUES ('at-uses', 1, 1, 'a-264', '', 't-constructionworkspace', 1, 'tt-assoctype', 1);
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_derby.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_derby.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/db-specific/db_tables_derby.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -64,7 +64,7 @@
+ CREATE TABLE TopicProp (
+     TopicID VARCHAR(40) NOT NULL,
+     TopicVersion INT NOT NULL,
+-    PropName VARCHAR(40) NOT NULL,
++    PropName VARCHAR(255) NOT NULL,
+     PropValue VARCHAR(4096)
+ );
+ CREATE INDEX IDX_TopicProp ON TopicProp (
+@@ -74,7 +74,7 @@
+ CREATE TABLE AssociationProp (
+     AssociationID VARCHAR(40) NOT NULL,
+     AssociationVersion INT NOT NULL,
+-    PropName VARCHAR(40) NOT NULL,
++    PropName VARCHAR(255) NOT NULL,
+     PropValue VARCHAR(4096)
+ );
+ CREATE INDEX IDX_AssociationProp ON AssociationProp (
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/db-specific/db_tables_hsqldb.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -16,8 +16,8 @@
+ CREATE CACHED TABLE Association (
+     TypeID CHAR(40) NOT NULL,
+     TypeVersion INT NOT NULL,
++    Version INT NOT NULL,
+     ID CHAR(40) NOT NULL,
+-    Version INT NOT NULL,
+     Name VARCHAR_IGNORECASE NOT NULL,
+     TopicID1 CHAR(40) NOT NULL,
+     TopicVersion1 INT NOT NULL,
+@@ -66,7 +66,7 @@
+ CREATE CACHED TABLE TopicProp (
+     TopicID CHAR(40) NOT NULL,
+     TopicVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
++    PropName CHAR(255) NOT NULL,
+     PropValue VARCHAR_IGNORECASE
+ );
+ CREATE INDEX IDX_TopicProp ON TopicProp (
+@@ -76,7 +76,7 @@
+ CREATE CACHED TABLE AssociationProp (
+     AssociationID CHAR(40) NOT NULL,
+     AssociationVersion INT NOT NULL,
+-    PropName CHAR(40) NOT NULL,
++    PropName CHAR(255) NOT NULL,
+     PropValue VARCHAR_IGNORECASE
+ );
+ CREATE INDEX IDX_AssociationProp ON AssociationProp (
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_mysql.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/db-specific/db_tables_mysql.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -49,7 +49,7 @@
+ CREATE TABLE TopicProp (
+     TopicID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     TopicVersion INT NOT NULL,
+-    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+     INDEX (TopicID, TopicVersion, PropName)
+ );
+@@ -57,7 +57,7 @@
+ CREATE TABLE AssociationProp (
+     AssociationID CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     AssociationVersion INT NOT NULL,
+-    PropName CHAR(40) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
++    PropName CHAR(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+     PropValue MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+     INDEX (AssociationID, AssociationVersion, PropName)
+ );
+
+Modified: branches/eschnepel/install/db/db-specific/db_tables_oracle.sql
+===================================================================
+--- branches/eschnepel/install/db/db-specific/db_tables_oracle.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/db-specific/db_tables_oracle.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -57,7 +57,7 @@
+ CREATE TABLE topicprop (
+     topicid      VARCHAR2(40) NOT NULL,
+     topicversion INT         NOT NULL,
+-    propname    VARCHAR2(40) NOT NULL,
++    propname    VARCHAR2(255) NOT NULL,
+     propvalue   VARCHAR2(4000)
+ );
+ CREATE INDEX i_topicprop ON topicprop (topicid, topicversion, propname);
+@@ -67,7 +67,7 @@
+ CREATE TABLE associationprop (
+     associationid      VARCHAR2(40) NOT NULL,
+     associationversion INT         NOT NULL,
+-    propname          VARCHAR2(40) NOT NULL,
++    propname          VARCHAR2(255) NOT NULL,
+     propvalue         VARCHAR2(4000)
+ );
+ CREATE INDEX i_associationprop ON associationprop (associationid, associationversion, propname);
+
+Modified: branches/eschnepel/install/db/patches/cm-2.17.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/patches/cm-2.17.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -113,6 +113,8 @@
+ DELETE FROM AssociationProp WHERE AssociationID='a-325';
+ DELETE FROM ViewAssociation WHERE AssociationID='a-325';
+ 
++-- fixing a Typo in whois.sql
++UPDATE Association SET TopicID1='tt-whoistopic' WHERE TopicID1='tt-whoisTopic';
+ 
+ 
+ --- *** UPDATE DATA DEFINITION *** ---
+
+Modified: branches/eschnepel/install/db/patches/names.sql
+===================================================================
+--- branches/eschnepel/install/db/patches/names.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/db/patches/names.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -7,7 +7,6 @@
+ INSERT INTO TopicProp VALUES ('pp-chatarea', 1, 'Name', 'Chat Flow');
+ INSERT INTO TopicProp VALUES ('pp-clientname', 1, 'Name', 'Client Name');
+ INSERT INTO TopicProp VALUES ('pp-color', 1, 'Name', 'Color');
+-INSERT INTO TopicProp VALUES ('pp-contentlength', 1, 'Name', 'ContentLength');
+ INSERT INTO TopicProp VALUES ('pp-corporateworkgroup', 1, 'Name', 'Default');
+ INSERT INTO TopicProp VALUES ('pp-createpermission', 1, 'Name', 'Access Permission');
+ INSERT INTO TopicProp VALUES ('pp-creationicon', 1, 'Name', 'Creation Icon');
+@@ -16,12 +15,10 @@
+ INSERT INTO TopicProp VALUES ('pp-disabled', 1, 'Name', 'Disabled');
+ INSERT INTO TopicProp VALUES ('pp-domaininfo', 1, 'Name', 'Domain Information');
+ INSERT INTO TopicProp VALUES ('pp-downloading', 1, 'Name', 'Loading');
+-INSERT INTO TopicProp VALUES ('pp-driver', 1, 'Name', 'Driver');
+ INSERT INTO TopicProp VALUES ('pp-duration', 1, 'Name', 'Duration');
+ INSERT INTO TopicProp VALUES ('pp-editicon', 1, 'Name', 'Edit Icon');
+ INSERT INTO TopicProp VALUES ('pp-elementcount', 1, 'Name', 'ElementCount');
+ INSERT INTO TopicProp VALUES ('pp-entities', 1, 'Name', 'Entities');
+-INSERT INTO TopicProp VALUES ('pp-exists', 1, 'Name', 'Exists');
+ INSERT INTO TopicProp VALUES ('pp-file', 1, 'Name', 'File');
+ INSERT INTO TopicProp VALUES ('pp-geometrylocked', 1, 'Name', 'Locked Geometry');
+ INSERT INTO TopicProp VALUES ('pp-hideinstancenames', 1, 'Name', 'Hidden Topic Names');
+@@ -31,7 +28,6 @@
+ INSERT INTO TopicProp VALUES ('pp-info', 1, 'Name', 'Description');
+ INSERT INTO TopicProp VALUES ('pp-infosingle', 1, 'Name', 'Description');
+ INSERT INTO TopicProp VALUES ('pp-language', 1, 'Name', 'Language');
+-INSERT INTO TopicProp VALUES ('pp-lastmodified', 1, 'Name', 'Last Updated');
+ INSERT INTO TopicProp VALUES ('pp-name', 1, 'Name', 'Name');
+ INSERT INTO TopicProp VALUES ('pp-ordinalnumber', 1, 'Name', 'Ordinal Number');
+ INSERT INTO TopicProp VALUES ('pp-parsing', 1, 'Name', 'Parsing');
+
+Modified: branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql
+===================================================================
+--- branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-09-11 22:21:10 UTC (rev 191)
++++ branches/eschnepel/install/examples/movies/db/dmdb-movies-hsqldb-intern.sql	2007-09-12 05:08:02 UTC (rev 192)
+@@ -8,7 +8,7 @@
+ -- &quot;Movies&quot; datasource
+ INSERT INTO Topic VALUES ('tt-datasource', 1, 1, 't-moviesdb', 'Movies (MySQL-DB)');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Name', 'Movies (MySQL-DB)');
+-INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:hsqldb:../client/db/hsqldb-intern/Movies');
++INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'URL', 'jdbc:hsqldb:../client/db/hsqldb-intern/Movies;shutdown=true');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Database Type', 'hsqldb');
+ INSERT INTO TopicProp VALUES ('t-moviesdb', 1, 'Idle Elementtype', 'Movie');
+ -- Associate types with datasource
+
+Modified: branches/eschnepel/libs/hsqldb.jar
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000036.html">[deepamehta-svn] r191 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/assocs develop/src/de/deepamehta/client	develop/src/de/deepamehta/service develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+	<LI>Next message: <A HREF="000038.html">[deepamehta-svn] r193 - in branches/eschnepel:	develop/src/de/deepamehta develop/src/de/deepamehta/assocs	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics	install/examples/kompetenzstern/src/de/deepamehta/kompetenzstern/topics	install/examples/messageboard/src/de/deepamehta/messageboard/topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>

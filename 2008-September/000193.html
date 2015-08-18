@@ -1,0 +1,425 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/deepamehta-svn/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r349%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images&In-Reply-To=%3C200809171313.m8HDDBMW023328%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000192.html">
+   <LINK REL="Next"  HREF="000194.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images</H1>
+    <B>jri at mail.berlios.de</B> 
+    <A HREF="mailto:deepamehta-svn%40lists.berlios.de?Subject=Re%3A%20%5Bdeepamehta-svn%5D%20r349%20-%20in%20trunk%3A%20develop/src/de/deepamehta%0A%09develop/src/de/deepamehta/client%20develop/src/de/deepamehta/service%0A%09develop/src/de/deepamehta/topics%20install/client/images&In-Reply-To=%3C200809171313.m8HDDBMW023328%40sheep.berlios.de%3E"
+       TITLE="[deepamehta-svn] r349 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/client develop/src/de/deepamehta/service	develop/src/de/deepamehta/topics install/client/images">jri at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 17 15:13:11 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000192.html">[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+        <LI>Next message: <A HREF="000194.html">[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: jri
+Date: 2008-09-17 15:13:04 +0200 (Wed, 17 Sep 2008)
+New Revision: 349
+
+Added:
+   trunk/install/client/images/button-revealall.png
+Modified:
+   trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+   trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+   trunk/develop/src/de/deepamehta/service/ApplicationService.java
+   trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+   trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+   trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+Log:
+1) Worked on feature request #4299 &quot;Better handling of result sets (DONATED feature)&quot;: for all searches (tons) there is a &quot;Reveal all&quot; button below the result list (in the property panel). Clicking it reveals all topics within the topic map.
+2) Development framework change:
+a) abstract method ContainerTopic.revealTopic() got new &quot;doSelectTopic&quot; parameter.
+b) new form of utility method LiveTopic.revealTopic() with additional &quot;doSelectTopic&quot; parameter.
+
+
+Modified: trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/DeepaMehtaConstants.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -251,6 +251,8 @@
+ 	static final int AUTO_SCROLL_DISTANCE = 20;					// ### not yet used
+ 	// text editor controls
+ 	static final String[] TEXT_EDITOR_IMAGES = {&quot;bold.gif&quot;, &quot;italic.gif&quot;, &quot;underline.gif&quot;};
++	// search topics
++	static final String BUTTON_REVEAL_ALL = &quot;button-revealall.png&quot;;
+ 
+ 	static final String[][] strings = {
+ 		// --- Commands ---
+@@ -440,6 +442,7 @@
+ 
+ 	// hyperlink actions
+ 	static final String ACTION_REVEAL_TOPIC = &quot;revealTopic&quot;;
++	static final String ACTION_REVEAL_ALL = &quot;revealAll&quot;;
+ 
+ 
+ 
+
+Modified: trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/client/PresentationTopicMap.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -15,6 +15,7 @@
+ import java.io.IOException;
+ import java.util.Enumeration;
+ import java.util.Hashtable;
++import java.util.logging.Logger;
+ 
+ 
+ 
+@@ -25,7 +26,7 @@
+  * {@link PresentationTopic}'s, {@link PresentationAssociation}'s and {@link PresentationType}'s.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 8.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -39,6 +40,8 @@
+ 
+ 
+ 
++	private static Logger logger = Logger.getLogger(&quot;de.deepamehta&quot;);
++
+ 	/**
+ 	 * ### The client who deploys this &lt;code&gt;PresentationTopicMap&lt;/code&gt;
+ 	 */
+@@ -368,14 +371,13 @@
+ 				x = (int) (distMax * Math.random()) + FREE_MIN;
+ 				y = (int) (distMax * Math.random()) + FREE_MIN;
+ 				if (positionIsFree(x, y)) {
+-					// ### System.out.println(&quot;&gt;&gt;&gt; found free position after &quot; + (i + 1) + &quot; tries&quot;);
+ 					free = true;
+ 					break;
+ 				}
+ 			}
+ 			// increase the radius while no free position is found
+ 			if (!free) {
+-				System.out.println(&quot;&gt;&gt;&gt; no free position found in &quot; + distMax / 4 +
++				logger.fine(&quot;no free position found in &quot; + distMax / 4 +
+ 					&quot; tries -- increase square to &quot; + (distMax + FREE_MAX));
+ 				distMax += FREE_MAX;				
+ 			}
+@@ -399,13 +401,12 @@
+ 				dx = (int) (distMax * Math.random()) - distMax / 2;
+ 				dy = (int) (distMax * Math.random()) - distMax / 2;
+ 				if (positionIsFree(p.x + dx, p.y + dy)) {
+-					// ### System.out.println(&quot;&gt;&gt;&gt; found free position after &quot; + (i + 1) + &quot; tries&quot;);
+ 					free = true;
+ 					break;
+ 				}
+ 			}
+ 			if (!free) {
+-				System.out.println(&quot;&gt;&gt;&gt; no free position found in &quot; + distMax / 4 +
++				logger.fine(&quot;no free position found in &quot; + distMax / 4 +
+ 					&quot; tries -- increase radius to &quot; + (distMax + NEAR_MAX));
+ 				distMax += NEAR_MAX;				
+ 			}
+@@ -420,16 +421,13 @@
+ 	 */
+ 	private boolean positionIsFree(int x, int y) {
+ 		Enumeration e = getTopics().elements();  // getTopics() is from BaseTopicMap
+-		PresentationTopic topic;
+-		boolean free = true;
+ 		while (e.hasMoreElements()) {
+-			topic = (PresentationTopic) e.nextElement();
++			PresentationTopic topic = (PresentationTopic) e.nextElement();
+ 			if (isTooNear(topic.getGeometry(), x, y)) {
+-				free = false;
+-				break;
++				return false;
+ 			}
+ 		}
+-		return free;
++		return true;
+ 	}
+ 
+ 	/**
+
+Modified: trunk/develop/src/de/deepamehta/service/ApplicationService.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/service/ApplicationService.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -66,7 +66,7 @@
+  * &lt;img src=&quot;../../../../../images/3-tier-lcm.gif&quot;&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 14.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -1017,6 +1017,11 @@
+ 		return directives;
+ 	}
+ 
++	/**
++	 * References checked: 15.9.2008 (2.0b8)
++	 *
++	 * @see		#createNewContainer
++	 */
+ 	private Hashtable buildContainerProperties(String nameFilter, Hashtable propertyFilter, String relatedTopicID,
+ 											String relatedTopicSemantic, int topicCount, Vector topics, String containerLabel) {
+ 		Hashtable containerProps = (Hashtable) propertyFilter.clone();
+@@ -1061,9 +1066,12 @@
+ 				}
+ 				String iconfile = topic.getAppearanceParam();
+ 				String id = topic.fromDatasource() ? topic.getOriginalID() : topic.getID();
+-				html.append(&quot;&lt;img src=\&quot;&quot; + FILESERVER_ICONS_PATH + iconfile + &quot;\&quot;&gt; &quot;);
+-				html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + id + &quot;\&quot;&gt;&quot; + topic.getName() + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
++				html.append(&quot;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_TOPIC + &quot;/&quot; + id + &quot;\&quot;&gt;&quot; +
++					&quot;&lt;img src=\&quot;&quot; + FILESERVER_ICONS_PATH + iconfile + &quot;\&quot; border=\&quot;0\&quot;&gt; &quot; + topic.getName() + &quot;&lt;/a&gt;&lt;br&gt;&quot;);
++				// Note: style=&quot;border-style: none&quot; instead of border=&quot;0&quot; doesn't work
+ 			}
++			html.append(&quot;&lt;br&gt;&lt;a href=\&quot;<A HREF="http://">http://</A>&quot; + ACTION_REVEAL_ALL + &quot;\&quot;&gt;&quot; +
++				&quot;&lt;img src=\&quot;&quot; + FILESERVER_IMAGES_PATH + BUTTON_REVEAL_ALL + &quot;\&quot; border=\&quot;0\&quot;&gt;&lt;/a&gt;&quot;);
+ 		} else {
+ 			html.append(&quot;&lt;p&gt;&lt;i&gt;Search result too large to be shown (&quot; + topicCount + &quot; entries).&lt;/i&gt;&lt;/p&gt;&quot;);
+ 			html.append(&quot;&lt;p&gt;&lt;i&gt;Refine your search and press return inside an input field.&lt;/i&gt;&lt;/p&gt;&quot;);
+
+Modified: trunk/develop/src/de/deepamehta/topics/ContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/topics/ContainerTopic.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -89,7 +89,7 @@
+  * &lt;/ol&gt;
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -281,7 +281,9 @@
+ 			String action = url.substring(urlPrefix.length());
+ 			if (action.startsWith(ACTION_REVEAL_TOPIC)) {
+ 				String id = action.substring(ACTION_REVEAL_TOPIC.length() + 1);	// +1 to skip /
+-				revealResultTopic(id, topicmapID, directives);
++				revealResultTopic(id, topicmapID, true, directives);	// doSelectTopic=true
++			} else if (action.startsWith(ACTION_REVEAL_ALL)) {
++				revealAll(topicmapID, directives);
+ 			} else {
+ 				throw new DeepaMehtaException(&quot;hyperlink action \&quot;&quot; + action + &quot;\&quot; not recognized&quot;);
+ 			}
+@@ -290,7 +292,7 @@
+ 			// reveal one topic
+ 			CorporateDirectives directives = new CorporateDirectives();
+ 			String id = st.nextToken();
+-			revealResultTopic(id, topicmapID, directives);
++			revealResultTopic(id, topicmapID, true, directives);	// doSelectTopic=true
+ 			return directives;
+ 		} else if (cmd.equals(CMD_GROUP_BY)) {
+ 			// grouping
+@@ -414,13 +416,13 @@
+ 	// - A topic container returns the name of the topic type
+ 	// - A element container returns the name of the element type
+ 	//
+-	// ### Since CM 2.25 this is not needed to abstract anymore, see TopicContainerTopic.setContainerType()
++	// ### Since CM 2.25 this is not needed to be abstract anymore, see TopicContainerTopic.setContainerType()
+ 	// ### think again about element container (see above)
+ 	protected abstract String getContentType();
+ 
+ 	// Topic type ID of the content topics
+ 	//
+-	// ### Since CM 2.25 this is not needed to abstract anymore, see TopicContainerTopic.setContainerType()
++	// ### Since CM 2.25 this is not needed to be abstract anymore, see TopicContainerTopic.setContainerType()
+ 	protected abstract String getContentTypeID();
+ 
+ 	/**
+@@ -459,7 +461,7 @@
+ 
+ 	// ### in case of a topic container &quot;id&quot; is a topic ID
+ 	// ### in case of an element container &quot;id&quot; is an element ID
+-	protected abstract String revealTopic(String id, String topicmapID, CorporateDirectives directives);
++	protected abstract String revealTopic(String id, String topicmapID, boolean doSelectTopic, CorporateDirectives directives);
+ 
+ 
+ 
+@@ -577,8 +579,8 @@
+ 		}
+ 	}
+ 
+-	private void revealResultTopic(String id, String topicmapID, CorporateDirectives directives) {
+-		String topicID = revealTopic(id, topicmapID, directives);	// call abstract method
++	private void revealResultTopic(String id, String topicmapID, boolean doSelectTopic, CorporateDirectives directives) {
++		String topicID = revealTopic(id, topicmapID, doSelectTopic, directives);	// call abstract method
+ 		// --- reveal association(s) if relation filter is set ---
+ 		if (containerRelatedTopic != null) {
+ 			Vector assocs = cm.getAssociations(topicID, containerRelatedTopic.getID(), true);	// ignoreDirection=true
+@@ -590,6 +592,14 @@
+ 		}
+ 	}
+ 
++	private void revealAll(String topicmapID, CorporateDirectives directives) {
++		Enumeration e = getContent().elements();
++		while (e.hasMoreElements()) {
++			String[] topic = (String[]) e.nextElement();
++			revealResultTopic(topic[0], topicmapID, false, directives);		// doSelectTopic=false
++		}
++	}
++
+ 	/**
+ 	 * @see		#initContainer
+ 	 */
+
+Modified: trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/topics/ElementContainerTopic.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -324,18 +324,21 @@
+ 	/**
+ 	 * @see		ContainerTopic#executeCommand
+ 	 */
+-	protected String revealTopic(String id, String topicmapID, CorporateDirectives directives) throws DeepaMehtaException {
++	protected String revealTopic(String id, String topicmapID, boolean doSelectTopic, CorporateDirectives directives) throws DeepaMehtaException {
+ 		try {
+ 			// query the data source
+ 			Hashtable elementData = dataSource.queryElement(getContentType(), id);
+ 			//
+ 			PresentableTopic topic = createTopicFromElement(id, elementData);
+ 			String topicID = topic.getID();
++			// ### could probably call LiveTopic.revealTopic() instead (slight modification required there)
+ 			PresentableAssociation assoc = as.createPresentableAssociation(SEMANTIC_CONTAINER_HIERARCHY,
+ 				getID(), getVersion(), topicID, 1, true);
+ 			directives.add(DIRECTIVE_SHOW_TOPIC, topic, Boolean.TRUE);
+ 			directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);
+-			directives.add(DIRECTIVE_SELECT_TOPIC, topicID);
++			if (doSelectTopic) {
++				directives.add(DIRECTIVE_SELECT_TOPIC, topicID);
++			}
+ 			//
+ 			return topicID;
+ 		} catch (Exception e) {
+
+Modified: trunk/develop/src/de/deepamehta/topics/LiveTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/topics/LiveTopic.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -50,7 +50,7 @@
+  * their topics from &lt;code&gt;LiveTopic&lt;/code&gt;.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -1358,8 +1358,12 @@
+ 		return topic;
+ 	}
+ 
+-	// --- revealTopic (2 forms) ---
++	// --- revealTopic (3 forms) ---
+ 
++	public final void revealTopic(String topicID, String semantic, String topicmapID, CorporateDirectives directives) {
++		revealTopic(topicID, semantic, topicmapID, true, directives);	// doSelectTopic=true
++	}
++
+ 	/**
+ 	 * Extends the specified directives to perform this task: Create an association to the specified existing
+ 	 * topic and reveal that association.
+@@ -1368,14 +1372,17 @@
+ 	 *
+ 	 * @see		TopicContainerTopic#revealTopic
+ 	 */
+-	public final void revealTopic(String topicID, String semantic, String topicmapID, CorporateDirectives directives) {
++	public final void revealTopic(String topicID, String semantic, String topicmapID, boolean doSelectTopic,
++																						CorporateDirectives directives) {
+ 		// ### compare to ElementContainerTopic.revealTopic()
+ 		PresentableTopic topic = as.createPresentableTopic(cm.getTopic(topicID, 1), getID(), topicmapID);
+ 		PresentableAssociation assoc = as.createPresentableAssociation(semantic,
+ 			getID(), getVersion(), topicID, 1, true);		// performExistenceCheck=true
+ 		directives.add(DIRECTIVE_SHOW_TOPIC, topic);
+ 		directives.add(DIRECTIVE_SHOW_ASSOCIATION, assoc, Boolean.TRUE);			// ### should evoke conditionally?
+-		directives.add(DIRECTIVE_SELECT_TOPIC, topicID);
++		if (doSelectTopic) {
++			directives.add(DIRECTIVE_SELECT_TOPIC, topicID);
++		}
+ 	}
+ 
+ 	/**
+
+Modified: trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java
+===================================================================
+--- trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-15 16:01:43 UTC (rev 348)
++++ trunk/develop/src/de/deepamehta/topics/TopicContainerTopic.java	2008-09-17 13:13:04 UTC (rev 349)
+@@ -19,7 +19,7 @@
+  * {@link de.deepamehta.service.CorporateMemory corporate memory}.
+  * &lt;p&gt;
+  * &lt;hr&gt;
+- * Last change: 13.9.2008 (2.0b8)&lt;br&gt;
++ * Last change: 17.9.2008 (2.0b8)&lt;br&gt;
+  * J&ouml;rg Richter&lt;br&gt;
+  * <A HREF="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">jri at deepamehta.de</A>
+  */
+@@ -189,9 +189,9 @@
+ 		return new CorporateDirectives();
+ 	}
+ 
+-	protected String revealTopic(String topicID, String topicmapID, CorporateDirectives directives) {
++	protected String revealTopic(String topicID, String topicmapID, boolean doSelectTopic, CorporateDirectives directives) {
+ 		try {
+-			revealTopic(topicID, SEMANTIC_CONTAINER_HIERARCHY, topicmapID, directives);
++			revealTopic(topicID, SEMANTIC_CONTAINER_HIERARCHY, topicmapID, doSelectTopic, directives);	// from LiveTopic
+ 			//
+ 			return topicID;
+ 		} catch (Exception e) {
+
+Added: trunk/install/client/images/button-revealall.png
+===================================================================
+(Binary files differ)
+
+
+Property changes on: trunk/install/client/images/button-revealall.png
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000192.html">[deepamehta-svn] r348 - in trunk: develop/src/de/deepamehta	develop/src/de/deepamehta/service	develop/src/de/deepamehta/service/db	develop/src/de/deepamehta/topics install/db/patches
+</A></li>
+	<LI>Next message: <A HREF="000194.html">[deepamehta-svn] r350 - in trunk/develop/src/de/deepamehta: service	topics
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/deepamehta-svn">More information about the deepamehta-svn
+mailing list</a><br>
+</body></html>
